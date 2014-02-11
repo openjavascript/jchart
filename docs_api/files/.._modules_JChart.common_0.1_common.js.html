@@ -53,6 +53,8 @@
             
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
             
+                <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
+            
                 <li><a href="../classes/window.exCanvas.html">window.exCanvas</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
@@ -118,6 +120,8 @@
     JChart.dir = function( _obj ){ JChart.debug &amp;&amp; console.dir( _obj ); };
 
     JChart.PATH = JChart.PATH || scriptPath();
+
+    window.Bizs = window.Bizs || {};
    /**
      * JChart.f 是 JChart.common 的别名
      * &lt;br /&gt;具体使用请见 &lt;a href=&#x27;JChart.common.html&#x27;&gt;JChart.common&lt;/a&gt;&lt;/p&gt;
@@ -138,9 +142,10 @@
      * @version dev 0.1 2014-02-11
      * @author  qiushaowei   &lt;suches@btbtd.org&gt; | 360 75 Team
      */
-    JChart.common = {
-        , &quot;scriptPath&quot;: scriptPath
-        , &quot;sliceArgs&quot;: sliceArgs
+    JChart.f = JChart.common = {
+        scriptPath: scriptPath
+        , sliceArgs: sliceArgs
+        , extendObject: extendObject
     };
     /**
      * jquery 1.9.1 默认 string 没有 trim 方法, 这里对 string 原型添加一个默认的 trim 方法
@@ -155,6 +160,28 @@
      * @static
      */
     window.ZINDEX_COUNT = window.ZINDEX_COUNT || 50001;
+    /**
+     * 扩展对象属性
+     * @method  extendObject
+     * @param   {object}    _source
+     * @param   {object}    _new
+     * @param   {bool}      _overwrite      是否覆盖已有属性, default = true  
+     * @return  object
+     * @static
+     */
+    function extendObject( _source, _new, _overwrite ){
+        typeof _overwrite == &#x27;undefined&#x27; &amp;&amp; ( _overwrite = true );
+        if( _source &amp;&amp; _new ){
+            for( var k in _new ){
+                if( _overwrite ){
+                    _source[ k ] = _new[ k ];
+                }else if( !( k in _source ) ){
+                    _source[ k ] = _new[ k ];
+                }
+            }
+        }
+        return _source;
+    }
     /**
      * 把函数的参数转为数组
      * @method  sliceArgs

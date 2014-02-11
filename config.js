@@ -7,10 +7,12 @@ JChart.PATH = JChart.PATH || scriptPath();
 window.requirejs && 
 requirejs.config( {
     baseUrl: JChart.PATH
-    , urlArgs: 'v=20140119'
+    , urlArgs: 'v=20140212'
     , paths: {
         'JChart.common': 'modules/JChart.common/0.1/common'
-        , 'JChart.BaseMVC': 'modules/JChart/0.1/BaseMVC'
+        , 'JChart.BaseMVC': 'modules/JChart.BaseMVC/0.1/BaseMVC'
+
+        , 'JChart.Line': 'modules/JChart.Line/0.1/Line'
 
         , 'exCanvas': 'modules/exCanvas/0.3.0/excanvas'
     }

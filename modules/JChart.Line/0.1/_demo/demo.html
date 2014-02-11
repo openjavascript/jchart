@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Open JQuery Components Library - suches</title>
+    <style>
+        body{
+            margin: 20px 40px;
+        }
+
+        .defDl > dd{
+            border-bottom:1px solid #e2e3ea; 
+        }
+
+    </style>
+    <script src="../../../../lib.js"></script>
+    <script src="../../../../config.js"></script>
+    <script>
+        JChart.debug = true;
+
+        requirejs( [ 'JChart.Line' ], function(){
+        });
+    </script>
+</head>    
+<body>
+    <h2>JChart.Line 示例</h2>
+
+    <dl class="defDl">
+        <dt></dt>
+        <dd>
+            <span>
+                <canvas
+                    class="jchartLine"
+                    chartScriptData="/script"
+                    chartWidth="600"
+                    chartHeight="400"
+                    ></canvas>
+                <script type="text/template">
+                    {
+                        labels : ["January","February","March","April","May","June","July"],
+                        datasets : [
+                            {
+                                fillColor : "rgba(220,220,220,0.5)",
+                                strokeColor : "rgba(220,220,220,1)",
+                                data : [65,59,90,81,56,55,40]
+                            },
+                            {
+                                fillColor : "rgba(151,187,205,0.5)",
+                                strokeColor : "rgba(151,187,205,1)",
+                                data : [28,48,40,19,96,27,100]
+                            }
+                        ]
+                    }
+                </script>
+            </span>
+        </dd>
+    </dl>
+</body>
+</html>
+
+

@@ -6,17 +6,17 @@
     function BizExample( _selector ){
         _selector && ( _selector = $( _selector ) );
 
-        if( JC.BaseMVC.getInstance( _selector, BizExample ) ) 
-            return JC.BaseMVC.getInstance( _selector, BizExample );
+        if( JChart.BaseMVC.getInstance( _selector, BizExample ) ) 
+            return JChart.BaseMVC.getInstance( _selector, BizExample );
 
-        JC.BaseMVC.getInstance( _selector, BizExample, this );
+        JChart.BaseMVC.getInstance( _selector, BizExample, this );
 
         this._model = new BizExample.Model( _selector );
         this._view = new BizExample.View( this._model );
 
         this._init();
 
-        JC.log( BizExample.Model._instanceName, 'all inited', new Date().getTime() );
+        JChart.log( BizExample.Model._instanceName, 'all inited', new Date().getTime() );
     }
     /**
      * 初始化可识别的 BizExample 实例
@@ -34,7 +34,7 @@
                 if( _selector.hasClass( 'js_bizBizExample' )  ){
                     _r.push( new BizExample( _selector ) );
                 }else{
-                    _selector.find( 'div.js_bizBizExample' ).each( function(){
+                    _selector.find( 'span.js_bizBizExample' ).each( function(){
                         _r.push( new BizExample( this ) );
                     });
                 }
@@ -42,7 +42,7 @@
             return _r;
         };
 
-    JC.BaseMVC.build( BizExample );
+    JChart.BaseMVC.build( BizExample );
 
     BizExample.Model._instanceName = 'JCBizExample';
 

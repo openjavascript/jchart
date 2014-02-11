@@ -7,11 +7,22 @@
         "logo": "jc_logo.png"
     },
     "files": {
-        "../modules/JChart.BaseMVC/BaseMVC.js": {
-            "name": "../modules/JChart.BaseMVC/BaseMVC.js",
+        "../modules/JChart.BaseMVC/0.1/BaseMVC.js": {
+            "name": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
             "modules": {},
             "classes": {
                 "JChart.BaseMVC": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "JChart": 1
+            }
+        },
+        "../modules/JChart.Line/0.1/Line.js": {
+            "name": "../modules/JChart.Line/0.1/Line.js",
+            "modules": {},
+            "classes": {
+                "JChart.Line": 1
             },
             "fors": {},
             "namespaces": {
@@ -72,9 +83,9 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "JChart",
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
             "line": 3,
-            "description": "MVC 抽象类 ( <b>仅供扩展用, 这个类不能实例化</b>)\n<p><b>require</b>: \n     <a href='window.jQuery.html'>jQuery</a>\n     , <a href='JChart.common.html'>JChart.common</a>\n</p>\n<p><a href='https://github.com/openjavascript/JChart' target='_blank'>JChart Project Site</a>\n| <a href='http://JChart.openjavascript.org/docs_api/classes/JC.BaseMVC.html' target='_blank'>API docs</a>\n| <a href='../../modules/JC.BaseMVC/0.1/_demo' target='_blank'>demo link</a></p>",
+            "description": "MVC 抽象类 ( <b>仅供扩展用, 这个类不能实例化</b>)\n<p><b>require</b>: \n     <a href='window.jQuery.html'>jQuery</a>\n     , <a href='exCanvas.html'>exCanvas</a>\n     , <a href='JChart.common.html'>JChart.common</a>\n</p>\n<p><a href='https://github.com/openjavascript/JChart' target='_blank'>JChart Project Site</a>\n| <a href='http://jchart.openjavascript.org/docs_api/classes/JC.BaseMVC.html' target='_blank'>API docs</a>\n| <a href='../../modules/JChart.BaseMVC/0.1/_demo' target='_blank'>demo link</a></p>",
             "is_constructor": 1,
             "params": [
                 {
@@ -83,8 +94,35 @@
                     "type": "Selector|string"
                 }
             ],
-            "version": "dev 0.1 2013-09-07",
+            "version": "dev 0.1 2014-02-12",
             "author": "qiushaowei   <suches@btbtd.org> | 75 Team"
+        },
+        "JChart.Line": {
+            "name": "JChart.Line",
+            "shortname": "JChart.Line",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JChart",
+            "file": "../modules/JChart.Line/0.1/Line.js",
+            "line": 2,
+            "description": "组件用途简述\n\n<p><b>require</b>:\n  <a href='JChart.BaseMVC.html'>JChart.BaseMVC</a>\n</p>\n\n<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Line.html' target='_blank'>API docs</a>\n  | <a href='../../modules/JChart.Line/0.1/_demo' target='_blank'>demo link</a></p>\n \n<h2>页面只要引用本脚本, 默认会处理 div class=\"js_compLine\"</h2>\n\n<h2>可用的 HTML attribute</h2>\n\n<dl>\n   <dt></dt>\n   <dd><dd>\n</dl>",
+            "extends": "JChart.BaseMVC",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector|string"
+                }
+            ],
+            "version": "dev 0.1 2014-02-12",
+            "author": "qiushaowei <suches@btbtd.org> | 75 Team",
+            "example": [
+                "\n       <h2>JChart.Line 示例</h2>"
+            ]
         },
         "JChart.f": {
             "name": "JChart.f",
@@ -96,7 +134,7 @@
             "extension_for": [],
             "namespace": "JChart",
             "file": "../modules/JChart.common/0.1/common.js",
-            "line": 17,
+            "line": 19,
             "description": "JChart.f 是 JChart.common 的别名\n<br />具体使用请见 <a href='JChart.common.html'>JChart.common</a></p>",
             "static": 1
         },
@@ -110,7 +148,7 @@
             "extension_for": [],
             "namespace": "JChart",
             "file": "../modules/JChart.common/0.1/common.js",
-            "line": 24,
+            "line": 26,
             "description": "JChart 组件通用静态方法和属性( JChart.common, <b>别名: JChart.f</b> )\n<br />所有 JChart 组件都会依赖这个静态类\n<p><b>require</b>: <a href='window.jQuery.html'>jQuery</a></p>\n<p><a href='https://github.com/openjavascript/JChart' target='_blank'>JChart Project Site</a>\n| <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.common.html' target='_blank'>API docs</a>\n| <a href='../../modules/JChart.common/0.1/_demo/' target='_blank'>demo link</a></p>",
             "static": 1,
             "version": "dev 0.1 2014-02-11",
@@ -161,8 +199,8 @@
     },
     "classitems": [
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 32,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 33,
             "description": "内部初始化方法",
             "itemtype": "method",
             "name": "_init",
@@ -179,8 +217,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 61,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 62,
             "description": "初始化之前调用的方法",
             "itemtype": "method",
             "name": "_beforeInit",
@@ -190,8 +228,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 69,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 70,
             "description": "内部事件初始化方法",
             "itemtype": "method",
             "name": "_initHanlderEvent",
@@ -201,8 +239,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 77,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 78,
             "description": "内部初始化完毕时, 调用的方法",
             "itemtype": "method",
             "name": "_inited",
@@ -212,8 +250,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 85,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 86,
             "description": "获取 显示 BaseMVC 的触发源选择器, 比如 a 标签",
             "itemtype": "method",
             "name": "selector",
@@ -224,8 +262,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 91,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 92,
             "description": "使用 jquery on 绑定事件",
             "itemtype": "method",
             "name": "on",
@@ -249,8 +287,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 99,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 100,
             "description": "使用 jquery trigger 触发绑定事件",
             "itemtype": "method",
             "name": "trigger",
@@ -269,8 +307,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 107,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 108,
             "description": "获取或设置组件实例",
             "itemtype": "method",
             "name": "getInstance",
@@ -300,8 +338,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 132,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 133,
             "description": "是否自动初始化",
             "itemtype": "property",
             "name": "autoInit",
@@ -312,8 +350,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 140,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 141,
             "description": "复制 BaseMVC 的所有方法到 _outClass",
             "itemtype": "method",
             "name": "build",
@@ -329,8 +367,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 155,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 156,
             "description": "复制 _inClass 的所有方法到 _outClass",
             "itemtype": "method",
             "name": "buildClass",
@@ -351,8 +389,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 184,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 185,
             "description": "为 _outClass 生成一个通用 Model 类",
             "itemtype": "method",
             "name": "buildModel",
@@ -368,8 +406,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 197,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 198,
             "description": "为 _outClass 生成一个通用 View 类",
             "itemtype": "method",
             "name": "buildView",
@@ -385,15 +423,15 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 207,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 208,
             "description": "初始化 BaseMVC Model 类 和 View 类",
             "class": "JChart.BaseMVC",
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 212,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 213,
             "description": "MVC Model 类( <b>仅供扩展用</b> )\n<br />这个类默认已经包含在lib.js里面, 不需要显式引用",
             "params": [
                 {
@@ -408,15 +446,15 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 220,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 221,
             "description": "设置 selector 实例引用的 data 属性名",
             "class": "JChart.BaseMVC",
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 229,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 230,
             "description": "使用 jquery on 为 controler 绑定事件",
             "params": [
                 {
@@ -434,8 +472,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 239,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 240,
             "description": "使用 jquery trigger 触发 controler 绑定事件",
             "params": [
                 {
@@ -448,8 +486,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 250,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 251,
             "description": "初始化的 jq 选择器",
             "params": [
                 {
@@ -465,8 +503,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 260,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 261,
             "description": "读取 int 属性的值",
             "params": [
                 {
@@ -487,8 +525,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 280,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 281,
             "description": "读取 float 属性的值",
             "params": [
                 {
@@ -509,8 +547,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 300,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 301,
             "description": "读取 string 属性的值",
             "params": [
                 {
@@ -531,8 +569,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 317,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 318,
             "description": "读取 html 属性值\n<br />这个跟 stringProp 的区别是不会强制转换为小写",
             "params": [
                 {
@@ -553,8 +591,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 339,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 340,
             "description": "读取 boolean 属性的值",
             "params": [
                 {
@@ -581,8 +619,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 364,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 365,
             "description": "读取 callback 属性的值",
             "params": [
                 {
@@ -604,8 +642,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 386,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 387,
             "description": "获取与属性名匹配的 window 变量",
             "params": [
                 {
@@ -627,8 +665,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 396,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 397,
             "description": "获取 selector 属性的 jquery 选择器",
             "params": [
                 {
@@ -649,8 +687,8 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 418,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 419,
             "description": "判断 _selector 是否具体某种特征",
             "params": [
                 {
@@ -671,17 +709,38 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 446,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 447,
             "description": "使用 jquery on 为 controler 绑定事件",
             "class": "JChart.BaseMVC",
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.BaseMVC/BaseMVC.js",
-            "line": 454,
+            "file": "../modules/JChart.BaseMVC/0.1/BaseMVC.js",
+            "line": 455,
             "description": "使用 jquery trigger 触发 controler 绑定事件",
             "class": "JChart.BaseMVC",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Line/0.1/Line.js",
+            "line": 51,
+            "description": "初始化可识别的 Line 实例",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector"
+                }
+            ],
+            "static": 1,
+            "return": {
+                "description": "",
+                "type": "Array of LineInstance"
+            },
+            "class": "JChart.Line",
             "namespace": "JChart"
         },
         {
@@ -700,14 +759,14 @@
         },
         {
             "file": "../modules/JChart.common/0.1/common.js",
-            "line": 41,
+            "line": 44,
             "description": "jquery 1.9.1 默认 string 没有 trim 方法, 这里对 string 原型添加一个默认的 trim 方法",
             "class": "JChart.common",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.common/0.1/common.js",
-            "line": 45,
+            "line": 48,
             "description": "全局 css z-index 控制属性\n<br /> <b>注意</b>: 这个变量是 window.ZINDEX_COUNT",
             "itemtype": "property",
             "name": "ZINDEX_COUNT",
@@ -719,7 +778,37 @@
         },
         {
             "file": "../modules/JChart.common/0.1/common.js",
-            "line": 54,
+            "line": 57,
+            "description": "扩展对象属性",
+            "itemtype": "method",
+            "name": "extendObject",
+            "params": [
+                {
+                    "name": "_source",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "_new",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "_overwrite",
+                    "description": "是否覆盖已有属性, default = true",
+                    "type": "Bool"
+                }
+            ],
+            "return": {
+                "description": "object"
+            },
+            "static": 1,
+            "class": "JChart.common",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.common/0.1/common.js",
+            "line": 79,
             "description": "把函数的参数转为数组",
             "itemtype": "method",
             "name": "sliceArgs",
@@ -739,7 +828,7 @@
         },
         {
             "file": "../modules/JChart.common/0.1/common.js",
-            "line": 68,
+            "line": 93,
             "description": "取当前脚本标签的 src路径",
             "itemtype": "method",
             "name": "scriptPath",
@@ -753,7 +842,7 @@
         },
         {
             "file": "../modules/exCanvas/0.3.0/excanvas.js",
-            "line": 97,
+            "line": 96,
             "description": "Public initializes a canvas element so that it can be used as canvas\nelement from now on. This is called automatically before the page is\nloaded but if you are creating elements using createElement you need to\nmake sure this is called on the element.",
             "params": [
                 {
@@ -771,7 +860,7 @@
         },
         {
             "file": "../modules/exCanvas/0.3.0/excanvas.js",
-            "line": 425,
+            "line": 424,
             "description": "This class implements CanvasRenderingContext2D interface as described by\nthe WHATWG.",
             "params": [
                 {
@@ -785,7 +874,7 @@
         },
         {
             "file": "../modules/exCanvas/0.3.0/excanvas.js",
-            "line": 683,
+            "line": 682,
             "description": "Sets the transformation matrix and marks things as dirty",
             "class": "window.exCanvas",
             "namespace": "window"
@@ -1165,15 +1254,19 @@
     "warnings": [
         {
             "message": "unknown tag: version",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:3"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:3"
         },
         {
             "message": "unknown tag: version",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:212"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:213"
         },
         {
             "message": "unknown tag: version",
-            "line": " ../modules/JChart.common/0.1/common.js:24"
+            "line": " ../modules/JChart.Line/0.1/Line.js:2"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " ../modules/JChart.common/0.1/common.js:26"
         },
         {
             "message": "unknown tag: license",
@@ -1197,71 +1290,71 @@
         },
         {
             "message": "Missing item type\n初始化 BaseMVC Model 类 和 View 类",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:207"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:208"
         },
         {
             "message": "Missing item type\nMVC Model 类( <b>仅供扩展用</b> )\n<br />这个类默认已经包含在lib.js里面, 不需要显式引用",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:212"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:213"
         },
         {
             "message": "Missing item type\n设置 selector 实例引用的 data 属性名",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:220"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:221"
         },
         {
             "message": "Missing item type\n使用 jquery on 为 controler 绑定事件",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:229"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:230"
         },
         {
             "message": "Missing item type\n使用 jquery trigger 触发 controler 绑定事件",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:239"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:240"
         },
         {
             "message": "Missing item type\n初始化的 jq 选择器",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:250"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:251"
         },
         {
             "message": "Missing item type\n读取 int 属性的值",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:260"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:261"
         },
         {
             "message": "Missing item type\n读取 float 属性的值",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:280"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:281"
         },
         {
             "message": "Missing item type\n读取 string 属性的值",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:300"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:301"
         },
         {
             "message": "Missing item type\n读取 html 属性值\n<br />这个跟 stringProp 的区别是不会强制转换为小写",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:317"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:318"
         },
         {
             "message": "Missing item type\n读取 boolean 属性的值",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:339"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:340"
         },
         {
             "message": "Missing item type\n读取 callback 属性的值",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:364"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:365"
         },
         {
             "message": "Missing item type\n获取与属性名匹配的 window 变量",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:386"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:387"
         },
         {
             "message": "Missing item type\n获取 selector 属性的 jquery 选择器",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:396"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:397"
         },
         {
             "message": "Missing item type\n判断 _selector 是否具体某种特征",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:418"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:419"
         },
         {
             "message": "Missing item type\n使用 jquery on 为 controler 绑定事件",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:446"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:447"
         },
         {
             "message": "Missing item type\n使用 jquery trigger 触发 controler 绑定事件",
-            "line": " ../modules/JChart.BaseMVC/BaseMVC.js:454"
+            "line": " ../modules/JChart.BaseMVC/0.1/BaseMVC.js:455"
         },
         {
             "message": "Missing item type\n如果 console 不可用, 生成一个模拟的 console 对象",
@@ -1273,19 +1366,19 @@
         },
         {
             "message": "Missing item type\njquery 1.9.1 默认 string 没有 trim 方法, 这里对 string 原型添加一个默认的 trim 方法",
-            "line": " ../modules/JChart.common/0.1/common.js:41"
+            "line": " ../modules/JChart.common/0.1/common.js:44"
         },
         {
             "message": "Missing item type\nPublic initializes a canvas element so that it can be used as canvas\nelement from now on. This is called automatically before the page is\nloaded but if you are creating elements using createElement you need to\nmake sure this is called on the element.",
-            "line": " ../modules/exCanvas/0.3.0/excanvas.js:97"
+            "line": " ../modules/exCanvas/0.3.0/excanvas.js:96"
         },
         {
             "message": "Missing item type\nThis class implements CanvasRenderingContext2D interface as described by\nthe WHATWG.",
-            "line": " ../modules/exCanvas/0.3.0/excanvas.js:425"
+            "line": " ../modules/exCanvas/0.3.0/excanvas.js:424"
         },
         {
             "message": "Missing item type\nSets the transformation matrix and marks things as dirty",
-            "line": " ../modules/exCanvas/0.3.0/excanvas.js:683"
+            "line": " ../modules/exCanvas/0.3.0/excanvas.js:682"
         },
         {
             "message": "Missing item type\nrequirejs config.js for JC Chart Project",

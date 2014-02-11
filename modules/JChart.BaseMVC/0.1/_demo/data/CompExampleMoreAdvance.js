@@ -3,16 +3,14 @@
  * 组件用途简述
  *
  *<p><b>require</b>:
- *   <a href="widnow.jQuery.html">jQuery</a>
- *   , <a href="JChart.common.html">JChart.common</a>
- *   , <a href='JChart.BaseMVC.html'>JChart.BaseMVC</a>
+ *   <a href='JChart.BaseMVC.html'>JChart.BaseMVC</a>
  *</p>
  *
  *<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JChart Project Site</a>
  *   | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.CompExampleMoreAdvance.html' target='_blank'>API docs</a>
  *   | <a href='../../modules/JChart.CompExampleMoreAdvance/0.1/_demo' target='_blank'>demo link</a></p>
  *  
- *<h2>页面只要引用本脚本, 默认会处理 div class="js_compCompExampleMoreAdvance"</h2>
+ *<h2>页面只要引用本脚本, 默认会处理 span class="jchartCompExampleMoreAdvance"</h2>
  *
  *<h2>可用的 HTML attribute</h2>
  *
@@ -26,7 +24,7 @@
  * @extends     JChart.BaseMVC
  * @constructor
  * @param   {selector|string}   _selector   
- * @version dev 0.1 2013-12-13
+ * @version dev 0.1 2014-02-12
  * @author  qiushaowei <suches@btbtd.org> | 75 Team
  * @example
         <h2>JChart.CompExampleMoreAdvance 示例</h2>
@@ -63,10 +61,10 @@
             _selector = $( _selector || document );
 
             if( _selector.length ){
-                if( _selector.hasClass( 'js_compCompExampleMoreAdvance' )  ){
+                if( _selector.hasClass( 'jchartCompExampleMoreAdvance' )  ){
                     _r.push( new CompExampleMoreAdvance( _selector ) );
                 }else{
-                    _selector.find( 'div.js_compCompExampleMoreAdvance' ).each( function(){
+                    _selector.find( 'span.jchartCompExampleMoreAdvance' ).each( function(){
                         _r.push( new CompExampleMoreAdvance( this ) );
                     });
                 }

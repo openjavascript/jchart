@@ -14,6 +14,8 @@
     JChart.dir = function( _obj ){ JChart.debug && console.dir( _obj ); };
 
     JChart.PATH = JChart.PATH || scriptPath();
+
+    window.Bizs = window.Bizs || {};
    /**
      * JChart.f 是 JChart.common 的别名
      * <br />具体使用请见 <a href='JChart.common.html'>JChart.common</a></p>
@@ -34,9 +36,13 @@
      * @version dev 0.1 2014-02-11
      * @author  qiushaowei   <suches@btbtd.org> | 360 75 Team
      */
-    JChart.common = {
-        , "scriptPath": scriptPath
-        , "sliceArgs": sliceArgs
+    JChart.f = JChart.common = {
+        scriptPath: scriptPath
+        , sliceArgs: sliceArgs
+        , extendObject: extendObject
+        , scriptContent: scriptContent
+        , parentSelector: parentSelector
+        , getJqParent: getJqParent
     };
     /**
      * jquery 1.9.1 默认 string 没有 trim 方法, 这里对 string 原型添加一个默认的 trim 方法
@@ -51,6 +57,137 @@
      * @static
      */
     window.ZINDEX_COUNT = window.ZINDEX_COUNT || 50001;
+    /**
+     * 获取 selector 的指定父级标签
+     * @method  getJqParent
+     * @param   {selector}  _selector
+     * @param   {selector}  _filter
+     * @return selector
+     * @require jquery
+     * @static
+     */
+    function getJqParent( _selector, _filter ){
+        _selector = $(_selector);
+        var _r;
+
+        if( _filter ){
+            while( (_selector = _selector.parent()).length ){
+                if( _selector.is( _filter ) ){
+                    _r = _selector;
+                    break;
+                }
+            }
+        }else{
+            _r = _selector.parent();
+        }
+
+        return _r;
+    }
+    /**
+     * 扩展 jquery 选择器
+     * <br />扩展起始字符的 '/' 符号为 jquery 父节点选择器
+     * <br />扩展起始字符的 '|' 符号为 jquery 子节点选择器
+     * <br />扩展起始字符的 '(' 符号为 jquery 父节点查找识别符( getJqParent )
+     * @method  parentSelector
+     * @param   {selector}  _item
+     * @param   {String}    _selector
+     * @param   {selector}  _finder
+     * @return  selector
+     * @require jquery
+     * @static
+     */
+    function parentSelector( _item, _selector, _finder ){
+        _item && ( _item = $( _item ) );
+        if( /\,/.test( _selector ) ){
+            var _multiSelector = [], _tmp;
+            _selector = _selector.split(',');
+            $.each( _selector, function( _ix, _subSelector ){
+                _subSelector = _subSelector.trim();
+                _tmp = parentSelector( _item, _subSelector, _finder );
+                _tmp && _tmp.length 
+                    &&  ( 
+                            ( _tmp.each( function(){ _multiSelector.push( $(this) ) } ) )
+                        );
+            });
+            return $( _multiSelector );
+        }
+        var _pntChildRe = /^([\/]+)/, _childRe = /^([\|]+)/, _pntRe = /^([<\(]+)/;
+        if( _pntChildRe.test( _selector ) ){
+            _selector = _selector.replace( _pntChildRe, function( $0, $1 ){
+                for( var i = 0, j = $1.length; i < j; i++ ){
+                    _item = _item.parent();
+                }
+                _finder = _item;
+                return '';
+            });
+            _selector = _selector.trim();
+            return _selector ? _finder.find( _selector ) : _finder;
+        }else if( _childRe.test( _selector ) ){
+            _selector = _selector.replace( _childRe, function( $0, $1 ){
+                for( var i = 1, j = $1.length; i < j; i++ ){
+                    _item = _item.parent();
+                }
+                _finder = _item;
+                return '';
+            });
+            _selector = _selector.trim();
+            return _selector ? _finder.find( _selector ) : _finder;
+        }else if( _pntRe.test( _selector ) ){
+            _selector = _selector.replace( _pntRe, '' ).trim();
+            if( _selector ){
+                if( /[\s]/.test( _selector ) ){
+                    var _r;
+                    _selector.replace( /^([^\s]+)([\s\S]+)/, function( $0, $1, $2 ){
+                        _r = getJqParent( _item, $1 ).find( $2.trim() );
+                    });
+                    return _r || _selector;
+                }else{
+                    return getJqParent( _item, _selector );
+                }
+            }else{
+                return _item.parent();
+            }
+        }else{
+            return _finder ? _finder.find( _selector ) : jQuery( _selector );
+        }
+    }
+    /**
+     * 获取脚本模板的内容
+     * @method  scriptContent
+     * @param   {selector}  _selector
+     * @return  string
+     * @static
+     */
+    function scriptContent( _selector ){
+        var _r = '';
+        _selector 
+            && ( _selector = $( _selector ) ).length 
+            && ( _r = _selector.html().trim().replace( /[\r\n]/g, '') )
+            ;
+        return _r;
+    }
+    /**
+     * 扩展对象属性
+     * @method  extendObject
+     * @param   {object}    _source
+     * @param   {object}    _new
+     * @param   {bool}      _overwrite      是否覆盖已有属性, default = true  
+     * @return  object
+     * @static
+     */
+    function extendObject( _source, _new, _overwrite ){
+        typeof _overwrite == 'undefined' && ( _overwrite = true );
+        if( _source && _new ){
+            for( var k in _new ){
+                if( _overwrite ){
+                    _source[ k ] = _new[ k ];
+                }else if( !( k in _source ) ){
+                    _source[ k ] = _new[ k ];
+                }
+            }
+        }
+        return _source;
+    }
     /**
      * 把函数的参数转为数组
      * @method  sliceArgs

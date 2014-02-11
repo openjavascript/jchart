@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../modules/JChart.BaseMVC/BaseMVC.js - JChart</title>
+    <title>../modules/JChart.BaseMVC/0.1/BaseMVC.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -53,6 +53,8 @@
             
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
             
+                <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
+            
                 <li><a href="../classes/window.exCanvas.html">window.exCanvas</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
@@ -98,26 +100,27 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.BaseMVC/BaseMVC.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.BaseMVC/0.1/BaseMVC.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;module/JChart.common/0.1/common&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;exCanvas&#x27;, &#x27;JChart.common&#x27; ], function(){
     JChart.BaseMVC = BaseMVC;
     /**
      * MVC 抽象类 ( &lt;b&gt;仅供扩展用, 这个类不能实例化&lt;/b&gt;)
      * &lt;p&gt;&lt;b&gt;require&lt;/b&gt;: 
      *      &lt;a href=&#x27;window.jQuery.html&#x27;&gt;jQuery&lt;/a&gt;
+     *      , &lt;a href=&#x27;exCanvas.html&#x27;&gt;exCanvas&lt;/a&gt;
      *      , &lt;a href=&#x27;JChart.common.html&#x27;&gt;JChart.common&lt;/a&gt;
      * &lt;/p&gt;
      * &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/JChart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
-     * | &lt;a href=&#x27;http://JChart.openjavascript.org/docs_api/classes/JC.BaseMVC.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
-     * | &lt;a href=&#x27;../../modules/JC.BaseMVC/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+     * | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JC.BaseMVC.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+     * | &lt;a href=&#x27;../../modules/JChart.BaseMVC/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
      * @namespace   JChart
      * @class       BaseMVC
      * @constructor
      * @param   {selector|string}   _selector   
-     * @version dev 0.1 2013-09-07
+     * @version dev 0.1 2014-02-12
      * @author  qiushaowei   &lt;suches@btbtd.org&gt; | 75 Team
      */
     function BaseMVC( _selector ){
@@ -325,7 +328,7 @@
      * 设置 selector 实例引用的 data 属性名
      */
     BaseMVC.Model._instanceName = &#x27;BaseMVCIns&#x27;;
-    JC.f.extendObject( BaseMVC.Model.prototype, {
+    JChart.f.extendObject( BaseMVC.Model.prototype, {
         init:
             function(){
                 return this;
@@ -337,7 +340,7 @@
          */
         , on:
             function(){
-                $( this ).trigger( &#x27;BindEvent&#x27;, JC.f.sliceArgs( arguments ) );
+                $( this ).trigger( &#x27;BindEvent&#x27;, JChart.f.sliceArgs( arguments ) );
                 return this;
             }
         /**
@@ -462,7 +465,7 @@
                 var _r = undefined;
                 _selector
                     &amp;&amp; _selector.is( &#x27;[&#x27; + _key + &#x27;]&#x27; ) 
-                    &amp;&amp; ( _r = JC.f.parseBool( _selector.attr( _key ).trim() ) );
+                    &amp;&amp; ( _r = JChart.f.parseBool( _selector.attr( _key ).trim() ) );
                 return _r;
             }
         /**
@@ -495,7 +498,7 @@
          */
         , windowProp:
             function(){
-                return this.callbackProp.apply( this, JC.f.sliceArgs( arguments ) );
+                return this.callbackProp.apply( this, JChart.f.sliceArgs( arguments ) );
             }
         /**
          * 获取 selector 属性的 jquery 选择器
@@ -515,7 +518,7 @@
 
                 _selector
                     &amp;&amp; _selector.is( &#x27;[&#x27; + _key + &#x27;]&#x27; ) 
-                    &amp;&amp; ( _r = JC.f.parentSelector( _selector, _selector.attr( _key ) ) );
+                    &amp;&amp; ( _r = JChart.f.parentSelector( _selector, _selector.attr( _key ) ) );
 
                 return _r;
             }
@@ -538,7 +541,7 @@
             }
     });
     
-    JC.f.extendObject( BaseMVC.View.prototype, {
+    JChart.f.extendObject( BaseMVC.View.prototype, {
         init:
             function() {
                 return this;
@@ -552,7 +555,7 @@
          */
         , on:
             function(){
-                $( this ).trigger( &#x27;BindEvent&#x27;, JC.f.sliceArgs( arguments ) );
+                $( this ).trigger( &#x27;BindEvent&#x27;, JChart.f.sliceArgs( arguments ) );
                 return this;
             }
         /**

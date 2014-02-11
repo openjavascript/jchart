@@ -34,7 +34,7 @@
                 if( _selector.hasClass( 'js_compCompExample' )  ){
                     _r.push( new CompExample( _selector ) );
                 }else{
-                    _selector.find( 'div.js_compCompExample' ).each( function(){
+                    _selector.find( 'span.js_compCompExample' ).each( function(){
                         _r.push( new CompExample( this ) );
                     });
                 }

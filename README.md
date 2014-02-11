@@ -1,4 +1,4 @@
-jchart
+JChart
 ======
 
 javascript chart

@@ -143,6 +143,17 @@
                 }
                 return this._htitle;
             }
+
+        , vtitle:
+            function( _setter ){
+                if( typeof _setter != 'undefined' ){
+                    this._vtitle && this._vtitle.remove();
+                    this._vtitle =  _setter;
+                    this.stage().add( _setter );
+                    _setter.selector().appendTo( this.selector() );
+                }
+                return this._vtitle;
+            }
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -179,7 +190,7 @@
         , drawCTitle:
             function( _title, _font ){
                 if( !_title ) return;
-                !_font && ( _font = 'bold 16px sans-serif' );
+                !_font && ( _font = '16px sans-serif' );
                 var _htitle = new JChart.Stage( this.width(), this.height() )
                     , _textSize = _htitle.textSize( _title, _font )
                     , _x = this.width() / 2 - _textSize.width / 2
@@ -191,6 +202,25 @@
                 this._model.htitle( _htitle );
                 this._model.htitle().context().fillText( _title, _x, _y );
                 this._model.htitle().graphicRect( _x, _y, _textSize.width, _textSize.height );
+            }
+
+        , drawVTitle:
+            function( _title, _font ){
+                if( !_title ) return;
+                !_font && ( _font = '16px 宋体' );
+                var _vtitle = new JChart.Stage( this.width(), this.height() )
+                    , _textSize = _vtitle.textSize( _title, _font )
+                    , _x = 0
+                    , _offsetY = 5
+                    , _y = _textSize.height + _offsetY
+                    ;
+
+                _vtitle.context().translate( _x, _textSize.width + ( this.height() - _textSize.width ) / 2 );
+                _vtitle.rotate( -90 );
+                this._model.vtitle( _vtitle );
+                _vtitle.context().fillText( _title, _x, _y );
+                _vtitle.graphicRect( _x, _y, _textSize.width, _textSize.height );
+
             }
     });
 

@@ -72,6 +72,7 @@
             }
 
         , graphicRect: function(){ this._model.graphicRect.apply( this._model, JC.f.sliceArgs( arguments ) ); }
+        , rotate: function(){ this._view.rotate.apply( this._view, JC.f.sliceArgs( arguments ) ); }
     });
 
     Stage.Model._instanceName = 'JChartStage';
@@ -182,6 +183,11 @@
         , roundedRect: 
             function( _x, _y, _width, _height ){
                 this._model.context().strokeRect( _x, _y, _width, _height );
+            }
+
+        , rotate: 
+            function( _angle ){
+                this._model.context().rotate( _angle * Math.PI / 180 );
             }
     });
 

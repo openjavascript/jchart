@@ -108,6 +108,7 @@
                 this._model.stage();
 
                 this.drawCTitle( _data.title );
+                this.drawVTitle( _data.vtitle );
             }
     });
 

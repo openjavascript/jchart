@@ -117,14 +117,32 @@
             function(){
 
                 if( !this._stage ){
-                    this._stage = new JChart.Stage( this.width(), this.height() );
+                    this._stage = new JChart.Stage( this.width(), this.height(), true );
                     this._stage.selector().appendTo( this.selector() );
+                    this._stage.roundedRect( 0, 0, this.width(), this.height() );
                 }
 
                 return this._stage;
             }
+        
+        , data:
+            function( _data ){
+                typeof _data != 'undefined' && ( this._data = _data );
+                return this._data;
+            }
+
         , clear: function(){}
 
+        , htitle:
+            function( _setter ){
+                if( typeof _setter != 'undefined' ){
+                    this._htitle && this._htitle.remove();
+                    this._htitle =  _setter;
+                    this.stage().add( _setter );
+                    _setter.selector().appendTo( this.selector() );
+                }
+                return this._htitle;
+            }
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -132,6 +150,9 @@
             function(){
                 //JC.log( 'Base.View.init:', new Date().getTime() );
             }
+
+        , width: function(){ return this._model.width(); }
+        , height: function(){ return this._model.height(); }
 
         , selector:
             function(){
@@ -147,11 +168,29 @@
             function( _data ){
                 this.clear();
                 this._model.clear();
+                this._model.data( _data );
                 this.draw( _data );
             }
 
         , draw: 
             function( _data ){
+            }
+
+        , drawCTitle:
+            function( _title, _font ){
+                if( !_title ) return;
+                !_font && ( _font = 'bold 16px sans-serif' );
+                var _htitle = new JChart.Stage( this.width(), this.height() )
+                    , _textSize = _htitle.textSize( _title, _font )
+                    , _x = this.width() / 2 - _textSize.width / 2
+                    , _y = _textSize.height + 10
+                    ;
+
+                //JC.log( 'width:', _textSize.width, 'height:', _textSize.height, _htitle.context().font );
+
+                this._model.htitle( _htitle );
+                this._model.htitle().context().fillText( _title, _x, _y );
+                this._model.htitle().graphicRect( _x, _y, _textSize.width, _textSize.height );
             }
     });
 

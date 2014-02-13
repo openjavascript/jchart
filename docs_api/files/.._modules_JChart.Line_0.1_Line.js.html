@@ -170,7 +170,7 @@
                 if( _selector.hasClass( &#x27;jchartLine&#x27; )  ){
                     _r.push( new Line( _selector ) );
                 }else{
-                    _selector.find( &#x27;span.jchartLine,div.JChartLine&#x27; ).each( function(){
+                    _selector.find( &#x27;div.jchartLine&#x27; ).each( function(){
                         _r.push( new Line( this ) );
                     });
                 }
@@ -212,6 +212,8 @@
         , draw: 
             function( _data ){
                 this._model.stage();
+
+                this.drawCTitle( _data.title );
             }
     });
 

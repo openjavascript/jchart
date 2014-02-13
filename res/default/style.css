@@ -2,6 +2,13 @@
     position: relative;
 }
 
-.js_jchart .jchartItem{
+.js_jchart .jchartRoot {
+    position: static!important;
+}
+
+.js_jchart canvas{
+    left: 0px;
+    top: 0px;
     position: absolute;
 }
+

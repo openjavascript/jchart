@@ -64,7 +64,7 @@
                 if( _selector.hasClass( 'jchartLine' )  ){
                     _r.push( new Line( _selector ) );
                 }else{
-                    _selector.find( 'span.jchartLine,div.JChartLine' ).each( function(){
+                    _selector.find( 'div.jchartLine' ).each( function(){
                         _r.push( new Line( this ) );
                     });
                 }
@@ -106,6 +106,8 @@
         , draw: 
             function( _data ){
                 this._model.stage();
+
+                this.drawCTitle( _data.title );
             }
     });
 

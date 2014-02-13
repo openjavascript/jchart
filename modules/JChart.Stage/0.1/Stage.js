@@ -3,18 +3,18 @@
 
      JChart.Stage = Stage;
 
-     function Stage( _width, _height, _isItem ){
-        this._model = new Stage.Model( _width, _height, _isItem );
+     function Stage( _width, _height, _isRoot ){
+        this._model = new Stage.Model( _width, _height, _isRoot );
         this._view = new Stage.View( this._model );
         this._init();
      }
 
     Stage.Model =
-     function( _width, _height, _isItem ){
+     function( _width, _height, _isRoot ){
          this._width = _width;
          this._height = _height;
 
-         this._isItem = _isItem;
+         this._isRoot = _isRoot;
      };
 
     JC.BaseMVC.build( Stage );
@@ -43,7 +43,7 @@
         , parent: function(){ return this._model.parent(); }
 
         , add: 
-            function(){
+            function( _stage ){
                 this._model.cleanRelationship.apply( this._model, [ _stage, this ] );
                 this._model.add.apply( this._model, JC.f.sliceArgs( arguments ) );
                 return this;
@@ -55,6 +55,23 @@
                 this._model.remove.apply( this._model, JC.f.sliceArgs( arguments ) );
                 return this;
             }
+
+        , context: function(){ return this._model.context(); }
+        , textSize:
+            function( _text, _font ){
+                _font && ( this.context().font = _font );
+                var _r = this.context().measureText( _text );
+                    _r.height = parseInt( this.context().font ) || 12;
+                return _r;
+            }
+
+        , roundedRect:
+            function(){
+                this._view.roundedRect.apply( this._view, JC.f.sliceArgs( arguments ) );
+                return this;
+            }
+
+        , graphicRect: function(){ this._model.graphicRect.apply( this._model, JC.f.sliceArgs( arguments ) ); }
     });
 
     Stage.Model._instanceName = 'JChartStage';
@@ -66,6 +83,23 @@
                  this._childrens = [];
                  this._id = Stage.Model._idCount++;
              }
+
+        , graphicRect: 
+            function( _x, _y, _width, _height ){
+                if( typeof _x != 'undefined' && typeof _y != 'undefined' 
+                    && typeof _width != 'undefined' && typeof _height != 'undefined' ){
+                    this._graphicRect = {
+                        x: _x, y: _y, width: _width, height: _height
+                        , maxX: _x + _width, maxY: _y + _height
+                    }
+                }
+                return this._graphicRect || {};
+            }
+
+        , id: function(){ return this._id; }
+
+        , context: function(){ return this.domObj().getContext( '2d' ); }
+        , isRoot: function(){ return this._isRoot; }
 
         , childrens: 
             function( _clean ){
@@ -101,7 +135,7 @@
         , cleanRelationship: 
             function( _childStage, _pntStage ){
                 _childStage.parent() && _childStage.parent().removeChild( _childStage.id() );
-                _pntStage && _pntStage().removeChild( _childStage.id() );
+                _pntStage && _pntStage.removeChild( _childStage.id() );
                 _childStage.parent( null );
             }
         
@@ -115,6 +149,7 @@
              function(){
                  if( !this._selector ){
                     this._selector = $( this.domObj() );
+                    this.isRoot() && this._selector.addClass( 'jchartRoot' );
                     this._isItem && this._selector.addClass( 'jchartItem' );
                  }
                  return this._selector;
@@ -137,13 +172,16 @@
                  }
                  return this._domObj;
              }
-
-         , twod: function(){ return this.domObj().getContext( '2d' ); }
     });
 
     JC.f.extendObject( Stage.View.prototype, {
         init:
             function(){
+            }
+
+        , roundedRect: 
+            function( _x, _y, _width, _height ){
+                this._model.context().strokeRect( _x, _y, _width, _height );
             }
     });
 

@@ -5,7 +5,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "JChart.Line",
         "JChart.common",
         "JChart.f",
-        "window.exCanvas",
         "window.jQuery",
         "window.requirejs"
     ],

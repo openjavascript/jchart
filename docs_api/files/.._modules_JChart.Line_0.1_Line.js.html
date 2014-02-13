@@ -55,8 +55,6 @@
             
                 <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
             
-                <li><a href="../classes/window.exCanvas.html">window.exCanvas</a></li>
-            
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
                 <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
@@ -112,11 +110,11 @@
  *   &lt;a href=&#x27;JChart.BaseMVC.html&#x27;&gt;JChart.BaseMVC&lt;/a&gt;
  *&lt;/p&gt;
  *
- *&lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
+ *&lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jchart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
  *   | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.Line.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
  *   | &lt;a href=&#x27;../../modules/JChart.Line/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
  *  
- *&lt;h2&gt;页面只要引用本脚本, 默认会处理 div class=&quot;js_compLine&quot;&lt;/h2&gt;
+ *&lt;h2&gt;页面只要引用本脚本, 默认会处理 span class=&quot;jchartLine&quot;&lt;/h2&gt;
  *
  *&lt;h2&gt;可用的 HTML attribute&lt;/h2&gt;
  *
@@ -167,10 +165,10 @@
             _selector = $( _selector || document );
 
             if( _selector.length ){
-                if( _selector.hasClass( &#x27;js_compLine&#x27; )  ){
+                if( _selector.hasClass( &#x27;jchartLine&#x27; )  ){
                     _r.push( new Line( _selector ) );
                 }else{
-                    _selector.find( &#x27;span.js_compLine&#x27; ).each( function(){
+                    _selector.find( &#x27;span.jchartLine,div.JChartLine&#x27; ).each( function(){
                         _r.push( new Line( this ) );
                     });
                 }
@@ -196,7 +194,7 @@
             }
     });
 
-    Line.Model._instanceName = &#x27;JCLine&#x27;;
+    Line.Model._instanceName = &#x27;JChartLine&#x27;;
     JChart.f.extendObject( Line.Model.prototype, {
         init:
             function(){
@@ -205,19 +203,18 @@
     });
 
     JChart.f.extendObject( Line.View.prototype, {
-        init:
+        _inited:
             function(){
-                JChart.log( &#x27;Line.View.init:&#x27;, new Date().getTime() );
+            }
+
+        , draw: 
+            function( _data ){
+                this._model.stage();
             }
     });
 
     _jdoc.ready( function(){
-        var _insAr = 0;
-        Line.autoInit
-            &amp;&amp; ( _insAr = Line.init() )
-            &amp;&amp; $( &#x27;&lt;h2&gt;Line total ins: &#x27; 
-                + _insAr.length + &#x27;&lt;br/&gt;&#x27; + new Date().getTime() + &#x27;&lt;/h2&gt;&#x27; ).appendTo( document.body )
-            ;
+        Line.autoInit &amp;&amp; Line.init();
     });
 
     return Line;

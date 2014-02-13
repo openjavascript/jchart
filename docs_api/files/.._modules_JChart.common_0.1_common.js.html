@@ -55,8 +55,6 @@
             
                 <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
             
-                <li><a href="../classes/window.exCanvas.html">window.exCanvas</a></li>
-            
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
                 <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
@@ -121,6 +119,8 @@
 
     JChart.PATH = JChart.PATH || scriptPath();
 
+    !window.JCHART_CANVAS &amp;&amp; ( window.JCHART_CANVAS = document.createElement( &#x27;canvas&#x27; ) );
+
     window.Bizs = window.Bizs || {};
    /**
      * JChart.f 是 JChart.common 的别名
@@ -133,7 +133,7 @@
      * JChart 组件通用静态方法和属性( JChart.common, &lt;b&gt;别名: JChart.f&lt;/b&gt; )
      * &lt;br /&gt;所有 JChart 组件都会依赖这个静态类
      * &lt;p&gt;&lt;b&gt;require&lt;/b&gt;: &lt;a href=&#x27;window.jQuery.html&#x27;&gt;jQuery&lt;/a&gt;&lt;/p&gt;
-     * &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/JChart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
+     * &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jchart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
      * | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.common.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
      * | &lt;a href=&#x27;../../modules/JChart.common/0.1/_demo/&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
      * @class common
@@ -146,6 +146,10 @@
         scriptPath: scriptPath
         , sliceArgs: sliceArgs
         , extendObject: extendObject
+        , scriptContent: scriptContent
+        , parentSelector: parentSelector
+        , getJqParent: getJqParent
+        , printf: printf
     };
     /**
      * jquery 1.9.1 默认 string 没有 trim 方法, 这里对 string 原型添加一个默认的 trim 方法
@@ -160,6 +164,131 @@
      * @static
      */
     window.ZINDEX_COUNT = window.ZINDEX_COUNT || 50001;
+     /**
+     * 按格式输出字符串
+     * @method printf
+     * @static
+     * @param   {string}    _str
+     * @return  string
+     * @example
+     *      printf( &#x27;asdfasdf{0}sdfasdf{1}&#x27;, &#x27;000&#x27;, 1111 );
+     *      //return asdfasdf000sdfasdf1111
+     */
+    function printf( _str ){
+        for(var i = 1, _len = arguments.length; i &lt; _len; i++){
+            _str = _str.replace( new RegExp(&#x27;\\{&#x27;+( i - 1 )+&#x27;\\}&#x27;, &#x27;g&#x27;), arguments[i] );
+        }
+        return _str;
+    }
+    /**
+     * 获取 selector 的指定父级标签
+     * @method  getJqParent
+     * @param   {selector}  _selector
+     * @param   {selector}  _filter
+     * @return selector
+     * @require jquery
+     * @static
+     */
+    function getJqParent( _selector, _filter ){
+        _selector = $(_selector);
+        var _r;
+
+        if( _filter ){
+            while( (_selector = _selector.parent()).length ){
+                if( _selector.is( _filter ) ){
+                    _r = _selector;
+                    break;
+                }
+            }
+        }else{
+            _r = _selector.parent();
+        }
+
+        return _r;
+    }
+    /**
+     * 扩展 jquery 选择器
+     * &lt;br /&gt;扩展起始字符的 &#x27;/&#x27; 符号为 jquery 父节点选择器
+     * &lt;br /&gt;扩展起始字符的 &#x27;|&#x27; 符号为 jquery 子节点选择器
+     * &lt;br /&gt;扩展起始字符的 &#x27;(&#x27; 符号为 jquery 父节点查找识别符( getJqParent )
+     * @method  parentSelector
+     * @param   {selector}  _item
+     * @param   {String}    _selector
+     * @param   {selector}  _finder
+     * @return  selector
+     * @require jquery
+     * @static
+     */
+    function parentSelector( _item, _selector, _finder ){
+        _item &amp;&amp; ( _item = $( _item ) );
+        if( /\,/.test( _selector ) ){
+            var _multiSelector = [], _tmp;
+            _selector = _selector.split(&#x27;,&#x27;);
+            $.each( _selector, function( _ix, _subSelector ){
+                _subSelector = _subSelector.trim();
+                _tmp = parentSelector( _item, _subSelector, _finder );
+                _tmp &amp;&amp; _tmp.length 
+                    &amp;&amp;  ( 
+                            ( _tmp.each( function(){ _multiSelector.push( $(this) ) } ) )
+                        );
+            });
+            return $( _multiSelector );
+        }
+        var _pntChildRe = /^([\/]+)/, _childRe = /^([\|]+)/, _pntRe = /^([&lt;\(]+)/;
+        if( _pntChildRe.test( _selector ) ){
+            _selector = _selector.replace( _pntChildRe, function( $0, $1 ){
+                for( var i = 0, j = $1.length; i &lt; j; i++ ){
+                    _item = _item.parent();
+                }
+                _finder = _item;
+                return &#x27;&#x27;;
+            });
+            _selector = _selector.trim();
+            return _selector ? _finder.find( _selector ) : _finder;
+        }else if( _childRe.test( _selector ) ){
+            _selector = _selector.replace( _childRe, function( $0, $1 ){
+                for( var i = 1, j = $1.length; i &lt; j; i++ ){
+                    _item = _item.parent();
+                }
+                _finder = _item;
+                return &#x27;&#x27;;
+            });
+            _selector = _selector.trim();
+            return _selector ? _finder.find( _selector ) : _finder;
+        }else if( _pntRe.test( _selector ) ){
+            _selector = _selector.replace( _pntRe, &#x27;&#x27; ).trim();
+            if( _selector ){
+                if( /[\s]/.test( _selector ) ){
+                    var _r;
+                    _selector.replace( /^([^\s]+)([\s\S]+)/, function( $0, $1, $2 ){
+                        _r = getJqParent( _item, $1 ).find( $2.trim() );
+                    });
+                    return _r || _selector;
+                }else{
+                    return getJqParent( _item, _selector );
+                }
+            }else{
+                return _item.parent();
+            }
+        }else{
+            return _finder ? _finder.find( _selector ) : jQuery( _selector );
+        }
+    }
+    /**
+     * 获取脚本模板的内容
+     * @method  scriptContent
+     * @param   {selector}  _selector
+     * @return  string
+     * @static
+     */
+    function scriptContent( _selector ){
+        var _r = &#x27;&#x27;;
+        _selector 
+            &amp;&amp; ( _selector = $( _selector ) ).length 
+            &amp;&amp; ( _r = _selector.html().trim().replace( /[\r\n]/g, &#x27;&#x27;) )
+            ;
+        return _r;
+    }
     /**
      * 扩展对象属性
      * @method  extendObject

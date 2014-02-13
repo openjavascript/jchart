@@ -44,7 +44,6 @@
                 <li><a href="../classes/JChart.common.html">JChart.common</a></li>
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
                 <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
-                <li><a href="../classes/window.exCanvas.html">window.exCanvas</a></li>
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
                 <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
             </ul>
@@ -81,14 +80,14 @@
                         <h1>JChart.common Class</h1>
 <div class="box meta">
         <div class="foundat">
-            Defined in: <a href="../files/.._modules_JChart.common_0.1_common.js.html#l26"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:26</code></a>
+            Defined in: <a href="../files/.._modules_JChart.common_0.1_common.js.html#l28"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:28</code></a>
         </div>
 </div>
 <div class="box intro">
     <p>JChart 组件通用静态方法和属性( JChart.common, <b>别名: JChart.f</b> )
 <br />所有 JChart 组件都会依赖这个静态类</p>
 <p><b>require</b>: <a href='window.jQuery.html'>jQuery</a></p>
-<p><a href='https://github.com/openjavascript/JChart' target='_blank'>JChart Project Site</a>
+<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
 | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.common.html' target='_blank'>API docs</a>
 | <a href='../../modules/JChart.common/0.1/_demo/' target='_blank'>demo link</a></p>
 </div>
@@ -106,6 +105,22 @@
                     <ul class="index-list methods">
                             <li class="index-item method">
                                 <a href="#method_extendObject">extendObject</a>
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_getJqParent">getJqParent</a>
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_parentSelector">parentSelector</a>
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_printf">printf</a>
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_scriptContent">scriptContent</a>
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
@@ -152,7 +167,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l57"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:57</code></a>
+        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l188"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:188</code></a>
         </p>
     </div>
     <div class="description">
@@ -189,6 +204,203 @@
             </div>
         </div>
 </div>
+                    <div id="method_getJqParent" class="method item">
+    <h3 class="name"><code>getJqParent</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_selector</code>
+                </li>
+                <li class="arg">
+                        <code>_filter</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l79"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:79</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>获取 selector 的指定父级标签</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_selector</code>
+                        <span class="type">Selector</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_filter</code>
+                        <span class="type">Selector</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                    <p>selector</p>
+            </div>
+        </div>
+</div>
+                    <div id="method_parentSelector" class="method item">
+    <h3 class="name"><code>parentSelector</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_item</code>
+                </li>
+                <li class="arg">
+                        <code>_selector</code>
+                </li>
+                <li class="arg">
+                        <code>_finder</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l105"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:105</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>扩展 jquery 选择器
+<br />扩展起始字符的 &#39;/&#39; 符号为 jquery 父节点选择器
+<br />扩展起始字符的 &#39;|&#39; 符号为 jquery 子节点选择器
+<br />扩展起始字符的 &#39;(&#39; 符号为 jquery 父节点查找识别符( getJqParent )</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_item</code>
+                        <span class="type">Selector</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_selector</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_finder</code>
+                        <span class="type">Selector</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                    <p>selector</p>
+            </div>
+        </div>
+</div>
+                    <div id="method_printf" class="method item">
+    <h3 class="name"><code>printf</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_str</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l63"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:63</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>按格式输出字符串</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_str</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                    <p>string</p>
+            </div>
+        </div>
+        <div class="example">
+            <h4>Example:</h4>
+            <div class="example-content">
+                <pre class="code prettyprint"><code> printf( &#39;asdfasdf{0}sdfasdf{1}&#39;, &#39;000&#39;, 1111 );
+ //return asdfasdf000sdfasdf1111</code></pre>
+            </div>
+        </div>
+</div>
+                    <div id="method_scriptContent" class="method item">
+    <h3 class="name"><code>scriptContent</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_selector</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l173"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:173</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>获取脚本模板的内容</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_selector</code>
+                        <span class="type">Selector</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                    <p>string</p>
+            </div>
+        </div>
+</div>
                     <div id="method_scriptPath" class="method item">
     <h3 class="name"><code>scriptPath</code></h3>
         <span class="paren">()</span>
@@ -199,7 +411,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l93"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:93</code></a>
+        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l224"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:224</code></a>
         </p>
     </div>
     <div class="description">
@@ -229,7 +441,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l79"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:79</code></a>
+        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l210"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:210</code></a>
         </p>
     </div>
     <div class="description">
@@ -263,7 +475,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l48"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:48</code></a>
+        <a href="../files/.._modules_JChart.common_0.1_common.js.html#l54"><code>..&#x2F;modules&#x2F;JChart.common&#x2F;0.1&#x2F;common.js:54</code></a>
         </p>
     </div>
     <div class="description">

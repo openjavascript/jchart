@@ -7,7 +7,7 @@
      *      , <a href='exCanvas.html'>exCanvas</a>
      *      , <a href='JChart.common.html'>JChart.common</a>
      * </p>
-     * <p><a href='https://github.com/openjavascript/JChart' target='_blank'>JChart Project Site</a>
+     * <p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
      * | <a href='http://jchart.openjavascript.org/docs_api/classes/JC.BaseMVC.html' target='_blank'>API docs</a>
      * | <a href='../../modules/JChart.BaseMVC/0.1/_demo' target='_blank'>demo link</a></p>
      * @namespace   JChart

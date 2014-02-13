@@ -6,7 +6,7 @@
  *   <a href='JChart.BaseMVC.html'>JChart.BaseMVC</a>
  *</p>
  *
- *<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JChart Project Site</a>
+ *<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
  *   | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Line.html' target='_blank'>API docs</a>
  *   | <a href='../../modules/JChart.Line/0.1/_demo' target='_blank'>demo link</a></p>
  *  

@@ -29,7 +29,7 @@
      * JChart 组件通用静态方法和属性( JChart.common, <b>别名: JChart.f</b> )
      * <br />所有 JChart 组件都会依赖这个静态类
      * <p><b>require</b>: <a href='window.jQuery.html'>jQuery</a></p>
-     * <p><a href='https://github.com/openjavascript/JChart' target='_blank'>JChart Project Site</a>
+     * <p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
      * | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.common.html' target='_blank'>API docs</a>
      * | <a href='../../modules/JChart.common/0.1/_demo/' target='_blank'>demo link</a></p>
      * @class common

@@ -55,8 +55,6 @@
             
                 <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
             
-                <li><a href="../classes/window.exCanvas.html">window.exCanvas</a></li>
-            
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
                 <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
@@ -104,7 +102,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;exCanvas&#x27;, &#x27;JChart.common&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;exCanvas&#x27;, &#x27;JChart.common&#x27;, &#x27;JChart.Stage&#x27; ], function(){
     JChart.BaseMVC = BaseMVC;
     /**
      * MVC 抽象类 ( &lt;b&gt;仅供扩展用, 这个类不能实例化&lt;/b&gt;)
@@ -113,7 +111,7 @@
      *      , &lt;a href=&#x27;exCanvas.html&#x27;&gt;exCanvas&lt;/a&gt;
      *      , &lt;a href=&#x27;JChart.common.html&#x27;&gt;JChart.common&lt;/a&gt;
      * &lt;/p&gt;
-     * &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/JChart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
+     * &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jchart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
      * | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JC.BaseMVC.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
      * | &lt;a href=&#x27;../../modules/JChart.BaseMVC/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
      * @namespace   JChart
@@ -158,10 +156,16 @@
                     _p.trigger( _evtName, _data );
                 });
 
+                _p.on( &#x27;update&#x27;, function( _evt, _data ){
+                    _p._view.update( _data );
+                });
+
                 _p._model.init();
                 _p._view &amp;&amp; _p._view.init();
 
                 _p._inited();
+
+                _p._initData();
 
                 return _p;
             }    
@@ -188,6 +192,19 @@
          */
         , _inited:
             function(){
+            }
+        , _initData:
+            function(){
+
+                var _data;
+
+                if( this.selector().attr( &#x27;chartScriptData&#x27; ) ){
+                    _data = JChart.f.scriptContent( this._model.selectorProp( &#x27;chartScriptData&#x27; ) );
+                    _data = eval( &#x27;(&#x27; + _data + &#x27;)&#x27; );
+                    this.trigger( &#x27;update&#x27;, [ _data ] );
+                }
+
+                return this;
             }
         /**
          * 获取 显示 BaseMVC 的触发源选择器, 比如 a 标签
@@ -251,13 +268,15 @@
      * @static
      */
     BaseMVC.build =
-        function( _outClass ){
+        function( _outClass, _srcClass ){
+            _srcClass = _srcClass || BaseMVC;
+
             BaseMVC.buildModel( _outClass );
             BaseMVC.buildView( _outClass );
 
-            BaseMVC.buildClass( BaseMVC, _outClass );
-            BaseMVC.buildClass( BaseMVC.Model, _outClass.Model );
-            BaseMVC.buildClass( BaseMVC.View, _outClass.View );
+            BaseMVC.buildClass( _srcClass, _outClass );
+            _srcClass.Model &amp;&amp; BaseMVC.buildClass( _srcClass.Model, _outClass.Model );
+            _srcClass.View &amp;&amp; BaseMVC.buildClass( _srcClass.View, _outClass.View );
         };
     /**
      * 复制 _inClass 的所有方法到 _outClass
@@ -539,13 +558,43 @@
 
                 return _selector &amp;&amp; _selector.is( _key );
             }
+
+        , width:
+            function(){
+                var _r = this.selector().prop( &#x27;offsetWidth&#x27; );
+                this.is( &#x27;[chartWidth]&#x27; ) &amp;&amp; ( _r = this.intProp( &#x27;chartWidth&#x27; ) || _r );
+                return _r;
+            }
+
+        , height:
+            function(){
+                var _r = this.selector().prop( &#x27;offsetHeight&#x27; );
+                this.is( &#x27;[chartHeight]&#x27; ) &amp;&amp; ( _r = this.intProp( &#x27;chartHeight&#x27; ) || _r );
+                return _r;
+            }
+
+        , stage:
+            function(){
+
+                if( !this._stage ){
+                    this._stage = new JChart.Stage( this.width(), this.height() );
+                    this._stage.selector().appendTo( this.selector() );
+                }
+
+                return this._stage;
+            }
+        , clear: function(){}
     });
     
     JChart.f.extendObject( BaseMVC.View.prototype, {
         init:
             function() {
+                this._beforeInit();
+                this._inited();
                 return this;
             }
+        , _beforeInit: function(){}
+        , _inited: function(){}
         , selector:
             function(){
                 return this._model.selector();
@@ -567,6 +616,19 @@
                 _args.unshift( _evtName );
                 $( this ).trigger( &#x27;TriggerEvent&#x27;, _args );
                 return this;
+            }
+        , clear: 
+            function(){
+                this.selector().find( &#x27;canvas&#x27; ).remove();
+            }
+        , update: 
+            function( _data ){
+                this.clear();
+                this._model.clear();
+                this.draw( _data );
+            }
+        , draw: 
+            function( _data ){
             }
     });
 

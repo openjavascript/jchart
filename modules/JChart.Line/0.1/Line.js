@@ -61,10 +61,10 @@
             _selector = $( _selector || document );
 
             if( _selector.length ){
-                if( _selector.prop('nodeName').toLowerCase() == 'canvas'  ){
+                if( _selector.hasClass( 'jchartLine' )  ){
                     _r.push( new Line( _selector ) );
                 }else{
-                    _selector.find( 'canvas.jchartLine' ).each( function(){
+                    _selector.find( 'span.jchartLine,div.JChartLine' ).each( function(){
                         _r.push( new Line( this ) );
                     });
                 }
@@ -99,9 +99,12 @@
     });
 
     JChart.f.extendObject( Line.View.prototype, {
-        init:
+        _beforeInit:
             function(){
-                JChart.log( 'Line.View.init:', new Date().getTime() );
+            }
+
+        , _inited:
+            function(){
             }
     });
 

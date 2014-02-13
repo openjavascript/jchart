@@ -433,13 +433,44 @@
 
                 return _selector && _selector.is( _key );
             }
+
+        , width:
+            function(){
+                var _r = this.selector().prop( 'offsetWidth' );
+                this.is( '[chartWidth]' ) && ( _r = this.intProp( 'chartWidth' ) || _r );
+                return _r;
+            }
+
+        , height:
+            function(){
+                var _r = this.selector().prop( 'offsetHeight' );
+                this.is( '[chartHeight]' ) && ( _r = this.intProp( 'chartHeight' ) || _r );
+                return _r;
+            }
+
+        , stage:
+            function(){
+
+                if( !this._stage ){
+                    this._stage = $( '<canvas></canvas>' );
+                }
+
+                return this._stage;
+            }
     });
     
     JChart.f.extendObject( BaseMVC.View.prototype, {
         init:
             function() {
+                this._beforeInit();
+
+                this._model.stage();
+
+                this._inited();
                 return this;
             }
+        , _beforeInit: function(){}
+        , _inited: function(){}
         , selector:
             function(){
                 return this._model.selector();

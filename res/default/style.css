@@ -1,0 +1,7 @@
+.js_jchart {
+    position: relative;
+}
+
+.js_jchart canvas {
+    position: absolute;
+}

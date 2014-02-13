@@ -1,10 +1,11 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "JChart.BaseMVC",
+        "JC.BaseMVC",
+        "JC.common",
+        "JC.f",
+        "JChart.Base",
         "JChart.Line",
-        "JChart.common",
-        "JChart.f",
         "window.jQuery",
         "window.requirejs"
     ],

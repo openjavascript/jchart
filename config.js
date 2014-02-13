@@ -1,16 +1,19 @@
 ;(function(){
-window.JChart = window.JChart || {log:function(){}};
-JChart.PATH = JChart.PATH || scriptPath();
+window.JC = window.JC|| {log:function(){}};
+JC.PATH = JC.PATH || scriptPath();
 /**
  * requirejs config.js for JC Chart Project
  */
 window.requirejs && 
 requirejs.config( {
-    baseUrl: JChart.PATH
+    baseUrl: JC.PATH
     , urlArgs: 'v=20140212'
     , paths: {
-        'JChart.common': 'modules/JChart.common/0.1/common'
-        , 'JChart.BaseMVC': 'modules/JChart.BaseMVC/0.1/BaseMVC'
+        'JC.common': 'modules/JC.common/0.2/common'
+        , 'JC.BaseMVC': 'modules/JC.BaseMVC/0.1/BaseMVC'
+
+        , 'JChart.common': 'modules/JChart.common/0.1/common'
+        , 'JChart.Base': 'modules/JChart.Base/0.1/Base'
         , 'JChart.Stage': 'modules/JChart.Stage/0.1/Stage'
 
         , 'JChart.Line': 'modules/JChart.Line/0.1/Line'

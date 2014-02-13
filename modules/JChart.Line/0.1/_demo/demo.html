@@ -17,7 +17,7 @@
     <script src="../../../../lib.js"></script>
     <script src="../../../../config.js"></script>
     <script>
-        JChart.debug = true;
+        JC.debug = true;
 
         requirejs( [ 'JChart.Line' ], function(){
         });
@@ -36,8 +36,9 @@
                 >
                 <script type="text/template">
                     {
-                        labels : ["January","February","March","April","May","June","July"],
-                        datasets : [
+                        title: 'Chart Title'
+                        , labels : ["January","February","March","April","May","June","July"]
+                        , datasets : [
                             {
                                 fillColor : "rgba(220,220,220,0.5)",
                                 strokeColor : "rgba(220,220,220,1)",

@@ -1,20 +1,19 @@
-;(function(define, _win) { 'use strict'; define( [ 'exCanvas', 'JChart.common', 'JChart.Stage' ], function(){
-    JChart.BaseMVC = BaseMVC;
+;(function(define, _win) { 'use strict'; define( [ 'JC.common' ], function(){
+    window.BaseMVC = JC.BaseMVC = BaseMVC;
     /**
      * MVC 抽象类 ( <b>仅供扩展用, 这个类不能实例化</b>)
      * <p><b>require</b>: 
      *      <a href='window.jQuery.html'>jQuery</a>
-     *      , <a href='exCanvas.html'>exCanvas</a>
-     *      , <a href='JChart.common.html'>JChart.common</a>
+     *      , <a href='JC.common.html'>JC.common</a>
      * </p>
-     * <p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
-     * | <a href='http://jchart.openjavascript.org/docs_api/classes/JC.BaseMVC.html' target='_blank'>API docs</a>
-     * | <a href='../../modules/JChart.BaseMVC/0.1/_demo' target='_blank'>demo link</a></p>
-     * @namespace   JChart
+     * <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
+     * | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.BaseMVC.html' target='_blank'>API docs</a>
+     * | <a href='../../modules/JC.BaseMVC/0.1/_demo' target='_blank'>demo link</a></p>
+     * @namespace   JC
      * @class       BaseMVC
      * @constructor
      * @param   {selector|string}   _selector   
-     * @version dev 0.1 2014-02-12
+     * @version dev 0.1 2013-09-07
      * @author  qiushaowei   <suches@btbtd.org> | 75 Team
      */
     function BaseMVC( _selector ){
@@ -52,16 +51,10 @@
                     _p.trigger( _evtName, _data );
                 });
 
-                _p.on( 'update', function( _evt, _data ){
-                    _p._view.update( _data );
-                });
-
                 _p._model.init();
                 _p._view && _p._view.init();
 
                 _p._inited();
-
-                _p._initData();
 
                 return _p;
             }    
@@ -88,19 +81,6 @@
          */
         , _inited:
             function(){
-            }
-        , _initData:
-            function(){
-
-                var _data;
-
-                if( this.selector().attr( 'chartScriptData' ) ){
-                    _data = JChart.f.scriptContent( this._model.selectorProp( 'chartScriptData' ) );
-                    _data = eval( '(' + _data + ')' );
-                    this.trigger( 'update', [ _data ] );
-                }
-
-                return this;
             }
         /**
          * 获取 显示 BaseMVC 的触发源选择器, 比如 a 标签
@@ -234,6 +214,10 @@
     /**
      * MVC Model 类( <b>仅供扩展用</b> )
      * <br />这个类默认已经包含在lib.js里面, 不需要显式引用
+     * <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
+     * | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.BaseMVC.Model.html' target='_blank'>API docs</a>
+     * | <a href='../../modules/JC.BaseMVC/0.1/_demo' target='_blank'>demo link</a></p>
+     * <p><b>see also</b>: <a href='JC.BaseMVC.html'>JC.BaseMVC</a></p>
      * @param   {selector|string}   _selector   
      * @version dev 0.1 2013-09-11
      * @author  qiushaowei   <suches@btbtd.org> | 75 Team
@@ -241,9 +225,14 @@
     //BaseMVC.buildModel( BaseMVC );
     /**
      * 设置 selector 实例引用的 data 属性名
+     * @property    _instanceName
+     * @type        string
+     * @default     BaseMVCIns
+     * @private
+     * @static
      */
     BaseMVC.Model._instanceName = 'BaseMVCIns';
-    JChart.f.extendObject( BaseMVC.Model.prototype, {
+    JC.f.extendObject( BaseMVC.Model.prototype, {
         init:
             function(){
                 return this;
@@ -255,7 +244,7 @@
          */
         , on:
             function(){
-                $( this ).trigger( 'BindEvent', JChart.f.sliceArgs( arguments ) );
+                $( this ).trigger( 'BindEvent', JC.f.sliceArgs( arguments ) );
                 return this;
             }
         /**
@@ -380,7 +369,7 @@
                 var _r = undefined;
                 _selector
                     && _selector.is( '[' + _key + ']' ) 
-                    && ( _r = JChart.f.parseBool( _selector.attr( _key ).trim() ) );
+                    && ( _r = JC.f.parseBool( _selector.attr( _key ).trim() ) );
                 return _r;
             }
         /**
@@ -413,7 +402,7 @@
          */
         , windowProp:
             function(){
-                return this.callbackProp.apply( this, JChart.f.sliceArgs( arguments ) );
+                return this.callbackProp.apply( this, JC.f.sliceArgs( arguments ) );
             }
         /**
          * 获取 selector 属性的 jquery 选择器
@@ -433,7 +422,7 @@
 
                 _selector
                     && _selector.is( '[' + _key + ']' ) 
-                    && ( _r = JChart.f.parentSelector( _selector, _selector.attr( _key ) ) );
+                    && ( _r = JC.f.parentSelector( _selector, _selector.attr( _key ) ) );
 
                 return _r;
             }
@@ -454,43 +443,13 @@
 
                 return _selector && _selector.is( _key );
             }
-
-        , width:
-            function(){
-                var _r = this.selector().prop( 'offsetWidth' );
-                this.is( '[chartWidth]' ) && ( _r = this.intProp( 'chartWidth' ) || _r );
-                return _r;
-            }
-
-        , height:
-            function(){
-                var _r = this.selector().prop( 'offsetHeight' );
-                this.is( '[chartHeight]' ) && ( _r = this.intProp( 'chartHeight' ) || _r );
-                return _r;
-            }
-
-        , stage:
-            function(){
-
-                if( !this._stage ){
-                    this._stage = new JChart.Stage( this.width(), this.height() );
-                    this._stage.selector().appendTo( this.selector() );
-                }
-
-                return this._stage;
-            }
-        , clear: function(){}
     });
     
-    JChart.f.extendObject( BaseMVC.View.prototype, {
+    JC.f.extendObject( BaseMVC.View.prototype, {
         init:
             function() {
-                this._beforeInit();
-                this._inited();
                 return this;
             }
-        , _beforeInit: function(){}
-        , _inited: function(){}
         , selector:
             function(){
                 return this._model.selector();
@@ -500,7 +459,7 @@
          */
         , on:
             function(){
-                $( this ).trigger( 'BindEvent', JChart.f.sliceArgs( arguments ) );
+                $( this ).trigger( 'BindEvent', JC.f.sliceArgs( arguments ) );
                 return this;
             }
         /**
@@ -513,22 +472,9 @@
                 $( this ).trigger( 'TriggerEvent', _args );
                 return this;
             }
-        , clear: 
-            function(){
-                this.selector().find( 'canvas' ).remove();
-            }
-        , update: 
-            function( _data ){
-                this.clear();
-                this._model.clear();
-                this.draw( _data );
-            }
-        , draw: 
-            function( _data ){
-            }
     });
 
-    return BaseMVC;
+    return JC.BaseMVC;
 });}( typeof define === 'function' && define.amd ? define : 
         function ( _name, _require, _cb ) { 
             typeof _name == 'function' && ( _cb = _name );

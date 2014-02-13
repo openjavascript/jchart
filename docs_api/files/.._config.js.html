@@ -47,11 +47,13 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="../classes/JChart.BaseMVC.html">JChart.BaseMVC</a></li>
+                <li><a href="../classes/JC.BaseMVC.html">JC.BaseMVC</a></li>
             
-                <li><a href="../classes/JChart.common.html">JChart.common</a></li>
+                <li><a href="../classes/JC.common.html">JC.common</a></li>
             
-                <li><a href="../classes/JChart.f.html">JChart.f</a></li>
+                <li><a href="../classes/JC.f.html">JC.f</a></li>
+            
+                <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
             
                 <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
             
@@ -103,18 +105,21 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 ;(function(){
-window.JChart = window.JChart || {log:function(){}};
-JChart.PATH = JChart.PATH || scriptPath();
+window.JC = window.JC|| {log:function(){}};
+JC.PATH = JC.PATH || scriptPath();
 /**
  * requirejs config.js for JC Chart Project
  */
 window.requirejs &amp;&amp; 
 requirejs.config( {
-    baseUrl: JChart.PATH
+    baseUrl: JC.PATH
     , urlArgs: &#x27;v=20140212&#x27;
     , paths: {
-        &#x27;JChart.common&#x27;: &#x27;modules/JChart.common/0.1/common&#x27;
-        , &#x27;JChart.BaseMVC&#x27;: &#x27;modules/JChart.BaseMVC/0.1/BaseMVC&#x27;
+        &#x27;JC.common&#x27;: &#x27;modules/JC.common/0.2/common&#x27;
+        , &#x27;JC.BaseMVC&#x27;: &#x27;modules/JC.BaseMVC/0.1/BaseMVC&#x27;
+
+        , &#x27;JChart.common&#x27;: &#x27;modules/JChart.common/0.1/common&#x27;
+        , &#x27;JChart.Base&#x27;: &#x27;modules/JChart.Base/0.1/Base&#x27;
         , &#x27;JChart.Stage&#x27;: &#x27;modules/JChart.Stage/0.1/Stage&#x27;
 
         , &#x27;JChart.Line&#x27;: &#x27;modules/JChart.Line/0.1/Line&#x27;

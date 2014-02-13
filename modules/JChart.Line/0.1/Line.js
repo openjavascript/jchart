@@ -1,9 +1,9 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.BaseMVC' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base' ], function(){
 /**
  * 组件用途简述
  *
  *<p><b>require</b>:
- *   <a href='JChart.BaseMVC.html'>JChart.BaseMVC</a>
+ *   <a href='JChart.Base.html'>JChart.Base</a>
  *</p>
  *
  *<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
@@ -36,17 +36,17 @@
     function Line( _selector ){
         _selector && ( _selector = $( _selector ) );
 
-        if( JChart.BaseMVC.getInstance( _selector, Line ) ) 
+        if( JC.BaseMVC.getInstance( _selector, Line ) ) 
             return JC.BaseMVC.getInstance( _selector, Line );
 
-        JChart.BaseMVC.getInstance( _selector, Line, this );
+        JC.BaseMVC.getInstance( _selector, Line, this );
 
         this._model = new Line.Model( _selector );
         this._view = new Line.View( this._model );
 
         this._init();
 
-        JChart.log( Line.Model._instanceName, 'all inited', new Date().getTime() );
+        JC.log( Line.Model._instanceName, 'all inited', new Date().getTime() );
     }
     /**
      * 初始化可识别的 Line 实例
@@ -72,12 +72,12 @@
             return _r;
         };
 
-    JChart.BaseMVC.build( Line );
+    JC.BaseMVC.build( Line, JChart.Base );
 
-    JChart.f.extendObject( Line.prototype, {
+    JC.f.extendObject( Line.prototype, {
         _beforeInit:
             function(){
-                JChart.log( 'Line _beforeInit', new Date().getTime() );
+                JC.log( 'Line _beforeInit', new Date().getTime() );
             }
 
         , _initHanlderEvent:
@@ -86,19 +86,19 @@
 
         , _inited:
             function(){
-                JChart.log( 'Line _inited', new Date().getTime() );
+                JC.log( 'Line _inited', new Date().getTime() );
             }
     });
 
     Line.Model._instanceName = 'JChartLine';
-    JChart.f.extendObject( Line.Model.prototype, {
+    JC.f.extendObject( Line.Model.prototype, {
         init:
             function(){
-                JChart.log( 'Line.Model.init:', new Date().getTime() );
+                JC.log( 'Line.Model.init:', new Date().getTime() );
             }
     });
 
-    JChart.f.extendObject( Line.View.prototype, {
+    JC.f.extendObject( Line.View.prototype, {
         _inited:
             function(){
             }

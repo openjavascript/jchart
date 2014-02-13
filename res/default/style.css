@@ -2,6 +2,6 @@
     position: relative;
 }
 
-.js_jchart canvas {
+.js_jchart .jchartItem{
     position: absolute;
 }

@@ -11,6 +11,7 @@ requirejs.config( {
     , paths: {
         'JChart.common': 'modules/JChart.common/0.1/common'
         , 'JChart.BaseMVC': 'modules/JChart.BaseMVC/0.1/BaseMVC'
+        , 'JChart.Stage': 'modules/JChart.Stage/0.1/Stage'
 
         , 'JChart.Line': 'modules/JChart.Line/0.1/Line'
 

@@ -15,6 +15,8 @@
 
     JChart.PATH = JChart.PATH || scriptPath();
 
+    !window.JCHART_CANVAS && ( window.JCHART_CANVAS = document.createElement( 'canvas' ) );
+
     window.Bizs = window.Bizs || {};
    /**
      * JChart.f 是 JChart.common 的别名
@@ -43,6 +45,7 @@
         , scriptContent: scriptContent
         , parentSelector: parentSelector
         , getJqParent: getJqParent
+        , printf: printf
     };
     /**
      * jquery 1.9.1 默认 string 没有 trim 方法, 这里对 string 原型添加一个默认的 trim 方法
@@ -57,6 +60,22 @@
      * @static
      */
     window.ZINDEX_COUNT = window.ZINDEX_COUNT || 50001;
+     /**
+     * 按格式输出字符串
+     * @method printf
+     * @static
+     * @param   {string}    _str
+     * @return  string
+     * @example
+     *      printf( 'asdfasdf{0}sdfasdf{1}', '000', 1111 );
+     *      //return asdfasdf000sdfasdf1111
+     */
+    function printf( _str ){
+        for(var i = 1, _len = arguments.length; i < _len; i++){
+            _str = _str.replace( new RegExp('\\{'+( i - 1 )+'\\}', 'g'), arguments[i] );
+        }
+        return _str;
+    }
     /**
      * 获取 selector 的指定父级标签
      * @method  getJqParent

@@ -99,12 +99,13 @@
     });
 
     JChart.f.extendObject( Line.View.prototype, {
-        _beforeInit:
+        _inited:
             function(){
             }
 
-        , _inited:
-            function(){
+        , draw: 
+            function( _data ){
+                this._model.stage();
             }
     });
 

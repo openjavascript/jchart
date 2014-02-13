@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'exCanvas', 'JChart.common' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'exCanvas', 'JChart.common', 'JChart.Stage' ], function(){
     JChart.BaseMVC = BaseMVC;
     /**
      * MVC 抽象类 ( <b>仅供扩展用, 这个类不能实例化</b>)
@@ -52,10 +52,16 @@
                     _p.trigger( _evtName, _data );
                 });
 
+                _p.on( 'update', function( _evt, _data ){
+                    _p._view.update( _data );
+                });
+
                 _p._model.init();
                 _p._view && _p._view.init();
 
                 _p._inited();
+
+                _p._initData();
 
                 return _p;
             }    
@@ -82,6 +88,19 @@
          */
         , _inited:
             function(){
+            }
+        , _initData:
+            function(){
+
+                var _data;
+
+                if( this.selector().attr( 'chartScriptData' ) ){
+                    _data = JChart.f.scriptContent( this._model.selectorProp( 'chartScriptData' ) );
+                    _data = eval( '(' + _data + ')' );
+                    this.trigger( 'update', [ _data ] );
+                }
+
+                return this;
             }
         /**
          * 获取 显示 BaseMVC 的触发源选择器, 比如 a 标签
@@ -145,13 +164,15 @@
      * @static
      */
     BaseMVC.build =
-        function( _outClass ){
+        function( _outClass, _srcClass ){
+            _srcClass = _srcClass || BaseMVC;
+
             BaseMVC.buildModel( _outClass );
             BaseMVC.buildView( _outClass );
 
-            BaseMVC.buildClass( BaseMVC, _outClass );
-            BaseMVC.buildClass( BaseMVC.Model, _outClass.Model );
-            BaseMVC.buildClass( BaseMVC.View, _outClass.View );
+            BaseMVC.buildClass( _srcClass, _outClass );
+            _srcClass.Model && BaseMVC.buildClass( _srcClass.Model, _outClass.Model );
+            _srcClass.View && BaseMVC.buildClass( _srcClass.View, _outClass.View );
         };
     /**
      * 复制 _inClass 的所有方法到 _outClass
@@ -452,20 +473,19 @@
             function(){
 
                 if( !this._stage ){
-                    this._stage = $( '<canvas></canvas>' );
+                    this._stage = new JChart.Stage( this.width(), this.height() );
+                    this._stage.selector().appendTo( this.selector() );
                 }
 
                 return this._stage;
             }
+        , clear: function(){}
     });
     
     JChart.f.extendObject( BaseMVC.View.prototype, {
         init:
             function() {
                 this._beforeInit();
-
-                this._model.stage();
-
                 this._inited();
                 return this;
             }
@@ -492,6 +512,19 @@
                 _args.unshift( _evtName );
                 $( this ).trigger( 'TriggerEvent', _args );
                 return this;
+            }
+        , clear: 
+            function(){
+                this.selector().find( 'canvas' ).remove();
+            }
+        , update: 
+            function( _data ){
+                this.clear();
+                this._model.clear();
+                this.draw( _data );
+            }
+        , draw: 
+            function( _data ){
             }
     });
 

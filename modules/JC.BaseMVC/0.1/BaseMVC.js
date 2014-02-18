@@ -146,6 +146,7 @@
     BaseMVC.build =
         function( _outClass, _srcClass ){
             _srcClass = _srcClass || BaseMVC;
+            typeof _srcClass == 'string' && ( _srcClass = BaseMVC );
 
             BaseMVC.buildModel( _outClass );
             BaseMVC.buildView( _outClass );
@@ -218,6 +219,9 @@
      * | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.BaseMVC.Model.html' target='_blank'>API docs</a>
      * | <a href='../../modules/JC.BaseMVC/0.1/_demo' target='_blank'>demo link</a></p>
      * <p><b>see also</b>: <a href='JC.BaseMVC.html'>JC.BaseMVC</a></p>
+     * @namespace JC
+     * @class BaseMVC.Model
+     * @constructor
      * @param   {selector|string}   _selector   
      * @version dev 0.1 2013-09-11
      * @author  qiushaowei   <suches@btbtd.org> | 75 Team
@@ -239,6 +243,7 @@
             }
         /**
          * 使用 jquery on 为 controler 绑定事件
+         * @method  {string}    on
          * @param   {string}    _evtName
          * @param   {function}  _cb
          */
@@ -249,6 +254,7 @@
             }
         /**
          * 使用 jquery trigger 触发 controler 绑定事件
+         * @method  {string}    trigger
          * @param   {string}    _evtName
          */
         , trigger:
@@ -260,6 +266,7 @@
             }
         /**
          * 初始化的 jq 选择器
+         * @method  selector
          * @param   {selector}  _setter
          * @return  selector
          */
@@ -270,6 +277,7 @@
             }
         /**
          * 读取 int 属性的值
+         * @method  intProp
          * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
          * @param   {string}           _key
          * @return  int
@@ -290,6 +298,7 @@
             }
         /**
          * 读取 float 属性的值
+         * @method  floatProp
          * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
          * @param   {string}           _key
          * @return  float
@@ -310,6 +319,7 @@
             }
         /**
          * 读取 string 属性的值
+         * @method  stringProp
          * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
          * @param   {string}           _key
          * @return  string
@@ -328,6 +338,7 @@
         /**
          * 读取 html 属性值
          * <br />这个跟 stringProp 的区别是不会强制转换为小写
+         * @method  attrProp
          * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
          * @param   {string}           _key
          * @return  string
@@ -349,6 +360,7 @@
 
         /**
          * 读取 boolean 属性的值
+         * @method  boolProp
          * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
          * @param   {string|bool}       _key
          * @param   {bool}              _defalut
@@ -374,6 +386,7 @@
             }
         /**
          * 读取 callback 属性的值
+         * @method  callbackProp
          * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
          * @param   {string}           _key
          * @return  {function|undefined}
@@ -396,6 +409,7 @@
             }
         /**
          * 获取与属性名匹配的 window 变量 
+         * @method  windowProp
          * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
          * @param   {string}           _key
          * @return  {window variable}
@@ -406,6 +420,7 @@
             }
         /**
          * 获取 selector 属性的 jquery 选择器
+         * @method  selectorProp
          * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
          * @param   {string}           _key
          * @return  bool
@@ -428,6 +443,7 @@
             }
         /**
          * 判断 _selector 是否具体某种特征
+         * @method  is
          * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
          * @param   {string}           _key
          * @return  bool

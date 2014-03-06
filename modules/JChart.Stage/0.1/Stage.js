@@ -1,4 +1,4 @@
- ;(function(define, _win) { 'use strict'; define( [ 'exCanvas', 'JC.common', 'JC.BaseMVC' ], function(){
+ ;(function(define, _win) { 'use strict'; define( [ 'JC.common', 'JC.BaseMVC' ], function(){
     window.JChart = window.JChart || {};
 
      JChart.Stage = Stage;
@@ -8,6 +8,25 @@
         this._view = new Stage.View( this._model );
         this._init();
      }
+
+     Stage.createSVGElement = 
+        function( _ns, _elementNS ){
+            _ns = _ns || Stage.Model.NS;
+            _elementNS = _elementNS || Stage.Model.ELEMENT_NS;
+             var _r = document.createElementNS( _ns, 'svg' );
+             _r.setAttribute( 'version', '1.1' );
+             _r.setAttributeNS( 
+                _elementNS
+                 , "xmlns"
+                 , _ns
+             );
+             _r.setAttributeNS( 
+                _elementNS
+                 , "xmlns:xlink"
+                 , "http://www.w3.org/1999/xlink"
+             );
+             return _r;
+        };
 
     Stage.Model =
      function( _width, _height, _isRoot ){
@@ -56,24 +75,15 @@
                 return this;
             }
 
-        , context: function(){ return this._model.context(); }
-        , textSize:
-            function( _text, _font ){
-                _font && ( this.context().font = _font );
-                var _r = this.context().measureText( _text );
-                    _r.height = parseInt( this.context().font ) || 12;
-                return _r;
-            }
+        , root: function(){ return this._model.root.apply( this._model, JC.f.sliceArgs( arguments ) ); }
 
-        , roundedRect:
-            function(){
-                this._view.roundedRect.apply( this._view, JC.f.sliceArgs( arguments ) );
-                return this;
-            }
+        , createTitle: function(){ return this._model.createTitle.apply( this._model, JC.f.sliceArgs( arguments ) ); }
 
-        , graphicRect: function(){ this._model.graphicRect.apply( this._model, JC.f.sliceArgs( arguments ) ); }
-        , rotate: function(){ this._view.rotate.apply( this._view, JC.f.sliceArgs( arguments ) ); }
+        , setVal: function(){ this._model.setVal.apply( this._model, JC.f.sliceArgs( arguments ) ); return this; }
     });
+
+    Stage.Model.NS = 'http://www.w3.org/2000/svg';
+    Stage.Model.ELEMENT_NS = 'http://www.w3.org/2000/xmlns/';
 
     Stage.Model._instanceName = 'JChartStage';
     Stage.Model._idCount = 1;
@@ -85,21 +95,8 @@
                  this._id = Stage.Model._idCount++;
              }
 
-        , graphicRect: 
-            function( _x, _y, _width, _height ){
-                if( typeof _x != 'undefined' && typeof _y != 'undefined' 
-                    && typeof _width != 'undefined' && typeof _height != 'undefined' ){
-                    this._graphicRect = {
-                        x: _x, y: _y, width: _width, height: _height
-                        , maxX: _x + _width, maxY: _y + _height
-                    }
-                }
-                return this._graphicRect || {};
-            }
-
         , id: function(){ return this._id; }
 
-        , context: function(){ return this.domObj().getContext( '2d' ); }
         , isRoot: function(){ return this._isRoot; }
 
         , childrens: 
@@ -149,7 +146,7 @@
          , selector: 
              function(){
                  if( !this._selector ){
-                    this._selector = $( this.domObj() );
+                    this._selector = $( this.root() );
                     this.isRoot() && this._selector.addClass( 'jchartRoot' );
                     this._isItem && this._selector.addClass( 'jchartItem' );
                  }
@@ -158,36 +155,36 @@
          , width: function(){ return this._width; }
          , height: function(){ return this._height; }
 
-         , domObj: 
+         , createRoot: function(){ return Stage.createSVGElement(); }
+
+         //<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="475" height="350">
+         , root: 
              function(){
-                 if( !this._domObj ){
-                     this._domObj = document.createElement( 'canvas' );
-
-                     this._domObj.setAttribute( 'width', this.width() );
-                     this._domObj.style.width = this.width() + 'px';
-
-                     this._domObj.setAttribute( 'height', this.height() );
-                     this._domObj.style.height = this.height() + 'px';
-
-                     window.G_vmlCanvasManager && ( this._domObj = G_vmlCanvasManager.initElement(this._domObj) );
+                 if( !this._root ){
+                     this._root = this.createRoot();
+                     this._root.setAttribute( 'width', this.width() );
+                     this._root.setAttribute( 'height', this.height() );
                  }
-                 return this._domObj;
+                 return this._root;
+             }
+
+         , createTitle: 
+             function(){
+                 var _r = document.createElementNS( Stage.Model.NS, 'text' );
+                    _r.setAttribute( 'style', 'font-family:Verdana;font-size:24;height:30;y:200;color:red;' );
+                    _r.setAttribute( 'y', 200 );
+                 return _r;
+             }
+
+         , setVal:
+             function( _item, _val ){
+                 _item.innerHTML = _val;
              }
     });
 
     JC.f.extendObject( Stage.View.prototype, {
         init:
             function(){
-            }
-
-        , roundedRect: 
-            function( _x, _y, _width, _height ){
-                this._model.context().strokeRect( _x, _y, _width, _height );
-            }
-
-        , rotate: 
-            function( _angle ){
-                this._model.context().rotate( _angle * Math.PI / 180 );
             }
     });
 

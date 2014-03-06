@@ -101,7 +101,7 @@
 
         , width:
             function(){
-                var _r = this.selector().prop( 'offsetWidth' );
+                var _r = this.selector().prop( 'ffsetWidth' );
                 this.is( '[chartWidth]' ) && ( _r = this.intProp( 'chartWidth' ) || _r );
                 return _r;
             }
@@ -119,7 +119,6 @@
                 if( !this._stage ){
                     this._stage = new JChart.Stage( this.width(), this.height(), true );
                     this._stage.selector().appendTo( this.selector() );
-                    this._stage.roundedRect( 0, 0, this.width(), this.height() );
                 }
 
                 return this._stage;
@@ -189,39 +188,22 @@
 
         , drawCTitle:
             function( _title, _font ){
-                if( !_title ) return;
-                !_font && ( _font = '16px sans-serif' );
-                var _htitle = new JChart.Stage( this.width(), this.height() )
-                    , _textSize = _htitle.textSize( _title, _font )
-                    , _x = this.width() / 2 - _textSize.width / 2
-                    , _y = _textSize.height + 10
+                if( !_title ) return this;
+                !this._baseTitle 
+                    && ( this._baseTitle = this.stage().createTitle() 
+                            , this.stage().root().appendChild( this._baseTitle )
+                        )
                     ;
-
-                //JC.log( 'width:', _textSize.width, 'height:', _textSize.height, _htitle.context().font );
-
-                this._model.htitle( _htitle );
-                this._model.htitle().context().fillText( _title, _x, _y );
-                this._model.htitle().graphicRect( _x, _y, _textSize.width, _textSize.height );
-            }
+                this.stage().setVal( this._baseTitle, _title, _font );
+                return this;
+              }
 
         , drawVTitle:
             function( _title, _font ){
                 if( !_title ) return;
-                !_font && ( _font = '16px 宋体' );
-                var _vtitle = new JChart.Stage( this.width(), this.height() )
-                    , _textSize = _vtitle.textSize( _title, _font )
-                    , _x = 0
-                    , _offsetY = 5
-                    , _y = _textSize.height + _offsetY
-                    ;
-
-                _vtitle.context().translate( _x, _textSize.width + ( this.height() - _textSize.width ) / 2 );
-                _vtitle.rotate( -90 );
-                this._model.vtitle( _vtitle );
-                _vtitle.context().fillText( _title, _x, _y );
-                _vtitle.graphicRect( _x, _y, _textSize.width, _textSize.height );
-
             }
+
+        , stage: function(){ return this._model.stage(); }
     });
 
     return JChart.Base;

@@ -18,7 +18,7 @@ requirejs.config( {
 
         , 'JChart.Line': 'modules/JChart.Line/0.1/Line'
 
-        , 'exCanvas': 'modules/exCanvas/0.3.0/excanvas'
+        , 'Raphael': 'modules/Raphael/2.1.2/Raphael'
     }
 });
 /**

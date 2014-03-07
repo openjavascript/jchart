@@ -117,11 +117,30 @@
             function(){
 
                 if( !this._stage ){
-                    this._stage = new JChart.Stage( this.width(), this.height(), true );
-                    this._stage.selector().appendTo( this.selector() );
+                    this._stage = new JChart.Stage( this.selector()[0], this.width(), this.height() );
+                    this._stage.selector();
+
+                    this.background();
+
                 }
 
                 return this._stage;
+            }
+
+        , background:
+            function(){
+                var _corner = 8
+                    , _rect = this._stage.selector().roundedRectangle( 0, 0, this.width(), this.height()
+                        , _corner, _corner, _corner, _corner 
+                    );
+
+                //this.stage().selector().attr( 'stroke', '#ff0' );
+                _rect.attr( 'stroke', '#f00' );
+                /*
+                var _rect = this._stage.selector().rect( 0, 0, this.width(), this.height() );
+                    //_rect.attr( 'fill', '#000' );
+                    _rect.attr( 'stroke', '#000' );
+                */
             }
         
         , data:
@@ -132,26 +151,15 @@
 
         , clear: function(){}
 
-        , htitle:
-            function( _setter ){
-                if( typeof _setter != 'undefined' ){
-                    this._htitle && this._htitle.remove();
-                    this._htitle =  _setter;
-                    this.stage().add( _setter );
-                    _setter.selector().appendTo( this.selector() );
-                }
-                return this._htitle;
-            }
-
-        , vtitle:
-            function( _setter ){
-                if( typeof _setter != 'undefined' ){
-                    this._vtitle && this._vtitle.remove();
-                    this._vtitle =  _setter;
-                    this.stage().add( _setter );
-                    _setter.selector().appendTo( this.selector() );
-                }
-                return this._vtitle;
+        , ctitle:
+            function( _title ){
+                typeof _title != 'undefined' 
+                    && !this._ctitle 
+                    && ( this._ctitle = this.stage().selector().text( 0, 0, _title ) )
+                    && ( this._ctitle.node.className = 'jcc_ctitle' )
+                    && ( this._ctitle.node.setAttribute( 'class', 'jcc_ctitle' ) )
+                    ;
+                return this._ctitle;
             }
     });
 
@@ -189,12 +197,14 @@
         , drawCTitle:
             function( _title, _font ){
                 if( !_title ) return this;
-                !this._baseTitle 
-                    && ( this._baseTitle = this.stage().createTitle() 
-                            , this.stage().root().appendChild( this._baseTitle )
-                        )
+                var _rp = this._model.ctitle( _title )
+                    , _bbox = _rp.getBBox()
+                    , _x = ( this._model.width()  ) / 2
                     ;
-                this.stage().setVal( this._baseTitle, _title, _font );
+                //JC.dir( _bbox );
+                _rp.attr( 'x', _x );
+                _rp.attr( 'y', 20 );
+
                 return this;
               }
 

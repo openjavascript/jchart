@@ -1,39 +1,19 @@
- ;(function(define, _win) { 'use strict'; define( [ 'JC.common', 'JC.BaseMVC' ], function(){
+ ;(function(define, _win) { 'use strict'; define( [ 'JC.BaseMVC', 'Raphael' ], function(){
     window.JChart = window.JChart || {};
 
      JChart.Stage = Stage;
 
-     function Stage( _width, _height, _isRoot ){
-        this._model = new Stage.Model( _width, _height, _isRoot );
+     function Stage( _container, _width, _height ){
+        this._model = new Stage.Model( _container, _width, _height );
         this._view = new Stage.View( this._model );
         this._init();
      }
 
-     Stage.createSVGElement = 
-        function( _ns, _elementNS ){
-            _ns = _ns || Stage.Model.NS;
-            _elementNS = _elementNS || Stage.Model.ELEMENT_NS;
-             var _r = document.createElementNS( _ns, 'svg' );
-             _r.setAttribute( 'version', '1.1' );
-             _r.setAttributeNS( 
-                _elementNS
-                 , "xmlns"
-                 , _ns
-             );
-             _r.setAttributeNS( 
-                _elementNS
-                 , "xmlns:xlink"
-                 , "http://www.w3.org/1999/xlink"
-             );
-             return _r;
-        };
-
     Stage.Model =
-     function( _width, _height, _isRoot ){
+     function( _container, _width, _height ){
+         this._container = _container;
          this._width = _width;
          this._height = _height;
-
-         this._isRoot = _isRoot;
      };
 
     JC.BaseMVC.build( Stage );
@@ -74,8 +54,6 @@
                 this._model.remove.apply( this._model, JC.f.sliceArgs( arguments ) );
                 return this;
             }
-
-        , root: function(){ return this._model.root.apply( this._model, JC.f.sliceArgs( arguments ) ); }
 
         , createTitle: function(){ return this._model.createTitle.apply( this._model, JC.f.sliceArgs( arguments ) ); }
 
@@ -146,9 +124,7 @@
          , selector: 
              function(){
                  if( !this._selector ){
-                    this._selector = $( this.root() );
-                    this.isRoot() && this._selector.addClass( 'jchartRoot' );
-                    this._isItem && this._selector.addClass( 'jchartItem' );
+                    this._selector = Raphael( this._container, this.width(), this.height() );
                  }
                  return this._selector;
              }
@@ -156,30 +132,6 @@
          , height: function(){ return this._height; }
 
          , createRoot: function(){ return Stage.createSVGElement(); }
-
-         //<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="475" height="350">
-         , root: 
-             function(){
-                 if( !this._root ){
-                     this._root = this.createRoot();
-                     this._root.setAttribute( 'width', this.width() );
-                     this._root.setAttribute( 'height', this.height() );
-                 }
-                 return this._root;
-             }
-
-         , createTitle: 
-             function(){
-                 var _r = document.createElementNS( Stage.Model.NS, 'text' );
-                    _r.setAttribute( 'style', 'font-family:Verdana;font-size:24;height:30;y:200;color:red;' );
-                    _r.setAttribute( 'y', 200 );
-                 return _r;
-             }
-
-         , setVal:
-             function( _item, _val ){
-                 _item.innerHTML = _val;
-             }
     });
 
     JC.f.extendObject( Stage.View.prototype, {
@@ -187,6 +139,17 @@
             function(){
             }
     });
+
+
+    Raphael.fn.roundedRectangle = function (x, y, w, h, r1, r2, r3, r4){
+      var array = [];
+      array = array.concat(["M",x,r1+y, "Q",x,y, x+r1,y]); //A
+      array = array.concat(["L",x+w-r2,y, "Q",x+w,y, x+w,y+r2]); //B
+      array = array.concat(["L",x+w,y+h-r3, "Q",x+w,y+h, x+w-r3,y+h]); //C
+      array = array.concat(["L",x+r4,y+h, "Q",x,y+h, x,y+h-r4, "Z"]); //D
+
+      return this.path(array);
+    };
 
      return Stage;
 });}( typeof define === 'function' && define.amd ? define : 

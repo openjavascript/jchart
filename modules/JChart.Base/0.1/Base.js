@@ -129,18 +129,21 @@
 
         , background:
             function(){
-                var _corner = 8
-                    , _rect = this._stage.selector().roundedRectangle( 0, 0, this.width(), this.height()
+                var _corner = 18, _rect;
+                    
+                    
+                    _rect = this._stage.selector().roundedRectangle( 0, 0, this.width(), this.height()
                         , _corner, _corner, _corner, _corner 
                     );
 
-                //this.stage().selector().attr( 'stroke', '#ff0' );
-                _rect.attr( 'stroke', '#f00' );
-                /*
-                var _rect = this._stage.selector().rect( 0, 0, this.width(), this.height() );
-                    //_rect.attr( 'fill', '#000' );
-                    _rect.attr( 'stroke', '#000' );
-                */
+                    _rect
+                        .attr( 'fill', '#ccc' )
+                        .attr( 'fill-opacity', .35 )
+
+                        .attr( 'stroke', '#ccc' )
+                        .attr( 'stroke-width', 1 )
+                        .attr( 'stroke-opacity', .35 )
+                        ;
             }
         
         , data:
@@ -151,16 +154,42 @@
 
         , clear: function(){}
 
-        , ctitle:
+        , title:
             function( _title ){
                 typeof _title != 'undefined' 
-                    && !this._ctitle 
-                    && ( this._ctitle = this.stage().selector().text( 0, 0, _title ) )
-                    && ( this._ctitle.node.className = 'jcc_ctitle' )
-                    && ( this._ctitle.node.setAttribute( 'class', 'jcc_ctitle' ) )
+                    && ( this._hasTitle = true )
+                    && !this._title 
+                    && ( this._title = this.stage().selector().text( 0, 0, _title ) )
+                    && ( this._title.node.setAttribute( 'class', 'jcc_title' ) )
                     ;
-                return this._ctitle;
+
+                return this._title;
             }
+        , hasTitle: function(){ return this._hasTitle; }
+
+        , subtitle:
+            function( _title ){
+                typeof _title != 'undefined' 
+                    && ( this._hasSubTitle = true )
+                    && !this._subtitle 
+                    && ( this._subtitle = this.stage().selector().text( 0, 0, _title ) )
+                    && ( this._subtitle.node.setAttribute( 'class', 'jcc_subtitle' ) )
+                    ;
+                return this._subtitle;
+            }
+        , hasSubTitle: function(){ return this._hasSubTitle; }
+
+        , vtitle:
+            function( _title ){
+                typeof _title != 'undefined' 
+                    && ( this._hasVTitle= true )
+                    && !this._vtitle 
+                    && ( this._vtitle = this.stage().selector().text( 0, 0, _title ) )
+                    && ( this._vtitle.node.setAttribute( 'class', 'jcc_vtitle' ) )
+                    ;
+                return this._vtitle;
+            }
+        , hasVTitle: function(){ return this._hasVTitle; }
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -194,23 +223,53 @@
             function( _data ){
             }
 
-        , drawCTitle:
-            function( _title, _font ){
-                if( !_title ) return this;
-                var _rp = this._model.ctitle( _title )
+        , drawTitle:
+            function( _data, _font ){
+                if( !( _data && _data.title && _data.title.text) ) return this;
+                var _rp = this._model.title( _data.title.text )
                     , _bbox = _rp.getBBox()
                     , _x = ( this._model.width()  ) / 2
+                    , _y = 20
                     ;
-                //JC.dir( _bbox );
                 _rp.attr( 'x', _x );
-                _rp.attr( 'y', 20 );
+                _rp.attr( 'y', _y );
+
+                return this;
+              }
+
+        , drawSubTitle:
+            function( _data, _font ){
+                if( !( _data && _data.subtitle && _data.subtitle.text ) ) return this;
+                var _rp = this._model.subtitle( _data.subtitle.text )
+                    , _bbox = _rp.getBBox()
+                    , _x = ( this._model.width()  ) / 2
+                    , _y = 20
+                    ;
+                if( this._model.hasTitle() ){
+                    var _titleRp = this._model.title().getBBox();
+                    _y = _titleRp.y2 + 10;
+                }
+                _rp.attr( 'x', _x );
+                _rp.attr( 'y', _y );
 
                 return this;
               }
 
         , drawVTitle:
-            function( _title, _font ){
-                if( !_title ) return;
+            function( _data, _font ){
+                if( !( _data && _data.yAxis && _data.yAxis.title && _data.yAxis.title.text ) ) return this;
+                var _rp = this._model.vtitle( _data.yAxis.title.text )
+                    , _bbox = _rp.getBBox()
+                    , _x = 20
+                    , _y = ( this._model.height() ) / 2
+                    ;
+
+                _rp.attr( 'x', _x );
+                _rp.attr( 'y', _y );
+
+                _rp.rotate( -90 ); 
+
+                return this;
             }
 
         , stage: function(){ return this._model.stage(); }

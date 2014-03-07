@@ -54,10 +54,6 @@
                 this._model.remove.apply( this._model, JC.f.sliceArgs( arguments ) );
                 return this;
             }
-
-        , createTitle: function(){ return this._model.createTitle.apply( this._model, JC.f.sliceArgs( arguments ) ); }
-
-        , setVal: function(){ this._model.setVal.apply( this._model, JC.f.sliceArgs( arguments ) ); return this; }
     });
 
     Stage.Model.NS = 'http://www.w3.org/2000/svg';

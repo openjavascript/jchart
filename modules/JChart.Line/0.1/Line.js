@@ -106,8 +106,9 @@
         , draw: 
             function( _data ){
 
-                this.drawCTitle( _data.title );
-                this.drawVTitle( _data.vtitle );
+                this.drawTitle( _data );
+                this.drawSubTitle( _data );
+                this.drawVTitle( _data );
             }
     });
 

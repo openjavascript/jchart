@@ -121,7 +121,6 @@
                     this._stage.selector();
 
                     this.background();
-
                 }
 
                 return this._stage;
@@ -129,21 +128,23 @@
 
         , background:
             function(){
-                var _corner = 18, _rect;
+                var _corner = 18;
                     
-                    
-                    _rect = this._stage.selector().roundedRectangle( 0, 0, this.width(), this.height()
-                        , _corner, _corner, _corner, _corner 
-                    );
+                if( !this._background ){
+                    this._background = 
+                        this._stage.selector().rect( 0, 0, this.width(), this.height(), _corner );
 
-                    _rect
-                        .attr( 'fill', '#ccc' )
+                    this._background
                         .attr( 'fill-opacity', .35 )
+                        .attr( 'fill', '#ccc' )
 
-                        .attr( 'stroke', '#ccc' )
-                        .attr( 'stroke-width', 1 )
                         .attr( 'stroke-opacity', .35 )
+                        .attr( 'stroke-width', 1 )
+                        .attr( 'stroke', '#ccc' )
                         ;
+                }
+
+                return this._background;
             }
         
         , data:
@@ -153,6 +154,27 @@
             }
 
         , clear: function(){}
+
+        , legendBox:
+            function( _data ){
+                if( _data ){
+                    var _corner = 5;
+                    this._legendBox = this._stage.selector().rect( 0, 0, 300, 28, _corner );
+
+                    this._legendBox
+                        .attr( 'stroke-opacity', 1 )
+                        .attr( 'stroke-width', 1 )
+                        .attr( 'stroke', '#909090' )
+                        .translate( .5, .5 )
+                        ;
+
+                    this._hasLegendBox = true;
+                }
+
+                return this._legendBox;
+            }
+        , hasLegend: function(){ return this._legendBox; }
+
 
         , title:
             function( _title ){
@@ -190,6 +212,26 @@
                 return this._vtitle;
             }
         , hasVTitle: function(){ return this._hasVTitle; }
+
+        , credit:
+            function( _title, _href ){
+                typeof _title != 'undefined' 
+                    && ( this._hasCredit = true )
+                    && !this._credit 
+                    && ( this._credit = this.stage().selector().text( 0, 0, _title ) )
+                    && ( this._credit.node.setAttribute( 'class', 'jcc_credit' ) )
+                    ;
+
+                this._credit && _href 
+                    && ( 
+                            this._credit.node.setAttribute( 'href', _href ) 
+                            , this._credit.node.setAttribute( 'class', 'jcc_credit jcc_pointer jcc_link' ) 
+                            , this._credit.node.onclick = function(){ location.href = _href; }
+                        );
+                return this._credit;
+            }
+        , hasCredit: function(){ return this._hasCredit; }
+
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -221,21 +263,61 @@
 
         , draw: 
             function( _data ){
+                return this;
             }
 
-        , drawTitle:
-            function( _data, _font ){
-                if( !( _data && _data.title && _data.title.text) ) return this;
-                var _rp = this._model.title( _data.title.text )
+        , drawLegendBox:
+            function( _data ){
+                var _rp = this._model.legendBox( _data )
                     , _bbox = _rp.getBBox()
-                    , _x = ( this._model.width()  ) / 2
-                    , _y = 20
+                    , _x = this._model.width() / 2 - 150
+                    , _y = this._model.height() - 10 - 28
                     ;
+                        ;
+                    if( this._model.hasCredit() ){
+                        _y -= 10;
+                    }
+
+                _rp.attr( 'x', _x ).attr( 'y', _y );
+
+                return this;
+            }
+
+        , drawCredit:
+            function( _data, _font ){
+                if( !( _data && _data.credits && _data.credits.enabled &&
+                        ( _data.credits.text || _data.credits.href  )
+                    ) ) return this;
+
+                var _text = _data.credits.text || _data.credits.href
+                    , _rp = this._model.credit( _text, _data.credits.href )
+                    , _bbox = _rp.getBBox()
+                    , _x = this._model.width() - _bbox.width
+                    , _y = ( this._model.height() ) - 15
+                    ;
+
                 _rp.attr( 'x', _x );
                 _rp.attr( 'y', _y );
 
                 return this;
-              }
+            }
+
+        , drawVTitle:
+            function( _data, _font ){
+                if( !( _data && _data.yAxis && _data.yAxis.title && _data.yAxis.title.text ) ) return this;
+                var _rp = this._model.vtitle( _data.yAxis.title.text )
+                    , _bbox = _rp.getBBox()
+                    , _x = 20
+                    , _y = ( this._model.height() ) / 2
+                    ;
+
+                _rp.attr( 'x', _x );
+                _rp.attr( 'y', _y );
+
+                _rp.rotate( -90 ); 
+
+                return this;
+            }
 
         , drawSubTitle:
             function( _data, _font ){
@@ -255,22 +337,19 @@
                 return this;
               }
 
-        , drawVTitle:
+        , drawTitle:
             function( _data, _font ){
-                if( !( _data && _data.yAxis && _data.yAxis.title && _data.yAxis.title.text ) ) return this;
-                var _rp = this._model.vtitle( _data.yAxis.title.text )
+                if( !( _data && _data.title && _data.title.text) ) return this;
+                var _rp = this._model.title( _data.title.text )
                     , _bbox = _rp.getBBox()
-                    , _x = 20
-                    , _y = ( this._model.height() ) / 2
+                    , _x = ( this._model.width()  ) / 2
+                    , _y = 20
                     ;
-
                 _rp.attr( 'x', _x );
                 _rp.attr( 'y', _y );
 
-                _rp.rotate( -90 ); 
-
                 return this;
-            }
+              }
 
         , stage: function(){ return this._model.stage(); }
     });

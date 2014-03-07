@@ -105,10 +105,14 @@
 
         , draw: 
             function( _data ){
+                this.stage();
 
                 this.drawTitle( _data );
                 this.drawSubTitle( _data );
                 this.drawVTitle( _data );
+
+                this.drawCredit( _data );
+                this.drawLegendBox( _data );
             }
     });
 

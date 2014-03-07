@@ -105,7 +105,7 @@
 
         , draw: 
             function( _data ){
-                this.stage();
+                this.root();
 
                 this.drawTitle( _data );
                 this.drawSubTitle( _data );

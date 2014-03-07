@@ -1,9 +1,11 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Stage' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JC.BaseMVC', 'Raphael' ], function(){
+window.JChart = window.JChart || {};
 /**
  * 组件用途简述
  *
  *<p><b>require</b>:
- *   <a href='JChart.Stage.html'>JChart.Stage</a>
+ *   <a href='JC.BaseMVC.html'>JC.BaseMVC</a>
+ *   , <a href='Raphael.html'>RaphaelJS</a>
  *</p>
  *
  *<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
@@ -113,17 +115,15 @@
                 return _r;
             }
 
-        , stage:
+        , root:
             function(){
 
-                if( !this._stage ){
-                    this._stage = new JChart.Stage( this.selector()[0], this.width(), this.height() );
-                    this._stage.selector();
-
+                if( !this._root ){
+                    this._root = Raphael( this.selector()[0], this.width(), this.height() );
                     this.background();
                 }
 
-                return this._stage;
+                return this._root;
             }
 
         , background:
@@ -132,7 +132,7 @@
                     
                 if( !this._background ){
                     this._background = 
-                        this._stage.selector().rect( 0, 0, this.width(), this.height(), _corner );
+                        this.root().rect( 0, 0, this.width(), this.height(), _corner );
 
                     this._background
                         .attr( 'fill-opacity', .35 )
@@ -159,7 +159,7 @@
             function( _data ){
                 if( _data ){
                     var _corner = 5;
-                    this._legendBox = this._stage.selector().rect( 0, 0, 300, 28, _corner );
+                    this._legendBox = this.root().rect( 0, 0, 300, 28, _corner );
 
                     this._legendBox
                         .attr( 'stroke-opacity', 1 )
@@ -181,7 +181,7 @@
                 typeof _title != 'undefined' 
                     && ( this._hasTitle = true )
                     && !this._title 
-                    && ( this._title = this.stage().selector().text( 0, 0, _title ) )
+                    && ( this._title = this.root().text( 0, 0, _title ) )
                     && ( this._title.node.setAttribute( 'class', 'jcc_title' ) )
                     ;
 
@@ -194,7 +194,7 @@
                 typeof _title != 'undefined' 
                     && ( this._hasSubTitle = true )
                     && !this._subtitle 
-                    && ( this._subtitle = this.stage().selector().text( 0, 0, _title ) )
+                    && ( this._subtitle = this.root().text( 0, 0, _title ) )
                     && ( this._subtitle.node.setAttribute( 'class', 'jcc_subtitle' ) )
                     ;
                 return this._subtitle;
@@ -206,7 +206,7 @@
                 typeof _title != 'undefined' 
                     && ( this._hasVTitle= true )
                     && !this._vtitle 
-                    && ( this._vtitle = this.stage().selector().text( 0, 0, _title ) )
+                    && ( this._vtitle = this.root().text( 0, 0, _title ) )
                     && ( this._vtitle.node.setAttribute( 'class', 'jcc_vtitle' ) )
                     ;
                 return this._vtitle;
@@ -218,7 +218,7 @@
                 typeof _title != 'undefined' 
                     && ( this._hasCredit = true )
                     && !this._credit 
-                    && ( this._credit = this.stage().selector().text( 0, 0, _title ) )
+                    && ( this._credit = this.root().text( 0, 0, _title ) )
                     && ( this._credit.node.setAttribute( 'class', 'jcc_credit' ) )
                     ;
 
@@ -351,7 +351,7 @@
                 return this;
               }
 
-        , stage: function(){ return this._model.stage(); }
+        , root: function(){ return this._model.root(); }
     });
 
     return JChart.Base;

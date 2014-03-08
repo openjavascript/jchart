@@ -333,12 +333,14 @@
                     , _hlines = _p._model.hlines( _data )
 
                     , _vlabels = _p._model.vlables()
+                    , _len = _vlabels.length
                     , _wkOffset = _p._model.chartWorkspaceOffset()
+                    , _partHeight = _wkOffset.height / ( _len - 1 )
                     ;
 
                 $.each( _vlabels, function( _ix, _item ){
                     var _bbox = _item.getBBox()
-                        , _y = _bbox.y + _bbox.height / 2
+                        , _y = _wkOffset.y + _partHeight * _ix
                         , _path = JC.f.printf( 'M{0},{1}L{2},{3}'
                             , _wkOffset.x, _y
                             , _wkOffset.x + _wkOffset.width, _y
@@ -364,13 +366,19 @@
                     , _workspaceOffset = _p._model.workspaceOffset()
                     , _partHeight = _workspaceOffset.height / ( _len - 1 )
                     , _maxItemWidth = 0
-                    , _bbox 
+                    , _bbox, _y 
                     ;
 
                 $.each( _vlabels, function( _ix, _item ){
                     _bbox = _item.getBBox();
                     _bbox.width > _maxItemWidth && ( _maxItemWidth = _bbox.width )
-                    _item.attr( 'y', _workspaceOffset.y + _partHeight * _ix );
+                    _y = _workspaceOffset.y + _partHeight * _ix;
+                    if( _ix === 0 ){
+                        _y += _bbox.height / 2 - 4;
+                    }else if( _ix === ( _len - 1 ) ){
+                        _y -= _bbox.height / 2 - 4;
+                    }
+                    _item.attr( 'y', _y );
                 });
 
                 $.each( _vlabels, function( _ix, _item ){

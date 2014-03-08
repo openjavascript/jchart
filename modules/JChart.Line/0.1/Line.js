@@ -262,27 +262,30 @@
                 $.each( _data.series, function( _ix, _items ){
                     var _pathPoints = [], _x, _y, _dataHeight, _dataY, _maxNum;
                     $.each( _items.data, function( _six, _num ){
-                        if( _num < 0 ) return;
+                        //if( _num < 0 ) return;
 
                         _pathPoints.push( _six === 0 ? 'M' : 'L' );
                         _x = _chartOffset.x + _partWidth * _six;
                         _y = 0;
 
                         if( JChart.Base.isNegative( _num ) ){
+                            _dataHeight = _partHeight * ( _rateInfo.length - _rateInfo.zeroIndex );
+                            _dataY = _chartOffset.y + _partHeight * _rateInfo.zeroIndex;
+                            _maxNum = Math.abs( _rateInfo.finalMaxNum );
+
+                            _y = _dataY + Math.abs( _num ) / _maxNum * _dataHeight;
                         }else{
-                            _dataY = _chartOffset.y;
                             _dataHeight = _partHeight * _rateInfo.zeroIndex;
-                            _maxNum = _rateInfo.maxNum;
-
-                            _y = _chartOffset.y + _dataHeight - _num / _maxNum * _dataHeight;
-
+                            _dataY = _chartOffset.y;
+                            _maxNum = _rateInfo.finalMaxNum;
+                            _y = _dataY + _dataHeight - _num / _maxNum * _dataHeight;
                             //JC.log( [ _dataY, _dataHeight ] );
                         }
 
                         _pathPoints.push( [ _x, _y ] );
                     });
-                    JC.log( _pathPoints.join('') );
                     _dataLine[ _ix ].attr( 'path', _pathPoints.join('') );
+                    JC.log( _pathPoints.join('') );
                 });
             }
 

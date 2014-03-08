@@ -296,6 +296,7 @@ window.JChart = window.JChart || {};
                         });
 
                     }
+                    _p._maxNum && ( _p._maxNum = numberUp( _p._maxNum ) );
                     _p._maxNum === 0 && ( _p._maxNum = 10 );
                 }
 
@@ -348,6 +349,7 @@ window.JChart = window.JChart || {};
                     _maxNNum = _p.maxNNum( _data );
                     _absNNum = Math.abs( _maxNNum );
                     _finalMaxNum = Math.max( _maxNum, _absNNum );
+                    //_finalMaxNum += _finalMaxNum * .2;
 
                     _zeroIndex = 0;
 
@@ -364,7 +366,7 @@ window.JChart = window.JChart || {};
                         , finalMaxNum: _finalMaxNum
                         , maxNum: _maxNum
                         , maxNNum: -_finalMaxNum
-                        , rateLen: _labelRate.length
+                        , length: _labelRate.length
                     };
                 }
 
@@ -584,7 +586,7 @@ window.JChart = window.JChart || {};
             ;
         
         if( /[1-9]/.test( _int ) ){
-            tmp = Math.pow( 10, _int.length - 1  ), _out = tmp * 5;
+            tmp = Math.pow( 10, _int.length - 1  ), _out = tmp * ( parseInt( _int[0] ) +  1);
             if( _out < _in ){
                 _out = tmp * 10;
             }
@@ -592,7 +594,9 @@ window.JChart = window.JChart || {};
         }else{						
             for( _ar = _float.toFixed( _floatLen ).split(''), i = 0, j = _ar.length; i < j; i++ ){
                 if( _ar[i] != '0' && _ar[i] != '.' ){
-                    tmp = parseFloat( _ar.slice( 0, i ).join('') + '1'  ), _out = tmp * 5;
+                    tmp = parseFloat( _ar.slice( 0, i ).join('') + '1'  )
+                    , _out = tmp + parseFloat( _ar.slice( 0, i ).join('') + parseInt( _ar[i] )  )
+                    ;
                     if( _out < _float ){
                         _out = tmp * 10;
                     }

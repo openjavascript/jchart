@@ -319,6 +319,7 @@
                             , _x, _y
                             , _x, _y + _h
                         )).data( 'x', _x ).data( 'y', _y )
+                        //.attr( 'opacity', .1 )
                         ;
 
                         !JChart.Base.isFloat( _x ) && _item.translate( .5, .5 );

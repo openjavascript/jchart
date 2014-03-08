@@ -95,6 +95,8 @@ window.JChart = window.JChart || {};
     });
 
     Base.Model._instanceName = 'JChartBase';
+    Base.Model.LABEL_RATE = [ 1, .75, .5, .25, 0 ];
+
     JC.f.extendObject( Base.Model.prototype, {
         init:
             function(){
@@ -135,12 +137,12 @@ window.JChart = window.JChart || {};
                         this.root().rect( 0, 0, this.width(), this.height(), _corner );
 
                     this._background
-                        .attr( 'fill-opacity', .35 )
-                        .attr( 'fill', '#ccc' )
+                        .attr( 'fill-opacity', .1 )
+                        .attr( 'fill', '#000' )
 
-                        .attr( 'stroke-opacity', .35 )
+                        .attr( 'stroke-opacity', .1 )
                         .attr( 'stroke-width', 1 )
-                        .attr( 'stroke', '#ccc' )
+                        .attr( 'stroke', '#000' )
                         ;
                 }
 
@@ -173,7 +175,7 @@ window.JChart = window.JChart || {};
 
                 return this._legendBox;
             }
-        , hasLegend: function(){ return this._legendBox; }
+        , hasLegendBox: function(){ return this._legendBox; }
 
 
         , title:
@@ -226,11 +228,100 @@ window.JChart = window.JChart || {};
                     && ( 
                             this._credit.node.setAttribute( 'href', _href ) 
                             , this._credit.node.setAttribute( 'class', 'jcc_credit jcc_pointer jcc_link' ) 
-                            , this._credit.node.onclick = function(){ location.href = _href; }
+                            , this._credit.click( function(){ location.href = _href; } )
                         );
                 return this._credit;
             }
         , hasCredit: function(){ return this._hasCredit; }
+
+        , workspaceOffset:
+            function( _new ){
+
+                if( _new ){
+                    this._workspaceOffset = { x: 0, y: 0, width: this.width(), height: this.height() };
+                    var _tmp, _bbox;
+
+                    if( this.hasVTitle() ){
+                        _tmp = 10;
+                        _bbox = this.vtitle().getBBox();
+                        _tmp += _bbox.x + _bbox.width;
+                        
+                        this._workspaceOffset.x = _tmp;
+                        this._workspaceOffset.width = this._workspaceOffset.width - _tmp - 10;
+                    }
+
+                    if( this.hasTitle() || this.hasSubTitle() ){
+                        _tmp = 5;
+                        _bbox = ( this.subtitle() || this.title() ).getBBox();
+                        _tmp += _bbox.y + _bbox.height;
+
+                        this._workspaceOffset.y = _tmp;
+                        this._workspaceOffset.height = this._workspaceOffset.height - _tmp - 10;
+                    }
+
+                    if( this.hasLegendBox() || this.hasCredit() ){
+                        _bbox = ( this.legendBox() || this.credit() ).getBBox();
+                        _tmp = this.height() - _bbox.y;
+
+                        this._workspaceOffset.height -= _tmp;
+                    }
+                }
+
+                return this._workspaceOffset;
+            }
+
+        , workspace:
+            function( _offset ){
+
+                if( _offset ){
+                    this._workspace && this._workspace.remove();
+                    this._workspace = this.root().add( [ _offset ] )[0];
+                }
+
+                return this._workspace;
+            }
+
+        , maxNum:
+            function( _new ){
+
+                var _tmp, _p = this;
+
+                if( _new ){
+                    _p._maxNum = 0;
+
+                    if( _p.data() ){
+                        $.each( _p.data().series, function( _ix, _item ){
+                            _tmp = Math.max.apply( null, _item.data );
+                            _tmp > _p._maxNum && ( _p._maxNum = _tmp );
+                        });
+                    }
+                    _p._maxNum === 0 && ( _p._maxNum = 10 );
+                    JC.log( [ _p._maxNum, numberUp( _p._maxNum ) ] );
+                }
+
+                return _p._maxNum;
+            }
+
+        , chartWorkspaceOffset:
+            function( _new ){
+
+                if( _new ){
+                    this._chartWorkspaceOffset = JC.f.cloneObject( this.workspaceOffset() );
+                }
+
+                return this._chartWorkspaceOffset;
+            }
+
+        , chartWorkspace:
+            function( _offset ){
+
+                if( _offset ){
+                    this._chartWorkspace && this._chartWorkspace.remove();
+                    this._chartWorkspace = this.root().add( [ _offset ] )[0];
+                }
+
+                return this._chartWorkspace;
+            }
 
     });
 
@@ -263,7 +354,40 @@ window.JChart = window.JChart || {};
 
         , draw: 
             function( _data ){
-                return this;
+            }
+
+        , drawChartWorkspace:
+            function( _new ){
+                var _wkOffset = this._model.chartWorkspaceOffset( true )
+                    , _rp
+                    ;
+
+                _rp = this._model.chartWorkspace( _wkOffset );
+            }
+
+        , drawWorkspace:
+            function( _data ){
+                var _wkOffset = this._model.workspaceOffset( true )
+                    , _rp
+                    ;
+
+                if( !_wkOffset ){
+                    _wkOffset = {
+                        x: 0, y: 0
+                        , width: this._model.width()
+                        , height: this._model.height()
+                    };
+                }
+
+                JC.f.extendObject( _wkOffset, {
+                    type: 'rect'
+                    , fill: '#fff'
+                    , stroke: '#fff'
+                    , 'fill-opacity': .8
+                    , 'stroke-opacity': .8
+                });
+
+                _rp = this._model.workspace( _wkOffset );
             }
 
         , drawLegendBox:
@@ -279,15 +403,13 @@ window.JChart = window.JChart || {};
                     }
 
                 _rp.attr( 'x', _x ).attr( 'y', _y );
-
-                return this;
             }
 
         , drawCredit:
             function( _data, _font ){
                 if( !( _data && _data.credits && _data.credits.enabled &&
                         ( _data.credits.text || _data.credits.href  )
-                    ) ) return this;
+                    ) ) return;
 
                 var _text = _data.credits.text || _data.credits.href
                     , _rp = this._model.credit( _text, _data.credits.href )
@@ -299,12 +421,12 @@ window.JChart = window.JChart || {};
                 _rp.attr( 'x', _x );
                 _rp.attr( 'y', _y );
 
-                return this;
+                return;
             }
 
         , drawVTitle:
             function( _data, _font ){
-                if( !( _data && _data.yAxis && _data.yAxis.title && _data.yAxis.title.text ) ) return this;
+                if( !( _data && _data.yAxis && _data.yAxis.title && _data.yAxis.title.text ) ) return;
                 var _rp = this._model.vtitle( _data.yAxis.title.text )
                     , _bbox = _rp.getBBox()
                     , _x = 20
@@ -316,12 +438,12 @@ window.JChart = window.JChart || {};
 
                 _rp.rotate( -90 ); 
 
-                return this;
+                return;
             }
 
         , drawSubTitle:
             function( _data, _font ){
-                if( !( _data && _data.subtitle && _data.subtitle.text ) ) return this;
+                if( !( _data && _data.subtitle && _data.subtitle.text ) ) return;
                 var _rp = this._model.subtitle( _data.subtitle.text )
                     , _bbox = _rp.getBBox()
                     , _x = ( this._model.width()  ) / 2
@@ -334,12 +456,12 @@ window.JChart = window.JChart || {};
                 _rp.attr( 'x', _x );
                 _rp.attr( 'y', _y );
 
-                return this;
+                return;
               }
 
         , drawTitle:
             function( _data, _font ){
-                if( !( _data && _data.title && _data.title.text) ) return this;
+                if( !( _data && _data.title && _data.title.text) ) return;
                 var _rp = this._model.title( _data.title.text )
                     , _bbox = _rp.getBBox()
                     , _x = ( this._model.width()  ) / 2
@@ -348,11 +470,42 @@ window.JChart = window.JChart || {};
                 _rp.attr( 'x', _x );
                 _rp.attr( 'y', _y );
 
-                return this;
+                return;
               }
 
         , root: function(){ return this._model.root(); }
     });
+
+    function numberUp( _in, _floatLen ){
+        _floatLen = _floatLen || 5;
+        var _out = 0, _inStr = _in.toFixed( _floatLen )
+            , _part = _inStr.split( '.' )
+            , _int = _part[0], _float = parseFloat( '0.' + _part[ 1 ] )
+            , _ar 
+            , i, j, tmp
+            ;
+        
+        if( /[1-9]/.test( _int ) ){
+            tmp = Math.pow( 10, _int.length - 1  ), _out = tmp * 5;
+            if( _out < _in ){
+                _out = tmp * 10;
+            }
+
+        }else{						
+            for( _ar = _float.toFixed( _floatLen ).split(''), i = 0, j = _ar.length; i < j; i++ ){
+                if( _ar[i] != '0' && _ar[i] != '.' ){
+                    tmp = parseFloat( _ar.slice( 0, i ).join('') + '1'  ), _out = tmp * 5;
+                    if( _out < _float ){
+                        _out = tmp * 10;
+                    }
+                    
+                    break;
+                }
+            }
+        }
+        
+        return _out;
+    }
 
     return JChart.Base;
 });}( typeof define === 'function' && define.amd ? define : 

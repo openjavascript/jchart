@@ -91,11 +91,108 @@
     });
 
     Line.Model._instanceName = 'JChartLine';
+    var _oldWorkspaceOffset = Line.Model.prototype.workspaceOffset;
+
     JC.f.extendObject( Line.Model.prototype, {
         init:
             function(){
                 JC.log( 'Line.Model.init:', new Date().getTime() );
             }
+
+        , vlables:
+            function( _new ){
+                if( _new ){
+                    var _p = this
+                        , _maxNum = _p.maxNum( true )
+                        , _rate = JChart.Base.Model.LABEL_RATE
+                        , _data = []
+                        ;
+                    $.each( _rate, function( _ix, _item ){
+                        _data.push( {
+                            type: 'text'
+                            , text: ( _maxNum * _item ).toString()
+                        });
+                    });
+
+                    _p._vlabels = _p.root().add( _data );
+
+                    _p._hasVLabels = true;
+                }
+                return this._vlabels;
+            }
+
+        , workspaceOffset:
+            function( _new ){
+                _oldWorkspaceOffset.call( this, _new );
+
+                if( _new ){
+                    this._workspaceOffset.height -= 30;
+                }
+
+                return this._workspaceOffset;
+            }
+
+        , chartWorkspaceOffset:
+            function( _new ){
+
+                if( _new ){
+                    this._chartWorkspaceOffset = JC.f.cloneObject( this.workspaceOffset() );
+
+                    if( this.vlables() && this.vlables().length ){
+                        var _maxWidth = 0;
+                        $.each( this.vlables(), function( _ix, _item ){
+                            _item.getBBox().width > _maxWidth 
+                                && ( _maxWidth = _item.getBBox().width );
+                        });
+                        _maxWidth > 0 && ( _maxWidth += 15 );
+                        this._chartWorkspaceOffset.x += _maxWidth;
+                        this._chartWorkspaceOffset.width -= _maxWidth;
+                    }
+                }
+
+                return this._chartWorkspaceOffset;
+            }
+
+        , hlines:
+            function( _new ){
+                if( _new ){
+                    var _p = this
+                        , _data = []
+                        ;
+
+                    $.each( _p.vlables(), function( _x, _item ){
+                        _data.push( {
+                            'type': 'path'
+                            , 'path': 'M0,0'
+                        });
+                    });
+
+                    _p._hlines = _p.root().add( _data );
+
+                }
+                return this._hlines;
+            }
+
+        , vlines:
+            function( _new ){
+                if( _new && _p.data() && _p.data().xAxis ){
+                    var _p = this
+                        , _data = []
+                        ;
+
+                    $.each( _p.data.(), function( _x, _item ){
+                        _data.push( {
+                            'type': 'path'
+                            , 'path': 'M0,0'
+                        });
+                    });
+
+                    _p._hlines = _p.root().add( _data );
+
+                }
+                return this._hlines;
+            }
+
     });
 
     JC.f.extendObject( Line.View.prototype, {
@@ -113,6 +210,74 @@
 
                 this.drawCredit( _data );
                 this.drawLegendBox( _data );
+
+                this.drawWorkspace( _data );
+
+                this._model.maxNum( true );
+
+                this.drawVLabels();
+
+                this.drawChartWorkspace();
+
+                this.drawChartHLines();
+                this.drawChartVLines();
+            }
+
+        , drawChartVLines:
+            function(){
+                var _p = this
+                    , _vlines = _p._model.vlines( true )
+                    ;
+            }
+
+        , drawChartHLines:
+            function(){
+                var _p = this
+                    , _hlines = _p._model.hlines( true )
+
+                    , _vlabels = _p._model.vlables()
+                    , _wkOffset = _p._model.chartWorkspaceOffset()
+                    , _data = []
+                    ;
+
+                $.each( _vlabels, function( _ix, _item ){
+                    var _bbox = _item.getBBox()
+                        , _y = _bbox.y + _bbox.height / 2
+                        , _path = JC.f.printf( 'M{0},{1}L{2},{3}'
+                            , _wkOffset.x, _y
+                            , _wkOffset.x + _wkOffset.width, _y
+                        )
+                    _hlines[ _ix ].attr( 'stroke', '#9c9c9c' ).attr( 'path', _path );
+                    if( ( _y - parseInt( _y ) ) === 0 ){
+                        _hlines[ _ix ].translate( .5, .5 );
+                    }
+                });
+            }
+
+        , drawVLabels:
+            function(){
+                var _p = this
+                    , _vlabels = _p._model.vlables( true )
+
+                    , _maxNum = _p._model.maxNum( true )
+                    , _rate = JChart.Base.Model.LABEL_RATE
+                    , _len = _rate.length
+                    , _data = []
+                    , _workspaceOffset = _p._model.workspaceOffset()
+                    , _partHeight = _workspaceOffset.height / ( _len - 1 )
+                    , _maxItemWidth = 0
+                    , _bbox 
+                    ;
+
+                $.each( _vlabels, function( _ix, _item ){
+                    _bbox = _item.getBBox();
+                    _bbox.width > _maxItemWidth && ( _maxItemWidth = _bbox.width )
+                    _item.attr( 'y', _workspaceOffset.y + _partHeight * _ix )
+                });
+
+                $.each( _vlabels, function( _ix, _item ){
+                    _item.attr( 'x', _workspaceOffset.x - _item.getBBox().width / 2 + _maxItemWidth );
+                });
             }
     });
 

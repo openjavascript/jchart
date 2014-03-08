@@ -282,30 +282,99 @@ window.JChart = window.JChart || {};
             }
 
         , maxNum:
-            function( _new ){
+            function( _data ){
 
                 var _tmp, _p = this;
 
-                if( _new ){
+                if( _data ){
                     _p._maxNum = 0;
 
-                    if( _p.data() ){
-                        $.each( _p.data().series, function( _ix, _item ){
+                    if( _data ){
+                        $.each( _data.series, function( _ix, _item ){
                             _tmp = Math.max.apply( null, _item.data );
                             _tmp > _p._maxNum && ( _p._maxNum = _tmp );
                         });
+
                     }
                     _p._maxNum === 0 && ( _p._maxNum = 10 );
-                    JC.log( [ _p._maxNum, numberUp( _p._maxNum ) ] );
                 }
 
                 return _p._maxNum;
             }
 
-        , chartWorkspaceOffset:
-            function( _new ){
+        , maxNNum:
+            function( _data ){
+                var _tmp, _p = this;
 
-                if( _new ){
+                if( _data ){
+                    _p._maxNNum = 0;
+
+                    if( _data ){
+                        $.each( _data.series, function( _ix, _item ){
+                            _tmp = Math.min.apply( null, _item.data );
+                            _tmp < 0 && _tmp < _p._maxNNum && ( _p._maxNNum = _tmp );
+                        });
+
+                    }
+                    _p._maxNNum === 0 && ( _p._maxNNum = 10 );
+                }
+
+                return _p._maxNNum;
+            }
+
+        , labelRate:
+            function( _data ){
+                var _p = this;
+                
+                if( _data && hasNegative( _data ) ){
+                    this._labelRate = [ 1, .5, 0, -.5, -1 ];
+                }else if( _data ){
+                    this._labelRate = Base.Model.LABEL_RATE;
+                }
+
+                return this._labelRate;
+            }
+
+        , rateInfo:
+            function( _data, _labelRate ){
+
+                var _p = this, _maxNum, _maxNNum, _absNNum, _finalMaxNum
+                    , _zeroIndex
+                    ;
+
+                if( _data && _labelRate ){
+
+                    _maxNum = _p.maxNum( _data );
+                    _maxNNum = _p.maxNNum( _data );
+                    _absNNum = Math.abs( _maxNNum );
+                    _finalMaxNum = Math.max( _maxNum, _absNNum );
+
+                    _zeroIndex = 0;
+
+                    $.each( _labelRate, function( _ix, _item ){
+                        if( _item === 0 ){
+                            _zeroIndex = _ix;
+                            return false;
+                        }
+                    });
+
+                    this._rateInfo = {
+                        rates: _labelRate
+                        , zeroIndex: _zeroIndex
+                        , finalMaxNum: _finalMaxNum
+                        , maxNum: _maxNum
+                        , maxNNum: -_finalMaxNum
+                        , rateLen: _labelRate.length
+                    };
+                }
+
+                return this._rateInfo;
+            }
+
+        , chartWorkspaceOffset:
+            function( _data ){
+
+                if( _data ){
                     this._chartWorkspaceOffset = JC.f.cloneObject( this.workspaceOffset() );
                 }
 
@@ -367,7 +436,7 @@ window.JChart = window.JChart || {};
 
         , drawWorkspace:
             function( _data ){
-                var _wkOffset = this._model.workspaceOffset( true )
+                var _wkOffset = this._model.workspaceOffset( _data )
                     , _rp
                     ;
 
@@ -399,7 +468,7 @@ window.JChart = window.JChart || {};
                     ;
                         ;
                     if( this._model.hasCredit() ){
-                        _y -= 10;
+                        _y -= 15;
                     }
 
                 _rp.attr( 'x', _x ).attr( 'y', _y );
@@ -414,7 +483,7 @@ window.JChart = window.JChart || {};
                 var _text = _data.credits.text || _data.credits.href
                     , _rp = this._model.credit( _text, _data.credits.href )
                     , _bbox = _rp.getBBox()
-                    , _x = this._model.width() - _bbox.width
+                    , _x = this._model.width() - _bbox.width / 2 - 10
                     , _y = ( this._model.height() ) - 15
                     ;
 
@@ -475,6 +544,35 @@ window.JChart = window.JChart || {};
 
         , root: function(){ return this._model.root(); }
     });
+
+    Base.numberUp = numberUp;
+    Base.isFloat = isFloat;
+    Base.isNegative = isNegative;
+    Base.hasNegative = hasNegative;
+
+    function isNegative( _num ){
+        return _num < 0;
+    }
+
+    function hasNegative( _data ){
+        var _r = false;
+
+        if( _data && _data.series ){
+            $.each( _data.series, function( _ix, _item ){
+                var _tmp = Math.min.apply( null, _item.data );
+                if( _tmp < 0 ){
+                    _r = true;
+                    return false;
+                }
+            });
+        }
+
+        return _r;
+    }
+
+    function isFloat( _num ){
+        return ( _num - parseInt( _num ) ) > 0;
+    }
 
     function numberUp( _in, _floatLen ){
         _floatLen = _floatLen || 5;

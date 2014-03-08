@@ -100,21 +100,22 @@
             }
 
         , vlables:
-            function( _new ){
-                if( _new ){
+            function( _data ){
+                if( _data ){
                     var _p = this
-                        , _maxNum = _p.maxNum( true )
-                        , _rate = JChart.Base.Model.LABEL_RATE
-                        , _data = []
+                        , _maxNum = _p.maxNum( _data )
+                        , _rate = _p.labelRate( _data )
+                        , _eles = []
                         ;
+
                     $.each( _rate, function( _ix, _item ){
-                        _data.push( {
+                        _eles.push( {
                             type: 'text'
                             , text: ( _maxNum * _item ).toString()
                         });
                     });
 
-                    _p._vlabels = _p.root().add( _data );
+                    _p._vlabels = _p.root().add( _eles );
 
                     _p._hasVLabels = true;
                 }
@@ -122,10 +123,10 @@
             }
 
         , workspaceOffset:
-            function( _new ){
-                _oldWorkspaceOffset.call( this, _new );
+            function( _data ){
+                _oldWorkspaceOffset.call( this, _data );
 
-                if( _new ){
+                if( _data ){
                     this._workspaceOffset.height -= 30;
                 }
 
@@ -133,9 +134,9 @@
             }
 
         , chartWorkspaceOffset:
-            function( _new ){
+            function( _data ){
 
-                if( _new ){
+                if( _data ){
                     this._chartWorkspaceOffset = JC.f.cloneObject( this.workspaceOffset() );
 
                     if( this.vlables() && this.vlables().length ){
@@ -154,43 +155,62 @@
             }
 
         , hlines:
-            function( _new ){
-                if( _new ){
+            function( _data ){
+                if( _data ){
                     var _p = this
-                        , _data = []
+                        , _eles = []
                         ;
 
                     $.each( _p.vlables(), function( _x, _item ){
-                        _data.push( {
+                        _eles.push( {
                             'type': 'path'
                             , 'path': 'M0,0'
                         });
                     });
 
-                    _p._hlines = _p.root().add( _data );
+                    _p._hlines = _p.root().add( _eles );
 
                 }
                 return this._hlines;
             }
 
         , vlines:
-            function( _new ){
-                if( _new && _p.data() && _p.data().xAxis ){
-                    var _p = this
-                        , _data = []
-                        ;
+            function( _data ){
+                var _p = this, _eles;
+                if( _data && _data.xAxis && _data.xAxis.categories ){
+                    _eles = [];
 
-                    $.each( _p.data.(), function( _x, _item ){
-                        _data.push( {
+                    $.each( _data.xAxis.categories, function( _x, _item ){
+                        _eles.push( {
                             'type': 'path'
                             , 'path': 'M0,0'
                         });
                     });
 
-                    _p._hlines = _p.root().add( _data );
+                    _p._vlines = _p.root().add( _eles );
 
                 }
-                return this._hlines;
+                return this._vlines;
+            }
+
+        , dataLine:
+            function( _data ){
+                var _p = this, _eles;
+                if( _data && _data.series ){
+                    _eles = [];
+
+                    $.each( _data.series, function( _x, _item ){
+                        _eles.push( {
+                            'type': 'path'
+                            , 'path': 'M0,0'
+                        });
+                    });
+
+                    _p._dataLine = _p.root().add( _eles );
+
+                }
+
+                return this._dataLine;
             }
 
     });
@@ -213,31 +233,103 @@
 
                 this.drawWorkspace( _data );
 
-                this._model.maxNum( true );
+                this._model.maxNum( _data );
 
-                this.drawVLabels();
+                this.drawVLabels( _data );
 
-                this.drawChartWorkspace();
+                this.drawChartWorkspace( _data );
 
-                this.drawChartHLines();
-                this.drawChartVLines();
+                this.drawChartHLines( _data );
+                this.drawChartVLines( _data );
+
+                this.drawDataLine( _data );
+            }
+
+        , drawDataLine:
+            function( _data ){
+                if( !( _data && _data.series ) ) return;
+                var _p = this
+                    , _dataLine = _p._model.dataLine( _data )
+                    , _labelRate = _p._model.labelRate()
+                    , _rateInfo = _p._model.rateInfo( _data, _labelRate )
+                    , _chartOffset = _p._model.chartWorkspaceOffset()
+                    , _partWidth = _chartOffset.width / ( _p._model.vlines().length - 1 )
+                    , _partHeight = _chartOffset.height / ( _labelRate.length - 1 )
+                    ;
+
+                JC.log( JC.f.printf( '_partWidth: {0}, _partHeight: {1}', _partWidth, _partHeight ) );
+
+                $.each( _data.series, function( _ix, _items ){
+                    var _pathPoints = [], _x, _y, _dataHeight, _dataY, _maxNum;
+                    $.each( _items.data, function( _six, _num ){
+                        if( _num < 0 ) return;
+
+                        _pathPoints.push( _six === 0 ? 'M' : 'L' );
+                        _x = _chartOffset.x + _partWidth * _six;
+                        _y = 0;
+
+                        if( JChart.Base.isNegative( _num ) ){
+                        }else{
+                            _dataY = _chartOffset.y;
+                            _dataHeight = _partHeight * _rateInfo.zeroIndex;
+                            _maxNum = _rateInfo.maxNum;
+
+                            _y = _chartOffset.y + _dataHeight - _num / _maxNum * _dataHeight;
+
+                            //JC.log( [ _dataY, _dataHeight ] );
+                        }
+
+                        _pathPoints.push( [ _x, _y ] );
+                    });
+                    JC.log( _pathPoints.join('') );
+                    _dataLine[ _ix ].attr( 'path', _pathPoints.join('') );
+                });
+            }
+
+        , drawDataLineNegative:
+            function( _data ){
+            }
+
+        , drawDataLineNormal:
+            function( _data ){
             }
 
         , drawChartVLines:
-            function(){
+            function( _data ){
                 var _p = this
-                    , _vlines = _p._model.vlines( true )
+                    , _vlines = _p._model.vlines( _data )
+                    , _wkOffset = _p._model.chartWorkspaceOffset()
+                    , _len, _partWidth, _x, _y, _h
                     ;
+
+                if( _vlines && _vlines.length ){
+                    _len = _vlines.length - 1;
+                    _partWidth = _wkOffset.width / _len;
+
+                    $.each( _vlines, function( _ix, _item ){
+                        _x = Math.floor( _wkOffset.x + _partWidth * _ix );
+                        _y = Math.floor( _wkOffset.y );
+                        _h = _wkOffset.height;
+
+                        _item.attr( 'path', JC.f.printf( 
+                            'M{0},{1}L{2},{3}'
+                            , _x, _y
+                            , _x, _y + _h
+                        )).data( 'x', _x ).data( 'y', _y )
+                        ;
+
+                        !JChart.Base.isFloat( _x ) && _item.translate( .5, .5 );
+                    });
+                }
             }
 
         , drawChartHLines:
-            function(){
+            function( _data ){
                 var _p = this
-                    , _hlines = _p._model.hlines( true )
+                    , _hlines = _p._model.hlines( _data )
 
                     , _vlabels = _p._model.vlables()
                     , _wkOffset = _p._model.chartWorkspaceOffset()
-                    , _data = []
                     ;
 
                 $.each( _vlabels, function( _ix, _item ){
@@ -247,22 +339,24 @@
                             , _wkOffset.x, _y
                             , _wkOffset.x + _wkOffset.width, _y
                         )
-                    _hlines[ _ix ].attr( 'stroke', '#9c9c9c' ).attr( 'path', _path );
-                    if( ( _y - parseInt( _y ) ) === 0 ){
-                        _hlines[ _ix ].translate( .5, .5 );
-                    }
+                    _hlines[ _ix ].attr( 'stroke', '#9c9c9c' )
+                        .attr( 'path', _path )
+                        .data( 'x', _wkOffset.x )
+                        .data( 'y', _y )
+                        ;
+
+                    !JChart.Base.isFloat( _y ) && _hlines[ _ix ].translate( .5, .5 );
                 });
             }
 
         , drawVLabels:
-            function(){
+            function( _data ){
                 var _p = this
-                    , _vlabels = _p._model.vlables( true )
+                    , _vlabels = _p._model.vlables( _data )
 
-                    , _maxNum = _p._model.maxNum( true )
+                    , _maxNum = _p._model.maxNum( _data )
                     , _rate = JChart.Base.Model.LABEL_RATE
                     , _len = _rate.length
-                    , _data = []
                     , _workspaceOffset = _p._model.workspaceOffset()
                     , _partHeight = _workspaceOffset.height / ( _len - 1 )
                     , _maxItemWidth = 0
@@ -272,7 +366,7 @@
                 $.each( _vlabels, function( _ix, _item ){
                     _bbox = _item.getBBox();
                     _bbox.width > _maxItemWidth && ( _maxItemWidth = _bbox.width )
-                    _item.attr( 'y', _workspaceOffset.y + _partHeight * _ix )
+                    _item.attr( 'y', _workspaceOffset.y + _partHeight * _ix );
                 });
 
                 $.each( _vlabels, function( _ix, _item ){

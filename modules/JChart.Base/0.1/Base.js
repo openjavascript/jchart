@@ -470,7 +470,7 @@ window.JChart = window.JChart || {};
                     ;
                         ;
                     if( this._model.hasCredit() ){
-                        _y -= 15;
+                        _y -= 18;
                     }
 
                 _rp.attr( 'x', _x ).attr( 'y', _y );

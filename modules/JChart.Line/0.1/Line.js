@@ -340,7 +340,7 @@
                 $.each( _hlinePoint, function( _ix, _item ){
                     if( !_isAll && !( _ix in _match ) ) return;
 
-                    var _point = _hlinePoint[ _ix ] 
+                    var _point = _hlinePoint[ _ix ]
                         , _path = JC.f.printf( 'M{0},{1}L{2},{3}', 
                         Math.round( _point.end.x ), Math.floor( _point.end.y  )
                         , Math.round( _point.end.x ), Math.floor( _point.end.y  ) + 6
@@ -352,6 +352,11 @@
                         ;
 
                     var _text = _p.root().text( _x, _y, _data.xAxis.categories[ _ix ] );
+                    if( _ix === 0 ){
+                        _text.attr( 'x', _x + _text.getBBox().width / 2 - 2 );
+                    }else if( _ix > 0 && _ix == ( _len - 1 ) ){
+                        _text.attr( 'x', _x - _text.getBBox().width / 2 + 2 );
+                    }
                 });
             }
 

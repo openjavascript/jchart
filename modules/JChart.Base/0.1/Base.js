@@ -247,7 +247,7 @@ window.JChart = window.JChart || {};
                         _tmp += _bbox.x + _bbox.width;
                         
                         this._workspaceOffset.x = _tmp;
-                        this._workspaceOffset.width = this._workspaceOffset.width - _tmp - 10;
+                        this._workspaceOffset.width = this._workspaceOffset.width - _tmp - 20;
                     }
 
                     if( this.hasTitle() || this.hasSubTitle() ){
@@ -428,8 +428,8 @@ window.JChart = window.JChart || {};
             }
 
         , drawChartWorkspace:
-            function( _new ){
-                var _wkOffset = this._model.chartWorkspaceOffset( true )
+            function( _data ){
+                var _wkOffset = this._model.chartWorkspaceOffset( _data )
                     , _rp
                     ;
 
@@ -485,7 +485,7 @@ window.JChart = window.JChart || {};
                 var _text = _data.credits.text || _data.credits.href
                     , _rp = this._model.credit( _text, _data.credits.href )
                     , _bbox = _rp.getBBox()
-                    , _x = this._model.width() - _bbox.width / 2 - 10
+                    , _x = this._model.width() - _bbox.width / 2 - 20
                     , _y = ( this._model.height() ) - 15
                     ;
 
@@ -545,6 +545,16 @@ window.JChart = window.JChart || {};
               }
 
         , root: function(){ return this._model.root(); }
+
+        , implmentStyle:
+            function( _item, _style ){
+                if( _style ){
+                    for( var _k in _style ){
+                        _item.attr( _k, _style[ _k ] );
+                    }
+                }
+                return _item;
+            }
     });
 
     Base.numberUp = numberUp;
@@ -605,6 +615,13 @@ window.JChart = window.JChart || {};
                 }
             }
         }
+
+        Raphael.fn.triangle = function(x, y, size) {
+          var half = size / 2, path = ["M", x, y - size ];
+          path = path.concat(["L", (x + size), (y + half)]);
+          path = path.concat(["L", (x - size), (y + half)]);
+          return this.path(path.concat(["z"]).join(" ")).attr( 'fill', '#fff' );
+        };
         
         return _out;
     }

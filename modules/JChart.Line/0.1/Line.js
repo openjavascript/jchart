@@ -91,6 +91,32 @@
     });
 
     Line.Model._instanceName = 'JChartLine';
+
+    Line.Model.DATA_LINE_STYLE = {
+        common: {
+            'stroke-width': 2
+        }
+        , data: [
+            { 'stroke': '#ff0619' }
+            , { 'stroke': '#09c100' }
+            , { 'stroke': '#ff7100' }
+
+            , { 'stroke': '#FFBF00' }
+            , { 'stroke': '#ff06b3' }
+            , { 'stroke': '#c3e2a4' }
+
+            , { 'stroke': '#0c76c4' }
+            , { 'stroke': '#41e2e6' }
+            , { 'stroke': '#ffb2bc' }
+
+            , { 'stroke': '#dbb8fd' }
+        ]
+        , pointCommon: {
+            size: 4
+            , 'iconType': 'circle'
+        }
+    };
+
     var _oldWorkspaceOffset = Line.Model.prototype.workspaceOffset;
 
     JC.f.extendObject( Line.Model.prototype, {
@@ -145,7 +171,7 @@
                             _item.getBBox().width > _maxWidth 
                                 && ( _maxWidth = _item.getBBox().width );
                         });
-                        _maxWidth > 0 && ( _maxWidth += 15 );
+                        _maxWidth > 0 && ( _maxWidth += 10 );
                         this._chartWorkspaceOffset.x += _maxWidth;
                         this._chartWorkspaceOffset.width -= _maxWidth;
                     }
@@ -213,6 +239,38 @@
                 return this._dataLine;
             }
 
+        , dataPoint:
+            function( _setter ){
+                _setter && ( this._dataPoint = _setter );
+                return this._dataPoint;
+            }
+
+        , dataLineStyle:
+            function( _ix, _data ){
+                var _r = { line: {}, point: {} }
+                    , _itemStyle = Line.Model.DATA_LINE_STYLE.data[ _ix ]
+                    ;
+
+                JC.f.extendObject( _r.line, Line.Model.DATA_LINE_STYLE.common );
+                JC.f.extendObject( _r.point, Line.Model.DATA_LINE_STYLE.pointCommon );
+
+                _itemStyle && JC.f.extendObject( _r.line, _itemStyle );
+                _itemStyle && (
+                    _r.point.stroke = _itemStyle.stroke
+                    , _r.point.fill = _itemStyle.stroke
+                );
+
+                if( _data && _data.series && _data.series[ _ix] && _data.series[ _ix ].style ){
+                    JC.f.extendObject( _r.line, _data.series[ _ix ].style );
+                }
+
+                if( _data && _data.series && _data.series[ _ix] && _data.series[ _ix ].pointStyle ){
+                    JC.f.extendObject( _r.point, _data.series[ _ix ].pointStyle );
+                }
+
+                return _r;
+            }
+
     });
 
     JC.f.extendObject( Line.View.prototype, {
@@ -243,6 +301,30 @@
                 this.drawChartVLines( _data );
 
                 this.drawDataLine( _data );
+                this.drawDataPoint( _data, this._model.dataPoint() );
+
+                //this._model.root().triangle( 100, 10, 10 );
+            }
+
+        , drawDataPoint:
+            function( _data, _dataPoint ){
+                var _p = this;
+                $.each( _dataPoint, function( _ix, _path ){
+                    var _lineStyle = _p._model.dataLineStyle( _ix, _data )
+                        ;
+                    $.each( _path, function( _six, _point ){
+                        var _item;
+
+                        switch( _lineStyle.iconType ){
+                            default: 
+                                {
+                                    _item = _p.root().circle( _point.x, _point.y, _lineStyle.point.size );
+                                    _p.implmentStyle( _item, _lineStyle.point );
+                                    break;
+                                }
+                        }
+                    });
+                });
             }
 
         , drawDataLine:
@@ -259,8 +341,9 @@
 
                 JC.log( JC.f.printf( '_partWidth: {0}, _partHeight: {1}', _partWidth, _partHeight ) );
 
+                var _dataPoint = [];
                 $.each( _data.series, function( _ix, _items ){
-                    var _pathPoints = [], _x, _y, _dataHeight, _dataY, _maxNum;
+                    var _pathPoints = [], _purePoint = [], _x, _y, _dataHeight, _dataY, _maxNum;
                     $.each( _items.data, function( _six, _num ){
                         //if( _num < 0 ) return;
 
@@ -283,10 +366,27 @@
                         }
 
                         _pathPoints.push( [ _x, _y ] );
+                        _purePoint.push( { 'x': _x, 'y': _y } );
                     });
-                    _dataLine[ _ix ].attr( 'path', _pathPoints.join('') );
+                    _dataPoint.push( _purePoint );
+                    _p.setDataLineStyle( _ix, _data );
+                    _dataLine[ _ix ] = _dataLine[ _ix ].attr( 'path', _pathPoints.join('') );
                     JC.log( _pathPoints.join('') );
                 });
+                _p._model.dataPoint( _dataPoint );
+            }
+
+        , setDataLineStyle:
+            function( _ix, _data ){
+                var _p = this
+                    , _dataLine = _p._model.dataLine()
+                    , _item = _dataLine[ _ix ]
+                    , _style = _p._model.dataLineStyle( _ix, _data )
+                    ;
+
+                for( var _k in _style.line ){
+                    _item.attr( _k, _style.line[ _k ] );
+                }
             }
 
         , drawDataLineNegative:
@@ -319,6 +419,7 @@
                             , _x, _y
                             , _x, _y + _h
                         )).data( 'x', _x ).data( 'y', _y )
+                        .attr( 'stroke', '#9c9c9c' )
                         //.attr( 'opacity', .1 )
                         ;
 
@@ -340,7 +441,7 @@
 
                 $.each( _vlabels, function( _ix, _item ){
                     var _bbox = _item.getBBox()
-                        , _y = _wkOffset.y + _partHeight * _ix
+                        , _y = Math.floor( _wkOffset.y + _partHeight * _ix )
                         , _path = JC.f.printf( 'M{0},{1}L{2},{3}'
                             , _wkOffset.x, _y
                             , _wkOffset.x + _wkOffset.width, _y
@@ -367,17 +468,26 @@
                     , _partHeight = _workspaceOffset.height / ( _len - 1 )
                     , _maxItemWidth = 0
                     , _bbox, _y 
+                    , _chartWorkspaceOffset = _p._model.chartWorkspaceOffset( _data )
                     ;
 
                 $.each( _vlabels, function( _ix, _item ){
                     _bbox = _item.getBBox();
                     _bbox.width > _maxItemWidth && ( _maxItemWidth = _bbox.width )
                     _y = _workspaceOffset.y + _partHeight * _ix;
+
+                    var _path = JC.f.printf( 'M{0},{1}L{2},{3}', 
+                        Math.round( _chartWorkspaceOffset.x - 6 ), Math.floor( _y )
+                        , Math.round( _chartWorkspaceOffset.x ), Math.floor( _y )
+                    );
+                    _p.root().path( _path ).translate( .5, .5 ).attr( 'stroke', '#9c9c9c' );
+
                     if( _ix === 0 ){
                         _y += _bbox.height / 2 - 4;
                     }else if( _ix === ( _len - 1 ) ){
                         _y -= _bbox.height / 2 - 4;
                     }
+
                     _item.attr( 'y', _y );
                 });
 

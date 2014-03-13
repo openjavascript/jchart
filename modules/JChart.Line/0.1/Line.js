@@ -153,7 +153,7 @@
                 _oldWorkspaceOffset.call( this, _data );
 
                 if( _data ){
-                    this._workspaceOffset.height -= 30;
+                    this._workspaceOffset.height -= 18;
                 }
 
                 return this._workspaceOffset;
@@ -245,6 +245,18 @@
                 return this._dataPoint;
             }
 
+        , vlinePoint:
+            function( _setter ){
+                _setter && ( this._vlinePoint = _setter );
+                return this._vlinePoint;
+            }
+
+        , hlinePoint:
+            function( _setter ){
+                _setter && ( this._hlinePoint = _setter );
+                return this._hlinePoint;
+            }
+
         , dataLineStyle:
             function( _ix, _data ){
                 var _r = { line: {}, point: {} }
@@ -280,6 +292,8 @@
 
         , draw: 
             function( _data ){
+                var _p = this;
+
                 this.root();
 
                 this.drawTitle( _data );
@@ -293,7 +307,7 @@
 
                 this._model.maxNum( _data );
 
-                this.drawVLabels( _data );
+                this.drawHLabels( _data );
 
                 this.drawChartWorkspace( _data );
 
@@ -301,9 +315,44 @@
                 this.drawChartVLines( _data );
 
                 this.drawDataLine( _data );
-                this.drawDataPoint( _data, this._model.dataPoint() );
+                this.drawDataPoint( _data, _p._model.dataPoint() );
+
+                this.drawVLabels( _data, _p._model.vlinePoint() );
 
                 //this._model.root().triangle( 100, 10, 10 );
+            }
+        
+        , drawVLabels:
+            function( _data, _hlinePoint ){
+                var _p = this, _len = _hlinePoint.length, _isAll = _len < 8, _match = {}, _tmp;
+                _data.displayAllLabel && ( _isAll = true );
+
+                if( !_isAll ){
+                    _match[ 0 ] = true;
+                    _match[ _hlinePoint.length - 1 ] = true;
+
+                    _tmp = Math.ceil( _len / 3 );
+
+                    _match[ Math.floor( _tmp * 1 ) - 1 ] = true;
+                    _match[ Math.floor( _tmp * 2 ) - 1 ] = true;
+                }
+
+                $.each( _hlinePoint, function( _ix, _item ){
+                    if( !_isAll && !( _ix in _match ) ) return;
+
+                    var _point = _hlinePoint[ _ix ] 
+                        , _path = JC.f.printf( 'M{0},{1}L{2},{3}', 
+                        Math.round( _point.end.x ), Math.floor( _point.end.y  )
+                        , Math.round( _point.end.x ), Math.floor( _point.end.y  ) + 6
+                    );
+                    _p.root().path( _path ).translate( .5, .5 ).attr( 'stroke', '#9c9c9c' );
+
+                    var _x = _point.end.x
+                        , _y = _point.end.y + 6 + 8
+                        ;
+
+                    var _text = _p.root().text( _x, _y, _data.xAxis.categories[ _ix ] );
+                });
             }
 
         , drawDataPoint:
@@ -408,23 +457,27 @@
                 if( _vlines && _vlines.length ){
                     _len = _vlines.length - 1;
                     _partWidth = _wkOffset.width / _len;
+                    var _vlinePoint = [];
 
                     $.each( _vlines, function( _ix, _item ){
-                        _x = Math.floor( _wkOffset.x + _partWidth * _ix );
-                        _y = Math.floor( _wkOffset.y );
-                        _h = _wkOffset.height;
+                        var _linePoint = {};
+                        _linePoint.start = { x: Math.floor( _wkOffset.x + _partWidth * _ix ), y: Math.floor( _wkOffset.y ) };
+                        _linePoint.end = { x: Math.floor( _wkOffset.x + _partWidth * _ix )
+                            , y: Math.floor( _wkOffset.y )  + _wkOffset.height };
 
                         _item.attr( 'path', JC.f.printf( 
                             'M{0},{1}L{2},{3}'
-                            , _x, _y
-                            , _x, _y + _h
-                        )).data( 'x', _x ).data( 'y', _y )
+                            , _linePoint.start.x, _linePoint.start.y
+                            , _linePoint.end.x, _linePoint.end.y
+                        )).data( 'x', _linePoint.start.x ).data( 'y', _linePoint.start.y )
                         .attr( 'stroke', '#9c9c9c' )
                         //.attr( 'opacity', .1 )
                         ;
 
-                        !JChart.Base.isFloat( _x ) && _item.translate( .5, .5 );
+                        !JChart.Base.isFloat( _linePoint.start.x ) && _item.translate( .5, .5 );
+                        _vlinePoint.push( _linePoint );
                     });
+                    _p._model.vlinePoint( _vlinePoint );
                 }
             }
 
@@ -437,26 +490,32 @@
                     , _len = _vlabels.length
                     , _wkOffset = _p._model.chartWorkspaceOffset()
                     , _partHeight = _wkOffset.height / ( _len - 1 )
+                    , _hlinePoint = []
                     ;
 
                 $.each( _vlabels, function( _ix, _item ){
-                    var _bbox = _item.getBBox()
-                        , _y = Math.floor( _wkOffset.y + _partHeight * _ix )
-                        , _path = JC.f.printf( 'M{0},{1}L{2},{3}'
-                            , _wkOffset.x, _y
-                            , _wkOffset.x + _wkOffset.width, _y
-                        )
+                    var _bbox = _item.getBBox(), _path, _linePoint = {};
+
+                    _linePoint.start = { x: _wkOffset.x, y: Math.floor( _wkOffset.y + _partHeight * _ix ) };
+                    _linePoint.end = { x: _wkOffset.x + _wkOffset.width,  y: _linePoint.start.y };
+                    _path = JC.f.printf( 'M{0},{1}L{2},{3}'
+                        , _linePoint.start.x, _linePoint.start.y
+                        , _linePoint.end.x, _linePoint.end.y
+                    );
                     _hlines[ _ix ].attr( 'stroke', '#9c9c9c' )
                         .attr( 'path', _path )
-                        .data( 'x', _wkOffset.x )
-                        .data( 'y', _y )
+                        .data( 'x', _linePoint.start.x )
+                        .data( 'y', _linePoint.start.y )
                         ;
 
-                    !JChart.Base.isFloat( _y ) && _hlines[ _ix ].translate( .5, .5 );
+                    !JChart.Base.isFloat( _linePoint.start.y ) && _hlines[ _ix ].translate( .5, .5 );
+                    _hlinePoint.push( _linePoint );
                 });
+
+                _p._model.hlinePoint( _hlinePoint );
             }
 
-        , drawVLabels:
+        , drawHLabels:
             function( _data ){
                 var _p = this
                     , _vlabels = _p._model.vlables( _data )

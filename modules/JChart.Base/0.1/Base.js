@@ -630,17 +630,29 @@ window.JChart = window.JChart || {};
           return this.path(path.concat(["z"]).join(" ")).attr( 'fill', '#fff' );
         };
 
+        function pointRectangleIntersection(p, r) {
+            return p.x > r.x && p.x < r.x2 && p.y > r.y && p.y < r.y2;
+        }
+
+
         Raphael.el.mouseenter =
             function( _handler ){
-                var _p = this;
+                var _p = this, _bbox;
                 _p.mouseover( function( _evt ){
                     if( _p.IS_ENTER ) return;
+                    _bbox = _p.getBBox();
                     _p.IS_ENTER = true;
                     _handler.call( _p, _evt );
                 });
 
-                _p.mouseout( function( _evt ){
-                    JC.dir( _p.parentNode );
+                _p.paper.mousemove( function( _evt ){
+                    if( !_bbox ) return;
+                    var _offset = { x: _evt.offsetX, y : _evt.offsetY };
+                    if( pointRectangleIntersection( _offset, _p.getBBox() ) ){
+                        JC.log( 'in', new Date().getTime() );
+                    }else{
+                        JC.log( 'out', new Date().getTime() );
+                    }
                 });
             };
 

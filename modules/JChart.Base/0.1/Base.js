@@ -135,6 +135,8 @@ window.JChart = window.JChart || {};
                 if( !this._background ){
                     this._background = 
                         this.root().rect( 0, 0, this.width(), this.height(), _corner );
+
+                    this.root().stage = this._background;
                 }
 
                 return this._background;
@@ -636,8 +638,10 @@ window.JChart = window.JChart || {};
 
 
         Raphael.el.mouseenter =
-            function( _handler ){
+            function( _handler, _leaveHandler ){
                 var _p = this, _bbox;
+                if( !_p.paper.stage ) return;
+
                 _p.mouseover( function( _evt ){
                     if( _p.IS_ENTER ) return;
                     _bbox = _p.getBBox();
@@ -645,13 +649,13 @@ window.JChart = window.JChart || {};
                     _handler.call( _p, _evt );
                 });
 
-                _p.paper.mousemove( function( _evt ){
+                _p.paper.stage.mousemove( function( _evt ){
                     if( !_bbox ) return;
                     var _offset = { x: _evt.offsetX, y : _evt.offsetY };
                     if( pointRectangleIntersection( _offset, _p.getBBox() ) ){
-                        JC.log( 'in', new Date().getTime() );
                     }else{
-                        JC.log( 'out', new Date().getTime() );
+                        _bbox = null;
+                        _p.IS_ENTER = false;
                     }
                 });
             };

@@ -332,7 +332,7 @@
                 */
 
                 this._model.chartWorkspace().mouseenter( function( _evt ){
-                    JC.log( 'mouseover', new Date().getTime() );
+                    JC.log( 'mouseenter', new Date().getTime() );
                     JC.dir( _evt );
                 });
             }

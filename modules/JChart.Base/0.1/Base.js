@@ -255,6 +255,10 @@ window.JChart = window.JChart || {};
 
                         this._workspaceOffset.y = _tmp;
                         this._workspaceOffset.height = this._workspaceOffset.height - _tmp - 10;
+                    }else{
+                        _tmp = 15;
+                        this._workspaceOffset.y = _tmp;
+                        this._workspaceOffset.height = this._workspaceOffset.height - _tmp - 10;
                     }
 
                     if( this.hasLegendBox() || this.hasCredit() ){

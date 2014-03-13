@@ -2,6 +2,12 @@
     position: relative;
 }
 
+.js_jchart svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .js_jchart .jcc_pointer {
     cursor: pointer!important;
 }

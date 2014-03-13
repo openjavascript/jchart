@@ -333,7 +333,10 @@
 
                 this._model.chartWorkspace().mouseenter( function( _evt ){
                     JC.log( 'mouseenter', new Date().getTime() );
-                    JC.dir( _evt );
+                });
+
+                this._model.chartWorkspace().mouseleave( function( _evt ){
+                    JC.log( 'mouseleave', new Date().getTime() );
                 });
             }
         

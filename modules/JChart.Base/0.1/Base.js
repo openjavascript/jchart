@@ -137,6 +137,7 @@ window.JChart = window.JChart || {};
                         this.root().rect( 0, 0, this.width(), this.height(), _corner );
 
                     this.root().stage = this._background;
+                    this.root().selector = this.selector();
                 }
 
                 return this._background;
@@ -446,9 +447,11 @@ window.JChart = window.JChart || {};
                     ;
 
                 _rp = this._model.chartWorkspace( _wkOffset );
+                /*
                 _rp.attr( 'fill-opacity', 1 )
-                    .attr( 'fill', '#fff' )
+                    .attr( 'fill', '#000' )
                     ;
+                */
             }
 
         , drawWorkspace:
@@ -652,40 +655,77 @@ window.JChart = window.JChart || {};
         };
 
         function pointRectangleIntersection(p, r) {
-            return p.x > r.x && p.x < r.x2 && p.y > r.y && p.y < r.y2;
+            return p.x >= r.x && p.x <= r.x2 && p.y > r.y && p.y < r.y2;
         }
 
-
         Raphael.el.mouseenter =
-            function( _handler, _leaveHandler ){
-                return;
-                var _p = this, _bbox;
+            function( _handler ){
+                var _p = this, _bbox, _doc = $( document ), _rect;
                 if( !_p.paper.stage ) return;
 
                 _p.mouseover( function( _evt ){
                     if( _p.IS_ENTER ) return;
+                    var _offset;
+                    _handler && _handler.call( _p, _evt );
                     _bbox = _p.getBBox();
                     _p.IS_ENTER = true;
-                    _handler.call( _p, _evt );
+                    _offset = $( _p.paper.selector ).offset();
+                    _offset.x = _offset.left;
+                    _offset.y = _offset.top;
+                    _rect = {
+                        x: _offset.x + _bbox.x
+                        , x2: _offset.x + _bbox.x2
+                        , y: _offset.y + _bbox.y
+                        , y2: _offset.y + _bbox.y2
+                    };
+                    _doc.on( 'mousemove', _innerMousemove );
                 });
 
-                _p.paper.stage.mousemove( function( _evt ){
+                function _innerMousemove( _evt ){
                     if( !_bbox ) return;
-                    var _offset = { x: _evt.offsetX, y : _evt.offsetY };
-                    if( pointRectangleIntersection( _offset, _p.getBBox() ) ){
+                    var _offset = { x: _evt.pageX, y : _evt.pageY };
+                    if( pointRectangleIntersection( _offset, _rect ) ){
                     }else{
                         _bbox = null;
                         _p.IS_ENTER = false;
+                        _doc.off( 'mousemove', _innerMousemove );
                     }
-                });
+                }
             };
 
         Raphael.el.mouseleave =
             function( _handler ){
-                var _p = this;
-                _p.mouseout( function( _evt ){
-                    _p.IS_ENTER = false;
+                var _p = this, _bbox, _doc = $( document ), _rect;
+                if( !_p.paper.stage ) return;
+
+                _p.mouseover( function( _evt ){
+                    if( _p.IS_LEAVE ) return;
+                    var _offset;
+                    _bbox = _p.getBBox();
+                    _p.IS_LEAVE = true;
+                    _offset = $( _p.paper.selector ).offset();
+                    _offset.x = _offset.left;
+                    _offset.y = _offset.top;
+                    _rect = {
+                        x: _offset.x + _bbox.x
+                        , x2: _offset.x + _bbox.x2
+                        , y: _offset.y + _bbox.y
+                        , y2: _offset.y + _bbox.y2
+                    };
+                    _doc.on( 'mousemove', _innerMousemove );
                 });
+
+                function _innerMousemove( _evt ){
+                    if( !_bbox ) return;
+                    var _offset = { x: _evt.pageX, y : _evt.pageY };
+                    if( pointRectangleIntersection( _offset, _rect ) ){
+                    }else{
+                        _bbox = null;
+                        _p.IS_LEAVE = false;
+                        _handler && _handler.call( _p, _evt );
+                        _doc.off( 'mousemove', _innerMousemove );
+                    }
+                }
             };
         
         return _out;

@@ -241,6 +241,11 @@ window.JChart = window.JChart || {};
                         
                         this._workspaceOffset.x = _tmp;
                         this._workspaceOffset.width = this._workspaceOffset.width - _tmp - 20;
+                    }else{
+                        _tmp = 15;
+                        
+                        this._workspaceOffset.x = _tmp;
+                        this._workspaceOffset.width = this._workspaceOffset.width - _tmp - 20;
                     }
 
                     if( this.hasTitle() || this.hasSubTitle() ){

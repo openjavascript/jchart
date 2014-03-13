@@ -77,7 +77,7 @@
     JC.f.extendObject( Line.prototype, {
         _beforeInit:
             function(){
-                JC.log( 'Line _beforeInit', new Date().getTime() );
+                //JC.log( 'Line _beforeInit', new Date().getTime() );
             }
 
         , _initHanlderEvent:
@@ -86,7 +86,7 @@
 
         , _inited:
             function(){
-                JC.log( 'Line _inited', new Date().getTime() );
+                //JC.log( 'Line _inited', new Date().getTime() );
             }
     });
 
@@ -122,7 +122,7 @@
     JC.f.extendObject( Line.Model.prototype, {
         init:
             function(){
-                JC.log( 'Line.Model.init:', new Date().getTime() );
+                //JC.log( 'Line.Model.init:', new Date().getTime() );
             }
 
         , vlables:
@@ -408,7 +408,7 @@
                     , _partHeight = _chartOffset.height / ( _labelRate.length - 1 )
                     ;
 
-                JC.log( JC.f.printf( '_partWidth: {0}, _partHeight: {1}', _partWidth, _partHeight ) );
+                //JC.log( JC.f.printf( '_partWidth: {0}, _partHeight: {1}', _partWidth, _partHeight ) );
 
                 var _dataPoint = [];
                 $.each( _data.series, function( _ix, _items ){
@@ -435,12 +435,12 @@
                         }
 
                         _pathPoints.push( [ _x, _y ] );
-                        _purePoint.push( { 'x': _x, 'y': _y } );
+                        _purePoint.push( { 'x': _x, 'y': _y, 'num': _num, 'maxNum': _maxNum } );
                     });
+                    //JC.log( JSON.stringify( _purePoint ) );
                     _dataPoint.push( _purePoint );
                     _p.setDataLineStyle( _ix, _data );
                     _dataLine[ _ix ] = _dataLine[ _ix ].attr( 'path', _pathPoints.join('') );
-                    JC.log( _pathPoints.join('') );
                 });
                 _p._model.dataPoint( _dataPoint );
             }

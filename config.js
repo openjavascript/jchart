@@ -17,6 +17,7 @@ requirejs.config( {
         , 'JChart.Line': 'modules/JChart.Line/0.1/Line'
 
         , 'Raphael': 'modules/Raphael/2.1.2/Raphael'
+        , 'json2': 'modules/JSON/2/JSON'
     }
 });
 /**

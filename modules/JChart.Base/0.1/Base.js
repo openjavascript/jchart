@@ -289,8 +289,13 @@ window.JChart = window.JChart || {};
                         });
 
                     }
+                    var _tmp = [];
+                        _tmp.push( _p._maxNum );
                     _p._maxNum && ( _p._maxNum = numberUp( _p._maxNum ) );
+                        _tmp.push( _p._maxNum );
                     _p._maxNum === 0 && ( _p._maxNum = 10 );
+                        _tmp.push( _p._maxNum );
+                        //JC.log( ['maxNum', _tmp ] );
                 }
 
                 return _p._maxNum;
@@ -310,7 +315,12 @@ window.JChart = window.JChart || {};
                         });
 
                     }
-                    _p._maxNNum === 0 && ( _p._maxNNum = 10 );
+                    /*
+                    var _tmp = [];
+                        _tmp.push( _p._maxNNum );
+                        _tmp.push( _p._maxNNum );
+                        JC.log( ['maxNNum', _tmp ] );
+                    */
                 }
 
                 return _p._maxNNum;
@@ -639,6 +649,7 @@ window.JChart = window.JChart || {};
 
         Raphael.el.mouseenter =
             function( _handler, _leaveHandler ){
+                return;
                 var _p = this, _bbox;
                 if( !_p.paper.stage ) return;
 

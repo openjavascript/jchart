@@ -135,15 +135,6 @@ window.JChart = window.JChart || {};
                 if( !this._background ){
                     this._background = 
                         this.root().rect( 0, 0, this.width(), this.height(), _corner );
-
-                    this._background
-                        .attr( 'fill-opacity', .1 )
-                        .attr( 'fill', '#000' )
-
-                        .attr( 'stroke-opacity', .1 )
-                        .attr( 'stroke-width', 1 )
-                        .attr( 'stroke', '#000' )
-                        ;
                 }
 
                 return this._background;
@@ -434,6 +425,9 @@ window.JChart = window.JChart || {};
                     ;
 
                 _rp = this._model.chartWorkspace( _wkOffset );
+                _rp.attr( 'fill-opacity', 1 )
+                    .attr( 'fill', '#fff' )
+                    ;
             }
 
         , drawWorkspace:
@@ -454,8 +448,8 @@ window.JChart = window.JChart || {};
                     type: 'rect'
                     , fill: '#fff'
                     , stroke: '#fff'
-                    , 'fill-opacity': .8
-                    , 'stroke-opacity': .8
+                    , 'fill-opacity': .0
+                    , 'stroke-opacity': .0
                 });
 
                 _rp = this._model.workspace( _wkOffset );
@@ -555,6 +549,19 @@ window.JChart = window.JChart || {};
                 }
                 return _item;
             }
+
+        , drawBackground:
+            function(){
+
+                this._model._background
+                    .attr( 'fill-opacity', .08 )
+                    .attr( 'fill', '#ccc' )
+
+                    .attr( 'stroke-opacity', .0 )
+                    .attr( 'stroke-width', 1 )
+                    .attr( 'stroke', '#fff' )
+                    ;
+            }
     });
 
     Base.numberUp = numberUp;
@@ -622,6 +629,28 @@ window.JChart = window.JChart || {};
           path = path.concat(["L", (x - size), (y + half)]);
           return this.path(path.concat(["z"]).join(" ")).attr( 'fill', '#fff' );
         };
+
+        Raphael.el.mouseenter =
+            function( _handler ){
+                var _p = this;
+                _p.mouseover( function( _evt ){
+                    if( _p.IS_ENTER ) return;
+                    _p.IS_ENTER = true;
+                    _handler.call( _p, _evt );
+                });
+
+                _p.mouseout( function( _evt ){
+                    JC.dir( _p.parentNode );
+                });
+            };
+
+        Raphael.el.mouseleave =
+            function( _handler ){
+                var _p = this;
+                _p.mouseout( function( _evt ){
+                    _p.IS_ENTER = false;
+                });
+            };
         
         return _out;
     }

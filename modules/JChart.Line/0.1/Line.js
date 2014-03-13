@@ -296,6 +296,7 @@
 
                 this.root();
 
+                this.drawBackground();
                 this.drawTitle( _data );
                 this.drawSubTitle( _data );
                 this.drawVTitle( _data );
@@ -319,7 +320,21 @@
 
                 this.drawVLabels( _data, _p._model.vlinePoint() );
 
-                //this._model.root().triangle( 100, 10, 10 );
+                /*
+                this._model.chartWorkspace().mouseover( function( _evt ){
+                    JC.log( 'mouseover', new Date().getTime() );
+                    JC.dir( _evt );
+                });
+
+                this._model.chartWorkspace().mouseout( function( _evt ){
+                    //JC.log( 'mouseout', new Date().getTime() );
+                });
+                */
+
+                this._model.chartWorkspace().mouseenter( function( _evt ){
+                    JC.log( 'mouseover', new Date().getTime() );
+                    JC.dir( _evt );
+                });
             }
         
         , drawVLabels:

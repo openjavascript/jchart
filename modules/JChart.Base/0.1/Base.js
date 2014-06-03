@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JC.BaseMVC', 'Raphael' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JC.BaseMVC', 'Raphael', 'JChart.Event', 'JChart.Graphics', 'JChart.Group' ], function(){
 window.JChart = window.JChart || {};
 /**
  * 组件用途简述
@@ -152,10 +152,34 @@ window.JChart = window.JChart || {};
         , clear: function(){}
 
         , legendBox:
-            function( _data ){
-                if( _data ){
-                    var _corner = 5;
-                    this._legendBox = this.root().rect( 0, 0, 300, 28, _corner );
+            function( _data, _width, _height, _corner  ){
+                if( _data && _data.series && _data.series.length ){
+
+                    /*
+                    var _p = this, _text = [], _size = 0, _tmp;
+                    $.each( _data.series, function( _k, _item ){
+                        if( !_item.name ) return;
+                        _tmp = _p.root().text( -9999, 0, _item.name );
+                        _size += _tmp.getBBox().width;
+                        _text.push( {
+                            text: _tmp
+                            , data: _item
+                        });
+
+                        _size += 18;
+                    });
+
+                    _size += ( _text.length - 1 ) * 5 + 5 * 2;
+
+                    $.each( _text, function( _ix, _item ){
+                    });
+                    */
+
+                    _corner = _corner || 5;
+                    _height = _height || 28;
+                    _width = _width || 160;
+
+                    this._legendBox = this.root().rect( 0, 0, _width, _height, _corner );
 
                     this._legendBox
                         .attr( 'stroke-opacity', 1 )
@@ -480,18 +504,55 @@ window.JChart = window.JChart || {};
             }
 
         , drawLegendBox:
-            function( _data ){
-                var _rp = this._model.legendBox( _data )
+            function( _data, _legendType, _itemCb ){
+                if( !_data.displayLegend ) return;
+                _legendType = _legendType || 'line';
+
+                if( !( _data.series && _data.series.length ) ) return;
+
+
+                var _p = this, _text = [], _size = 0, _tmp;
+                $.each( _data.series, function( _k, _item ){
+                    if( !_item.name ) return;
+                    _tmp = _p.root().text( -9999, 0, _item.name );
+                    _size += _tmp.getBBox().width;
+                    _text.push( {
+                        text: _tmp
+                        , data: _item
+                    });
+
+                    _size += 20;
+                });
+
+                _size += ( _text.length - 1 ) * 10 + 10 * 1 ;
+
+                var _rp = this._model.legendBox( _data, _size )
                     , _bbox = _rp.getBBox()
-                    , _x = this._model.width() / 2 - 150
+                    , _x = ( this._model.width() - _bbox.width ) / 2
                     , _y = this._model.height() - 10 - 28
                     ;
                         ;
                     if( this._model.hasCredit() ){
                         _y -= 18;
                     }
-
                 _rp.attr( 'x', _x ).attr( 'y', _y );
+                _bbox = _rp.getBBox();
+
+                var _count = 1, _offset = 0, _halfHeight = _bbox.height / 2;
+                $.each( _text, function( _k, _item ){
+                    _offset += 10;
+                    if( _count > 1 ) _offset += 18;
+                    var _legend, _text;
+                    _legend = _p._model.root().legendLine( _bbox.x + _offset, _bbox.y + _halfHeight, 18, 1, 9 );
+                    _text = _item.text;
+                    _item.text.toFront()
+                        .attr('x', _bbox.x + _offset + _item.text.getBBox().width / 2 + 20 )
+                        .attr('y', _bbox.y + _halfHeight )
+                        ;
+                    _offset += _item.text.getBBox().width; 
+                    _count++;
+                    _itemCb && _itemCb( _count -1, _legend, _text, _item.data );
+                });
             }
 
         , drawCredit:
@@ -646,87 +707,6 @@ window.JChart = window.JChart || {};
                 }
             }
         }
-
-        Raphael.fn.triangle = function(x, y, size) {
-          var half = size / 2, path = ["M", x, y - size ];
-          path = path.concat(["L", (x + size), (y + half)]);
-          path = path.concat(["L", (x - size), (y + half)]);
-          return this.path(path.concat(["z"]).join(" ")).attr( 'fill', '#fff' );
-        };
-
-        function pointRectangleIntersection(p, r) {
-            return p.x >= r.x && p.x <= r.x2 && p.y > r.y && p.y < r.y2;
-        }
-
-        Raphael.el.mouseenter =
-            function( _handler ){
-                var _p = this, _bbox, _doc = $( document ), _rect;
-                if( !_p.paper.stage ) return;
-
-                _p.mouseover( function( _evt ){
-                    if( _p.IS_ENTER ) return;
-                    var _offset;
-                    _handler && _handler.call( _p, _evt );
-                    _bbox = _p.getBBox();
-                    _p.IS_ENTER = true;
-                    _offset = $( _p.paper.selector ).offset();
-                    _offset.x = _offset.left;
-                    _offset.y = _offset.top;
-                    _rect = {
-                        x: _offset.x + _bbox.x
-                        , x2: _offset.x + _bbox.x2
-                        , y: _offset.y + _bbox.y
-                        , y2: _offset.y + _bbox.y2
-                    };
-                    _doc.on( 'mousemove', _innerMousemove );
-                });
-
-                function _innerMousemove( _evt ){
-                    if( !_bbox ) return;
-                    var _offset = { x: _evt.pageX, y : _evt.pageY };
-                    if( pointRectangleIntersection( _offset, _rect ) ){
-                    }else{
-                        _bbox = null;
-                        _p.IS_ENTER = false;
-                        _doc.off( 'mousemove', _innerMousemove );
-                    }
-                }
-            };
-
-        Raphael.el.mouseleave =
-            function( _handler ){
-                var _p = this, _bbox, _doc = $( document ), _rect;
-                if( !_p.paper.stage ) return;
-
-                _p.mouseover( function( _evt ){
-                    if( _p.IS_LEAVE ) return;
-                    var _offset;
-                    _bbox = _p.getBBox();
-                    _p.IS_LEAVE = true;
-                    _offset = $( _p.paper.selector ).offset();
-                    _offset.x = _offset.left;
-                    _offset.y = _offset.top;
-                    _rect = {
-                        x: _offset.x + _bbox.x
-                        , x2: _offset.x + _bbox.x2
-                        , y: _offset.y + _bbox.y
-                        , y2: _offset.y + _bbox.y2
-                    };
-                    _doc.on( 'mousemove', _innerMousemove );
-                });
-
-                function _innerMousemove( _evt ){
-                    if( !_bbox ) return;
-                    var _offset = { x: _evt.pageX, y : _evt.pageY };
-                    if( pointRectangleIntersection( _offset, _rect ) ){
-                    }else{
-                        _bbox = null;
-                        _p.IS_LEAVE = false;
-                        _handler && _handler.call( _p, _evt );
-                        _doc.off( 'mousemove', _innerMousemove );
-                    }
-                }
-            };
         
         return _out;
     }

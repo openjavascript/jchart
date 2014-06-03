@@ -16,6 +16,11 @@ requirejs.config( {
 
         , 'JChart.Line': 'modules/JChart.Line/0.1/Line'
 
+        , 'JChart.Event': 'modules/JChart.Event/Event'
+        , 'JChart.Graphics': 'modules/JChart.Graphics/Graphics'
+        , 'JChart.Geometry': 'modules/JChart.Geometry/Geometry'
+        , 'JChart.Group': 'modules/JChart.Group/Group'
+
         , 'Raphael': 'modules/Raphael/2.1.2/Raphael'
         , 'json2': 'modules/JSON/2/JSON'
     }

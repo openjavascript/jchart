@@ -11,7 +11,9 @@
      */
     window.JC = window.JC || {};
     JC.log = function(){ JC.debug && console.log( sliceArgs( arguments ).join(' ') ); };
-    JC.dir = function( _obj ){ JC.debug && console.dir( _obj ); };
+    JC.dir = function(){ 
+        JC.debug && $.each( sliceArgs( arguments ), function( _ix, _item ){ console.dir( _item )} );
+    };
 
     JC.PATH = JC.PATH || scriptPath();
 
@@ -40,6 +42,7 @@
         , "cloneDate": cloneDate
         , "dateDetect": dateDetect
         , "delUrlParam": delUrlParam
+        , "delUrlParams": delUrlParams
         , "easyEffect": easyEffect
         , "filterXSS": filterXSS
         , "formatISODate": formatISODate
@@ -52,7 +55,12 @@
         , 'urlHostName': urlHostName
         , "httpRequire": httpRequire
         , "isSameDay": isSameDay
+        , "isSameWeek": isSameWeek
         , "isSameMonth": isSameMonth
+        , "isSameSeason": isSameSeason
+        , "isSameYear": isSameYear
+        , "weekOfYear": weekOfYear
+        , "seasonOfYear": seasonOfYear
         , "jcAutoInitComps": jcAutoInitComps
 
         , "maxDayOfMonth": maxDayOfMonth
@@ -64,6 +72,7 @@
         , "parseISODate": parseISODate
         , "parseDate": parseDate
         , "printf": printf
+        , "printKey": printKey
         , "cloneObject": cloneObject
 
         , "pureDate": pureDate
@@ -79,6 +88,9 @@
         , "extendObject": extendObject
         , "safeTimeout": safeTimeout
         , "encoder": encoder
+        , "fixPath": fixPath
+        , "arrayId": arrayId
+        , "docSize": docSize
 
         /**
          * 判断 JC.common 是否需要向后兼容, 如果需要的话, 向 window 添加全局静态函数
@@ -100,12 +112,28 @@
         , "parse_finance_num": parseFinance
         , "pad_char_f": padChar
         , "script_path_f": scriptPath
+        , "ts": function(){ return new Date().getTime(); }
     };
     JC.f.backward();
     /**
      * jquery 1.9.1 默认 string 没有 trim 方法, 这里对 string 原型添加一个默认的 trim 方法
      */
     !String.prototype.trim && ( String.prototype.trim = function(){ return $.trim( this ); } );
+    /**
+     * 兼容 低版本 ie Array 的 indexOf 方法
+     */
+    !Array.prototype.indexOf 
+        && ( Array.prototype.indexOf =
+            function( _v ){
+                var _r = -1;
+                $.each( this, function( _ix, _item ){
+                    if( _item == _v ){
+                        _r = _ix;
+                        return false;
+                    }
+                });
+                return _r;
+            });
     /**
      * 全局 css z-index 控制属性
      * <br /> <b>注意</b>: 这个变量是 window.ZINDEX_COUNT
@@ -115,6 +143,34 @@
      * @static
      */
     window.ZINDEX_COUNT = window.ZINDEX_COUNT || 50001;
+
+    function fixPath( _url ){
+        if( /\\/.test( _url ) ){
+            _url = _url.replace( /[\\]+/g, '\\' );
+        }else{
+            _url = _url.replace( /[\/]+/g, '/' );
+        }
+        return _url;
+    }
+    /**
+     * 一维数组去重
+     * @method  arrayId
+     * @param   {Array}     _ar
+     * @return Array
+     * @static
+     */
+    function arrayId( _ar ){
+        var _r = [], _k = {};
+        
+        for( var i = 0, j = _ar.length; i < j; i++ ){
+            if( !(_ar[i] in _k) ){
+                _r.push( _ar[i] );
+                _k[ _ar[i] ] = _ar[i];
+            }
+        }
+        
+        return _r;
+    }
     /**
      * 把函数的参数转为数组
      * @method  sliceArgs
@@ -189,6 +245,24 @@
         }
         return _str;
     }
+     /**
+     * 按格式输出字符串
+     * @method printKey
+     * @static
+     * @param   {string}    _str
+     * @param   {object}    _keys
+     * @return  string
+     * @example
+     *      JC.f.printKey( 'asdfasdf{key1}sdfasdf{key2},{0}', { 'key1': '000', 'key2': 1111, '0': 222 );
+     *      //return asdfasdf000sdfasdf1111,222
+     */
+    function printKey( _str, _keys ){
+        for( var k in _keys ){
+            _str = _str.replace( new RegExp('\\{'+( k )+'\\}', 'g'), _keys[k] );
+        }
+        return _str;
+    }
+
     /**
      * 判断URL中是否有某个get参数
      * @method  hasUrlParam
@@ -271,7 +345,7 @@
             _ar = _url.split('?')[1].split('&');
             for( i = 0; i < _ar.length; i++ ){
                 _items = _ar[i].split('=');
-                _items[0] = _items[0].replace(/^\s+|\s+$/g, '');
+                _items[0] = decodeURIComponent( _items[0] || '' ).replace(/^\s+|\s+$/g, '');
                 if( _items[0].toLowerCase() == _key.toLowerCase() ){
                     _r = filterXSS( _items[1] || '' );
                     break;
@@ -302,6 +376,7 @@
             if( _params.length ){
                 for( i = 0, j = _params.length; i < j; i++ ){
                     _items = _params[i].split('=');
+                    _items[0] = decodeURIComponent( _items[0] ) || '';
                     if( _items[0].trim() == _key ){
                         _r.push( filterXSS( _items[1] || '' ) );
                     }
@@ -338,6 +413,22 @@
         }
         sharp && ( _url += '#' + sharp );
        _url = filterXSS( _url );
+        return _url;
+    }
+    /**
+     * 批量删除URL参数
+     * <br /><b>require:</b> delUrlParam
+     * @method  delUrlParams
+     * @param  {string}    _url
+     * @param  {Array}    _keys
+     * @return  string
+     * @static
+     * @example
+            var url = delUrlParam( location.href, [ 'k1', 'k2' ] );
+     */ 
+    function delUrlParams( _url, _keys ){
+        !_keys && ( _keys = _url, _url = location.href );
+        for( var k in _keys ) _url = delUrlParam( _url, _keys[ k ] );
         return _url;
     }
     /**
@@ -409,7 +500,7 @@
      */
     function parseFinance( _i, _dot ){
         _i = parseFloat( _i ) || 0;
-        _dot == 'undefined' && ( _dot = 2 );
+        typeof _dot == 'undefined' && ( _dot = 2 );
         _i && ( _i = parseFloat( _i.toFixed( _dot ) ) );
         return _i;
     }
@@ -458,23 +549,29 @@
             _r = new Date( _datestr.slice( 0, 4 )
                             , parseInt( _datestr.slice( 4, 6 ), 10 ) - 1
                             , parseInt( _datestr.slice( 6 ), 10 ) );
+        }else if( _datestr.length === 6 ){
+            _r = new Date( _datestr.slice( 0, 4 )
+                            , parseInt( _datestr.slice( 4, 6 ), 10 ) - 1
+                            , 1 );
         }
+
         return _r;
     }
     /**
      * 从日期字符串解析日期对象
      * <br />兼容 JC.Calendar 日期格式
      * @method  parseDate
-     * @param   {date}      string
+     * @param   {date}      _date
      * @param   {selector}  _selector   如果 _selector 为真, 则尝试从 _selector 的 html 属性 dateParse 对日期进行格式化
+     * @param   {boolean}   _forceISO   是否强制转换为ISO日期
      * @return  {date|null}
      * @static
      */
-    function parseDate( _date, _selector ){
+    function parseDate( _date, _selector, _forceISO ){
         if( !_date ) return null;
         var _parse = parseISODate;
             
-        _selector 
+        _selector && !_forceISO
             && ( _selector = $( _selector ) ).length
             && _selector.attr( 'dateParse' )
             && ( _parse = window[ _selector.attr( 'dateParse' ) ] || _parse )
@@ -528,6 +625,156 @@
         return [_d1.getFullYear(), _d1.getMonth()].join() === [
                 _d2.getFullYear(), _d2.getMonth()].join()
     }
+
+    /**
+     * 判断两个日期是否为同一季度
+     * @method  isSameWeek
+     * @static
+     * @param   {Date}  _d1     需要判断的日期1
+     * @param   {Date}  _d2     需要判断的日期2
+     * @return {bool}
+     */
+    function isSameWeek( _d1, _d2 ){
+        var _weeks = [],
+            _r = false,
+            i = 0,
+            l;
+
+        _weeks = weekOfYear(_d1.getFullYear());
+        
+        _d1 = _d1.getTime();
+        _d2 = _d2.getTime();
+
+        for ( i = 0, l = _weeks.length; i < l; i++ ) {
+            if ( (_d1 >= _weeks[i].start && _d1 <= _weeks[i].end) 
+                && ( _d2 >= _weeks[i].start && _d2 <= _weeks[i].end ) 
+                ) {
+                console.log(i, _d1, _weeks[i]);
+                return true;
+            }  
+        }
+
+        return _r;
+    }
+
+    /**
+     * 判断两个日期是否为同一季度
+     * @method  isSameSeason
+     * @static
+     * @param   {Date}  _d1     需要判断的日期1
+     * @param   {Date}  _d2     需要判断的日期2
+     * @return {bool}
+     */
+    function isSameSeason( _d1, _d2 ){
+        var _seasons = [],
+            _r = false,
+            i = 0,
+            l ;
+
+        if ( !isSameYear( _d1, _d2 ) ) {
+            return false;
+        }
+
+        _seasons = seasonOfYear( _d1.getFullYear() );
+        _d1 = _d1.getTime();
+        _d2 = _d2.getTime();
+        
+        for (i = 0, l = _seasons.length ; i < l; i++ ) {
+            if ( (_d1 >= _seasons[i].start && _d1 <= _seasons[i].end) 
+                && ( _d2 >= _seasons[i].start && _d2 <= _seasons[i].end ) ) {
+                return true;
+            }     
+        }
+
+        return _r;
+    }
+
+    /**
+     * 判断两个日期是否为同一年
+     * @method  isSameSeason
+     * @static
+     * @param   {Date}  _d1     需要判断的日期1
+     * @param   {Date}  _d2     需要判断的日期2
+     * @return {bool}
+     */
+    function isSameYear( _d1, _d2 ) {
+        return _d1.getFullYear() === _d2.getFullYear();
+    }
+
+    /**
+     * 取一年中所有的星期, 及其开始结束日期
+     * @method  weekOfYear
+     * @static
+     * @param   {int}   _year
+     * @param   {int}   _dayOffset  每周的默认开始为周几, 默认0(周一)
+     * @return  Array
+     */
+    function weekOfYear( _year, _dayOffset ){
+        var _r = [], _tmp, _count = 1, _dayOffset = _dayOffset || 0
+            , _year = parseInt( _year, 10 )
+            , _d = new Date( _year, 0, 1 );
+        /**
+         * 元旦开始的第一个星期一开始的一周为政治经济上的第一周
+         */
+         _d.getDay() > 1 && _d.setDate( _d.getDate() - _d.getDay() + 7 );
+
+         _d.getDay() === 0 && _d.setDate( _d.getDate() + 1 );
+
+         _dayOffset > 0 && ( _dayOffset = (new Date( 2000, 1, 2 ) - new Date( 2000, 1, 1 )) * _dayOffset );
+
+        while( _d.getFullYear() <= _year ){
+            _tmp = { 'week': _count++, 'start': null, 'end': null };
+            _tmp.start = _d.getTime() + _dayOffset;
+            //_tmp.start = formatISODate(_d);
+            _d.setDate( _d.getDate() + 6 );
+            _tmp.end = _d.getTime() + _dayOffset;
+            //_tmp.end = formatISODate(_d);
+            _d.setDate( _d.getDate() + 1 );
+            if( _d.getFullYear() > _year ) {
+                _d = new Date( _d.getFullYear(), 0, 1 );
+                if( _d.getDay() < 2 ) break;
+             }
+            _r.push( _tmp );
+        }
+        return _r;
+    }
+    /**
+     * 取一年中所有的季度, 及其开始结束日期
+     * @method  seasonOfYear
+     * @static
+     * @param   {int}   _year
+     * @return  Array
+     */
+    function seasonOfYear( _year ){
+        var _r = []
+            , _year = parseInt( _year, 10 )
+            ;
+
+        _r.push( 
+                {
+                    start: pureDate( new Date( _year, 0, 1 ) )
+                    , end: pureDate( new Date( _year, 2, 31 ) )
+                    , season: 1
+                }, {
+                    start: pureDate( new Date( _year, 3, 1 ) )
+                    , end: pureDate( new Date( _year, 5, 30 ) )
+                    , season: 2
+                }, {
+                    start: pureDate( new Date( _year, 6, 1 ) )
+                    , end: pureDate( new Date( _year, 8, 30 ) )
+                    , season: 3
+                }, {
+                    start: pureDate( new Date( _year, 9, 1 ) )
+                    , end: pureDate( new Date( _year, 11, 31 ) )
+                    , season: 4
+                }
+        );
+                
+
+        return _r;
+    }
+
+
     /**
      * 取得一个月份中最大的一天
      * @method  maxDayOfMonth
@@ -626,54 +873,27 @@
         return !!_input;
     }
     /**
-     * 判断是否支持 CSS position: fixed
-     * @property    $.support.isFixed
-     * @type        bool
-     * @require jquery
-     * @static
-     */
-    window.jQuery && jQuery.support && (jQuery.support.isFixed = (function ($){
-        try{
-            var r, contain = $( document.documentElement ),
-                el = $( "<div style='position:fixed;top:100px;visibility:hidden;'>x</div>" ).appendTo( contain ),
-                originalHeight = contain[ 0 ].style.height,
-                w = window;
-            
-            contain.height( screen.height * 2 + "px" );
-         
-            w.scrollTo( 0, 100 );
-         
-            r = el[ 0 ].getBoundingClientRect().top === 100;
-         
-            contain.height( originalHeight );
-         
-            el.remove();
-         
-            w.scrollTo( 0, 0 );
-         
-            return r;
-        }catch(ex){}
-    })(jQuery));
-    /**
      * 绑定或清除 mousewheel 事件
      * @method  mousewheelEvent
      * @param   {function}  _cb
      * @param   {bool}      _detach
+     * @param   {selector}  _selector, default = document
      * @static
      */
-    function mousewheelEvent( _cb, _detach ){
+    function mousewheelEvent( _cb, _detach, _selector ){
+        _selector = _selector || document;
         var _evt =  (/Firefox/i.test(navigator.userAgent))
             ? "DOMMouseScroll" 
             : "mousewheel"
             ;
-        document.attachEvent && ( _evt = 'on' + _evt );
+        _selector.attachEvent && ( _evt = 'on' + _evt );
 
         if( _detach ){
-            document.detachEvent && document.detachEvent( _evt, _cb )
-            document.removeEventListener && document.removeEventListener( _evt, _cb );
+            _selector.detachEvent && document.detachEvent( _evt, _cb )
+            _selector.removeEventListener && document.removeEventListener( _evt, _cb );
         }else{
-            document.attachEvent && document.attachEvent( _evt, _cb )
-            document.addEventListener && document.addEventListener( _evt, _cb );
+            _selector.attachEvent && document.attachEvent( _evt, _cb )
+            _selector.addEventListener && document.addEventListener( _evt, _cb );
         }
     }
     /**
@@ -879,6 +1099,11 @@
          * 自动完成
          */
         Bizs.AutoSelectComplete && Bizs.AutoSelectComplete.init( _selector );
+
+        /**
+         *排期日期展示
+        */
+        Bizs.TaskViewer && Bizs.TaskViewer.init(_selector);
     }
     /**
      * URL 占位符识别功能
@@ -1073,6 +1298,36 @@
 
         _r = _r
             .replace( /YY/g, _date.getFullYear() )
+            .replace( /WK/g, function(){
+                var _r = 1, _offset = 0, _weeks;
+
+                JC.Calendar && ( _offset = JC.Calendar.weekDayOffset );
+
+                _weeks = weekOfYear( _date.getFullYear(), JC.Calendar.weekDayOffset );
+
+                $( _weeks ).each( function( _ix, _item ){
+                    if( _date.getTime() >= _item.start && _date.getTime() <= _item.end ){
+                        _r = _item.week;
+                        return false;
+                    }
+                });
+
+                return _r;
+            })
+            .replace( /YQ/g, function(){
+                var _r = 1, _offset = 0, _seasons;
+
+                _seasons = seasonOfYear( _date.getFullYear() );
+
+                $( _seasons ).each( function( _ix, _item ){
+                    if( _date.getTime() >= _item.start && _date.getTime() <= _item.end ){
+                        _r = _item.season;
+                        return false;
+                    }
+                });
+
+                return _r;
+            })
             .replace( /MM/g, padChar( _date.getMonth() + 1 ) )
             .replace( /DD/g, padChar( _date.getDate() ) )
 
@@ -1202,6 +1457,36 @@
 
         return _outObj;
     }
+    /**
+     * 获取 document 的 相关大小
+     * @method  docSize
+     * @param   {document}    _doc
+     * @return  Object
+     * @static
+     */
+    function docSize( _doc ){
+        _doc = _doc || document;
+        var _r = {
+            width: 0, height: 0, docWidth: 0, docHeight: 0, bodyWidth: 0, bodyHeight: 0, scrollWidth: 0, scrollHeight: 0
+        };
+
+        _r.docWidth = _doc.documentElement.offsetWidth;
+        _r.docHeight = _doc.documentElement.offsetHeight;
+
+        _doc.body && (
+            _r.bodyWidth = _doc.body.offsetWidth
+            , _r.bodyHeight = _doc.body.offsetHeight
+        );
+
+        _r.scrollWidth = _doc.documentElement.scrollWidth
+        _r.scrollHeight = _doc.documentElement.scrollHeight
+
+        _r.width = Math.max( _r.docWidth, _r.bodyWidth, _r.scrollHeight );
+        _r.height = Math.max( _r.docHeight, _r.bodyHeight, _r.scrollHeight );
+
+        return _r;
+    }
+
 
     return JC.f;
 

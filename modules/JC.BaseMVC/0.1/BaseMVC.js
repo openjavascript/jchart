@@ -39,9 +39,6 @@
             function(){
                 var _p = this;
 
-                _p._beforeInit();
-                _p._initHanlderEvent();
-
                 $( [ _p._view, _p._model ] ).on('BindEvent', function( _evt, _evtName, _cb ){
                     _p.on( _evtName, _cb );
                 });
@@ -50,6 +47,9 @@
                     var _data = JC.f.sliceArgs( arguments ).slice( 2 );
                     _p.trigger( _evtName, _data );
                 });
+
+                _p._beforeInit();
+                _p._initHanlderEvent();
 
                 _p._model.init();
                 _p._view && _p._view.init();
@@ -441,6 +441,55 @@
 
                 return _r;
             }
+        /**
+         * 获取 脚本模板 jquery 选择器
+         * @method  scriptTplProp
+         * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
+         * @param   {string}           _key
+         * @return  bool
+         */
+        , scriptTplProp:
+            function( _selector, _key ){
+                var _r = '', _tmp;
+                if( typeof _key == 'undefined' ){
+                    _key = _selector;
+                    _selector = this.selector();
+                }else{
+                    _selector && ( _selector = $( _selector ) );
+                }
+
+                _selector
+                    && _selector.is( '[' + _key + ']' ) 
+                    && ( _tmp = JC.f.parentSelector( _selector, _selector.attr( _key ) ) )
+                    && _tmp.length 
+                    && ( _r = JC.f.scriptContent( _tmp ) );
+
+                return _r;
+            }
+        /**
+         * 获取 selector 属性的 json 数据
+         * @method  jsonProp
+         * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
+         * @param   {string}           _key
+         * @return  {json | null}
+         */
+        , jsonProp:
+            function( _selector, _key ){
+                var _r;
+                if( typeof _key == 'undefined' ){
+                    _key = _selector;
+                    _selector = this.selector();
+                }else{
+                    _selector && ( _selector = $( _selector ) );
+                }
+
+                _selector
+                    && _selector.is( '[' + _key + ']' ) 
+                    && ( _r = eval( '(' + _selector.attr( _key ) + ')' ) );
+
+                return _r;
+            }
+
         /**
          * 判断 _selector 是否具体某种特征
          * @method  is

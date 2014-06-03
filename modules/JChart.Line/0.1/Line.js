@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Base' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group' ], function(){
 /**
  * 组件用途简述
  *
@@ -72,6 +72,17 @@
             return _r;
         };
 
+    Line.DEFAULT_MOVE =
+        function( _evt ){
+            var _src = _evt.target || _evt.srcElement, _selector, _p;
+            _selector = JC.f.parentSelector( _src, 'div.js_jchart' );
+            if( !(_selector && _selector.length ) ) return;
+            _p = JC.BaseMVC.getInstance( _selector, JChart.Line );
+            if( !_p ) return;
+            //JC.log( 'Line.DEFAULT_MOVE', _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length );
+            _p.trigger( 'update_tips', [ _evt, _src ] );
+        };
+
     JC.BaseMVC.build( Line, JChart.Base );
 
     JC.f.extendObject( Line.prototype, {
@@ -82,6 +93,12 @@
 
         , _initHanlderEvent:
             function(){
+                var _p = this;
+
+                _p.on( 'update_tips', function( _evt, _srcEvt, _srcEle ){
+                    //JC.log( 'update_tips', JC.f.ts() );
+                    _p._view.updateTips( _srcEvt, _srcEle );
+                });
             }
 
         , _inited:
@@ -257,6 +274,22 @@
                 return this._hlinePoint;
             }
 
+        , tips:
+            function( _dataIx ){
+                var _p = this, _items, _text, _val;
+
+                if( !_p._tips ){
+                    _p._tips = new JChart.Group();
+                    _p._tips.addChild( _p.root().rect( 0, 0, 100, 100, 5 ), 'rect' );
+                    _p._tips.addChild( _p.root().text( 15, 10, 'title' ).attr( 'anchor-text', 'start' ) );
+                }
+
+                _p._tips.setPosition( 300, 200 );
+
+                return _p._tips;
+            }
+
+
         , dataLineStyle:
             function( _ix, _data ){
                 var _r = { line: {}, point: {} }
@@ -294,50 +327,59 @@
             function( _data ){
                 var _p = this;
 
-                this.root();
+                _p.root();
 
-                this.drawBackground();
-                this.drawTitle( _data );
-                this.drawSubTitle( _data );
-                this.drawVTitle( _data );
+                _p.drawBackground();
+                _p.drawTitle( _data );
+                _p.drawSubTitle( _data );
+                _p.drawVTitle( _data );
 
-                this.drawCredit( _data );
-                this.drawLegendBox( _data );
+                _p.drawCredit( _data );
+                _p.drawLegendBox( _data, 'line', function( _ix, _legend, _text, _data ){
+                    var _color = _data.stroke 
+                                    || Line.Model.DATA_LINE_STYLE.data[ _ix % Line.Model.DATA_LINE_STYLE.data.length ].stroke 
+                                    || '#fff';
+                    _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
+                });
 
-                this.drawWorkspace( _data );
+                _p.drawWorkspace( _data );
 
-                this._model.maxNum( _data );
+                _p._model.maxNum( _data );
 
-                this.drawHLabels( _data );
+                _p.drawHLabels( _data );
 
-                this.drawChartWorkspace( _data );
+                _p.drawChartWorkspace( _data );
 
-                this.drawChartHLines( _data );
-                this.drawChartVLines( _data );
+                _p.drawChartHLines( _data );
+                _p.drawChartVLines( _data );
 
-                this.drawDataLine( _data );
-                this.drawDataPoint( _data, _p._model.dataPoint() );
+                _p.drawDataLine( _data );
+                _p.drawDataPoint( _data, _p._model.dataPoint() );
 
-                this.drawVLabels( _data, _p._model.vlinePoint() );
+                _p.drawVLabels( _data, _p._model.vlinePoint() );
 
                 /*
-                this._model.chartWorkspace().mouseover( function( _evt ){
+                _p._model.chartWorkspace().mouseover( function( _evt ){
                     JC.log( 'mouseover', new Date().getTime() );
                     JC.dir( _evt );
                 });
 
-                this._model.chartWorkspace().mouseout( function( _evt ){
+                _p._model.chartWorkspace().mouseout( function( _evt ){
                     //JC.log( 'mouseout', new Date().getTime() );
                 });
                 */
 
-                this._model.chartWorkspace().mouseenter( function( _evt ){
-                    JC.log( 'mouseenter', new Date().getTime() );
+                _p._model.chartWorkspace().mouseenter( function( _evt ){
+                    _p._model.chartWorkspace().mousemove( Line.DEFAULT_MOVE );
                 });
 
-                this._model.chartWorkspace().mouseleave( function( _evt ){
-                    JC.log( 'mouseleave', new Date().getTime() );
+                _p._model.chartWorkspace().mouseleave( function( _evt ){
+                    _p._model.chartWorkspace().unmousemove( Line.DEFAULT_MOVE );
                 });
+
+                //JC.log( 'xxxxxxxxxxx', _p._model.chartWorkspace().attr( 'x' ), _p._model.chartWorkspace().attr('width') );
+
+                //this._model.root().legendLine( 100, 200, 18, 1, 9 );
             }
         
         , drawVLabels:
@@ -576,6 +618,41 @@
                 $.each( _vlabels, function( _ix, _item ){
                     _item.attr( 'x', _workspaceOffset.x - _item.getBBox().width / 2 + _maxItemWidth );
                 });
+            }
+        
+        , updateTips:
+            function( _srcEvt, _srcEle ){
+                var _p = this
+                    , _x = _srcEvt.pageX
+                    , _y = _srcEvt.pageY
+                    , _srcBox = _srcEle.getBBox()
+                    ,  _srcOffset = $( _srcEle ).offset()
+                    , _realX = _x - _srcOffset.left 
+                    , _realY = _y - _srcOffset.top
+                    , _maxX = _srcBox.width
+                    , _maxY = _srcBox.height
+                    , _itemLen, _partWidth
+                    , _partWhat = 0;
+                    ;
+
+                if( _realX <= 0 || _realY <= 0 || _realX >= _maxX || _realY >= _maxY ){
+                    _p.trigger( 'hide_tips' );
+                    return;
+                }
+                if( !( _p._model.data() 
+                        && _p._model.data().series 
+                        && _p._model.data().series.length 
+                        && _p._model.data().series[0].data 
+                        && _p._model.data().series[0].data.length 
+                 )) return;
+                _itemLen = ( _p._model.data().series[0].data.length - 1 ) * 2;
+                _partWidth = _srcBox.width / _itemLen;
+                !_partWidth && ( _partWidth = _srcBox.width );
+                _partWhat = Math.floor( _realX / _partWidth  );
+                _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
+
+                _p._model.tips( _partWhat );
+               //JC.log( _x, _y, _srcBox.x, _srcBox.y, _realX, _realY, _srcBox.width, _itemLen, _partWidth, _partWhat );
             }
     });
 

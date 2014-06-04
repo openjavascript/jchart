@@ -99,6 +99,16 @@
                     //JC.log( 'update_tips', JC.f.ts() );
                     _p._view.updateTips( _srcEvt, _srcEle );
                 });
+
+                _p.on( 'hide_tips', function( _evt ){
+                    //JC.log( 'hide', JC.f.ts(), _p._model.tips() );
+                    _p._model.tips() && _p._model.tips().hide();
+                });
+
+                _p.on( 'show_tips', function( _evt ){
+                    //JC.log( 'show', JC.f.ts(), _p._model.tips() );
+                    _p._model.tips() && _p._model.tips().show();
+                });
             }
 
         , _inited:
@@ -163,6 +173,23 @@
                     _p._hasVLabels = true;
                 }
                 return this._vlabels;
+            }
+
+        , lineColor:
+            function( _ix ){
+                var _r = '#000';
+
+                _r = Line.Model.DATA_LINE_STYLE.data[ _ix % ( Line.Model.DATA_LINE_STYLE.data.length - 1 ) ].stroke || _r;
+
+                this.data()
+                    && this.data().series
+                    && this.data().series[ _ix ]
+                    && this.data().series[ _ix ].style
+                    && this.data().series[ _ix ].style.stroke
+                    && ( _r = this.data().series[ _ix ].style.stroke )
+                    ;
+
+                return _r;
             }
 
         , workspaceOffset:
@@ -278,17 +305,112 @@
             function( _dataIx ){
                 var _p = this, _items, _text, _val;
 
+                if( typeof _dataIx == 'undefined' ) return _p._tips;
+
+                var _len = _p.data().series.length, _count = 0, _offsetY = 34, _tmp, _tmpBox, _tmpItem, _maxWidth = 0, _offsetX = 20
+                    , _padWidth = 14
+                    , _padHeight = 8
+                    , _strokeColor = '#000'
+                    ;
+
                 if( !_p._tips ){
                     _p._tips = new JChart.Group();
-                    _p._tips.addChild( _p.root().rect( 0, 0, 100, 100, 5 ), 'rect' );
-                    _p._tips.addChild( _p.root().text( 15, 10, 'title' ).attr( 'anchor-text', 'start' ) );
+                    _p._tips.addChild( 
+                            _p.root().rect( 0, 0, 50, 30, 5 ).attr( { 'stroke': '#999'
+                                                                        , 'fill': '#fff' 
+                                                                        , 'fill-opacity': .92
+                                                                    } )
+                    , 'rect' );
+                    _p._tips.addChild( _p.root().text( 10, 14, 'title' )
+                            .attr( 'font-weight', 'bold' )
+                            .attr( 'fill', '#999' )
+                            , 'title' );
+                    _p._tips.getChildByName( 'title' ).attr( 'text-anchor', 'start' );
+
+
+                    $.each( _p.data().series, function( _k, _item ){
+                        _strokeColor = _p.lineColor( _k );
+                        _tmp = _p.root().text( _offsetX, _offsetY, _item.name || 'empty' ).attr( 'text-anchor', 'start' ).attr( 'fill', _strokeColor );
+                        _tmpBox = _tmp.getBBox();
+                        _p._tips.addChild( _tmp, 'label_' + _k );
+                        _offsetY += _tmpBox.height + 5;
+                        _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
+                    });
+
+                    $.each( _p.data().series, function( _k, _item ){
+                        _strokeColor = _p.lineColor( _k );
+                        _tmpItem = _p._tips.getChildByName( 'label_' + _k );
+                        _tmpBox = _tmpItem.getBBox();
+                        _tmp = _p.root().text( _maxWidth + _offsetX + 10, _tmpItem.attr( 'y' ), '012345678901.00' ).attr( 'text-anchor', 'start' ).attr( 'fill', _strokeColor );
+                        _p._tips.addChild( _tmp, 'val_' + _k );
+                    });
+
+                    $.each( _p.data().series, function( _k, _item ){
+                        _tmpItem = _p._tips.getChildByName( 'val_' + _k );
+                        _tmpItem.attr( 'text', '0.00' );
+                    });
                 }
 
-                _p._tips.setPosition( 300, 200 );
+                _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _dataIx ) );
+
+                $.each( _p.data().series, function( _k, _item ){
+                    _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _dataIx ] ) );
+                });
+
+
+                _p._tips.getChildByName( 'rect' ).attr( { width: 80, height: 50 } );
+                _tmpBox = _p._tips.getBBox();
+
+                _p._tips.getChildByName( 'rect' )
+                    .attr( 'width', _tmpBox.width + _padWidth )
+                    .attr( 'height', _tmpBox.height + _padHeight )
+                    ;
+
+                _tmpBox = _p._tips.getBBox();
+
+                var _newPoint = _p.tipsPoint( _dataIx, _tmpBox );
+
+                _p._tips.setPosition( _newPoint.x, _newPoint.y );
 
                 return _p._tips;
             }
 
+        , tipsPoint:
+            function( _dataIx, _bbox ){
+                var _p = this, _r = { 'x': 0, 'y': 10000 };
+
+                _r.x = _p.dataPoint()[0][_dataIx ].x;
+
+                if( ( _r.x + _bbox.width ) > _p.width() ){
+                    _r.x = _r.x - _bbox.width;
+                }
+
+                $.each( _p.dataPoint(), function( _k, _item ){
+                    _item[ _dataIx ].y < _r.y && ( _r.y = _item[_dataIx].y );
+                });
+
+                _r.y -= _bbox.height / 2;
+
+                _r.y < 0 && ( _r.y = 0 );
+                ( _r.y + _bbox.height ) > _p.height() && ( _r.y = _p.height() - _bbox.height );
+
+                return _r;
+            }
+
+        , tipsTitle:
+            function( _ix ){
+                var _p = this, _r = '';
+
+                _p.data().xAxis
+                    && _p.data().xAxis.categories
+                    && ( _r = _p.data().xAxis.categories[ _ix ] );
+
+                _p.data().xAxis
+                    && _p.data().xAxis.tipTitlePostfix
+                    && ( _r = JC.f.printf(  _p.data().xAxis.tipTitlePostfix, _r ) );
+
+                return _r;
+            }
 
         , dataLineStyle:
             function( _ix, _data ){
@@ -371,10 +493,12 @@
 
                 _p._model.chartWorkspace().mouseenter( function( _evt ){
                     _p._model.chartWorkspace().mousemove( Line.DEFAULT_MOVE );
+                    _p.trigger( 'show_tips' );
                 });
 
                 _p._model.chartWorkspace().mouseleave( function( _evt ){
                     _p._model.chartWorkspace().unmousemove( Line.DEFAULT_MOVE );
+                    _p.trigger( 'hide_tips' );
                 });
 
                 //JC.log( 'xxxxxxxxxxx', _p._model.chartWorkspace().attr( 'x' ), _p._model.chartWorkspace().attr('width') );
@@ -639,6 +763,7 @@
                     _p.trigger( 'hide_tips' );
                     return;
                 }
+                //_p.trigger( 'show_tips' );
                 if( !( _p._model.data() 
                         && _p._model.data().series 
                         && _p._model.data().series.length 

@@ -37,6 +37,18 @@ window.JChart = window.JChart || {};
                 this._view.setPosition( _x, _y );
                 return this;
             }
+
+        , show:
+            function(){
+                this._view.show();
+                return this;
+            }
+
+        , hide:
+            function(){
+                this._view.hide();
+                return this;
+            }
     };
 
     function Model(){
@@ -108,6 +120,20 @@ window.JChart = window.JChart || {};
                     if( typeof _y != 'undefined' ){
                         _item.attr( 'y', _y + ( _item.attr( 'y' ) - _bbox.y ) );
                     }
+                });
+            }
+
+        , show:
+            function(){
+                $.each( this._model.children(), function( _k, _item ){
+                    _item.show();
+                });
+            }
+
+        , hide:
+            function(){
+                $.each( this._model.children(), function( _k, _item ){
+                    _item.hide();
                 });
             }
     };

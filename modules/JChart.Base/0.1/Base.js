@@ -154,27 +154,6 @@ window.JChart = window.JChart || {};
         , legendBox:
             function( _data, _width, _height, _corner  ){
                 if( _data && _data.series && _data.series.length ){
-
-                    /*
-                    var _p = this, _text = [], _size = 0, _tmp;
-                    $.each( _data.series, function( _k, _item ){
-                        if( !_item.name ) return;
-                        _tmp = _p.root().text( -9999, 0, _item.name );
-                        _size += _tmp.getBBox().width;
-                        _text.push( {
-                            text: _tmp
-                            , data: _item
-                        });
-
-                        _size += 18;
-                    });
-
-                    _size += ( _text.length - 1 ) * 5 + 5 * 2;
-
-                    $.each( _text, function( _ix, _item ){
-                    });
-                    */
-
                     _corner = _corner || 5;
                     _height = _height || 28;
                     _width = _width || 160;

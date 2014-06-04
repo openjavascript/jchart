@@ -72,15 +72,16 @@
             return _r;
         };
 
+    Line.CURRENT_INS = null;
     Line.DEFAULT_MOVE =
         function( _evt ){
-            var _src = _evt.target || _evt.srcElement, _selector, _p;
-            _selector = JC.f.parentSelector( _src, 'div.js_jchart' );
-            if( !(_selector && _selector.length ) ) return;
-            _p = JC.BaseMVC.getInstance( _selector, JChart.Line );
-            if( !_p ) return;
-            //JC.log( 'Line.DEFAULT_MOVE', _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length );
-            _p.trigger( 'update_tips', [ _evt, _src ] );
+            if( !Line.CURRENT_INS ){
+                _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
+                return;
+            }
+            var _p = Line.CURRENT_INS;
+            //JC.log( 'Line.DEFAULT_MOVE', _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
+            _p.trigger( 'update_tips', [ _evt ] );
         };
 
     JC.BaseMVC.build( Line, JChart.Base );
@@ -318,7 +319,7 @@
                     _p._tips.addChild( 
                             _p.root().rect( 0, 0, 50, 30, 5 ).attr( { 'stroke': '#999'
                                                                         , 'fill': '#fff' 
-                                                                        , 'fill-opacity': .92
+                                                                        , 'fill-opacity': .94
                                                                     } )
                     , 'rect' );
                     _p._tips.addChild( _p.root().text( 10, 14, 'title' )
@@ -492,12 +493,14 @@
                 */
 
                 _p._model.chartWorkspace().mouseenter( function( _evt ){
-                    _p._model.chartWorkspace().mousemove( Line.DEFAULT_MOVE );
+                    Line.CURRENT_INS = _p;
+                    _jdoc.on( 'mousemove', Line.DEFAULT_MOVE );
                     _p.trigger( 'show_tips' );
                 });
 
                 _p._model.chartWorkspace().mouseleave( function( _evt ){
-                    _p._model.chartWorkspace().unmousemove( Line.DEFAULT_MOVE );
+                    Line.CURRENT_INS = null;
+                    _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
                     _p.trigger( 'hide_tips' );
                 });
 
@@ -745,7 +748,8 @@
             }
         
         , updateTips:
-            function( _srcEvt, _srcEle ){
+            function( _srcEvt ){
+                var _srcEle = this._model.chartWorkspace().node;
                 var _p = this
                     , _x = _srcEvt.pageX
                     , _y = _srcEvt.pageY
@@ -760,7 +764,7 @@
                     ;
 
                 if( _realX <= 0 || _realY <= 0 || _realX >= _maxX || _realY >= _maxY ){
-                    _p.trigger( 'hide_tips' );
+                    //_p.trigger( 'hide_tips' );
                     return;
                 }
                 //_p.trigger( 'show_tips' );

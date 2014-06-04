@@ -105,7 +105,7 @@ window.JChart = window.JChart || {};
 
         , width:
             function(){
-                var _r = this.selector().prop( 'ffsetWidth' );
+                var _r = this.selector().prop( 'offsetWidth' );
                 this.is( '[chartWidth]' ) && ( _r = this.intProp( 'chartWidth' ) || _r );
                 return _r;
             }

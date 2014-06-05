@@ -23,6 +23,7 @@ requirejs.config( {
         , 'JChart.Group': 'modules/JChart.Group/0.1/Group'
 
         , 'JChart.IconPoint': 'modules/JChart.IconPoint/0.1/IconPoint'
+        , 'JChart.IconVLine': 'modules/JChart.IconVLine/0.1/IconVLine'
 
         , 'Raphael': 'modules/Raphael/2.1.2/Raphael'
         , 'json2': 'modules/JSON/2/JSON'

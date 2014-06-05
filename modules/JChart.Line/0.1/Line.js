@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconPoint' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconPoint', 'JChart.IconVLine' ], function(){
 /**
  * 组件用途简述
  *
@@ -250,21 +250,22 @@
 
         , vlines:
             function( _data ){
-                var _p = this, _eles;
+                var _p = this, _eles, _tmp;
                 if( _data && _data.xAxis && _data.xAxis.categories ){
                     _eles = [];
+                    _p._vlines = [];
 
                     $.each( _data.xAxis.categories, function( _x, _item ){
-                        _eles.push( {
-                            'type': 'path'
-                            , 'path': 'M0,0'
-                        });
+                        _tmp = new JChart.IconVLine( 
+                            _p.root()
+                            , ['M0 0'].join(' ' )
+                            , { 'stroke': '#999', 'stroke-width': 1 }
+                            , { 'stroke': '#000', 'stroke-width': 1 } 
+                        );
+                        _p._vlines.push( _tmp );
                     });
-
-                    _p._vlines = _p.root().add( _eles );
-
                 }
-                return this._vlines;
+                return _p._vlines;
             }
 
         , dataLine:
@@ -481,6 +482,7 @@
                 typeof _setter != 'undefined' && ( this._pointItems = _setter );
                 return this._pointItems;
             }
+
     });
 
     JC.f.extendObject( Line.View.prototype, {
@@ -553,6 +555,7 @@
         
         , drawVLabels:
             function( _data, _hlinePoint ){
+
                 var _p = this, _len = _hlinePoint.length, _isAll = _len < 8, _match = {}, _tmp;
                 _data.displayAllLabel && ( _isAll = true );
 
@@ -717,6 +720,16 @@
                         _linePoint.end = { x: Math.floor( _wkOffset.x + _partWidth * _ix )
                             , y: Math.floor( _wkOffset.y )  + _wkOffset.height };
 
+                    _item.update(
+                        JC.f.printf( 
+                            'M{0},{1}L{2},{3}'
+                            , _linePoint.start.x, _linePoint.start.y
+                            , _linePoint.end.x, _linePoint.end.y
+                        )
+                        , !JChart.Base.isFloat( _linePoint.start.x )
+                    );
+
+                    /*
                         _item.attr( 'path', JC.f.printf( 
                             'M{0},{1}L{2},{3}'
                             , _linePoint.start.x, _linePoint.start.y
@@ -727,6 +740,7 @@
                         ;
 
                         !JChart.Base.isFloat( _linePoint.start.x ) && _item.translate( .5, .5 );
+                        */
                         _vlinePoint.push( _linePoint );
                     });
                     _p._model.vlinePoint( _vlinePoint );
@@ -820,6 +834,9 @@
                     }
                 });
                 _p._model._prePointItems = _tmp;
+
+                _p._model._preVLineItem = _p._model.vlines()[ _index ].hover();
+
             }
 
         , clearPointItemStatus:
@@ -831,6 +848,11 @@
                     });
                     _p._model._prePointItems = null;
                 }
+                if( _p._model._preVLineItem ){
+                    _p._model._preVLineItem.unhover();
+                    _p._model._preVLineItem = null;
+                }
+
             }
 
         , clearStatus:

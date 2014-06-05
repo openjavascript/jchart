@@ -55,7 +55,13 @@
             
                 <li><a href="../classes/JC.f.html">JC.f</a></li>
             
+                <li><a href="../classes/JC.PureMVC.html">JC.PureMVC</a></li>
+            
+                <li><a href="../classes/JC.PureMVC.Model.html">JC.PureMVC.Model</a></li>
+            
                 <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
+            
+                <li><a href="../classes/JChart.IconPoint.html">JChart.IconPoint</a></li>
             
                 <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
             
@@ -147,9 +153,6 @@
             function(){
                 var _p = this;
 
-                _p._beforeInit();
-                _p._initHanlderEvent();
-
                 $( [ _p._view, _p._model ] ).on(&#x27;BindEvent&#x27;, function( _evt, _evtName, _cb ){
                     _p.on( _evtName, _cb );
                 });
@@ -158,6 +161,9 @@
                     var _data = JC.f.sliceArgs( arguments ).slice( 2 );
                     _p.trigger( _evtName, _data );
                 });
+
+                _p._beforeInit();
+                _p._initHanlderEvent();
 
                 _p._model.init();
                 _p._view &amp;&amp; _p._view.init();
@@ -549,6 +555,55 @@
 
                 return _r;
             }
+        /**
+         * 获取 脚本模板 jquery 选择器
+         * @method  scriptTplProp
+         * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
+         * @param   {string}           _key
+         * @return  bool
+         */
+        , scriptTplProp:
+            function( _selector, _key ){
+                var _r = &#x27;&#x27;, _tmp;
+                if( typeof _key == &#x27;undefined&#x27; ){
+                    _key = _selector;
+                    _selector = this.selector();
+                }else{
+                    _selector &amp;&amp; ( _selector = $( _selector ) );
+                }
+
+                _selector
+                    &amp;&amp; _selector.is( &#x27;[&#x27; + _key + &#x27;]&#x27; ) 
+                    &amp;&amp; ( _tmp = JC.f.parentSelector( _selector, _selector.attr( _key ) ) )
+                    &amp;&amp; _tmp.length 
+                    &amp;&amp; ( _r = JC.f.scriptContent( _tmp ) );
+
+                return _r;
+            }
+        /**
+         * 获取 selector 属性的 json 数据
+         * @method  jsonProp
+         * @param   {selector|string}  _selector    如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()
+         * @param   {string}           _key
+         * @return  {json | null}
+         */
+        , jsonProp:
+            function( _selector, _key ){
+                var _r;
+                if( typeof _key == &#x27;undefined&#x27; ){
+                    _key = _selector;
+                    _selector = this.selector();
+                }else{
+                    _selector &amp;&amp; ( _selector = $( _selector ) );
+                }
+
+                _selector
+                    &amp;&amp; _selector.is( &#x27;[&#x27; + _key + &#x27;]&#x27; ) 
+                    &amp;&amp; ( _r = eval( &#x27;(&#x27; + _selector.attr( _key ) + &#x27;)&#x27; ) );
+
+                return _r;
+            }
+
         /**
          * 判断 _selector 是否具体某种特征
          * @method  is

@@ -19,6 +19,18 @@
                 "JC": 1
             }
         },
+        "../modules/JC.PureMVC/0.1/PureMVC.js": {
+            "name": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "modules": {},
+            "classes": {
+                "JC.PureMVC": 1,
+                "JC.PureMVC.Model": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "JC": 1
+            }
+        },
         "../modules/JC.common/0.2/common.js": {
             "name": "../modules/JC.common/0.2/common.js",
             "modules": {},
@@ -34,6 +46,17 @@
             "modules": {},
             "classes": {
                 "JChart.Base": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "JChart": 1
+            }
+        },
+        "../modules/JChart.IconPoint/0.1/IconPoint.js": {
+            "name": "../modules/JChart.IconPoint/0.1/IconPoint.js",
+            "modules": {},
+            "classes": {
+                "JChart.IconPoint": 1
             },
             "fors": {},
             "namespaces": {
@@ -126,6 +149,52 @@
             "version": "dev 0.1 2013-09-11",
             "author": "qiushaowei   <suches@btbtd.org> | 75 Team"
         },
+        "JC.PureMVC": {
+            "name": "JC.PureMVC",
+            "shortname": "JC.PureMVC",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JC",
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 3,
+            "description": "MVC 抽象类 ( <b>仅供扩展用, 这个类不能实例化</b>)\n<p><b>require</b>: \n     <a href='JC.common.html'>JC.common</a>\n</p>\n<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n| <a href='http://jc2.openjavascript.org/docs_api/classes/JC.PureMVC.html' target='_blank'>API docs</a>\n| <a href='../../modules/JC.PureMVC/0.1/_demo' target='_blank'>demo link</a></p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector|string"
+                }
+            ],
+            "version": "dev 0.1 2014-06-05",
+            "author": "qiushaowei   <suches@btbtd.org> | 75 Team"
+        },
+        "JC.PureMVC.Model": {
+            "name": "JC.PureMVC.Model",
+            "shortname": "JC.PureMVC.Model",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JC",
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 172,
+            "description": "MVC Model 类( <b>仅供扩展用</b> )\n<br />这个类默认已经包含在lib.js里面, 不需要显式引用\n<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n| <a href='http://jc2.openjavascript.org/docs_api/classes/JC.PureMVC.Model.html' target='_blank'>API docs</a>\n| <a href='../../modules/JC.PureMVC/0.1/_demo' target='_blank'>demo link</a></p>\n<p><b>see also</b>: <a href='JC.PureMVC.html'>JC.PureMVC</a></p>",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector|string"
+                }
+            ],
+            "version": "dev 0.1 2013-09-11",
+            "author": "qiushaowei   <suches@btbtd.org> | 75 Team"
+        },
         "JC.f": {
             "name": "JC.f",
             "shortname": "JC.f",
@@ -136,7 +205,7 @@
             "extension_for": [],
             "namespace": "JC",
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 19,
+            "line": 21,
             "description": "JC.f 是 JC.common 的别名\n<br />具体使用请见 <a href='JC.common.html'>JC.common</a></p>",
             "static": 1
         },
@@ -150,7 +219,7 @@
             "extension_for": [],
             "namespace": "JC",
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 25,
+            "line": 27,
             "description": "JC 组件通用静态方法和属性 ( JC.common, <b>别名: JC.f</b> )\n<br />所有 JC 组件都会依赖这个静态类\n<p><b>require</b>: <a href='window.jQuery.html'>jQuery</a></p>\n<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n| <a href='http://jc2.openjavascript.org/docs_api/classes/JC.common.html' target='_blank'>API docs</a>\n| <a href='../../modules/JC.common/0.2/_demo/' target='_blank'>demo link</a></p>",
             "static": 1,
             "version": "dev 0.1 2013-07-04",
@@ -166,8 +235,8 @@
             "extension_for": [],
             "namespace": "JChart",
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 2,
-            "description": "组件用途简述\n\n<p><b>require</b>:\n  <a href='JChart.Stage.html'>JChart.Stage</a>\n</p>\n\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Base.html' target='_blank'>API docs</a>\n  | <a href='../../modules/JChart.Base/0.1/_demo' target='_blank'>demo link</a></p>\n \n<h2>页面只要引用本脚本, 默认会处理 div class=\"js_compBase\"</h2>\n\n<h2>可用的 HTML attribute</h2>\n\n<dl>\n   <dt></dt>\n   <dd><dd>\n</dl>",
+            "line": 3,
+            "description": "组件用途简述\n\n<p><b>require</b>:\n  <a href='JC.BaseMVC.html'>JC.BaseMVC</a>\n  , <a href='Raphael.html'>RaphaelJS</a>\n</p>\n\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Base.html' target='_blank'>API docs</a>\n  | <a href='../../modules/JChart.Base/0.1/_demo' target='_blank'>demo link</a></p>\n \n<h2>页面只要引用本脚本, 默认会处理 div class=\"js_compBase\"</h2>\n\n<h2>可用的 HTML attribute</h2>\n\n<dl>\n   <dt></dt>\n   <dd><dd>\n</dl>",
             "extends": "JC.BaseMVC",
             "is_constructor": 1,
             "params": [
@@ -181,6 +250,33 @@
             "author": "qiushaowei <suches@btbtd.org> | 75 Team",
             "example": [
                 "\n       <h2>JC.Base 示例</h2>"
+            ]
+        },
+        "JChart.IconPoint": {
+            "name": "JChart.IconPoint",
+            "shortname": "JChart.IconPoint",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JChart",
+            "file": "../modules/JChart.IconPoint/0.1/IconPoint.js",
+            "line": 2,
+            "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href='JC.PureMVC.html'>JC.PureMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.IconPoint.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChart.IconPoint/0.1/_demo' target='_blank'>demo link</a></p>",
+            "extends": "JC.PureMVC",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector|string"
+                }
+            ],
+            "version": "dev 0.1 2013-12-13",
+            "author": "qiushaowei <suches@btbtd.org> | 75 Team",
+            "example": [
+                "\n       <h2>JC.IconPoint 示例</h2>"
             ]
         },
         "JChart.Line": {
@@ -746,6 +842,55 @@
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
             "line": 444,
+            "description": "获取 脚本模板 jquery 选择器",
+            "itemtype": "method",
+            "name": "scriptTplProp",
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()",
+                    "type": "Selector|string"
+                },
+                {
+                    "name": "_key",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "bool"
+            },
+            "class": "JC.BaseMVC.Model",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
+            "line": 469,
+            "description": "获取 selector 属性的 json 数据",
+            "itemtype": "method",
+            "name": "jsonProp",
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "如果 _key 为空将视 _selector 为 _key, _selector 为 this.selector()",
+                    "type": "Selector|string"
+                },
+                {
+                    "name": "_key",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Json | null"
+            },
+            "class": "JC.BaseMVC.Model",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
+            "line": 493,
             "description": "判断 _selector 是否具体某种特征",
             "itemtype": "method",
             "name": "is",
@@ -769,16 +914,259 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 473,
+            "line": 522,
             "description": "使用 jquery on 为 controler 绑定事件",
             "class": "JC.BaseMVC.Model",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 481,
+            "line": 530,
             "description": "使用 jquery trigger 触发 controler 绑定事件",
             "class": "JC.BaseMVC.Model",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 28,
+            "description": "内部初始化方法",
+            "itemtype": "method",
+            "name": "_init",
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 57,
+            "description": "初始化之前调用的方法",
+            "itemtype": "method",
+            "name": "_beforeInit",
+            "access": "private",
+            "tagname": "",
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 65,
+            "description": "内部事件初始化方法",
+            "itemtype": "method",
+            "name": "_initHanlderEvent",
+            "access": "private",
+            "tagname": "",
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 73,
+            "description": "内部初始化完毕时, 调用的方法",
+            "itemtype": "method",
+            "name": "_inited",
+            "access": "private",
+            "tagname": "",
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 81,
+            "description": "使用 jquery on 绑定事件",
+            "itemtype": "method",
+            "name": "on",
+            "type": "String",
+            "params": [
+                {
+                    "name": "_evtName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "_cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "PureMVCInstance"
+            },
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 89,
+            "description": "使用 jquery trigger 触发绑定事件",
+            "itemtype": "method",
+            "name": "trigger",
+            "type": "String",
+            "params": [
+                {
+                    "name": "_evtName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "PureMVCInstance"
+            },
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 97,
+            "description": "复制 PureMVC 的所有方法到 _outClass",
+            "itemtype": "method",
+            "name": "build",
+            "params": [
+                {
+                    "name": "_outClass",
+                    "description": "",
+                    "type": "Class"
+                }
+            ],
+            "static": 1,
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 115,
+            "description": "复制 _inClass 的所有方法到 _outClass",
+            "itemtype": "method",
+            "name": "buildClass",
+            "params": [
+                {
+                    "name": "_inClass",
+                    "description": "",
+                    "type": "Class"
+                },
+                {
+                    "name": "_outClass",
+                    "description": "",
+                    "type": "Class"
+                }
+            ],
+            "static": 1,
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 144,
+            "description": "为 _outClass 生成一个通用 Model 类",
+            "itemtype": "method",
+            "name": "buildModel",
+            "params": [
+                {
+                    "name": "_outClass",
+                    "description": "",
+                    "type": "Class"
+                }
+            ],
+            "static": 1,
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 157,
+            "description": "为 _outClass 生成一个通用 View 类",
+            "itemtype": "method",
+            "name": "buildView",
+            "params": [
+                {
+                    "name": "_outClass",
+                    "description": "",
+                    "type": "Class"
+                }
+            ],
+            "static": 1,
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 167,
+            "description": "初始化 PureMVC Model 类 和 View 类",
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 187,
+            "description": "设置 selector 实例引用的 data 属性名",
+            "itemtype": "property",
+            "name": "_instanceName",
+            "type": "string",
+            "default": "PureMVCIns",
+            "access": "private",
+            "tagname": "",
+            "static": 1,
+            "class": "JC.PureMVC.Model",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 201,
+            "description": "使用 jquery on 为 controler 绑定事件",
+            "itemtype": "method",
+            "name": "on",
+            "type": "String",
+            "params": [
+                {
+                    "name": "_evtName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "_cb",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "JC.PureMVC.Model",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 212,
+            "description": "使用 jquery trigger 触发 controler 绑定事件",
+            "itemtype": "method",
+            "name": "trigger",
+            "type": "String",
+            "params": [
+                {
+                    "name": "_evtName",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "JC.PureMVC.Model",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 231,
+            "description": "使用 jquery on 为 controler 绑定事件",
+            "class": "JC.PureMVC.Model",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 239,
+            "description": "使用 jquery trigger 触发 controler 绑定事件",
+            "class": "JC.PureMVC.Model",
             "namespace": "JC"
         },
         {
@@ -797,21 +1185,28 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 83,
+            "line": 95,
             "description": "判断 JC.common 是否需要向后兼容, 如果需要的话, 向 window 添加全局静态函数",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 105,
+            "line": 118,
             "description": "jquery 1.9.1 默认 string 没有 trim 方法, 这里对 string 原型添加一个默认的 trim 方法",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 109,
+            "line": 122,
+            "description": "兼容 低版本 ie Array 的 indexOf 方法",
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 137,
             "description": "全局 css z-index 控制属性\n<br /> <b>注意</b>: 这个变量是 window.ZINDEX_COUNT",
             "itemtype": "property",
             "name": "ZINDEX_COUNT",
@@ -823,7 +1218,27 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 118,
+            "line": 155,
+            "description": "一维数组去重",
+            "itemtype": "method",
+            "name": "arrayId",
+            "params": [
+                {
+                    "name": "_ar",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "Array"
+            },
+            "static": 1,
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 174,
             "description": "把函数的参数转为数组",
             "itemtype": "method",
             "name": "sliceArgs",
@@ -843,7 +1258,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 132,
+            "line": 188,
             "description": "取 URL 的 host name",
             "itemtype": "method",
             "name": "urlHostName",
@@ -863,7 +1278,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 148,
+            "line": 204,
             "description": "把 URL 相对路径 转换为 绝对路径",
             "itemtype": "method",
             "name": "relativePath",
@@ -888,7 +1303,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 176,
+            "line": 232,
             "description": "按格式输出字符串",
             "itemtype": "method",
             "name": "printf",
@@ -911,7 +1326,35 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 192,
+            "line": 248,
+            "description": "按格式输出字符串",
+            "itemtype": "method",
+            "name": "printKey",
+            "static": 1,
+            "params": [
+                {
+                    "name": "_str",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "_keys",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "string"
+            },
+            "example": [
+                "\n     JC.f.printKey( 'asdfasdf{key1}sdfasdf{key2},{0}', { 'key1': '000', 'key2': 1111, '0': 222 );\n     //return asdfasdf000sdfasdf1111,222"
+            ],
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 266,
             "description": "判断URL中是否有某个get参数",
             "itemtype": "method",
             "name": "hasUrlParam",
@@ -939,7 +1382,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 214,
+            "line": 288,
             "description": "添加URL参数\n<br /><b>require:</b> delUrlParam, filterXSS",
             "itemtype": "method",
             "name": "addUrlParams",
@@ -967,7 +1410,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 240,
+            "line": 314,
             "description": "xss 过滤函数",
             "itemtype": "method",
             "name": "filterXSS",
@@ -987,7 +1430,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 255,
+            "line": 329,
             "description": "取URL参数的值\n<br /><b>require:</b> filterXSS",
             "itemtype": "method",
             "name": "getUrlParam",
@@ -1015,7 +1458,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 283,
+            "line": 357,
             "description": "取URL参数的值, 这个方法返回数组\n<br />与 getUrlParam 的区别是可以获取 checkbox 的所有值\n<br /><b>require:</b> filterXSS",
             "itemtype": "method",
             "name": "getUrlParams",
@@ -1043,7 +1486,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 313,
+            "line": 388,
             "description": "删除URL参数\n<br /><b>require:</b> filterXSS",
             "itemtype": "method",
             "name": "delUrlParam",
@@ -1071,7 +1514,35 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 343,
+            "line": 418,
+            "description": "批量删除URL参数\n<br /><b>require:</b> delUrlParam",
+            "itemtype": "method",
+            "name": "delUrlParams",
+            "params": [
+                {
+                    "name": "_url",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "_keys",
+                    "description": "",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "string"
+            },
+            "static": 1,
+            "example": [
+                "\n           var url = delUrlParam( location.href, [ 'k1', 'k2' ] );"
+            ],
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 434,
             "description": "提示需要 HTTP 环境",
             "itemtype": "method",
             "name": "httpRequire",
@@ -1091,7 +1562,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 358,
+            "line": 449,
             "description": "删除 URL 的锚点\n<br /><b>require:</b> addUrlParams, filterXSS",
             "itemtype": "method",
             "name": "removeUrlSharp",
@@ -1121,7 +1592,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 380,
+            "line": 471,
             "description": "重载页面\n<br /><b>require:</b> removeUrlSharp, addUrlParams, filterXSS",
             "itemtype": "method",
             "name": "reloadPage",
@@ -1148,7 +1619,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 401,
+            "line": 492,
             "description": "取小数点的N位\n<br />JS 解析 浮点数的时候，经常出现各种不可预知情况，这个函数就是为了解决这个问题",
             "itemtype": "method",
             "name": "parseFinance",
@@ -1173,7 +1644,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 416,
+            "line": 507,
             "description": "js 附加字串函数",
             "itemtype": "method",
             "name": "padChar",
@@ -1203,7 +1674,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 432,
+            "line": 523,
             "description": "格式化日期为 YYYY-mm-dd 格式\n<br /><b>require</b>: pad\\_char\\_f",
             "itemtype": "method",
             "name": "formatISODate",
@@ -1228,7 +1699,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 446,
+            "line": 537,
             "description": "从 ISODate 字符串解析日期对象",
             "itemtype": "method",
             "name": "parseISODate",
@@ -1248,13 +1719,13 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 464,
+            "line": 560,
             "description": "从日期字符串解析日期对象\n<br />兼容 JC.Calendar 日期格式",
             "itemtype": "method",
             "name": "parseDate",
             "params": [
                 {
-                    "name": "string",
+                    "name": "_date",
                     "description": "",
                     "type": "Date"
                 },
@@ -1262,6 +1733,11 @@
                     "name": "_selector",
                     "description": "如果 _selector 为真, 则尝试从 _selector 的 html 属性 dateParse 对日期进行格式化",
                     "type": "Selector"
+                },
+                {
+                    "name": "_forceISO",
+                    "description": "是否强制转换为ISO日期",
+                    "type": "Boolean"
                 }
             ],
             "return": {
@@ -1274,7 +1750,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 487,
+            "line": 584,
             "description": "获取不带 时分秒的 日期对象",
             "itemtype": "method",
             "name": "pureDate",
@@ -1293,7 +1769,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 499,
+            "line": 596,
             "description": "克隆日期对象",
             "itemtype": "method",
             "name": "cloneDate",
@@ -1314,7 +1790,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 507,
+            "line": 604,
             "description": "判断两个日期是否为同一天",
             "itemtype": "method",
             "name": "isSameDay",
@@ -1340,7 +1816,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 519,
+            "line": 616,
             "description": "判断两个日期是否为同一月份",
             "itemtype": "method",
             "name": "isSameMonth",
@@ -1366,7 +1842,137 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 531,
+            "line": 629,
+            "description": "判断两个日期是否为同一季度",
+            "itemtype": "method",
+            "name": "isSameWeek",
+            "static": 1,
+            "params": [
+                {
+                    "name": "_d1",
+                    "description": "需要判断的日期1",
+                    "type": "Date"
+                },
+                {
+                    "name": "_d2",
+                    "description": "需要判断的日期2",
+                    "type": "Date"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Bool"
+            },
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 660,
+            "description": "判断两个日期是否为同一季度",
+            "itemtype": "method",
+            "name": "isSameSeason",
+            "static": 1,
+            "params": [
+                {
+                    "name": "_d1",
+                    "description": "需要判断的日期1",
+                    "type": "Date"
+                },
+                {
+                    "name": "_d2",
+                    "description": "需要判断的日期2",
+                    "type": "Date"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Bool"
+            },
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 692,
+            "description": "判断两个日期是否为同一年",
+            "itemtype": "method",
+            "name": "isSameSeason",
+            "static": 1,
+            "params": [
+                {
+                    "name": "_d1",
+                    "description": "需要判断的日期1",
+                    "type": "Date"
+                },
+                {
+                    "name": "_d2",
+                    "description": "需要判断的日期2",
+                    "type": "Date"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Bool"
+            },
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 704,
+            "description": "取一年中所有的星期, 及其开始结束日期",
+            "itemtype": "method",
+            "name": "weekOfYear",
+            "static": 1,
+            "params": [
+                {
+                    "name": "_year",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "_dayOffset",
+                    "description": "每周的默认开始为周几, 默认0(周一)",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Array"
+            },
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 716,
+            "description": "元旦开始的第一个星期一开始的一周为政治经济上的第一周",
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 741,
+            "description": "取一年中所有的季度, 及其开始结束日期",
+            "itemtype": "method",
+            "name": "seasonOfYear",
+            "static": 1,
+            "params": [
+                {
+                    "name": "_year",
+                    "description": "",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Array"
+            },
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 778,
             "description": "取得一个月份中最大的一天",
             "itemtype": "method",
             "name": "maxDayOfMonth",
@@ -1387,7 +1993,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 544,
+            "line": 791,
             "description": "取当前脚本标签的 src路径",
             "itemtype": "method",
             "name": "scriptPath",
@@ -1401,7 +2007,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 556,
+            "line": 803,
             "description": "缓动函数, 动画效果为按时间缓动 \n<br />这个函数只考虑递增, 你如果需要递减的话, 在回调里用 _maxVal - _stepval",
             "itemtype": "method",
             "name": "easyEffect",
@@ -1444,7 +2050,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 609,
+            "line": 856,
             "description": "把输入值转换为布尔值",
             "itemtype": "method",
             "name": "parseBool",
@@ -1464,19 +2070,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 628,
-            "description": "判断是否支持 CSS position: fixed",
-            "itemtype": "property",
-            "name": "$.support.isFixed",
-            "type": "bool",
-            "require": "jquery",
-            "static": 1,
-            "class": "JC.common",
-            "namespace": "JC"
-        },
-        {
-            "file": "../modules/JC.common/0.2/common.js",
-            "line": 657,
+            "line": 875,
             "description": "绑定或清除 mousewheel 事件",
             "itemtype": "method",
             "name": "mousewheelEvent",
@@ -1490,6 +2084,11 @@
                     "name": "_detach",
                     "description": "",
                     "type": "Bool"
+                },
+                {
+                    "name": "_selector,",
+                    "description": "default = document",
+                    "type": "Selector"
                 }
             ],
             "static": 1,
@@ -1498,7 +2097,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 679,
+            "line": 899,
             "description": "获取 selector 的指定父级标签",
             "itemtype": "method",
             "name": "getJqParent",
@@ -1524,7 +2123,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 705,
+            "line": 925,
             "description": "扩展 jquery 选择器\n<br />扩展起始字符的 '/' 符号为 jquery 父节点选择器\n<br />扩展起始字符的 '|' 符号为 jquery 子节点选择器\n<br />扩展起始字符的 '(' 符号为 jquery 父节点查找识别符( getJqParent )",
             "itemtype": "method",
             "name": "parentSelector",
@@ -1555,7 +2154,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 773,
+            "line": 993,
             "description": "获取脚本模板的内容",
             "itemtype": "method",
             "name": "scriptContent",
@@ -1575,7 +2174,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 788,
+            "line": 1008,
             "description": "取函数名 ( 匿名函数返回空 )",
             "itemtype": "method",
             "name": "funcName",
@@ -1595,7 +2194,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 803,
+            "line": 1023,
             "description": "动态添加内容时, 初始化可识别的组件\n<dl>\n     <dt>目前会自动识别的组件</dt>\n     <dd>\n         Bizs.CommonModify, JC.Panel, JC.Dialog\n         <br /><b>自动识别的组件不用显式调用  jcAutoInitComps 去识别可识别的组件</b>\n     </dd>\n</d>\n<dl>\n     <dt>可识别的组件</dt>\n     <dd>\n         JC.AutoSelect, JC.AutoChecked, JC.AjaxUpload, JC.Calendar\n         , JC.Drag, JC.DCalendar, JC.Placeholder, JC.TableFreeze, JC.ImageCutter\n         <br />Bizs.DisableLogic, Bizs.FormLogic, Bizs.MoneyTips, Bizs.AutoSelectComplete\n     </dd>\n</d>",
             "itemtype": "method",
             "name": "jcAutoInitComps",
@@ -1612,98 +2211,105 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 828,
+            "line": 1048,
             "description": "联动下拉框",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 832,
+            "line": 1052,
             "description": "日历组件",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 836,
+            "line": 1056,
             "description": "双日历组件",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 840,
+            "line": 1060,
             "description": "全选反选",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 844,
+            "line": 1064,
             "description": "Ajax 上传",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 848,
+            "line": 1068,
             "description": "占位符",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 852,
+            "line": 1072,
             "description": "表格冻结",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 856,
+            "line": 1076,
             "description": "拖曳",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 860,
+            "line": 1080,
             "description": "图片裁切",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 866,
+            "line": 1086,
             "description": "disable / enable",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 870,
+            "line": 1090,
             "description": "表单提交逻辑",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 874,
+            "line": 1094,
             "description": "格式化金额",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 878,
+            "line": 1098,
             "description": "自动完成",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 883,
+            "line": 1103,
+            "description": "排期日期展示",
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 1108,
             "description": "URL 占位符识别功能\n<br /><b>require:</b> addUrlParams, filterXSS",
             "itemtype": "method",
             "name": "urlDetect",
@@ -1726,7 +2332,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 924,
+            "line": 1149,
             "description": "日期占位符识别功能",
             "itemtype": "method",
             "name": "dateDetect",
@@ -1750,14 +2356,14 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 988,
+            "line": 1213,
             "description": "inject jquery val func, for hidden change event",
             "class": "JC.common",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 1006,
+            "line": 1231,
             "description": "逗号格式化金额",
             "itemtype": "method",
             "name": "moneyFormat",
@@ -1792,7 +2398,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 1056,
+            "line": 1281,
             "description": "日期格式化 (具体格式请查看 PHP Date Formats)",
             "itemtype": "method",
             "name": "dateFormat",
@@ -1817,7 +2423,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 1101,
+            "line": 1356,
             "description": "扩展对象属性",
             "itemtype": "method",
             "name": "extendObject",
@@ -1847,7 +2453,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 1123,
+            "line": 1378,
             "description": "timeout 控制逻辑, 避免相同功能的 setTimeout 重复执行",
             "itemtype": "method",
             "name": "safeTimeout",
@@ -1882,7 +2488,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 1144,
+            "line": 1399,
             "description": "URL 请求时, 获取对URL参数进行编码的函数",
             "itemtype": "method",
             "name": "encoder",
@@ -1903,7 +2509,7 @@
         },
         {
             "file": "../modules/JC.common/0.2/common.js",
-            "line": 1162,
+            "line": 1417,
             "description": "深度克隆对象",
             "itemtype": "method",
             "name": "cloneObject",
@@ -1912,6 +2518,26 @@
                     "name": "_inObj",
                     "description": "",
                     "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Object"
+            },
+            "static": 1,
+            "class": "JC.common",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.common/0.2/common.js",
+            "line": 1460,
+            "description": "获取 document 的 相关大小",
+            "itemtype": "method",
+            "name": "docSize",
+            "params": [
+                {
+                    "name": "_doc",
+                    "description": "",
+                    "type": "Document"
                 }
             ],
             "return": {
@@ -2036,7 +2662,7 @@
         },
         {
             "file": "../config.js",
-            "line": 24,
+            "line": 31,
             "description": "取当前脚本标签的 src路径",
             "static": 1,
             "return": {
@@ -2410,27 +3036,35 @@
         },
         {
             "message": "unknown tag: version",
-            "line": " ../modules/JC.common/0.2/common.js:25"
+            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:3"
         },
         {
             "message": "unknown tag: version",
-            "line": " ../modules/JC.common/0.2/common.js:25"
-        },
-        {
-            "message": "unknown tag: require",
-            "line": " ../modules/JC.common/0.2/common.js:628"
-        },
-        {
-            "message": "unknown tag: require",
-            "line": " ../modules/JC.common/0.2/common.js:679"
-        },
-        {
-            "message": "unknown tag: require",
-            "line": " ../modules/JC.common/0.2/common.js:705"
+            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:172"
         },
         {
             "message": "unknown tag: version",
-            "line": " ../modules/JChart.Base/0.1/Base.js:2"
+            "line": " ../modules/JC.common/0.2/common.js:27"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " ../modules/JC.common/0.2/common.js:27"
+        },
+        {
+            "message": "unknown tag: require",
+            "line": " ../modules/JC.common/0.2/common.js:899"
+        },
+        {
+            "message": "unknown tag: require",
+            "line": " ../modules/JC.common/0.2/common.js:925"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " ../modules/JChart.Base/0.1/Base.js:3"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " ../modules/JChart.IconPoint/0.1/IconPoint.js:2"
         },
         {
             "message": "unknown tag: version",
@@ -2466,11 +3100,23 @@
         },
         {
             "message": "Missing item type\n使用 jquery on 为 controler 绑定事件",
-            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:473"
+            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:522"
         },
         {
             "message": "Missing item type\n使用 jquery trigger 触发 controler 绑定事件",
-            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:481"
+            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:530"
+        },
+        {
+            "message": "Missing item type\n初始化 PureMVC Model 类 和 View 类",
+            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:167"
+        },
+        {
+            "message": "Missing item type\n使用 jquery on 为 controler 绑定事件",
+            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:231"
+        },
+        {
+            "message": "Missing item type\n使用 jquery trigger 触发 controler 绑定事件",
+            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:239"
         },
         {
             "message": "Missing item type\n如果 console 不可用, 生成一个模拟的 console 对象",
@@ -2482,67 +3128,79 @@
         },
         {
             "message": "Missing item type\n判断 JC.common 是否需要向后兼容, 如果需要的话, 向 window 添加全局静态函数",
-            "line": " ../modules/JC.common/0.2/common.js:83"
+            "line": " ../modules/JC.common/0.2/common.js:95"
         },
         {
             "message": "Missing item type\njquery 1.9.1 默认 string 没有 trim 方法, 这里对 string 原型添加一个默认的 trim 方法",
-            "line": " ../modules/JC.common/0.2/common.js:105"
+            "line": " ../modules/JC.common/0.2/common.js:118"
+        },
+        {
+            "message": "Missing item type\n兼容 低版本 ie Array 的 indexOf 方法",
+            "line": " ../modules/JC.common/0.2/common.js:122"
+        },
+        {
+            "message": "Missing item type\n元旦开始的第一个星期一开始的一周为政治经济上的第一周",
+            "line": " ../modules/JC.common/0.2/common.js:716"
         },
         {
             "message": "Missing item type\n联动下拉框",
-            "line": " ../modules/JC.common/0.2/common.js:828"
+            "line": " ../modules/JC.common/0.2/common.js:1048"
         },
         {
             "message": "Missing item type\n日历组件",
-            "line": " ../modules/JC.common/0.2/common.js:832"
+            "line": " ../modules/JC.common/0.2/common.js:1052"
         },
         {
             "message": "Missing item type\n双日历组件",
-            "line": " ../modules/JC.common/0.2/common.js:836"
+            "line": " ../modules/JC.common/0.2/common.js:1056"
         },
         {
             "message": "Missing item type\n全选反选",
-            "line": " ../modules/JC.common/0.2/common.js:840"
+            "line": " ../modules/JC.common/0.2/common.js:1060"
         },
         {
             "message": "Missing item type\nAjax 上传",
-            "line": " ../modules/JC.common/0.2/common.js:844"
+            "line": " ../modules/JC.common/0.2/common.js:1064"
         },
         {
             "message": "Missing item type\n占位符",
-            "line": " ../modules/JC.common/0.2/common.js:848"
+            "line": " ../modules/JC.common/0.2/common.js:1068"
         },
         {
             "message": "Missing item type\n表格冻结",
-            "line": " ../modules/JC.common/0.2/common.js:852"
+            "line": " ../modules/JC.common/0.2/common.js:1072"
         },
         {
             "message": "Missing item type\n拖曳",
-            "line": " ../modules/JC.common/0.2/common.js:856"
+            "line": " ../modules/JC.common/0.2/common.js:1076"
         },
         {
             "message": "Missing item type\n图片裁切",
-            "line": " ../modules/JC.common/0.2/common.js:860"
+            "line": " ../modules/JC.common/0.2/common.js:1080"
         },
         {
             "message": "Missing item type\ndisable / enable",
-            "line": " ../modules/JC.common/0.2/common.js:866"
+            "line": " ../modules/JC.common/0.2/common.js:1086"
         },
         {
             "message": "Missing item type\n表单提交逻辑",
-            "line": " ../modules/JC.common/0.2/common.js:870"
+            "line": " ../modules/JC.common/0.2/common.js:1090"
         },
         {
             "message": "Missing item type\n格式化金额",
-            "line": " ../modules/JC.common/0.2/common.js:874"
+            "line": " ../modules/JC.common/0.2/common.js:1094"
         },
         {
             "message": "Missing item type\n自动完成",
-            "line": " ../modules/JC.common/0.2/common.js:878"
+            "line": " ../modules/JC.common/0.2/common.js:1098"
+        },
+        {
+            "message": "Missing item type\n排期日期展示",
+            "line": " ../modules/JC.common/0.2/common.js:1103"
         },
         {
             "message": "Missing item type\ninject jquery val func, for hidden change event",
-            "line": " ../modules/JC.common/0.2/common.js:988"
+            "line": " ../modules/JC.common/0.2/common.js:1213"
         },
         {
             "message": "Missing item type\nThis funtion is assigned to the <canvas> elements as element.getContext().",
@@ -2574,7 +3232,7 @@
         },
         {
             "message": "Missing item type\n取当前脚本标签的 src路径",
-            "line": " ../config.js:24"
+            "line": " ../config.js:31"
         },
         {
             "message": "Missing item type",

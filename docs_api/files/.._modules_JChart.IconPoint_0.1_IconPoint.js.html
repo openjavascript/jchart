@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../config.js - JChart</title>
+    <title>../modules/JChart.IconPoint/0.1/IconPoint.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -108,52 +108,100 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../config.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.IconPoint/0.1/IconPoint.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(){
-window.JC = window.JC|| {log:function(){}};
-JC.PATH = JC.PATH || scriptPath();
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.PureMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Group&#x27; ], function(){
 /**
- * requirejs config.js for JC Chart Project
+ * 组件用途简述
+ *
+ *  &lt;p&gt;&lt;b&gt;require&lt;/b&gt;:
+ *      &lt;a href=&#x27;JC.PureMVC.html&#x27;&gt;JC.PureMVC&lt;/a&gt;
+ *  &lt;/p&gt;
+ *
+ *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
+ *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.IconPoint.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *      | &lt;a href=&#x27;../../modules/JChart.IconPoint/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *  
+ * @namespace   JChart
+ * @class       IconPoint
+ * @extends     JC.PureMVC
+ * @constructor
+ * @param   {selector|string}   _selector   
+ * @version dev 0.1 2013-12-13
+ * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
+ * @example
+        &lt;h2&gt;JC.IconPoint 示例&lt;/h2&gt;
  */
-window.requirejs &amp;&amp; 
-requirejs.config( {
-    baseUrl: JC.PATH
-    , urlArgs: &#x27;v=20140212&#x27;
-    , paths: {
-        &#x27;JC.common&#x27;: &#x27;modules/JC.common/0.2/common&#x27;
-        , &#x27;JC.BaseMVC&#x27;: &#x27;modules/JC.BaseMVC/0.1/BaseMVC&#x27;
-        , &#x27;JC.PureMVC&#x27;: &#x27;modules/JC.PureMVC/0.1/PureMVC&#x27;
+    var _jdoc = $( document ), _jwin = $( window );
 
-        , &#x27;JChart.Base&#x27;: &#x27;modules/JChart.Base/0.1/Base&#x27;
+    JChart.IconPoint = IconPoint;
 
-        , &#x27;JChart.Line&#x27;: &#x27;modules/JChart.Line/0.1/Line&#x27;
+    function IconPoint( _arg1, _arg2 ){
 
-        , &#x27;JChart.Event&#x27;: &#x27;modules/JChart.Event/0.1/Event&#x27;
-        , &#x27;JChart.Graphics&#x27;: &#x27;modules/JChart.Graphics/0.1/Graphics&#x27;
-        , &#x27;JChart.Geometry&#x27;: &#x27;modules/JChart.Geometry/0.1/Geometry&#x27;
-        , &#x27;JChart.Group&#x27;: &#x27;modules/JChart.Group/0.1/Group&#x27;
+        this._model = new IconPoint.Model( _arg1, _arg2 );
+        this._view = new IconPoint.View( this._model );
 
-        , &#x27;JChart.IconPoint&#x27;: &#x27;modules/JChart.IconPoint/0.1/IconPoint&#x27;
+        this._init();
 
-        , &#x27;Raphael&#x27;: &#x27;modules/Raphael/2.1.2/Raphael&#x27;
-        , &#x27;json2&#x27;: &#x27;modules/JSON/2/JSON&#x27;
+        JC.log( IconPoint.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
     }
-});
-/**
- * 取当前脚本标签的 src路径 
- * @static
- * @return  {string} 脚本所在目录的完整路径
- */
-function scriptPath(){
-    var _sc = document.getElementsByTagName(&#x27;script&#x27;), _sc = _sc[ _sc.length - 1 ], _path = _sc.getAttribute(&#x27;src&#x27;);
-    if( /\//.test( _path ) ){ _path = _path.split(&#x27;/&#x27;); _path.pop(); _path = _path.join(&#x27;/&#x27;) + &#x27;/&#x27;; }
-    else if( /\\/.test( _path ) ){ _path = _path.split(&#x27;\\&#x27;); _path.pop(); _path = _path.join(&#x27;\\&#x27;) + &#x27;/&#x27;; }
-    return _path;
-}
-}());
+
+    IconPoint.Model = 
+        function( _arg1, _arg2 ){
+            this._arg1 = _arg1;
+            this._arg2 = _arg2;
+        };
+
+    JC.PureMVC.build( IconPoint );
+
+    JC.f.extendObject( IconPoint.prototype, {
+        _beforeInit:
+            function(){
+                JC.log( &#x27;IconPoint _beforeInit&#x27;, new Date().getTime() );
+            }
+
+        , _initHanlderEvent:
+            function(){
+                var _p = this;
+
+                _p.on( &#x27;inited&#x27;, function(){
+                });
+            }
+
+        , _inited:
+            function(){
+                JC.log( &#x27;IconPoint _inited&#x27;, new Date().getTime() );
+                this.trigger( &#x27;inited&#x27; );
+            }
+    });
+
+    IconPoint.Model._instanceName = &#x27;JCIconPoint&#x27;;
+    JC.f.extendObject( IconPoint.Model.prototype, {
+        init:
+            function(){
+                JC.log( &#x27;IconPoint.Model.init:&#x27;, new Date().getTime() );
+            }
+    });
+
+    JC.f.extendObject( IconPoint.View.prototype, {
+        init:
+            function(){
+                JC.log( &#x27;IconPoint.View.init:&#x27;, new Date().getTime() );
+            }
+    });
+
+    return JC.IconPoint;
+});}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
+        function ( _name, _require, _cb ) { 
+            typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );
+            typeof _require == &#x27;function&#x27; &amp;&amp; ( _cb = _require ); 
+            _cb &amp;&amp; _cb(); 
+        }
+        , window
+    )
+)
 
     </pre>
 </div>

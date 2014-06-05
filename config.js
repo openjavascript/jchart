@@ -11,15 +11,18 @@ requirejs.config( {
     , paths: {
         'JC.common': 'modules/JC.common/0.2/common'
         , 'JC.BaseMVC': 'modules/JC.BaseMVC/0.1/BaseMVC'
+        , 'JC.PureMVC': 'modules/JC.PureMVC/0.1/PureMVC'
 
         , 'JChart.Base': 'modules/JChart.Base/0.1/Base'
 
         , 'JChart.Line': 'modules/JChart.Line/0.1/Line'
 
-        , 'JChart.Event': 'modules/JChart.Event/Event'
-        , 'JChart.Graphics': 'modules/JChart.Graphics/Graphics'
-        , 'JChart.Geometry': 'modules/JChart.Geometry/Geometry'
-        , 'JChart.Group': 'modules/JChart.Group/Group'
+        , 'JChart.Event': 'modules/JChart.Event/0.1/Event'
+        , 'JChart.Graphics': 'modules/JChart.Graphics/0.1/Graphics'
+        , 'JChart.Geometry': 'modules/JChart.Geometry/0.1/Geometry'
+        , 'JChart.Group': 'modules/JChart.Group/0.1/Group'
+
+        , 'JChart.IconPoint': 'modules/JChart.IconPoint/0.1/IconPoint'
 
         , 'Raphael': 'modules/Raphael/2.1.2/Raphael'
         , 'json2': 'modules/JSON/2/JSON'

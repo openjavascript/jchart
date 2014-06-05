@@ -3,9 +3,11 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [
         "JC.BaseMVC",
         "JC.BaseMVC.Model",
+        "JC.PureMVC",
         "JC.common",
         "JC.f",
         "JChart.Base",
+        "JChart.IconPoint",
         "JChart.Line",
         "window.jQuery",
         "window.requirejs"

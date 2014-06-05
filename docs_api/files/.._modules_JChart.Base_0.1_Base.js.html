@@ -55,7 +55,13 @@
             
                 <li><a href="../classes/JC.f.html">JC.f</a></li>
             
+                <li><a href="../classes/JC.PureMVC.html">JC.PureMVC</a></li>
+            
+                <li><a href="../classes/JC.PureMVC.Model.html">JC.PureMVC.Model</a></li>
+            
                 <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
+            
+                <li><a href="../classes/JChart.IconPoint.html">JChart.IconPoint</a></li>
             
                 <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
             
@@ -106,12 +112,14 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Stage&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.BaseMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Event&#x27;, &#x27;JChart.Graphics&#x27;, &#x27;JChart.Group&#x27; ], function(){
+window.JChart = window.JChart || {};
 /**
  * 组件用途简述
  *
  *&lt;p&gt;&lt;b&gt;require&lt;/b&gt;:
- *   &lt;a href=&#x27;JChart.Stage.html&#x27;&gt;JChart.Stage&lt;/a&gt;
+ *   &lt;a href=&#x27;JC.BaseMVC.html&#x27;&gt;JC.BaseMVC&lt;/a&gt;
+ *   , &lt;a href=&#x27;Raphael.html&#x27;&gt;RaphaelJS&lt;/a&gt;
  *&lt;/p&gt;
  *
  *&lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jchart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
@@ -201,6 +209,8 @@
     });
 
     Base.Model._instanceName = &#x27;JChartBase&#x27;;
+    Base.Model.LABEL_RATE = [ 1, .75, .5, .25, 0 ];
+
     JC.f.extendObject( Base.Model.prototype, {
         init:
             function(){
@@ -221,16 +231,30 @@
                 return _r;
             }
 
-        , stage:
+        , root:
             function(){
 
-                if( !this._stage ){
-                    this._stage = new JChart.Stage( this.width(), this.height(), true );
-                    this._stage.selector().appendTo( this.selector() );
-                    this._stage.roundedRect( 0, 0, this.width(), this.height() );
+                if( !this._root ){
+                    this._root = Raphael( this.selector()[0], this.width(), this.height() );
+                    this.background();
                 }
 
-                return this._stage;
+                return this._root;
+            }
+
+        , background:
+            function(){
+                var _corner = 18;
+                    
+                if( !this._background ){
+                    this._background = 
+                        this.root().rect( 0, 0, this.width(), this.height(), _corner );
+
+                    this.root().stage = this._background;
+                    this.root().selector = this.selector();
+                }
+
+                return this._background;
             }
         
         , data:
@@ -241,27 +265,265 @@
 
         , clear: function(){}
 
-        , htitle:
-            function( _setter ){
-                if( typeof _setter != &#x27;undefined&#x27; ){
-                    this._htitle &amp;&amp; this._htitle.remove();
-                    this._htitle =  _setter;
-                    this.stage().add( _setter );
-                    _setter.selector().appendTo( this.selector() );
+        , legendBox:
+            function( _data, _width, _height, _corner  ){
+                if( _data &amp;&amp; _data.series &amp;&amp; _data.series.length ){
+                    _corner = _corner || 5;
+                    _height = _height || 28;
+                    _width = _width || 160;
+
+                    this._legendBox = this.root().rect( 0, 0, _width, _height, _corner );
+
+                    this._legendBox
+                        .attr( &#x27;stroke-opacity&#x27;, 1 )
+                        .attr( &#x27;stroke-width&#x27;, 1 )
+                        .attr( &#x27;stroke&#x27;, &#x27;#909090&#x27; )
+                        .translate( .5, .5 )
+                        ;
+
+                    this._hasLegendBox = true;
                 }
-                return this._htitle;
+
+                return this._legendBox;
             }
+        , hasLegendBox: function(){ return this._legendBox; }
+
+
+        , title:
+            function( _title ){
+                typeof _title != &#x27;undefined&#x27; 
+                    &amp;&amp; ( this._hasTitle = true )
+                    &amp;&amp; !this._title 
+                    &amp;&amp; ( this._title = this.root().text( 0, 0, _title ) )
+                    &amp;&amp; ( this._title.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_title&#x27; ) )
+                    ;
+
+                return this._title;
+            }
+        , hasTitle: function(){ return this._hasTitle; }
+
+        , subtitle:
+            function( _title ){
+                typeof _title != &#x27;undefined&#x27; 
+                    &amp;&amp; ( this._hasSubTitle = true )
+                    &amp;&amp; !this._subtitle 
+                    &amp;&amp; ( this._subtitle = this.root().text( 0, 0, _title ) )
+                    &amp;&amp; ( this._subtitle.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_subtitle&#x27; ) )
+                    ;
+                return this._subtitle;
+            }
+        , hasSubTitle: function(){ return this._hasSubTitle; }
 
         , vtitle:
-            function( _setter ){
-                if( typeof _setter != &#x27;undefined&#x27; ){
-                    this._vtitle &amp;&amp; this._vtitle.remove();
-                    this._vtitle =  _setter;
-                    this.stage().add( _setter );
-                    _setter.selector().appendTo( this.selector() );
-                }
+            function( _title ){
+                typeof _title != &#x27;undefined&#x27; 
+                    &amp;&amp; ( this._hasVTitle= true )
+                    &amp;&amp; !this._vtitle 
+                    &amp;&amp; ( this._vtitle = this.root().text( 0, 0, _title ) )
+                    &amp;&amp; ( this._vtitle.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_vtitle&#x27; ) )
+                    ;
                 return this._vtitle;
             }
+        , hasVTitle: function(){ return this._hasVTitle; }
+
+        , credit:
+            function( _title, _href ){
+                typeof _title != &#x27;undefined&#x27; 
+                    &amp;&amp; ( this._hasCredit = true )
+                    &amp;&amp; !this._credit 
+                    &amp;&amp; ( this._credit = this.root().text( 0, 0, _title ) )
+                    &amp;&amp; ( this._credit.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_credit&#x27; ) )
+                    ;
+
+                this._credit &amp;&amp; _href 
+                    &amp;&amp; ( 
+                            this._credit.node.setAttribute( &#x27;href&#x27;, _href ) 
+                            , this._credit.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_credit jcc_pointer jcc_link&#x27; ) 
+                            , this._credit.click( function(){ location.href = _href; } )
+                        );
+                return this._credit;
+            }
+        , hasCredit: function(){ return this._hasCredit; }
+
+        , workspaceOffset:
+            function( _new ){
+
+                if( _new ){
+                    this._workspaceOffset = { x: 0, y: 0, width: this.width(), height: this.height() };
+                    var _tmp, _bbox;
+
+                    if( this.hasVTitle() ){
+                        _tmp = 10;
+                        _bbox = this.vtitle().getBBox();
+                        _tmp += _bbox.x + _bbox.width;
+                        
+                        this._workspaceOffset.x = _tmp;
+                        this._workspaceOffset.width = this._workspaceOffset.width - _tmp - 20;
+                    }else{
+                        _tmp = 15;
+                        
+                        this._workspaceOffset.x = _tmp;
+                        this._workspaceOffset.width = this._workspaceOffset.width - _tmp - 20;
+                    }
+
+                    if( this.hasTitle() || this.hasSubTitle() ){
+                        _tmp = 5;
+                        _bbox = ( this.subtitle() || this.title() ).getBBox();
+                        _tmp += _bbox.y + _bbox.height;
+
+                        this._workspaceOffset.y = _tmp;
+                        this._workspaceOffset.height = this._workspaceOffset.height - _tmp - 10;
+                    }else{
+                        _tmp = 15;
+                        this._workspaceOffset.y = _tmp;
+                        this._workspaceOffset.height = this._workspaceOffset.height - _tmp - 10;
+                    }
+
+                    if( this.hasLegendBox() || this.hasCredit() ){
+                        _bbox = ( this.legendBox() || this.credit() ).getBBox();
+                        _tmp = this.height() - _bbox.y;
+
+                        this._workspaceOffset.height -= _tmp;
+                    }
+                }
+
+                return this._workspaceOffset;
+            }
+
+        , workspace:
+            function( _offset ){
+
+                if( _offset ){
+                    this._workspace &amp;&amp; this._workspace.remove();
+                    this._workspace = this.root().add( [ _offset ] )[0];
+                }
+
+                return this._workspace;
+            }
+
+        , maxNum:
+            function( _data ){
+
+                var _tmp, _p = this;
+
+                if( _data ){
+                    _p._maxNum = 0;
+
+                    if( _data ){
+                        $.each( _data.series, function( _ix, _item ){
+                            _tmp = Math.max.apply( null, _item.data );
+                            _tmp &gt; _p._maxNum &amp;&amp; ( _p._maxNum = _tmp );
+                        });
+
+                    }
+                    var _tmp = [];
+                        _tmp.push( _p._maxNum );
+                    _p._maxNum &amp;&amp; ( _p._maxNum = numberUp( _p._maxNum ) );
+                        _tmp.push( _p._maxNum );
+                    _p._maxNum === 0 &amp;&amp; ( _p._maxNum = 10 );
+                        _tmp.push( _p._maxNum );
+                        //JC.log( [&#x27;maxNum&#x27;, _tmp ] );
+                }
+
+                return _p._maxNum;
+            }
+
+        , maxNNum:
+            function( _data ){
+                var _tmp, _p = this;
+
+                if( _data ){
+                    _p._maxNNum = 0;
+
+                    if( _data ){
+                        $.each( _data.series, function( _ix, _item ){
+                            _tmp = Math.min.apply( null, _item.data );
+                            _tmp &lt; 0 &amp;&amp; _tmp &lt; _p._maxNNum &amp;&amp; ( _p._maxNNum = _tmp );
+                        });
+
+                    }
+                    /*
+                    var _tmp = [];
+                        _tmp.push( _p._maxNNum );
+                        _tmp.push( _p._maxNNum );
+                        JC.log( [&#x27;maxNNum&#x27;, _tmp ] );
+                    */
+                }
+
+                return _p._maxNNum;
+            }
+
+        , labelRate:
+            function( _data ){
+                var _p = this;
+                
+                if( _data &amp;&amp; hasNegative( _data ) ){
+                    this._labelRate = [ 1, .5, 0, -.5, -1 ];
+                }else if( _data ){
+                    this._labelRate = Base.Model.LABEL_RATE;
+                }
+
+                return this._labelRate;
+            }
+
+        , rateInfo:
+            function( _data, _labelRate ){
+
+                var _p = this, _maxNum, _maxNNum, _absNNum, _finalMaxNum
+                    , _zeroIndex
+                    ;
+
+                if( _data &amp;&amp; _labelRate ){
+
+                    _maxNum = _p.maxNum( _data );
+                    _maxNNum = _p.maxNNum( _data );
+                    _absNNum = Math.abs( _maxNNum );
+                    _finalMaxNum = Math.max( _maxNum, _absNNum );
+                    //_finalMaxNum += _finalMaxNum * .2;
+
+                    _zeroIndex = 0;
+
+                    $.each( _labelRate, function( _ix, _item ){
+                        if( _item === 0 ){
+                            _zeroIndex = _ix;
+                            return false;
+                        }
+                    });
+
+                    this._rateInfo = {
+                        rates: _labelRate
+                        , zeroIndex: _zeroIndex
+                        , finalMaxNum: _finalMaxNum
+                        , maxNum: _maxNum
+                        , maxNNum: -_finalMaxNum
+                        , length: _labelRate.length
+                    };
+                }
+
+                return this._rateInfo;
+            }
+
+        , chartWorkspaceOffset:
+            function( _data ){
+
+                if( _data ){
+                    this._chartWorkspaceOffset = JC.f.cloneObject( this.workspaceOffset() );
+                }
+
+                return this._chartWorkspaceOffset;
+            }
+
+        , chartWorkspace:
+            function( _offset ){
+
+                if( _offset ){
+                    this._chartWorkspace &amp;&amp; this._chartWorkspace.remove();
+                    this._chartWorkspace = this.root().add( [ _offset ] )[0];
+                }
+
+                return this._chartWorkspace;
+            }
+
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -295,42 +557,252 @@
             function( _data ){
             }
 
-        , drawCTitle:
-            function( _title, _font ){
-                if( !_title ) return;
-                !_font &amp;&amp; ( _font = &#x27;16px sans-serif&#x27; );
-                var _htitle = new JChart.Stage( this.width(), this.height() )
-                    , _textSize = _htitle.textSize( _title, _font )
-                    , _x = this.width() / 2 - _textSize.width / 2
-                    , _y = _textSize.height + 10
+        , drawChartWorkspace:
+            function( _data ){
+                var _wkOffset = this._model.chartWorkspaceOffset( _data )
+                    , _rp
                     ;
 
-                //JC.log( &#x27;width:&#x27;, _textSize.width, &#x27;height:&#x27;, _textSize.height, _htitle.context().font );
+                _rp = this._model.chartWorkspace( _wkOffset );
+                /*
+                _rp.attr( &#x27;fill-opacity&#x27;, 1 )
+                    .attr( &#x27;fill&#x27;, &#x27;#000&#x27; )
+                    ;
+                */
+            }
 
-                this._model.htitle( _htitle );
-                this._model.htitle().context().fillText( _title, _x, _y );
-                this._model.htitle().graphicRect( _x, _y, _textSize.width, _textSize.height );
+        , drawWorkspace:
+            function( _data ){
+                var _wkOffset = this._model.workspaceOffset( _data )
+                    , _rp
+                    ;
+
+                if( !_wkOffset ){
+                    _wkOffset = {
+                        x: 0, y: 0
+                        , width: this._model.width()
+                        , height: this._model.height()
+                    };
+                }
+
+                JC.f.extendObject( _wkOffset, {
+                    type: &#x27;rect&#x27;
+                    , fill: &#x27;#fff&#x27;
+                    , stroke: &#x27;#fff&#x27;
+                    , &#x27;fill-opacity&#x27;: .0
+                    , &#x27;stroke-opacity&#x27;: .0
+                });
+
+                _rp = this._model.workspace( _wkOffset );
+            }
+
+        , drawLegendBox:
+            function( _data, _legendType, _itemCb ){
+                if( !_data.displayLegend ) return;
+                _legendType = _legendType || &#x27;line&#x27;;
+
+                if( !( _data.series &amp;&amp; _data.series.length ) ) return;
+
+
+                var _p = this, _text = [], _size = 0, _tmp;
+                $.each( _data.series, function( _k, _item ){
+                    if( !_item.name ) return;
+                    _tmp = _p.root().text( -9999, 0, _item.name );
+                    _size += _tmp.getBBox().width;
+                    _text.push( {
+                        text: _tmp
+                        , data: _item
+                    });
+
+                    _size += 20;
+                });
+
+                _size += ( _text.length - 1 ) * 10 + 10 * 1 ;
+
+                var _rp = this._model.legendBox( _data, _size )
+                    , _bbox = _rp.getBBox()
+                    , _x = ( this._model.width() - _bbox.width ) / 2
+                    , _y = this._model.height() - 10 - 28
+                    ;
+                        ;
+                    if( this._model.hasCredit() ){
+                        _y -= 18;
+                    }
+                _rp.attr( &#x27;x&#x27;, _x ).attr( &#x27;y&#x27;, _y );
+                _bbox = _rp.getBBox();
+
+                var _count = 1, _offset = 0, _halfHeight = _bbox.height / 2;
+                $.each( _text, function( _k, _item ){
+                    _offset += 10;
+                    if( _count &gt; 1 ) _offset += 18;
+                    var _legend, _text;
+                    _legend = _p._model.root().legendLine( _bbox.x + _offset, _bbox.y + _halfHeight, 18, 1, 9 );
+                    _text = _item.text;
+                    _item.text.toFront()
+                        .attr(&#x27;x&#x27;, _bbox.x + _offset + _item.text.getBBox().width / 2 + 20 )
+                        .attr(&#x27;y&#x27;, _bbox.y + _halfHeight )
+                        ;
+                    _offset += _item.text.getBBox().width; 
+                    _count++;
+                    _itemCb &amp;&amp; _itemCb( _count -1, _legend, _text, _item.data );
+                });
+            }
+
+        , drawCredit:
+            function( _data, _font ){
+                if( !( _data &amp;&amp; _data.credits &amp;&amp; _data.credits.enabled &amp;&amp;
+                        ( _data.credits.text || _data.credits.href  )
+                    ) ) return;
+
+                var _text = _data.credits.text || _data.credits.href
+                    , _rp = this._model.credit( _text, _data.credits.href )
+                    , _bbox = _rp.getBBox()
+                    , _x = this._model.width() - _bbox.width / 2 - 20
+                    , _y = ( this._model.height() ) - 15
+                    ;
+
+                _rp.attr( &#x27;x&#x27;, _x );
+                _rp.attr( &#x27;y&#x27;, _y );
+
+                return;
             }
 
         , drawVTitle:
-            function( _title, _font ){
-                if( !_title ) return;
-                !_font &amp;&amp; ( _font = &#x27;16px 宋体&#x27; );
-                var _vtitle = new JChart.Stage( this.width(), this.height() )
-                    , _textSize = _vtitle.textSize( _title, _font )
-                    , _x = 0
-                    , _offsetY = 5
-                    , _y = _textSize.height + _offsetY
+            function( _data, _font ){
+                if( !( _data &amp;&amp; _data.yAxis &amp;&amp; _data.yAxis.title &amp;&amp; _data.yAxis.title.text ) ) return;
+                var _rp = this._model.vtitle( _data.yAxis.title.text )
+                    , _bbox = _rp.getBBox()
+                    , _x = 20
+                    , _y = ( this._model.height() ) / 2
                     ;
 
-                _vtitle.context().translate( _x, _textSize.width + ( this.height() - _textSize.width ) / 2 );
-                _vtitle.rotate( -90 );
-                this._model.vtitle( _vtitle );
-                _vtitle.context().fillText( _title, _x, _y );
-                _vtitle.graphicRect( _x, _y, _textSize.width, _textSize.height );
+                _rp.attr( &#x27;x&#x27;, _x );
+                _rp.attr( &#x27;y&#x27;, _y );
 
+                _rp.rotate( -90 ); 
+
+                return;
+            }
+
+        , drawSubTitle:
+            function( _data, _font ){
+                if( !( _data &amp;&amp; _data.subtitle &amp;&amp; _data.subtitle.text ) ) return;
+                var _rp = this._model.subtitle( _data.subtitle.text )
+                    , _bbox = _rp.getBBox()
+                    , _x = ( this._model.width()  ) / 2
+                    , _y = 20
+                    ;
+                if( this._model.hasTitle() ){
+                    var _titleRp = this._model.title().getBBox();
+                    _y = _titleRp.y2 + 10;
+                }
+                _rp.attr( &#x27;x&#x27;, _x );
+                _rp.attr( &#x27;y&#x27;, _y );
+
+                return;
+              }
+
+        , drawTitle:
+            function( _data, _font ){
+                if( !( _data &amp;&amp; _data.title &amp;&amp; _data.title.text) ) return;
+                var _rp = this._model.title( _data.title.text )
+                    , _bbox = _rp.getBBox()
+                    , _x = ( this._model.width()  ) / 2
+                    , _y = 20
+                    ;
+                _rp.attr( &#x27;x&#x27;, _x );
+                _rp.attr( &#x27;y&#x27;, _y );
+
+                return;
+              }
+
+        , root: function(){ return this._model.root(); }
+
+        , implmentStyle:
+            function( _item, _style ){
+                if( _style ){
+                    for( var _k in _style ){
+                        _item.attr( _k, _style[ _k ] );
+                    }
+                }
+                return _item;
+            }
+
+        , drawBackground:
+            function(){
+
+                this._model._background
+                    .attr( &#x27;fill-opacity&#x27;, .08 )
+                    .attr( &#x27;fill&#x27;, &#x27;#ccc&#x27; )
+
+                    .attr( &#x27;stroke-opacity&#x27;, .0 )
+                    .attr( &#x27;stroke-width&#x27;, 1 )
+                    .attr( &#x27;stroke&#x27;, &#x27;#fff&#x27; )
+                    ;
             }
     });
+
+    Base.numberUp = numberUp;
+    Base.isFloat = isFloat;
+    Base.isNegative = isNegative;
+    Base.hasNegative = hasNegative;
+
+    function isNegative( _num ){
+        return _num &lt; 0;
+    }
+
+    function hasNegative( _data ){
+        var _r = false;
+
+        if( _data &amp;&amp; _data.series ){
+            $.each( _data.series, function( _ix, _item ){
+                var _tmp = Math.min.apply( null, _item.data );
+                if( _tmp &lt; 0 ){
+                    _r = true;
+                    return false;
+                }
+            });
+        }
+
+        return _r;
+    }
+
+    function isFloat( _num ){
+        return ( _num - parseInt( _num ) ) &gt; 0;
+    }
+
+    function numberUp( _in, _floatLen ){
+        _floatLen = _floatLen || 5;
+        var _out = 0, _inStr = _in.toFixed( _floatLen )
+            , _part = _inStr.split( &#x27;.&#x27; )
+            , _int = _part[0], _float = parseFloat( &#x27;0.&#x27; + _part[ 1 ] )
+            , _ar 
+            , i, j, tmp
+            ;
+        
+        if( /[1-9]/.test( _int ) ){
+            tmp = Math.pow( 10, _int.length - 1  ), _out = tmp * ( parseInt( _int[0] ) +  1);
+            if( _out &lt; _in ){
+                _out = tmp * 10;
+            }
+
+        }else{						
+            for( _ar = _float.toFixed( _floatLen ).split(&#x27;&#x27;), i = 0, j = _ar.length; i &lt; j; i++ ){
+                if( _ar[i] != &#x27;0&#x27; &amp;&amp; _ar[i] != &#x27;.&#x27; ){
+                    tmp = parseFloat( _ar.slice( 0, i ).join(&#x27;&#x27;) + &#x27;1&#x27;  )
+                    , _out = tmp + parseFloat( _ar.slice( 0, i ).join(&#x27;&#x27;) + parseInt( _ar[i] )  )
+                    ;
+                    if( _out &lt; _float ){
+                        _out = tmp * 10;
+                    }
+                    
+                    break;
+                }
+            }
+        }
+        
+        return _out;
+    }
 
     return JChart.Base;
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 

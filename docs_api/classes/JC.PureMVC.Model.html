@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JChart.Line - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -81,34 +80,20 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>JChart.Line Class</h1>
 <div class="box meta">
-        <div class="extends">
-            Extends JChart.BaseMVC
-        </div>
         <div class="foundat">
-            Defined in: <a href="../files/.._modules_JChart.Line_0.1_Line.js.html#l2"><code>..&#x2F;modules&#x2F;JChart.Line&#x2F;0.1&#x2F;Line.js:2</code></a>
+            Defined in: <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l172"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:172</code></a>
         </div>
 </div>
 <div class="box intro">
-    <p>组件用途简述</p>
-<p><b>require</b>:
-  <a href='JChart.Base.html'>JChart.Base</a>
-</p>
-<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
-  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Line.html' target='_blank'>API docs</a>
-  | <a href='../../modules/JChart.Line/0.1/_demo' target='_blank'>demo link</a></p>
-<h2>页面只要引用本脚本, 默认会处理 span class=&quot;jchartLine&quot;</h2>
-<h2>可用的 HTML attribute</h2>
-<dl>
-   <dt></dt>
-   <dd><dd>
-</dl>
+    <p>MVC Model 类( <b>仅供扩展用</b> )
+<br />这个类默认已经包含在lib.js里面, 不需要显式引用</p>
+<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
+| <a href='../../modules/JC.PureMVC/0.1/_demo' target='_blank'>demo link</a></p>
+<p><b>see also</b>: <a href='JC.PureMVC.html'>JC.PureMVC</a></p>
 </div>
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_JChart.Line" class="method item">
-    <h3 class="name"><code>JChart.Line</code></h3>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
@@ -119,7 +104,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JChart.Line_0.1_Line.js.html#l2"><code>..&#x2F;modules&#x2F;JChart.Line&#x2F;0.1&#x2F;Line.js:2</code></a>
+        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l172"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:172</code></a>
         </p>
     </div>
     <div class="description">
@@ -135,27 +120,33 @@
                 </li>
             </ul>
         </div>
-        <div class="example">
-            <h4>Example:</h4>
-            <div class="example-content">
-                <pre class="code prettyprint"><code>   &lt;h2&gt;JChart.Line 示例&lt;/h2&gt;</code></pre>
-            </div>
-        </div>
 </div>
     </div>
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
     <div>
         <div id="index" class="api-class-tabpanel index">
             <h2 class="off-left">Item Index</h2>
                 <div class="index-section methods">
                     <h3>Methods</h3>
-                    <ul class="index-list methods extends">
+                    <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_init">init</a>
+                                <a href="#method_on">on</a>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_trigger">trigger</a>
+                            </li>
+                    </ul>
+                </div>
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+                    <ul class="index-list properties">
+                            <li class="index-item property private">
+                                <a href="#property__instanceName">_instanceName</a>
                                     <span class="flag static">static</span>
                             </li>
                     </ul>
@@ -163,45 +154,93 @@
         </div>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
-                    <div id="method_init" class="method item">
-    <h3 class="name"><code>init</code></h3>
+                    <div id="method_on" class="method item">
+    <h3 class="name"><code>on</code></h3>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>_selector</code>
+                        <code>_evtName</code>
+                </li>
+                <li class="arg">
+                        <code>_cb</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
-        <span class="returns-inline">
-            <span class="type">Array of LineInstance</span>
-        </span>
-        <span class="flag static">static</span>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JChart.Line_0.1_Line.js.html#l51"><code>..&#x2F;modules&#x2F;JChart.Line&#x2F;0.1&#x2F;Line.js:51</code></a>
+        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l201"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:201</code></a>
         </p>
     </div>
     <div class="description">
-        <p>初始化可识别的 Line 实例</p>
+        <p>使用 jquery on 为 controler 绑定事件</p>
     </div>
         <div class="params">
             <h4>Parameters:</h4>
             <ul class="params-list">
                 <li class="param">
-                        <code class="param-name">_selector</code>
-                        <span class="type">Selector</span>
+                        <code class="param-name">_evtName</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_cb</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
                     <div class="param-description">
                     </div>
                 </li>
             </ul>
         </div>
-        <div class="returns">
-            <h4>Returns:</h4>
-            <div class="returns-description">
-                        <span class="type">Array of LineInstance</span>:
-            </div>
+</div>
+                    <div id="method_trigger" class="method item">
+    <h3 class="name"><code>trigger</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_evtName</code>
+                </li>
+            </ul><span class="paren">)</span>
         </div>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l212"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:212</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>使用 jquery trigger 触发 controler 绑定事件</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_evtName</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+</div>
+            </div>
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+                    <div id="property__instanceName" class="property item private">
+    <h3 class="name"><code>_instanceName</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+        <span class="flag private">private</span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l187"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:187</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>设置 selector 实例引用的 data 属性名</p>
+    </div>
+        <p><strong>Default:</strong> PureMVCIns</p>
 </div>
             </div>
     </div>

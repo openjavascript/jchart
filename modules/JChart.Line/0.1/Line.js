@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconPoint' ], function(){
 /**
  * 组件用途简述
  *
@@ -81,7 +81,7 @@
             }
             var _p = Line.CURRENT_INS;
             //JC.log( 'Line.DEFAULT_MOVE', _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
-            _p.trigger( 'update_tips', [ _evt ] );
+            _p.trigger( 'update_moving_status', [ _evt ] );
         };
 
     JC.BaseMVC.build( Line, JChart.Base );
@@ -96,19 +96,22 @@
             function(){
                 var _p = this;
 
-                _p.on( 'update_tips', function( _evt, _srcEvt, _srcEle ){
+                _p.on( 'update_moving_status', function( _evt, _srcEvt, _srcEle ){
                     //JC.log( 'update_tips', JC.f.ts() );
-                    _p._view.updateTips( _srcEvt, _srcEle );
+                    var _index = _p._model.indexAt( _srcEvt );
+                    if( typeof _index == 'undefined' ) return;
+                    _p._view.updateStatus( _index );
                 });
 
-                _p.on( 'hide_tips', function( _evt ){
-                    //JC.log( 'hide', JC.f.ts(), _p._model.tips() );
-                    _p._model.tips() && _p._model.tips().hide();
-                });
-
-                _p.on( 'show_tips', function( _evt ){
+                _p.on( 'moving_start', function( _evt ){
                     //JC.log( 'show', JC.f.ts(), _p._model.tips() );
+                    _p._view.clearStatus();
                     _p._model.tips() && _p._model.tips().show();
+                });
+
+                _p.on( 'moving_done', function( _evt ){
+                    //JC.log( 'hide', JC.f.ts(), _p._model.tips() );
+                    _p._view.clearStatus();
                 });
             }
 
@@ -140,7 +143,7 @@
             , { 'stroke': '#dbb8fd' }
         ]
         , pointCommon: {
-            size: 4
+            radius: 4
             , 'iconType': 'circle'
         }
     };
@@ -380,10 +383,10 @@
             function( _dataIx, _bbox ){
                 var _p = this, _r = { 'x': 0, 'y': 10000 };
 
-                _r.x = _p.dataPoint()[0][_dataIx ].x;
+                _r.x = _p.dataPoint()[0][_dataIx ].x + 4 ;
 
                 if( ( _r.x + _bbox.width ) > _p.width() ){
-                    _r.x = _r.x - _bbox.width;
+                    _r.x = _r.x - _bbox.width - 8;
                 }
 
                 $.each( _p.dataPoint(), function( _k, _item ){
@@ -439,6 +442,45 @@
                 return _r;
             }
 
+        , indexAt:
+            function( _srcEvt ){
+                var _srcEle = this.chartWorkspace().node;
+                var _p = this
+                    , _x = _srcEvt.pageX
+                    , _y = _srcEvt.pageY
+                    , _srcBox = _srcEle.getBBox()
+                    ,  _srcOffset = $( _srcEle ).offset()
+                    , _realX = _x - _srcOffset.left 
+                    , _realY = _y - _srcOffset.top
+                    , _maxX = _srcBox.width
+                    , _maxY = _srcBox.height
+                    , _itemLen, _partWidth
+                    , _partWhat = 0;
+                    ;
+
+                if( _realX <= 0 || _realY <= 0 || _realX >= _maxX || _realY >= _maxY ){
+                    return undefined;
+                }
+                if( !( _p.data() 
+                        && _p.data().series 
+                        && _p.data().series.length 
+                        && _p.data().series[0].data 
+                        && _p.data().series[0].data.length 
+                 )) return undefined;
+                _itemLen = ( _p.data().series[0].data.length - 1 ) * 2;
+                _partWidth = _srcBox.width / _itemLen;
+                !_partWidth && ( _partWidth = _srcBox.width );
+                _partWhat = Math.floor( _realX / _partWidth  );
+                _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
+
+                return _partWhat;
+            }
+
+        , pointItems:
+            function( _setter ){
+                typeof _setter != 'undefined' && ( this._pointItems = _setter );
+                return this._pointItems;
+            }
     });
 
     JC.f.extendObject( Line.View.prototype, {
@@ -495,13 +537,13 @@
                 _p._model.chartWorkspace().mouseenter( function( _evt ){
                     Line.CURRENT_INS = _p;
                     _jdoc.on( 'mousemove', Line.DEFAULT_MOVE );
-                    _p.trigger( 'show_tips' );
+                    _p.trigger( 'moving_start' );
                 });
 
                 _p._model.chartWorkspace().mouseleave( function( _evt ){
                     Line.CURRENT_INS = null;
                     _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
-                    _p.trigger( 'hide_tips' );
+                    _p.trigger( 'moving_done' );
                 });
 
                 //JC.log( 'xxxxxxxxxxx', _p._model.chartWorkspace().attr( 'x' ), _p._model.chartWorkspace().attr('width') );
@@ -549,9 +591,10 @@
 
         , drawDataPoint:
             function( _data, _dataPoint ){
-                var _p = this;
+                var _p = this, _pointItems = [];
                 $.each( _dataPoint, function( _ix, _path ){
                     var _lineStyle = _p._model.dataLineStyle( _ix, _data )
+                        , _tmp = [];
                         ;
                     $.each( _path, function( _six, _point ){
                         var _item;
@@ -559,13 +602,30 @@
                         switch( _lineStyle.iconType ){
                             default: 
                                 {
-                                    _item = _p.root().circle( _point.x, _point.y, _lineStyle.point.size );
-                                    _p.implmentStyle( _item, _lineStyle.point );
+                                    //_item = _p.root().circle( _point.x, _point.y, _lineStyle.point.radius );
+                                    //_p.implmentStyle( _item, _lineStyle.point );
+                                    //JC.dir( _lineStyle.point, _point );
+                                    var _hoverStyle = JC.f.cloneObject( _lineStyle.point );
+                                        _hoverStyle.radius = 8;
+                                        _hoverStyle.fill = '#fff';
+                                    _item = new JChart.IconPoint( 
+                                        _p.root()
+                                        , _point.x
+                                        , _point.y
+                                        , _lineStyle.point.radius 
+                                        , _lineStyle.point 
+                                        , _hoverStyle
+                                    );
+                                    _tmp.push( _item );
                                     break;
                                 }
                         }
                     });
+
+                    _pointItems.push( _tmp );
                 });
+
+                _p._model.pointItems( _pointItems );
             }
 
         , drawDataLine:
@@ -747,41 +807,37 @@
                 });
             }
         
-        , updateTips:
-            function( _srcEvt ){
-                var _srcEle = this._model.chartWorkspace().node;
-                var _p = this
-                    , _x = _srcEvt.pageX
-                    , _y = _srcEvt.pageY
-                    , _srcBox = _srcEle.getBBox()
-                    ,  _srcOffset = $( _srcEle ).offset()
-                    , _realX = _x - _srcOffset.left 
-                    , _realY = _y - _srcOffset.top
-                    , _maxX = _srcBox.width
-                    , _maxY = _srcBox.height
-                    , _itemLen, _partWidth
-                    , _partWhat = 0;
-                    ;
+        , updateStatus:
+            function( _index ){
+                var _p = this, _tmp = [];
+                _p.clearPointItemStatus();
+                _p._model.tips( _index );
 
-                if( _realX <= 0 || _realY <= 0 || _realX >= _maxX || _realY >= _maxY ){
-                    //_p.trigger( 'hide_tips' );
-                    return;
+                $.each( _p._model.pointItems(), function( _k, _item ){
+                    if( _item[ _index ] ){
+                        _tmp.push( _item[ _index ] );
+                        _item[ _index ].hover();
+                    }
+                });
+                _p._model._prePointItems = _tmp;
+            }
+
+        , clearPointItemStatus:
+            function(){
+                var _p = this;
+                if( _p._model._prePointItems ){
+                    $.each( _p._model._prePointItems, function( _k, _item ){
+                        _item.unhover();
+                    });
+                    _p._model._prePointItems = null;
                 }
-                //_p.trigger( 'show_tips' );
-                if( !( _p._model.data() 
-                        && _p._model.data().series 
-                        && _p._model.data().series.length 
-                        && _p._model.data().series[0].data 
-                        && _p._model.data().series[0].data.length 
-                 )) return;
-                _itemLen = ( _p._model.data().series[0].data.length - 1 ) * 2;
-                _partWidth = _srcBox.width / _itemLen;
-                !_partWidth && ( _partWidth = _srcBox.width );
-                _partWhat = Math.floor( _realX / _partWidth  );
-                _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
+            }
 
-                _p._model.tips( _partWhat );
-               //JC.log( _x, _y, _srcBox.x, _srcBox.y, _realX, _realY, _srcBox.width, _itemLen, _partWidth, _partWhat );
+        , clearStatus:
+            function(){
+                var _p = this;
+                _p._model.tips() && _p._model.tips().hide();
+                _p.clearPointItemStatus();
             }
     });
 

@@ -24,6 +24,7 @@ requirejs.config( {
 
         , 'JChart.IconPoint': 'modules/JChart.IconPoint/0.1/IconPoint'
         , 'JChart.IconVLine': 'modules/JChart.IconVLine/0.1/IconVLine'
+        , 'JChart.IconLine': 'modules/JChart.IconLine/0.1/IconLine'
 
         , 'Raphael': 'modules/Raphael/2.1.2/Raphael'
         , 'json2': 'modules/JSON/2/JSON'

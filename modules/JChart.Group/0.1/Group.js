@@ -105,7 +105,13 @@ window.JChart = window.JChart || {};
         attr:
             function( _k, _v ){
                 $.each( this._model._children, function( _sk, _item ){
-                    _item.attr( _k, _v );
+                    if( typeof _k == 'object' ){
+                        $.each( _k, function( _ssk, _ssv ){
+                            _item.attr( _ssk, _ssv );
+                        });
+                    }else{
+                        _item.attr( _k, _v );
+                    }
                 });
             }
 

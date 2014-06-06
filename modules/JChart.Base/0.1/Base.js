@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JC.BaseMVC', 'Raphael', 'JChart.Event', 'JChart.Graphics', 'JChart.Group' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JC.BaseMVC', 'Raphael', 'JChart.Event', 'JChart.Graphics', 'JChart.Group', 'JChart.IconLine' ], function(){
 window.JChart = window.JChart || {};
 /**
  * 组件用途简述
@@ -122,26 +122,28 @@ window.JChart = window.JChart || {};
 
                 if( !this._root ){
                     this._root = Raphael( this.selector()[0], this.width(), this.height() );
-                    this.background();
                 }
 
                 return this._root;
             }
 
         , background:
-            function(){
-                var _corner = 18;
-                    
-                if( !this._background ){
-                    this._background = 
-                        this.root().rect( 0, 0, this.width(), this.height(), _corner );
-
-                    this.root().stage = this._background;
-                    this.root().selector = this.selector();
+            function( _c ){
+                if( _c && _c.stage ){
+                    this._background =
+                        this.root().rect( _c.stage.x, _c.stage.y, _c.stage.width, _c.stage.height, _c.stage.corner )
+                            .attr( { 
+                                'fill-opacity': .08 
+                                , 'fill': '#ccc'
+                                , 'stroke-opacity': .0
+                                , 'stroke-width': 1   
+                                , 'stroke': '#fff'    
+                            } );
                 }
-
                 return this._background;
             }
+
+        , stageCorner: function(){ return 18; }
         
         , data:
             function( _data ){
@@ -151,6 +153,7 @@ window.JChart = window.JChart || {};
 
         , clear: function(){}
 
+        /*
         , legendBox:
             function( _data, _width, _height, _corner  ){
                 if( _data && _data.series && _data.series.length ){
@@ -166,70 +169,113 @@ window.JChart = window.JChart || {};
                         .attr( 'stroke', '#909090' )
                         .translate( .5, .5 )
                         ;
-
-                    this._hasLegendBox = true;
                 }
 
                 return this._legendBox;
             }
-        , hasLegendBox: function(){ return this._legendBox; }
+        */
+        , legend:
+            function( _data, _type, _cb ){
+                var _p = this, _tmp = true, _type;
 
+                /*
+                var _legend = new JChart.IconLine( _p.root(), 0, 0, 18, 3, 1, 4 );
+                return;
+                */
+                if( !this._legend && _data && 
+                        ( ( _data.legend && ( 'enabled' in _data.legend ) && ( _tmp = _data.legend.enabled ) ) ||
+                          _tmp
+                        )
+                    ){
+                    this._legend =  new JChart.Group();
+                    _type = _type || 'line';
+                    switch( _type ){
+                        case 'line':
+                            {
+                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 80, _tb, _lb, _h = 30;
+                                _x += _bx;
+                                $.each( _data.series, function( _k, _item ){
+                                    if( !_item.name ) return;
+                                    //_legend = _p.root().legendLine( _x, 0 + _by, 18, 1, 9 );
+                                    _legend = new JChart.IconLine( _p.root(), _x, 0 + _by, 18, 3, 1, 4 );
+                                    _lb = _legend.getBBox();
+                                    //_legend.setPosition( _lb.x, _lb.y - _lb.height / 2 );
+                                    _text = _p.root().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
+                                    _tb = _text.getBBox();
+                                    //_cb && _cb( _k, _legend, _text, _p.data().series[ _k ].style || {} );
+                                    _x = _tb.x + _tb.width + _pad;
+                                    _h = _tb.height * 1.8;
+                                    _p._legend.addChild( _legend, 'legend_' + _k );
+                                    _p._legend.addChild( _text, 'text_' + _k );
+                                });
+
+                                JC.log( _bx, _by - _h / 2, _x - _bx, _h, 8  );
+
+                                var _box = _p.root().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
+                                        .attr( 'stroke-opacity', 1 )
+                                        .attr( 'stroke-width', 1 )
+                                        .attr( 'stroke', '#909090' )
+                                        ;
+                                _p._legend.addChild( _box, 'box' );
+
+                                break;
+                            }
+                    }
+                }
+                    
+                return this._legend;
+            }
 
         , title:
-            function( _title ){
-                typeof _title != 'undefined' 
-                    && ( this._hasTitle = true )
+            function( _data ){
+                _data && _data.title && _data.title.text 
                     && !this._title 
-                    && ( this._title = this.root().text( 0, 0, _title ) )
+                    && ( this._title = this.root().text( -9999, 0, _data.title.text ) )
                     && ( this._title.node.setAttribute( 'class', 'jcc_title' ) )
                     ;
 
                 return this._title;
             }
-        , hasTitle: function(){ return this._hasTitle; }
 
         , subtitle:
-            function( _title ){
-                typeof _title != 'undefined' 
-                    && ( this._hasSubTitle = true )
+            function( _data ){
+                _data && _data.subtitle && _data.subtitle.text 
                     && !this._subtitle 
-                    && ( this._subtitle = this.root().text( 0, 0, _title ) )
+                    && ( this._subtitle = this.root().text( 0, 0, _data.subtitle.text ) )
                     && ( this._subtitle.node.setAttribute( 'class', 'jcc_subtitle' ) )
                     ;
                 return this._subtitle;
             }
-        , hasSubTitle: function(){ return this._hasSubTitle; }
 
         , vtitle:
-            function( _title ){
-                typeof _title != 'undefined' 
-                    && ( this._hasVTitle= true )
+            function( _data ){
+                _data && _data.yAxis && _data.yAxis.title && _data.yAxis.title.text
                     && !this._vtitle 
-                    && ( this._vtitle = this.root().text( 0, 0, _title ) )
-                    && ( this._vtitle.node.setAttribute( 'class', 'jcc_vtitle' ) )
+                    && ( this._vtitle = this.root().text( -9999, 0, _data.yAxis.title.text )
+                          , this._vtitle.node.setAttribute( 'class', 'jcc_vtitle' )   
+                        )
                     ;
                 return this._vtitle;
             }
-        , hasVTitle: function(){ return this._hasVTitle; }
 
-        , credit:
-            function( _title, _href ){
-                typeof _title != 'undefined' 
-                    && ( this._hasCredit = true )
-                    && !this._credit 
-                    && ( this._credit = this.root().text( 0, 0, _title ) )
-                    && ( this._credit.node.setAttribute( 'class', 'jcc_credit' ) )
-                    ;
+        , credits:
+            function( _data ){
 
-                this._credit && _href 
-                    && ( 
-                            this._credit.node.setAttribute( 'href', _href ) 
-                            , this._credit.node.setAttribute( 'class', 'jcc_credit jcc_pointer jcc_link' ) 
-                            , this._credit.click( function(){ location.href = _href; } )
-                        );
-                return this._credit;
+                if( _data ){
+                    _data.credits && _data.credits.enabled && ( _data.credits.text || _data.credits.href )
+                        && ! this._credits 
+                        && ( this._credits = this.root().text( -9999, 0, _data.credits.text || _data.credits.href ) )
+                        && ( this._credits.node.setAttribute( 'class', 'jcc_credit' ) )
+                        ;
+                    this._credits && _data.credits.href
+                        && ( 
+                                this._credits.node.setAttribute( 'href', _data.credits.href ) 
+                                , this._credits.node.setAttribute( 'class', 'jcc_credit jcc_pointer jcc_link' ) 
+                                , this._credits.click( function(){ location.href = _data.credits.href; } )
+                            );
+                }
+                return this._credits;
             }
-        , hasCredit: function(){ return this._hasCredit; }
 
         , workspaceOffset:
             function( _new ){
@@ -410,6 +456,16 @@ window.JChart = window.JChart || {};
                 return this._chartWorkspace;
             }
 
+        , calcCoordinate:
+            function(){
+            }
+
+        , coordinate: 
+            function( _setter ){ 
+                typeof _setter != 'undefined' && ( this._coordinate = _setter );
+                return this._coordinate; 
+            }
+
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -482,58 +538,6 @@ window.JChart = window.JChart || {};
                 _rp = this._model.workspace( _wkOffset );
             }
 
-        , drawLegendBox:
-            function( _data, _legendType, _itemCb ){
-                if( !_data.displayLegend ) return;
-                _legendType = _legendType || 'line';
-
-                if( !( _data.series && _data.series.length ) ) return;
-
-
-                var _p = this, _text = [], _size = 0, _tmp;
-                $.each( _data.series, function( _k, _item ){
-                    if( !_item.name ) return;
-                    _tmp = _p.root().text( -9999, 0, _item.name );
-                    _size += _tmp.getBBox().width;
-                    _text.push( {
-                        text: _tmp
-                        , data: _item
-                    });
-
-                    _size += 20;
-                });
-
-                _size += ( _text.length - 1 ) * 10 + 10 * 1 ;
-
-                var _rp = this._model.legendBox( _data, _size )
-                    , _bbox = _rp.getBBox()
-                    , _x = ( this._model.width() - _bbox.width ) / 2
-                    , _y = this._model.height() - 10 - 28
-                    ;
-                        ;
-                    if( this._model.hasCredit() ){
-                        _y -= 18;
-                    }
-                _rp.attr( 'x', _x ).attr( 'y', _y );
-                _bbox = _rp.getBBox();
-
-                var _count = 1, _offset = 0, _halfHeight = _bbox.height / 2;
-                $.each( _text, function( _k, _item ){
-                    _offset += 10;
-                    if( _count > 1 ) _offset += 18;
-                    var _legend, _text;
-                    _legend = _p._model.root().legendLine( _bbox.x + _offset, _bbox.y + _halfHeight, 18, 1, 9 );
-                    _text = _item.text;
-                    _item.text.toFront()
-                        .attr('x', _bbox.x + _offset + _item.text.getBBox().width / 2 + 20 )
-                        .attr('y', _bbox.y + _halfHeight )
-                        ;
-                    _offset += _item.text.getBBox().width; 
-                    _count++;
-                    _itemCb && _itemCb( _count -1, _legend, _text, _item.data );
-                });
-            }
-
         , drawCredit:
             function( _data, _font ){
                 if( !( _data && _data.credits && _data.credits.enabled &&
@@ -564,8 +568,6 @@ window.JChart = window.JChart || {};
 
                 _rp.attr( 'x', _x );
                 _rp.attr( 'y', _y );
-
-                _rp.rotate( -90 ); 
 
                 return;
             }
@@ -604,27 +606,8 @@ window.JChart = window.JChart || {};
 
         , root: function(){ return this._model.root(); }
 
-        , implmentStyle:
-            function( _item, _style ){
-                if( _style ){
-                    for( var _k in _style ){
-                        _item.attr( _k, _style[ _k ] );
-                    }
-                }
-                return _item;
-            }
-
         , drawBackground:
             function(){
-
-                this._model._background
-                    .attr( 'fill-opacity', .08 )
-                    .attr( 'fill', '#ccc' )
-
-                    .attr( 'stroke-opacity', .0 )
-                    .attr( 'stroke-width', 1 )
-                    .attr( 'stroke', '#fff' )
-                    ;
             }
     });
 

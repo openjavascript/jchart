@@ -1,139 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>../modules/JChart.Line/0.1/Line.js - JChart</title>
-    <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
-    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <link rel="stylesheet" href="../assets/css/widget.css">
-    <link rel="stylesheet" href="../assets/css/tabview.css">
-    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
-    <script src="../assets/js/yui-min.js"></script>
-    <script src="../assets/js/comps1.js"></script>
-    <script src="../assets/js/comps2.js"></script>
-    <script src="../assets/js/comps3.js"></script>
-    <script src="../assets/js/comps4.js"></script>
-</head>
-<body class="yui3-skin-sam">
-
-<div id="doc">
-    <div id="hd" class="yui3-g header">
-        <div class="yui3-u-3-4">
-            
-                <h1><img src="../jc_logo.png" title="JChart"></h1>
-            
-        </div>
-        <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2</em>
-        </div>
-    </div>
-    <div id="bd" class="yui3-g">
-
-        <div class="yui3-u-1-4">
-            <div id="docs-sidebar" class="sidebar apidocs">
-                <div id="api-list">
-    <h2 class="off-left">APIs</h2>
-    <div id="api-tabview" class="tabview">
-        <ul class="tabs">
-            <li><a href="#api-classes">Classes</a></li>
-            <li><a href="#api-modules">Modules</a></li>
-        </ul>
-
-        <div id="api-tabview-filter">
-            <input type="search" id="api-filter" placeholder="Type to filter APIs">
-        </div>
-
-        <div id="api-tabview-panel">
-            <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/JC.BaseMVC.html">JC.BaseMVC</a></li>
-            
-                <li><a href="../classes/JC.BaseMVC.Model.html">JC.BaseMVC.Model</a></li>
-            
-                <li><a href="../classes/JC.common.html">JC.common</a></li>
-            
-                <li><a href="../classes/JC.f.html">JC.f</a></li>
-            
-                <li><a href="../classes/JC.PureMVC.html">JC.PureMVC</a></li>
-            
-                <li><a href="../classes/JC.PureMVC.Model.html">JC.PureMVC.Model</a></li>
-            
-                <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
-            
-                <li><a href="../classes/JChart.IconPoint.html">JChart.IconPoint</a></li>
-            
-                <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
-            
-                <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
-            
-                <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
-            
-                <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
-            
-            </ul>
-
-            <ul id="api-modules" class="apis modules">
-            
-            </ul>
-        </div>
-    </div>
-</div>
-
-            </div>
-        </div>
-        <div class="yui3-u-3-4">
-                <div id="api-options">
-        Show:
-        <label for="api-show-inherited">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
-
-        <label for="api-show-protected">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
-
-        <label for="api-show-private">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </div>
-
-
-            <div class="apidocs">
-                <div id="docs-main">
-                    <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.Line/0.1/Line.js</h1>
-
-<div class="file">
-    <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.IconPoint&#x27;, &#x27;JChart.IconVLine&#x27; ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconPoint', 'JChart.IconVLine' ], function(){
 /**
  * 组件用途简述
  *
- *&lt;p&gt;&lt;b&gt;require&lt;/b&gt;:
- *   &lt;a href=&#x27;JChart.Base.html&#x27;&gt;JChart.Base&lt;/a&gt;
- *&lt;/p&gt;
+ *<p><b>require</b>:
+ *   <a href='JChart.Base.html'>JChart.Base</a>
+ *</p>
  *
- *&lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jchart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
- *   | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.Line.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
- *   | &lt;a href=&#x27;../../modules/JChart.Line/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
+ *   | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Line.html' target='_blank'>API docs</a>
+ *   | <a href='../../modules/JChart.Line/0.1/_demo' target='_blank'>demo link</a></p>
  *  
- *&lt;h2&gt;页面只要引用本脚本, 默认会处理 span class=&quot;jchartLine&quot;&lt;/h2&gt;
+ *<h2>页面只要引用本脚本, 默认会处理 span class="jchartLine"</h2>
  *
- *&lt;h2&gt;可用的 HTML attribute&lt;/h2&gt;
+ *<h2>可用的 HTML attribute</h2>
  *
- *&lt;dl&gt;
- *    &lt;dt&gt;&lt;/dt&gt;
- *    &lt;dd&gt;&lt;dd&gt;
- *&lt;/dl&gt; 
+ *<dl>
+ *    <dt></dt>
+ *    <dd><dd>
+ *</dl> 
  *
  * @namespace   JChart
  * @class       Line
@@ -141,16 +25,16 @@
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2014-02-12
- * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
+ * @author  qiushaowei <suches@btbtd.org> | 75 Team
  * @example
-        &lt;h2&gt;JChart.Line 示例&lt;/h2&gt;
+        <h2>JChart.Line 示例</h2>
  */
     var _jdoc = $( document ), _jwin = $( window );
 
     JChart.Line = Line;
 
     function Line( _selector ){
-        _selector &amp;&amp; ( _selector = $( _selector ) );
+        _selector && ( _selector = $( _selector ) );
 
         if( JC.BaseMVC.getInstance( _selector, Line ) ) 
             return JC.BaseMVC.getInstance( _selector, Line );
@@ -162,7 +46,7 @@
 
         this._init();
 
-        JC.log( Line.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+        JC.log( Line.Model._instanceName, 'all inited', new Date().getTime() );
     }
     /**
      * 初始化可识别的 Line 实例
@@ -177,10 +61,10 @@
             _selector = $( _selector || document );
 
             if( _selector.length ){
-                if( _selector.hasClass( &#x27;jchartLine&#x27; )  ){
+                if( _selector.hasClass( 'jchartLine' )  ){
                     _r.push( new Line( _selector ) );
                 }else{
-                    _selector.find( &#x27;div.jchartLine&#x27; ).each( function(){
+                    _selector.find( 'div.jchartLine' ).each( function(){
                         _r.push( new Line( this ) );
                     });
                 }
@@ -192,12 +76,12 @@
     Line.DEFAULT_MOVE =
         function( _evt ){
             if( !Line.CURRENT_INS ){
-                _jdoc.off( &#x27;mousemove&#x27;, Line.DEFAULT_MOVE );
+                _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
                 return;
             }
             var _p = Line.CURRENT_INS;
-            //JC.log( &#x27;Line.DEFAULT_MOVE&#x27;, _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
-            _p.trigger( &#x27;update_moving_status&#x27;, [ _evt ] );
+            //JC.log( 'Line.DEFAULT_MOVE', _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
+            _p.trigger( 'update_moving_status', [ _evt ] );
         };
 
     JC.BaseMVC.build( Line, JChart.Base );
@@ -205,62 +89,62 @@
     JC.f.extendObject( Line.prototype, {
         _beforeInit:
             function(){
-                //JC.log( &#x27;Line _beforeInit&#x27;, new Date().getTime() );
+                //JC.log( 'Line _beforeInit', new Date().getTime() );
             }
 
         , _initHanlderEvent:
             function(){
                 var _p = this;
 
-                _p.on( &#x27;update_moving_status&#x27;, function( _evt, _srcEvt, _srcEle ){
-                    //JC.log( &#x27;update_tips&#x27;, JC.f.ts() );
+                _p.on( 'update_moving_status', function( _evt, _srcEvt, _srcEle ){
+                    //JC.log( 'update_tips', JC.f.ts() );
                     var _index = _p._model.indexAt( _srcEvt );
-                    if( typeof _index == &#x27;undefined&#x27; ) return;
+                    if( typeof _index == 'undefined' ) return;
                     _p._view.updateStatus( _index );
                 });
 
-                _p.on( &#x27;moving_start&#x27;, function( _evt ){
-                    //JC.log( &#x27;show&#x27;, JC.f.ts(), _p._model.tips() );
+                _p.on( 'moving_start', function( _evt ){
+                    //JC.log( 'show', JC.f.ts(), _p._model.tips() );
                     _p._view.clearStatus();
-                    _p._model.tips() &amp;&amp; _p._model.tips().show();
+                    _p._model.tips() && _p._model.tips().show();
                 });
 
-                _p.on( &#x27;moving_done&#x27;, function( _evt ){
-                    //JC.log( &#x27;hide&#x27;, JC.f.ts(), _p._model.tips() );
+                _p.on( 'moving_done', function( _evt ){
+                    //JC.log( 'hide', JC.f.ts(), _p._model.tips() );
                     _p._view.clearStatus();
                 });
             }
 
         , _inited:
             function(){
-                //JC.log( &#x27;Line _inited&#x27;, new Date().getTime() );
+                //JC.log( 'Line _inited', new Date().getTime() );
             }
     });
 
-    Line.Model._instanceName = &#x27;JChartLine&#x27;;
+    Line.Model._instanceName = 'JChartLine';
 
     Line.Model.DATA_LINE_STYLE = {
         common: {
-            &#x27;stroke-width&#x27;: 2
+            'stroke-width': 2
         }
         , data: [
-            { &#x27;stroke&#x27;: &#x27;#ff0619&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#09c100&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#ff7100&#x27; }
+            { 'stroke': '#ff0619' }
+            , { 'stroke': '#09c100' }
+            , { 'stroke': '#ff7100' }
 
-            , { &#x27;stroke&#x27;: &#x27;#FFBF00&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#ff06b3&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#c3e2a4&#x27; }
+            , { 'stroke': '#FFBF00' }
+            , { 'stroke': '#ff06b3' }
+            , { 'stroke': '#c3e2a4' }
 
-            , { &#x27;stroke&#x27;: &#x27;#0c76c4&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#41e2e6&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#ffb2bc&#x27; }
+            , { 'stroke': '#0c76c4' }
+            , { 'stroke': '#41e2e6' }
+            , { 'stroke': '#ffb2bc' }
 
-            , { &#x27;stroke&#x27;: &#x27;#dbb8fd&#x27; }
+            , { 'stroke': '#dbb8fd' }
         ]
         , pointCommon: {
             radius: 4
-            , &#x27;iconType&#x27;: &#x27;circle&#x27;
+            , 'iconType': 'circle'
         }
     };
 
@@ -269,7 +153,7 @@
     JC.f.extendObject( Line.Model.prototype, {
         init:
             function(){
-                //JC.log( &#x27;Line.Model.init:&#x27;, new Date().getTime() );
+                //JC.log( 'Line.Model.init:', new Date().getTime() );
             }
 
         , vlables:
@@ -283,7 +167,7 @@
 
                     $.each( _rate, function( _ix, _item ){
                         _eles.push( {
-                            type: &#x27;text&#x27;
+                            type: 'text'
                             , text: ( _maxNum * _item ).toString()
                         });
                     });
@@ -297,16 +181,16 @@
 
         , lineColor:
             function( _ix ){
-                var _r = &#x27;#000&#x27;;
+                var _r = '#000';
 
                 _r = Line.Model.DATA_LINE_STYLE.data[ _ix % ( Line.Model.DATA_LINE_STYLE.data.length - 1 ) ].stroke || _r;
 
                 this.data()
-                    &amp;&amp; this.data().series
-                    &amp;&amp; this.data().series[ _ix ]
-                    &amp;&amp; this.data().series[ _ix ].style
-                    &amp;&amp; this.data().series[ _ix ].style.stroke
-                    &amp;&amp; ( _r = this.data().series[ _ix ].style.stroke )
+                    && this.data().series
+                    && this.data().series[ _ix ]
+                    && this.data().series[ _ix ].style
+                    && this.data().series[ _ix ].style.stroke
+                    && ( _r = this.data().series[ _ix ].style.stroke )
                     ;
 
                 return _r;
@@ -329,13 +213,13 @@
                 if( _data ){
                     this._chartWorkspaceOffset = JC.f.cloneObject( this.workspaceOffset() );
 
-                    if( this.vlables() &amp;&amp; this.vlables().length ){
+                    if( this.vlables() && this.vlables().length ){
                         var _maxWidth = 0;
                         $.each( this.vlables(), function( _ix, _item ){
-                            _item.getBBox().width &gt; _maxWidth 
-                                &amp;&amp; ( _maxWidth = _item.getBBox().width );
+                            _item.getBBox().width > _maxWidth 
+                                && ( _maxWidth = _item.getBBox().width );
                         });
-                        _maxWidth &gt; 0 &amp;&amp; ( _maxWidth += 10 );
+                        _maxWidth > 0 && ( _maxWidth += 10 );
                         this._chartWorkspaceOffset.x += _maxWidth;
                         this._chartWorkspaceOffset.width -= _maxWidth;
                     }
@@ -353,8 +237,8 @@
 
                     $.each( _p.vlables(), function( _x, _item ){
                         _eles.push( {
-                            &#x27;type&#x27;: &#x27;path&#x27;
-                            , &#x27;path&#x27;: &#x27;M0,0&#x27;
+                            'type': 'path'
+                            , 'path': 'M0,0'
                         });
                     });
 
@@ -367,16 +251,16 @@
         , vlines:
             function( _data ){
                 var _p = this, _eles, _tmp;
-                if( _data &amp;&amp; _data.xAxis &amp;&amp; _data.xAxis.categories ){
+                if( _data && _data.xAxis && _data.xAxis.categories ){
                     _eles = [];
                     _p._vlines = [];
 
                     $.each( _data.xAxis.categories, function( _x, _item ){
                         _tmp = new JChart.IconVLine( 
                             _p.root()
-                            , [&#x27;M0 0&#x27;].join(&#x27; &#x27; )
-                            , { &#x27;stroke&#x27;: &#x27;#999&#x27;, &#x27;stroke-width&#x27;: 1 }
-                            , { &#x27;stroke&#x27;: &#x27;#000&#x27;, &#x27;stroke-width&#x27;: 1 } 
+                            , ['M0 0'].join(' ' )
+                            , { 'stroke': '#999', 'stroke-width': 1 }
+                            , { 'stroke': '#000', 'stroke-width': 1 } 
                         );
                         _p._vlines.push( _tmp );
                     });
@@ -387,13 +271,13 @@
         , dataLine:
             function( _data ){
                 var _p = this, _eles;
-                if( _data &amp;&amp; _data.series ){
+                if( _data && _data.series ){
                     _eles = [];
 
                     $.each( _data.series, function( _x, _item ){
                         _eles.push( {
-                            &#x27;type&#x27;: &#x27;path&#x27;
-                            , &#x27;path&#x27;: &#x27;M0,0&#x27;
+                            'type': 'path'
+                            , 'path': 'M0,0'
                         });
                     });
 
@@ -406,19 +290,19 @@
 
         , dataPoint:
             function( _setter ){
-                _setter &amp;&amp; ( this._dataPoint = _setter );
+                _setter && ( this._dataPoint = _setter );
                 return this._dataPoint;
             }
 
         , vlinePoint:
             function( _setter ){
-                _setter &amp;&amp; ( this._vlinePoint = _setter );
+                _setter && ( this._vlinePoint = _setter );
                 return this._vlinePoint;
             }
 
         , hlinePoint:
             function( _setter ){
-                _setter &amp;&amp; ( this._hlinePoint = _setter );
+                _setter && ( this._hlinePoint = _setter );
                 return this._hlinePoint;
             }
 
@@ -426,65 +310,65 @@
             function( _dataIx ){
                 var _p = this, _items, _text, _val;
 
-                if( typeof _dataIx == &#x27;undefined&#x27; ) return _p._tips;
+                if( typeof _dataIx == 'undefined' ) return _p._tips;
 
                 var _len = _p.data().series.length, _count = 0, _offsetY = 34, _tmp, _tmpBox, _tmpItem, _maxWidth = 0, _offsetX = 20
                     , _padWidth = 14
                     , _padHeight = 8
-                    , _strokeColor = &#x27;#000&#x27;
+                    , _strokeColor = '#000'
                     ;
 
                 if( !_p._tips ){
                     _p._tips = new JChart.Group();
                     _p._tips.addChild( 
-                            _p.root().rect( 0, 0, 50, 30, 5 ).attr( { &#x27;stroke&#x27;: &#x27;#999&#x27;
-                                                                        , &#x27;fill&#x27;: &#x27;#fff&#x27; 
-                                                                        , &#x27;fill-opacity&#x27;: .94
+                            _p.root().rect( 0, 0, 50, 30, 5 ).attr( { 'stroke': '#999'
+                                                                        , 'fill': '#fff' 
+                                                                        , 'fill-opacity': .94
                                                                     } )
-                    , &#x27;rect&#x27; );
-                    _p._tips.addChild( _p.root().text( 10, 14, &#x27;title&#x27; )
-                            .attr( &#x27;font-weight&#x27;, &#x27;bold&#x27; )
-                            .attr( &#x27;fill&#x27;, &#x27;#999&#x27; )
-                            , &#x27;title&#x27; );
-                    _p._tips.getChildByName( &#x27;title&#x27; ).attr( &#x27;text-anchor&#x27;, &#x27;start&#x27; );
+                    , 'rect' );
+                    _p._tips.addChild( _p.root().text( 10, 14, 'title' )
+                            .attr( 'font-weight', 'bold' )
+                            .attr( 'fill', '#999' )
+                            , 'title' );
+                    _p._tips.getChildByName( 'title' ).attr( 'text-anchor', 'start' );
 
 
                     $.each( _p.data().series, function( _k, _item ){
                         _strokeColor = _p.lineColor( _k );
-                        _tmp = _p.root().text( _offsetX, _offsetY, _item.name || &#x27;empty&#x27; ).attr( &#x27;text-anchor&#x27;, &#x27;start&#x27; ).attr( &#x27;fill&#x27;, _strokeColor );
+                        _tmp = _p.root().text( _offsetX, _offsetY, _item.name || 'empty' ).attr( 'text-anchor', 'start' ).attr( 'fill', _strokeColor );
                         _tmpBox = _tmp.getBBox();
-                        _p._tips.addChild( _tmp, &#x27;label_&#x27; + _k );
+                        _p._tips.addChild( _tmp, 'label_' + _k );
                         _offsetY += _tmpBox.height + 5;
-                        _tmpBox.width &gt; _maxWidth &amp;&amp; ( _maxWidth = _tmpBox.width );
+                        _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
                     });
 
                     $.each( _p.data().series, function( _k, _item ){
                         _strokeColor = _p.lineColor( _k );
-                        _tmpItem = _p._tips.getChildByName( &#x27;label_&#x27; + _k );
+                        _tmpItem = _p._tips.getChildByName( 'label_' + _k );
                         _tmpBox = _tmpItem.getBBox();
-                        _tmp = _p.root().text( _maxWidth + _offsetX + 10, _tmpItem.attr( &#x27;y&#x27; ), &#x27;012345678901.00&#x27; ).attr( &#x27;text-anchor&#x27;, &#x27;start&#x27; ).attr( &#x27;fill&#x27;, _strokeColor );
-                        _p._tips.addChild( _tmp, &#x27;val_&#x27; + _k );
+                        _tmp = _p.root().text( _maxWidth + _offsetX + 10, _tmpItem.attr( 'y' ), '012345678901.00' ).attr( 'text-anchor', 'start' ).attr( 'fill', _strokeColor );
+                        _p._tips.addChild( _tmp, 'val_' + _k );
                     });
 
                     $.each( _p.data().series, function( _k, _item ){
-                        _tmpItem = _p._tips.getChildByName( &#x27;val_&#x27; + _k );
-                        _tmpItem.attr( &#x27;text&#x27;, &#x27;0.00&#x27; );
+                        _tmpItem = _p._tips.getChildByName( 'val_' + _k );
+                        _tmpItem.attr( 'text', '0.00' );
                     });
                 }
 
-                _p._tips.getChildByName( &#x27;title&#x27; ).attr( &#x27;text&#x27;, _p.tipsTitle( _dataIx ) );
+                _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _dataIx ) );
 
                 $.each( _p.data().series, function( _k, _item ){
-                    _p._tips.getChildByName( &#x27;val_&#x27; + _k ).attr( &#x27;text&#x27;, JC.f.moneyFormat( _item.data[ _dataIx ] ) );
+                    _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _dataIx ] ) );
                 });
 
 
-                _p._tips.getChildByName( &#x27;rect&#x27; ).attr( { width: 80, height: 50 } );
+                _p._tips.getChildByName( 'rect' ).attr( { width: 80, height: 50 } );
                 _tmpBox = _p._tips.getBBox();
 
-                _p._tips.getChildByName( &#x27;rect&#x27; )
-                    .attr( &#x27;width&#x27;, _tmpBox.width + _padWidth )
-                    .attr( &#x27;height&#x27;, _tmpBox.height + _padHeight )
+                _p._tips.getChildByName( 'rect' )
+                    .attr( 'width', _tmpBox.width + _padWidth )
+                    .attr( 'height', _tmpBox.height + _padHeight )
                     ;
 
                 _tmpBox = _p._tips.getBBox();
@@ -498,37 +382,37 @@
 
         , tipsPoint:
             function( _dataIx, _bbox ){
-                var _p = this, _r = { &#x27;x&#x27;: 0, &#x27;y&#x27;: 10000 };
+                var _p = this, _r = { 'x': 0, 'y': 10000 };
 
                 _r.x = _p.dataPoint()[0][_dataIx ].x + 4 ;
 
-                if( ( _r.x + _bbox.width ) &gt; _p.width() ){
+                if( ( _r.x + _bbox.width ) > _p.width() ){
                     _r.x = _r.x - _bbox.width - 8;
                 }
 
                 $.each( _p.dataPoint(), function( _k, _item ){
-                    _item[ _dataIx ].y &lt; _r.y &amp;&amp; ( _r.y = _item[_dataIx].y );
+                    _item[ _dataIx ].y < _r.y && ( _r.y = _item[_dataIx].y );
                 });
 
                 _r.y -= _bbox.height / 2;
 
-                _r.y &lt; 0 &amp;&amp; ( _r.y = 0 );
-                ( _r.y + _bbox.height ) &gt; _p.height() &amp;&amp; ( _r.y = _p.height() - _bbox.height );
+                _r.y < 0 && ( _r.y = 0 );
+                ( _r.y + _bbox.height ) > _p.height() && ( _r.y = _p.height() - _bbox.height );
 
                 return _r;
             }
 
         , tipsTitle:
             function( _ix ){
-                var _p = this, _r = &#x27;&#x27;;
+                var _p = this, _r = '';
 
                 _p.data().xAxis
-                    &amp;&amp; _p.data().xAxis.categories
-                    &amp;&amp; ( _r = _p.data().xAxis.categories[ _ix ] );
+                    && _p.data().xAxis.categories
+                    && ( _r = _p.data().xAxis.categories[ _ix ] );
 
                 _p.data().xAxis
-                    &amp;&amp; _p.data().xAxis.tipTitlePostfix
-                    &amp;&amp; ( _r = JC.f.printf(  _p.data().xAxis.tipTitlePostfix, _r ) );
+                    && _p.data().xAxis.tipTitlePostfix
+                    && ( _r = JC.f.printf(  _p.data().xAxis.tipTitlePostfix, _r ) );
 
                 return _r;
             }
@@ -542,17 +426,17 @@
                 JC.f.extendObject( _r.line, Line.Model.DATA_LINE_STYLE.common );
                 JC.f.extendObject( _r.point, Line.Model.DATA_LINE_STYLE.pointCommon );
 
-                _itemStyle &amp;&amp; JC.f.extendObject( _r.line, _itemStyle );
-                _itemStyle &amp;&amp; (
+                _itemStyle && JC.f.extendObject( _r.line, _itemStyle );
+                _itemStyle && (
                     _r.point.stroke = _itemStyle.stroke
                     , _r.point.fill = _itemStyle.stroke
                 );
 
-                if( _data &amp;&amp; _data.series &amp;&amp; _data.series[ _ix] &amp;&amp; _data.series[ _ix ].style ){
+                if( _data && _data.series && _data.series[ _ix] && _data.series[ _ix ].style ){
                     JC.f.extendObject( _r.line, _data.series[ _ix ].style );
                 }
 
-                if( _data &amp;&amp; _data.series &amp;&amp; _data.series[ _ix] &amp;&amp; _data.series[ _ix ].pointStyle ){
+                if( _data && _data.series && _data.series[ _ix] && _data.series[ _ix ].pointStyle ){
                     JC.f.extendObject( _r.point, _data.series[ _ix ].pointStyle );
                 }
 
@@ -575,27 +459,27 @@
                     , _partWhat = 0;
                     ;
 
-                if( _realX &lt;= 0 || _realY &lt;= 0 || _realX &gt;= _maxX || _realY &gt;= _maxY ){
+                if( _realX <= 0 || _realY <= 0 || _realX >= _maxX || _realY >= _maxY ){
                     return undefined;
                 }
                 if( !( _p.data() 
-                        &amp;&amp; _p.data().series 
-                        &amp;&amp; _p.data().series.length 
-                        &amp;&amp; _p.data().series[0].data 
-                        &amp;&amp; _p.data().series[0].data.length 
+                        && _p.data().series 
+                        && _p.data().series.length 
+                        && _p.data().series[0].data 
+                        && _p.data().series[0].data.length 
                  )) return undefined;
                 _itemLen = ( _p.data().series[0].data.length - 1 ) * 2;
                 _partWidth = _srcBox.width / _itemLen;
-                !_partWidth &amp;&amp; ( _partWidth = _srcBox.width );
+                !_partWidth && ( _partWidth = _srcBox.width );
                 _partWhat = Math.floor( _realX / _partWidth  );
-                _partWhat &gt; 1 &amp;&amp; ( _partWhat = Math.round( _partWhat / 2 ) );
+                _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
 
                 return _partWhat;
             }
 
         , pointItems:
             function( _setter ){
-                typeof _setter != &#x27;undefined&#x27; &amp;&amp; ( this._pointItems = _setter );
+                typeof _setter != 'undefined' && ( this._pointItems = _setter );
                 return this._pointItems;
             }
 
@@ -618,11 +502,11 @@
                 _p.drawVTitle( _data );
 
                 _p.drawCredit( _data );
-                _p.drawLegendBox( _data, &#x27;line&#x27;, function( _ix, _legend, _text, _data ){
+                _p.drawLegendBox( _data, 'line', function( _ix, _legend, _text, _data ){
                     var _color = _data.stroke 
                                     || Line.Model.DATA_LINE_STYLE.data[ _ix % Line.Model.DATA_LINE_STYLE.data.length ].stroke 
-                                    || &#x27;#fff&#x27;;
-                    _legend.attr( &#x27;fill&#x27;, _color ).attr( &#x27;stroke&#x27;, _color );;
+                                    || '#fff';
+                    _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
                 });
 
                 _p.drawWorkspace( _data );
@@ -643,28 +527,28 @@
 
                 /*
                 _p._model.chartWorkspace().mouseover( function( _evt ){
-                    JC.log( &#x27;mouseover&#x27;, new Date().getTime() );
+                    JC.log( 'mouseover', new Date().getTime() );
                     JC.dir( _evt );
                 });
 
                 _p._model.chartWorkspace().mouseout( function( _evt ){
-                    //JC.log( &#x27;mouseout&#x27;, new Date().getTime() );
+                    //JC.log( 'mouseout', new Date().getTime() );
                 });
                 */
 
                 _p._model.chartWorkspace().mouseenter( function( _evt ){
                     Line.CURRENT_INS = _p;
-                    _jdoc.on( &#x27;mousemove&#x27;, Line.DEFAULT_MOVE );
-                    _p.trigger( &#x27;moving_start&#x27; );
+                    _jdoc.on( 'mousemove', Line.DEFAULT_MOVE );
+                    _p.trigger( 'moving_start' );
                 });
 
                 _p._model.chartWorkspace().mouseleave( function( _evt ){
                     Line.CURRENT_INS = null;
-                    _jdoc.off( &#x27;mousemove&#x27;, Line.DEFAULT_MOVE );
-                    _p.trigger( &#x27;moving_done&#x27; );
+                    _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
+                    _p.trigger( 'moving_done' );
                 });
 
-                //JC.log( &#x27;xxxxxxxxxxx&#x27;, _p._model.chartWorkspace().attr( &#x27;x&#x27; ), _p._model.chartWorkspace().attr(&#x27;width&#x27;) );
+                //JC.log( 'xxxxxxxxxxx', _p._model.chartWorkspace().attr( 'x' ), _p._model.chartWorkspace().attr('width') );
 
                 //this._model.root().legendLine( 100, 200, 18, 1, 9 );
             }
@@ -672,8 +556,8 @@
         , drawVLabels:
             function( _data, _hlinePoint ){
 
-                var _p = this, _len = _hlinePoint.length, _isAll = _len &lt; 8, _match = {}, _tmp;
-                _data.displayAllLabel &amp;&amp; ( _isAll = true );
+                var _p = this, _len = _hlinePoint.length, _isAll = _len < 8, _match = {}, _tmp;
+                _data.displayAllLabel && ( _isAll = true );
 
                 if( !_isAll ){
                     _match[ 0 ] = true;
@@ -686,14 +570,14 @@
                 }
 
                 $.each( _hlinePoint, function( _ix, _item ){
-                    if( !_isAll &amp;&amp; !( _ix in _match ) ) return;
+                    if( !_isAll && !( _ix in _match ) ) return;
 
                     var _point = _hlinePoint[ _ix ]
-                        , _path = JC.f.printf( &#x27;M{0},{1}L{2},{3}&#x27;, 
+                        , _path = JC.f.printf( 'M{0},{1}L{2},{3}', 
                         Math.round( _point.end.x ), Math.floor( _point.end.y  )
                         , Math.round( _point.end.x ), Math.floor( _point.end.y  ) + 6
                     );
-                    _p.root().path( _path ).translate( .5, .5 ).attr( &#x27;stroke&#x27;, &#x27;#9c9c9c&#x27; );
+                    _p.root().path( _path ).translate( .5, .5 ).attr( 'stroke', '#9c9c9c' );
 
                     var _x = _point.end.x
                         , _y = _point.end.y + 6 + 8
@@ -701,9 +585,9 @@
 
                     var _text = _p.root().text( _x, _y, _data.xAxis.categories[ _ix ] );
                     if( _ix === 0 ){
-                        _text.attr( &#x27;x&#x27;, _x + _text.getBBox().width / 2 - 2 );
-                    }else if( _ix &gt; 0 &amp;&amp; _ix == ( _len - 1 ) ){
-                        _text.attr( &#x27;x&#x27;, _x - _text.getBBox().width / 2 + 2 );
+                        _text.attr( 'x', _x + _text.getBBox().width / 2 - 2 );
+                    }else if( _ix > 0 && _ix == ( _len - 1 ) ){
+                        _text.attr( 'x', _x - _text.getBBox().width / 2 + 2 );
                     }
                 });
             }
@@ -726,7 +610,7 @@
                                     //JC.dir( _lineStyle.point, _point );
                                     var _hoverStyle = JC.f.cloneObject( _lineStyle.point );
                                         _hoverStyle.radius = 8;
-                                        _hoverStyle.fill = &#x27;#fff&#x27;;
+                                        _hoverStyle.fill = '#fff';
                                     _item = new JChart.IconPoint( 
                                         _p.root()
                                         , _point.x
@@ -749,7 +633,7 @@
 
         , drawDataLine:
             function( _data ){
-                if( !( _data &amp;&amp; _data.series ) ) return;
+                if( !( _data && _data.series ) ) return;
                 var _p = this
                     , _dataLine = _p._model.dataLine( _data )
                     , _labelRate = _p._model.labelRate()
@@ -759,15 +643,15 @@
                     , _partHeight = _chartOffset.height / ( _labelRate.length - 1 )
                     ;
 
-                //JC.log( JC.f.printf( &#x27;_partWidth: {0}, _partHeight: {1}&#x27;, _partWidth, _partHeight ) );
+                //JC.log( JC.f.printf( '_partWidth: {0}, _partHeight: {1}', _partWidth, _partHeight ) );
 
                 var _dataPoint = [];
                 $.each( _data.series, function( _ix, _items ){
                     var _pathPoints = [], _purePoint = [], _x, _y, _dataHeight, _dataY, _maxNum;
                     $.each( _items.data, function( _six, _num ){
-                        //if( _num &lt; 0 ) return;
+                        //if( _num < 0 ) return;
 
-                        _pathPoints.push( _six === 0 ? &#x27;M&#x27; : &#x27;L&#x27; );
+                        _pathPoints.push( _six === 0 ? 'M' : 'L' );
                         _x = _chartOffset.x + _partWidth * _six;
                         _y = 0;
 
@@ -786,12 +670,12 @@
                         }
 
                         _pathPoints.push( [ _x, _y ] );
-                        _purePoint.push( { &#x27;x&#x27;: _x, &#x27;y&#x27;: _y, &#x27;num&#x27;: _num, &#x27;maxNum&#x27;: _maxNum } );
+                        _purePoint.push( { 'x': _x, 'y': _y, 'num': _num, 'maxNum': _maxNum } );
                     });
                     //JC.log( JSON.stringify( _purePoint ) );
                     _dataPoint.push( _purePoint );
                     _p.setDataLineStyle( _ix, _data );
-                    _dataLine[ _ix ] = _dataLine[ _ix ].attr( &#x27;path&#x27;, _pathPoints.join(&#x27;&#x27;) );
+                    _dataLine[ _ix ] = _dataLine[ _ix ].attr( 'path', _pathPoints.join('') );
                 });
                 _p._model.dataPoint( _dataPoint );
             }
@@ -825,7 +709,7 @@
                     , _len, _partWidth, _x, _y, _h
                     ;
 
-                if( _vlines &amp;&amp; _vlines.length ){
+                if( _vlines && _vlines.length ){
                     _len = _vlines.length - 1;
                     _partWidth = _wkOffset.width / _len;
                     var _vlinePoint = [];
@@ -838,7 +722,7 @@
 
                     _item.update(
                         JC.f.printf( 
-                            &#x27;M{0},{1}L{2},{3}&#x27;
+                            'M{0},{1}L{2},{3}'
                             , _linePoint.start.x, _linePoint.start.y
                             , _linePoint.end.x, _linePoint.end.y
                         )
@@ -846,16 +730,16 @@
                     );
 
                     /*
-                        _item.attr( &#x27;path&#x27;, JC.f.printf( 
-                            &#x27;M{0},{1}L{2},{3}&#x27;
+                        _item.attr( 'path', JC.f.printf( 
+                            'M{0},{1}L{2},{3}'
                             , _linePoint.start.x, _linePoint.start.y
                             , _linePoint.end.x, _linePoint.end.y
-                        )).data( &#x27;x&#x27;, _linePoint.start.x ).data( &#x27;y&#x27;, _linePoint.start.y )
-                        .attr( &#x27;stroke&#x27;, &#x27;#9c9c9c&#x27; )
-                        //.attr( &#x27;opacity&#x27;, .1 )
+                        )).data( 'x', _linePoint.start.x ).data( 'y', _linePoint.start.y )
+                        .attr( 'stroke', '#9c9c9c' )
+                        //.attr( 'opacity', .1 )
                         ;
 
-                        !JChart.Base.isFloat( _linePoint.start.x ) &amp;&amp; _item.translate( .5, .5 );
+                        !JChart.Base.isFloat( _linePoint.start.x ) && _item.translate( .5, .5 );
                         */
                         _vlinePoint.push( _linePoint );
                     });
@@ -880,17 +764,17 @@
 
                     _linePoint.start = { x: _wkOffset.x, y: Math.floor( _wkOffset.y + _partHeight * _ix ) };
                     _linePoint.end = { x: _wkOffset.x + _wkOffset.width,  y: _linePoint.start.y };
-                    _path = JC.f.printf( &#x27;M{0},{1}L{2},{3}&#x27;
+                    _path = JC.f.printf( 'M{0},{1}L{2},{3}'
                         , _linePoint.start.x, _linePoint.start.y
                         , _linePoint.end.x, _linePoint.end.y
                     );
-                    _hlines[ _ix ].attr( &#x27;stroke&#x27;, &#x27;#9c9c9c&#x27; )
-                        .attr( &#x27;path&#x27;, _path )
-                        .data( &#x27;x&#x27;, _linePoint.start.x )
-                        .data( &#x27;y&#x27;, _linePoint.start.y )
+                    _hlines[ _ix ].attr( 'stroke', '#9c9c9c' )
+                        .attr( 'path', _path )
+                        .data( 'x', _linePoint.start.x )
+                        .data( 'y', _linePoint.start.y )
                         ;
 
-                    !JChart.Base.isFloat( _linePoint.start.y ) &amp;&amp; _hlines[ _ix ].translate( .5, .5 );
+                    !JChart.Base.isFloat( _linePoint.start.y ) && _hlines[ _ix ].translate( .5, .5 );
                     _hlinePoint.push( _linePoint );
                 });
 
@@ -914,14 +798,14 @@
 
                 $.each( _vlabels, function( _ix, _item ){
                     _bbox = _item.getBBox();
-                    _bbox.width &gt; _maxItemWidth &amp;&amp; ( _maxItemWidth = _bbox.width )
+                    _bbox.width > _maxItemWidth && ( _maxItemWidth = _bbox.width )
                     _y = _workspaceOffset.y + _partHeight * _ix;
 
-                    var _path = JC.f.printf( &#x27;M{0},{1}L{2},{3}&#x27;, 
+                    var _path = JC.f.printf( 'M{0},{1}L{2},{3}', 
                         Math.round( _chartWorkspaceOffset.x - 6 ), Math.floor( _y )
                         , Math.round( _chartWorkspaceOffset.x ), Math.floor( _y )
                     );
-                    _p.root().path( _path ).translate( .5, .5 ).attr( &#x27;stroke&#x27;, &#x27;#9c9c9c&#x27; );
+                    _p.root().path( _path ).translate( .5, .5 ).attr( 'stroke', '#9c9c9c' );
 
                     if( _ix === 0 ){
                         _y += _bbox.height / 2 - 4;
@@ -929,11 +813,11 @@
                         _y -= _bbox.height / 2 - 4;
                     }
 
-                    _item.attr( &#x27;y&#x27;, _y );
+                    _item.attr( 'y', _y );
                 });
 
                 $.each( _vlabels, function( _ix, _item ){
-                    _item.attr( &#x27;x&#x27;, _workspaceOffset.x - _item.getBBox().width / 2 + _maxItemWidth );
+                    _item.attr( 'x', _workspaceOffset.x - _item.getBBox().width / 2 + _maxItemWidth );
                 });
             }
         
@@ -974,42 +858,22 @@
         , clearStatus:
             function(){
                 var _p = this;
-                _p._model.tips() &amp;&amp; _p._model.tips().hide();
+                _p._model.tips() && _p._model.tips().hide();
                 _p.clearPointItemStatus();
             }
     });
 
     _jdoc.ready( function(){
-        Line.autoInit &amp;&amp; Line.init();
+        Line.autoInit && Line.init();
     });
 
     return Line;
-});}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
+});}( typeof define === 'function' && define.amd ? define : 
         function ( _name, _require, _cb ) { 
-            typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );
-            typeof _require == &#x27;function&#x27; &amp;&amp; ( _cb = _require ); 
-            _cb &amp;&amp; _cb(); 
+            typeof _name == 'function' && ( _cb = _name );
+            typeof _require == 'function' && ( _cb = _require ); 
+            _cb && _cb(); 
         }
         , window
     )
 );
-
-    </pre>
-</div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="../assets/vendor/prettify/prettify-min.js"></script>
-<script>prettyPrint();</script>
-<script src="../assets/js/yui-prettify.js"></script>
-<script src="../assets/../api.js"></script>
-<script src="../assets/js/api-filter.js"></script>
-<script src="../assets/js/api-list.js"></script>
-<script src="../assets/js/api-search.js"></script>
-<script src="../assets/js/apidocs.js"></script>
-</body>
-</html>

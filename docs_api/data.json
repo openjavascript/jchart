@@ -63,6 +63,17 @@
                 "JChart": 1
             }
         },
+        "../modules/JChart.IconVLine/0.1/IconVLine.js": {
+            "name": "../modules/JChart.IconVLine/0.1/IconVLine.js",
+            "modules": {},
+            "classes": {
+                "JChart.IconVLine": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "JChart": 1
+            }
+        },
         "../modules/JChart.Line/0.1/Line.js": {
             "name": "../modules/JChart.Line/0.1/Line.js",
             "modules": {},
@@ -277,6 +288,33 @@
             "author": "qiushaowei <suches@btbtd.org> | 75 Team",
             "example": [
                 "\n       <h2>JC.IconPoint 示例</h2>"
+            ]
+        },
+        "JChart.IconVLine": {
+            "name": "JChart.IconVLine",
+            "shortname": "JChart.IconVLine",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JChart",
+            "file": "../modules/JChart.IconVLine/0.1/IconVLine.js",
+            "line": 2,
+            "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href='JC.PureMVC.html'>JC.PureMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.IconVLine.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChart.IconVLine/0.1/_demo' target='_blank'>demo link</a></p>",
+            "extends": "JC.PureMVC",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector|string"
+                }
+            ],
+            "version": "dev 0.1 2013-12-13",
+            "author": "qiushaowei <suches@btbtd.org> | 75 Team",
+            "example": [
+                "\n       <h2>JC.IconVLine 示例</h2>"
             ]
         },
         "JChart.Line": {
@@ -2662,7 +2700,7 @@
         },
         {
             "file": "../config.js",
-            "line": 31,
+            "line": 32,
             "description": "取当前脚本标签的 src路径",
             "static": 1,
             "return": {
@@ -3068,6 +3106,10 @@
         },
         {
             "message": "unknown tag: version",
+            "line": " ../modules/JChart.IconVLine/0.1/IconVLine.js:2"
+        },
+        {
+            "message": "unknown tag: version",
             "line": " ../modules/JChart.Line/0.1/Line.js:2"
         },
         {
@@ -3232,7 +3274,7 @@
         },
         {
             "message": "Missing item type\n取当前脚本标签的 src路径",
-            "line": " ../config.js:31"
+            "line": " ../config.js:32"
         },
         {
             "message": "Missing item type",

@@ -8,6 +8,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "JC.f",
         "JChart.Base",
         "JChart.IconPoint",
+        "JChart.IconVLine",
         "JChart.Line",
         "window.jQuery",
         "window.requirejs"

@@ -156,6 +156,14 @@
                 //JC.log( 'Line.Model.init:', new Date().getTime() );
             }
 
+        , seriesStyle:
+            function( _k ){
+                var _len = Line.Model.DATA_LINE_STYLE.data.length - 1
+                    , _ix = _k % _len
+                    , _r = Line.Model.DATA_LINE_STYLE.data[ _ix ]
+                return _r;
+            }
+
         , calcCoordinate:
             function( _data ){
                 var _p = this
@@ -163,6 +171,7 @@
                     , _bbox
                     , _x = 0, _maxX = _p.width() - 5
                     , _y = 0, _maxY = _p.height() - 5
+                    , _tmp, _tmpX, _tmpY, _tmpA
                     ;
 
                 _p.root();
@@ -199,7 +208,7 @@
                         , y: _p.height() / 2
                         , rotate: -90
                     }
-                    _x = _c.vtitle.x;
+                    _x = _c.vtitle.x + 5;
                 }
 
                 var _credits = _p.credits( _data );
@@ -227,6 +236,86 @@
                     _maxY = _c.legend.y;
                 }
 
+                var _hlabelMaxHeight = _p.hlabelMaxHeight( _data );
+                var _vlabelMaxWidth = _p.vlabelMaxWidth( _data );
+
+                if( _vlabelMaxWidth ){
+                    _x += 5;
+                    _x += _vlabelMaxWidth;
+                    _x += 5;
+                }
+
+                if( _hlabelMaxHeight ){
+                    _maxY -= 5;
+                    _maxY -= _hlabelMaxHeight;
+                    _maxY -= 5;
+                }
+
+                JC.log( _x, _maxX, _maxX - _x );
+
+                var _vpart = ( _maxX - _x ) / ( _data.series[0].data.length - 1 );
+                var _hpart = ( _maxY - _y ) / ( _p.labelRate().length - 1 );
+
+                var _vlines = _p.vlines( _data );
+                if( _vlines && _vlines.length ){
+                    _tmpA = [];
+                    $.each( _vlines, function( _ix, _item ){
+                        _tmpX = _x + _vpart * _ix;
+                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
+                            , end: { 'x': _tmpX, 'y': _maxY }
+                            , 'item': _item  } );
+
+                    });
+                    _tmpA.length && ( _c.vlines = _tmpA );
+                }
+
+                var _hlines = _p.hlines( _data );
+                if( _hlines && _hlines.length ){
+                    _tmpA = [];
+                    $.each( _hlines, function( _ix, _item ){
+                        _tmpY = _y + _hpart * _ix;
+                        _tmpA.push( {  start: { 'x': _x, 'y': _tmpY }
+                            , end: { 'x': _maxX , 'y': _tmpY }
+                            , 'item': _item  } );
+
+                    });
+                    _tmpA.length && ( _c.hlines = _tmpA );
+                }
+
+
+                JC.log( _hpart, _vpart );
+
+                /*
+
+                if( _vlabelMaxWidth ){
+                    var _vlabels = _p.vlables( _data );
+                    _tmp = 0;
+                    _tmpA = [];
+                    $.each( _vlabels, function( _ix, _item ){
+                        _bbox = _item.getBBox();
+                        _tmpX = _x - _bbox.width / 2;
+                        _tmpY = parseInt( _y + ( _maxY - _y ) * _tmp );
+                        _tmp += .25;
+                        _tmpA.push( { 'x': _tmpX, 'y': _tmpY, 'item': _item  } );
+                    });
+                    _tmpA.length && ( _c.vlables = _tmpA );
+                }
+
+                if( _hlabelMaxHeight ){
+                    var _hlabels = _p.hlables( _data );
+                    _tmp = 0;
+                    _tmpA = [];
+                    $.each( _vlabels, function( _ix, _item ){
+                        _bbox = _item.getBBox();
+                        _tmpX = _x - _bbox.width / 2;
+                        _tmpY = parseInt( _y + ( _maxY - _y ) * _tmp );
+                        _tmp += .25;
+                        _tmpA.push( { 'x': _tmpX, 'y': _tmpY, 'item': _item  } );
+                    });
+                    _tmpA.length && ( _c.hlables = _tmpA );
+                }
+                */
+
                 return this.coordinate( _c );
             }
     });
@@ -252,10 +341,25 @@
                 if( _c.credits ){
                     _p._model.credits().attr( _c.credits );
                 }
-                return;
                 if( _c.legend ){
                     _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
                 }
+                if( _c.vlables ){
+                    $.each( _c.vlables, function( _k, _item ){
+                        _item.item.attr( { 'x': _item.x, 'y': _item.y } );
+                    });
+                }
+                if( _c.vlines ){
+                    $.each( _c.vlines, function( _k, _item ){
+                        _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
+                    });
+                }
+                if( _c.hlines ){
+                    $.each( _c.hlines, function( _k, _item ){
+                        _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
+                    });
+                }
+
             }
 
         , draw: 
@@ -268,7 +372,6 @@
                 JC.dir( _coordinate );
 
                 return;
-                _p.drawLegendBox( _data, 'line');
 
                 _p.drawWorkspace( _data );
 

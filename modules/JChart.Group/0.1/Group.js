@@ -10,8 +10,8 @@ window.JChart = window.JChart || {};
 
     Group.prototype = {
         addChild:
-            function( _item, _name ){
-                this._model.addChild( _item, _name );
+            function( _item, _name, _offset ){
+                this._model.addChild( _item, _name, _offset );
                 return this;
             }
 
@@ -54,13 +54,17 @@ window.JChart = window.JChart || {};
     function Model(){
         this._children = [];
         this._nameMap = {};
+        this._offsetMap = {};
+        this._offsetMapList = [];
     }
 
     Model.prototype = {
         addChild:
-            function( _item, _name ){
+            function( _item, _name, _offset ){
                 this._children.push( _item );
+                this._offsetMapList.push( _offset );
                 _name && ( this._nameMap[ _name ] = _item );
+                _name && _offset && ( this._offsetMap[ _name ] = _offset );
             }
 
         , children: function(){ return this._children; }
@@ -119,12 +123,34 @@ window.JChart = window.JChart || {};
             function( _x, _y ){
                 var _p = this, _bbox = _p._model.getBBox();
                 $.each( _p._model.children(), function( _ix, _item ){
-                    var _sbbox = _item.getBBox();
-                    if( typeof _x != 'undefined' ){
-                        _item.attr( 'x', _x + ( _item.attr( 'x' ) - _bbox.x ) );
-                    }
-                    if( typeof _y != 'undefined' ){
-                        _item.attr( 'y', _y + ( _item.attr( 'y' ) - _bbox.y ) );
+                    var _offset = _p._model._offsetMapList[ _ix ], _rx = _x, _ry = _y;
+                    if( _item.setPosition ){
+                        if( _offset ){
+                            _offset.padX && ( _rx += _offset.padX );
+                            _offset.padY && ( _ry += _offset.padY );
+                        }
+                        _item.setPosition( _rx, _ry, _offset );
+                    }else{
+                        var _sbbox = _item.getBBox();
+                        if( _item.node.nodeName == 'circle' ){
+                            if( typeof _rx != 'undefined' ){
+                                _item.attr( 'cx', _rx + ( _item.attr( 'cx' ) - _bbox.x ) );
+                            }
+                            if( typeof _ry != 'undefined' ){
+                                _item.attr( 'cy', _ry + ( _item.attr( 'cy' ) - _bbox.y ) );
+                            }
+                        }else if( _item.node.nodeName == 'path' ){
+                            //_item.translate( 100, 0);
+                            //JC.log( 'path x,y:', _item.attr( 'cx' ), _item.attr( 'cy' ) );
+                            //JC.dir( _item );
+                        }else{
+                            if( typeof _rx != 'undefined' ){
+                                _item.attr( 'x', _rx + ( _item.attr( 'x' ) - _bbox.x ) );
+                            }
+                            if( typeof _ry != 'undefined' ){
+                                _item.attr( 'y', _ry + ( _item.attr( 'y' ) - _bbox.y ) );
+                            }
+                        }
                     }
                 });
             }

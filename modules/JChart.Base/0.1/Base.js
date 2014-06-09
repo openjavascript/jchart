@@ -392,13 +392,16 @@ window.JChart = window.JChart || {};
                         , _tmp
                         ;
 
-                    $.each( _data.series, function( _ix, _item ){
-                        if( !_item.name ) return;
-                        _tmp = _p.root().text( -10000, 0, _item.name || '' );
-                        _eles.push( _tmp );
+                    $.each( _data.xAxis.categories, function( _ix, _item ){
+                        _eles.push( {
+                            type: 'text'
+                            , text: _item || ''
+                            , x: -10000
+                        });
                     });
 
-                    _eles.length && ( _p._hlabels = _eles );
+
+                    _eles.length && ( _p._hlabels = _p.root().add( _eles ) );
                 }
                 return this._hlabels;
             }

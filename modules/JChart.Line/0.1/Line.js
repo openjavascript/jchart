@@ -238,11 +238,13 @@
 
                 var _hlabelMaxHeight = _p.hlabelMaxHeight( _data );
                 var _vlabelMaxWidth = _p.vlabelMaxWidth( _data );
+                var _vx = _x, _hy = _y;
 
                 if( _vlabelMaxWidth ){
                     _x += 5;
                     _x += _vlabelMaxWidth;
-                    _x += 5;
+                    _vx = _x;
+                    _x += 15;
                 }
 
                 if( _hlabelMaxHeight ){
@@ -255,6 +257,9 @@
 
                 var _vpart = ( _maxX - _x ) / ( _data.series[0].data.length - 1 );
                 var _hpart = ( _maxY - _y ) / ( _p.labelRate().length - 1 );
+
+                _c.vpart = _vpart;
+                _c.hpart = _hpart;
 
                 var _vlines = _p.vlines( _data );
                 if( _vlines && _vlines.length ){
@@ -282,10 +287,7 @@
                     _tmpA.length && ( _c.hlines = _tmpA );
                 }
 
-
                 JC.log( _hpart, _vpart );
-
-                /*
 
                 if( _vlabelMaxWidth ){
                     var _vlabels = _p.vlables( _data );
@@ -293,7 +295,7 @@
                     _tmpA = [];
                     $.each( _vlabels, function( _ix, _item ){
                         _bbox = _item.getBBox();
-                        _tmpX = _x - _bbox.width / 2;
+                        _tmpX = _vx - _bbox.width / 2;
                         _tmpY = parseInt( _y + ( _maxY - _y ) * _tmp );
                         _tmp += .25;
                         _tmpA.push( { 'x': _tmpX, 'y': _tmpY, 'item': _item  } );
@@ -305,16 +307,16 @@
                     var _hlabels = _p.hlables( _data );
                     _tmp = 0;
                     _tmpA = [];
-                    $.each( _vlabels, function( _ix, _item ){
-                        _bbox = _item.getBBox();
-                        _tmpX = _x - _bbox.width / 2;
-                        _tmpY = parseInt( _y + ( _maxY - _y ) * _tmp );
-                        _tmp += .25;
+                    JC.log( 'aaaaaaaaaaaaa', _hlabels.length, _c.vlines.length );
+                    $.each( _c.vlines, function( _ix, _lineItem ){
+                        var _item = _hlabels[_ix ];
+                        if( !_item ) return;
+                        _tmpX = _lineItem.end.x;
+                        _tmpY = _lineItem.end.y;
                         _tmpA.push( { 'x': _tmpX, 'y': _tmpY, 'item': _item  } );
                     });
                     _tmpA.length && ( _c.hlables = _tmpA );
                 }
-                */
 
                 return this.coordinate( _c );
             }
@@ -349,6 +351,11 @@
                         _item.item.attr( { 'x': _item.x, 'y': _item.y } );
                     });
                 }
+                if( _c.hlables ){
+                    $.each( _c.hlables, function( _k, _item ){
+                        _item.item.attr( { 'x': _item.x, 'y': _item.y } );
+                    });
+                }
                 if( _c.vlines ){
                     $.each( _c.vlines, function( _k, _item ){
                         _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
@@ -356,7 +363,7 @@
                 }
                 if( _c.hlines ){
                     $.each( _c.hlines, function( _k, _item ){
-                        _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
+                        _item.item && _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
                     });
                 }
 

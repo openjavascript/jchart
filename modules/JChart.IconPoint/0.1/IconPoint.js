@@ -68,7 +68,10 @@
             }
 
         , hover: function(){ this._view.hover(); return this; }
+
         , unhover: function(){ this._view.unhover(); return this; }
+
+        , attr: function( _k, _v ){ this._view.attr( _k, _v ); return this; }
     });
 
     IconPoint.Model._instanceName = 'JCIconPoint';
@@ -108,6 +111,18 @@
                 $.each( _p._model._style, function( _k, _item ){
                     _p._model._element.attr( _k, _item );
                 });
+            }
+
+        , attr:
+            function( _k, _v ){
+                var _p = this;
+                if( typeof _k == 'object' ){
+                    $.each( _k, function( _ssk, _ssv ){
+                        _p._model._element.attr( _ssk, _ssv );
+                    });
+                }else{
+                    _p._model._element.attr( _k, _v );
+                }
             }
     });
 

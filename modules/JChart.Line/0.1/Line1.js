@@ -46,7 +46,7 @@
 
         this._init();
 
-        //JC.log( Line.Model._instanceName, 'all inited', new Date().getTime() );
+        JC.log( Line.Model._instanceName, 'all inited', new Date().getTime() );
     }
     /**
      * 初始化可识别的 Line 实例

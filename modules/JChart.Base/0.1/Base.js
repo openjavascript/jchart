@@ -122,6 +122,7 @@ window.JChart = window.JChart || {};
 
                 if( !this._root ){
                     this._root = Raphael( this.selector()[0], this.width(), this.height() );
+                    this._root.selector = this.selector();
                 }
 
                 return this._root;
@@ -141,6 +142,15 @@ window.JChart = window.JChart || {};
                             } );
                 }
                 return this._background;
+            }
+
+        , dataBackground:
+            function( _x, _y, _width, _height ){
+                if( typeof this._dataBackground == 'undefined' ){
+                    this._dataBackground = this.root().rect( _x, _y, _width, _height );
+                    this._dataBackground.attr( { 'fill': '#fff', 'fill-opacity': .01, 'stroke-width': 0 } );
+                }
+                return this._dataBackground;
             }
 
         , stageCorner: function(){ return 18; }
@@ -175,7 +185,7 @@ window.JChart = window.JChart || {};
                                 _x += _bx;
                                 $.each( _data.series, function( _k, _item ){
                                     if( !_item.name ) return;
-                                    var _style = _p.seriesStyle( _k );
+                                    var _style = _p.itemStyle( _k );
                                     _legend = new JChart.IconLine( _p.root(), _x, 0 + _by, 18, 3, 1, 4 );
                                     _lb = _legend.getBBox();
                                     _text = _p.root().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
@@ -201,12 +211,6 @@ window.JChart = window.JChart || {};
                 }
                     
                 return this._legend;
-            }
-
-        , seriesStyle:
-            function( _k ){
-                var _r = {};
-                return _r;
             }
 
         , title:
@@ -260,6 +264,30 @@ window.JChart = window.JChart || {};
                 return this._credits;
             }
 
+        , hlen:
+            function( _data ){
+                var _p = this;
+                _data = _data || _p.data();
+
+                if( typeof this._hlen == 'undefined' ){
+                    _data.xAxis && _data.xAxis.categories && ( this._hlen = _data.xAxis.categories.length );
+                    _data.series && _data.series.data && ( this._hlen = _data.series.data.length );
+                }
+                return this._hlen;
+            }
+
+        , vlen:
+            function( _data ){
+                var _p = this;
+                _data = _data || _p.data();
+
+                if( typeof this._vlen == 'undefined' ){
+                    this._vlen = _p.labelRate().length;
+                    
+                }
+                return this._vlen;
+            }
+
         , maxNum:
             function( _data ){
 
@@ -301,12 +329,6 @@ window.JChart = window.JChart || {};
                         });
 
                     }
-                    /*
-                    var _tmp = [];
-                        _tmp.push( _p._maxNNum );
-                        _tmp.push( _p._maxNNum );
-                        JC.log( ['maxNNum', _tmp ] );
-                    */
                 }
 
                 return _p._maxNNum;
@@ -338,7 +360,6 @@ window.JChart = window.JChart || {};
                     _maxNNum = _p.maxNNum( _data );
                     _absNNum = Math.abs( _maxNNum );
                     _finalMaxNum = Math.max( _maxNum, _absNNum );
-                    //_finalMaxNum += _finalMaxNum * .2;
 
                     _zeroIndex = 0;
 
@@ -406,8 +427,8 @@ window.JChart = window.JChart || {};
                 return this._hlabels;
             }
         
-        , varrowSize: function(){ return 5; }
-        , harrowSize: function(){ return 5; }
+        , varrowSize: function(){ return 8; }
+        , harrowSize: function(){ return 8; }
 
         , vlabelMaxWidth:
             function( _data ){
@@ -439,7 +460,7 @@ window.JChart = window.JChart || {};
                 if( !_p._vlines ){
                     _p._vlines = [];
                     $.each( _data.series[0].data, function( _k, _item ){
-                        var _tmp = _p.root().path( 'M0 0' );
+                        var _tmp = _p.root().path( 'M0 0' ).attr( _p.lineStyle( _k ) );
                         _p._vlines.push( _tmp );
                     });
                 }
@@ -452,7 +473,7 @@ window.JChart = window.JChart || {};
                 if( !_p._hlines ){
                     _p._hlines = [];
                     $.each( _p.labelRate(), function( _k, _item ){
-                        var _tmp = _p.root().path( 'M0 0' );
+                        var _tmp = _p.root().path( 'M0 0' ).attr( _p.lineStyle( _k ) );
                         _p._hlines.push( _tmp );
                     });
                 }
@@ -469,6 +490,123 @@ window.JChart = window.JChart || {};
                 return this._coordinate; 
             }
 
+        , itemStyle:
+            function( _ix ){
+                var _r = {};
+                return _r;
+            }
+
+        , itemHoverStyle:
+            function( _ix ){
+                var _r = {};
+                return _r;
+            }
+
+        , pathStyle:
+            function( _ix ){
+                var _r = {};
+                return _r;
+            }
+
+        , lineStyle:
+            function( _ix ){
+                var _r = {};
+                return _r;
+            }
+
+        , indexAt:
+            function( _srcEvt ){
+                return 0;
+            }
+
+        , tips:
+            function( _ix ){
+                var _p = this, _c = _p.coordinate(), _items, _text, _val
+                    , _len = _c.hlen, _count = 0
+                    , _offsetY = 34
+                    , _offsetX = 20
+                    , _padWidth = 14
+                    , _padHeight = 8
+                    , _strokeColor = '#000'
+                    , _tmp, _tmpBox, _tmpItem, _maxWidth = 0
+                    ;
+
+                if( !_p._tips ){
+                    var _initOffset = { x: 10000, y: 0 };
+                    //_initOffset.x = 0;
+                    _p._tips = new JChart.Group();
+
+                    _p._tips.addChild( 
+                        _p.root().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
+                            'stroke': '#999'
+                            , 'fill': '#fff' 
+                            , 'fill-opacity': .94
+                        } )
+                    , 'rect' );
+
+                    _p._tips.addChild( _p.root().text( 10 + _initOffset.x, 14 + _initOffset.y, 'tips' )
+                            .attr( { 'font-weight': 'bold', 'fill': '#999', 'text-anchor': 'start' } )
+                            , 'title' );
+
+                    $.each( _p.data().series, function( _k, _item ){
+                        _strokeColor = _p.itemStyle( _k ).stroke;
+                        _tmp = _p.root().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || 'empty' )
+                                .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
+                        _tmpBox = _tmp.getBBox();
+                        _p._tips.addChild( _tmp, 'label_' + _k );
+                        _offsetY += _tmpBox.height + 5;
+                        _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
+                    });
+
+                    $.each( _p.data().series, function( _k, _item ){
+                        _strokeColor = _p.itemStyle( _k ).stroke;
+                        _tmpItem = _p._tips.getChildByName( 'label_' + _k );
+                        _tmpBox = _tmpItem.getBBox();
+                        _tmp = _p.root().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
+                                .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
+                        _p._tips.addChild( _tmp, 'val_' + _k );
+                    });
+
+                    $.each( _p.data().series, function( _k, _item ){
+                        _tmpItem = _p._tips.getChildByName( 'val_' + _k );
+                        _tmpItem.attr( 'text', '0.00' );
+                    });
+                }
+                if( typeof _ix != 'undefined' ){
+                    _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
+                    $.each( _p.data().series, function( _k, _item ){
+                        _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _ix ] ) );
+                    });
+                }
+                _p._tips.getChildByName( 'rect' ).attr( { width: 80, height: 50 } );
+                _tmpBox = _p._tips.getBBox();
+                _p._tips.getChildByName( 'rect' ).attr( { 'width': _tmpBox.width + _padWidth, 'height': _tmpBox.height + _padHeight } );
+
+                return _p._tips;
+            }
+
+        , tipsTitle:
+            function( _ix ){
+                var _p = this, _r = '';
+
+                _p.data().xAxis
+                    && _p.data().xAxis.categories
+                    && ( _r = _p.data().xAxis.categories[ _ix ] );
+
+                _p.data().xAxis
+                    && _p.data().xAxis.tipTitlePostfix
+                    && ( _r = JC.f.printf(  _p.data().xAxis.tipTitlePostfix, _r ) );
+
+                return _r;
+            }
+
+        , globalEventToLocalOffset:
+            function( _evt ){
+                var _p = this, _srcOffset = $( _p.root().canvas ).offset(), _r = { x: 0, y: 0 }, _c = _p.coordinate();
+                _r.x = _evt.pageX  - _srcOffset.left;
+                _r.y = _evt.pageY - _srcOffset.top;
+                return _r;
+            }
     });
 
     JC.f.extendObject( Base.View.prototype, {

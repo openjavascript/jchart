@@ -49,6 +49,14 @@ window.JChart = window.JChart || {};
                 this._view.hide();
                 return this;
             }
+
+        , toFront:
+            function(){
+                $.each( this._model.children(), function( _ix, _item ){
+                    _item.toFront();
+                });
+                return this;
+            }
     };
 
     function Model(){

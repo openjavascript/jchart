@@ -2,7 +2,7 @@
     Raphael.el.mouseenter =
         function( _handler ){
             var _p = this, _bbox, _doc = $( document ), _rect;
-            if( !_p.paper.stage ) return;
+            if( !_p.paper.selector ) return;
 
             _p.mouseover( function( _evt ){
                 if( _p.IS_ENTER ) return;
@@ -37,7 +37,7 @@
     Raphael.el.mouseleave =
         function( _handler ){
             var _p = this, _bbox, _doc = $( document ), _rect;
-            if( !_p.paper.stage ) return;
+            if( !_p.paper.selector ) return;
 
             _p.mouseover( function( _evt ){
                 if( _p.IS_LEAVE ) return;

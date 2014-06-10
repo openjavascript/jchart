@@ -14,10 +14,10 @@
                 _offset.x = _offset.left;
                 _offset.y = _offset.top;
                 _rect = {
-                    x: _offset.x + _bbox.x
-                    , x2: _offset.x + _bbox.x2
-                    , y: _offset.y + _bbox.y
-                    , y2: _offset.y + _bbox.y2
+                    x: Math.floor( _offset.x + _bbox.x )
+                    , x2: Math.floor( _offset.x + _bbox.x2 )
+                    , y: Math.floor( _offset.y + _bbox.y )
+                    , y2: Math.floor( _offset.y + _bbox.y2 )
                 };
                 _doc.on( 'mousemove', _innerMousemove );
             });
@@ -48,10 +48,10 @@
                 _offset.x = _offset.left;
                 _offset.y = _offset.top;
                 _rect = {
-                    x: _offset.x + _bbox.x
-                    , x2: _offset.x + _bbox.x2
-                    , y: _offset.y + _bbox.y
-                    , y2: _offset.y + _bbox.y2
+                    x: Math.floor( _offset.x + _bbox.x )
+                    , x2: Math.floor( _offset.x + _bbox.x2 )
+                    , y: Math.floor( _offset.y + _bbox.y )
+                    , y2: Math.floor( _offset.y + _bbox.y2 )
                 };
                 _doc.on( 'mousemove', _innerMousemove );
             });

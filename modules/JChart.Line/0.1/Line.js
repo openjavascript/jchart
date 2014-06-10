@@ -507,7 +507,7 @@
                     };
                 }
 
-                this.coordinate( _c );
+                _p.coordinate( _c );
 
                 var _tips = _p.tips();
 
@@ -585,14 +585,14 @@
 
                 _p._model.dataBackground().mouseenter( function( _evt ){
                     Line.CURRENT_INS = _p;
-                    JC.log( 'mouseenter', JC.f.ts() );
+                    //JC.log( 'mouseenter', JC.f.ts() );
                     _jdoc.on( 'mousemove', Line.DEFAULT_MOVE );
                     _p.trigger( 'moving_start' );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
                     Line.CURRENT_INS = null;
-                    JC.log( 'mouseleave', JC.f.ts() );
+                    //JC.log( 'mouseleave', JC.f.ts() );
                     _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
                     _p.trigger( 'moving_done' );
                 });
@@ -601,7 +601,6 @@
 
         , updateTips:
             function( _ix, _offset ){
-                return;
                 var _p = this
                     , _tips = _p._model.tips( _ix )
                     , _bbox = _tips.getBBox()

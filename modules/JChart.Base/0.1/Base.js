@@ -122,7 +122,7 @@ window.JChart = window.JChart || {};
 
                 if( !this._root ){
                     this._root = Raphael( this.selector()[0], this.width(), this.height() );
-                    this._root.selector = this.selector();
+                    this._root.selector = this._root.canvas;
                 }
 
                 return this._root;
@@ -167,10 +167,6 @@ window.JChart = window.JChart || {};
             function( _data, _type, _cb ){
                 var _p = this, _tmp = true, _type;
 
-                /*
-                var _legend = new JChart.IconLine( _p.root(), 0, 0, 18, 3, 1, 4 );
-                return;
-                */
                 if( !this._legend && _data && 
                         ( ( _data.legend && ( 'enabled' in _data.legend ) && ( _tmp = _data.legend.enabled ) ) ||
                           _tmp
@@ -199,10 +195,7 @@ window.JChart = window.JChart || {};
                                 });
 
                                 var _box = _p.root().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                                        .attr( 'stroke-opacity', 1 )
-                                        .attr( 'stroke-width', 1 )
-                                        .attr( 'stroke', '#909090' )
-                                        ;
+                                        .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
                                 _p._legend.addChild( _box, 'box' );
 
                                 break;

@@ -4,7 +4,7 @@
     JChart.Geometry = {
         pointRectangleIntersection:
             function(p, r) {
-                return p.x >= r.x && p.x <= r.x2 && p.y > r.y && p.y < r.y2;
+                return p.x >= r.x && p.x <= r.x2 && p.y >= r.y && p.y <= r.y2;
             }
     };
 

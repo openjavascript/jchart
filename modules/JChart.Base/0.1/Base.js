@@ -453,7 +453,13 @@ window.JChart = window.JChart || {};
                 if( !_p._vlines ){
                     _p._vlines = [];
                     $.each( _data.series[0].data, function( _k, _item ){
-                        var _tmp = _p.root().path( 'M0 0' ).attr( _p.lineStyle( _k ) );
+                        //var _tmp = _p.root().path( 'M0 0' ).attr( _p.lineStyle( _k ) );
+                        var _tmp = new JChart.IconVLine( 
+                            _p.root()
+                            , ['M0 0'].join(' ' )
+                            , JC.f.extendObject( _p.lineStyle( _k ), { 'stroke': '#999', 'stroke-width': 1 } )
+                            , JC.f.extendObject( _p.lineStyle( _k ), { 'stroke': '#000', 'stroke-width': 1 } )
+                        );
                         _p._vlines.push( _tmp );
                     });
                 }
@@ -599,6 +605,12 @@ window.JChart = window.JChart || {};
                 _r.x = _evt.pageX  - _srcOffset.left;
                 _r.y = _evt.pageY - _srcOffset.top;
                 return _r;
+            }
+
+        , preItems:
+            function( _setter ){
+                typeof _setter != 'undefined' && ( this._preItems = _setter );
+                return this._preItems;
             }
     });
 

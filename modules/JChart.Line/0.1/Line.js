@@ -46,7 +46,7 @@
 
         this._init();
 
-        JC.log( Line.Model._instanceName, 'all inited', new Date().getTime() );
+        //JC.log( Line.Model._instanceName, 'all inited', new Date().getTime() );
     }
     /**
      * 初始化可识别的 Line 实例
@@ -100,6 +100,7 @@
                     var _offset = _p._model.globalEventToLocalOffset( _srcEvt )
                         , _index = _p._model.indexAt( _offset );
 
+                    _p.trigger( 'clear_status' );
                     if( typeof _index == 'undefined' ) return;
 
                     _p.trigger( 'update_status', [ _index, _offset  ] );
@@ -116,7 +117,7 @@
                 });
 
                 _p.on( 'clear_status', function(){
-                    //_p._view.clearStatus();
+                    _p._view.clearStatus();
                 });
 
                 _p.on( 'update_status', function( _evt, _index, _offset ){
@@ -124,6 +125,8 @@
                     if( typeof _index == 'undefined' ) return;
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
                     _p._view.updateTips( _index, _offset );
+                    _p._view.updatePoint( _index );
+                    _p._view.updateVLine( _index );
                 });
             }
 
@@ -383,7 +386,7 @@
                     _maxY -= 5;
                 }
 
-                JC.log( _x, _maxX, _maxX - _x );
+                //JC.log( _x, _maxX, _maxX - _x );
 
                 _c.vlen = _p.vlen();
                 _c.hlen = _p.hlen();
@@ -596,7 +599,7 @@
                     _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
                     _p.trigger( 'moving_done' );
                 });
-                JC.dir( _p.root() );
+                //JC.dir( _p.root() );
             }
 
         , updateTips:
@@ -620,6 +623,40 @@
                 _x < 0 && ( _x = 0 );
 
                 _tips.setPosition( _x, _y );
+            }
+
+        , updatePoint:
+            function( _ix ){
+                var _p = this, _r = [], _preItems = _p._model.preItems() || {};
+                $.each( _p._model.point(), function( _k, _item ){
+                    _r.push( _item[ _ix ].hover() );
+                });
+
+                _preItems.point = _r;
+                _p._model.preItems( _preItems );
+            }
+
+        , updateVLine:
+            function( _ix ){
+                var _p = this, _r = [], _preItems = _p._model.preItems() || {};
+
+                _p._model.vlines() 
+                    && ( _preItems.vlines = _p._model.vlines()[ _ix ].hover() )
+                    && _p._model.preItems( _preItems );
+            }
+
+        , clearStatus:
+            function(){
+                var _p = this, _preItems = _p._model.preItems();
+
+                if( _preItems ){
+                    _preItems.point && $.each( _preItems.point, function( _k, _item ){
+                        _item.unhover();
+                    });
+                    _preItems.vlines && _preItems.vlines.unhover();
+                }
+
+                _p._model.preItems( null );
             }
     });
 

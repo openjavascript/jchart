@@ -68,6 +68,13 @@
         , hover: function(){ this._view.hover(); return this; }
         , unhover: function(){ this._view.unhover(); return this; }
 
+        , attr:
+            function( _k, _v ){
+                this._view.attr( _k, _v );
+                return this;
+            }
+
+
         , update:
             function( _path, _translate ){
                 this._view.update( _path, _translate );
@@ -122,6 +129,12 @@
 
                 _translate && _p._model._element.translate( .5, .5 );
             }
+
+        , attr:
+            function( _k, _v ){
+                this._model._element.attr( _k, _v );
+            }
+
     });
 
     return JC.IconVLine;

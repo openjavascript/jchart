@@ -333,6 +333,8 @@
                     _y = _c.subtitle.y + _bbox.height / 2;
                 }
 
+                !( _title && _subtitle ) && ( _y += 10 );
+
                 var _vtitle = _p.vtitle( _data );
                 if( _vtitle ){
                     _bbox = _vtitle.getBBox();
@@ -671,6 +673,10 @@
 
     _jdoc.ready( function(){
         Line.autoInit && Line.init();
+    });
+
+    _jwin.on( JChart.Base.RESIZE_UPDATE, function( _evt ){
+        JChart.Base.reset( 'div.jchartLine', JChart.Line );
     });
 
     return Line;

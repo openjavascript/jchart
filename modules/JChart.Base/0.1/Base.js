@@ -57,13 +57,26 @@ window.JChart = window.JChart || {};
     JC.f.extendObject( Base.prototype, {
         _init:
             function(){
-                _oldInit.call( this );
+                var _p = this;
 
-                this.on( 'update', function( _evt, _data ){
-                    this._view.update( _data );
+                _oldInit.call( _p );
+
+                _p.on( 'update', function( _evt, _data ){
+                    _p.trigger( 'clear' );
+                    _p._view.update( _data );
+
+                    _p._model.chartSize( { width: _p._model.width(), height: _p._model.height() } );
                 });
 
-                this._initData();
+                _p.on( 'clear', function( _evt ){
+                    _p.trigger( 'clear_status' );
+                    _p._view && _p._view.clear();
+                    //_p._model.clear && _p._model.clear();
+                });
+
+                _p._initData();
+
+                _p._model.chartSize( { width: _p._model.width(), height: _p._model.height() } );
             }
 
         , _beforeInit:
@@ -76,7 +89,6 @@ window.JChart = window.JChart || {};
 
         , _inited:
             function(){
-                _p._initData();
             }
 
         /**
@@ -90,6 +102,16 @@ window.JChart = window.JChart || {};
                     _data = eval( '(' + _data + ')' );
                     this.trigger( 'update', [ _data ] );
                 }
+                return this;
+            }
+        /**
+         * 更新数据
+         * @method update
+         * @param   object  _data
+         */
+        , update:
+            function( _data ){
+                this.trigger( 'update', _data );
                 return this;
             }
     });
@@ -116,9 +138,17 @@ window.JChart = window.JChart || {};
          */
         , height:
             function(){
-                var _r = this.selector().prop( 'offsetHeight' );
+                var _r = this.selector().prop( 'offsetHeight' ) || 400;
                 this.is( '[chartHeight]' ) && ( _r = this.intProp( 'chartHeight' ) || _r );
                 return _r;
+            }
+        /**
+         * 设置或保存图表的宽高
+         */
+        , chartSize:
+            function( _setter ){
+                typeof _setter != 'undefined' && ( this._chartSize = _setter );
+                return this._chartSize;
             }
         /**
          * 图表画布
@@ -137,6 +167,27 @@ window.JChart = window.JChart || {};
          * 画布圆角弧度 
          */
         , stageCorner: function(){ return 18; }
+        /**
+         * 清除图表数据
+         */
+        , clear: 
+            function(){
+                var _p = this, _k;
+                for( _k in _p ){
+                    //JC.log( _k, JC.f.ts() );
+                    if( /^\_/.test( _k ) ){
+                        if( _k == '_selector' ) continue;
+                        _p[ _k ] = undefined;
+                    }
+                }
+                //JC.log( 'JChart.Base clear', JC.f.ts() );
+            }
+        /**
+         * 清除图表状态
+         */
+        , clearStatus:
+            function(){
+            }
         /**
          * 图表背景
          */
@@ -656,7 +707,7 @@ window.JChart = window.JChart || {};
                 if( typeof _ix != 'undefined' ){
                     _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
                     $.each( _p.data().series, function( _k, _item ){
-                        _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _ix ] ) );
+                        _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) );
                     });
                 }
                 _p._tips.getChildByName( 'rect' ).attr( { width: 80, height: 50 } );
@@ -664,6 +715,17 @@ window.JChart = window.JChart || {};
                 _p._tips.getChildByName( 'rect' ).attr( { 'width': _tmpBox.width + _padWidth, 'height': _tmpBox.height + _padHeight } );
 
                 return _p._tips;
+            }
+        /**
+         * 显示数值时 浮点数 的长度
+         */
+        , floatLen:
+            function(){
+                if( typeof this._floatLen == 'undefined' ){
+                    this._floatLen = 2;
+                    'floatLen' in this.data() && ( this._floatLen = this.data().floatLen );
+                }
+                return this._floatLen;
             }
         /**
          * 获取 tips 标题文本
@@ -705,10 +767,6 @@ window.JChart = window.JChart || {};
          */
         , displayAllLabel: function(){ return this.data().displayAllLabel; }
 
-        /**
-         * 清除图表数据
-         */
-        , clear: function(){}
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -716,23 +774,44 @@ window.JChart = window.JChart || {};
             function(){
                 //JC.log( 'Base.View.init:', new Date().getTime() );
             }
-
+        /**
+         * 图表高度
+         */
         , width: function(){ return this._model.width(); }
+        /**
+         * 图表高度
+         */
         , height: function(){ return this._model.height(); }
-
+        /**
+         * 图表画布
+         */
+        , stage: function(){ return this._model.stage(); }
+        /**
+         * 初始化的选择器
+         */
         , selector:
             function(){
                 return this._model.selector();
             }
-
+        /**
+         * 清除图表数据
+         */
         , clear: 
             function(){
+                var _p = this;
+                if( !_p._model._stage ) return;
+                $( _p._model._stage.canvas ).remove();
+                _p._model._stage = undefined;
             }
-
+        /**
+         * 清除图表状态
+         */
         , clearStatus:
             function(){
             }
-
+        /**
+         * 更新图表数据
+         */
         , update: 
             function( _data ){
                 this.clear();
@@ -740,21 +819,40 @@ window.JChart = window.JChart || {};
                 this._model.data( _data );
                 this.draw( _data );
             }
-
+        /**
+         * 渲染图表外观
+         */
         , draw: 
             function( _data ){
             }
-
-        , stage: function(){ return this._model.stage(); }
-
+        /**
+         * 显示静态外观
+         */
         , setStaticPosition: function(){}
-
     });
 
     Base.numberUp = numberUp;
     Base.isFloat = isFloat;
     Base.isNegative = isNegative;
     Base.hasNegative = hasNegative;
+
+    Base.RESIZE_UPDATE = 'JCHART_RESIZE_UPDATE';
+
+    Base.reset =
+        function( _selector, _class ){
+            $( _selector ).each( function( _k, _item ){
+                _item = $( _item );
+                var _ins = JC.BaseMVC.getInstance( _item, _class ), _size, _newSize, _w, _h;
+                if( !( _ins && _ins._model.data() ) ) return;
+                _size = _ins._model.chartSize();
+                if( !_size ) return;
+                _w = _ins._model.width(); _h = _ins._model.height();
+                if( _size.width == _w && _size.height == _h ) return;
+                _w < 100 && ( _w = 100 ); 
+                _h < 100 && ( _h = 100 );
+                _ins.trigger( 'update', _ins._model.data() );
+            });
+        };
 
     function isNegative( _num ){
         return _num < 0;
@@ -812,6 +910,12 @@ window.JChart = window.JChart || {};
         
         return _out;
     }
+
+    _jwin.on( 'resize', function(){
+        JC.f.safeTimeout( function(){
+            _jwin.trigger( Base.RESIZE_UPDATE );
+        }, null, 'JCHART_RESIZE_asdfaewfaes', 200 );
+    });
 
     return JChart.Base;
 });}( typeof define === 'function' && define.amd ? define : 

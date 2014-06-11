@@ -79,17 +79,17 @@ window.JChart = window.JChart || {};
                 _p._initData();
             }
 
+        /**
+         * 初始化数据
+         */
         , _initData:
             function(){
-
                 var _data;
-
                 if( this.selector().attr( 'chartScriptData' ) ){
                     _data = JC.f.scriptContent( this._model.selectorProp( 'chartScriptData' ) );
                     _data = eval( '(' + _data + ')' );
                     this.trigger( 'update', [ _data ] );
                 }
-
                 return this;
             }
     });
@@ -102,37 +102,49 @@ window.JChart = window.JChart || {};
             function(){
                 //JC.log( 'Base.Model.init:', new Date().getTime() );
             }
-
+        /**
+         * 图表宽度
+         */
         , width:
             function(){
                 var _r = this.selector().prop( 'offsetWidth' );
                 this.is( '[chartWidth]' ) && ( _r = this.intProp( 'chartWidth' ) || _r );
                 return _r;
             }
-
+        /**
+         * 图表高度
+         */
         , height:
             function(){
                 var _r = this.selector().prop( 'offsetHeight' );
                 this.is( '[chartHeight]' ) && ( _r = this.intProp( 'chartHeight' ) || _r );
                 return _r;
             }
-
-        , root:
+        /**
+         * 图表画布
+         */
+        , stage:
             function(){
 
-                if( !this._root ){
-                    this._root = Raphael( this.selector()[0], this.width(), this.height() );
-                    this._root.selector = this._root.canvas;
+                if( !this._stage ){
+                    this._stage = Raphael( this.selector()[0], this.width(), this.height() );
+                    this._stage.selector = this._stage.canvas;
                 }
 
-                return this._root;
+                return this._stage;
             }
-
+        /**
+         * 画布圆角弧度 
+         */
+        , stageCorner: function(){ return 18; }
+        /**
+         * 图表背景
+         */
         , background:
             function( _c ){
                 if( _c && _c.stage ){
                     this._background =
-                        this.root().rect( _c.stage.x, _c.stage.y, _c.stage.width, _c.stage.height, _c.stage.corner )
+                        this.stage().rect( _c.stage.x, _c.stage.y, _c.stage.width, _c.stage.height, _c.stage.corner )
                             .attr( { 
                                 'fill-opacity': .08 
                                 , 'fill': '#ccc'
@@ -143,26 +155,32 @@ window.JChart = window.JChart || {};
                 }
                 return this._background;
             }
-
+        /**
+         * 图表数据背景
+         */
         , dataBackground:
             function( _x, _y, _width, _height ){
                 if( typeof this._dataBackground == 'undefined' ){
-                    this._dataBackground = this.root().rect( _x, _y, _width, _height );
+                    this._dataBackground = this.stage().rect( _x, _y, _width, _height );
                     this._dataBackground.attr( { 'fill': '#fff', 'fill-opacity': .01, 'stroke-width': 0 } );
                 }
                 return this._dataBackground;
             }
-
-        , stageCorner: function(){ return 18; }
-        
+        /**
+         * 保存图表数据
+         */
         , data:
             function( _data ){
                 typeof _data != 'undefined' && ( this._data = _data );
                 return this._data;
             }
-
+        /**
+         * 清除图表数据
+         */
         , clear: function(){}
-
+        /**
+         * 数据图例图标
+         */
         , legend:
             function( _data, _type, _cb ){
                 var _p = this, _tmp = true, _type;
@@ -182,9 +200,9 @@ window.JChart = window.JChart || {};
                                 $.each( _data.series, function( _k, _item ){
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
-                                    _legend = new JChart.IconLine( _p.root(), _x, 0 + _by, 18, 3, 1, 4 );
+                                    _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by, 18, 3, 1, 4 );
                                     _lb = _legend.getBBox();
-                                    _text = _p.root().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
+                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
                                     _tb = _text.getBBox();
                                     _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2  + 2  } );
                                     _legend.attr( _style );
@@ -194,7 +212,7 @@ window.JChart = window.JChart || {};
                                     _h = _tb.height * 1.8;
                                 });
 
-                                var _box = _p.root().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
+                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
                                         .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
                                 _p._legend.addChild( _box, 'box' );
 
@@ -205,46 +223,53 @@ window.JChart = window.JChart || {};
                     
                 return this._legend;
             }
-
+        /**
+         * 图表标题
+         */
         , title:
             function( _data ){
                 _data && _data.title && _data.title.text 
                     && !this._title 
-                    && ( this._title = this.root().text( -9999, 0, _data.title.text ) )
+                    && ( this._title = this.stage().text( -9999, 0, _data.title.text ) )
                     && ( this._title.node.setAttribute( 'class', 'jcc_title' ) )
                     ;
 
                 return this._title;
             }
-
+        /**
+         * 图表子标题
+         */
         , subtitle:
             function( _data ){
                 _data && _data.subtitle && _data.subtitle.text 
                     && !this._subtitle 
-                    && ( this._subtitle = this.root().text( 0, 0, _data.subtitle.text ) )
+                    && ( this._subtitle = this.stage().text( 0, 0, _data.subtitle.text ) )
                     && ( this._subtitle.node.setAttribute( 'class', 'jcc_subtitle' ) )
                     ;
                 return this._subtitle;
             }
-
+        /**
+         * 图表垂直标题
+         */
         , vtitle:
             function( _data ){
                 _data && _data.yAxis && _data.yAxis.title && _data.yAxis.title.text
                     && !this._vtitle 
-                    && ( this._vtitle = this.root().text( -9999, 0, _data.yAxis.title.text )
+                    && ( this._vtitle = this.stage().text( -9999, 0, _data.yAxis.title.text )
                           , this._vtitle.node.setAttribute( 'class', 'jcc_vtitle' )   
                         )
                     ;
                 return this._vtitle;
             }
-
+        /**
+         * 图表版权 */
         , credits:
             function( _data ){
 
                 if( _data ){
                     _data.credits && _data.credits.enabled && ( _data.credits.text || _data.credits.href )
                         && ! this._credits 
-                        && ( this._credits = this.root().text( -9999, 0, _data.credits.text || _data.credits.href ) )
+                        && ( this._credits = this.stage().text( -9999, 0, _data.credits.text || _data.credits.href ) )
                         && ( this._credits.node.setAttribute( 'class', 'jcc_credit' ) )
                         ;
                     this._credits && _data.credits.href
@@ -256,7 +281,9 @@ window.JChart = window.JChart || {};
                 }
                 return this._credits;
             }
-
+        /**
+         * 图表
+         */
         , hlen:
             function( _data ){
                 var _p = this;
@@ -393,7 +420,7 @@ window.JChart = window.JChart || {};
                         });
                     });
 
-                    _eles.length && ( _p._vlabels = _p.root().add( _eles ) );
+                    _eles.length && ( _p._vlabels = _p.stage().add( _eles ) );
                 }
                 return this._vlabels;
             }
@@ -404,20 +431,39 @@ window.JChart = window.JChart || {};
                     var _p = this
                         , _eles = []
                         , _tmp
+                        , _match = _p.labelDisplayIndex( _data )
                         ;
 
                     $.each( _data.xAxis.categories, function( _ix, _item ){
-                        _eles.push( {
-                            type: 'text'
-                            , text: _item || ''
-                            , x: -10000
-                        });
+                        _tmp = _p.stage().text( 10000, 0, _item || '' );
+                        _match && _match.length && !_match[ _ix ] && _tmp.hide();
+                        _eles.push( _tmp );
                     });
 
-
-                    _eles.length && ( _p._hlabels = _p.root().add( _eles ) );
+                    _eles.length && ( _p._hlabels = _eles );
                 }
                 return this._hlabels;
+            }
+
+        , labelDisplayIndex:
+            function( _data ){
+                var _p = this, _tmp, _len;
+                if( typeof _p._labelDisplayIndex == 'undefined' ){
+                    _len = _p.hlen( _data );
+                    if( !_p.displayAllLabel( _data ) ){
+                        _p._labelDisplayIndex = [];
+                        _p._labelDisplayIndex[ 0 ] = true;
+                        _p._labelDisplayIndex[ _len - 1 ] = true;
+
+                        _tmp = Math.ceil( _len / 3 );
+
+                        _p._labelDisplayIndex[ Math.floor( _tmp * 1 ) - 1 ] = true;
+                        _p._labelDisplayIndex[ Math.floor( _tmp * 2 ) - 1 ] = true;
+                    }
+
+                    !_p._labelDisplayIndex && ( _p._labelDisplayIndex = null );
+                }
+                return _p._labelDisplayIndex;
             }
         
         , varrowSize: function(){ return 8; }
@@ -449,13 +495,23 @@ window.JChart = window.JChart || {};
 
         , vlines:
             function( _data ){
-                var _p = this;
+                var _p = this, _items;
                 if( !_p._vlines ){
                     _p._vlines = [];
-                    $.each( _data.series[0].data, function( _k, _item ){
-                        //var _tmp = _p.root().path( 'M0 0' ).attr( _p.lineStyle( _k ) );
+
+                    _data && _data.xAxis && _data.xAxis.categories && ( _items = _data.xAxis.categories );
+                    _data 
+                        && _data.series 
+                        && _data.series[0]
+                        && _data.series[0].data
+                        && _data.series[0].data.length
+                        && ( _items = _data.series[0].data );
+
+                    _items && 
+                        $.each( _items, function( _k, _item ){
+                        //var _tmp = _p.stage().path( 'M0 0' ).attr( _p.lineStyle( _k ) );
                         var _tmp = new JChart.IconVLine( 
-                            _p.root()
+                            _p.stage()
                             , ['M0 0'].join(' ' )
                             , JC.f.extendObject( _p.lineStyle( _k ), { 'stroke': '#999', 'stroke-width': 1 } )
                             , JC.f.extendObject( _p.lineStyle( _k ), { 'stroke': '#000', 'stroke-width': 1 } )
@@ -472,7 +528,7 @@ window.JChart = window.JChart || {};
                 if( !_p._hlines ){
                     _p._hlines = [];
                     $.each( _p.labelRate(), function( _k, _item ){
-                        var _tmp = _p.root().path( 'M0 0' ).attr( _p.lineStyle( _k ) );
+                        var _tmp = _p.stage().path( 'M0 0' ).attr( _p.lineStyle( _k ) );
                         _p._hlines.push( _tmp );
                     });
                 }
@@ -536,20 +592,20 @@ window.JChart = window.JChart || {};
                     _p._tips = new JChart.Group();
 
                     _p._tips.addChild( 
-                        _p.root().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
+                        _p.stage().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
                             'stroke': '#999'
                             , 'fill': '#fff' 
                             , 'fill-opacity': .94
                         } )
                     , 'rect' );
 
-                    _p._tips.addChild( _p.root().text( 10 + _initOffset.x, 14 + _initOffset.y, 'tips' )
+                    _p._tips.addChild( _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, 'tips' )
                             .attr( { 'font-weight': 'bold', 'fill': '#999', 'text-anchor': 'start' } )
                             , 'title' );
 
                     $.each( _p.data().series, function( _k, _item ){
                         _strokeColor = _p.itemStyle( _k ).stroke;
-                        _tmp = _p.root().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || 'empty' )
+                        _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || 'empty' )
                                 .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
                         _tmpBox = _tmp.getBBox();
                         _p._tips.addChild( _tmp, 'label_' + _k );
@@ -561,7 +617,7 @@ window.JChart = window.JChart || {};
                         _strokeColor = _p.itemStyle( _k ).stroke;
                         _tmpItem = _p._tips.getChildByName( 'label_' + _k );
                         _tmpBox = _tmpItem.getBBox();
-                        _tmp = _p.root().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
+                        _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
                                 .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
                         _p._tips.addChild( _tmp, 'val_' + _k );
                     });
@@ -601,7 +657,7 @@ window.JChart = window.JChart || {};
 
         , globalEventToLocalOffset:
             function( _evt ){
-                var _p = this, _srcOffset = $( _p.root().canvas ).offset(), _r = { x: 0, y: 0 }, _c = _p.coordinate();
+                var _p = this, _srcOffset = $( _p.stage().canvas ).offset(), _r = { x: 0, y: 0 }, _c = _p.coordinate();
                 _r.x = _evt.pageX  - _srcOffset.left;
                 _r.y = _evt.pageY - _srcOffset.top;
                 return _r;
@@ -612,6 +668,8 @@ window.JChart = window.JChart || {};
                 typeof _setter != 'undefined' && ( this._preItems = _setter );
                 return this._preItems;
             }
+
+        , displayAllLabel: function(){ return this.data().displayAllLabel; }
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -645,7 +703,7 @@ window.JChart = window.JChart || {};
             function( _data ){
             }
 
-        , root: function(){ return this._model.root(); }
+        , stage: function(){ return this._model.stage(); }
 
     });
 

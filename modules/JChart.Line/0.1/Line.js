@@ -178,7 +178,7 @@
                 if( typeof _p._path == 'undefined' ){
                     _p._path = [];
                     $.each( _p.data().series, function( _k, _item ){
-                        _tmp = _p.root().path( 'M0 0' ).attr(_p.pathStyle( _k ) );
+                        _tmp = _p.stage().path( 'M0 0' ).attr(_p.pathStyle( _k ) );
                         _p._path.push( _tmp );
                     });
                 }
@@ -197,7 +197,7 @@
                         var _items = [];
                         $.each( _item.data, function( _sk, _sitem ){
                             _tmp = new JChart.IconPoint( 
-                                _p.root()
+                                _p.stage()
                                 , 0, 0
                                 , Line.Model.STYLE.radius 
                                 , _p.itemStyle( _k )
@@ -298,10 +298,10 @@
                     , _bbox
                     , _x = 0, _maxX = _p.width() - 5
                     , _y = 0, _maxY = _p.height() - 5
-                    , _tmp, _tmpX, _tmpY, _tmpA, _tmpA1
+                    , _tmp, _tmpX, _tmpY, _padX, _tmpA, _tmpA1
                     ;
 
-                _p.root();
+                _p.stage();
 
                 _c.stage = { x: 0, y: 0, width: _p.width(), height: _p.height(), corner: _p.stageCorner()  };
                 _p.background( _c );
@@ -402,14 +402,26 @@
                 _c.lineX = _x;
                 _c.lineMaxX = _maxX;
 
+                var _dataBackground = _p.dataBackground( _c.lineX, _c.lineY, _c.lineWidth, _c.lineHeight );
+                if( _dataBackground ){
+                    _c.dataBackground = {
+                        x: _c.lineX, y: _c.lineY, width: _c.lineWidth, height: _c.lineHeight, item: _dataBackground
+                    };
+                }
+
                 var _vlines = _p.vlines( _data );
                 if( _vlines && _vlines.length ){
                     _tmpA = [];
                     _tmpA1 = [];
+                    _tmp = _p.labelDisplayIndex( _data );
                     $.each( _vlines, function( _ix, _item ){
                         _tmpX = _x + _c.hpart * _ix;
+                        _padX = _p.varrowSize();
+                        if( _tmp && _tmp.length ){
+                            !_tmp[ _ix ] && ( _padX = 0 );
+                        }
                         _tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
-                            , end: { 'x': _tmpX, 'y': _maxY + _p.varrowSize() }
+                            , end: { 'x': _tmpX, 'y': _maxY + _padX }
                             , 'item': _item  } );
                         _tmpA1.push( {  start: { 'x': _tmpX, 'y': _y }
                             , end: { 'x': _tmpX, 'y': _maxY }
@@ -503,13 +515,6 @@
                     _c.path.push( _pathPoint );
                 });
 
-                var _dataBackground = _p.dataBackground( _c.lineX, _c.lineY, _c.lineWidth, _c.lineHeight );
-                if( _dataBackground ){
-                    _c.dataBackground = {
-                        x: _c.lineX, y: _c.lineY, width: _c.lineWidth, height: _c.lineHeight, item: _dataBackground
-                    };
-                }
-
                 _p.coordinate( _c );
 
                 var _tips = _p.tips();
@@ -599,7 +604,7 @@
                     _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
                     _p.trigger( 'moving_done' );
                 });
-                //JC.dir( _p.root() );
+                //JC.dir( _p.stage() );
             }
 
         , updateTips:

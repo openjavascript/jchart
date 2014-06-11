@@ -1,16 +1,16 @@
 ;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconPoint', 'JChart.IconVLine' ], function(){
 /**
- * 组件用途简述
+ * 曲线图
  *
  *<p><b>require</b>:
  *   <a href='JChart.Base.html'>JChart.Base</a>
  *</p>
  *
  *<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
- *   | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Line.html' target='_blank'>API docs</a>
- *   | <a href='../../modules/JChart.Line/0.1/_demo' target='_blank'>demo link</a></p>
+ *   | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.CurveGram.html' target='_blank'>API docs</a>
+ *   | <a href='../../modules/JChart.CurveGram/0.1/_demo' target='_blank'>demo link</a></p>
  *  
- *<h2>页面只要引用本脚本, 默认会处理 span class="jchartLine"</h2>
+ *<h2>页面只要引用本脚本, 默认会处理 span class="jchartCurveGram"</h2>
  *
  *<h2>可用的 HTML attribute</h2>
  *
@@ -20,76 +20,76 @@
  *</dl> 
  *
  * @namespace   JChart
- * @class       Line
+ * @class       CurveGram
  * @extends     JChart.BaseMVC
  * @constructor
  * @param   {selector|string}   _selector   
- * @version dev 0.1 2014-02-12
+ * @version dev 0.1 2014-06-11
  * @author  qiushaowei <suches@btbtd.org> | 75 Team
  * @example
-        <h2>JChart.Line 示例</h2>
+        <h2>JChart.CurveGram 示例</h2>
  */
     var _jdoc = $( document ), _jwin = $( window );
 
-    JChart.Line = Line;
+    JChart.CurveGram = CurveGram;
 
-    function Line( _selector ){
+    function CurveGram( _selector ){
         _selector && ( _selector = $( _selector ) );
 
-        if( JC.BaseMVC.getInstance( _selector, Line ) ) 
-            return JC.BaseMVC.getInstance( _selector, Line );
+        if( JC.BaseMVC.getInstance( _selector, CurveGram ) ) 
+            return JC.BaseMVC.getInstance( _selector, CurveGram );
 
-        JC.BaseMVC.getInstance( _selector, Line, this );
+        JC.BaseMVC.getInstance( _selector, CurveGram, this );
 
-        this._model = new Line.Model( _selector );
-        this._view = new Line.View( this._model );
+        this._model = new CurveGram.Model( _selector );
+        this._view = new CurveGram.View( this._model );
 
         this._init();
 
-        //JC.log( Line.Model._instanceName, 'all inited', new Date().getTime() );
+        //JC.log( CurveGram.Model._instanceName, 'all inited', new Date().getTime() );
     }
     /**
-     * 初始化可识别的 Line 实例
+     * 初始化可识别的 CurveGram 实例
      * @method  init
      * @param   {selector}      _selector
      * @static
-     * @return  {Array of LineInstance}
+     * @return  {Array of CurveGramInstance}
      */
-    Line.init =
+    CurveGram.init =
         function( _selector ){
             var _r = [];
             _selector = $( _selector || document );
 
             if( _selector.length ){
-                if( _selector.hasClass( 'jchartLine' )  ){
-                    _r.push( new Line( _selector ) );
+                if( _selector.hasClass( 'jchartCurveGram' )  ){
+                    _r.push( new CurveGram( _selector ) );
                 }else{
-                    _selector.find( 'div.jchartLine' ).each( function(){
-                        _r.push( new Line( this ) );
+                    _selector.find( 'div.jchartCurveGram' ).each( function(){
+                        _r.push( new CurveGram( this ) );
                     });
                 }
             }
             return _r;
         };
 
-    Line.CURRENT_INS = null;
-    Line.DEFAULT_MOVE =
+    CurveGram.CURRENT_INS = null;
+    CurveGram.DEFAULT_MOVE =
         function( _evt ){
-            if( !Line.CURRENT_INS ){
-                _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
+            if( !CurveGram.CURRENT_INS ){
+                _jdoc.off( 'mousemove', CurveGram.DEFAULT_MOVE );
                 return;
             }
-            var _p = Line.CURRENT_INS;
-            //JC.log( 'Line.DEFAULT_MOVE', _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
+            var _p = CurveGram.CURRENT_INS;
+            //JC.log( 'CurveGram.DEFAULT_MOVE', _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
             _p.trigger( 'update_moving_status', [ _evt ] );
         };
 
-    JC.BaseMVC.build( Line, JChart.Base );
+    JC.BaseMVC.build( CurveGram, JChart.Base );
 
-    JC.f.extendObject( Line.prototype, {
+    JC.f.extendObject( CurveGram.prototype, {
         _beforeInit:
             function(){
-                //JC.log( 'Line _beforeInit', new Date().getTime() );
+                //JC.log( 'CurveGram _beforeInit', new Date().getTime() );
             }
 
         , _initHanlderEvent:
@@ -132,13 +132,13 @@
 
         , _inited:
             function(){
-                //JC.log( 'Line _inited', new Date().getTime() );
+                //JC.log( 'CurveGram _inited', new Date().getTime() );
             }
     });
 
-    Line.Model._instanceName = 'JChartLine';
+    CurveGram.Model._instanceName = 'JChartCurveGram';
 
-    Line.Model.STYLE = {
+    CurveGram.Model.STYLE = {
         lineStyle: {
             'stroke': '#999'
             , 'opacity': '.35'
@@ -164,12 +164,12 @@
         , radius: 4
     };
 
-    var _oldWorkspaceOffset = Line.Model.prototype.workspaceOffset;
+    var _oldWorkspaceOffset = CurveGram.Model.prototype.workspaceOffset;
 
-    JC.f.extendObject( Line.Model.prototype, {
+    JC.f.extendObject( CurveGram.Model.prototype, {
         init:
             function(){
-                //JC.log( 'Line.Model.init:', new Date().getTime() );
+                //JC.log( 'CurveGram.Model.init:', new Date().getTime() );
             }
 
         , path:
@@ -199,7 +199,7 @@
                             _tmp = new JChart.IconPoint( 
                                 _p.stage()
                                 , 0, 0
-                                , Line.Model.STYLE.radius 
+                                , CurveGram.Model.STYLE.radius 
                                 , _p.itemStyle( _k )
                                 , _p.itemHoverStyle( _k )
                             );
@@ -216,10 +216,10 @@
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Line.Model.STYLE.style.length
+                    , _len = CurveGram.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
                     ;
-                _r = JC.f.cloneObject( Line.Model.STYLE.style[ _ix ] );
+                _r = JC.f.cloneObject( CurveGram.Model.STYLE.style[ _ix ] );
 
                 _p.data().series[ _ix ].style
                     && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
@@ -232,10 +232,10 @@
         , itemHoverStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Line.Model.STYLE.style.length
+                    , _len = CurveGram.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
                     ;
-                _r = JC.f.cloneObject( Line.Model.STYLE.style[ _ix ] );
+                _r = JC.f.cloneObject( CurveGram.Model.STYLE.style[ _ix ] );
 
                 _p.data().series[ _ix ].style
                     && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
@@ -251,16 +251,16 @@
         , pathStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Line.Model.STYLE.style.length
+                    , _len = CurveGram.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
-                _r = JC.f.cloneObject( Line.Model.STYLE.pathStyle );
-                _r.stroke = Line.Model.STYLE.style[ _ix ].stroke;
+                _r = JC.f.cloneObject( CurveGram.Model.STYLE.pathStyle );
+                _r.stroke = CurveGram.Model.STYLE.style[ _ix ].stroke;
                 return _r;
             }
 
         , lineStyle:
             function( _ix ){
-                var _r = JC.f.cloneObject( Line.Model.STYLE.lineStyle );
+                var _r = JC.f.cloneObject( CurveGram.Model.STYLE.lineStyle );
                 return _r;
             }
 
@@ -360,7 +360,7 @@
 
                 var _legend = _p.legend( _data, 'line', function( _ix, _legend, _text, _data ){
                     var _color = _data.stroke 
-                                    || Line.Model.STYLE.data[ _ix % Line.Model.STYLE.data.length ].stroke 
+                                    || CurveGram.Model.STYLE.data[ _ix % CurveGram.Model.STYLE.data.length ].stroke 
                                     || '#fff';
                     _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
                 } );
@@ -529,7 +529,7 @@
             }
     });
 
-    JC.f.extendObject( Line.View.prototype, {
+    JC.f.extendObject( CurveGram.View.prototype, {
         _inited:
             function(){
             }
@@ -598,17 +598,17 @@
                 _p.setStaticPosition( _p._model.coordinate( _data ) );
 
                 _p._model.dataBackground().mouseenter( function( _evt ){
-                    Line.CURRENT_INS = _p;
+                    CurveGram.CURRENT_INS = _p;
                     //JC.log( 'mouseenter', JC.f.ts() );
-                    _jdoc.on( 'mousemove', Line.DEFAULT_MOVE );
+                    _jdoc.on( 'mousemove', CurveGram.DEFAULT_MOVE );
                     _p.trigger( 'moving_start' );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
                     //JC.log( 'mouseleave', JC.f.ts() );
                     _p.trigger( 'moving_done' );
-                    _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
-                    Line.CURRENT_INS = null;
+                    _jdoc.off( 'mousemove', CurveGram.DEFAULT_MOVE );
+                    CurveGram.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );
             }
@@ -672,14 +672,14 @@
     });
 
     _jdoc.ready( function(){
-        Line.autoInit && Line.init();
+        CurveGram.autoInit && CurveGram.init();
     });
 
     _jwin.on( JChart.Base.RESIZE_UPDATE, function( _evt ){
-        JChart.Base.reset( 'div.jchartLine', JChart.Line );
+        JChart.Base.reset( 'div.jchartCurveGram', JChart.CurveGram );
     });
 
-    return Line;
+    return CurveGram;
 });}( typeof define === 'function' && define.amd ? define : 
         function ( _name, _require, _cb ) { 
             typeof _name == 'function' && ( _cb = _name );

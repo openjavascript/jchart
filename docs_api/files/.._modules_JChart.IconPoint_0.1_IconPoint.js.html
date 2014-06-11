@@ -61,11 +61,13 @@
             
                 <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
             
+                <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
+            
+                <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
+            
                 <li><a href="../classes/JChart.IconPoint.html">JChart.IconPoint</a></li>
             
                 <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
-            
-                <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
@@ -184,7 +186,10 @@
             }
 
         , hover: function(){ this._view.hover(); return this; }
+
         , unhover: function(){ this._view.unhover(); return this; }
+
+        , attr: function( _k, _v ){ this._view.attr( _k, _v ); return this; }
     });
 
     IconPoint.Model._instanceName = &#x27;JCIconPoint&#x27;;
@@ -224,6 +229,18 @@
                 $.each( _p._model._style, function( _k, _item ){
                     _p._model._element.attr( _k, _item );
                 });
+            }
+
+        , attr:
+            function( _k, _v ){
+                var _p = this;
+                if( typeof _k == &#x27;object&#x27; ){
+                    $.each( _k, function( _ssk, _ssv ){
+                        _p._model._element.attr( _ssk, _ssv );
+                    });
+                }else{
+                    _p._model._element.attr( _k, _v );
+                }
             }
     });
 

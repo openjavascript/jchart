@@ -15,7 +15,7 @@ requirejs.config( {
 
         , 'JChart.Base': 'modules/JChart.Base/0.1/Base'
 
-        , 'JChart.Line': 'modules/JChart.Line/0.1/Line'
+        , 'JChart.CurveGram': 'modules/JChart.CurveGram/0.1/CurveGram'
 
         , 'JChart.Event': 'modules/JChart.Event/0.1/Event'
         , 'JChart.Graphics': 'modules/JChart.Graphics/0.1/Graphics'

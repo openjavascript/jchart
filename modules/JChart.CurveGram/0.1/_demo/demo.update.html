@@ -22,13 +22,13 @@
     <script>
         JC.debug = true;
 
-        requirejs( [ 'JChart.Line', 'json2' ], function(){
+        requirejs( [ 'JChart.CurveGram', 'json2' ], function(){
             $( document ).delegate( 'button.js_updateChart', 'click', function( _evt ){
                 var _p = $( this )
                     , _pnt = JC.f.getJqParent( _p, 'td' )
                     , _txa = _pnt.find( 'textarea' )
                     , _d = $.parseJSON( _txa.val().trim() )
-                    , _ins = JC.BaseMVC.getInstance( $( 'div.js_jchart' ).first(), JChart.Line )
+                    , _ins = JC.BaseMVC.getInstance( $( 'div.js_jchart' ).first(), JChart.CurveGram )
                     ;
 
                 _ins.update( _d );
@@ -37,12 +37,12 @@
     </script>
 </head>    
 <body>
-    <h2>JChart.Line 示例</h2>
+    <h2>JChart.CurveGram 示例</h2>
 
     <dl class="defDl">
         <dt></dt>
         <dd>
-            <div class="js_jchart jchartLine"
+            <div class="js_jchart jchartCurveGram"
                 chartScriptData="/script"
                 >
                 <script type="text/template">

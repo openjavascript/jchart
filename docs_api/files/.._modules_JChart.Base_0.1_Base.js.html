@@ -61,11 +61,13 @@
             
                 <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
             
+                <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
+            
+                <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
+            
                 <li><a href="../classes/JChart.IconPoint.html">JChart.IconPoint</a></li>
             
                 <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
-            
-                <li><a href="../classes/JChart.Line.html">JChart.Line</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
@@ -114,7 +116,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.BaseMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Event&#x27;, &#x27;JChart.Graphics&#x27;, &#x27;JChart.Group&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.BaseMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Event&#x27;, &#x27;JChart.Graphics&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.IconLine&#x27; ], function(){
 window.JChart = window.JChart || {};
 /**
  * 组件用途简述
@@ -173,13 +175,26 @@ window.JChart = window.JChart || {};
     JC.f.extendObject( Base.prototype, {
         _init:
             function(){
-                _oldInit.call( this );
+                var _p = this;
 
-                this.on( &#x27;update&#x27;, function( _evt, _data ){
-                    this._view.update( _data );
+                _oldInit.call( _p );
+
+                _p.on( &#x27;update&#x27;, function( _evt, _data ){
+                    _p.trigger( &#x27;clear&#x27; );
+                    _p._view.update( _data );
+
+                    _p._model.chartSize( { width: _p._model.width(), height: _p._model.height() } );
                 });
 
-                this._initData();
+                _p.on( &#x27;clear&#x27;, function( _evt ){
+                    _p.trigger( &#x27;clear_status&#x27; );
+                    _p._view &amp;&amp; _p._view.clear();
+                    //_p._model.clear &amp;&amp; _p._model.clear();
+                });
+
+                _p._initData();
+
+                _p._model.chartSize( { width: _p._model.width(), height: _p._model.height() } );
             }
 
         , _beforeInit:
@@ -192,20 +207,29 @@ window.JChart = window.JChart || {};
 
         , _inited:
             function(){
-                _p._initData();
             }
 
+        /**
+         * 初始化数据
+         */
         , _initData:
             function(){
-
                 var _data;
-
                 if( this.selector().attr( &#x27;chartScriptData&#x27; ) ){
                     _data = JC.f.scriptContent( this._model.selectorProp( &#x27;chartScriptData&#x27; ) );
                     _data = eval( &#x27;(&#x27; + _data + &#x27;)&#x27; );
                     this.trigger( &#x27;update&#x27;, [ _data ] );
                 }
-
+                return this;
+            }
+        /**
+         * 更新数据
+         * @method update
+         * @param   object  _data
+         */
+        , update:
+            function( _data ){
+                this.trigger( &#x27;update&#x27;, _data );
                 return this;
             }
     });
@@ -218,191 +242,241 @@ window.JChart = window.JChart || {};
             function(){
                 //JC.log( &#x27;Base.Model.init:&#x27;, new Date().getTime() );
             }
-
+        /**
+         * 图表宽度
+         */
         , width:
             function(){
                 var _r = this.selector().prop( &#x27;offsetWidth&#x27; );
                 this.is( &#x27;[chartWidth]&#x27; ) &amp;&amp; ( _r = this.intProp( &#x27;chartWidth&#x27; ) || _r );
                 return _r;
             }
-
+        /**
+         * 图表高度
+         */
         , height:
             function(){
-                var _r = this.selector().prop( &#x27;offsetHeight&#x27; );
+                var _r = this.selector().prop( &#x27;offsetHeight&#x27; ) || 400;
                 this.is( &#x27;[chartHeight]&#x27; ) &amp;&amp; ( _r = this.intProp( &#x27;chartHeight&#x27; ) || _r );
                 return _r;
             }
-
-        , root:
-            function(){
-
-                if( !this._root ){
-                    this._root = Raphael( this.selector()[0], this.width(), this.height() );
-                    this.background();
-                }
-
-                return this._root;
+        /**
+         * 设置或保存图表的宽高
+         */
+        , chartSize:
+            function( _setter ){
+                typeof _setter != &#x27;undefined&#x27; &amp;&amp; ( this._chartSize = _setter );
+                return this._chartSize;
             }
-
-        , background:
+        /**
+         * 图表画布
+         */
+        , stage:
             function(){
-                var _corner = 18;
-                    
-                if( !this._background ){
-                    this._background = 
-                        this.root().rect( 0, 0, this.width(), this.height(), _corner );
 
-                    this.root().stage = this._background;
-                    this.root().selector = this.selector();
+                if( !this._stage ){
+                    this._stage = Raphael( this.selector()[0], this.width(), this.height() );
+                    this._stage.selector = this._stage.canvas;
                 }
 
+                return this._stage;
+            }
+        /**
+         * 画布圆角弧度 
+         */
+        , stageCorner: function(){ return 18; }
+        /**
+         * 清除图表数据
+         */
+        , clear: 
+            function(){
+                var _p = this, _k;
+                for( _k in _p ){
+                    //JC.log( _k, JC.f.ts() );
+                    if( /^\_/.test( _k ) ){
+                        if( _k == &#x27;_selector&#x27; ) continue;
+                        _p[ _k ] = undefined;
+                    }
+                }
+                //JC.log( &#x27;JChart.Base clear&#x27;, JC.f.ts() );
+            }
+        /**
+         * 清除图表状态
+         */
+        , clearStatus:
+            function(){
+            }
+        /**
+         * 图表背景
+         */
+        , background:
+            function( _c ){
+                if( _c &amp;&amp; _c.stage ){
+                    this._background =
+                        this.stage().rect( _c.stage.x, _c.stage.y, _c.stage.width, _c.stage.height, _c.stage.corner )
+                            .attr( { 
+                                &#x27;fill-opacity&#x27;: .08 
+                                , &#x27;fill&#x27;: &#x27;#ccc&#x27;
+                                , &#x27;stroke-opacity&#x27;: .0
+                                , &#x27;stroke-width&#x27;: 1   
+                                , &#x27;stroke&#x27;: &#x27;#fff&#x27;    
+                            } );
+                }
                 return this._background;
             }
-        
+        /**
+         * 图表数据背景
+         */
+        , dataBackground:
+            function( _x, _y, _width, _height ){
+                if( typeof this._dataBackground == &#x27;undefined&#x27; ){
+                    this._dataBackground = this.stage().rect( _x, _y, _width, _height );
+                    this._dataBackground.attr( { &#x27;fill&#x27;: &#x27;#fff&#x27;, &#x27;fill-opacity&#x27;: .01, &#x27;stroke-width&#x27;: 0 } );
+                }
+                return this._dataBackground;
+            }
+        /**
+         * 保存图表数据
+         */
         , data:
             function( _data ){
                 typeof _data != &#x27;undefined&#x27; &amp;&amp; ( this._data = _data );
                 return this._data;
             }
+        /**
+         * 数据图例图标
+         */
+        , legend:
+            function( _data, _type, _cb ){
+                var _p = this, _tmp = true, _type;
 
-        , clear: function(){}
+                if( !this._legend &amp;&amp; _data &amp;&amp; 
+                        ( ( _data.legend &amp;&amp; ( &#x27;enabled&#x27; in _data.legend ) &amp;&amp; ( _tmp = _data.legend.enabled ) ) ||
+                          _tmp
+                        )
+                    ){
+                    this._legend =  new JChart.Group();
+                    _type = _type || &#x27;line&#x27;;
+                    switch( _type ){
+                        case &#x27;line&#x27;:
+                            {
+                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
+                                _x += _bx;
+                                $.each( _data.series, function( _k, _item ){
+                                    if( !_item.name ) return;
+                                    var _style = _p.itemStyle( _k );
+                                    _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by, 18, 3, 1, 4 );
+                                    _lb = _legend.getBBox();
+                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( &#x27;text-anchor&#x27;, &#x27;start&#x27;);
+                                    _tb = _text.getBBox();
+                                    _p._legend.addChild( _legend, &#x27;legend_&#x27; + _k, { padX: _x - _bx, padY: _tb.height / 2  + 2  } );
+                                    _legend.attr( _style );
+                                    _legend.attr( &#x27;fill&#x27;, _style.stroke );
+                                    _p._legend.addChild( _text, &#x27;text_&#x27; + _k );
+                                    _x = _tb.x + _tb.width + _pad;
+                                    _h = _tb.height * 1.8;
+                                });
 
-        , legendBox:
-            function( _data, _width, _height, _corner  ){
-                if( _data &amp;&amp; _data.series &amp;&amp; _data.series.length ){
-                    _corner = _corner || 5;
-                    _height = _height || 28;
-                    _width = _width || 160;
+                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
+                                        .attr( { &#x27;stroke-opacity&#x27;: .99, &#x27;fill-opacity&#x27;: .99, &#x27;stroke-width&#x27;: 1, &#x27;stroke&#x27;: &#x27;#909090&#x27; } );
+                                _p._legend.addChild( _box, &#x27;box&#x27; );
 
-                    this._legendBox = this.root().rect( 0, 0, _width, _height, _corner );
-
-                    this._legendBox
-                        .attr( &#x27;stroke-opacity&#x27;, 1 )
-                        .attr( &#x27;stroke-width&#x27;, 1 )
-                        .attr( &#x27;stroke&#x27;, &#x27;#909090&#x27; )
-                        .translate( .5, .5 )
-                        ;
-
-                    this._hasLegendBox = true;
+                                break;
+                            }
+                    }
                 }
-
-                return this._legendBox;
+                    
+                return this._legend;
             }
-        , hasLegendBox: function(){ return this._legendBox; }
-
-
+        /**
+         * 图表标题
+         */
         , title:
-            function( _title ){
-                typeof _title != &#x27;undefined&#x27; 
-                    &amp;&amp; ( this._hasTitle = true )
+            function( _data ){
+                _data &amp;&amp; _data.title &amp;&amp; _data.title.text 
                     &amp;&amp; !this._title 
-                    &amp;&amp; ( this._title = this.root().text( 0, 0, _title ) )
+                    &amp;&amp; ( this._title = this.stage().text( -9999, 0, _data.title.text ) )
                     &amp;&amp; ( this._title.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_title&#x27; ) )
                     ;
 
                 return this._title;
             }
-        , hasTitle: function(){ return this._hasTitle; }
-
+        /**
+         * 图表子标题
+         */
         , subtitle:
-            function( _title ){
-                typeof _title != &#x27;undefined&#x27; 
-                    &amp;&amp; ( this._hasSubTitle = true )
+            function( _data ){
+                _data &amp;&amp; _data.subtitle &amp;&amp; _data.subtitle.text 
                     &amp;&amp; !this._subtitle 
-                    &amp;&amp; ( this._subtitle = this.root().text( 0, 0, _title ) )
+                    &amp;&amp; ( this._subtitle = this.stage().text( 0, 0, _data.subtitle.text ) )
                     &amp;&amp; ( this._subtitle.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_subtitle&#x27; ) )
                     ;
                 return this._subtitle;
             }
-        , hasSubTitle: function(){ return this._hasSubTitle; }
-
+        /**
+         * 图表垂直标题
+         */
         , vtitle:
-            function( _title ){
-                typeof _title != &#x27;undefined&#x27; 
-                    &amp;&amp; ( this._hasVTitle= true )
+            function( _data ){
+                _data &amp;&amp; _data.yAxis &amp;&amp; _data.yAxis.title &amp;&amp; _data.yAxis.title.text
                     &amp;&amp; !this._vtitle 
-                    &amp;&amp; ( this._vtitle = this.root().text( 0, 0, _title ) )
-                    &amp;&amp; ( this._vtitle.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_vtitle&#x27; ) )
+                    &amp;&amp; ( this._vtitle = this.stage().text( -9999, 0, _data.yAxis.title.text )
+                          , this._vtitle.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_vtitle&#x27; )   
+                        )
                     ;
                 return this._vtitle;
             }
-        , hasVTitle: function(){ return this._hasVTitle; }
+        /**
+         * 图表版权 */
+        , credits:
+            function( _data ){
 
-        , credit:
-            function( _title, _href ){
-                typeof _title != &#x27;undefined&#x27; 
-                    &amp;&amp; ( this._hasCredit = true )
-                    &amp;&amp; !this._credit 
-                    &amp;&amp; ( this._credit = this.root().text( 0, 0, _title ) )
-                    &amp;&amp; ( this._credit.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_credit&#x27; ) )
-                    ;
-
-                this._credit &amp;&amp; _href 
-                    &amp;&amp; ( 
-                            this._credit.node.setAttribute( &#x27;href&#x27;, _href ) 
-                            , this._credit.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_credit jcc_pointer jcc_link&#x27; ) 
-                            , this._credit.click( function(){ location.href = _href; } )
-                        );
-                return this._credit;
-            }
-        , hasCredit: function(){ return this._hasCredit; }
-
-        , workspaceOffset:
-            function( _new ){
-
-                if( _new ){
-                    this._workspaceOffset = { x: 0, y: 0, width: this.width(), height: this.height() };
-                    var _tmp, _bbox;
-
-                    if( this.hasVTitle() ){
-                        _tmp = 10;
-                        _bbox = this.vtitle().getBBox();
-                        _tmp += _bbox.x + _bbox.width;
-                        
-                        this._workspaceOffset.x = _tmp;
-                        this._workspaceOffset.width = this._workspaceOffset.width - _tmp - 20;
-                    }else{
-                        _tmp = 15;
-                        
-                        this._workspaceOffset.x = _tmp;
-                        this._workspaceOffset.width = this._workspaceOffset.width - _tmp - 20;
-                    }
-
-                    if( this.hasTitle() || this.hasSubTitle() ){
-                        _tmp = 5;
-                        _bbox = ( this.subtitle() || this.title() ).getBBox();
-                        _tmp += _bbox.y + _bbox.height;
-
-                        this._workspaceOffset.y = _tmp;
-                        this._workspaceOffset.height = this._workspaceOffset.height - _tmp - 10;
-                    }else{
-                        _tmp = 15;
-                        this._workspaceOffset.y = _tmp;
-                        this._workspaceOffset.height = this._workspaceOffset.height - _tmp - 10;
-                    }
-
-                    if( this.hasLegendBox() || this.hasCredit() ){
-                        _bbox = ( this.legendBox() || this.credit() ).getBBox();
-                        _tmp = this.height() - _bbox.y;
-
-                        this._workspaceOffset.height -= _tmp;
-                    }
+                if( _data ){
+                    _data.credits &amp;&amp; _data.credits.enabled &amp;&amp; ( _data.credits.text || _data.credits.href )
+                        &amp;&amp; ! this._credits 
+                        &amp;&amp; ( this._credits = this.stage().text( -9999, 0, _data.credits.text || _data.credits.href ) )
+                        &amp;&amp; ( this._credits.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_credit&#x27; ) )
+                        ;
+                    this._credits &amp;&amp; _data.credits.href
+                        &amp;&amp; ( 
+                                this._credits.node.setAttribute( &#x27;href&#x27;, _data.credits.href ) 
+                                , this._credits.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_credit jcc_pointer jcc_link&#x27; ) 
+                                , this._credits.click( function(){ location.href = _data.credits.href; } )
+                            );
                 }
-
-                return this._workspaceOffset;
+                return this._credits;
             }
+        /**
+         * 图表数据的长度
+         */
+        , hlen:
+            function( _data ){
+                var _p = this;
+                _data = _data || _p.data();
 
-        , workspace:
-            function( _offset ){
-
-                if( _offset ){
-                    this._workspace &amp;&amp; this._workspace.remove();
-                    this._workspace = this.root().add( [ _offset ] )[0];
+                if( typeof this._hlen == &#x27;undefined&#x27; ){
+                    _data.xAxis &amp;&amp; _data.xAxis.categories &amp;&amp; ( this._hlen = _data.xAxis.categories.length );
+                    _data.series &amp;&amp; _data.series.data &amp;&amp; ( this._hlen = _data.series.data.length );
                 }
-
-                return this._workspace;
+                return this._hlen;
             }
+        /**
+         * 图表粒度的长度
+         */
+        , vlen:
+            function( _data ){
+                var _p = this;
+                _data = _data || _p.data();
 
+                if( typeof this._vlen == &#x27;undefined&#x27; ){
+                    this._vlen = _p.rate().length;
+                    
+                }
+                return this._vlen;
+            }
+        /**
+         * 最大的数值
+         */
         , maxNum:
             function( _data ){
 
@@ -429,63 +503,62 @@ window.JChart = window.JChart || {};
 
                 return _p._maxNum;
             }
-
-        , maxNNum:
+        /**
+         * 最小的负数值
+         */
+        , minNNum:
             function( _data ){
                 var _tmp, _p = this;
 
                 if( _data ){
-                    _p._maxNNum = 0;
+                    _p._minNNum = 0;
 
                     if( _data ){
                         $.each( _data.series, function( _ix, _item ){
                             _tmp = Math.min.apply( null, _item.data );
-                            _tmp &lt; 0 &amp;&amp; _tmp &lt; _p._maxNNum &amp;&amp; ( _p._maxNNum = _tmp );
+                            _tmp &lt; 0 &amp;&amp; _tmp &lt; _p._minNNum &amp;&amp; ( _p._minNNum = _tmp );
                         });
 
                     }
-                    /*
-                    var _tmp = [];
-                        _tmp.push( _p._maxNNum );
-                        _tmp.push( _p._maxNNum );
-                        JC.log( [&#x27;maxNNum&#x27;, _tmp ] );
-                    */
                 }
 
-                return _p._maxNNum;
+                return _p._minNNum;
             }
-
-        , labelRate:
+        /**
+         * 垂直粒度
+         */
+        , rate:
             function( _data ){
                 var _p = this;
                 
                 if( _data &amp;&amp; hasNegative( _data ) ){
-                    this._labelRate = [ 1, .5, 0, -.5, -1 ];
+                    this._rate = [ 1, .5, 0, -.5, -1 ];
                 }else if( _data ){
-                    this._labelRate = Base.Model.LABEL_RATE;
+                    this._rate = Base.Model.LABEL_RATE;
                 }
 
-                return this._labelRate;
+                return this._rate;
             }
-
+        /**
+         * 垂直粒度的具体信息
+         */
         , rateInfo:
-            function( _data, _labelRate ){
+            function( _data, _rate ){
 
-                var _p = this, _maxNum, _maxNNum, _absNNum, _finalMaxNum
+                var _p = this, _maxNum, _minNNum, _absNNum, _finalMaxNum
                     , _zeroIndex
                     ;
 
-                if( _data &amp;&amp; _labelRate ){
+                if( _data &amp;&amp; _rate ){
 
                     _maxNum = _p.maxNum( _data );
-                    _maxNNum = _p.maxNNum( _data );
-                    _absNNum = Math.abs( _maxNNum );
+                    _minNNum = _p.minNNum( _data );
+                    _absNNum = Math.abs( _minNNum );
                     _finalMaxNum = Math.max( _maxNum, _absNNum );
-                    //_finalMaxNum += _finalMaxNum * .2;
 
                     _zeroIndex = 0;
 
-                    $.each( _labelRate, function( _ix, _item ){
+                    $.each( _rate, function( _ix, _item ){
                         if( _item === 0 ){
                             _zeroIndex = _ix;
                             return false;
@@ -493,38 +566,324 @@ window.JChart = window.JChart || {};
                     });
 
                     this._rateInfo = {
-                        rates: _labelRate
+                        rates: _rate
                         , zeroIndex: _zeroIndex
                         , finalMaxNum: _finalMaxNum
                         , maxNum: _maxNum
-                        , maxNNum: -_finalMaxNum
-                        , length: _labelRate.length
+                        , minNNum: -_finalMaxNum
+                        , length: _rate.length
                     };
                 }
 
                 return this._rateInfo;
             }
-
-        , chartWorkspaceOffset:
+        /**
+         * 垂直标签
+         */
+        , vlables:
             function( _data ){
+                if( _data &amp;&amp; !this._vlabels ){
+                    var _p = this
+                        , _maxNum = _p.maxNum( _data )
+                        , _rate = _p.rate( _data )
+                        , _eles = []
+                        , _tmp
+                        ;
 
-                if( _data ){
-                    this._chartWorkspaceOffset = JC.f.cloneObject( this.workspaceOffset() );
+                    $.each( _rate, function( _ix, _item ){
+                        _tmp = _p.stage().text( 10000, 0, ( _maxNum * _item ).toString()  );
+                        _eles.push( _tmp );
+                    });
+
+                    _eles.length &amp;&amp; ( _p._vlabels = _eles );
                 }
-
-                return this._chartWorkspaceOffset;
+                return this._vlabels;
             }
+        /**
+         * 水平标签
+         */
+        , hlables:
+            function( _data ){
+                if( _data &amp;&amp; !this._hlabels ){
+                    var _p = this
+                        , _eles = []
+                        , _match = _p.labelDisplayIndex( _data )
+                        , _tmp
+                        ;
 
-        , chartWorkspace:
+                    $.each( _data.xAxis.categories, function( _ix, _item ){
+                        _tmp = _p.stage().text( 10000, 0, _item || &#x27;&#x27; );
+                        _match &amp;&amp; _match.length &amp;&amp; !_match[ _ix ] &amp;&amp; _tmp.hide();
+                        _eles.push( _tmp );
+                    });
+
+                    _eles.length &amp;&amp; ( _p._hlabels = _eles );
+                }
+                return this._hlabels;
+            }
+        /**
+         * 获取要显示的水平标签索引位置
+         * 如果返回 undefined, 将显示全部
+         */
+        , labelDisplayIndex:
+            function( _data ){
+                var _p = this, _tmp, _len;
+                if( typeof _p._labelDisplayIndex == &#x27;undefined&#x27; ){
+                    _len = _p.hlen( _data );
+                    if( !_p.displayAllLabel( _data ) ){
+                        _p._labelDisplayIndex = [];
+                        _p._labelDisplayIndex[ 0 ] = true;
+                        _p._labelDisplayIndex[ _len - 1 ] = true;
+
+                        _tmp = Math.ceil( _len / 3 );
+
+                        _p._labelDisplayIndex[ Math.floor( _tmp * 1 ) - 1 ] = true;
+                        _p._labelDisplayIndex[ Math.floor( _tmp * 2 ) - 1 ] = true;
+                    }
+
+                    !_p._labelDisplayIndex &amp;&amp; ( _p._labelDisplayIndex = null );
+                }
+                return _p._labelDisplayIndex;
+            }
+        /**
+         * 垂直背景线的突出长度
+         */
+        , varrowSize: function(){ return 8; }
+        /**
+         *水平背景线的突出长度
+         */
+        , harrowSize: function(){ return 8; }
+        /**
+         * 获取垂直 label 的最大宽度
+         */
+        , vlabelMaxWidth:
+            function( _data ){
+                var _r = 0, _p = this, _tmp;
+
+                _p.vlables( _data ) &amp;&amp; $.each( _p.vlables( _data ), function( _k, _item ){
+                    _tmp = _item.getBBox();
+                    _tmp.width &gt; _r &amp;&amp; ( _r = _tmp.width );
+                });
+
+                return _r;
+            }
+        /**
+         * 获取水平 label 的最大宽度
+         */
+        , hlabelMaxHeight:
+            function( _data ){
+                var _r = 0, _p = this, _tmp;
+
+                _p.hlables( _data ) &amp;&amp; $.each( _p.hlables(), function( _k, _item ){
+                    _tmp = _item.getBBox();
+                     _tmp.height &gt; _r &amp;&amp; ( _r = _tmp.height );
+                });
+
+                return _r;
+            }
+        /**
+         * 垂直的背景线
+         */
+        , vlines:
+            function( _data ){
+                var _p = this, _items;
+                if( !_p._vlines ){
+                    _p._vlines = [];
+
+                    _data &amp;&amp; _data.xAxis &amp;&amp; _data.xAxis.categories &amp;&amp; ( _items = _data.xAxis.categories );
+                    _data 
+                        &amp;&amp; _data.series 
+                        &amp;&amp; _data.series[0]
+                        &amp;&amp; _data.series[0].data
+                        &amp;&amp; _data.series[0].data.length
+                        &amp;&amp; ( _items = _data.series[0].data );
+
+                    _items &amp;&amp; 
+                        $.each( _items, function( _k, _item ){
+                        //var _tmp = _p.stage().path( &#x27;M0 0&#x27; ).attr( _p.lineStyle( _k ) );
+                        var _tmp = new JChart.IconVLine( 
+                            _p.stage()
+                            , [&#x27;M0 0&#x27;].join(&#x27; &#x27; )
+                            , JC.f.extendObject( _p.lineStyle( _k ), { &#x27;stroke&#x27;: &#x27;#999&#x27;, &#x27;stroke-width&#x27;: 1 } )
+                            , JC.f.extendObject( _p.lineStyle( _k ), { &#x27;stroke&#x27;: &#x27;#000&#x27;, &#x27;stroke-width&#x27;: 1 } )
+                        );
+                        _p._vlines.push( _tmp );
+                    });
+                }
+                return _p._vlines;
+            }
+        /**
+         * 水平的背景线
+         */
+        , hlines:
+            function( _data ){
+                var _p = this;
+                if( !_p._hlines ){
+                    _p._hlines = [];
+                    $.each( _p.rate(), function( _k, _item ){
+                        var _tmp = _p.stage().path( &#x27;M0 0&#x27; ).attr( _p.lineStyle( _k ) );
+                        _p._hlines.push( _tmp );
+                    });
+                }
+                return _p._hlines;
+            }
+        /**
+         * 计算所有显示内容的坐标
+         */
+        , coordinate: 
+            function( _setter ){ 
+                typeof _setter != &#x27;undefined&#x27; &amp;&amp; ( this._coordinate = _setter );
+                return this._coordinate; 
+            }
+        /**
+         * 图标的默认样式
+         */
+        , itemStyle:
+            function( _ix ){
+                var _r = {};
+                return _r;
+            }
+        /**
+         * 图标的默认 hover 样式
+         */
+        , itemHoverStyle:
+            function( _ix ){
+                var _r = {};
+                return _r;
+            }
+        /**
+         * 背景线的样式
+         */
+        , lineStyle:
+            function( _ix ){
+                var _r = {};
+                return _r;
+            }
+        /**
+         * 通过坐标点计算当前在那个数据范围
+         */
+        , indexAt:
             function( _offset ){
-
-                if( _offset ){
-                    this._chartWorkspace &amp;&amp; this._chartWorkspace.remove();
-                    this._chartWorkspace = this.root().add( [ _offset ] )[0];
-                }
-
-                return this._chartWorkspace;
+                return 0;
             }
+        /**
+         * 获取 tips 对象
+         */
+        , tips:
+            function( _ix ){
+                var _p = this, _c = _p.coordinate(), _items, _text, _val
+                    , _len = _c.hlen, _count = 0
+                    , _offsetY = 34
+                    , _offsetX = 20
+                    , _padWidth = 14
+                    , _padHeight = 8
+                    , _strokeColor = &#x27;#000&#x27;
+                    , _tmp, _tmpBox, _tmpItem, _maxWidth = 0
+                    ;
+
+                if( !_p._tips ){
+                    var _initOffset = { x: 10000, y: 0 };
+                    //_initOffset.x = 0;
+                    _p._tips = new JChart.Group();
+
+                    _p._tips.addChild( 
+                        _p.stage().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
+                            &#x27;stroke&#x27;: &#x27;#999&#x27;
+                            , &#x27;fill&#x27;: &#x27;#fff&#x27; 
+                            , &#x27;fill-opacity&#x27;: .94
+                        } )
+                    , &#x27;rect&#x27; );
+
+                    _p._tips.addChild( _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, &#x27;tips&#x27; )
+                            .attr( { &#x27;font-weight&#x27;: &#x27;bold&#x27;, &#x27;fill&#x27;: &#x27;#999&#x27;, &#x27;text-anchor&#x27;: &#x27;start&#x27; } )
+                            , &#x27;title&#x27; );
+
+                    $.each( _p.data().series, function( _k, _item ){
+                        _strokeColor = _p.itemStyle( _k ).stroke;
+                        _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || &#x27;empty&#x27; )
+                                .attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;fill&#x27;: _strokeColor } );
+                        _tmpBox = _tmp.getBBox();
+                        _p._tips.addChild( _tmp, &#x27;label_&#x27; + _k );
+                        _offsetY += _tmpBox.height + 5;
+                        _tmpBox.width &gt; _maxWidth &amp;&amp; ( _maxWidth = _tmpBox.width );
+                    });
+
+                    $.each( _p.data().series, function( _k, _item ){
+                        _strokeColor = _p.itemStyle( _k ).stroke;
+                        _tmpItem = _p._tips.getChildByName( &#x27;label_&#x27; + _k );
+                        _tmpBox = _tmpItem.getBBox();
+                        _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( &#x27;y&#x27; ) + _initOffset.y, &#x27;012345678901.00&#x27; )
+                                .attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;fill&#x27;: _strokeColor } );
+                        _p._tips.addChild( _tmp, &#x27;val_&#x27; + _k );
+                    });
+
+                    $.each( _p.data().series, function( _k, _item ){
+                        _tmpItem = _p._tips.getChildByName( &#x27;val_&#x27; + _k );
+                        _tmpItem.attr( &#x27;text&#x27;, &#x27;0.00&#x27; );
+                    });
+                }
+                if( typeof _ix != &#x27;undefined&#x27; ){
+                    _p._tips.getChildByName( &#x27;title&#x27; ).attr( &#x27;text&#x27;, _p.tipsTitle( _ix ) );
+                    $.each( _p.data().series, function( _k, _item ){
+                        _p._tips.getChildByName( &#x27;val_&#x27; + _k ).attr( &#x27;text&#x27;, JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) );
+                    });
+                }
+                _p._tips.getChildByName( &#x27;rect&#x27; ).attr( { width: 80, height: 50 } );
+                _tmpBox = _p._tips.getBBox();
+                _p._tips.getChildByName( &#x27;rect&#x27; ).attr( { &#x27;width&#x27;: _tmpBox.width + _padWidth, &#x27;height&#x27;: _tmpBox.height + _padHeight } );
+
+                return _p._tips;
+            }
+        /**
+         * 显示数值时 浮点数 的长度
+         */
+        , floatLen:
+            function(){
+                if( typeof this._floatLen == &#x27;undefined&#x27; ){
+                    this._floatLen = 2;
+                    &#x27;floatLen&#x27; in this.data() &amp;&amp; ( this._floatLen = this.data().floatLen );
+                }
+                return this._floatLen;
+            }
+        /**
+         * 获取 tips 标题文本
+         */
+        , tipsTitle:
+            function( _ix ){
+                var _p = this, _r = &#x27;&#x27;;
+
+                _p.data().xAxis
+                    &amp;&amp; _p.data().xAxis.categories
+                    &amp;&amp; ( _r = _p.data().xAxis.categories[ _ix ] );
+
+                _p.data().xAxis
+                    &amp;&amp; _p.data().xAxis.tipTitlePostfix
+                    &amp;&amp; ( _r = JC.f.printf(  _p.data().xAxis.tipTitlePostfix, _r ) );
+
+                return _r;
+            }
+        /**
+         * 把全局事件对象转换为局部坐标点
+         */
+        , globalEventToLocalOffset:
+            function( _evt ){
+                var _p = this, _srcOffset = $( _p.stage().canvas ).offset(), _r = { x: 0, y: 0 }, _c = _p.coordinate();
+                _r.x = _evt.pageX  - _srcOffset.left;
+                _r.y = _evt.pageY - _srcOffset.top;
+                return _r;
+            }
+        /**
+         * 设置或者获取上一次的数据对象
+         */
+        , preItems:
+            function( _setter ){
+                typeof _setter != &#x27;undefined&#x27; &amp;&amp; ( this._preItems = _setter );
+                return this._preItems;
+            }
+        /**
+         * 是否显示所有内容
+         */
+        , displayAllLabel: function(){ return this.data().displayAllLabel; }
 
     });
 
@@ -533,20 +892,44 @@ window.JChart = window.JChart || {};
             function(){
                 //JC.log( &#x27;Base.View.init:&#x27;, new Date().getTime() );
             }
-
+        /**
+         * 图表高度
+         */
         , width: function(){ return this._model.width(); }
+        /**
+         * 图表高度
+         */
         , height: function(){ return this._model.height(); }
-
+        /**
+         * 图表画布
+         */
+        , stage: function(){ return this._model.stage(); }
+        /**
+         * 初始化的选择器
+         */
         , selector:
             function(){
                 return this._model.selector();
             }
-
+        /**
+         * 清除图表数据
+         */
         , clear: 
             function(){
-                this.selector().find( &#x27;canvas&#x27; ).remove();
+                var _p = this;
+                if( !_p._model._stage ) return;
+                $( _p._model._stage.canvas ).remove();
+                _p._model._stage = undefined;
             }
-
+        /**
+         * 清除图表状态
+         */
+        , clearStatus:
+            function(){
+            }
+        /**
+         * 更新图表数据
+         */
         , update: 
             function( _data ){
                 this.clear();
@@ -554,200 +937,40 @@ window.JChart = window.JChart || {};
                 this._model.data( _data );
                 this.draw( _data );
             }
-
+        /**
+         * 渲染图表外观
+         */
         , draw: 
             function( _data ){
             }
-
-        , drawChartWorkspace:
-            function( _data ){
-                var _wkOffset = this._model.chartWorkspaceOffset( _data )
-                    , _rp
-                    ;
-
-                _rp = this._model.chartWorkspace( _wkOffset );
-                /*
-                _rp.attr( &#x27;fill-opacity&#x27;, 1 )
-                    .attr( &#x27;fill&#x27;, &#x27;#000&#x27; )
-                    ;
-                */
-            }
-
-        , drawWorkspace:
-            function( _data ){
-                var _wkOffset = this._model.workspaceOffset( _data )
-                    , _rp
-                    ;
-
-                if( !_wkOffset ){
-                    _wkOffset = {
-                        x: 0, y: 0
-                        , width: this._model.width()
-                        , height: this._model.height()
-                    };
-                }
-
-                JC.f.extendObject( _wkOffset, {
-                    type: &#x27;rect&#x27;
-                    , fill: &#x27;#fff&#x27;
-                    , stroke: &#x27;#fff&#x27;
-                    , &#x27;fill-opacity&#x27;: .0
-                    , &#x27;stroke-opacity&#x27;: .0
-                });
-
-                _rp = this._model.workspace( _wkOffset );
-            }
-
-        , drawLegendBox:
-            function( _data, _legendType, _itemCb ){
-                if( !_data.displayLegend ) return;
-                _legendType = _legendType || &#x27;line&#x27;;
-
-                if( !( _data.series &amp;&amp; _data.series.length ) ) return;
-
-
-                var _p = this, _text = [], _size = 0, _tmp;
-                $.each( _data.series, function( _k, _item ){
-                    if( !_item.name ) return;
-                    _tmp = _p.root().text( -9999, 0, _item.name );
-                    _size += _tmp.getBBox().width;
-                    _text.push( {
-                        text: _tmp
-                        , data: _item
-                    });
-
-                    _size += 20;
-                });
-
-                _size += ( _text.length - 1 ) * 10 + 10 * 1 ;
-
-                var _rp = this._model.legendBox( _data, _size )
-                    , _bbox = _rp.getBBox()
-                    , _x = ( this._model.width() - _bbox.width ) / 2
-                    , _y = this._model.height() - 10 - 28
-                    ;
-                        ;
-                    if( this._model.hasCredit() ){
-                        _y -= 18;
-                    }
-                _rp.attr( &#x27;x&#x27;, _x ).attr( &#x27;y&#x27;, _y );
-                _bbox = _rp.getBBox();
-
-                var _count = 1, _offset = 0, _halfHeight = _bbox.height / 2;
-                $.each( _text, function( _k, _item ){
-                    _offset += 10;
-                    if( _count &gt; 1 ) _offset += 18;
-                    var _legend, _text;
-                    _legend = _p._model.root().legendLine( _bbox.x + _offset, _bbox.y + _halfHeight, 18, 1, 9 );
-                    _text = _item.text;
-                    _item.text.toFront()
-                        .attr(&#x27;x&#x27;, _bbox.x + _offset + _item.text.getBBox().width / 2 + 20 )
-                        .attr(&#x27;y&#x27;, _bbox.y + _halfHeight )
-                        ;
-                    _offset += _item.text.getBBox().width; 
-                    _count++;
-                    _itemCb &amp;&amp; _itemCb( _count -1, _legend, _text, _item.data );
-                });
-            }
-
-        , drawCredit:
-            function( _data, _font ){
-                if( !( _data &amp;&amp; _data.credits &amp;&amp; _data.credits.enabled &amp;&amp;
-                        ( _data.credits.text || _data.credits.href  )
-                    ) ) return;
-
-                var _text = _data.credits.text || _data.credits.href
-                    , _rp = this._model.credit( _text, _data.credits.href )
-                    , _bbox = _rp.getBBox()
-                    , _x = this._model.width() - _bbox.width / 2 - 20
-                    , _y = ( this._model.height() ) - 15
-                    ;
-
-                _rp.attr( &#x27;x&#x27;, _x );
-                _rp.attr( &#x27;y&#x27;, _y );
-
-                return;
-            }
-
-        , drawVTitle:
-            function( _data, _font ){
-                if( !( _data &amp;&amp; _data.yAxis &amp;&amp; _data.yAxis.title &amp;&amp; _data.yAxis.title.text ) ) return;
-                var _rp = this._model.vtitle( _data.yAxis.title.text )
-                    , _bbox = _rp.getBBox()
-                    , _x = 20
-                    , _y = ( this._model.height() ) / 2
-                    ;
-
-                _rp.attr( &#x27;x&#x27;, _x );
-                _rp.attr( &#x27;y&#x27;, _y );
-
-                _rp.rotate( -90 ); 
-
-                return;
-            }
-
-        , drawSubTitle:
-            function( _data, _font ){
-                if( !( _data &amp;&amp; _data.subtitle &amp;&amp; _data.subtitle.text ) ) return;
-                var _rp = this._model.subtitle( _data.subtitle.text )
-                    , _bbox = _rp.getBBox()
-                    , _x = ( this._model.width()  ) / 2
-                    , _y = 20
-                    ;
-                if( this._model.hasTitle() ){
-                    var _titleRp = this._model.title().getBBox();
-                    _y = _titleRp.y2 + 10;
-                }
-                _rp.attr( &#x27;x&#x27;, _x );
-                _rp.attr( &#x27;y&#x27;, _y );
-
-                return;
-              }
-
-        , drawTitle:
-            function( _data, _font ){
-                if( !( _data &amp;&amp; _data.title &amp;&amp; _data.title.text) ) return;
-                var _rp = this._model.title( _data.title.text )
-                    , _bbox = _rp.getBBox()
-                    , _x = ( this._model.width()  ) / 2
-                    , _y = 20
-                    ;
-                _rp.attr( &#x27;x&#x27;, _x );
-                _rp.attr( &#x27;y&#x27;, _y );
-
-                return;
-              }
-
-        , root: function(){ return this._model.root(); }
-
-        , implmentStyle:
-            function( _item, _style ){
-                if( _style ){
-                    for( var _k in _style ){
-                        _item.attr( _k, _style[ _k ] );
-                    }
-                }
-                return _item;
-            }
-
-        , drawBackground:
-            function(){
-
-                this._model._background
-                    .attr( &#x27;fill-opacity&#x27;, .08 )
-                    .attr( &#x27;fill&#x27;, &#x27;#ccc&#x27; )
-
-                    .attr( &#x27;stroke-opacity&#x27;, .0 )
-                    .attr( &#x27;stroke-width&#x27;, 1 )
-                    .attr( &#x27;stroke&#x27;, &#x27;#fff&#x27; )
-                    ;
-            }
+        /**
+         * 显示静态外观
+         */
+        , setStaticPosition: function(){}
     });
 
     Base.numberUp = numberUp;
     Base.isFloat = isFloat;
     Base.isNegative = isNegative;
     Base.hasNegative = hasNegative;
+
+    Base.RESIZE_UPDATE = &#x27;JCHART_RESIZE_UPDATE&#x27;;
+
+    Base.reset =
+        function( _selector, _class ){
+            $( _selector ).each( function( _k, _item ){
+                _item = $( _item );
+                var _ins = JC.BaseMVC.getInstance( _item, _class ), _size, _newSize, _w, _h;
+                if( !( _ins &amp;&amp; _ins._model.data() ) ) return;
+                _size = _ins._model.chartSize();
+                if( !_size ) return;
+                _w = _ins._model.width(); _h = _ins._model.height();
+                if( _size.width == _w &amp;&amp; _size.height == _h ) return;
+                _w &lt; 100 &amp;&amp; ( _w = 100 ); 
+                _h &lt; 100 &amp;&amp; ( _h = 100 );
+                _ins.trigger( &#x27;update&#x27;, _ins._model.data() );
+            });
+        };
 
     function isNegative( _num ){
         return _num &lt; 0;
@@ -805,6 +1028,12 @@ window.JChart = window.JChart || {};
         
         return _out;
     }
+
+    _jwin.on( &#x27;resize&#x27;, function(){
+        JC.f.safeTimeout( function(){
+            _jwin.trigger( Base.RESIZE_UPDATE );
+        }, null, &#x27;JCHART_RESIZE_asdfaewfaes&#x27;, 200 );
+    });
 
     return JChart.Base;
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 

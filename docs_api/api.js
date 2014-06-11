@@ -7,9 +7,10 @@ YUI.add("yuidoc-meta", function(Y) {
         "JC.common",
         "JC.f",
         "JChart.Base",
+        "JChart.CurveGram",
+        "JChart.IconLine",
         "JChart.IconPoint",
         "JChart.IconVLine",
-        "JChart.Line",
         "window.jQuery",
         "window.requirejs"
     ],

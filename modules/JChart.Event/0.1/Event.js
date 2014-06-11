@@ -24,7 +24,7 @@
 
             function _innerMousemove( _evt ){
                 if( !_bbox ) return;
-                var _offset = { x: _evt.pageX, y : _evt.pageY };
+                var _offset = { x: Math.floor( _evt.pageX ), y : Math.floor( _evt.pageY ) };
                 if( JChart.Geometry.pointRectangleIntersection( _offset, _rect ) ){
                 }else{
                     _bbox = null;
@@ -58,7 +58,7 @@
 
             function _innerMousemove( _evt ){
                 if( !_bbox ) return;
-                var _offset = { x: _evt.pageX, y : _evt.pageY };
+                var _offset = { x: Math.floor( _evt.pageX ), y : Math.floor( _evt.pageY ) };
                 if( JChart.Geometry.pointRectangleIntersection( _offset, _rect ) ){
                 }else{
                     _bbox = null;

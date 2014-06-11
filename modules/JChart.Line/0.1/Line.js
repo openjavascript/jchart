@@ -605,10 +605,10 @@
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
-                    Line.CURRENT_INS = null;
                     //JC.log( 'mouseleave', JC.f.ts() );
-                    _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
                     _p.trigger( 'moving_done' );
+                    _jdoc.off( 'mousemove', Line.DEFAULT_MOVE );
+                    Line.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );
             }

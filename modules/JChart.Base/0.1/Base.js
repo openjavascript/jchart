@@ -175,10 +175,6 @@ window.JChart = window.JChart || {};
                 return this._data;
             }
         /**
-         * 清除图表数据
-         */
-        , clear: function(){}
-        /**
          * 数据图例图标
          */
         , legend:
@@ -341,23 +337,23 @@ window.JChart = window.JChart || {};
         /**
          * 最小的负数值
          */
-        , maxNNum:
+        , minNNum:
             function( _data ){
                 var _tmp, _p = this;
 
                 if( _data ){
-                    _p._maxNNum = 0;
+                    _p._minNNum = 0;
 
                     if( _data ){
                         $.each( _data.series, function( _ix, _item ){
                             _tmp = Math.min.apply( null, _item.data );
-                            _tmp < 0 && _tmp < _p._maxNNum && ( _p._maxNNum = _tmp );
+                            _tmp < 0 && _tmp < _p._minNNum && ( _p._minNNum = _tmp );
                         });
 
                     }
                 }
 
-                return _p._maxNNum;
+                return _p._minNNum;
             }
         /**
          * 垂直粒度
@@ -380,15 +376,15 @@ window.JChart = window.JChart || {};
         , rateInfo:
             function( _data, _rate ){
 
-                var _p = this, _maxNum, _maxNNum, _absNNum, _finalMaxNum
+                var _p = this, _maxNum, _minNNum, _absNNum, _finalMaxNum
                     , _zeroIndex
                     ;
 
                 if( _data && _rate ){
 
                     _maxNum = _p.maxNum( _data );
-                    _maxNNum = _p.maxNNum( _data );
-                    _absNNum = Math.abs( _maxNNum );
+                    _minNNum = _p.minNNum( _data );
+                    _absNNum = Math.abs( _minNNum );
                     _finalMaxNum = Math.max( _maxNum, _absNNum );
 
                     _zeroIndex = 0;
@@ -405,7 +401,7 @@ window.JChart = window.JChart || {};
                         , zeroIndex: _zeroIndex
                         , finalMaxNum: _finalMaxNum
                         , maxNum: _maxNum
-                        , maxNNum: -_finalMaxNum
+                        , minNNum: -_finalMaxNum
                         , length: _rate.length
                     };
                 }
@@ -480,10 +476,17 @@ window.JChart = window.JChart || {};
                 }
                 return _p._labelDisplayIndex;
             }
-        
+        /**
+         * 垂直背景线的突出长度
+         */
         , varrowSize: function(){ return 8; }
+        /**
+         *水平背景线的突出长度
+         */
         , harrowSize: function(){ return 8; }
-
+        /**
+         * 获取垂直 label 的最大宽度
+         */
         , vlabelMaxWidth:
             function( _data ){
                 var _r = 0, _p = this, _tmp;
@@ -495,7 +498,9 @@ window.JChart = window.JChart || {};
 
                 return _r;
             }
-
+        /**
+         * 获取水平 label 的最大宽度
+         */
         , hlabelMaxHeight:
             function( _data ){
                 var _r = 0, _p = this, _tmp;
@@ -507,7 +512,9 @@ window.JChart = window.JChart || {};
 
                 return _r;
             }
-
+        /**
+         * 垂直的背景线
+         */
         , vlines:
             function( _data ){
                 var _p = this, _items;
@@ -536,7 +543,9 @@ window.JChart = window.JChart || {};
                 }
                 return _p._vlines;
             }
-
+        /**
+         * 水平的背景线
+         */
         , hlines:
             function( _data ){
                 var _p = this;
@@ -549,46 +558,48 @@ window.JChart = window.JChart || {};
                 }
                 return _p._hlines;
             }
-
-        , calcCoordinate:
-            function(){
-            }
-
+        /**
+         * 计算所有显示内容的坐标
+         */
         , coordinate: 
             function( _setter ){ 
                 typeof _setter != 'undefined' && ( this._coordinate = _setter );
                 return this._coordinate; 
             }
-
+        /**
+         * 图标的默认样式
+         */
         , itemStyle:
             function( _ix ){
                 var _r = {};
                 return _r;
             }
-
+        /**
+         * 图标的默认 hover 样式
+         */
         , itemHoverStyle:
             function( _ix ){
                 var _r = {};
                 return _r;
             }
-
-        , pathStyle:
-            function( _ix ){
-                var _r = {};
-                return _r;
-            }
-
+        /**
+         * 背景线的样式
+         */
         , lineStyle:
             function( _ix ){
                 var _r = {};
                 return _r;
             }
-
+        /**
+         * 通过坐标点计算当前在那个数据范围
+         */
         , indexAt:
-            function( _srcEvt ){
+            function( _offset ){
                 return 0;
             }
-
+        /**
+         * 获取 tips 对象
+         */
         , tips:
             function( _ix ){
                 var _p = this, _c = _p.coordinate(), _items, _text, _val
@@ -654,7 +665,9 @@ window.JChart = window.JChart || {};
 
                 return _p._tips;
             }
-
+        /**
+         * 获取 tips 标题文本
+         */
         , tipsTitle:
             function( _ix ){
                 var _p = this, _r = '';
@@ -669,7 +682,9 @@ window.JChart = window.JChart || {};
 
                 return _r;
             }
-
+        /**
+         * 把全局事件对象转换为局部坐标点
+         */
         , globalEventToLocalOffset:
             function( _evt ){
                 var _p = this, _srcOffset = $( _p.stage().canvas ).offset(), _r = { x: 0, y: 0 }, _c = _p.coordinate();
@@ -677,14 +692,23 @@ window.JChart = window.JChart || {};
                 _r.y = _evt.pageY - _srcOffset.top;
                 return _r;
             }
-
+        /**
+         * 设置或者获取上一次的数据对象
+         */
         , preItems:
             function( _setter ){
                 typeof _setter != 'undefined' && ( this._preItems = _setter );
                 return this._preItems;
             }
-
+        /**
+         * 是否显示所有内容
+         */
         , displayAllLabel: function(){ return this.data().displayAllLabel; }
+
+        /**
+         * 清除图表数据
+         */
+        , clear: function(){}
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -703,7 +727,10 @@ window.JChart = window.JChart || {};
 
         , clear: 
             function(){
-                this.selector().find( 'canvas' ).remove();
+            }
+
+        , clearStatus:
+            function(){
             }
 
         , update: 
@@ -719,6 +746,8 @@ window.JChart = window.JChart || {};
             }
 
         , stage: function(){ return this._model.stage(); }
+
+        , setStaticPosition: function(){}
 
     });
 

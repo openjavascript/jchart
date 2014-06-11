@@ -291,15 +291,19 @@
                 return _partWhat;
             }
 
-        , calcCoordinate:
+        , coordinate:
             function( _data ){
+                if( typeof this._coordinate != 'undefined' || !_data ){
+                    return this._coordinate;
+                }
                 var _p = this
                     , _c = {}
                     , _bbox
-                    , _x = 0, _maxX = _p.width() - 5
+                    , _x = 0, _maxX = _p.width() - 10
                     , _y = 0, _maxY = _p.height() - 5
                     , _tmp, _tmpX, _tmpY, _padX, _tmpA, _tmpA1
                     ;
+                this._coordinate = _c;
 
                 _p.stage();
 
@@ -349,7 +353,7 @@
                         , y: _maxY - _bbox.height / 2
                         , ele: _credits
                     }
-                    _maxY = _c.credits.y - 2;
+                    _maxY = _c.credits.y - 8;
                 }
 
                 var _legend = _p.legend( _data, 'line', function( _ix, _legend, _text, _data ){
@@ -362,27 +366,29 @@
                     _bbox = _legend.getBBox();
                     _c.legend = {
                         x: ( _maxX - _bbox.width ) / 2
-                        , y: _maxY - _bbox.height - _bbox.height / 2 + 4
+                        , y: _maxY - _bbox.height - 2
                         , ele: _legend
                     }
                     _maxY = _c.legend.y;
                 }
+
+                _maxY -= _p.varrowSize();
+                _x += _p.harrowSize();
 
                 var _hlabelMaxHeight = _p.hlabelMaxHeight( _data );
                 var _vlabelMaxWidth = _p.vlabelMaxWidth( _data );
                 var _vx = _x, _hy = _y;
 
                 if( _vlabelMaxWidth ){
-                    _x += 5;
                     _x += _vlabelMaxWidth;
-                    _vx = _x;
-                    _x += 15;
+                    _vx = _x - _p.harrowSize();
+                    _x += 5;
                 }
 
                 if( _hlabelMaxHeight ){
-                    _maxY -= 8;
+                    _maxY -= 2;
                     _maxY -= _hlabelMaxHeight;
-                    _hy = _maxY + _p.harrowSize() + 4;
+                    _hy = _maxY + _p.varrowSize() + 4;
                     _maxY -= 5;
                 }
 
@@ -515,11 +521,9 @@
                     _c.path.push( _pathPoint );
                 });
 
-                _p.coordinate( _c );
-
                 var _tips = _p.tips();
 
-                return _c;
+                return this._coordinate;
             }
     });
 
@@ -528,7 +532,7 @@
             function(){
             }
 
-        , testCoordinate:
+        , setStaticPosition:
             function( _coordinate ){
                 var _p = this, _c = _coordinate, _tmp;
                 if( _c.title ){
@@ -589,7 +593,7 @@
             function( _data ){
                 var _p = this, _coordinate;
 
-                _p.testCoordinate( _p._model.calcCoordinate( _data ) );
+                _p.setStaticPosition( _p._model.coordinate( _data ) );
 
                 _p._model.dataBackground().mouseenter( function( _evt ){
                     Line.CURRENT_INS = _p;

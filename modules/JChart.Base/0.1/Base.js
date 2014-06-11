@@ -282,7 +282,7 @@ window.JChart = window.JChart || {};
                 return this._credits;
             }
         /**
-         * 图表
+         * 图表数据的长度
          */
         , hlen:
             function( _data ){
@@ -295,19 +295,23 @@ window.JChart = window.JChart || {};
                 }
                 return this._hlen;
             }
-
+        /**
+         * 图表粒度的长度
+         */
         , vlen:
             function( _data ){
                 var _p = this;
                 _data = _data || _p.data();
 
                 if( typeof this._vlen == 'undefined' ){
-                    this._vlen = _p.labelRate().length;
+                    this._vlen = _p.rate().length;
                     
                 }
                 return this._vlen;
             }
-
+        /**
+         * 最大的数值
+         */
         , maxNum:
             function( _data ){
 
@@ -334,7 +338,9 @@ window.JChart = window.JChart || {};
 
                 return _p._maxNum;
             }
-
+        /**
+         * 最小的负数值
+         */
         , maxNNum:
             function( _data ){
                 var _tmp, _p = this;
@@ -353,28 +359,32 @@ window.JChart = window.JChart || {};
 
                 return _p._maxNNum;
             }
-
-        , labelRate:
+        /**
+         * 垂直粒度
+         */
+        , rate:
             function( _data ){
                 var _p = this;
                 
                 if( _data && hasNegative( _data ) ){
-                    this._labelRate = [ 1, .5, 0, -.5, -1 ];
+                    this._rate = [ 1, .5, 0, -.5, -1 ];
                 }else if( _data ){
-                    this._labelRate = Base.Model.LABEL_RATE;
+                    this._rate = Base.Model.LABEL_RATE;
                 }
 
-                return this._labelRate;
+                return this._rate;
             }
-
+        /**
+         * 垂直粒度的具体信息
+         */
         , rateInfo:
-            function( _data, _labelRate ){
+            function( _data, _rate ){
 
                 var _p = this, _maxNum, _maxNNum, _absNNum, _finalMaxNum
                     , _zeroIndex
                     ;
 
-                if( _data && _labelRate ){
+                if( _data && _rate ){
 
                     _maxNum = _p.maxNum( _data );
                     _maxNNum = _p.maxNNum( _data );
@@ -383,7 +393,7 @@ window.JChart = window.JChart || {};
 
                     _zeroIndex = 0;
 
-                    $.each( _labelRate, function( _ix, _item ){
+                    $.each( _rate, function( _ix, _item ){
                         if( _item === 0 ){
                             _zeroIndex = _ix;
                             return false;
@@ -391,47 +401,49 @@ window.JChart = window.JChart || {};
                     });
 
                     this._rateInfo = {
-                        rates: _labelRate
+                        rates: _rate
                         , zeroIndex: _zeroIndex
                         , finalMaxNum: _finalMaxNum
                         , maxNum: _maxNum
                         , maxNNum: -_finalMaxNum
-                        , length: _labelRate.length
+                        , length: _rate.length
                     };
                 }
 
                 return this._rateInfo;
             }
-
+        /**
+         * 垂直标签
+         */
         , vlables:
             function( _data ){
                 if( _data && !this._vlabels ){
                     var _p = this
                         , _maxNum = _p.maxNum( _data )
-                        , _rate = _p.labelRate( _data )
+                        , _rate = _p.rate( _data )
                         , _eles = []
+                        , _tmp
                         ;
 
                     $.each( _rate, function( _ix, _item ){
-                        _eles.push( {
-                            type: 'text'
-                            , text: ( _maxNum * _item ).toString()
-                            , x: -10000
-                        });
+                        _tmp = _p.stage().text( 10000, 0, ( _maxNum * _item ).toString()  );
+                        _eles.push( _tmp );
                     });
 
-                    _eles.length && ( _p._vlabels = _p.stage().add( _eles ) );
+                    _eles.length && ( _p._vlabels = _eles );
                 }
                 return this._vlabels;
             }
-
+        /**
+         * 水平标签
+         */
         , hlables:
             function( _data ){
                 if( _data && !this._hlabels ){
                     var _p = this
                         , _eles = []
-                        , _tmp
                         , _match = _p.labelDisplayIndex( _data )
+                        , _tmp
                         ;
 
                     $.each( _data.xAxis.categories, function( _ix, _item ){
@@ -444,7 +456,10 @@ window.JChart = window.JChart || {};
                 }
                 return this._hlabels;
             }
-
+        /**
+         * 获取要显示的水平标签索引位置
+         * 如果返回 undefined, 将显示全部
+         */
         , labelDisplayIndex:
             function( _data ){
                 var _p = this, _tmp, _len;
@@ -527,7 +542,7 @@ window.JChart = window.JChart || {};
                 var _p = this;
                 if( !_p._hlines ){
                     _p._hlines = [];
-                    $.each( _p.labelRate(), function( _k, _item ){
+                    $.each( _p.rate(), function( _k, _item ){
                         var _tmp = _p.stage().path( 'M0 0' ).attr( _p.lineStyle( _k ) );
                         _p._hlines.push( _tmp );
                     });

@@ -485,7 +485,7 @@
                 _c.point = [];
                 _c.path = [];
 
-                var _rateInfo = _p.rateInfo( _data, _p.labelRate( _data ) );
+                var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) );
                 $.each( _data.series, function( _ix, _items ){
                     var _x, _y, _dataHeight, _pathPoint = [], _purePoint = [], _dataY, _maxNum;
                     $.each( _items.data, function( _six, _num ){

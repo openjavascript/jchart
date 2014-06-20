@@ -8,6 +8,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "JC.f",
         "JChart.Base",
         "JChart.CurveGram",
+        "JChart.Histogram",
         "JChart.IconLine",
         "JChart.IconPoint",
         "JChart.IconVLine",

@@ -3165,7 +3165,7 @@
         },
         {
             "file": "../config.js",
-            "line": 33,
+            "line": 34,
             "description": "取当前脚本标签的 src路径",
             "static": 1,
             "return": {
@@ -3951,7 +3951,7 @@
         },
         {
             "message": "Missing item type\n取当前脚本标签的 src路径",
-            "line": " ../config.js:33"
+            "line": " ../config.js:34"
         },
         {
             "message": "Missing item type",

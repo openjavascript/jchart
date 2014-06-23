@@ -123,7 +123,7 @@
                     if( typeof _index == 'undefined' ) return;
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
                     _p._view.updateTips( _index, _offset );
-                    _p._view.updatePoint( _index );
+                    //_p._view.updatePoint( _index );
                     _p._view.updateVLine( _index );
                 });
             }
@@ -487,40 +487,6 @@
                     _tmpA.length && ( _c.hlables = _tmpA );
                 }
 
-                //get data point
-                _c.point = [];
-                _c.path = [];
-
-                var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) );
-                $.each( _data.series, function( _ix, _items ){
-                    var _x, _y, _dataHeight, _pathPoint = [], _purePoint = [], _dataY, _maxNum;
-                    $.each( _items.data, function( _six, _num ){
-
-                        _pathPoint.push( _six === 0 ? 'M' : 'L' );
-                        _x = _c.lineX + _c.hpart * _six;
-                        _y = _c.lnieY;
-
-                        if( JChart.Base.isNegative( _num ) ){
-                            _dataHeight = _c.vpart * ( _rateInfo.length - _rateInfo.zeroIndex );
-                            _dataY = _c.lineY + _c.vpart * _rateInfo.zeroIndex;
-                            _maxNum = Math.abs( _rateInfo.finalMaxNum );
-                            _y = _dataY + Math.abs( _num ) / _maxNum * _dataHeight;
-                        }else{
-                            _dataHeight = _c.vpart * _rateInfo.zeroIndex;
-                            _dataY = _c.lineY;
-                            _maxNum = _rateInfo.finalMaxNum;
-                            _y = _dataY + _dataHeight - _num / _maxNum * _dataHeight;
-                        }
-                        _x > _c.lineMaxX && ( _x = _c.lineMaxX );
-                        _y > _c.lineMaxY && ( _y = _c.lineMaxY );
-
-                        _pathPoint.push( [ _x, _y ] );
-                        _purePoint.push( { 'x': _x, 'y': _y, 'num': _num, 'maxNum': _maxNum } );
-                    });
-                    _c.point.push( _purePoint );
-                    _c.path.push( _pathPoint );
-                });
-
                 var _tips = _p.tips();
 
                 return this._coordinate;
@@ -569,20 +535,6 @@
                 if( _c.hlines ){
                     $.each( _c.hlines, function( _k, _item ){
                         _item.item && _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
-                    });
-                }
-                if( _c.path && _p._model.path() && _c.path.length == _p._model.path().length ){
-                    _tmp = _p._model.path();
-                    $.each( _c.path, function( _k, _item ){
-                        _tmp[ _k ].attr( 'path', _item.join('') );
-                    });
-                }
-                if( _c.point && _p._model.point() && _c.point.length == _p._model.point().length ){
-                    _tmp = _p._model.point();
-                    $.each( _c.point, function( _k, _item ){
-                        $.each( _item, function( _sk, _sitem ){
-                            _tmp[ _k ][ _sk ].attr( { 'cx': _sitem.x, 'cy': _sitem.y } );
-                        });
                     });
                 }
 

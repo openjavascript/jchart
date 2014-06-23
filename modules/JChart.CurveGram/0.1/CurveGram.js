@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconPoint', 'JChart.IconVLine' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.GraphicPoint', 'JChart.IconVLine' ], function(){
 /**
  * 曲线图
  *
@@ -196,7 +196,7 @@
                     $.each( _p.data().series, function( _k, _item ){
                         var _items = [];
                         $.each( _item.data, function( _sk, _sitem ){
-                            _tmp = new JChart.IconPoint( 
+                            _tmp = new JChart.GraphicPoint( 
                                 _p.stage()
                                 , 0, 0
                                 , CurveGram.Model.STYLE.radius 
@@ -330,7 +330,7 @@
                         , y: _y + _bbox.height / 2 + 5
                         , ele: _subtitle
                     }
-                    _y = _c.subtitle.y + _bbox.height / 2;
+                    _y = _c.subtitle.y + _bbox.height / 2 + 5;
                 }
 
                 !( _title && _subtitle ) && ( _y += 10 );
@@ -503,7 +503,7 @@
                         _y = _c.lnieY;
 
                         if( JChart.Base.isNegative( _num ) ){
-                            _dataHeight = _c.vpart * ( _rateInfo.length - _rateInfo.zeroIndex );
+                            _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1);
                             _dataY = _c.lineY + _c.vpart * _rateInfo.zeroIndex;
                             _maxNum = Math.abs( _rateInfo.finalMaxNum );
                             _y = _dataY + Math.abs( _num ) / _maxNum * _dataHeight;

@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconPoint', 'JChart.IconVLine' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconVLine', 'JChart.GraphicRect' ], function(){
 /**
  * 柱状图
  *
@@ -328,7 +328,7 @@
                         , y: _y + _bbox.height / 2 + 5
                         , ele: _subtitle
                     }
-                    _y = _c.subtitle.y + _bbox.height / 2;
+                    _y = _c.subtitle.y + _bbox.height / 2 + 5;
                 }
 
                 !( _title && _subtitle ) && ( _y += 10 );
@@ -398,7 +398,12 @@
                 _c.hlen = _p.hlen();
 
                 _c.vpart = ( _maxY - _y ) / ( _c.vlen - 1 );
-                _c.hpart = ( _maxX - _x ) / ( _c.hlen - 1 );
+                _c.hpart = ( _maxX - _x ) / ( _c.hlen );
+
+                _c.halfHPart = _c.hpart / 2;
+
+                _c.seriesLength = _p.seriesLength();
+                _c.seriesPart = Math.floor( _c.hpart / ( _c.seriesLength * 1.5 ) );
 
                 _c.lineHeight = _maxY - _y;
                 _c.lineY = _y;
@@ -421,12 +426,12 @@
                     _tmpA1 = [];
                     _tmp = _p.labelDisplayIndex( _data );
                     $.each( _vlines, function( _ix, _item ){
-                        _tmpX = _x + _c.hpart * _ix;
+                        _tmpX = _x + _c.hpart * _ix + _c.halfHPart;
                         _padX = _p.varrowSize();
                         if( _tmp && _tmp.length ){
                             !_tmp[ _ix ] && ( _padX = 0 );
                         }
-                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
+                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.lineHeight }
                             , end: { 'x': _tmpX, 'y': _maxY + _padX }
                             , 'item': _item  } );
                         _tmpA1.push( {  start: { 'x': _tmpX, 'y': _y }
@@ -477,9 +482,11 @@
                         if( !_item ) return;
                         _tmpX = _lineItem.end.x;
                         if( _ix === ( _c.vlinePoint.length - 1 ) ){
-                            _tmpX = _lineItem.end.x - _item.getBBox().width / 2 + 2;
+                            //_tmpX = _lineItem.end.x - _item.getBBox().width / 2 + 2;
+                            _tmpX = _lineItem.end.x + 2;
                         }else if( _ix === 0 ){
-                            _tmpX = _lineItem.end.x + _item.getBBox().width / 2 - 2;
+                            //_tmpX = _lineItem.end.x + _item.getBBox().width / 2 - 2;
+                            _tmpX = _lineItem.end.x - 2;
                         }
                         _tmpY = _hy;
                         _tmpA.push( { 'x': _tmpX, 'y': _tmpY, 'item': _item  } );
@@ -487,7 +494,48 @@
                     _tmpA.length && ( _c.hlables = _tmpA );
                 }
 
+                //get data point
+                _c.rects = [];
+
+                var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) );
+                $.each( _data.xAxis.categories, function( _ix, _items ){
+                    var _rectItems = []
+                        , _lineItem = _c.vlinePoint[ _ix ]
+                        , _sstart = _lineItem.end.x - _c.hpart / 2
+                        , _maxNum
+                        ;
+                    $.each( _data.series, function( _six, _sd ){
+                        var _d = { 'y': _lineItem.start.y, 'x': _sstart + _six * _c.seriesPart + _c.seriesPart / 1.5 }
+                            , _item, _dataHeight, _dataY, _height
+                            , _num = _sd.data[ _ix ]
+                            ;
+
+                        _rectItems.push( _d );
+
+                        if( JChart.Base.isNegative( _num ) ){
+                            _num = Math.abs( _num );
+                            _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
+                            _dataY = _c.lineY + _c.vpart * _rateInfo.zeroIndex;
+                            _maxNum = Math.abs( _rateInfo.finalMaxNum );
+                            _height = ( _num / _maxNum ) * _dataHeight;
+                            _d.y = _d.y + _dataHeight;
+                            JC.log( _rateInfo.length, _rateInfo.zeroIndex, _c.vpart, _dataHeight, JC.f.ts() );
+                        }else{
+                            _dataHeight = _c.vpart * _rateInfo.zeroIndex;
+                            _dataY = _c.lineY;
+                            _maxNum = _rateInfo.finalMaxNum;
+                            _height = ( _num / _maxNum ) * _dataHeight;
+                            _d.y = _d.y + _dataHeight - _height;
+                        }
+                        _p.stage().rect( _d.x, _d.y, _c.seriesPart, _height );
+                        _d.item = _item;
+                    });
+                    _c.rects.push( _rectItems );
+                });
+
                 var _tips = _p.tips();
+
+                JC.dir( this._coordinate );
 
                 return this._coordinate;
             }
@@ -527,6 +575,7 @@
                         _item.item.attr( { 'x': _item.x, 'y': _item.y } );
                     });
                 }
+
                 if( _c.vlines ){
                     $.each( _c.vlines, function( _k, _item ){
                         _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
@@ -536,6 +585,9 @@
                     $.each( _c.hlines, function( _k, _item ){
                         _item.item && _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
                     });
+                }
+                if( _c.rects ){
+
                 }
 
                 _p._model.tips().toFront();

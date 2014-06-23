@@ -7,34 +7,34 @@
  *  </p>
  *
  *  <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
- *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.IconPoint.html' target='_blank'>API docs</a>
- *      | <a href='../../modules/JChart.IconPoint/0.1/_demo' target='_blank'>demo link</a></p>
+ *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicPoint.html' target='_blank'>API docs</a>
+ *      | <a href='../../modules/JChart.GraphicPoint/0.1/_demo' target='_blank'>demo link</a></p>
  *  
  * @namespace   JChart
- * @class       IconPoint
+ * @class       GraphicPoint
  * @extends     JC.PureMVC
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2013-12-13
  * @author  qiushaowei <suches@btbtd.org> | 75 Team
  * @example
-        <h2>JC.IconPoint 示例</h2>
+        <h2>JC.GraphicPoint 示例</h2>
  */
     var _jdoc = $( document ), _jwin = $( window );
 
-    JChart.IconPoint = IconPoint;
+    JChart.GraphicPoint = GraphicPoint;
 
-    function IconPoint( _paper, _x, _y, _radius, _style, _hoverStyle  ){
+    function GraphicPoint( _paper, _x, _y, _radius, _style, _hoverStyle  ){
 
-        this._model = new IconPoint.Model( _paper, _x, _y, _radius, _style, _hoverStyle );
-        this._view = new IconPoint.View( this._model );
+        this._model = new GraphicPoint.Model( _paper, _x, _y, _radius, _style, _hoverStyle );
+        this._view = new GraphicPoint.View( this._model );
 
         this._init();
 
-        //JC.log( IconPoint.Model._instanceName, 'all inited', new Date().getTime() );
+        //JC.log( GraphicPoint.Model._instanceName, 'all inited', new Date().getTime() );
     }
 
-    IconPoint.Model = 
+    GraphicPoint.Model = 
         function( _paper, _x, _y, _radius, _style, _hoverStyle ){
             this._paper = _paper;
             this._x = _x;
@@ -44,12 +44,12 @@
             this._hoverStyle = _hoverStyle;
         };
 
-    JC.PureMVC.build( IconPoint );
+    JC.PureMVC.build( GraphicPoint );
 
-    JC.f.extendObject( IconPoint.prototype, {
+    JC.f.extendObject( GraphicPoint.prototype, {
         _beforeInit:
             function(){
-                //JC.log( 'IconPoint _beforeInit', new Date().getTime() );
+                //JC.log( 'GraphicPoint _beforeInit', new Date().getTime() );
             }
 
         , _initHanlderEvent:
@@ -63,7 +63,7 @@
 
         , _inited:
             function(){
-                //JC.log( 'IconPoint _inited', new Date().getTime() );
+                //JC.log( 'GraphicPoint _inited', new Date().getTime() );
                 this.trigger( 'inited' );
             }
 
@@ -74,18 +74,18 @@
         , attr: function( _k, _v ){ this._view.attr( _k, _v ); return this; }
     });
 
-    IconPoint.Model._instanceName = 'JCIconPoint';
-    JC.f.extendObject( IconPoint.Model.prototype, {
+    GraphicPoint.Model._instanceName = 'JCGraphicPoint';
+    JC.f.extendObject( GraphicPoint.Model.prototype, {
         init:
             function(){
-                //JC.log( 'IconPoint.Model.init:', new Date().getTime() );
+                //JC.log( 'GraphicPoint.Model.init:', new Date().getTime() );
             }
     });
 
-    JC.f.extendObject( IconPoint.View.prototype, {
+    JC.f.extendObject( GraphicPoint.View.prototype, {
         init:
             function(){
-                //JC.log( 'IconPoint.View.init:', new Date().getTime() );
+                //JC.log( 'GraphicPoint.View.init:', new Date().getTime() );
             }
 
         , draw:
@@ -126,7 +126,7 @@
             }
     });
 
-    return JC.IconPoint;
+    return JC.GraphicPoint;
 });}( typeof define === 'function' && define.amd ? define : 
         function ( _name, _require, _cb ) { 
             typeof _name == 'function' && ( _cb = _name );

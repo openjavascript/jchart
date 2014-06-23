@@ -329,6 +329,17 @@ window.JChart = window.JChart || {};
                 return this._credits;
             }
         /**
+         * 图表数据种类的长度
+         */
+        , seriesLength:
+            function(){
+                typeof this._partLength == 'undefined' 
+                    && this.data() 
+                    && this.data().series 
+                    && ( this._seriesLength = this.data().series.length );
+                return this._seriesLength;
+            }
+        /**
          * 图表数据的长度
          */
         , hlen:

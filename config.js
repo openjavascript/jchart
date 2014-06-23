@@ -24,7 +24,9 @@ requirejs.config( {
         , 'JChart.Geometry': 'modules/JChart.Geometry/0.1/Geometry'
         , 'JChart.Group': 'modules/JChart.Group/0.1/Group'
 
-        , 'JChart.IconPoint': 'modules/JChart.IconPoint/0.1/IconPoint'
+        , 'JChart.GraphicPoint': 'modules/JChart.GraphicPoint/0.1/GraphicPoint'
+        , 'JChart.GraphicRect': 'modules/JChart.GraphicRect/0.1/GraphicRect'
+
         , 'JChart.IconVLine': 'modules/JChart.IconVLine/0.1/IconVLine'
         , 'JChart.IconLine': 'modules/JChart.IconLine/0.1/IconLine'
 

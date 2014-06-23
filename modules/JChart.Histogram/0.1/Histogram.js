@@ -431,7 +431,8 @@
                         if( _tmp && _tmp.length ){
                             !_tmp[ _ix ] && ( _padX = 0 );
                         }
-                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.lineHeight }
+                        //_tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.lineHeight }
+                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
                             , end: { 'x': _tmpX, 'y': _maxY + _padX }
                             , 'item': _item  } );
                         _tmpA1.push( {  start: { 'x': _tmpX, 'y': _y }

@@ -411,8 +411,13 @@ window.JChart = window.JChart || {};
                             _tmp = Math.min.apply( null, _item.data );
                             _tmp < 0 && _tmp < _p._minNNum && ( _p._minNNum = _tmp );
                         });
-
                     }
+                    var _tmp = [];
+                        _tmp.push( _p._minNNum );
+                    _p._minNNum && ( _p._minNNum = -( numberUp( Math.abs( _p._minNNum ) ) ) );
+                        _tmp.push( _p._minNNum );
+                        _tmp.push( _p._minNNum );
+                        //JC.log( ['_minNNum', _tmp ] );
                 }
 
                 return _p._minNNum;
@@ -425,7 +430,18 @@ window.JChart = window.JChart || {};
                 var _p = this;
                 
                 if( _data && hasNegative( _data ) ){
-                    this._rate = [ 1, .5, 0, -.5, -1 ];
+                    var _maxNum, _minNNum, _absNNum, _finalMaxNum;
+                    _maxNum = _p.maxNum( _data );
+                    _minNNum = _p.minNNum( _data );
+                    _absNNum = Math.abs( _minNNum );
+                    _finalMaxNum = Math.max( _maxNum, _absNNum );
+
+                    if( _maxNum > _absNNum ){
+                        this._rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
+                    }else{
+                    }
+                    !this._rate && ( this._rate = [ 1, .5, 0, -.5, -1 ] );
+
                 }else if( _data ){
                     this._rate = Base.Model.LABEL_RATE;
                 }
@@ -477,14 +493,18 @@ window.JChart = window.JChart || {};
             function( _data ){
                 if( _data && !this._vlabels ){
                     var _p = this
-                        , _maxNum = _p.maxNum( _data )
                         , _rate = _p.rate( _data )
+                        , _rateInfo = _p.rateInfo( _data, _rate )
+                        , _maxNum = _rateInfo.finalMaxNum
                         , _eles = []
                         , _tmp
+                        , _text
                         ;
 
                     $.each( _rate, function( _ix, _item ){
-                        _tmp = _p.stage().text( 10000, 0, ( _maxNum * _item ).toString()  );
+                        _text = _maxNum * _item;
+                        _rateInfo.minNNum && ( _text = JC.f.parseFinance( _text, _p.floatLen() ) );
+                        _tmp = _p.stage().text( 10000, 0, _text.toString()  );
                         _eles.push( _tmp );
                     });
 

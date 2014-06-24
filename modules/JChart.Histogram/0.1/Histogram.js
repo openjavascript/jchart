@@ -142,19 +142,21 @@
             , 'opacity': '.35'
         }
         , style: [
-            { 'stroke': '#ff0619', 'stroke-opacity': 0 }
-            , { 'stroke': '#09c100', 'stroke-opacity': 0 }
-            , { 'stroke': '#ff7100', 'stroke-opacity': 0 }
-
+            { 'stroke': '#09c100', 'stroke-opacity': 0 }
             , { 'stroke': '#FFBF00', 'stroke-opacity': 0 }
-            , { 'stroke': '#ff06b3', 'stroke-opacity': 0 }
-            , { 'stroke': '#c3e2a4', 'stroke-opacity': 0 }
-
             , { 'stroke': '#0c76c4', 'stroke-opacity': 0 }
             , { 'stroke': '#41e2e6', 'stroke-opacity': 0 }
+
             , { 'stroke': '#ffb2bc', 'stroke-opacity': 0 }
 
             , { 'stroke': '#dbb8fd', 'stroke-opacity': 0 }
+
+            , { 'stroke': '#ff06b3', 'stroke-opacity': 0 }
+            , { 'stroke': '#ff7100', 'stroke-opacity': 0 }
+            , { 'stroke': '#c3e2a4', 'stroke-opacity': 0 }
+
+            , { 'stroke': '#ff0619', 'stroke-opacity': 0 }
+
         ]
         , pathStyle: {
             'stroke-width': 2

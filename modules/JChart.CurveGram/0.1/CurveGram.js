@@ -307,6 +307,8 @@
 
                 _p.stage();
 
+                JC.log( 'xxxxxxxxxxx', _p.width(), _p.height() );
+
                 _c.stage = { x: 0, y: 0, width: _p.width(), height: _p.height(), corner: _p.stageCorner()  };
                 _p.background( _c );
                 _x = 2, _y = 2;

@@ -134,14 +134,37 @@ window.JChart = window.JChart || {};
          */
         , width:
             function(){
-                var _r = this.selector().prop( 'offsetWidth' );
-                this.is( '[chartWidth]' ) && ( _r = this.intProp( 'chartWidth' ) || _r );
-                return _r;
+                if( typeof this._width == 'undefined' ){
+                    this._width = this.selector().prop( 'offsetWidth' );
+                    this.is( '[chartWidth]' ) && ( this._width = this.intProp( 'chartWidth' ) || this._width );
+                }
+                return this._width
             }
         /**
          * 图表高度
          */
         , height:
+            function(){
+                if( typeof this._height == 'undefined' ){
+                    this._height = this.selector().prop( 'offsetHeight' ) || 400;
+                    this.is( '[chartHeight]' ) && ( this._height = this.intProp( 'chartHeight' ) || this._height );
+                }
+                return this._height;
+            }
+
+        /**
+         * 图表实时宽度
+         */
+        , realtimeWidth:
+            function(){
+                var _r = this.selector().prop( 'offsetWidth' );
+                this.is( '[chartWidth]' ) && ( _r = this.intProp( 'chartWidth' ) || _r );
+                return _r;
+            }
+        /**
+         * 图表实时高度
+         */
+        , realtimeHeight:
             function(){
                 var _r = this.selector().prop( 'offsetHeight' ) || 400;
                 this.is( '[chartHeight]' ) && ( _r = this.intProp( 'chartHeight' ) || _r );
@@ -912,7 +935,7 @@ window.JChart = window.JChart || {};
                 if( !( _ins && _ins._model.data() ) ) return;
                 _size = _ins._model.chartSize();
                 if( !_size ) return;
-                _w = _ins._model.width(); _h = _ins._model.height();
+                _w = _ins._model.realtimeWidth(); _h = _ins._model.realtimeHeight();
                 if( _size.width == _w && _size.height == _h ) return;
                 _w < 100 && ( _w = 100 ); 
                 _h < 100 && ( _h = 100 );

@@ -792,12 +792,23 @@ window.JChart = window.JChart || {};
                         _tmpItem = _p._tips.getChildByName( 'val_' + _k );
                         _tmpItem.attr( 'text', '0.00' );
                     });
+
+                    _p._tipLabelMaxWidth = _maxWidth;
                 }
                 if( typeof _ix != 'undefined' ){
                     _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
+                    var _maxTextWidth = 0, _tmpLabel;
                     $.each( _p.data().series, function( _k, _item ){
-                        _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) );
+                        _tmp = _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) ).getBBox();
+                        _tmp.width > _maxTextWidth && ( _maxTextWidth = _tmp.width );
                     });
+                    $.each( _p.data().series, function( _k, _item ){
+                        _tmp = _p._tips.getChildByName( 'val_' + _k );
+                        _tmpLabel = _p._tips.getChildByName( 'label_' + _k );
+                        _tmpBox = _tmpLabel.getBBox();
+                        _tmp.attr( 'x', _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - _tmp.getBBox().width );
+                    });
+
                 }
                 _p._tips.getChildByName( 'rect' ).attr( { width: 80, height: 50 } );
                 _tmpBox = _p._tips.getBBox();

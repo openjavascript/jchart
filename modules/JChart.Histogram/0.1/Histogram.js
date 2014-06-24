@@ -244,7 +244,7 @@
                 _p.data().series[ _ix ].hoverStyle
                     && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
 
-                _r[ 'fill-opacity' ] = .8;
+                _r[ 'fill-opacity' ] = .65;
 
                 return _r;
             }
@@ -500,16 +500,36 @@
 
                 //get data point
                 _c.rects = [];
+                _c.rectLine = [];
 
-                var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) );
+                var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) )
+                    , _lineStartY = _c.vlinePoint[0].start.y
+                    , _lineEndY = _c.vlinePoint[0].end.y
+                    ;
                 $.each( _data.xAxis.categories, function( _ix, _items ){
                     var _rectItems = []
                         , _lineItem = _c.vlinePoint[ _ix ]
-                        , _sstart = _lineItem.end.x - _c.hpart / 2 - 1
+                        , _sstart = _lineItem.end.x - _c.seriesPart * _data.series.length / 2 - _data.series.length + 1
+                        , _lineX = _lineItem.end.x - _c.hpart / 2 
                         , _maxNum
                         ;
+                    _c.rectLine.push( {
+                        start: { x: _lineX, y: _lineStartY }
+                        , end: { x: _lineX, y: _lineEndY }
+                        , item: _p.stage().path('M0 0').attr( _p.lineStyle( _ix ) )
+                    } );
+
+                    if( _ix === _data.xAxis.categories.length - 1 ){
+                        _lineX = _lineItem.end.x + _c.hpart / 2;
+                        _c.rectLine.push( {
+                            start: { x: _lineX, y: _lineStartY }
+                            , end: { x: _lineX, y: _lineEndY }
+                            , item: _p.stage().path('M0 0').attr( _p.lineStyle( _ix ) )
+                        } );
+                    }
+
                     $.each( _data.series, function( _six, _sd ){
-                        var _d = { 'y': _lineItem.start.y, 'x': _sstart + _six * _c.seriesPart + _c.seriesPart / 1.5 + _six }
+                        var _d = { 'y': _lineItem.start.y, 'x': _sstart + _six * _c.seriesPart + _six * 1  }
                             , _item, _dataHeight, _dataY, _height
                             , _num = _sd.data[ _ix ]
                             ;
@@ -588,6 +608,11 @@
                 }
                 if( _c.hlines ){
                     $.each( _c.hlines, function( _k, _item ){
+                        _item.item && _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
+                    });
+                }
+                if( _c.rectLine ){
+                    $.each( _c.rectLine, function( _k, _item ){
                         _item.item && _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
                     });
                 }

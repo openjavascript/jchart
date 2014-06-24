@@ -123,7 +123,7 @@
                     if( typeof _index == 'undefined' ) return;
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
                     _p._view.updateTips( _index, _offset );
-                    //_p._view.updatePoint( _index );
+                    _p._view.updateRect( _index );
                     _p._view.updateVLine( _index );
                 });
             }
@@ -142,19 +142,19 @@
             , 'opacity': '.35'
         }
         , style: [
-            { 'stroke': '#ff0619' }
-            , { 'stroke': '#09c100' }
-            , { 'stroke': '#ff7100' }
+            { 'stroke': '#ff0619', 'stroke-opacity': 0 }
+            , { 'stroke': '#09c100', 'stroke-opacity': 0 }
+            , { 'stroke': '#ff7100', 'stroke-opacity': 0 }
 
-            , { 'stroke': '#FFBF00' }
-            , { 'stroke': '#ff06b3' }
-            , { 'stroke': '#c3e2a4' }
+            , { 'stroke': '#FFBF00', 'stroke-opacity': 0 }
+            , { 'stroke': '#ff06b3', 'stroke-opacity': 0 }
+            , { 'stroke': '#c3e2a4', 'stroke-opacity': 0 }
 
-            , { 'stroke': '#0c76c4' }
-            , { 'stroke': '#41e2e6' }
-            , { 'stroke': '#ffb2bc' }
+            , { 'stroke': '#0c76c4', 'stroke-opacity': 0 }
+            , { 'stroke': '#41e2e6', 'stroke-opacity': 0 }
+            , { 'stroke': '#ffb2bc', 'stroke-opacity': 0 }
 
-            , { 'stroke': '#dbb8fd' }
+            , { 'stroke': '#dbb8fd', 'stroke-opacity': 0 }
         ]
         , pathStyle: {
             'stroke-width': 2
@@ -184,31 +184,31 @@
                 return _p._path;
             }
 
-        , point:
-            function(){
+        , rects:
+            function( ){
                 var _p = this, _tmp;
 
-                if( typeof _p._point == 'undefined' ){
-                    _p._point = [];
+                if( typeof _p._rects == 'undefined' ){
+                    _p._rects= [];
 
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.data().xAxis.categories, function( _k, _item ){
                         var _items = [];
-                        $.each( _item.data, function( _sk, _sitem ){
-                            _tmp = new JChart.IconPoint( 
+                        $.each( _p.data().series, function( _sk, _sitem ){
+                            _tmp = new JChart.GraphicRect( 
                                 _p.stage()
-                                , 0, 0
-                                , Histogram.Model.STYLE.radius 
-                                , _p.itemStyle( _k )
-                                , _p.itemHoverStyle( _k )
+                                , 10000, 0
+                                , 100
+                                , 100
+                                , _p.itemStyle( _sk )
+                                , _p.itemHoverStyle( _sk )
                             );
                             _items.push( _tmp );
                         });
 
-                        _p._point.push( _items );
+                        _p._rects.push( _items );
                     });
                 }
-
-                return _p._point;
+                return _p._rects;
             }
 
         , itemStyle:
@@ -217,12 +217,15 @@
                     , _len = Histogram.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
                     ;
+
                 _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
 
                 _p.data().series[ _ix ].style
                     && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
 
                 !_r.fill && _r.stroke && ( _r.fill = _r.stroke );
+
+                _r[ 'fill-opacity' ] = 1;
 
                 return _r;
             }
@@ -241,7 +244,7 @@
                 _p.data().series[ _ix ].hoverStyle
                     && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
 
-                !_r.fill && _r.stroke && ( _r.fill = '#fff' );
+                _r[ 'fill-opacity' ] = .8;
 
                 return _r;
             }
@@ -431,8 +434,8 @@
                         if( _tmp && _tmp.length ){
                             !_tmp[ _ix ] && ( _padX = 0 );
                         }
-                        //_tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.lineHeight }
-                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
+                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.lineHeight }
+                        //_tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
                             , end: { 'x': _tmpX, 'y': _maxY + _padX }
                             , 'item': _item  } );
                         _tmpA1.push( {  start: { 'x': _tmpX, 'y': _y }
@@ -502,15 +505,14 @@
                 $.each( _data.xAxis.categories, function( _ix, _items ){
                     var _rectItems = []
                         , _lineItem = _c.vlinePoint[ _ix ]
-                        , _sstart = _lineItem.end.x - _c.hpart / 2
+                        , _sstart = _lineItem.end.x - _c.hpart / 2 - 1
                         , _maxNum
                         ;
                     $.each( _data.series, function( _six, _sd ){
-                        var _d = { 'y': _lineItem.start.y, 'x': _sstart + _six * _c.seriesPart + _c.seriesPart / 1.5 }
+                        var _d = { 'y': _lineItem.start.y, 'x': _sstart + _six * _c.seriesPart + _c.seriesPart / 1.5 + _six }
                             , _item, _dataHeight, _dataY, _height
                             , _num = _sd.data[ _ix ]
                             ;
-
 
                         if( JChart.Base.isNegative( _num ) ){
                             _num = Math.abs( _num );
@@ -590,10 +592,24 @@
                     });
                 }
                 if( _c.rects ){
-
+                    var _rects = _p._model.rects();
+                    $.each( _c.rects, function( _k, _item ){
+                        $.each( _item, function( _sk, _sitem ){
+                            _tmp = _rects[ _k ][ _sk ];
+                            _tmp.attr( { x: _sitem.x, y: _sitem.y, width: _sitem.width, height: _sitem.height } );
+                            //JC.log( _sitem.x, _sitem.y, JC.f.ts() );
+                        });
+                    });
                 }
 
                 _p._model.tips().toFront();
+
+                /*
+                var _t = new JChart.GraphicRect( _p.stage(), 0, 0, 100, 100, { 'fill': '#000' }, { 'fill': '#fff' } );
+                setTimeout( function(){
+                    _t.hover();
+                }, 200 );
+                */
             }
 
         , draw: 
@@ -641,13 +657,13 @@
                 _tips.setPosition( _x, _y );
             }
 
-        , updatePoint:
+        , updateRect:
             function( _ix ){
                 var _p = this, _r = [], _preItems = _p._model.preItems() || {};
-                $.each( _p._model.point(), function( _k, _item ){
-                    _r.push( _item[ _ix ].hover() );
+                //JC.dir( _p._model.rects()[ _ix ] );
+                $.each( _p._model.rects()[ _ix ], function( _k, _item ){
+                    _r.push( _item.hover() );
                 });
-
                 _preItems.point = _r;
                 _p._model.preItems( _preItems );
             }

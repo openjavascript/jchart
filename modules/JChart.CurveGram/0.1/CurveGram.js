@@ -344,7 +344,7 @@
                         , rotate: -90
                         , ele: _vtitle
                     }
-                    _x = _c.vtitle.x + 5;
+                    _x = _c.vtitle.x + 5 + 10;
                 }
 
                 var _credits = _p.credits( _data );
@@ -503,10 +503,12 @@
                         _y = _c.lnieY;
 
                         if( JChart.Base.isNegative( _num ) ){
-                            _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1);
+                            _num = Math.abs( _num );
                             _dataY = _c.lineY + _c.vpart * _rateInfo.zeroIndex;
-                            _maxNum = Math.abs( _rateInfo.finalMaxNum );
+                            _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
+                            _maxNum = Math.abs( _rateInfo.finalMaxNum * _p.rate()[ _p.rate().length - 1 ] );
                             _y = _dataY + Math.abs( _num ) / _maxNum * _dataHeight;
+
                         }else{
                             _dataHeight = _c.vpart * _rateInfo.zeroIndex;
                             _dataY = _c.lineY;

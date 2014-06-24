@@ -437,8 +437,15 @@ window.JChart = window.JChart || {};
                     _finalMaxNum = Math.max( _maxNum, _absNNum );
 
                     if( _maxNum > _absNNum ){
-                        this._rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
+                        if( Math.abs( _finalMaxNum * 0.33333 ) > _absNNum ){
+                            this._rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
+                        }
                     }else{
+                        if( _maxNum == 0 ){
+                            this._rate = [ 0, -0.25, -0.5, -0.75, -1 ];
+                        }else if( Math.abs( _finalMaxNum * 0.33333 ) > _maxNum ){
+                            this._rate = [ 0.33333, 0, -0.33333, -0.66666, -1 ];
+                        }
                     }
                     !this._rate && ( this._rate = [ 1, .5, 0, -.5, -1 ] );
 
@@ -479,7 +486,7 @@ window.JChart = window.JChart || {};
                         , zeroIndex: _zeroIndex
                         , finalMaxNum: _finalMaxNum
                         , maxNum: _maxNum
-                        , minNNum: -_finalMaxNum
+                        , minNNum: -_minNNum
                         , length: _rate.length
                     };
                 }

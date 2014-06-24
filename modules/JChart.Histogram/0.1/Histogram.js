@@ -342,7 +342,7 @@
                         , rotate: -90
                         , ele: _vtitle
                     }
-                    _x = _c.vtitle.x + 5;
+                    _x = _c.vtitle.x + 5 + 10;
                 }
 
                 var _credits = _p.credits( _data );
@@ -511,16 +511,15 @@
                             , _num = _sd.data[ _ix ]
                             ;
 
-                        _rectItems.push( _d );
 
                         if( JChart.Base.isNegative( _num ) ){
                             _num = Math.abs( _num );
                             _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
                             _dataY = _c.lineY + _c.vpart * _rateInfo.zeroIndex;
-                            _maxNum = Math.abs( _rateInfo.finalMaxNum );
+                            _maxNum = Math.abs( _rateInfo.finalMaxNum * _p.rate()[ _p.rate().length - 1 ] );
                             _height = ( _num / _maxNum ) * _dataHeight;
-                            _d.y = _d.y + _dataHeight;
-                            JC.log( _rateInfo.length, _rateInfo.zeroIndex, _c.vpart, _dataHeight, JC.f.ts() );
+                            _d.y = _d.y + _c.lineHeight - _dataHeight;
+                            //JC.log( _rateInfo.length, _rateInfo.zeroIndex, _c.vpart, _dataHeight, JC.f.ts() );
                         }else{
                             _dataHeight = _c.vpart * _rateInfo.zeroIndex;
                             _dataY = _c.lineY;
@@ -528,15 +527,18 @@
                             _height = ( _num / _maxNum ) * _dataHeight;
                             _d.y = _d.y + _dataHeight - _height;
                         }
-                        _p.stage().rect( _d.x, _d.y, _c.seriesPart, _height );
-                        _d.item = _item;
+                        //_p.stage().rect( _d.x, _d.y, _c.seriesPart, _height );
+                        _d.width = _c.seriesPart;
+                        _d.height = _height;
+
+                        _rectItems.push( _d );
                     });
                     _c.rects.push( _rectItems );
                 });
 
                 var _tips = _p.tips();
 
-                JC.dir( this._coordinate );
+                //JC.dir( this._coordinate );
 
                 return this._coordinate;
             }

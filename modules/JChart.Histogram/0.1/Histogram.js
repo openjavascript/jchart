@@ -361,7 +361,7 @@
                     _maxY = _c.credits.y - 8;
                 }
 
-                var _legend = _p.legend( _data, 'line', function( _ix, _legend, _text, _data ){
+                var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
                     var _color = _data.stroke 
                                     || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
                                     || '#fff';

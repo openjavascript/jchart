@@ -1,4 +1,9 @@
-;(function(define, _win) { 'use strict'; define( [ 'JC.BaseMVC', 'Raphael', 'JChart.Event', 'JChart.Graphics', 'JChart.Group', 'JChart.IconLine', 'JChart.DefaultOptions' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 
+    'JC.BaseMVC', 'Raphael'
+    , 'JChart.DefaultOptions' 
+    , 'JChart.Event', 'JChart.Graphics', 'JChart.Group'
+    , 'JChart.IconLine', 'JChart.IconRect'
+], function(){
 window.JChart = window.JChart || {};
 /**
  * 组件用途简述
@@ -264,6 +269,29 @@ window.JChart = window.JChart || {};
                                 _p._legend.addChild( _box, 'box' );
 
                                 break;
+                            }
+                        case 'rect':
+                            {
+                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
+                                _x += _bx;
+                                $.each( _data.series, function( _k, _item ){
+                                    if( !_item.name ) return;
+                                    var _style = _p.itemStyle( _k );
+                                    _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
+                                    _lb = _legend.getBBox();
+                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
+                                    _tb = _text.getBBox();
+                                    _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
+                                    _legend.attr( _style );
+                                    _legend.attr( 'fill', _style.stroke );
+                                    _p._legend.addChild( _text, 'text_' + _k );
+                                    _x = _tb.x + _tb.width + _pad;
+                                    _h = _tb.height * 1.8;
+                                });
+
+                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
+                                        .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
+                                _p._legend.addChild( _box, 'box' );
                             }
                     }
                 }

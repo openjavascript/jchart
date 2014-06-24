@@ -488,11 +488,15 @@
                         if( !_item ) return;
                         _tmpX = _lineItem.end.x;
                         if( _ix === ( _c.vlinePoint.length - 1 ) ){
-                            //_tmpX = _lineItem.end.x - _item.getBBox().width / 2 + 2;
                             _tmpX = _lineItem.end.x + 2;
+                            if(  ( _tmpX + _item.getBBox().width / 2 ) > _c.lineMaxX ){
+                                _tmpX = _c.lineMaxX - _item.getBBox().width / 2;
+                            }
                         }else if( _ix === 0 ){
-                            //_tmpX = _lineItem.end.x + _item.getBBox().width / 2 - 2;
                             _tmpX = _lineItem.end.x - 2;
+                            if(  ( _tmpX - _item.getBBox().width / 2 ) < _c.lineX ){
+                                _tmpX = _c.lineX + _item.getBBox().width / 2;
+                            }
                         }
                         _tmpY = _hy;
                         _tmpA.push( { 'x': _tmpX, 'y': _tmpY, 'item': _item  } );

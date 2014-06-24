@@ -63,11 +63,15 @@
             
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
             
+                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
+            
+                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
+            
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
                 <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
             
-                <li><a href="../classes/JChart.IconPoint.html">JChart.IconPoint</a></li>
+                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
             
                 <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
             
@@ -118,7 +122,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.IconPoint&#x27;, &#x27;JChart.IconVLine&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.GraphicPoint&#x27;, &#x27;JChart.IconVLine&#x27; ], function(){
 /**
  * 曲线图
  *
@@ -316,7 +320,7 @@
                     $.each( _p.data().series, function( _k, _item ){
                         var _items = [];
                         $.each( _item.data, function( _sk, _sitem ){
-                            _tmp = new JChart.IconPoint( 
+                            _tmp = new JChart.GraphicPoint( 
                                 _p.stage()
                                 , 0, 0
                                 , CurveGram.Model.STYLE.radius 
@@ -427,6 +431,8 @@
 
                 _p.stage();
 
+                JC.log( &#x27;xxxxxxxxxxx&#x27;, _p.width(), _p.height() );
+
                 _c.stage = { x: 0, y: 0, width: _p.width(), height: _p.height(), corner: _p.stageCorner()  };
                 _p.background( _c );
                 _x = 2, _y = 2;
@@ -450,7 +456,7 @@
                         , y: _y + _bbox.height / 2 + 5
                         , ele: _subtitle
                     }
-                    _y = _c.subtitle.y + _bbox.height / 2;
+                    _y = _c.subtitle.y + _bbox.height / 2 + 5;
                 }
 
                 !( _title &amp;&amp; _subtitle ) &amp;&amp; ( _y += 10 );
@@ -464,7 +470,7 @@
                         , rotate: -90
                         , ele: _vtitle
                     }
-                    _x = _c.vtitle.x + 5;
+                    _x = _c.vtitle.x + 5 + 10;
                 }
 
                 var _credits = _p.credits( _data );
@@ -623,10 +629,12 @@
                         _y = _c.lnieY;
 
                         if( JChart.Base.isNegative( _num ) ){
-                            _dataHeight = _c.vpart * ( _rateInfo.length - _rateInfo.zeroIndex );
+                            _num = Math.abs( _num );
                             _dataY = _c.lineY + _c.vpart * _rateInfo.zeroIndex;
-                            _maxNum = Math.abs( _rateInfo.finalMaxNum );
+                            _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
+                            _maxNum = Math.abs( _rateInfo.finalMaxNum * _p.rate()[ _p.rate().length - 1 ] );
                             _y = _dataY + Math.abs( _num ) / _maxNum * _dataHeight;
+
                         }else{
                             _dataHeight = _c.vpart * _rateInfo.zeroIndex;
                             _dataY = _c.lineY;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../modules/JChart.IconPoint/0.1/IconPoint.js - JChart</title>
+    <title>../modules/JChart.GraphicRect/0.1/GraphicRect.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -63,11 +63,15 @@
             
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
             
+                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
+            
+                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
+            
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
                 <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
             
-                <li><a href="../classes/JChart.IconPoint.html">JChart.IconPoint</a></li>
+                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
             
                 <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
             
@@ -114,7 +118,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.IconPoint/0.1/IconPoint.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.GraphicRect/0.1/GraphicRect.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -127,49 +131,50 @@
  *  &lt;/p&gt;
  *
  *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
- *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.IconPoint.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
- *      | &lt;a href=&#x27;../../modules/JChart.IconPoint/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.GraphicRect.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *      | &lt;a href=&#x27;../../modules/JChart.GraphicRect/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
  *  
  * @namespace   JChart
- * @class       IconPoint
+ * @class       GraphicRect
  * @extends     JC.PureMVC
  * @constructor
  * @param   {selector|string}   _selector   
- * @version dev 0.1 2013-12-13
+ * @version dev 0.1 2014-06-23
  * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
  * @example
-        &lt;h2&gt;JC.IconPoint 示例&lt;/h2&gt;
+        &lt;h2&gt;JC.GraphicRect 示例&lt;/h2&gt;
  */
     var _jdoc = $( document ), _jwin = $( window );
 
-    JChart.IconPoint = IconPoint;
+    JChart.GraphicRect = GraphicRect;
 
-    function IconPoint( _paper, _x, _y, _radius, _style, _hoverStyle  ){
+    function GraphicRect( _paper, _x, _y, _width, _height, _style, _hoverStyle  ){
 
-        this._model = new IconPoint.Model( _paper, _x, _y, _radius, _style, _hoverStyle );
-        this._view = new IconPoint.View( this._model );
+        this._model = new GraphicRect.Model( _paper, _x, _y, _width, _height, _style, _hoverStyle );
+        this._view = new GraphicRect.View( this._model );
 
         this._init();
 
-        //JC.log( IconPoint.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+        //JC.log( GraphicRect.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
     }
 
-    IconPoint.Model = 
-        function( _paper, _x, _y, _radius, _style, _hoverStyle ){
+    GraphicRect.Model = 
+        function( _paper, _x, _y, _width, _height, _style, _hoverStyle ){
             this._paper = _paper;
             this._x = _x;
             this._y = _y;
-            this._radius = _radius;
+            this._width = _width;
+            this._height = _height;
             this._style = _style;
             this._hoverStyle = _hoverStyle;
         };
 
-    JC.PureMVC.build( IconPoint );
+    JC.PureMVC.build( GraphicRect );
 
-    JC.f.extendObject( IconPoint.prototype, {
+    JC.f.extendObject( GraphicRect.prototype, {
         _beforeInit:
             function(){
-                //JC.log( &#x27;IconPoint _beforeInit&#x27;, new Date().getTime() );
+                //JC.log( &#x27;GraphicRect _beforeInit&#x27;, new Date().getTime() );
             }
 
         , _initHanlderEvent:
@@ -183,7 +188,7 @@
 
         , _inited:
             function(){
-                //JC.log( &#x27;IconPoint _inited&#x27;, new Date().getTime() );
+                //JC.log( &#x27;GraphicRect _inited&#x27;, new Date().getTime() );
                 this.trigger( &#x27;inited&#x27; );
             }
 
@@ -194,24 +199,24 @@
         , attr: function( _k, _v ){ this._view.attr( _k, _v ); return this; }
     });
 
-    IconPoint.Model._instanceName = &#x27;JCIconPoint&#x27;;
-    JC.f.extendObject( IconPoint.Model.prototype, {
+    GraphicRect.Model._instanceName = &#x27;JCGraphicRect&#x27;;
+    JC.f.extendObject( GraphicRect.Model.prototype, {
         init:
             function(){
-                //JC.log( &#x27;IconPoint.Model.init:&#x27;, new Date().getTime() );
+                //JC.log( &#x27;GraphicRect.Model.init:&#x27;, new Date().getTime() );
             }
     });
 
-    JC.f.extendObject( IconPoint.View.prototype, {
+    JC.f.extendObject( GraphicRect.View.prototype, {
         init:
             function(){
-                //JC.log( &#x27;IconPoint.View.init:&#x27;, new Date().getTime() );
+                //JC.log( &#x27;GraphicRect.View.init:&#x27;, new Date().getTime() );
             }
 
         , draw:
             function(){
                 var _p = this
-                    , _element = _p._model._paper.circle( _p._model._x, _p._model._y, _p._model._radius )
+                    , _element = _p._model._paper.rect( _p._model._x, _p._model._y, _p._model._width, _p._model._height )
                     ;
                 _p._model._element = _element;
                 _p.unhover();
@@ -220,7 +225,7 @@
         , hover:
             function(){
                 var _p = this;
-                $.each( _p._model._hoverStyle, function( _k, _item ){
+                _p._model._hoverStyle &amp;&amp; $.each( _p._model._hoverStyle, function( _k, _item ){
                     _p._model._element.attr( _k, _item );
                 });
             }
@@ -228,7 +233,7 @@
         , unhover:
             function(){
                 var _p = this;
-                $.each( _p._model._style, function( _k, _item ){
+                _p._model._style &amp;&amp; $.each( _p._model._style, function( _k, _item ){
                     _p._model._element.attr( _k, _item );
                 });
             }
@@ -246,7 +251,7 @@
             }
     });
 
-    return JC.IconPoint;
+    return JC.GraphicRect;
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
         function ( _name, _require, _cb ) { 
             typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );

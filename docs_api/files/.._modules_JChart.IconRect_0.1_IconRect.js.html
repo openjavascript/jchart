@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../modules/JChart.IconLine/0.1/IconLine.js - JChart</title>
+    <title>../modules/JChart.IconRect/0.1/IconRect.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -118,7 +118,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.IconLine/0.1/IconLine.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.IconRect/0.1/IconRect.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -131,34 +131,34 @@
  *  &lt;/p&gt;
  *
  *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
- *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.IconLine.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
- *      | &lt;a href=&#x27;../../modules/JChart.IconLine/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.IconRect.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *      | &lt;a href=&#x27;../../modules/JChart.IconRect/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
  *  
  * @namespace   JChart
- * @class       IconLine
+ * @class       IconRect
  * @extends     JC.PureMVC
  * @constructor
  * @param   {selector|string}   _selector   
- * @version dev 0.1 2013-12-13
+ * @version dev 0.1 2014-06-24
  * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
  * @example
-        &lt;h2&gt;JC.IconLine 示例&lt;/h2&gt;
+        &lt;h2&gt;JC.IconRect 示例&lt;/h2&gt;
  */
     var _jdoc = $( document ), _jwin = $( window );
 
-    JChart.IconLine = IconLine;
+    JChart.IconRect = IconRect;
 
-    function IconLine( _paper, _rx, _ry, _rw, _rh, _radius, _style ){
+    function IconRect( _paper, _rx, _ry, _rw, _rh, _radius, _style ){
 
-        this._model = new IconLine.Model( _paper, _rx, _ry, _rw, _rh, _radius, _style );
-        this._view = new IconLine.View( this._model );
+        this._model = new IconRect.Model( _paper, _rx, _ry, _rw, _rh, _radius, _style );
+        this._view = new IconRect.View( this._model );
 
         this._init();
 
-        //JC.log( IconLine.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+        //JC.log( IconRect.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
     }
 
-    IconLine.Model = 
+    IconRect.Model = 
         function( _paper, _rx, _ry, _rw, _rh, _rcorner, _radius, _style ){
             this._paper = _paper;
             this._rx = _rx;
@@ -170,12 +170,12 @@
             this._style = _style;
         };
 
-    JC.PureMVC.build( IconLine );
+    JC.PureMVC.build( IconRect );
 
-    JC.f.extendObject( IconLine.prototype, {
+    JC.f.extendObject( IconRect.prototype, {
         _beforeInit:
             function(){
-                //JC.log( &#x27;IconLine _beforeInit&#x27;, new Date().getTime() );
+                //JC.log( &#x27;IconRect _beforeInit&#x27;, new Date().getTime() );
             }
 
         , _initHanlderEvent:
@@ -189,7 +189,7 @@
 
         , _inited:
             function(){
-                //JC.log( &#x27;IconLine _inited&#x27;, new Date().getTime() );
+                //JC.log( &#x27;IconRect _inited&#x27;, new Date().getTime() );
                 this.trigger( &#x27;inited&#x27; );
             }
 
@@ -218,37 +218,33 @@
             }
     });
 
-    IconLine.Model._instanceName = &#x27;JCIconLine&#x27;;
-    JC.f.extendObject( IconLine.Model.prototype, {
+    IconRect.Model._instanceName = &#x27;JCIconRect&#x27;;
+    JC.f.extendObject( IconRect.Model.prototype, {
         init:
             function(){
-                //JC.log( &#x27;IconLine.Model.init:&#x27;, new Date().getTime() );
+                //JC.log( &#x27;IconRect.Model.init:&#x27;, new Date().getTime() );
                 this._group = new JChart.Group();
             }
 
         , getBBox: function(){ return this._group.getBBox(); }
     });
 
-    JC.f.extendObject( IconLine.View.prototype, {
+    JC.f.extendObject( IconRect.View.prototype, {
         init:
             function(){
-                //JC.log( &#x27;IconLine.View.init:&#x27;, new Date().getTime() );
+                //JC.log( &#x27;IconRect.View.init:&#x27;, new Date().getTime() );
             }
 
         , draw:
             function(){
                 var _p = this
                     , _rect = _p._model._paper.rect( 
-                        _p._model._rx , _p._model._ry + _p._model._rh , _p._model._rw, _p._model._rh, _p._model._rcorner )
-
-                    , _circle = _p._model._paper.circle( 
-                        _p._model._rx + _p._model._rw / 2
-                        , _p._model._ry + _p._model._rh + _p._model._rh / 2
-                        , _p._model._radius 
+                        _p._model._rx 
+                        , _p._model._ry + _p._model._rh 
+                        , _p._model._rw
+                        , _p._model._rh
                         )
-                    ;
                 this._model._group.addChild( _rect, &#x27;rect&#x27; );
-                this._model._group.addChild( _circle, &#x27;circle&#x27; );
                 _p.unhover();
             }
 
@@ -278,7 +274,7 @@
             }
     });
 
-    return JC.IconLine;
+    return JC.IconRect;
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
         function ( _name, _require, _cb ) { 
             typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );

@@ -491,6 +491,7 @@ window.JChart = window.JChart || {};
                         if( Math.abs( _finalMaxNum * 0.33333 ) > _absNNum ){
                             this._rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
                         }
+                        //JC.log( _finalMaxNum, _absNNum, _finalMaxNum * 0.33333, JC.f.ts() );
                     }else{
                         if( _maxNum == 0 ){
                             this._rate = [ 0, -0.25, -0.5, -0.75, -1 ];

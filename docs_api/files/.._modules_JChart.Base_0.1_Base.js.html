@@ -63,11 +63,15 @@
             
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
             
+                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
+            
+                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
+            
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
                 <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
             
-                <li><a href="../classes/JChart.IconPoint.html">JChart.IconPoint</a></li>
+                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
             
                 <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
             
@@ -118,7 +122,12 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.BaseMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Event&#x27;, &#x27;JChart.Graphics&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.IconLine&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ 
+    &#x27;JC.BaseMVC&#x27;, &#x27;Raphael&#x27;
+    , &#x27;JChart.DefaultOptions&#x27; 
+    , &#x27;JChart.Event&#x27;, &#x27;JChart.Graphics&#x27;, &#x27;JChart.Group&#x27;
+    , &#x27;JChart.IconLine&#x27;, &#x27;JChart.IconRect&#x27;
+], function(){
 window.JChart = window.JChart || {};
 /**
  * 组件用途简述
@@ -249,14 +258,37 @@ window.JChart = window.JChart || {};
          */
         , width:
             function(){
-                var _r = this.selector().prop( &#x27;offsetWidth&#x27; );
-                this.is( &#x27;[chartWidth]&#x27; ) &amp;&amp; ( _r = this.intProp( &#x27;chartWidth&#x27; ) || _r );
-                return _r;
+                if( typeof this._width == &#x27;undefined&#x27; ){
+                    this._width = this.selector().prop( &#x27;offsetWidth&#x27; );
+                    this.is( &#x27;[chartWidth]&#x27; ) &amp;&amp; ( this._width = this.intProp( &#x27;chartWidth&#x27; ) || this._width );
+                }
+                return this._width
             }
         /**
          * 图表高度
          */
         , height:
+            function(){
+                if( typeof this._height == &#x27;undefined&#x27; ){
+                    this._height = this.selector().prop( &#x27;offsetHeight&#x27; ) || 400;
+                    this.is( &#x27;[chartHeight]&#x27; ) &amp;&amp; ( this._height = this.intProp( &#x27;chartHeight&#x27; ) || this._height );
+                }
+                return this._height;
+            }
+
+        /**
+         * 图表实时宽度
+         */
+        , realtimeWidth:
+            function(){
+                var _r = this.selector().prop( &#x27;offsetWidth&#x27; );
+                this.is( &#x27;[chartWidth]&#x27; ) &amp;&amp; ( _r = this.intProp( &#x27;chartWidth&#x27; ) || _r );
+                return _r;
+            }
+        /**
+         * 图表实时高度
+         */
+        , realtimeHeight:
             function(){
                 var _r = this.selector().prop( &#x27;offsetHeight&#x27; ) || 400;
                 this.is( &#x27;[chartHeight]&#x27; ) &amp;&amp; ( _r = this.intProp( &#x27;chartHeight&#x27; ) || _r );
@@ -385,6 +417,29 @@ window.JChart = window.JChart || {};
 
                                 break;
                             }
+                        case &#x27;rect&#x27;:
+                            {
+                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
+                                _x += _bx;
+                                $.each( _data.series, function( _k, _item ){
+                                    if( !_item.name ) return;
+                                    var _style = _p.itemStyle( _k );
+                                    _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
+                                    _lb = _legend.getBBox();
+                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( &#x27;text-anchor&#x27;, &#x27;start&#x27;);
+                                    _tb = _text.getBBox();
+                                    _p._legend.addChild( _legend, &#x27;legend_&#x27; + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
+                                    _legend.attr( _style );
+                                    _legend.attr( &#x27;fill&#x27;, _style.stroke );
+                                    _p._legend.addChild( _text, &#x27;text_&#x27; + _k );
+                                    _x = _tb.x + _tb.width + _pad;
+                                    _h = _tb.height * 1.8;
+                                });
+
+                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
+                                        .attr( { &#x27;stroke-opacity&#x27;: .99, &#x27;fill-opacity&#x27;: .99, &#x27;stroke-width&#x27;: 1, &#x27;stroke&#x27;: &#x27;#909090&#x27; } );
+                                _p._legend.addChild( _box, &#x27;box&#x27; );
+                            }
                     }
                 }
                     
@@ -447,6 +502,17 @@ window.JChart = window.JChart || {};
                             );
                 }
                 return this._credits;
+            }
+        /**
+         * 图表数据种类的长度
+         */
+        , seriesLength:
+            function(){
+                typeof this._partLength == &#x27;undefined&#x27; 
+                    &amp;&amp; this.data() 
+                    &amp;&amp; this.data().series 
+                    &amp;&amp; ( this._seriesLength = this.data().series.length );
+                return this._seriesLength;
             }
         /**
          * 图表数据的长度
@@ -520,8 +586,13 @@ window.JChart = window.JChart || {};
                             _tmp = Math.min.apply( null, _item.data );
                             _tmp &lt; 0 &amp;&amp; _tmp &lt; _p._minNNum &amp;&amp; ( _p._minNNum = _tmp );
                         });
-
                     }
+                    var _tmp = [];
+                        _tmp.push( _p._minNNum );
+                    _p._minNNum &amp;&amp; ( _p._minNNum = -( numberUp( Math.abs( _p._minNNum ) ) ) );
+                        _tmp.push( _p._minNNum );
+                        _tmp.push( _p._minNNum );
+                        //JC.log( [&#x27;_minNNum&#x27;, _tmp ] );
                 }
 
                 return _p._minNNum;
@@ -534,7 +605,26 @@ window.JChart = window.JChart || {};
                 var _p = this;
                 
                 if( _data &amp;&amp; hasNegative( _data ) ){
-                    this._rate = [ 1, .5, 0, -.5, -1 ];
+                    var _maxNum, _minNNum, _absNNum, _finalMaxNum;
+                    _maxNum = _p.maxNum( _data );
+                    _minNNum = _p.minNNum( _data );
+                    _absNNum = Math.abs( _minNNum );
+                    _finalMaxNum = Math.max( _maxNum, _absNNum );
+
+                    if( _maxNum &gt; _absNNum ){
+                        if( Math.abs( _finalMaxNum * 0.33333 ) &gt; _absNNum ){
+                            this._rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
+                        }
+                        //JC.log( _finalMaxNum, _absNNum, _finalMaxNum * 0.33333, JC.f.ts() );
+                    }else{
+                        if( _maxNum == 0 ){
+                            this._rate = [ 0, -0.25, -0.5, -0.75, -1 ];
+                        }else if( Math.abs( _finalMaxNum * 0.33333 ) &gt; _maxNum ){
+                            this._rate = [ 0.33333, 0, -0.33333, -0.66666, -1 ];
+                        }
+                    }
+                    !this._rate &amp;&amp; ( this._rate = [ 1, .5, 0, -.5, -1 ] );
+
                 }else if( _data ){
                     this._rate = Base.Model.LABEL_RATE;
                 }
@@ -572,7 +662,7 @@ window.JChart = window.JChart || {};
                         , zeroIndex: _zeroIndex
                         , finalMaxNum: _finalMaxNum
                         , maxNum: _maxNum
-                        , minNNum: -_finalMaxNum
+                        , minNNum: -_minNNum
                         , length: _rate.length
                     };
                 }
@@ -586,14 +676,18 @@ window.JChart = window.JChart || {};
             function( _data ){
                 if( _data &amp;&amp; !this._vlabels ){
                     var _p = this
-                        , _maxNum = _p.maxNum( _data )
                         , _rate = _p.rate( _data )
+                        , _rateInfo = _p.rateInfo( _data, _rate )
+                        , _maxNum = _rateInfo.finalMaxNum
                         , _eles = []
                         , _tmp
+                        , _text
                         ;
 
                     $.each( _rate, function( _ix, _item ){
-                        _tmp = _p.stage().text( 10000, 0, ( _maxNum * _item ).toString()  );
+                        _text = _maxNum * _item;
+                        _rateInfo.minNNum &amp;&amp; ( _text = JC.f.parseFinance( _text, _p.floatLen() ) );
+                        _tmp = _p.stage().text( 10000, 0, _text.toString()  );
                         _eles.push( _tmp );
                     });
 
@@ -823,12 +917,23 @@ window.JChart = window.JChart || {};
                         _tmpItem = _p._tips.getChildByName( &#x27;val_&#x27; + _k );
                         _tmpItem.attr( &#x27;text&#x27;, &#x27;0.00&#x27; );
                     });
+
+                    _p._tipLabelMaxWidth = _maxWidth;
                 }
                 if( typeof _ix != &#x27;undefined&#x27; ){
                     _p._tips.getChildByName( &#x27;title&#x27; ).attr( &#x27;text&#x27;, _p.tipsTitle( _ix ) );
+                    var _maxTextWidth = 0, _tmpLabel;
                     $.each( _p.data().series, function( _k, _item ){
-                        _p._tips.getChildByName( &#x27;val_&#x27; + _k ).attr( &#x27;text&#x27;, JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) );
+                        _tmp = _p._tips.getChildByName( &#x27;val_&#x27; + _k ).attr( &#x27;text&#x27;, JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) ).getBBox();
+                        _tmp.width &gt; _maxTextWidth &amp;&amp; ( _maxTextWidth = _tmp.width );
                     });
+                    $.each( _p.data().series, function( _k, _item ){
+                        _tmp = _p._tips.getChildByName( &#x27;val_&#x27; + _k );
+                        _tmpLabel = _p._tips.getChildByName( &#x27;label_&#x27; + _k );
+                        _tmpBox = _tmpLabel.getBBox();
+                        _tmp.attr( &#x27;x&#x27;, _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - _tmp.getBBox().width );
+                    });
+
                 }
                 _p._tips.getChildByName( &#x27;rect&#x27; ).attr( { width: 80, height: 50 } );
                 _tmpBox = _p._tips.getBBox();
@@ -966,7 +1071,7 @@ window.JChart = window.JChart || {};
                 if( !( _ins &amp;&amp; _ins._model.data() ) ) return;
                 _size = _ins._model.chartSize();
                 if( !_size ) return;
-                _w = _ins._model.width(); _h = _ins._model.height();
+                _w = _ins._model.realtimeWidth(); _h = _ins._model.realtimeHeight();
                 if( _size.width == _w &amp;&amp; _size.height == _h ) return;
                 _w &lt; 100 &amp;&amp; ( _w = 100 ); 
                 _h &lt; 100 &amp;&amp; ( _h = 100 );
@@ -1030,6 +1135,12 @@ window.JChart = window.JChart || {};
         
         return _out;
     }
+
+    JChart.getOptions =
+        function(){
+            var _d = JChart.DefaultOptions;
+            return _d;
+        };
 
     _jwin.on( &#x27;resize&#x27;, function(){
         JC.f.safeTimeout( function(){

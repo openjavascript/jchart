@@ -63,11 +63,15 @@
             
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
             
+                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
+            
+                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
+            
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
                 <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
             
-                <li><a href="../classes/JChart.IconPoint.html">JChart.IconPoint</a></li>
+                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
             
                 <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
             
@@ -1363,6 +1367,7 @@
         !_len &amp;&amp; ( _len = 3 );
         typeof _floatLen == &#x27;undefined&#x27; &amp;&amp; ( _floatLen = 2 );
         !_splitSymbol &amp;&amp; ( _splitSymbol = &#x27;,&#x27; );
+        var _isNegative = false, _r;
 
         typeof _number == &#x27;number&#x27; &amp;&amp; ( _number = parseFinance( _number, _floatLen ) );
         if( typeof _number == &#x27;string&#x27; ){
@@ -1373,6 +1378,8 @@
 
         if( !_number ) return _def;
         _number += &#x27;&#x27;; 
+
+        /^\-/.test( _number ) &amp;&amp; ( _isNegative = true );
 
         _number = _number.replace( /[^\d\.]/g, &#x27;&#x27; );
 
@@ -1395,8 +1402,10 @@
         }else{
             _parts.length &gt; 1 &amp;&amp; _parts.pop();
         }
+        _r = _parts.join(&#x27;.&#x27;);
+        _isNegative &amp;&amp; ( _r = &#x27;-&#x27; + _r );
 
-        return _parts.join(&#x27;.&#x27;);
+        return _r;
     }
     /**
      * 日期格式化 (具体格式请查看 PHP Date Formats)

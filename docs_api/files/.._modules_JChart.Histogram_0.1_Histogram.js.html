@@ -63,11 +63,15 @@
             
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
             
+                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
+            
+                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
+            
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
                 <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
             
-                <li><a href="../classes/JChart.IconPoint.html">JChart.IconPoint</a></li>
+                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
             
                 <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
             
@@ -118,7 +122,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.IconPoint&#x27;, &#x27;JChart.IconVLine&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.IconVLine&#x27;, &#x27;JChart.GraphicRect&#x27; ], function(){
 /**
  * 柱状图
  *
@@ -243,7 +247,7 @@
                     if( typeof _index == &#x27;undefined&#x27; ) return;
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
                     _p._view.updateTips( _index, _offset );
-                    _p._view.updatePoint( _index );
+                    _p._view.updateRect( _index );
                     _p._view.updateVLine( _index );
                 });
             }
@@ -262,19 +266,21 @@
             , &#x27;opacity&#x27;: &#x27;.35&#x27;
         }
         , style: [
-            { &#x27;stroke&#x27;: &#x27;#ff0619&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#09c100&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#ff7100&#x27; }
+            { &#x27;stroke&#x27;: &#x27;#09c100&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+            , { &#x27;stroke&#x27;: &#x27;#FFBF00&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+            , { &#x27;stroke&#x27;: &#x27;#0c76c4&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+            , { &#x27;stroke&#x27;: &#x27;#41e2e6&#x27;, &#x27;stroke-opacity&#x27;: 0 }
 
-            , { &#x27;stroke&#x27;: &#x27;#FFBF00&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#ff06b3&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#c3e2a4&#x27; }
+            , { &#x27;stroke&#x27;: &#x27;#ffb2bc&#x27;, &#x27;stroke-opacity&#x27;: 0 }
 
-            , { &#x27;stroke&#x27;: &#x27;#0c76c4&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#41e2e6&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#ffb2bc&#x27; }
+            , { &#x27;stroke&#x27;: &#x27;#dbb8fd&#x27;, &#x27;stroke-opacity&#x27;: 0 }
 
-            , { &#x27;stroke&#x27;: &#x27;#dbb8fd&#x27; }
+            , { &#x27;stroke&#x27;: &#x27;#ff06b3&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+            , { &#x27;stroke&#x27;: &#x27;#ff7100&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+            , { &#x27;stroke&#x27;: &#x27;#c3e2a4&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+
+            , { &#x27;stroke&#x27;: &#x27;#ff0619&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+
         ]
         , pathStyle: {
             &#x27;stroke-width&#x27;: 2
@@ -304,31 +310,31 @@
                 return _p._path;
             }
 
-        , point:
-            function(){
+        , rects:
+            function( ){
                 var _p = this, _tmp;
 
-                if( typeof _p._point == &#x27;undefined&#x27; ){
-                    _p._point = [];
+                if( typeof _p._rects == &#x27;undefined&#x27; ){
+                    _p._rects= [];
 
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.data().xAxis.categories, function( _k, _item ){
                         var _items = [];
-                        $.each( _item.data, function( _sk, _sitem ){
-                            _tmp = new JChart.IconPoint( 
+                        $.each( _p.data().series, function( _sk, _sitem ){
+                            _tmp = new JChart.GraphicRect( 
                                 _p.stage()
-                                , 0, 0
-                                , Histogram.Model.STYLE.radius 
-                                , _p.itemStyle( _k )
-                                , _p.itemHoverStyle( _k )
+                                , 10000, 0
+                                , 100
+                                , 100
+                                , _p.itemStyle( _sk )
+                                , _p.itemHoverStyle( _sk )
                             );
                             _items.push( _tmp );
                         });
 
-                        _p._point.push( _items );
+                        _p._rects.push( _items );
                     });
                 }
-
-                return _p._point;
+                return _p._rects;
             }
 
         , itemStyle:
@@ -337,12 +343,15 @@
                     , _len = Histogram.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
                     ;
+
                 _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
 
                 _p.data().series[ _ix ].style
                     &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
 
                 !_r.fill &amp;&amp; _r.stroke &amp;&amp; ( _r.fill = _r.stroke );
+
+                _r[ &#x27;fill-opacity&#x27; ] = 1;
 
                 return _r;
             }
@@ -361,7 +370,7 @@
                 _p.data().series[ _ix ].hoverStyle
                     &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
 
-                !_r.fill &amp;&amp; _r.stroke &amp;&amp; ( _r.fill = &#x27;#fff&#x27; );
+                _r[ &#x27;fill-opacity&#x27; ] = .65;
 
                 return _r;
             }
@@ -448,7 +457,7 @@
                         , y: _y + _bbox.height / 2 + 5
                         , ele: _subtitle
                     }
-                    _y = _c.subtitle.y + _bbox.height / 2;
+                    _y = _c.subtitle.y + _bbox.height / 2 + 5;
                 }
 
                 !( _title &amp;&amp; _subtitle ) &amp;&amp; ( _y += 10 );
@@ -462,7 +471,7 @@
                         , rotate: -90
                         , ele: _vtitle
                     }
-                    _x = _c.vtitle.x + 5;
+                    _x = _c.vtitle.x + 5 + 10;
                 }
 
                 var _credits = _p.credits( _data );
@@ -476,7 +485,7 @@
                     _maxY = _c.credits.y - 8;
                 }
 
-                var _legend = _p.legend( _data, &#x27;line&#x27;, function( _ix, _legend, _text, _data ){
+                var _legend = _p.legend( _data, &#x27;rect&#x27;, function( _ix, _legend, _text, _data ){
                     var _color = _data.stroke 
                                     || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
                                     || &#x27;#fff&#x27;;
@@ -518,7 +527,12 @@
                 _c.hlen = _p.hlen();
 
                 _c.vpart = ( _maxY - _y ) / ( _c.vlen - 1 );
-                _c.hpart = ( _maxX - _x ) / ( _c.hlen - 1 );
+                _c.hpart = ( _maxX - _x ) / ( _c.hlen );
+
+                _c.halfHPart = _c.hpart / 2;
+
+                _c.seriesLength = _p.seriesLength();
+                _c.seriesPart = Math.floor( _c.hpart / ( _c.seriesLength * 1.5 ) );
 
                 _c.lineHeight = _maxY - _y;
                 _c.lineY = _y;
@@ -541,12 +555,13 @@
                     _tmpA1 = [];
                     _tmp = _p.labelDisplayIndex( _data );
                     $.each( _vlines, function( _ix, _item ){
-                        _tmpX = _x + _c.hpart * _ix;
+                        _tmpX = _x + _c.hpart * _ix + _c.halfHPart;
                         _padX = _p.varrowSize();
                         if( _tmp &amp;&amp; _tmp.length ){
                             !_tmp[ _ix ] &amp;&amp; ( _padX = 0 );
                         }
-                        _tmpA.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y }
+                        _tmpA.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y + _c.lineHeight }
+                        //_tmpA.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y }
                             , end: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _maxY + _padX }
                             , &#x27;item&#x27;: _item  } );
                         _tmpA1.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y }
@@ -597,9 +612,15 @@
                         if( !_item ) return;
                         _tmpX = _lineItem.end.x;
                         if( _ix === ( _c.vlinePoint.length - 1 ) ){
-                            _tmpX = _lineItem.end.x - _item.getBBox().width / 2 + 2;
+                            _tmpX = _lineItem.end.x + 2;
+                            if(  ( _tmpX + _item.getBBox().width / 2 ) &gt; _c.lineMaxX ){
+                                _tmpX = _c.lineMaxX - _item.getBBox().width / 2;
+                            }
                         }else if( _ix === 0 ){
-                            _tmpX = _lineItem.end.x + _item.getBBox().width / 2 - 2;
+                            _tmpX = _lineItem.end.x - 2;
+                            if(  ( _tmpX - _item.getBBox().width / 2 ) &lt; _c.lineX ){
+                                _tmpX = _c.lineX + _item.getBBox().width / 2;
+                            }
                         }
                         _tmpY = _hy;
                         _tmpA.push( { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _tmpY, &#x27;item&#x27;: _item  } );
@@ -608,40 +629,68 @@
                 }
 
                 //get data point
-                _c.point = [];
-                _c.path = [];
+                _c.rects = [];
+                _c.rectLine = [];
 
-                var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) );
-                $.each( _data.series, function( _ix, _items ){
-                    var _x, _y, _dataHeight, _pathPoint = [], _purePoint = [], _dataY, _maxNum;
-                    $.each( _items.data, function( _six, _num ){
+                var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) )
+                    , _lineStartY = _c.vlinePoint[0].start.y
+                    , _lineEndY = _c.vlinePoint[0].end.y
+                    ;
+                $.each( _data.xAxis.categories, function( _ix, _items ){
+                    var _rectItems = []
+                        , _lineItem = _c.vlinePoint[ _ix ]
+                        , _sstart = _lineItem.end.x - _c.seriesPart * _data.series.length / 2 - _data.series.length + 1
+                        , _lineX = _lineItem.end.x - _c.hpart / 2 
+                        , _maxNum
+                        ;
+                    _c.rectLine.push( {
+                        start: { x: _lineX, y: _lineStartY }
+                        , end: { x: _lineX, y: _lineEndY }
+                        , item: _p.stage().path(&#x27;M0 0&#x27;).attr( _p.lineStyle( _ix ) )
+                    } );
 
-                        _pathPoint.push( _six === 0 ? &#x27;M&#x27; : &#x27;L&#x27; );
-                        _x = _c.lineX + _c.hpart * _six;
-                        _y = _c.lnieY;
+                    if( _ix === _data.xAxis.categories.length - 1 ){
+                        _lineX = _lineItem.end.x + _c.hpart / 2;
+                        _c.rectLine.push( {
+                            start: { x: _lineX, y: _lineStartY }
+                            , end: { x: _lineX, y: _lineEndY }
+                            , item: _p.stage().path(&#x27;M0 0&#x27;).attr( _p.lineStyle( _ix ) )
+                        } );
+                    }
+
+                    $.each( _data.series, function( _six, _sd ){
+                        var _d = { &#x27;y&#x27;: _lineItem.start.y, &#x27;x&#x27;: _sstart + _six * _c.seriesPart + _six * 1  }
+                            , _item, _dataHeight, _dataY, _height
+                            , _num = _sd.data[ _ix ]
+                            ;
 
                         if( JChart.Base.isNegative( _num ) ){
-                            _dataHeight = _c.vpart * ( _rateInfo.length - _rateInfo.zeroIndex );
+                            _num = Math.abs( _num );
+                            _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
                             _dataY = _c.lineY + _c.vpart * _rateInfo.zeroIndex;
-                            _maxNum = Math.abs( _rateInfo.finalMaxNum );
-                            _y = _dataY + Math.abs( _num ) / _maxNum * _dataHeight;
+                            _maxNum = Math.abs( _rateInfo.finalMaxNum * _p.rate()[ _p.rate().length - 1 ] );
+                            _height = ( _num / _maxNum ) * _dataHeight;
+                            _d.y = _d.y + _c.lineHeight - _dataHeight;
+                            //JC.log( _rateInfo.length, _rateInfo.zeroIndex, _c.vpart, _dataHeight, JC.f.ts() );
                         }else{
                             _dataHeight = _c.vpart * _rateInfo.zeroIndex;
                             _dataY = _c.lineY;
                             _maxNum = _rateInfo.finalMaxNum;
-                            _y = _dataY + _dataHeight - _num / _maxNum * _dataHeight;
+                            _height = ( _num / _maxNum ) * _dataHeight;
+                            _d.y = _d.y + _dataHeight - _height;
                         }
-                        _x &gt; _c.lineMaxX &amp;&amp; ( _x = _c.lineMaxX );
-                        _y &gt; _c.lineMaxY &amp;&amp; ( _y = _c.lineMaxY );
+                        //_p.stage().rect( _d.x, _d.y, _c.seriesPart, _height );
+                        _d.width = _c.seriesPart;
+                        _d.height = _height;
 
-                        _pathPoint.push( [ _x, _y ] );
-                        _purePoint.push( { &#x27;x&#x27;: _x, &#x27;y&#x27;: _y, &#x27;num&#x27;: _num, &#x27;maxNum&#x27;: _maxNum } );
+                        _rectItems.push( _d );
                     });
-                    _c.point.push( _purePoint );
-                    _c.path.push( _pathPoint );
+                    _c.rects.push( _rectItems );
                 });
 
                 var _tips = _p.tips();
+
+                //JC.dir( this._coordinate );
 
                 return this._coordinate;
             }
@@ -681,6 +730,7 @@
                         _item.item.attr( { &#x27;x&#x27;: _item.x, &#x27;y&#x27;: _item.y } );
                     });
                 }
+
                 if( _c.vlines ){
                     $.each( _c.vlines, function( _k, _item ){
                         _item.item.attr( &#x27;path&#x27;, JC.f.printf(&#x27;M{0} {1}L{2} {3}&#x27;, _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
@@ -691,22 +741,30 @@
                         _item.item &amp;&amp; _item.item.attr( &#x27;path&#x27;, JC.f.printf(&#x27;M{0} {1}L{2} {3}&#x27;, _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
                     });
                 }
-                if( _c.path &amp;&amp; _p._model.path() &amp;&amp; _c.path.length == _p._model.path().length ){
-                    _tmp = _p._model.path();
-                    $.each( _c.path, function( _k, _item ){
-                        _tmp[ _k ].attr( &#x27;path&#x27;, _item.join(&#x27;&#x27;) );
+                if( _c.rectLine ){
+                    $.each( _c.rectLine, function( _k, _item ){
+                        _item.item &amp;&amp; _item.item.attr( &#x27;path&#x27;, JC.f.printf(&#x27;M{0} {1}L{2} {3}&#x27;, _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
                     });
                 }
-                if( _c.point &amp;&amp; _p._model.point() &amp;&amp; _c.point.length == _p._model.point().length ){
-                    _tmp = _p._model.point();
-                    $.each( _c.point, function( _k, _item ){
+                if( _c.rects ){
+                    var _rects = _p._model.rects();
+                    $.each( _c.rects, function( _k, _item ){
                         $.each( _item, function( _sk, _sitem ){
-                            _tmp[ _k ][ _sk ].attr( { &#x27;cx&#x27;: _sitem.x, &#x27;cy&#x27;: _sitem.y } );
+                            _tmp = _rects[ _k ][ _sk ];
+                            _tmp.attr( { x: _sitem.x, y: _sitem.y, width: _sitem.width, height: _sitem.height } );
+                            //JC.log( _sitem.x, _sitem.y, JC.f.ts() );
                         });
                     });
                 }
 
                 _p._model.tips().toFront();
+
+                /*
+                var _t = new JChart.GraphicRect( _p.stage(), 0, 0, 100, 100, { &#x27;fill&#x27;: &#x27;#000&#x27; }, { &#x27;fill&#x27;: &#x27;#fff&#x27; } );
+                setTimeout( function(){
+                    _t.hover();
+                }, 200 );
+                */
             }
 
         , draw: 
@@ -754,13 +812,13 @@
                 _tips.setPosition( _x, _y );
             }
 
-        , updatePoint:
+        , updateRect:
             function( _ix ){
                 var _p = this, _r = [], _preItems = _p._model.preItems() || {};
-                $.each( _p._model.point(), function( _k, _item ){
-                    _r.push( _item[ _ix ].hover() );
+                //JC.dir( _p._model.rects()[ _ix ] );
+                $.each( _p._model.rects()[ _ix ], function( _k, _item ){
+                    _r.push( _item.hover() );
                 });
-
                 _preItems.point = _r;
                 _p._model.preItems( _preItems );
             }

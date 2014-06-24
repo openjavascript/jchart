@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../modules/JChart.IconLine/0.1/IconLine.js - JChart</title>
+    <title>../modules/JChart.GraphicPoint/0.1/GraphicPoint.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -118,7 +118,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.IconLine/0.1/IconLine.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.GraphicPoint/0.1/GraphicPoint.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -131,51 +131,49 @@
  *  &lt;/p&gt;
  *
  *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
- *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.IconLine.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
- *      | &lt;a href=&#x27;../../modules/JChart.IconLine/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.GraphicPoint.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *      | &lt;a href=&#x27;../../modules/JChart.GraphicPoint/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
  *  
  * @namespace   JChart
- * @class       IconLine
+ * @class       GraphicPoint
  * @extends     JC.PureMVC
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2013-12-13
  * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
  * @example
-        &lt;h2&gt;JC.IconLine 示例&lt;/h2&gt;
+        &lt;h2&gt;JC.GraphicPoint 示例&lt;/h2&gt;
  */
     var _jdoc = $( document ), _jwin = $( window );
 
-    JChart.IconLine = IconLine;
+    JChart.GraphicPoint = GraphicPoint;
 
-    function IconLine( _paper, _rx, _ry, _rw, _rh, _radius, _style ){
+    function GraphicPoint( _paper, _x, _y, _radius, _style, _hoverStyle  ){
 
-        this._model = new IconLine.Model( _paper, _rx, _ry, _rw, _rh, _radius, _style );
-        this._view = new IconLine.View( this._model );
+        this._model = new GraphicPoint.Model( _paper, _x, _y, _radius, _style, _hoverStyle );
+        this._view = new GraphicPoint.View( this._model );
 
         this._init();
 
-        //JC.log( IconLine.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+        //JC.log( GraphicPoint.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
     }
 
-    IconLine.Model = 
-        function( _paper, _rx, _ry, _rw, _rh, _rcorner, _radius, _style ){
+    GraphicPoint.Model = 
+        function( _paper, _x, _y, _radius, _style, _hoverStyle ){
             this._paper = _paper;
-            this._rx = _rx;
-            this._ry = _ry;
-            this._rw = _rw;
-            this._rh = _rh;
-            this._rcorner = _rcorner;
+            this._x = _x;
+            this._y = _y;
             this._radius = _radius;
             this._style = _style;
+            this._hoverStyle = _hoverStyle;
         };
 
-    JC.PureMVC.build( IconLine );
+    JC.PureMVC.build( GraphicPoint );
 
-    JC.f.extendObject( IconLine.prototype, {
+    JC.f.extendObject( GraphicPoint.prototype, {
         _beforeInit:
             function(){
-                //JC.log( &#x27;IconLine _beforeInit&#x27;, new Date().getTime() );
+                //JC.log( &#x27;GraphicPoint _beforeInit&#x27;, new Date().getTime() );
             }
 
         , _initHanlderEvent:
@@ -189,96 +187,70 @@
 
         , _inited:
             function(){
-                //JC.log( &#x27;IconLine _inited&#x27;, new Date().getTime() );
+                //JC.log( &#x27;GraphicPoint _inited&#x27;, new Date().getTime() );
                 this.trigger( &#x27;inited&#x27; );
             }
 
         , hover: function(){ this._view.hover(); return this; }
+
         , unhover: function(){ this._view.unhover(); return this; }
 
-        , update:
-            function( _path, _translate ){
-                this._view.update( _path, _translate );
-                return this;
-            }
-        , attr:
-            function( _k, _v ){
-                this._view.attr( _k, _v );
-                return this;
-            }
+        , attr: function( _k, _v ){ this._view.attr( _k, _v ); return this; }
+    });
 
-        , getBBox:
+    GraphicPoint.Model._instanceName = &#x27;JCGraphicPoint&#x27;;
+    JC.f.extendObject( GraphicPoint.Model.prototype, {
+        init:
             function(){
-                return this._model.getBBox();
-            }
-
-        , setPosition:
-            function( _x, _y ){
-                this._model._group.setPosition( _x, _y );
+                //JC.log( &#x27;GraphicPoint.Model.init:&#x27;, new Date().getTime() );
             }
     });
 
-    IconLine.Model._instanceName = &#x27;JCIconLine&#x27;;
-    JC.f.extendObject( IconLine.Model.prototype, {
+    JC.f.extendObject( GraphicPoint.View.prototype, {
         init:
             function(){
-                //JC.log( &#x27;IconLine.Model.init:&#x27;, new Date().getTime() );
-                this._group = new JChart.Group();
-            }
-
-        , getBBox: function(){ return this._group.getBBox(); }
-    });
-
-    JC.f.extendObject( IconLine.View.prototype, {
-        init:
-            function(){
-                //JC.log( &#x27;IconLine.View.init:&#x27;, new Date().getTime() );
+                //JC.log( &#x27;GraphicPoint.View.init:&#x27;, new Date().getTime() );
             }
 
         , draw:
             function(){
                 var _p = this
-                    , _rect = _p._model._paper.rect( 
-                        _p._model._rx , _p._model._ry + _p._model._rh , _p._model._rw, _p._model._rh, _p._model._rcorner )
-
-                    , _circle = _p._model._paper.circle( 
-                        _p._model._rx + _p._model._rw / 2
-                        , _p._model._ry + _p._model._rh + _p._model._rh / 2
-                        , _p._model._radius 
-                        )
+                    , _element = _p._model._paper.circle( _p._model._x, _p._model._y, _p._model._radius )
                     ;
-                this._model._group.addChild( _rect, &#x27;rect&#x27; );
-                this._model._group.addChild( _circle, &#x27;circle&#x27; );
+                _p._model._element = _element;
                 _p.unhover();
             }
 
         , hover:
             function(){
                 var _p = this;
-                _p._model._hoverStyle &amp;&amp; $.each( _p._model._hoverStyle, function( _k, _item ){
+                $.each( _p._model._hoverStyle, function( _k, _item ){
+                    _p._model._element.attr( _k, _item );
                 });
             }
 
         , unhover:
             function(){
                 var _p = this;
-                _p._model._style &amp;&amp; $.each( _p._model._style, function( _k, _item ){
+                $.each( _p._model._style, function( _k, _item ){
+                    _p._model._element.attr( _k, _item );
                 });
-            }
-
-        , update:
-            function( _path, _translate ){
-                var _p = this;
-                _p.unhover();
             }
 
         , attr:
             function( _k, _v ){
-                this._model._group.attr( _k, _v );
+                var _p = this;
+                if( typeof _k == &#x27;object&#x27; ){
+                    $.each( _k, function( _ssk, _ssv ){
+                        _p._model._element.attr( _ssk, _ssv );
+                    });
+                }else{
+                    _p._model._element.attr( _k, _v );
+                }
             }
     });
 
-    return JC.IconLine;
+    return JC.GraphicPoint;
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
         function ( _name, _require, _cb ) { 
             typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );

@@ -220,10 +220,10 @@
             function( _offset ){
                 var _p = this
                     , _c = _p.coordinate()
-                    , _realX = _offset.x - _c.lineX
-                    , _realY = _offset.y - _c.lineY
-                    , _maxX = _c.lineWidth
-                    , _maxY = _c.lineHeight
+                    , _realX = _offset.x - _c.wsX
+                    , _realY = _offset.y - _c.wsY
+                    , _maxX = _c.wsWidth
+                    , _maxY = _c.wsHeight
                     , _itemLen, _partWidth
                     , _partWhat = 0;
                     ;
@@ -233,7 +233,7 @@
                 }
 
                 _itemLen = ( _c.hlen - 1 ) * 2;
-                _partWidth = _c.lineWidth / _itemLen;
+                _partWidth = _c.wsWidth / _itemLen;
                 _partWhat = Math.floor( _realX / _partWidth  );
                 _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
 
@@ -395,15 +395,15 @@
 
                 var _vx = _x, _hy = _y;
 
-                _c.lineHeight = _maxY - _y;
-                _c.lineY = _y;
-                _c.lineMaxY = _maxY;
+                _c.wsHeight = _maxY - _y;
+                _c.wsY = _y;
+                _c.wsMaxY = _maxY;
 
-                _c.lineWidth = _maxX - _x;
-                _c.lineX = _x;
-                _c.lineMaxX = _maxX;
+                _c.wsWidth = _maxX - _x;
+                _c.wsX = _x;
+                _c.wsMaxX = _maxX;
 
-                var _dataBackground = _p.dataBackground( _c.lineX, _c.lineY, _c.lineWidth, _c.lineHeight );
+                var _dataBackground = _p.dataBackground( _c.wsX, _c.wsY, _c.wsWidth, _c.wsHeight );
                 if( _dataBackground ){
                     _dataBackground.attr( { 
                         'fill': '#fff'
@@ -415,7 +415,7 @@
                     _dataBackground.translate( .5, .5 );
 
                     _c.dataBackground = {
-                        x: _c.lineX, y: _c.lineY, width: _c.lineWidth, height: _c.lineHeight, item: _dataBackground
+                        x: _c.wsX, y: _c.wsY, width: _c.wsWidth, height: _c.wsHeight, item: _dataBackground
                     };
                 }
 

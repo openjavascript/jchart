@@ -247,10 +247,10 @@
             function( _offset ){
                 var _p = this
                     , _c = _p.coordinate()
-                    , _realX = _offset.x - _c.lineX
-                    , _realY = _offset.y - _c.lineY
-                    , _maxX = _c.lineWidth
-                    , _maxY = _c.lineHeight
+                    , _realX = _offset.x - _c.wsX
+                    , _realY = _offset.y - _c.wsY
+                    , _maxX = _c.wsWidth
+                    , _maxY = _c.wsHeight
                     , _itemLen, _partWidth
                     , _partWhat = 0;
                     ;
@@ -260,7 +260,7 @@
                 }
 
                 _itemLen = ( _c.hlen - 1 ) * 2;
-                _partWidth = _c.lineWidth / _itemLen;
+                _partWidth = _c.wsWidth / _itemLen;
                 _partWhat = Math.floor( _realX / _partWidth  );
                 _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
 
@@ -386,18 +386,18 @@
                 _c.seriesLength = _p.seriesLength();
                 _c.seriesPart = Math.floor( _c.hpart / ( _c.seriesLength * 1.5 ) );
 
-                _c.lineHeight = _maxY - _y;
-                _c.lineY = _y;
-                _c.lineMaxY = _maxY;
+                _c.wsHeight = _maxY - _y;
+                _c.wsY = _y;
+                _c.wsMaxY = _maxY;
 
-                _c.lineWidth = _maxX - _x;
-                _c.lineX = _x;
-                _c.lineMaxX = _maxX;
+                _c.wsWidth = _maxX - _x;
+                _c.wsX = _x;
+                _c.wsMaxX = _maxX;
 
-                var _dataBackground = _p.dataBackground( _c.lineX, _c.lineY, _c.lineWidth, _c.lineHeight );
+                var _dataBackground = _p.dataBackground( _c.wsX, _c.wsY, _c.wsWidth, _c.wsHeight );
                 if( _dataBackground ){
                     _c.dataBackground = {
-                        x: _c.lineX, y: _c.lineY, width: _c.lineWidth, height: _c.lineHeight, item: _dataBackground
+                        x: _c.wsX, y: _c.wsY, width: _c.wsWidth, height: _c.wsHeight, item: _dataBackground
                     };
                 }
 
@@ -412,7 +412,7 @@
                         if( _tmp && _tmp.length ){
                             !_tmp[ _ix ] && ( _padX = 0 );
                         }
-                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.lineHeight }
+                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.wsHeight }
                         //_tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
                             , end: { 'x': _tmpX, 'y': _maxY + _padX }
                             , 'item': _item  } );
@@ -465,13 +465,13 @@
                         _tmpX = _lineItem.end.x;
                         if( _ix === ( _c.vlinePoint.length - 1 ) ){
                             _tmpX = _lineItem.end.x + 2;
-                            if(  ( _tmpX + _item.getBBox().width / 2 ) > _c.lineMaxX ){
-                                _tmpX = _c.lineMaxX - _item.getBBox().width / 2;
+                            if(  ( _tmpX + _item.getBBox().width / 2 ) > _c.wsMaxX ){
+                                _tmpX = _c.wsMaxX - _item.getBBox().width / 2;
                             }
                         }else if( _ix === 0 ){
                             _tmpX = _lineItem.end.x - 2;
-                            if(  ( _tmpX - _item.getBBox().width / 2 ) < _c.lineX ){
-                                _tmpX = _c.lineX + _item.getBBox().width / 2;
+                            if(  ( _tmpX - _item.getBBox().width / 2 ) < _c.wsX ){
+                                _tmpX = _c.wsX + _item.getBBox().width / 2;
                             }
                         }
                         _tmpY = _hy;
@@ -491,27 +491,27 @@
                 $.each( _data.xAxis.categories, function( _ix, _items ){
                     var _rectItems = []
                         , _lineItem = _c.vlinePoint[ _ix ]
-                        , _sstart = _lineItem.end.x - _c.seriesPart * _data.series.length / 2 - _data.series.length + 1
-                        , _lineX = _lineItem.end.x - _c.hpart / 2 
+                        , _sstart = _lineItem.end.x - _c.seriesPart * _data.series.length / 2
+                        , _wsX = _lineItem.end.x - _c.hpart / 2 
                         , _maxNum
                         ;
                     _c.rectLine.push( {
-                        start: { x: _lineX, y: _lineStartY }
-                        , end: { x: _lineX, y: _lineEndY }
+                        start: { x: _wsX, y: _lineStartY }
+                        , end: { x: _wsX, y: _lineEndY }
                         , item: _p.stage().path('M0 0').attr( _p.lineStyle( _ix ) )
                     } );
 
                     if( _ix === _data.xAxis.categories.length - 1 ){
-                        _lineX = _lineItem.end.x + _c.hpart / 2;
+                        _wsX = _lineItem.end.x + _c.hpart / 2;
                         _c.rectLine.push( {
-                            start: { x: _lineX, y: _lineStartY }
-                            , end: { x: _lineX, y: _lineEndY }
+                            start: { x: _wsX, y: _lineStartY }
+                            , end: { x: _wsX, y: _lineEndY }
                             , item: _p.stage().path('M0 0').attr( _p.lineStyle( _ix ) )
                         } );
                     }
 
                     $.each( _data.series, function( _six, _sd ){
-                        var _d = { 'y': _lineItem.start.y, 'x': _sstart + _six * _c.seriesPart + _six * 1  }
+                        var _d = { 'y': _lineItem.start.y, 'x': _sstart + _six * _c.seriesPart  }
                             , _item, _dataHeight, _dataY, _height
                             , _num = _sd.data[ _ix ]
                             ;
@@ -519,14 +519,14 @@
                         if( JChart.Base.isNegative( _num ) ){
                             _num = Math.abs( _num );
                             _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
-                            _dataY = _c.lineY + _c.vpart * _rateInfo.zeroIndex;
+                            _dataY = _c.wsY + _c.vpart * _rateInfo.zeroIndex;
                             _maxNum = Math.abs( _rateInfo.finalMaxNum * _p.rate()[ _p.rate().length - 1 ] );
                             _height = ( _num / _maxNum ) * _dataHeight;
-                            _d.y = _d.y + _c.lineHeight - _dataHeight;
+                            _d.y = _d.y + _c.wsHeight - _dataHeight;
                             //JC.log( _rateInfo.length, _rateInfo.zeroIndex, _c.vpart, _dataHeight, JC.f.ts() );
                         }else{
                             _dataHeight = _c.vpart * _rateInfo.zeroIndex;
-                            _dataY = _c.lineY;
+                            _dataY = _c.wsY;
                             _maxNum = _rateInfo.finalMaxNum;
                             _height = ( _num / _maxNum ) * _dataHeight;
                             _d.y = _d.y + _dataHeight - _height;

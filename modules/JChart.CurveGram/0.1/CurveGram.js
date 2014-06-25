@@ -268,10 +268,10 @@
             function( _offset ){
                 var _p = this
                     , _c = _p.coordinate()
-                    , _realX = _offset.x - _c.lineX
-                    , _realY = _offset.y - _c.lineY
-                    , _maxX = _c.lineWidth
-                    , _maxY = _c.lineHeight
+                    , _realX = _offset.x - _c.wsX
+                    , _realY = _offset.y - _c.wsY
+                    , _maxX = _c.wsWidth
+                    , _maxY = _c.wsHeight
                     , _itemLen, _partWidth
                     , _partWhat = 0;
                     ;
@@ -281,7 +281,7 @@
                 }
 
                 _itemLen = ( _c.hlen - 1 ) * 2;
-                _partWidth = _c.lineWidth / _itemLen;
+                _partWidth = _c.wsWidth / _itemLen;
                 _partWhat = Math.floor( _realX / _partWidth  );
                 _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
 
@@ -404,18 +404,18 @@
                 _c.vpart = ( _maxY - _y ) / ( _c.vlen - 1 );
                 _c.hpart = ( _maxX - _x ) / ( _c.hlen - 1 );
 
-                _c.lineHeight = _maxY - _y;
-                _c.lineY = _y;
-                _c.lineMaxY = _maxY;
+                _c.wsHeight = _maxY - _y;
+                _c.wsY = _y;
+                _c.wsMaxY = _maxY;
 
-                _c.lineWidth = _maxX - _x;
-                _c.lineX = _x;
-                _c.lineMaxX = _maxX;
+                _c.wsWidth = _maxX - _x;
+                _c.wsX = _x;
+                _c.wsMaxX = _maxX;
 
-                var _dataBackground = _p.dataBackground( _c.lineX, _c.lineY, _c.lineWidth, _c.lineHeight );
+                var _dataBackground = _p.dataBackground( _c.wsX, _c.wsY, _c.wsWidth, _c.wsHeight );
                 if( _dataBackground ){
                     _c.dataBackground = {
-                        x: _c.lineX, y: _c.lineY, width: _c.lineWidth, height: _c.lineHeight, item: _dataBackground
+                        x: _c.wsX, y: _c.wsY, width: _c.wsWidth, height: _c.wsHeight, item: _dataBackground
                     };
                 }
 
@@ -501,24 +501,24 @@
                     $.each( _items.data, function( _six, _num ){
 
                         _pathPoint.push( _six === 0 ? 'M' : 'L' );
-                        _x = _c.lineX + _c.hpart * _six;
+                        _x = _c.wsX + _c.hpart * _six;
                         _y = _c.lnieY;
 
                         if( JChart.Base.isNegative( _num ) ){
                             _num = Math.abs( _num );
-                            _dataY = _c.lineY + _c.vpart * _rateInfo.zeroIndex;
+                            _dataY = _c.wsY + _c.vpart * _rateInfo.zeroIndex;
                             _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
                             _maxNum = Math.abs( _rateInfo.finalMaxNum * _p.rate()[ _p.rate().length - 1 ] );
                             _y = _dataY + Math.abs( _num ) / _maxNum * _dataHeight;
 
                         }else{
                             _dataHeight = _c.vpart * _rateInfo.zeroIndex;
-                            _dataY = _c.lineY;
+                            _dataY = _c.wsY;
                             _maxNum = _rateInfo.finalMaxNum;
                             _y = _dataY + _dataHeight - _num / _maxNum * _dataHeight;
                         }
-                        _x > _c.lineMaxX && ( _x = _c.lineMaxX );
-                        _y > _c.lineMaxY && ( _y = _c.lineMaxY );
+                        _x > _c.wsMaxX && ( _x = _c.wsMaxX );
+                        _y > _c.wsMaxY && ( _y = _c.wsMaxY );
 
                         _pathPoint.push( [ _x, _y ] );
                         _purePoint.push( { 'x': _x, 'y': _y, 'num': _num, 'maxNum': _maxNum } );

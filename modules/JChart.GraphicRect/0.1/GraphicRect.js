@@ -95,6 +95,7 @@
                     , _element = _p._model._paper.rect( _p._model._x, _p._model._y, _p._model._width, _p._model._height )
                     ;
                 _p._model._element = _element;
+                _element.attr( { 'stroke-width': 0 } );
                 _p.unhover();
             }
 

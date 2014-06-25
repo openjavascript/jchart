@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../modules/JChart.Histogram/0.1/Histogram.js - JChart</title>
+    <title>../modules/JChart.PieGraph/0.1/PieGraph.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -120,7 +120,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.Histogram/0.1/Histogram.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.PieGraph/0.1/PieGraph.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -133,10 +133,10 @@
  *&lt;/p&gt;
  *
  *&lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jchart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
- *   | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.Histogram.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
- *   | &lt;a href=&#x27;../../modules/JChart.Histogram/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *   | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.PieGraph.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *   | &lt;a href=&#x27;../../modules/JChart.PieGraph/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
  *  
- *&lt;h2&gt;页面只要引用本脚本, 默认会处理 span class=&quot;jchartHistogram&quot;&lt;/h2&gt;
+ *&lt;h2&gt;页面只要引用本脚本, 默认会处理 span class=&quot;jchartPieGraph&quot;&lt;/h2&gt;
  *
  *&lt;h2&gt;可用的 HTML attribute&lt;/h2&gt;
  *
@@ -146,7 +146,7 @@
  *&lt;/dl&gt; 
  *
  * @namespace   JChart
- * @class       Histogram
+ * @class       PieGraph
  * @extends     JChart.BaseMVC
  * @constructor
  * @param   {selector|string}   _selector   
@@ -155,65 +155,65 @@
  */
     var _jdoc = $( document ), _jwin = $( window );
 
-    JChart.Histogram = Histogram;
+    JChart.PieGraph = PieGraph;
 
-    function Histogram( _selector ){
+    function PieGraph( _selector ){
         _selector &amp;&amp; ( _selector = $( _selector ) );
 
-        if( JC.BaseMVC.getInstance( _selector, Histogram ) ) 
-            return JC.BaseMVC.getInstance( _selector, Histogram );
+        if( JC.BaseMVC.getInstance( _selector, PieGraph ) ) 
+            return JC.BaseMVC.getInstance( _selector, PieGraph );
 
-        JC.BaseMVC.getInstance( _selector, Histogram, this );
+        JC.BaseMVC.getInstance( _selector, PieGraph, this );
 
-        this._model = new Histogram.Model( _selector );
-        this._view = new Histogram.View( this._model );
+        this._model = new PieGraph.Model( _selector );
+        this._view = new PieGraph.View( this._model );
 
         this._init();
 
-        //JC.log( Histogram.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+        //JC.log( PieGraph.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
     }
     /**
-     * 初始化可识别的 Histogram 实例
+     * 初始化可识别的 PieGraph 实例
      * @method  init
      * @param   {selector}      _selector
      * @static
-     * @return  {Array of HistogramInstance}
+     * @return  {Array of PieGraphInstance}
      */
-    Histogram.init =
+    PieGraph.init =
         function( _selector ){
             var _r = [];
             _selector = $( _selector || document );
 
             if( _selector.length ){
-                if( _selector.hasClass( &#x27;jchartHistogram&#x27; )  ){
-                    _r.push( new Histogram( _selector ) );
+                if( _selector.hasClass( &#x27;jchartPieGraph&#x27; )  ){
+                    _r.push( new PieGraph( _selector ) );
                 }else{
-                    _selector.find( &#x27;div.jchartHistogram&#x27; ).each( function(){
-                        _r.push( new Histogram( this ) );
+                    _selector.find( &#x27;div.jchartPieGraph&#x27; ).each( function(){
+                        _r.push( new PieGraph( this ) );
                     });
                 }
             }
             return _r;
         };
 
-    Histogram.CURRENT_INS = null;
-    Histogram.DEFAULT_MOVE =
+    PieGraph.CURRENT_INS = null;
+    PieGraph.DEFAULT_MOVE =
         function( _evt ){
-            if( !Histogram.CURRENT_INS ){
-                _jdoc.off( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
+            if( !PieGraph.CURRENT_INS ){
+                _jdoc.off( &#x27;mousemove&#x27;, PieGraph.DEFAULT_MOVE );
                 return;
             }
-            var _p = Histogram.CURRENT_INS;
-            //JC.log( &#x27;Histogram.DEFAULT_MOVE&#x27;, _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
+            var _p = PieGraph.CURRENT_INS;
+            //JC.log( &#x27;PieGraph.DEFAULT_MOVE&#x27;, _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
             _p.trigger( &#x27;update_moving_status&#x27;, [ _evt ] );
         };
 
-    JC.BaseMVC.build( Histogram, JChart.Base );
+    JC.BaseMVC.build( PieGraph, JChart.Base );
 
-    JC.f.extendObject( Histogram.prototype, {
+    JC.f.extendObject( PieGraph.prototype, {
         _beforeInit:
             function(){
-                //JC.log( &#x27;Histogram _beforeInit&#x27;, new Date().getTime() );
+                //JC.log( &#x27;PieGraph _beforeInit&#x27;, new Date().getTime() );
             }
 
         , _initHanlderEvent:
@@ -256,13 +256,13 @@
 
         , _inited:
             function(){
-                //JC.log( &#x27;Histogram _inited&#x27;, new Date().getTime() );
+                //JC.log( &#x27;PieGraph _inited&#x27;, new Date().getTime() );
             }
     });
 
-    Histogram.Model._instanceName = &#x27;JChartHistogram&#x27;;
+    PieGraph.Model._instanceName = &#x27;JChartPieGraph&#x27;;
 
-    Histogram.Model.STYLE = {
+    PieGraph.Model.STYLE = {
         lineStyle: {
             &#x27;stroke&#x27;: &#x27;#999&#x27;
             , &#x27;opacity&#x27;: &#x27;.35&#x27;
@@ -290,12 +290,12 @@
         , radius: 4
     };
 
-    var _oldWorkspaceOffset = Histogram.Model.prototype.workspaceOffset;
+    var _oldWorkspaceOffset = PieGraph.Model.prototype.workspaceOffset;
 
-    JC.f.extendObject( Histogram.Model.prototype, {
+    JC.f.extendObject( PieGraph.Model.prototype, {
         init:
             function(){
-                //JC.log( &#x27;Histogram.Model.init:&#x27;, new Date().getTime() );
+                //JC.log( &#x27;PieGraph.Model.init:&#x27;, new Date().getTime() );
             }
 
         , path:
@@ -342,11 +342,11 @@
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
+                    , _len = PieGraph.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
                     ;
 
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
+                _r = JC.f.cloneObject( PieGraph.Model.STYLE.style[ _ix ] );
 
                 _p.data().series[ _ix ].style
                     &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
@@ -361,10 +361,10 @@
         , itemHoverStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
+                    , _len = PieGraph.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
                     ;
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
+                _r = JC.f.cloneObject( PieGraph.Model.STYLE.style[ _ix ] );
 
                 _p.data().series[ _ix ].style
                     &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
@@ -380,16 +380,16 @@
         , pathStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
+                    , _len = PieGraph.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.pathStyle );
-                _r.stroke = Histogram.Model.STYLE.style[ _ix ].stroke;
+                _r = JC.f.cloneObject( PieGraph.Model.STYLE.pathStyle );
+                _r.stroke = PieGraph.Model.STYLE.style[ _ix ].stroke;
                 return _r;
             }
 
         , lineStyle:
             function( _ix ){
-                var _r = JC.f.cloneObject( Histogram.Model.STYLE.lineStyle );
+                var _r = JC.f.cloneObject( PieGraph.Model.STYLE.lineStyle );
                 return _r;
             }
 
@@ -489,7 +489,7 @@
 
                 var _legend = _p.legend( _data, &#x27;rect&#x27;, function( _ix, _legend, _text, _data ){
                     var _color = _data.stroke 
-                                    || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
+                                    || PieGraph.Model.STYLE.data[ _ix % PieGraph.Model.STYLE.data.length ].stroke 
                                     || &#x27;#fff&#x27;;
                     _legend.attr( &#x27;fill&#x27;, _color ).attr( &#x27;stroke&#x27;, _color );;
                 } );
@@ -698,7 +698,7 @@
             }
     });
 
-    JC.f.extendObject( Histogram.View.prototype, {
+    JC.f.extendObject( PieGraph.View.prototype, {
         _inited:
             function(){
             }
@@ -776,17 +776,17 @@
                 _p.setStaticPosition( _p._model.coordinate( _data ) );
 
                 _p._model.dataBackground().mouseenter( function( _evt ){
-                    Histogram.CURRENT_INS = _p;
+                    PieGraph.CURRENT_INS = _p;
                     //JC.log( &#x27;mouseenter&#x27;, JC.f.ts() );
-                    _jdoc.on( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
+                    _jdoc.on( &#x27;mousemove&#x27;, PieGraph.DEFAULT_MOVE );
                     _p.trigger( &#x27;moving_start&#x27; );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
                     //JC.log( &#x27;mouseleave&#x27;, JC.f.ts() );
                     _p.trigger( &#x27;moving_done&#x27; );
-                    _jdoc.off( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
-                    Histogram.CURRENT_INS = null;
+                    _jdoc.off( &#x27;mousemove&#x27;, PieGraph.DEFAULT_MOVE );
+                    PieGraph.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );
             }
@@ -850,14 +850,14 @@
     });
 
     _jdoc.ready( function(){
-        Histogram.autoInit &amp;&amp; Histogram.init();
+        PieGraph.autoInit &amp;&amp; PieGraph.init();
     });
 
     _jwin.on( JChart.Base.RESIZE_UPDATE, function( _evt ){
-        JChart.Base.reset( &#x27;div.jchartHistogram&#x27;, JChart.Histogram );
+        JChart.Base.reset( &#x27;div.jchartPieGraph&#x27;, JChart.PieGraph );
     });
 
-    return Histogram;
+    return PieGraph;
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
         function ( _name, _require, _cb ) { 
             typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );

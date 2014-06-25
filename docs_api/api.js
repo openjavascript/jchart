@@ -14,6 +14,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "JChart.IconLine",
         "JChart.IconRect",
         "JChart.IconVLine",
+        "JChart.PieGraph",
         "window.jQuery",
         "window.requirejs"
     ],

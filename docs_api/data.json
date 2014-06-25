@@ -129,6 +129,17 @@
                 "JChart": 1
             }
         },
+        "../modules/JChart.PieGraph/0.1/PieGraph.js": {
+            "name": "../modules/JChart.PieGraph/0.1/PieGraph.js",
+            "modules": {},
+            "classes": {
+                "JChart.PieGraph": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "JChart": 1
+            }
+        },
         "../modules/exCanvas/0.3.0/excanvas.js": {
             "name": "../modules/exCanvas/0.3.0/excanvas.js",
             "modules": {},
@@ -492,6 +503,30 @@
             "example": [
                 "\n       <h2>JC.IconVLine 示例</h2>"
             ]
+        },
+        "JChart.PieGraph": {
+            "name": "JChart.PieGraph",
+            "shortname": "JChart.PieGraph",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JChart",
+            "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
+            "line": 2,
+            "description": "柱状图\n\n<p><b>require</b>:\n  <a href='JChart.Base.html'>JChart.Base</a>\n</p>\n\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.PieGraph.html' target='_blank'>API docs</a>\n  | <a href='../../modules/JChart.PieGraph/0.1/_demo' target='_blank'>demo link</a></p>\n \n<h2>页面只要引用本脚本, 默认会处理 span class=\"jchartPieGraph\"</h2>\n\n<h2>可用的 HTML attribute</h2>\n\n<dl>\n   <dt></dt>\n   <dd><dd>\n</dl>",
+            "extends": "JChart.BaseMVC",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector|string"
+                }
+            ],
+            "version": "dev 0.1 2014-06-20",
+            "author": "qiushaowei <suches@btbtd.org> | 75 Team"
         },
         "window.requirejs": {
             "name": "window.requirejs",
@@ -3169,6 +3204,27 @@
             "namespace": "JChart"
         },
         {
+            "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
+            "line": 49,
+            "description": "初始化可识别的 PieGraph 实例",
+            "itemtype": "method",
+            "name": "init",
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector"
+                }
+            ],
+            "static": 1,
+            "return": {
+                "description": "",
+                "type": "Array of PieGraphInstance"
+            },
+            "class": "JChart.PieGraph",
+            "namespace": "JChart"
+        },
+        {
             "file": "../modules/exCanvas/0.3.0/excanvas.js",
             "line": 53,
             "description": "This funtion is assigned to the <canvas> elements as element.getContext().",
@@ -3689,6 +3745,10 @@
         {
             "message": "unknown tag: version",
             "line": " ../modules/JChart.IconVLine/0.1/IconVLine.js:2"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:2"
         },
         {
             "message": "unknown tag: this",

@@ -1,252 +1,126 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>../modules/JChart.Histogram/0.1/Histogram.js - JChart</title>
-    <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
-    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
-    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
-    <link rel="stylesheet" href="../assets/css/widget.css">
-    <link rel="stylesheet" href="../assets/css/tabview.css">
-    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
-    <script src="../assets/js/yui-min.js"></script>
-    <script src="../assets/js/comps1.js"></script>
-    <script src="../assets/js/comps2.js"></script>
-    <script src="../assets/js/comps3.js"></script>
-    <script src="../assets/js/comps4.js"></script>
-</head>
-<body class="yui3-skin-sam">
-
-<div id="doc">
-    <div id="hd" class="yui3-g header">
-        <div class="yui3-u-3-4">
-            
-                <h1><img src="../jc_logo.png" title="JChart"></h1>
-            
-        </div>
-        <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.2</em>
-        </div>
-    </div>
-    <div id="bd" class="yui3-g">
-
-        <div class="yui3-u-1-4">
-            <div id="docs-sidebar" class="sidebar apidocs">
-                <div id="api-list">
-    <h2 class="off-left">APIs</h2>
-    <div id="api-tabview" class="tabview">
-        <ul class="tabs">
-            <li><a href="#api-classes">Classes</a></li>
-            <li><a href="#api-modules">Modules</a></li>
-        </ul>
-
-        <div id="api-tabview-filter">
-            <input type="search" id="api-filter" placeholder="Type to filter APIs">
-        </div>
-
-        <div id="api-tabview-panel">
-            <ul id="api-classes" class="apis classes">
-            
-                <li><a href="../classes/JC.BaseMVC.html">JC.BaseMVC</a></li>
-            
-                <li><a href="../classes/JC.BaseMVC.Model.html">JC.BaseMVC.Model</a></li>
-            
-                <li><a href="../classes/JC.common.html">JC.common</a></li>
-            
-                <li><a href="../classes/JC.f.html">JC.f</a></li>
-            
-                <li><a href="../classes/JC.PureMVC.html">JC.PureMVC</a></li>
-            
-                <li><a href="../classes/JC.PureMVC.Model.html">JC.PureMVC.Model</a></li>
-            
-                <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
-            
-                <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
-            
-                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
-            
-                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
-            
-                <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
-            
-                <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
-            
-                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
-            
-                <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
-            
-                <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
-            
-                <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
-            
-                <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
-            
-            </ul>
-
-            <ul id="api-modules" class="apis modules">
-            
-            </ul>
-        </div>
-    </div>
-</div>
-
-            </div>
-        </div>
-        <div class="yui3-u-3-4">
-                <div id="api-options">
-        Show:
-        <label for="api-show-inherited">
-            <input type="checkbox" id="api-show-inherited" checked>
-            Inherited
-        </label>
-
-        <label for="api-show-protected">
-            <input type="checkbox" id="api-show-protected">
-            Protected
-        </label>
-
-        <label for="api-show-private">
-            <input type="checkbox" id="api-show-private">
-            Private
-        </label>
-        <label for="api-show-deprecated">
-            <input type="checkbox" id="api-show-deprecated">
-            Deprecated
-        </label>
-
-    </div>
-
-
-            <div class="apidocs">
-                <div id="docs-main">
-                    <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.Histogram/0.1/Histogram.js</h1>
-
-<div class="file">
-    <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.IconVLine&#x27;, &#x27;JChart.GraphicRect&#x27; ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconVLine', 'JChart.GraphicRect' ], function(){
 /**
  * 柱状图
  *
- *&lt;p&gt;&lt;b&gt;require&lt;/b&gt;:
- *   &lt;a href=&#x27;JChart.Base.html&#x27;&gt;JChart.Base&lt;/a&gt;
- *&lt;/p&gt;
+ *<p><b>require</b>:
+ *   <a href='JChart.Base.html'>JChart.Base</a>
+ *</p>
  *
- *&lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jchart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
- *   | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.Histogram.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
- *   | &lt;a href=&#x27;../../modules/JChart.Histogram/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
+ *   | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.PieGraph.html' target='_blank'>API docs</a>
+ *   | <a href='../../modules/JChart.PieGraph/0.1/_demo' target='_blank'>demo link</a></p>
  *  
- *&lt;h2&gt;页面只要引用本脚本, 默认会处理 span class=&quot;jchartHistogram&quot;&lt;/h2&gt;
+ *<h2>页面只要引用本脚本, 默认会处理 span class="jchartPieGraph"</h2>
  *
- *&lt;h2&gt;可用的 HTML attribute&lt;/h2&gt;
+ *<h2>可用的 HTML attribute</h2>
  *
- *&lt;dl&gt;
- *    &lt;dt&gt;&lt;/dt&gt;
- *    &lt;dd&gt;&lt;dd&gt;
- *&lt;/dl&gt; 
+ *<dl>
+ *    <dt></dt>
+ *    <dd><dd>
+ *</dl> 
  *
  * @namespace   JChart
- * @class       Histogram
+ * @class       PieGraph
  * @extends     JChart.BaseMVC
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2014-06-20
- * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
+ * @author  qiushaowei <suches@btbtd.org> | 75 Team
  */
     var _jdoc = $( document ), _jwin = $( window );
 
-    JChart.Histogram = Histogram;
+    JChart.PieGraph = PieGraph;
 
-    function Histogram( _selector ){
-        _selector &amp;&amp; ( _selector = $( _selector ) );
+    function PieGraph( _selector ){
+        _selector && ( _selector = $( _selector ) );
 
-        if( JC.BaseMVC.getInstance( _selector, Histogram ) ) 
-            return JC.BaseMVC.getInstance( _selector, Histogram );
+        if( JC.BaseMVC.getInstance( _selector, PieGraph ) ) 
+            return JC.BaseMVC.getInstance( _selector, PieGraph );
 
-        JC.BaseMVC.getInstance( _selector, Histogram, this );
+        JC.BaseMVC.getInstance( _selector, PieGraph, this );
 
-        this._model = new Histogram.Model( _selector );
-        this._view = new Histogram.View( this._model );
+        this._model = new PieGraph.Model( _selector );
+        this._view = new PieGraph.View( this._model );
 
         this._init();
 
-        //JC.log( Histogram.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+        //JC.log( PieGraph.Model._instanceName, 'all inited', new Date().getTime() );
     }
     /**
-     * 初始化可识别的 Histogram 实例
+     * 初始化可识别的 PieGraph 实例
      * @method  init
      * @param   {selector}      _selector
      * @static
-     * @return  {Array of HistogramInstance}
+     * @return  {Array of PieGraphInstance}
      */
-    Histogram.init =
+    PieGraph.init =
         function( _selector ){
             var _r = [];
             _selector = $( _selector || document );
 
             if( _selector.length ){
-                if( _selector.hasClass( &#x27;jchartHistogram&#x27; )  ){
-                    _r.push( new Histogram( _selector ) );
+                if( _selector.hasClass( 'jchartPieGraph' )  ){
+                    _r.push( new PieGraph( _selector ) );
                 }else{
-                    _selector.find( &#x27;div.jchartHistogram&#x27; ).each( function(){
-                        _r.push( new Histogram( this ) );
+                    _selector.find( 'div.jchartPieGraph' ).each( function(){
+                        _r.push( new PieGraph( this ) );
                     });
                 }
             }
             return _r;
         };
 
-    Histogram.CURRENT_INS = null;
-    Histogram.DEFAULT_MOVE =
+    PieGraph.CURRENT_INS = null;
+    PieGraph.DEFAULT_MOVE =
         function( _evt ){
-            if( !Histogram.CURRENT_INS ){
-                _jdoc.off( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
+            if( !PieGraph.CURRENT_INS ){
+                _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
                 return;
             }
-            var _p = Histogram.CURRENT_INS;
-            //JC.log( &#x27;Histogram.DEFAULT_MOVE&#x27;, _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
-            _p.trigger( &#x27;update_moving_status&#x27;, [ _evt ] );
+            var _p = PieGraph.CURRENT_INS;
+            //JC.log( 'PieGraph.DEFAULT_MOVE', _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
+            _p.trigger( 'update_moving_status', [ _evt ] );
         };
 
-    JC.BaseMVC.build( Histogram, JChart.Base );
+    JC.BaseMVC.build( PieGraph, JChart.Base );
 
-    JC.f.extendObject( Histogram.prototype, {
+    JC.f.extendObject( PieGraph.prototype, {
         _beforeInit:
             function(){
-                //JC.log( &#x27;Histogram _beforeInit&#x27;, new Date().getTime() );
+                //JC.log( 'PieGraph _beforeInit', new Date().getTime() );
             }
 
         , _initHanlderEvent:
             function(){
                 var _p = this;
 
-                _p.on( &#x27;update_moving_status&#x27;, function( _evt, _srcEvt, _srcEle ){
+                _p.on( 'update_moving_status', function( _evt, _srcEvt, _srcEle ){
                     var _offset = _p._model.globalEventToLocalOffset( _srcEvt )
                         , _index = _p._model.indexAt( _offset );
 
-                    _p.trigger( &#x27;clear_status&#x27; );
-                    if( typeof _index == &#x27;undefined&#x27; ) return;
+                    _p.trigger( 'clear_status' );
+                    if( typeof _index == 'undefined' ) return;
 
-                    _p.trigger( &#x27;update_status&#x27;, [ _index, _offset  ] );
+                    _p.trigger( 'update_status', [ _index, _offset  ] );
                 });
 
-                _p.on( &#x27;moving_start&#x27;, function( _evt ){
-                    _p.trigger( &#x27;clear_status&#x27; );
-                    _p._model.tips() &amp;&amp; _p._model.tips().show();
+                _p.on( 'moving_start', function( _evt ){
+                    _p.trigger( 'clear_status' );
+                    _p._model.tips() && _p._model.tips().show();
                 });
 
-                _p.on( &#x27;moving_done&#x27;, function( _evt ){
-                    _p.trigger( &#x27;clear_status&#x27; );
-                    _p._model.tips() &amp;&amp; _p._model.tips().hide();
+                _p.on( 'moving_done', function( _evt ){
+                    _p.trigger( 'clear_status' );
+                    _p._model.tips() && _p._model.tips().hide();
                 });
 
-                _p.on( &#x27;clear_status&#x27;, function(){
+                _p.on( 'clear_status', function(){
                     _p._view.clearStatus();
                 });
 
-                _p.on( &#x27;update_status&#x27;, function( _evt, _index, _offset ){
+                _p.on( 'update_status', function( _evt, _index, _offset ){
                     if( !_offset ) return;
-                    if( typeof _index == &#x27;undefined&#x27; ) return;
+                    if( typeof _index == 'undefined' ) return;
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
                     _p._view.updateTips( _index, _offset );
                     _p._view.updateRect( _index );
@@ -256,55 +130,55 @@
 
         , _inited:
             function(){
-                //JC.log( &#x27;Histogram _inited&#x27;, new Date().getTime() );
+                //JC.log( 'PieGraph _inited', new Date().getTime() );
             }
     });
 
-    Histogram.Model._instanceName = &#x27;JChartHistogram&#x27;;
+    PieGraph.Model._instanceName = 'JChartPieGraph';
 
-    Histogram.Model.STYLE = {
+    PieGraph.Model.STYLE = {
         lineStyle: {
-            &#x27;stroke&#x27;: &#x27;#999&#x27;
-            , &#x27;opacity&#x27;: &#x27;.35&#x27;
+            'stroke': '#999'
+            , 'opacity': '.35'
         }
         , style: [
-            { &#x27;stroke&#x27;: &#x27;#09c100&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#FFBF00&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#0c76c4&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#41e2e6&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+            { 'stroke': '#09c100', 'stroke-opacity': 0 }
+            , { 'stroke': '#FFBF00', 'stroke-opacity': 0 }
+            , { 'stroke': '#0c76c4', 'stroke-opacity': 0 }
+            , { 'stroke': '#41e2e6', 'stroke-opacity': 0 }
 
-            , { &#x27;stroke&#x27;: &#x27;#ffb2bc&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+            , { 'stroke': '#ffb2bc', 'stroke-opacity': 0 }
 
-            , { &#x27;stroke&#x27;: &#x27;#dbb8fd&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+            , { 'stroke': '#dbb8fd', 'stroke-opacity': 0 }
 
-            , { &#x27;stroke&#x27;: &#x27;#ff06b3&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#ff7100&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#c3e2a4&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+            , { 'stroke': '#ff06b3', 'stroke-opacity': 0 }
+            , { 'stroke': '#ff7100', 'stroke-opacity': 0 }
+            , { 'stroke': '#c3e2a4', 'stroke-opacity': 0 }
 
-            , { &#x27;stroke&#x27;: &#x27;#ff0619&#x27;, &#x27;stroke-opacity&#x27;: 0 }
+            , { 'stroke': '#ff0619', 'stroke-opacity': 0 }
 
         ]
         , pathStyle: {
-            &#x27;stroke-width&#x27;: 2
+            'stroke-width': 2
         }
         , radius: 4
     };
 
-    var _oldWorkspaceOffset = Histogram.Model.prototype.workspaceOffset;
+    var _oldWorkspaceOffset = PieGraph.Model.prototype.workspaceOffset;
 
-    JC.f.extendObject( Histogram.Model.prototype, {
+    JC.f.extendObject( PieGraph.Model.prototype, {
         init:
             function(){
-                //JC.log( &#x27;Histogram.Model.init:&#x27;, new Date().getTime() );
+                //JC.log( 'PieGraph.Model.init:', new Date().getTime() );
             }
 
         , path:
             function(){
                 var _p = this, _tmp, _style;
-                if( typeof _p._path == &#x27;undefined&#x27; ){
+                if( typeof _p._path == 'undefined' ){
                     _p._path = [];
                     $.each( _p.data().series, function( _k, _item ){
-                        _tmp = _p.stage().path( &#x27;M0 0&#x27; ).attr(_p.pathStyle( _k ) );
+                        _tmp = _p.stage().path( 'M0 0' ).attr(_p.pathStyle( _k ) );
                         _p._path.push( _tmp );
                     });
                 }
@@ -316,7 +190,7 @@
             function( ){
                 var _p = this, _tmp;
 
-                if( typeof _p._rects == &#x27;undefined&#x27; ){
+                if( typeof _p._rects == 'undefined' ){
                     _p._rects= [];
 
                     $.each( _p.data().xAxis.categories, function( _k, _item ){
@@ -342,18 +216,18 @@
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
+                    , _len = PieGraph.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
                     ;
 
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
+                _r = JC.f.cloneObject( PieGraph.Model.STYLE.style[ _ix ] );
 
                 _p.data().series[ _ix ].style
-                    &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
+                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
 
-                !_r.fill &amp;&amp; _r.stroke &amp;&amp; ( _r.fill = _r.stroke );
+                !_r.fill && _r.stroke && ( _r.fill = _r.stroke );
 
-                _r[ &#x27;fill-opacity&#x27; ] = 1;
+                _r[ 'fill-opacity' ] = 1;
 
                 return _r;
             }
@@ -361,18 +235,18 @@
         , itemHoverStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
+                    , _len = PieGraph.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
                     ;
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
+                _r = JC.f.cloneObject( PieGraph.Model.STYLE.style[ _ix ] );
 
                 _p.data().series[ _ix ].style
-                    &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
+                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
 
                 _p.data().series[ _ix ].hoverStyle
-                    &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
+                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
 
-                _r[ &#x27;fill-opacity&#x27; ] = .65;
+                _r[ 'fill-opacity' ] = .65;
 
                 return _r;
             }
@@ -380,16 +254,16 @@
         , pathStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
+                    , _len = PieGraph.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.pathStyle );
-                _r.stroke = Histogram.Model.STYLE.style[ _ix ].stroke;
+                _r = JC.f.cloneObject( PieGraph.Model.STYLE.pathStyle );
+                _r.stroke = PieGraph.Model.STYLE.style[ _ix ].stroke;
                 return _r;
             }
 
         , lineStyle:
             function( _ix ){
-                var _r = JC.f.cloneObject( Histogram.Model.STYLE.lineStyle );
+                var _r = JC.f.cloneObject( PieGraph.Model.STYLE.lineStyle );
                 return _r;
             }
 
@@ -405,14 +279,14 @@
                     , _partWhat = 0;
                     ;
 
-                if( _realX &lt;= 0 || _realY &lt;= 0 || _realX &gt;= _maxX || _realY &gt;= _maxY ){
+                if( _realX <= 0 || _realY <= 0 || _realX >= _maxX || _realY >= _maxY ){
                     return undefined;
                 }
 
                 _itemLen = ( _c.hlen - 1 ) * 2;
                 _partWidth = _c.lineWidth / _itemLen;
                 _partWhat = Math.floor( _realX / _partWidth  );
-                _partWhat &gt; 1 &amp;&amp; ( _partWhat = Math.round( _partWhat / 2 ) );
+                _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
 
                 //JC.log( _partWhat, _realX, _realY, JC.f.ts() );
                 //JC.log( _partWhat );
@@ -422,7 +296,7 @@
 
         , coordinate:
             function( _data ){
-                if( typeof this._coordinate != &#x27;undefined&#x27; || !_data ){
+                if( typeof this._coordinate != 'undefined' || !_data ){
                     return this._coordinate;
                 }
                 var _p = this
@@ -462,7 +336,7 @@
                     _y = _c.subtitle.y + _bbox.height / 2 + 5;
                 }
 
-                !( _title &amp;&amp; _subtitle ) &amp;&amp; ( _y += 10 );
+                !( _title && _subtitle ) && ( _y += 10 );
 
                 var _vtitle = _p.vtitle( _data );
                 if( _vtitle ){
@@ -487,11 +361,11 @@
                     _maxY = _c.credits.y - 8;
                 }
 
-                var _legend = _p.legend( _data, &#x27;rect&#x27;, function( _ix, _legend, _text, _data ){
+                var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
                     var _color = _data.stroke 
-                                    || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
-                                    || &#x27;#fff&#x27;;
-                    _legend.attr( &#x27;fill&#x27;, _color ).attr( &#x27;stroke&#x27;, _color );;
+                                    || PieGraph.Model.STYLE.data[ _ix % PieGraph.Model.STYLE.data.length ].stroke 
+                                    || '#fff';
+                    _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
                 } );
                 if( _legend ){
                     _bbox = _legend.getBBox();
@@ -552,43 +426,43 @@
                 }
 
                 var _vlines = _p.vlines( _data );
-                if( _vlines &amp;&amp; _vlines.length ){
+                if( _vlines && _vlines.length ){
                     _tmpA = [];
                     _tmpA1 = [];
                     _tmp = _p.labelDisplayIndex( _data );
                     $.each( _vlines, function( _ix, _item ){
                         _tmpX = _x + _c.hpart * _ix + _c.halfHPart;
                         _padX = _p.varrowSize();
-                        if( _tmp &amp;&amp; _tmp.length ){
-                            !_tmp[ _ix ] &amp;&amp; ( _padX = 0 );
+                        if( _tmp && _tmp.length ){
+                            !_tmp[ _ix ] && ( _padX = 0 );
                         }
-                        _tmpA.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y + _c.lineHeight }
-                        //_tmpA.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y }
-                            , end: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _maxY + _padX }
-                            , &#x27;item&#x27;: _item  } );
-                        _tmpA1.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y }
-                            , end: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _maxY }
-                            , &#x27;item&#x27;: _item  } );
+                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.lineHeight }
+                        //_tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
+                            , end: { 'x': _tmpX, 'y': _maxY + _padX }
+                            , 'item': _item  } );
+                        _tmpA1.push( {  start: { 'x': _tmpX, 'y': _y }
+                            , end: { 'x': _tmpX, 'y': _maxY }
+                            , 'item': _item  } );
                     });
-                    _tmpA.length &amp;&amp; ( _c.vlines = _tmpA );
-                    _tmpA1.length &amp;&amp; ( _c.vlinePoint = _tmpA1 );
+                    _tmpA.length && ( _c.vlines = _tmpA );
+                    _tmpA1.length && ( _c.vlinePoint = _tmpA1 );
                 }
 
                 var _hlines = _p.hlines( _data );
-                if( _hlines &amp;&amp; _hlines.length ){
+                if( _hlines && _hlines.length ){
                     _tmpA = [];
                     _tmpA1 = [];
                     $.each( _hlines, function( _ix, _item ){
                         _tmpY = _y + _c.vpart * _ix;
-                        _tmpA.push( {  start: { &#x27;x&#x27;: _x - _p.harrowSize(), &#x27;y&#x27;: _tmpY }
-                            , end: { &#x27;x&#x27;: _maxX , &#x27;y&#x27;: _tmpY }
-                            , &#x27;item&#x27;: _item  } );
-                        _tmpA1.push( {  start: { &#x27;x&#x27;: _x, &#x27;y&#x27;: _tmpY }
-                            , end: { &#x27;x&#x27;: _maxX , &#x27;y&#x27;: _tmpY }
-                            , &#x27;item&#x27;: _item  } );
+                        _tmpA.push( {  start: { 'x': _x - _p.harrowSize(), 'y': _tmpY }
+                            , end: { 'x': _maxX , 'y': _tmpY }
+                            , 'item': _item  } );
+                        _tmpA1.push( {  start: { 'x': _x, 'y': _tmpY }
+                            , end: { 'x': _maxX , 'y': _tmpY }
+                            , 'item': _item  } );
                     });
-                    _tmpA.length &amp;&amp; ( _c.hlines = _tmpA );
-                    _tmpA1.length &amp;&amp; ( _c.hlinePoint = _tmpA1 );
+                    _tmpA.length && ( _c.hlines = _tmpA );
+                    _tmpA1.length && ( _c.hlinePoint = _tmpA1 );
                 }
 
                 if( _vlabelMaxWidth ){
@@ -600,9 +474,9 @@
                         _tmpX = _vx - _bbox.width / 2;
                         _tmpY = parseInt( _y + ( _maxY - _y ) * _tmp );
                         _tmp += .25;
-                        _tmpA.push( { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _tmpY, &#x27;item&#x27;: _item  } );
+                        _tmpA.push( { 'x': _tmpX, 'y': _tmpY, 'item': _item  } );
                     });
-                    _tmpA.length &amp;&amp; ( _c.vlables = _tmpA );
+                    _tmpA.length && ( _c.vlables = _tmpA );
                 }
 
                 if( _hlabelMaxHeight ){
@@ -615,19 +489,19 @@
                         _tmpX = _lineItem.end.x;
                         if( _ix === ( _c.vlinePoint.length - 1 ) ){
                             _tmpX = _lineItem.end.x + 2;
-                            if(  ( _tmpX + _item.getBBox().width / 2 ) &gt; _c.lineMaxX ){
+                            if(  ( _tmpX + _item.getBBox().width / 2 ) > _c.lineMaxX ){
                                 _tmpX = _c.lineMaxX - _item.getBBox().width / 2;
                             }
                         }else if( _ix === 0 ){
                             _tmpX = _lineItem.end.x - 2;
-                            if(  ( _tmpX - _item.getBBox().width / 2 ) &lt; _c.lineX ){
+                            if(  ( _tmpX - _item.getBBox().width / 2 ) < _c.lineX ){
                                 _tmpX = _c.lineX + _item.getBBox().width / 2;
                             }
                         }
                         _tmpY = _hy;
-                        _tmpA.push( { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _tmpY, &#x27;item&#x27;: _item  } );
+                        _tmpA.push( { 'x': _tmpX, 'y': _tmpY, 'item': _item  } );
                     });
-                    _tmpA.length &amp;&amp; ( _c.hlables = _tmpA );
+                    _tmpA.length && ( _c.hlables = _tmpA );
                 }
 
                 //get data point
@@ -648,7 +522,7 @@
                     _c.rectLine.push( {
                         start: { x: _lineX, y: _lineStartY }
                         , end: { x: _lineX, y: _lineEndY }
-                        , item: _p.stage().path(&#x27;M0 0&#x27;).attr( _p.lineStyle( _ix ) )
+                        , item: _p.stage().path('M0 0').attr( _p.lineStyle( _ix ) )
                     } );
 
                     if( _ix === _data.xAxis.categories.length - 1 ){
@@ -656,12 +530,12 @@
                         _c.rectLine.push( {
                             start: { x: _lineX, y: _lineStartY }
                             , end: { x: _lineX, y: _lineEndY }
-                            , item: _p.stage().path(&#x27;M0 0&#x27;).attr( _p.lineStyle( _ix ) )
+                            , item: _p.stage().path('M0 0').attr( _p.lineStyle( _ix ) )
                         } );
                     }
 
                     $.each( _data.series, function( _six, _sd ){
-                        var _d = { &#x27;y&#x27;: _lineItem.start.y, &#x27;x&#x27;: _sstart + _six * _c.seriesPart + _six * 1  }
+                        var _d = { 'y': _lineItem.start.y, 'x': _sstart + _six * _c.seriesPart + _six * 1  }
                             , _item, _dataHeight, _dataY, _height
                             , _num = _sd.data[ _ix ]
                             ;
@@ -698,7 +572,7 @@
             }
     });
 
-    JC.f.extendObject( Histogram.View.prototype, {
+    JC.f.extendObject( PieGraph.View.prototype, {
         _inited:
             function(){
             }
@@ -714,7 +588,7 @@
                 }
                 if( _c.vtitle ){
                     _p._model.vtitle().attr( _c.vtitle );
-                    _c.vtitle.rotate &amp;&amp; _p._model.vtitle().rotate( _c.vtitle.rotate );
+                    _c.vtitle.rotate && _p._model.vtitle().rotate( _c.vtitle.rotate );
                 }
                 if( _c.credits ){
                     _p._model.credits().attr( _c.credits );
@@ -724,28 +598,28 @@
                 }
                 if( _c.vlables ){
                     $.each( _c.vlables, function( _k, _item ){
-                        _item.item.attr( { &#x27;x&#x27;: _item.x, &#x27;y&#x27;: _item.y } );
+                        _item.item.attr( { 'x': _item.x, 'y': _item.y } );
                     });
                 }
                 if( _c.hlables ){
                     $.each( _c.hlables, function( _k, _item ){
-                        _item.item.attr( { &#x27;x&#x27;: _item.x, &#x27;y&#x27;: _item.y } );
+                        _item.item.attr( { 'x': _item.x, 'y': _item.y } );
                     });
                 }
 
                 if( _c.vlines ){
                     $.each( _c.vlines, function( _k, _item ){
-                        _item.item.attr( &#x27;path&#x27;, JC.f.printf(&#x27;M{0} {1}L{2} {3}&#x27;, _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
+                        _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
                     });
                 }
                 if( _c.hlines ){
                     $.each( _c.hlines, function( _k, _item ){
-                        _item.item &amp;&amp; _item.item.attr( &#x27;path&#x27;, JC.f.printf(&#x27;M{0} {1}L{2} {3}&#x27;, _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
+                        _item.item && _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
                     });
                 }
                 if( _c.rectLine ){
                     $.each( _c.rectLine, function( _k, _item ){
-                        _item.item &amp;&amp; _item.item.attr( &#x27;path&#x27;, JC.f.printf(&#x27;M{0} {1}L{2} {3}&#x27;, _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
+                        _item.item && _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
                     });
                 }
                 if( _c.rects ){
@@ -762,7 +636,7 @@
                 _p._model.tips().toFront();
 
                 /*
-                var _t = new JChart.GraphicRect( _p.stage(), 0, 0, 100, 100, { &#x27;fill&#x27;: &#x27;#000&#x27; }, { &#x27;fill&#x27;: &#x27;#fff&#x27; } );
+                var _t = new JChart.GraphicRect( _p.stage(), 0, 0, 100, 100, { 'fill': '#000' }, { 'fill': '#fff' } );
                 setTimeout( function(){
                     _t.hover();
                 }, 200 );
@@ -776,17 +650,17 @@
                 _p.setStaticPosition( _p._model.coordinate( _data ) );
 
                 _p._model.dataBackground().mouseenter( function( _evt ){
-                    Histogram.CURRENT_INS = _p;
-                    //JC.log( &#x27;mouseenter&#x27;, JC.f.ts() );
-                    _jdoc.on( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
-                    _p.trigger( &#x27;moving_start&#x27; );
+                    PieGraph.CURRENT_INS = _p;
+                    //JC.log( 'mouseenter', JC.f.ts() );
+                    _jdoc.on( 'mousemove', PieGraph.DEFAULT_MOVE );
+                    _p.trigger( 'moving_start' );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
-                    //JC.log( &#x27;mouseleave&#x27;, JC.f.ts() );
-                    _p.trigger( &#x27;moving_done&#x27; );
-                    _jdoc.off( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
-                    Histogram.CURRENT_INS = null;
+                    //JC.log( 'mouseleave', JC.f.ts() );
+                    _p.trigger( 'moving_done' );
+                    _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
+                    PieGraph.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );
             }
@@ -801,15 +675,15 @@
                     , _point = _c.vlinePoint[ _ix ]
                     ;
 
-                if( ( _y + _bbox.height ) &gt; _c.stage.height ){
+                if( ( _y + _bbox.height ) > _c.stage.height ){
                     _y = _offset.y - _bbox.height + 8;
                 }
-                _y &lt; 0 &amp;&amp; ( _y = 0 );
+                _y < 0 && ( _y = 0 );
 
-                if( ( _x + _bbox.width ) &gt; _c.stage.width ){
+                if( ( _x + _bbox.width ) > _c.stage.width ){
                     _x = _offset.x - _bbox.width;
                 }
-                _x &lt; 0 &amp;&amp; ( _x = 0 );
+                _x < 0 && ( _x = 0 );
 
                 _tips.setPosition( _x, _y );
             }
@@ -830,8 +704,8 @@
                 var _p = this, _r = [], _preItems = _p._model.preItems() || {};
 
                 _p._model.vlines() 
-                    &amp;&amp; ( _preItems.vlines = _p._model.vlines()[ _ix ].hover() )
-                    &amp;&amp; _p._model.preItems( _preItems );
+                    && ( _preItems.vlines = _p._model.vlines()[ _ix ].hover() )
+                    && _p._model.preItems( _preItems );
             }
 
         , clearStatus:
@@ -839,10 +713,10 @@
                 var _p = this, _preItems = _p._model.preItems();
 
                 if( _preItems ){
-                    _preItems.point &amp;&amp; $.each( _preItems.point, function( _k, _item ){
+                    _preItems.point && $.each( _preItems.point, function( _k, _item ){
                         _item.unhover();
                     });
-                    _preItems.vlines &amp;&amp; _preItems.vlines.unhover();
+                    _preItems.vlines && _preItems.vlines.unhover();
                 }
 
                 _p._model.preItems( null );
@@ -850,40 +724,20 @@
     });
 
     _jdoc.ready( function(){
-        Histogram.autoInit &amp;&amp; Histogram.init();
+        PieGraph.autoInit && PieGraph.init();
     });
 
     _jwin.on( JChart.Base.RESIZE_UPDATE, function( _evt ){
-        JChart.Base.reset( &#x27;div.jchartHistogram&#x27;, JChart.Histogram );
+        JChart.Base.reset( 'div.jchartPieGraph', JChart.PieGraph );
     });
 
-    return Histogram;
-});}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
+    return PieGraph;
+});}( typeof define === 'function' && define.amd ? define : 
         function ( _name, _require, _cb ) { 
-            typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );
-            typeof _require == &#x27;function&#x27; &amp;&amp; ( _cb = _require ); 
-            _cb &amp;&amp; _cb(); 
+            typeof _name == 'function' && ( _cb = _name );
+            typeof _require == 'function' && ( _cb = _require ); 
+            _cb && _cb(); 
         }
         , window
     )
 );
-
-    </pre>
-</div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="../assets/vendor/prettify/prettify-min.js"></script>
-<script>prettyPrint();</script>
-<script src="../assets/js/yui-prettify.js"></script>
-<script src="../assets/../api.js"></script>
-<script src="../assets/js/api-filter.js"></script>
-<script src="../assets/js/api-list.js"></script>
-<script src="../assets/js/api-search.js"></script>
-<script src="../assets/js/apidocs.js"></script>
-</body>
-</html>

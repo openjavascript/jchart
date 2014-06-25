@@ -296,7 +296,7 @@
                 var _p = this;
                 if( typeof _data != 'undefined' ){
                     _p._data = _data;
-                    JC.dir( _p._data );
+                    //JC.dir( _p._data );
                     _p._data.series && _p._data.series.length && 
                         $.each( _p._data.series[0].data, function( _k, _item ){
                             if( JC.f.isArray( _item ) ){
@@ -403,6 +403,11 @@
                 _c.wsX = _x;
                 _c.wsMaxX = _maxX;
 
+                _c.cx = _c.wsX + _c.wsWidth / 2;
+                _c.cy = _c.wsY + _c.wsHeight / 2;
+
+                _c.radius = _p.calcRadius( _c.wsWidth, _c.wsHeight );
+
                 var _dataBackground = _p.dataBackground( _c.wsX, _c.wsY, _c.wsWidth, _c.wsHeight );
                 if( _dataBackground ){
                     _dataBackground.attr( { 
@@ -419,11 +424,66 @@
                     };
                 }
 
+                _p.stage().circle( _c.cx, _c.cy, _c.radius );
+
+                if( _p.data().series && _p.data().series.length ){
+                    var _angle = 360
+                        , _angleCount = 0
+                        , _partSize = 100
+                        , _tmpPoint
+                        ;
+
+                    _c.piePart = [];
+
+                    $.each( _p.data().series[0].data, function( _k, _item ){
+                        var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius };
+
+                        _pieC.angle = _item.y / _partSize * _angle;
+
+                        _pieC.startAngle = _angleCount;
+                        _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2;
+                        _pieC.endAngle = _angleCount += _pieC.angle;
+
+                        _pieC.startPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.startAngle );
+                        _pieC.midPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.midAngle );
+                        _pieC.endPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.endAngle );
+
+                        _pieC.startPoint.x += _pieC.cx;
+                        _pieC.startPoint.y += _pieC.cy;
+                        _pieC.midPoint.x += _pieC.cx;
+                        _pieC.midPoint.y += _pieC.cy;
+                        _pieC.endPoint.x += _pieC.cx;
+                        _pieC.endPoint.y += _pieC.cy;
+
+
+                        _p.stage().path(
+                            JC.f.printf( 'M{0} {1}L{2} {3}S{4} {5} {6} {7}L{0} {1}Z'
+                                , _pieC.cx, _pieC.cy 
+                                , _pieC.startPoint.x, _pieC.startPoint.y
+                                , _pieC.midPoint.x, _pieC.midPoint.y
+                                , _pieC.endPoint.x, _pieC.endPoint.y
+                                , _pieC.cx, _pieC.cy 
+                            )
+                        );
+ 
+                        _c.piePart.push( _pieC );
+                        return false;
+                    });
+                }
+
+                JC.dir( _p._coordinate );
+                JC.dir( _p.data() );
+
                 var _tips = _p.tips();
+                return _p._coordinate;
+            }
 
-                //JC.dir( this._coordinate );
-
-                return this._coordinate;
+        , calcRadius:
+            function( _w, _h ){
+                var _r = _w;
+                _h < _r && ( _r = _h );
+                _r = parseInt( _r / 5 * 4 / 2 );
+                return _r;
             }
     });
 

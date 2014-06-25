@@ -172,20 +172,6 @@
                 //JC.log( 'Histogram.Model.init:', new Date().getTime() );
             }
 
-        , path:
-            function(){
-                var _p = this, _tmp, _style;
-                if( typeof _p._path == 'undefined' ){
-                    _p._path = [];
-                    $.each( _p.data().series, function( _k, _item ){
-                        _tmp = _p.stage().path( 'M0 0' ).attr(_p.pathStyle( _k ) );
-                        _p._path.push( _tmp );
-                    });
-                }
-
-                return _p._path;
-            }
-
         , rects:
             function( ){
                 var _p = this, _tmp;
@@ -248,16 +234,6 @@
 
                 _r[ 'fill-opacity' ] = .65;
 
-                return _r;
-            }
-
-        , pathStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.pathStyle );
-                _r.stroke = Histogram.Model.STYLE.style[ _ix ].stroke;
                 return _r;
             }
 

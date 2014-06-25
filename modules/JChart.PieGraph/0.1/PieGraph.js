@@ -122,9 +122,7 @@
                     if( !_offset ) return;
                     if( typeof _index == 'undefined' ) return;
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
-                    _p._view.updateTips( _index, _offset );
-                    _p._view.updateRect( _index );
-                    _p._view.updateVLine( _index );
+                    //_p._view.updateTips( _index, _offset );
                 });
             }
 
@@ -172,47 +170,6 @@
                 //JC.log( 'PieGraph.Model.init:', new Date().getTime() );
             }
 
-        , path:
-            function(){
-                var _p = this, _tmp, _style;
-                if( typeof _p._path == 'undefined' ){
-                    _p._path = [];
-                    $.each( _p.data().series, function( _k, _item ){
-                        _tmp = _p.stage().path( 'M0 0' ).attr(_p.pathStyle( _k ) );
-                        _p._path.push( _tmp );
-                    });
-                }
-
-                return _p._path;
-            }
-
-        , rects:
-            function( ){
-                var _p = this, _tmp;
-
-                if( typeof _p._rects == 'undefined' ){
-                    _p._rects= [];
-
-                    $.each( _p.data().xAxis.categories, function( _k, _item ){
-                        var _items = [];
-                        $.each( _p.data().series, function( _sk, _sitem ){
-                            _tmp = new JChart.GraphicRect( 
-                                _p.stage()
-                                , 10000, 0
-                                , 100
-                                , 100
-                                , _p.itemStyle( _sk )
-                                , _p.itemHoverStyle( _sk )
-                            );
-                            _items.push( _tmp );
-                        });
-
-                        _p._rects.push( _items );
-                    });
-                }
-                return _p._rects;
-            }
-
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
@@ -222,8 +179,10 @@
 
                 _r = JC.f.cloneObject( PieGraph.Model.STYLE.style[ _ix ] );
 
-                _p.data().series[ _ix ].style
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
+                _p.data().series
+                    && _p.data().series.length
+                    && _p.data().series[ 0 ].style
+                    && ( _r = JC.f.extendObject( _r, _p.data().series[ 0 ].style ) );
 
                 !_r.fill && _r.stroke && ( _r.fill = _r.stroke );
 
@@ -248,16 +207,6 @@
 
                 _r[ 'fill-opacity' ] = .65;
 
-                return _r;
-            }
-
-        , pathStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-                    , _len = PieGraph.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                _r = JC.f.cloneObject( PieGraph.Model.STYLE.pathStyle );
-                _r.stroke = PieGraph.Model.STYLE.style[ _ix ].stroke;
                 return _r;
             }
 
@@ -292,6 +241,70 @@
                 //JC.log( _partWhat );
 
                 return _partWhat;
+            }
+        /**
+         * 数据图例图标
+         */
+        , legend:
+            function( _data, _type, _cb ){
+                var _p = this, _tmp = true, _type;
+
+                if( !this._legend && _data && 
+                        ( ( _data.legend && ( 'enabled' in _data.legend ) && ( _tmp = _data.legend.enabled ) ) ||
+                          _tmp
+                        )
+                    ){
+                    this._legend =  new JChart.Group();
+                    _type = _type || 'line';
+                    switch( _type ){
+                        case 'rect':
+                            {
+                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
+                                _x += _bx;
+
+                                _data.series && _data.series.length &&
+                                $.each( _data.series[0].data, function( _k, _item ){
+                                    if( !_item.name ) return;
+                                    var _style = _p.itemStyle( _k );
+                                    _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
+                                    _lb = _legend.getBBox();
+                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
+                                    _tb = _text.getBBox();
+                                    _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
+                                    _legend.attr( _style );
+                                    _legend.attr( 'fill', _style.stroke );
+                                    _p._legend.addChild( _text, 'text_' + _k );
+                                    _x = _tb.x + _tb.width + _pad;
+                                    _h = _tb.height * 1.8;
+                                });
+
+                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
+                                        .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
+                                _p._legend.addChild( _box, 'box' );
+                            }
+                    }
+                }
+                    
+                return this._legend;
+            }
+
+        /**
+         * 保存图表数据
+         */
+        , data:
+            function( _data ){
+                var _p = this;
+                if( typeof _data != 'undefined' ){
+                    _p._data = _data;
+                    JC.dir( _p._data );
+                    _p._data.series && _p._data.series.length && 
+                        $.each( _p._data.series[0].data, function( _k, _item ){
+                            if( JC.f.isArray( _item ) ){
+                                _p._data.series[0].data[ _k ] = { 'name': _item[0], 'y': _item[1] };
+                            }
+                        });
+                }
+                return _p._data;
             }
 
         , coordinate:
@@ -363,7 +376,7 @@
 
                 var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
                     var _color = _data.stroke 
-                                    || PieGraph.Model.STYLE.data[ _ix % PieGraph.Model.STYLE.data.length ].stroke 
+                                    || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
                                     || '#fff';
                     _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
                 } );
@@ -380,35 +393,7 @@
                 _maxY -= _p.varrowSize();
                 _x += _p.harrowSize();
 
-                var _hlabelMaxHeight = _p.hlabelMaxHeight( _data );
-                var _vlabelMaxWidth = _p.vlabelMaxWidth( _data );
                 var _vx = _x, _hy = _y;
-
-                if( _vlabelMaxWidth ){
-                    _x += _vlabelMaxWidth;
-                    _vx = _x - _p.harrowSize();
-                    _x += 5;
-                }
-
-                if( _hlabelMaxHeight ){
-                    _maxY -= 2;
-                    _maxY -= _hlabelMaxHeight;
-                    _hy = _maxY + _p.varrowSize() + 4;
-                    _maxY -= 5;
-                }
-
-                //JC.log( _x, _maxX, _maxX - _x );
-
-                _c.vlen = _p.vlen();
-                _c.hlen = _p.hlen();
-
-                _c.vpart = ( _maxY - _y ) / ( _c.vlen - 1 );
-                _c.hpart = ( _maxX - _x ) / ( _c.hlen );
-
-                _c.halfHPart = _c.hpart / 2;
-
-                _c.seriesLength = _p.seriesLength();
-                _c.seriesPart = Math.floor( _c.hpart / ( _c.seriesLength * 1.5 ) );
 
                 _c.lineHeight = _maxY - _y;
                 _c.lineY = _y;
@@ -420,149 +405,19 @@
 
                 var _dataBackground = _p.dataBackground( _c.lineX, _c.lineY, _c.lineWidth, _c.lineHeight );
                 if( _dataBackground ){
+                    _dataBackground.attr( { 
+                        'fill': '#fff'
+                        , 'fill-opacity': 1
+                        , 'stroke': '#999' 
+                        , 'stroke-width': 1
+                        , 'stroke-opacity': .35
+                    } );
+                    _dataBackground.translate( .5, .5 );
+
                     _c.dataBackground = {
                         x: _c.lineX, y: _c.lineY, width: _c.lineWidth, height: _c.lineHeight, item: _dataBackground
                     };
                 }
-
-                var _vlines = _p.vlines( _data );
-                if( _vlines && _vlines.length ){
-                    _tmpA = [];
-                    _tmpA1 = [];
-                    _tmp = _p.labelDisplayIndex( _data );
-                    $.each( _vlines, function( _ix, _item ){
-                        _tmpX = _x + _c.hpart * _ix + _c.halfHPart;
-                        _padX = _p.varrowSize();
-                        if( _tmp && _tmp.length ){
-                            !_tmp[ _ix ] && ( _padX = 0 );
-                        }
-                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.lineHeight }
-                        //_tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
-                            , end: { 'x': _tmpX, 'y': _maxY + _padX }
-                            , 'item': _item  } );
-                        _tmpA1.push( {  start: { 'x': _tmpX, 'y': _y }
-                            , end: { 'x': _tmpX, 'y': _maxY }
-                            , 'item': _item  } );
-                    });
-                    _tmpA.length && ( _c.vlines = _tmpA );
-                    _tmpA1.length && ( _c.vlinePoint = _tmpA1 );
-                }
-
-                var _hlines = _p.hlines( _data );
-                if( _hlines && _hlines.length ){
-                    _tmpA = [];
-                    _tmpA1 = [];
-                    $.each( _hlines, function( _ix, _item ){
-                        _tmpY = _y + _c.vpart * _ix;
-                        _tmpA.push( {  start: { 'x': _x - _p.harrowSize(), 'y': _tmpY }
-                            , end: { 'x': _maxX , 'y': _tmpY }
-                            , 'item': _item  } );
-                        _tmpA1.push( {  start: { 'x': _x, 'y': _tmpY }
-                            , end: { 'x': _maxX , 'y': _tmpY }
-                            , 'item': _item  } );
-                    });
-                    _tmpA.length && ( _c.hlines = _tmpA );
-                    _tmpA1.length && ( _c.hlinePoint = _tmpA1 );
-                }
-
-                if( _vlabelMaxWidth ){
-                    var _vlabels = _p.vlables( _data );
-                    _tmp = 0;
-                    _tmpA = [];
-                    $.each( _vlabels, function( _ix, _item ){
-                        _bbox = _item.getBBox();
-                        _tmpX = _vx - _bbox.width / 2;
-                        _tmpY = parseInt( _y + ( _maxY - _y ) * _tmp );
-                        _tmp += .25;
-                        _tmpA.push( { 'x': _tmpX, 'y': _tmpY, 'item': _item  } );
-                    });
-                    _tmpA.length && ( _c.vlables = _tmpA );
-                }
-
-                if( _hlabelMaxHeight ){
-                    var _hlabels = _p.hlables( _data );
-                    _tmp = 0;
-                    _tmpA = [];
-                    $.each( _c.vlinePoint, function( _ix, _lineItem ){
-                        var _item = _hlabels[_ix ];
-                        if( !_item ) return;
-                        _tmpX = _lineItem.end.x;
-                        if( _ix === ( _c.vlinePoint.length - 1 ) ){
-                            _tmpX = _lineItem.end.x + 2;
-                            if(  ( _tmpX + _item.getBBox().width / 2 ) > _c.lineMaxX ){
-                                _tmpX = _c.lineMaxX - _item.getBBox().width / 2;
-                            }
-                        }else if( _ix === 0 ){
-                            _tmpX = _lineItem.end.x - 2;
-                            if(  ( _tmpX - _item.getBBox().width / 2 ) < _c.lineX ){
-                                _tmpX = _c.lineX + _item.getBBox().width / 2;
-                            }
-                        }
-                        _tmpY = _hy;
-                        _tmpA.push( { 'x': _tmpX, 'y': _tmpY, 'item': _item  } );
-                    });
-                    _tmpA.length && ( _c.hlables = _tmpA );
-                }
-
-                //get data point
-                _c.rects = [];
-                _c.rectLine = [];
-
-                var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) )
-                    , _lineStartY = _c.vlinePoint[0].start.y
-                    , _lineEndY = _c.vlinePoint[0].end.y
-                    ;
-                $.each( _data.xAxis.categories, function( _ix, _items ){
-                    var _rectItems = []
-                        , _lineItem = _c.vlinePoint[ _ix ]
-                        , _sstart = _lineItem.end.x - _c.seriesPart * _data.series.length / 2 - _data.series.length + 1
-                        , _lineX = _lineItem.end.x - _c.hpart / 2 
-                        , _maxNum
-                        ;
-                    _c.rectLine.push( {
-                        start: { x: _lineX, y: _lineStartY }
-                        , end: { x: _lineX, y: _lineEndY }
-                        , item: _p.stage().path('M0 0').attr( _p.lineStyle( _ix ) )
-                    } );
-
-                    if( _ix === _data.xAxis.categories.length - 1 ){
-                        _lineX = _lineItem.end.x + _c.hpart / 2;
-                        _c.rectLine.push( {
-                            start: { x: _lineX, y: _lineStartY }
-                            , end: { x: _lineX, y: _lineEndY }
-                            , item: _p.stage().path('M0 0').attr( _p.lineStyle( _ix ) )
-                        } );
-                    }
-
-                    $.each( _data.series, function( _six, _sd ){
-                        var _d = { 'y': _lineItem.start.y, 'x': _sstart + _six * _c.seriesPart + _six * 1  }
-                            , _item, _dataHeight, _dataY, _height
-                            , _num = _sd.data[ _ix ]
-                            ;
-
-                        if( JChart.Base.isNegative( _num ) ){
-                            _num = Math.abs( _num );
-                            _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
-                            _dataY = _c.lineY + _c.vpart * _rateInfo.zeroIndex;
-                            _maxNum = Math.abs( _rateInfo.finalMaxNum * _p.rate()[ _p.rate().length - 1 ] );
-                            _height = ( _num / _maxNum ) * _dataHeight;
-                            _d.y = _d.y + _c.lineHeight - _dataHeight;
-                            //JC.log( _rateInfo.length, _rateInfo.zeroIndex, _c.vpart, _dataHeight, JC.f.ts() );
-                        }else{
-                            _dataHeight = _c.vpart * _rateInfo.zeroIndex;
-                            _dataY = _c.lineY;
-                            _maxNum = _rateInfo.finalMaxNum;
-                            _height = ( _num / _maxNum ) * _dataHeight;
-                            _d.y = _d.y + _dataHeight - _height;
-                        }
-                        //_p.stage().rect( _d.x, _d.y, _c.seriesPart, _height );
-                        _d.width = _c.seriesPart;
-                        _d.height = _height;
-
-                        _rectItems.push( _d );
-                    });
-                    _c.rects.push( _rectItems );
-                });
 
                 var _tips = _p.tips();
 
@@ -586,61 +441,16 @@
                 if( _c.subtitle ){
                     _p._model.subtitle().attr( _c.subtitle );
                 }
-                if( _c.vtitle ){
-                    _p._model.vtitle().attr( _c.vtitle );
-                    _c.vtitle.rotate && _p._model.vtitle().rotate( _c.vtitle.rotate );
-                }
                 if( _c.credits ){
                     _p._model.credits().attr( _c.credits );
                 }
+
                 if( _c.legend ){
                     _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
-                }
-                if( _c.vlables ){
-                    $.each( _c.vlables, function( _k, _item ){
-                        _item.item.attr( { 'x': _item.x, 'y': _item.y } );
-                    });
-                }
-                if( _c.hlables ){
-                    $.each( _c.hlables, function( _k, _item ){
-                        _item.item.attr( { 'x': _item.x, 'y': _item.y } );
-                    });
-                }
-
-                if( _c.vlines ){
-                    $.each( _c.vlines, function( _k, _item ){
-                        _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
-                    });
-                }
-                if( _c.hlines ){
-                    $.each( _c.hlines, function( _k, _item ){
-                        _item.item && _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
-                    });
-                }
-                if( _c.rectLine ){
-                    $.each( _c.rectLine, function( _k, _item ){
-                        _item.item && _item.item.attr( 'path', JC.f.printf('M{0} {1}L{2} {3}', _item.start.x, _item.start.y, _item.end.x, _item.end.y ) );
-                    });
-                }
-                if( _c.rects ){
-                    var _rects = _p._model.rects();
-                    $.each( _c.rects, function( _k, _item ){
-                        $.each( _item, function( _sk, _sitem ){
-                            _tmp = _rects[ _k ][ _sk ];
-                            _tmp.attr( { x: _sitem.x, y: _sitem.y, width: _sitem.width, height: _sitem.height } );
-                            //JC.log( _sitem.x, _sitem.y, JC.f.ts() );
-                        });
-                    });
                 }
 
                 _p._model.tips().toFront();
 
-                /*
-                var _t = new JChart.GraphicRect( _p.stage(), 0, 0, 100, 100, { 'fill': '#000' }, { 'fill': '#fff' } );
-                setTimeout( function(){
-                    _t.hover();
-                }, 200 );
-                */
             }
 
         , draw: 
@@ -686,26 +496,6 @@
                 _x < 0 && ( _x = 0 );
 
                 _tips.setPosition( _x, _y );
-            }
-
-        , updateRect:
-            function( _ix ){
-                var _p = this, _r = [], _preItems = _p._model.preItems() || {};
-                //JC.dir( _p._model.rects()[ _ix ] );
-                $.each( _p._model.rects()[ _ix ], function( _k, _item ){
-                    _r.push( _item.hover() );
-                });
-                _preItems.point = _r;
-                _p._model.preItems( _preItems );
-            }
-
-        , updateVLine:
-            function( _ix ){
-                var _p = this, _r = [], _preItems = _p._model.preItems() || {};
-
-                _p._model.vlines() 
-                    && ( _preItems.vlines = _p._model.vlines()[ _ix ].hover() )
-                    && _p._model.preItems( _preItems );
             }
 
         , clearStatus:

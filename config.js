@@ -17,6 +17,7 @@ requirejs.config( {
 
         , 'JChart.CurveGram': 'modules/JChart.CurveGram/0.1/CurveGram'
         , 'JChart.Histogram': 'modules/JChart.Histogram/0.1/Histogram'
+        , 'JChart.PieGraph': 'modules/JChart.PieGraph/0.1/PieGraph'
 
         , 'JChart.DefaultOptions': 'modules/JChart.DefaultOptions/0.1/DefaultOptions'
         , 'JChart.Event': 'modules/JChart.Event/0.1/Event'

@@ -92,6 +92,8 @@
         , "arrayId": arrayId
         , "docSize": docSize
 
+        , "isArray": isArray
+
         /**
          * 判断 JC.common 是否需要向后兼容, 如果需要的话, 向 window 添加全局静态函数
          */
@@ -1491,7 +1493,16 @@
 
         return _r;
     }
-
+    /**
+     * 判断参数是否为数组
+     * @method  isArray
+     * @param   {Object}    obj
+     * @return  {bool}
+     * @static
+     */
+    function isArray(obj){  
+        return Object.prototype.toString.call(obj) === '[object Array]' ;  
+    }  
 
     return JC.f;
 

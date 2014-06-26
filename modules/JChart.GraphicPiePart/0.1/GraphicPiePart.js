@@ -45,10 +45,28 @@
     JC.PureMVC.build( GraphicPiePart, JChart.GraphicBase );
 
     JC.f.extendObject( GraphicPiePart.prototype, {
-        _beforeInit:
+
+        _initHanlderEvent:
             function(){
-                //JC.log( 'GraphicPiePart _beforeInit', new Date().getTime() );
+                var _p = this;
+
+                _p.on( 'inited', function(){
+                    _p._view.draw();
+                });
+
+                _p.on( 'draw_done', function(){
+                    _p._model.item( 'element' ).click( function( _evt ){
+                        _p.trigger( 'update_isSelected', _p._model.toggleSelected() );
+                    });
+                });
+
+                _p.on( 'update_isSelected', function( _evt, _isSelected ){
+                    JC.log( 'update_isSelected', _isSelected, JC.f.ts() );
+                    _p._view.updateSelected( _isSelected );
+                });
             }
+
+        , isSelected: function(){ return this._model._isSelected; }
     });
 
     GraphicPiePart.Model._instanceName = 'JCGraphicPiePart';
@@ -56,6 +74,17 @@
         init:
             function(){
                 //JC.log( 'GraphicPiePart.Model.init:', new Date().getTime() );
+            }
+
+        , toggleSelected:
+            function(){
+                return this._isSelected = !this._isSelected;
+            }
+
+        , isSelected: 
+            function( _setter ){ 
+                typeof _setter != 'undefined' && ( this._isSelected = _setter );
+                return this._isSelected; 
             }
     });
 
@@ -87,20 +116,29 @@
                 _item = _p._model.stage().path( _corText );
                 _p._model.add( _item, 'element' );
                 _p.unhover();
+
+                _p.trigger( 'draw_done' );
             }
-        /*
-        function drawPiePart( _stage, _pie ) {
-            return _stage.path();
-        }
+        , updateSelected:
+            function( _isSelected, _ms, _distance ){
+                var _p = this
+                    , _item = _p._model.item( 'element' )
+                    , _target
+                    , _transform
+                    ;
+                _ms = _ms || 200;
+                _distance = _distance || 10;
 
-        _tmp = drawPiePart( _p.stage(), _pieC );
+                _item.stop();
+                _target = JChart.Geometry.distanceAngleToPoint( _distance, _p._model._pieCor.midAngle );
 
-        if( _k === 6 ){
-            var _tmp2 = JChart.Geometry.distanceAngleToPoint( 5, _pieC.midAngle );
-                _tmp.transform( JC.f.printf( 't{0} {1}', _tmp2.x, _tmp2.y ) );
-        }
-        */
-
+                if( _isSelected ){
+                    _transform = JC.f.printf( 't{0} {1}', _target.x, _target.y );
+                }else{
+                    _transform = JC.f.printf( 't{0} {1}', 0, 0 );
+                }
+                _item.animate( { transform: _transform}, _ms );
+            }
     });
 
     return JC.GraphicPiePart;

@@ -440,7 +440,7 @@
 
                 if( _p.data().series && _p.data().series.length ){
                     var _angle = 360
-                        , _angleCount = 0
+                        , _angleCount = 270
                         , _partSize = 100
                         , _tmpPoint
                         ;
@@ -474,30 +474,7 @@
                         _pieC.startPoint.y += _pieC.cy;
                         _pieC.endPoint.x += _pieC.cx;
                         _pieC.endPoint.y += _pieC.cy;
-
-                        /*
-                        function drawPiePart( _stage, _pie ) {
-                            return _stage.path([
-                                    "M", _pie.cx, _pie.cy
-                                    , "L"
-                                    , _pie.endPoint.x, _pie.endPoint.y
-                                    , "A"
-                                        , _pie.radius, _pie.radius
-                                        , 0
-                                        , 0
-                                        , 0
-                                        , _pie.startPoint.x, _pie.startPoint.y
-                                        , "z"
-                                ]);
-                        }
-
-                        _tmp = drawPiePart( _p.stage(), _pieC );
-
-                        if( _k === 6 ){
-                            var _tmp2 = JChart.Geometry.distanceAngleToPoint( 5, _pieC.midAngle );
-                                _tmp.transform( JC.f.printf( 't{0} {1}', _tmp2.x, _tmp2.y ) );
-                        }
-                        */
+                        _pieC.data = _item;
 
                         _c.piePart.push( _pieC );
                     });

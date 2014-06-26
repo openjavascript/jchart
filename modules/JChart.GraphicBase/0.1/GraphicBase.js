@@ -81,6 +81,9 @@
             function(){
                 return this._model.getBBox();
             }
+
+        , show: function(){ this._view.show(); }
+        , hide: function(){ this._view.hide(); }
     });
 
     GraphicBase.Model._instanceName = 'JCGraphicBase';
@@ -165,6 +168,22 @@
                         _ssitem.attr( _k, _v );
                     });
                 }
+            }
+
+        , show:
+            function(){
+                var _p = this;
+                $.each( _p._model.elements(), function( _k, _item ){
+                    _item.show();
+                });
+            }
+
+        , hide:
+            function(){
+                var _p = this;
+                $.each( _p._model.elements(), function( _k, _item ){
+                    _item.hide();
+                });
             }
     });
 

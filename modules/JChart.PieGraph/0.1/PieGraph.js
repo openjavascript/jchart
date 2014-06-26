@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconVLine', 'JChart.GraphicRect' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconVLine', 'JChart.IconRect', 'JChart.GraphicPiePart' ], function(){
 /**
  * 柱状图
  *
@@ -140,20 +140,16 @@
             , 'opacity': '.35'
         }
         , style: [
-            { 'stroke': '#09c100', 'stroke-opacity': 0 }
-            , { 'stroke': '#FFBF00', 'stroke-opacity': 0 }
-            , { 'stroke': '#0c76c4', 'stroke-opacity': 0 }
-            , { 'stroke': '#41e2e6', 'stroke-opacity': 0 }
-
-            , { 'stroke': '#ffb2bc', 'stroke-opacity': 0 }
-
-            , { 'stroke': '#dbb8fd', 'stroke-opacity': 0 }
-
-            , { 'stroke': '#ff06b3', 'stroke-opacity': 0 }
-            , { 'stroke': '#ff7100', 'stroke-opacity': 0 }
-            , { 'stroke': '#c3e2a4', 'stroke-opacity': 0 }
-
-            , { 'stroke': '#ff0619', 'stroke-opacity': 0 }
+              { 'fill': '#09c100', 'stroke': '#fff'}
+            , { 'fill': '#FFBF00', 'stroke': '#fff'}
+            , { 'fill': '#0c76c4', 'stroke': '#fff'}
+            , { 'fill': '#41e2e6', 'stroke': '#fff'}
+            , { 'fill': '#ffb2bc', 'stroke': '#fff'}
+            , { 'fill': '#dbb8fd', 'stroke': '#fff'}
+            , { 'fill': '#ff06b3', 'stroke': '#fff'}
+            , { 'fill': '#ff7100', 'stroke': '#fff'}
+            , { 'fill': '#c3e2a4', 'stroke': '#fff'}
+            , { 'fill': '#ff0619', 'stroke': '#fff'}
 
         ]
         , pathStyle: {
@@ -199,11 +195,15 @@
                     ;
                 _r = JC.f.cloneObject( PieGraph.Model.STYLE.style[ _ix ] );
 
-                _p.data().series[ _ix ].style
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
+                _p.data().series
+                    && _p.data().series.length
+                    && _p.data().series[ 0 ].style
+                    && ( _r = JC.f.extendObject( _r, _p.data().series[ 0 ].style ) );
 
-                _p.data().series[ _ix ].hoverStyle
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
+                _p.data().series
+                    && _p.data().series.length
+                    && _p.data().series[ 0 ].hoverStyle
+                    && ( _r = JC.f.extendObject( _r, _p.data().series[ 0 ].hoverStyle ) );
 
                 _r[ 'fill-opacity' ] = .65;
 
@@ -306,15 +306,17 @@
                 }
                 return _p._data;
             }
-
         , piePart:
             function( _parts ){
+                var _p = this;
                 if( _parts && typeof this._piePart == 'undefined' ){
-                    this._piePart = [];
-                    $.each( _parts, function( _k, _item ){
+                    _p._piePart = [];
+                    var _tmp;
+                    $.each( _parts, function( _k, _pieCor ){
+                        _tmp = new JChart.GraphicPiePart( _p.stage(), _pieCor, _p.itemStyle( _k ), _p.itemHoverStyle( _k ) );
                     });
                 }
-                return this._piePart;
+                return _p._piePart;
             }
 
         , coordinate:
@@ -455,6 +457,7 @@
                         _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2;
                         _pieC.endAngle = _angleCount += _pieC.angle;
 
+                        /*
                         JC.log( _k
                             , JC.f.padChar( _pieC.startAngle.toFixed(2), 6, ' ' )
                             , JC.f.padChar( _pieC.endAngle.toFixed(2), 6, ' ' )
@@ -462,6 +465,7 @@
                             , JC.f.padChar( _angleCount.toFixed(2), 6, ' ' )
                             , JC.f.padChar( _pieC.angle.toFixed(2), 6, ' ' )
                         );
+                        */
 
                         _pieC.startPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.startAngle );
                         _pieC.endPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.endAngle );

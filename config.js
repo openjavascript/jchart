@@ -21,10 +21,10 @@ requirejs.config( {
 
         , 'JChart.DefaultOptions': 'modules/JChart.DefaultOptions/0.1/DefaultOptions'
         , 'JChart.Event': 'modules/JChart.Event/0.1/Event'
-        , 'JChart.Graphics': 'modules/JChart.Graphics/0.1/Graphics'
         , 'JChart.Geometry': 'modules/JChart.Geometry/0.1/Geometry'
         , 'JChart.Group': 'modules/JChart.Group/0.1/Group'
 
+        , 'JChart.GraphicBase': 'modules/JChart.GraphicBase//0.1/GraphicBase'
         , 'JChart.GraphicPoint': 'modules/JChart.GraphicPoint/0.1/GraphicPoint'
         , 'JChart.GraphicRect': 'modules/JChart.GraphicRect/0.1/GraphicRect'
 

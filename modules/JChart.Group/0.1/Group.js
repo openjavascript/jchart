@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'Raphael', 'JChart.Event', 'JChart.Graphics' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'Raphael', 'JChart.Event' ], function(){
 window.JChart = window.JChart || {};
 
     JChart.Group = Group;

@@ -1,7 +1,7 @@
 ;(function(define, _win) { 'use strict'; define( [ 
     'JC.BaseMVC', 'Raphael'
     , 'JChart.DefaultOptions' 
-    , 'JChart.Event', 'JChart.Graphics', 'JChart.Group'
+    , 'JChart.Event', 'JChart.Group'
     , 'JChart.IconLine', 'JChart.IconRect'
 ], function(){
 window.JChart = window.JChart || {};

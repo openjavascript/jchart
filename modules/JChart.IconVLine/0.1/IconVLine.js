@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JC.PureMVC', 'Raphael', 'JChart.Group' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JC.PureMVC', 'Raphael', 'JChart.Group', 'JChart.GraphicBase' ], function(){
 /**
  * 组件用途简述
  *
@@ -12,7 +12,7 @@
  *  
  * @namespace   JChart
  * @class       IconVLine
- * @extends     JC.PureMVC
+ * @extends     JChart.GraphicBase
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2013-12-13
@@ -24,9 +24,9 @@
 
     JChart.IconVLine = IconVLine;
 
-    function IconVLine( _paper, _path, _style, _hoverStyle ){
+    function IconVLine( _stage, _path, _style, _hoverStyle ){
 
-        this._model = new IconVLine.Model( _paper, _path, _style, _hoverStyle );
+        this._model = new IconVLine.Model( _stage, _path, _style, _hoverStyle );
         this._view = new IconVLine.View( this._model );
 
         this._init();
@@ -35,51 +35,16 @@
     }
 
     IconVLine.Model = 
-        function( _paper, _path, _style, _hoverStyle ){
-            this._paper = _paper;
+        function( _stage, _path, _style, _hoverStyle ){
+            this._stage = _stage;
             this._path = _path;
             this._style = _style;
             this._hoverStyle = _hoverStyle;
         };
 
-    JC.PureMVC.build( IconVLine );
+    JC.PureMVC.build( IconVLine, JChart.GraphicBase );
 
     JC.f.extendObject( IconVLine.prototype, {
-        _beforeInit:
-            function(){
-                //JC.log( 'IconVLine _beforeInit', new Date().getTime() );
-            }
-
-        , _initHanlderEvent:
-            function(){
-                var _p = this;
-
-                _p.on( 'inited', function(){
-                    _p._view.draw();
-                });
-            }
-
-        , _inited:
-            function(){
-                //JC.log( 'IconVLine _inited', new Date().getTime() );
-                this.trigger( 'inited' );
-            }
-
-        , hover: function(){ this._view.hover(); return this; }
-        , unhover: function(){ this._view.unhover(); return this; }
-
-        , attr:
-            function( _k, _v ){
-                this._view.attr( _k, _v );
-                return this;
-            }
-
-
-        , update:
-            function( _path, _translate ){
-                this._view.update( _path, _translate );
-                return this;
-            }
     });
 
     IconVLine.Model._instanceName = 'JCIconVLine';
@@ -99,42 +64,11 @@
         , draw:
             function(){
                 var _p = this
-                    , _element = _p._model._paper.path( _p._model._path )
+                    , _element = _p._model.stage().path( _p._model._path )
                     ;
-                _p._model._element = _element;
+                _p._model.add( _element, 'element' );
                 _p.unhover();
             }
-
-        , hover:
-            function(){
-                var _p = this;
-                _p._model._hoverStyle && $.each( _p._model._hoverStyle, function( _k, _item ){
-                    _p._model._element.attr( _k, _item );
-                });
-            }
-
-        , unhover:
-            function(){
-                var _p = this;
-                _p._model._style && $.each( _p._model._style, function( _k, _item ){
-                    _p._model._element.attr( _k, _item );
-                });
-            }
-
-        , update:
-            function( _path, _translate ){
-                var _p = this;
-                _p._model._element.attr( 'path', _path );
-                _p.unhover();
-
-                _translate && _p._model._element.translate( .5, .5 );
-            }
-
-        , attr:
-            function( _k, _v ){
-                this._model._element.attr( _k, _v );
-            }
-
     });
 
     return JC.IconVLine;

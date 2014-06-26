@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JC.PureMVC', 'Raphael', 'JChart.Group' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JC.PureMVC', 'Raphael', 'JChart.Group', 'JChart.GraphicBase' ], function(){
 /**
  * 组件用途简述
  *
@@ -12,7 +12,7 @@
  *  
  * @namespace   JChart
  * @class       IconRect
- * @extends     JC.PureMVC
+ * @extends     JChart.GraphicBase
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2014-06-24
@@ -24,9 +24,9 @@
 
     JChart.IconRect = IconRect;
 
-    function IconRect( _paper, _rx, _ry, _rw, _rh, _radius, _style ){
+    function IconRect( _stage, _rx, _ry, _rw, _rh, _radius, _style ){
 
-        this._model = new IconRect.Model( _paper, _rx, _ry, _rw, _rh, _radius, _style );
+        this._model = new IconRect.Model( _stage, _rx, _ry, _rw, _rh, _radius, _style );
         this._view = new IconRect.View( this._model );
 
         this._init();
@@ -35,8 +35,8 @@
     }
 
     IconRect.Model = 
-        function( _paper, _rx, _ry, _rw, _rh, _rcorner, _radius, _style ){
-            this._paper = _paper;
+        function( _stage, _rx, _ry, _rw, _rh, _rcorner, _radius, _style ){
+            this._stage = _stage;
             this._rx = _rx;
             this._ry = _ry;
             this._rw = _rw;
@@ -46,52 +46,9 @@
             this._style = _style;
         };
 
-    JC.PureMVC.build( IconRect );
+    JC.PureMVC.build( IconRect, JChart.GraphicBase );
 
     JC.f.extendObject( IconRect.prototype, {
-        _beforeInit:
-            function(){
-                //JC.log( 'IconRect _beforeInit', new Date().getTime() );
-            }
-
-        , _initHanlderEvent:
-            function(){
-                var _p = this;
-
-                _p.on( 'inited', function(){
-                    _p._view.draw();
-                });
-            }
-
-        , _inited:
-            function(){
-                //JC.log( 'IconRect _inited', new Date().getTime() );
-                this.trigger( 'inited' );
-            }
-
-        , hover: function(){ this._view.hover(); return this; }
-        , unhover: function(){ this._view.unhover(); return this; }
-
-        , update:
-            function( _path, _translate ){
-                this._view.update( _path, _translate );
-                return this;
-            }
-        , attr:
-            function( _k, _v ){
-                this._view.attr( _k, _v );
-                return this;
-            }
-
-        , getBBox:
-            function(){
-                return this._model.getBBox();
-            }
-
-        , setPosition:
-            function( _x, _y ){
-                this._model._group.setPosition( _x, _y );
-            }
     });
 
     IconRect.Model._instanceName = 'JCIconRect';
@@ -102,7 +59,6 @@
                 this._group = new JChart.Group();
             }
 
-        , getBBox: function(){ return this._group.getBBox(); }
     });
 
     JC.f.extendObject( IconRect.View.prototype, {
@@ -114,39 +70,14 @@
         , draw:
             function(){
                 var _p = this
-                    , _rect = _p._model._paper.rect( 
+                    , _rect = _p._model.stage().rect( 
                         _p._model._rx 
                         , _p._model._ry + _p._model._rh 
                         , _p._model._rw
                         , _p._model._rh
                         )
                 this._model._group.addChild( _rect, 'rect' );
-                _p.unhover();
-            }
-
-        , hover:
-            function(){
-                var _p = this;
-                _p._model._hoverStyle && $.each( _p._model._hoverStyle, function( _k, _item ){
-                });
-            }
-
-        , unhover:
-            function(){
-                var _p = this;
-                _p._model._style && $.each( _p._model._style, function( _k, _item ){
-                });
-            }
-
-        , update:
-            function( _path, _translate ){
-                var _p = this;
-                _p.unhover();
-            }
-
-        , attr:
-            function( _k, _v ){
-                this._model._group.attr( _k, _v );
+                this._model.add( _rect, 'element' );
             }
     });
 

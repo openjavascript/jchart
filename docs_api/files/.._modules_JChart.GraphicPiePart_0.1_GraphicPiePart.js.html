@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../modules/JChart.IconRect/0.1/IconRect.js - JChart</title>
+    <title>../modules/JChart.GraphicPiePart/0.1/GraphicPiePart.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -124,7 +124,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.IconRect/0.1/IconRect.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.GraphicPiePart/0.1/GraphicPiePart.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -137,81 +137,103 @@
  *  &lt;/p&gt;
  *
  *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
- *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.IconRect.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
- *      | &lt;a href=&#x27;../../modules/JChart.IconRect/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.GraphicPiePart.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *      | &lt;a href=&#x27;../../modules/JChart.GraphicPiePart/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
  *  
  * @namespace   JChart
- * @class       IconRect
+ * @class       GraphicPiePart
  * @extends     JChart.GraphicBase
  * @constructor
  * @param   {selector|string}   _selector   
- * @version dev 0.1 2014-06-24
+ * @version dev 0.1 2014-06-26
  * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
  * @example
-        &lt;h2&gt;JC.IconRect 示例&lt;/h2&gt;
+        &lt;h2&gt;JC.GraphicPiePart 示例&lt;/h2&gt;
  */
     var _jdoc = $( document ), _jwin = $( window );
 
-    JChart.IconRect = IconRect;
+    JChart.GraphicPiePart = GraphicPiePart;
 
-    function IconRect( _stage, _rx, _ry, _rw, _rh, _radius, _style ){
+    function GraphicPiePart( _stage, _pieCor, _style, _hoverStyle  ){
 
-        this._model = new IconRect.Model( _stage, _rx, _ry, _rw, _rh, _radius, _style );
-        this._view = new IconRect.View( this._model );
+        this._model = new GraphicPiePart.Model( _stage, _pieCor, _style, _hoverStyle );
+        this._view = new GraphicPiePart.View( this._model );
 
         this._init();
 
-        //JC.log( IconRect.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+        //JC.log( GraphicPiePart.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
     }
 
-    IconRect.Model = 
-        function( _stage, _rx, _ry, _rw, _rh, _rcorner, _radius, _style ){
+    GraphicPiePart.Model = 
+        function( _stage, _pieCor, _style, _hoverStyle ){
             this._stage = _stage;
-            this._rx = _rx;
-            this._ry = _ry;
-            this._rw = _rw;
-            this._rh = _rh;
-            this._rcorner = _rcorner;
-            this._radius = _radius;
+            this._pieCor = _pieCor;
             this._style = _style;
+            this._hoverStyle = _hoverStyle;
         };
 
-    JC.PureMVC.build( IconRect, JChart.GraphicBase );
+    JC.PureMVC.build( GraphicPiePart, JChart.GraphicBase );
 
-    JC.f.extendObject( IconRect.prototype, {
-    });
-
-    IconRect.Model._instanceName = &#x27;JCIconRect&#x27;;
-    JC.f.extendObject( IconRect.Model.prototype, {
-        init:
+    JC.f.extendObject( GraphicPiePart.prototype, {
+        _beforeInit:
             function(){
-                //JC.log( &#x27;IconRect.Model.init:&#x27;, new Date().getTime() );
-                this._group = new JChart.Group();
+                //JC.log( &#x27;GraphicPiePart _beforeInit&#x27;, new Date().getTime() );
             }
-
     });
 
-    JC.f.extendObject( IconRect.View.prototype, {
+    GraphicPiePart.Model._instanceName = &#x27;JCGraphicPiePart&#x27;;
+    JC.f.extendObject( GraphicPiePart.Model.prototype, {
         init:
             function(){
-                //JC.log( &#x27;IconRect.View.init:&#x27;, new Date().getTime() );
+                //JC.log( &#x27;GraphicPiePart.Model.init:&#x27;, new Date().getTime() );
+            }
+    });
+
+    JC.f.extendObject( GraphicPiePart.View.prototype, {
+        init:
+            function(){
+                //JC.log( &#x27;GraphicPiePart.View.init:&#x27;, new Date().getTime() );
             }
 
         , draw:
             function(){
                 var _p = this
-                    , _rect = _p._model.stage().rect( 
-                        _p._model._rx 
-                        , _p._model._ry + _p._model._rh 
-                        , _p._model._rw
-                        , _p._model._rh
-                        )
-                this._model._group.addChild( _rect, &#x27;rect&#x27; );
-                this._model.add( _rect, &#x27;element&#x27; );
+                    , _item, _corText
+                    , _pie = _p._model._pieCor
+                    ;
+                _corText = 
+                    [
+                        &quot;M&quot;, _pie.cx, _pie.cy
+                    , &quot;L&quot;
+                    , _pie.endPoint.x, _pie.endPoint.y
+                    , &quot;A&quot;
+                        , _pie.radius, _pie.radius
+                        , 0
+                        , 0
+                        , 0
+                        , _pie.startPoint.x, _pie.startPoint.y
+                        , &quot;z&quot;
+                ];
+                _item = _p._model.stage().path( _corText );
+                _p._model.add( _item, &#x27;element&#x27; );
+                _p.unhover();
             }
+        /*
+        function drawPiePart( _stage, _pie ) {
+            return _stage.path();
+        }
+
+        _tmp = drawPiePart( _p.stage(), _pieC );
+
+        if( _k === 6 ){
+            var _tmp2 = JChart.Geometry.distanceAngleToPoint( 5, _pieC.midAngle );
+                _tmp.transform( JC.f.printf( &#x27;t{0} {1}&#x27;, _tmp2.x, _tmp2.y ) );
+        }
+        */
+
     });
 
-    return JC.IconRect;
+    return JC.GraphicPiePart;
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
         function ( _name, _require, _cb ) { 
             typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );

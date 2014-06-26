@@ -63,6 +63,10 @@
             
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
             
+                <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
+            
+                <li><a href="../classes/JChart.GraphicPiePart.html">JChart.GraphicPiePart</a></li>
+            
                 <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
             
                 <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
@@ -124,7 +128,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.PureMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Group&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.PureMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.GraphicBase&#x27; ], function(){
 /**
  * 组件用途简述
  *
@@ -138,7 +142,7 @@
  *  
  * @namespace   JChart
  * @class       IconVLine
- * @extends     JC.PureMVC
+ * @extends     JChart.GraphicBase
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2013-12-13
@@ -150,9 +154,9 @@
 
     JChart.IconVLine = IconVLine;
 
-    function IconVLine( _paper, _path, _style, _hoverStyle ){
+    function IconVLine( _stage, _path, _style, _hoverStyle ){
 
-        this._model = new IconVLine.Model( _paper, _path, _style, _hoverStyle );
+        this._model = new IconVLine.Model( _stage, _path, _style, _hoverStyle );
         this._view = new IconVLine.View( this._model );
 
         this._init();
@@ -161,51 +165,16 @@
     }
 
     IconVLine.Model = 
-        function( _paper, _path, _style, _hoverStyle ){
-            this._paper = _paper;
+        function( _stage, _path, _style, _hoverStyle ){
+            this._stage = _stage;
             this._path = _path;
             this._style = _style;
             this._hoverStyle = _hoverStyle;
         };
 
-    JC.PureMVC.build( IconVLine );
+    JC.PureMVC.build( IconVLine, JChart.GraphicBase );
 
     JC.f.extendObject( IconVLine.prototype, {
-        _beforeInit:
-            function(){
-                //JC.log( &#x27;IconVLine _beforeInit&#x27;, new Date().getTime() );
-            }
-
-        , _initHanlderEvent:
-            function(){
-                var _p = this;
-
-                _p.on( &#x27;inited&#x27;, function(){
-                    _p._view.draw();
-                });
-            }
-
-        , _inited:
-            function(){
-                //JC.log( &#x27;IconVLine _inited&#x27;, new Date().getTime() );
-                this.trigger( &#x27;inited&#x27; );
-            }
-
-        , hover: function(){ this._view.hover(); return this; }
-        , unhover: function(){ this._view.unhover(); return this; }
-
-        , attr:
-            function( _k, _v ){
-                this._view.attr( _k, _v );
-                return this;
-            }
-
-
-        , update:
-            function( _path, _translate ){
-                this._view.update( _path, _translate );
-                return this;
-            }
     });
 
     IconVLine.Model._instanceName = &#x27;JCIconVLine&#x27;;
@@ -225,42 +194,11 @@
         , draw:
             function(){
                 var _p = this
-                    , _element = _p._model._paper.path( _p._model._path )
+                    , _element = _p._model.stage().path( _p._model._path )
                     ;
-                _p._model._element = _element;
+                _p._model.add( _element, &#x27;element&#x27; );
                 _p.unhover();
             }
-
-        , hover:
-            function(){
-                var _p = this;
-                _p._model._hoverStyle &amp;&amp; $.each( _p._model._hoverStyle, function( _k, _item ){
-                    _p._model._element.attr( _k, _item );
-                });
-            }
-
-        , unhover:
-            function(){
-                var _p = this;
-                _p._model._style &amp;&amp; $.each( _p._model._style, function( _k, _item ){
-                    _p._model._element.attr( _k, _item );
-                });
-            }
-
-        , update:
-            function( _path, _translate ){
-                var _p = this;
-                _p._model._element.attr( &#x27;path&#x27;, _path );
-                _p.unhover();
-
-                _translate &amp;&amp; _p._model._element.translate( .5, .5 );
-            }
-
-        , attr:
-            function( _k, _v ){
-                this._model._element.attr( _k, _v );
-            }
-
     });
 
     return JC.IconVLine;

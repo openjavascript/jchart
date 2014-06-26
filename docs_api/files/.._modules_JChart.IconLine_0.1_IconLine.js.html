@@ -63,6 +63,10 @@
             
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
             
+                <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
+            
+                <li><a href="../classes/JChart.GraphicPiePart.html">JChart.GraphicPiePart</a></li>
+            
                 <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
             
                 <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
@@ -124,7 +128,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.PureMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Group&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.PureMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.GraphicBase&#x27; ], function(){
 /**
  * 组件用途简述
  *
@@ -138,10 +142,10 @@
  *  
  * @namespace   JChart
  * @class       IconLine
- * @extends     JC.PureMVC
+ * @extends     JChart.GraphicBase
  * @constructor
  * @param   {selector|string}   _selector   
- * @version dev 0.1 2013-12-13
+ * @version dev 0.1 2014-06-26
  * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
  * @example
         &lt;h2&gt;JC.IconLine 示例&lt;/h2&gt;
@@ -150,9 +154,9 @@
 
     JChart.IconLine = IconLine;
 
-    function IconLine( _paper, _rx, _ry, _rw, _rh, _radius, _style ){
+    function IconLine( _stage, _rx, _ry, _rw, _rh, _radius, _style ){
 
-        this._model = new IconLine.Model( _paper, _rx, _ry, _rw, _rh, _radius, _style );
+        this._model = new IconLine.Model( _stage, _rx, _ry, _rw, _rh, _radius, _style );
         this._view = new IconLine.View( this._model );
 
         this._init();
@@ -161,8 +165,8 @@
     }
 
     IconLine.Model = 
-        function( _paper, _rx, _ry, _rw, _rh, _rcorner, _radius, _style ){
-            this._paper = _paper;
+        function( _stage, _rx, _ry, _rw, _rh, _rcorner, _radius, _style ){
+            this._stage = _stage;
             this._rx = _rx;
             this._ry = _ry;
             this._rw = _rw;
@@ -172,52 +176,9 @@
             this._style = _style;
         };
 
-    JC.PureMVC.build( IconLine );
+    JC.PureMVC.build( IconLine, JChart.GraphicBase );
 
     JC.f.extendObject( IconLine.prototype, {
-        _beforeInit:
-            function(){
-                //JC.log( &#x27;IconLine _beforeInit&#x27;, new Date().getTime() );
-            }
-
-        , _initHanlderEvent:
-            function(){
-                var _p = this;
-
-                _p.on( &#x27;inited&#x27;, function(){
-                    _p._view.draw();
-                });
-            }
-
-        , _inited:
-            function(){
-                //JC.log( &#x27;IconLine _inited&#x27;, new Date().getTime() );
-                this.trigger( &#x27;inited&#x27; );
-            }
-
-        , hover: function(){ this._view.hover(); return this; }
-        , unhover: function(){ this._view.unhover(); return this; }
-
-        , update:
-            function( _path, _translate ){
-                this._view.update( _path, _translate );
-                return this;
-            }
-        , attr:
-            function( _k, _v ){
-                this._view.attr( _k, _v );
-                return this;
-            }
-
-        , getBBox:
-            function(){
-                return this._model.getBBox();
-            }
-
-        , setPosition:
-            function( _x, _y ){
-                this._model._group.setPosition( _x, _y );
-            }
     });
 
     IconLine.Model._instanceName = &#x27;JCIconLine&#x27;;
@@ -227,8 +188,6 @@
                 //JC.log( &#x27;IconLine.Model.init:&#x27;, new Date().getTime() );
                 this._group = new JChart.Group();
             }
-
-        , getBBox: function(){ return this._group.getBBox(); }
     });
 
     JC.f.extendObject( IconLine.View.prototype, {
@@ -240,10 +199,10 @@
         , draw:
             function(){
                 var _p = this
-                    , _rect = _p._model._paper.rect( 
+                    , _rect = _p._model.stage().rect( 
                         _p._model._rx , _p._model._ry + _p._model._rh , _p._model._rw, _p._model._rh, _p._model._rcorner )
 
-                    , _circle = _p._model._paper.circle( 
+                    , _circle = _p._model.stage().circle( 
                         _p._model._rx + _p._model._rw / 2
                         , _p._model._ry + _p._model._rh + _p._model._rh / 2
                         , _p._model._radius 
@@ -251,32 +210,9 @@
                     ;
                 this._model._group.addChild( _rect, &#x27;rect&#x27; );
                 this._model._group.addChild( _circle, &#x27;circle&#x27; );
-                _p.unhover();
-            }
 
-        , hover:
-            function(){
-                var _p = this;
-                _p._model._hoverStyle &amp;&amp; $.each( _p._model._hoverStyle, function( _k, _item ){
-                });
-            }
-
-        , unhover:
-            function(){
-                var _p = this;
-                _p._model._style &amp;&amp; $.each( _p._model._style, function( _k, _item ){
-                });
-            }
-
-        , update:
-            function( _path, _translate ){
-                var _p = this;
-                _p.unhover();
-            }
-
-        , attr:
-            function( _k, _v ){
-                this._model._group.attr( _k, _v );
+                this._model.add( _rect, &#x27;rect&#x27; );
+                this._model.add( _circle, &#x27;circle&#x27; );
             }
     });
 

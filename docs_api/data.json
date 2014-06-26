@@ -63,6 +63,35 @@
                 "JChart": 1
             }
         },
+        "../modules/JChart.Geometry/0.1/Geometry.js": {
+            "name": "../modules/JChart.Geometry/0.1/Geometry.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "../modules/JChart.GraphicBase/0.1/GraphicBase.js": {
+            "name": "../modules/JChart.GraphicBase/0.1/GraphicBase.js",
+            "modules": {},
+            "classes": {
+                "JChart.GraphicBase": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "JChart": 1
+            }
+        },
+        "../modules/JChart.GraphicPiePart/0.1/GraphicPiePart.js": {
+            "name": "../modules/JChart.GraphicPiePart/0.1/GraphicPiePart.js",
+            "modules": {},
+            "classes": {
+                "JChart.GraphicPiePart": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "JChart": 1
+            }
+        },
         "../modules/JChart.GraphicPoint/0.1/GraphicPoint.js": {
             "name": "../modules/JChart.GraphicPoint/0.1/GraphicPoint.js",
             "modules": {},
@@ -345,6 +374,60 @@
                 "\n       <h2>JChart.CurveGram 示例</h2>"
             ]
         },
+        "JChart.GraphicBase": {
+            "name": "JChart.GraphicBase",
+            "shortname": "JChart.GraphicBase",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JChart",
+            "file": "../modules/JChart.GraphicBase/0.1/GraphicBase.js",
+            "line": 2,
+            "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href='JC.PureMVC.html'>JC.PureMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicBase.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChart.GraphicBase/0.1/_demo' target='_blank'>demo link</a></p>",
+            "extends": "JC.PureMVC",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector|string"
+                }
+            ],
+            "version": "dev 0.1 2013-12-13",
+            "author": "qiushaowei <suches@btbtd.org> | 75 Team",
+            "example": [
+                "\n       <h2>JC.GraphicBase 示例</h2>"
+            ]
+        },
+        "JChart.GraphicPiePart": {
+            "name": "JChart.GraphicPiePart",
+            "shortname": "JChart.GraphicPiePart",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JChart",
+            "file": "../modules/JChart.GraphicPiePart/0.1/GraphicPiePart.js",
+            "line": 2,
+            "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href='JC.PureMVC.html'>JC.PureMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicPiePart.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChart.GraphicPiePart/0.1/_demo' target='_blank'>demo link</a></p>",
+            "extends": "JChart.GraphicBase",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "_selector",
+                    "description": "",
+                    "type": "Selector|string"
+                }
+            ],
+            "version": "dev 0.1 2014-06-26",
+            "author": "qiushaowei <suches@btbtd.org> | 75 Team",
+            "example": [
+                "\n       <h2>JC.GraphicPiePart 示例</h2>"
+            ]
+        },
         "JChart.GraphicPoint": {
             "name": "JChart.GraphicPoint",
             "shortname": "JChart.GraphicPoint",
@@ -357,7 +440,7 @@
             "file": "../modules/JChart.GraphicPoint/0.1/GraphicPoint.js",
             "line": 2,
             "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href='JC.PureMVC.html'>JC.PureMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicPoint.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChart.GraphicPoint/0.1/_demo' target='_blank'>demo link</a></p>",
-            "extends": "JC.PureMVC",
+            "extends": "JChart.GraphicBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -384,7 +467,7 @@
             "file": "../modules/JChart.GraphicRect/0.1/GraphicRect.js",
             "line": 2,
             "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href='JC.PureMVC.html'>JC.PureMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicRect.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChart.GraphicRect/0.1/_demo' target='_blank'>demo link</a></p>",
-            "extends": "JC.PureMVC",
+            "extends": "JChart.GraphicBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -435,7 +518,7 @@
             "file": "../modules/JChart.IconLine/0.1/IconLine.js",
             "line": 2,
             "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href='JC.PureMVC.html'>JC.PureMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.IconLine.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChart.IconLine/0.1/_demo' target='_blank'>demo link</a></p>",
-            "extends": "JC.PureMVC",
+            "extends": "JChart.GraphicBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -444,7 +527,7 @@
                     "type": "Selector|string"
                 }
             ],
-            "version": "dev 0.1 2013-12-13",
+            "version": "dev 0.1 2014-06-26",
             "author": "qiushaowei <suches@btbtd.org> | 75 Team",
             "example": [
                 "\n       <h2>JC.IconLine 示例</h2>"
@@ -462,7 +545,7 @@
             "file": "../modules/JChart.IconRect/0.1/IconRect.js",
             "line": 2,
             "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href='JC.PureMVC.html'>JC.PureMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.IconRect.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChart.IconRect/0.1/_demo' target='_blank'>demo link</a></p>",
-            "extends": "JC.PureMVC",
+            "extends": "JChart.GraphicBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -489,7 +572,7 @@
             "file": "../modules/JChart.IconVLine/0.1/IconVLine.js",
             "line": 2,
             "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href='JC.PureMVC.html'>JC.PureMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.IconVLine.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChart.IconVLine/0.1/_demo' target='_blank'>demo link</a></p>",
-            "extends": "JC.PureMVC",
+            "extends": "JChart.GraphicBase",
             "is_constructor": 1,
             "params": [
                 {
@@ -3204,6 +3287,20 @@
             "namespace": "JChart"
         },
         {
+            "file": "../modules/JChart.Geometry/0.1/Geometry.js",
+            "line": 9,
+            "description": "计算两个坐标点之间的距离",
+            "class": "JChart.GraphicBase",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Geometry/0.1/Geometry.js",
+            "line": 19,
+            "description": "从长度和角度求坐标点",
+            "class": "JChart.GraphicBase",
+            "namespace": "JChart"
+        },
+        {
             "file": "../modules/JChart.Histogram/0.1/Histogram.js",
             "line": 49,
             "description": "初始化可识别的 Histogram 实例",
@@ -3353,7 +3450,7 @@
         },
         {
             "file": "../config.js",
-            "line": 39,
+            "line": 40,
             "description": "取当前脚本标签的 src路径",
             "static": 1,
             "return": {
@@ -3759,6 +3856,14 @@
         },
         {
             "message": "unknown tag: version",
+            "line": " ../modules/JChart.GraphicBase/0.1/GraphicBase.js:2"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " ../modules/JChart.GraphicPiePart/0.1/GraphicPiePart.js:2"
+        },
+        {
+            "message": "unknown tag: version",
             "line": " ../modules/JChart.GraphicPoint/0.1/GraphicPoint.js:2"
         },
         {
@@ -4134,6 +4239,14 @@
             "line": " ../modules/JChart.Base/0.1/Base.js:929"
         },
         {
+            "message": "Missing item type\n计算两个坐标点之间的距离",
+            "line": " ../modules/JChart.Geometry/0.1/Geometry.js:9"
+        },
+        {
+            "message": "Missing item type\n从长度和角度求坐标点",
+            "line": " ../modules/JChart.Geometry/0.1/Geometry.js:19"
+        },
+        {
             "message": "Missing item type\n数据图例图标",
             "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:245"
         },
@@ -4171,7 +4284,7 @@
         },
         {
             "message": "Missing item type\n取当前脚本标签的 src路径",
-            "line": " ../config.js:39"
+            "line": " ../config.js:40"
         },
         {
             "message": "Missing item type",

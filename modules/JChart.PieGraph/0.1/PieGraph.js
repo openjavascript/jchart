@@ -272,7 +272,7 @@
                                     _tb = _text.getBBox();
                                     _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
                                     _legend.attr( _style );
-                                    _legend.attr( 'fill', _style.stroke );
+                                    _legend.attr( 'fill', _style.fill );
                                     _p._legend.addChild( _text, 'text_' + _k );
                                     _x = _tb.x + _tb.width + _pad;
                                     _h = _tb.height * 1.8;

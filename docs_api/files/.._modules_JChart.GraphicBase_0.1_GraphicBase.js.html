@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../modules/JChart.IconRect/0.1/IconRect.js - JChart</title>
+    <title>../modules/JChart.GraphicBase/0.1/GraphicBase.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -124,11 +124,11 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.IconRect/0.1/IconRect.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.GraphicBase/0.1/GraphicBase.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.PureMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.GraphicBase&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.PureMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Group&#x27; ], function(){
 /**
  * 组件用途简述
  *
@@ -137,81 +137,187 @@
  *  &lt;/p&gt;
  *
  *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
- *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.IconRect.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
- *      | &lt;a href=&#x27;../../modules/JChart.IconRect/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.GraphicBase.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *      | &lt;a href=&#x27;../../modules/JChart.GraphicBase/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
  *  
  * @namespace   JChart
- * @class       IconRect
- * @extends     JChart.GraphicBase
+ * @class       GraphicBase
+ * @extends     JC.PureMVC
  * @constructor
  * @param   {selector|string}   _selector   
- * @version dev 0.1 2014-06-24
+ * @version dev 0.1 2013-12-13
  * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
  * @example
-        &lt;h2&gt;JC.IconRect 示例&lt;/h2&gt;
+        &lt;h2&gt;JC.GraphicBase 示例&lt;/h2&gt;
  */
     var _jdoc = $( document ), _jwin = $( window );
 
-    JChart.IconRect = IconRect;
+    JChart.GraphicBase = GraphicBase;
 
-    function IconRect( _stage, _rx, _ry, _rw, _rh, _radius, _style ){
+    function GraphicBase( _stage, _x, _y, _style, _hoverStyle  ){
 
-        this._model = new IconRect.Model( _stage, _rx, _ry, _rw, _rh, _radius, _style );
-        this._view = new IconRect.View( this._model );
+        this._model = new GraphicBase.Model( _stage, _x, _y, _style, _hoverStyle );
+        this._view = new GraphicBase.View( this._model );
 
         this._init();
 
-        //JC.log( IconRect.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+        //JC.log( GraphicBase.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
     }
 
-    IconRect.Model = 
-        function( _stage, _rx, _ry, _rw, _rh, _rcorner, _radius, _style ){
+    GraphicBase.Model = 
+        function( _stage, _x, _y, _style, _hoverStyle ){
             this._stage = _stage;
-            this._rx = _rx;
-            this._ry = _ry;
-            this._rw = _rw;
-            this._rh = _rh;
-            this._rcorner = _rcorner;
-            this._radius = _radius;
+            this._x = _x;
+            this._y = _y;
             this._style = _style;
+            this._hoverStyle = _hoverStyle;
         };
 
-    JC.PureMVC.build( IconRect, JChart.GraphicBase );
+    JC.PureMVC.build( GraphicBase );
 
-    JC.f.extendObject( IconRect.prototype, {
-    });
-
-    IconRect.Model._instanceName = &#x27;JCIconRect&#x27;;
-    JC.f.extendObject( IconRect.Model.prototype, {
-        init:
+    JC.f.extendObject( GraphicBase.prototype, {
+        _beforeInit:
             function(){
-                //JC.log( &#x27;IconRect.Model.init:&#x27;, new Date().getTime() );
-                this._group = new JChart.Group();
+                //JC.log( &#x27;GraphicBase _beforeInit&#x27;, new Date().getTime() );
             }
 
+        , _initHanlderEvent:
+            function(){
+                var _p = this;
+
+                _p.on( &#x27;inited&#x27;, function(){
+                    _p._view.draw();
+                });
+            }
+
+        , _inited:
+            function(){
+                //JC.log( &#x27;GraphicBase _inited&#x27;, new Date().getTime() );
+                this.trigger( &#x27;inited&#x27; );
+            }
+
+        , hover: function(){ this._view.hover(); return this; }
+
+        , unhover: function(){ this._view.unhover(); return this; }
+
+        , attr: function( _k, _v ){ this._view.attr( _k, _v ); return this; }
+
+        , setPosition:
+            function( _x, _y ){
+                this._model.group() &amp;&amp; this._model.group().setPosition( _x, _y );
+            }
+
+        , getBBox:
+            function(){
+                return this._model.getBBox();
+            }
+
+        , show: function(){ this._view.show(); }
+        , hide: function(){ this._view.hide(); }
     });
 
-    JC.f.extendObject( IconRect.View.prototype, {
+    GraphicBase.Model._instanceName = &#x27;JCGraphicBase&#x27;;
+    JC.f.extendObject( GraphicBase.Model.prototype, {
         init:
             function(){
-                //JC.log( &#x27;IconRect.View.init:&#x27;, new Date().getTime() );
+                //JC.log( &#x27;GraphicBase.Model.init:&#x27;, new Date().getTime() );
+            }
+
+        , stage: function(){ return this._stage; }
+        , style: function(){ return this._style; }
+        , hoverStyle: function(){ return this._hoverStyle; }
+
+        , elements:
+            function(){
+                typeof this._elements == &#x27;undefined&#x27; &amp;&amp; ( this._elements = [] );
+                return this._elements;
+            }
+
+        , add:
+            function( _item, _name ){
+                typeof this._elementMap == &#x27;undefined&#x27; &amp;&amp; ( this._elementMap = {} );
+                _name = _name || ( this.elements().length ).toString();
+                this._elementMap[ _name ] = _item;
+                this.elements().push( _item );
+            }
+        , item:
+            function( _name ){
+                return _name ? this._elementMap[ _name ] : this._elementMap;
+            }
+
+        , group: 
+            function( _setter ){ 
+                typeof _setter != &#x27;undefined&#x27; &amp;&amp; ( this._group = _setter );
+                return this._group; 
+            }
+        , getBBox: function(){ return this._group.getBBox(); }
+    });
+
+    JC.f.extendObject( GraphicBase.View.prototype, {
+        init:
+            function(){
+                //JC.log( &#x27;GraphicBase.View.init:&#x27;, new Date().getTime() );
             }
 
         , draw:
             function(){
-                var _p = this
-                    , _rect = _p._model.stage().rect( 
-                        _p._model._rx 
-                        , _p._model._ry + _p._model._rh 
-                        , _p._model._rw
-                        , _p._model._rh
-                        )
-                this._model._group.addChild( _rect, &#x27;rect&#x27; );
-                this._model.add( _rect, &#x27;element&#x27; );
+                _p.unhover();
+            }
+
+        , hover:
+            function(){
+                var _p = this;
+                $.each( _p._model._hoverStyle, function( _k, _item ){
+                    $.each( _p._model.elements(), function( _sk, _sitem ){
+                        _sitem.attr( _k, _item );
+                    });
+                });
+            }
+
+        , unhover:
+            function(){
+                var _p = this;
+                $.each( _p._model._style, function( _k, _item ){
+                    $.each( _p._model.elements(), function( _sk, _sitem ){
+                        _sitem.attr( _k, _item );
+                    });
+                });
+            }
+
+        , attr:
+            function( _k, _v ){
+                var _p = this;
+                if( typeof _k == &#x27;object&#x27; ){
+                    $.each( _k, function( _sk, _sv ){
+                        $.each( _p._model.elements(), function( _ssk, _ssitem ){
+                            _ssitem.attr( _sk, _sv );
+                        });
+                    });
+                }else{
+                    $.each( _p._model.elements(), function( _ssk, _ssitem ){
+                        _ssitem.attr( _k, _v );
+                    });
+                }
+            }
+
+        , show:
+            function(){
+                var _p = this;
+                $.each( _p._model.elements(), function( _k, _item ){
+                    _item.show();
+                });
+            }
+
+        , hide:
+            function(){
+                var _p = this;
+                $.each( _p._model.elements(), function( _k, _item ){
+                    _item.hide();
+                });
             }
     });
 
-    return JC.IconRect;
+    return JC.GraphicBase;
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
         function ( _name, _require, _cb ) { 
             typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );

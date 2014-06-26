@@ -424,7 +424,7 @@
                     };
                 }
 
-                _p.stage().circle( _c.cx, _c.cy, _c.radius );
+                //_p.stage().circle( _c.cx, _c.cy, _c.radius );
 
                 if( _p.data().series && _p.data().series.length ){
                     var _angle = 360
@@ -438,6 +438,7 @@
                     $.each( _p.data().series[0].data, function( _k, _item ){
                         var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius };
 
+                        _pieC.radians = Math.PI / 180;
                         _pieC.angle = _item.y / _partSize * _angle;
 
                         _pieC.startAngle = _angleCount;
@@ -450,24 +451,35 @@
 
                         _pieC.startPoint.x += _pieC.cx;
                         _pieC.startPoint.y += _pieC.cy;
-                        _pieC.midPoint.x += _pieC.cx;
-                        _pieC.midPoint.y += _pieC.cy;
                         _pieC.endPoint.x += _pieC.cx;
                         _pieC.endPoint.y += _pieC.cy;
+                        /*
+                        _pieC.startPoint.x = _pieC.startPoint.x - _pieC.cx;
+                        _pieC.startPoint.y = _pieC.startPoint.y - _pieC.cy;
+                        _pieC.endPoint.x = _pieC.endPoint.x - _pieC.cx;
+                        _pieC.endPoint.y = _pieC.endPoint.y - _pieC.cy;
+                        */
 
+                        drawPiePart( _pieC, _pieC.cx, _pieC.cy, _pieC.radius, _pieC.radians, _pieC.startAngle, _pieC.endAngle, {} );
 
-                        _p.stage().path(
-                            JC.f.printf( 'M{0} {1}L{2} {3}S{4} {5} {6} {7}L{0} {1}Z'
-                                , _pieC.cx, _pieC.cy 
-                                , _pieC.startPoint.x, _pieC.startPoint.y
-                                , _pieC.midPoint.x, _pieC.midPoint.y
-                                , _pieC.endPoint.x, _pieC.endPoint.y
-                                , _pieC.cx, _pieC.cy 
-                            )
-                        );
- 
+                        function drawPiePart( _pie, cx, cy, r, radians, startAngle, endAngle, params) {
+
+                            return _p.stage().path([
+                                    "M", _pie.cx, _pie.cy
+                                    , "L"
+                                    , _pie.endPoint.x, _pie.endPoint.y
+                                    , "A"
+                                        , _pie.radius, _pie.radius
+                                        , 0
+                                        , 0
+                                        , 0
+                                    , _pie.startPoint.x, _pie.startPoint.y
+                                        , "z"
+                                ]).attr(params);
+
+                        }
+
                         _c.piePart.push( _pieC );
-                        return false;
                     });
                 }
 

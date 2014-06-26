@@ -307,6 +307,16 @@
                 return _p._data;
             }
 
+        , piePart:
+            function( _parts ){
+                if( _parts && typeof this._piePart == 'undefined' ){
+                    this._piePart = [];
+                    $.each( _parts, function( _k, _item ){
+                    });
+                }
+                return this._piePart;
+            }
+
         , coordinate:
             function( _data ){
                 if( typeof this._coordinate != 'undefined' || !_data ){
@@ -445,26 +455,25 @@
                         _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2;
                         _pieC.endAngle = _angleCount += _pieC.angle;
 
+                        JC.log( _k
+                            , JC.f.padChar( _pieC.startAngle.toFixed(2), 6, ' ' )
+                            , JC.f.padChar( _pieC.endAngle.toFixed(2), 6, ' ' )
+                            , JC.f.padChar( _pieC.midAngle.toFixed(2), 6, ' ' )
+                            , JC.f.padChar( _angleCount.toFixed(2), 6, ' ' )
+                            , JC.f.padChar( _pieC.angle.toFixed(2), 6, ' ' )
+                        );
+
                         _pieC.startPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.startAngle );
-                        _pieC.midPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.midAngle );
                         _pieC.endPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.endAngle );
 
                         _pieC.startPoint.x += _pieC.cx;
                         _pieC.startPoint.y += _pieC.cy;
                         _pieC.endPoint.x += _pieC.cx;
                         _pieC.endPoint.y += _pieC.cy;
+
                         /*
-                        _pieC.startPoint.x = _pieC.startPoint.x - _pieC.cx;
-                        _pieC.startPoint.y = _pieC.startPoint.y - _pieC.cy;
-                        _pieC.endPoint.x = _pieC.endPoint.x - _pieC.cx;
-                        _pieC.endPoint.y = _pieC.endPoint.y - _pieC.cy;
-                        */
-
-                        drawPiePart( _pieC, _pieC.cx, _pieC.cy, _pieC.radius, _pieC.radians, _pieC.startAngle, _pieC.endAngle, {} );
-
-                        function drawPiePart( _pie, cx, cy, r, radians, startAngle, endAngle, params) {
-
-                            return _p.stage().path([
+                        function drawPiePart( _stage, _pie ) {
+                            return _stage.path([
                                     "M", _pie.cx, _pie.cy
                                     , "L"
                                     , _pie.endPoint.x, _pie.endPoint.y
@@ -473,11 +482,18 @@
                                         , 0
                                         , 0
                                         , 0
-                                    , _pie.startPoint.x, _pie.startPoint.y
+                                        , _pie.startPoint.x, _pie.startPoint.y
                                         , "z"
-                                ]).attr(params);
-
+                                ]);
                         }
+
+                        _tmp = drawPiePart( _p.stage(), _pieC );
+
+                        if( _k === 6 ){
+                            var _tmp2 = JChart.Geometry.distanceAngleToPoint( 5, _pieC.midAngle );
+                                _tmp.transform( JC.f.printf( 't{0} {1}', _tmp2.x, _tmp2.y ) );
+                        }
+                        */
 
                         _c.piePart.push( _pieC );
                     });
@@ -494,7 +510,7 @@
             function( _w, _h ){
                 var _r = _w;
                 _h < _r && ( _r = _h );
-                _r = parseInt( _r / 5 * 4 / 2 );
+                _r = parseInt( _r / 5 * 3.5 / 2 );
                 return _r;
             }
     });
@@ -516,13 +532,13 @@
                 if( _c.credits ){
                     _p._model.credits().attr( _c.credits );
                 }
-
                 if( _c.legend ){
                     _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
                 }
-
+                if( _c.piePart ){
+                    _p._model.piePart( _c.piePart );
+                }
                 _p._model.tips().toFront();
-
             }
 
         , draw: 

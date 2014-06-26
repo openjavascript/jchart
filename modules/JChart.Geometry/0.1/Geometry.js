@@ -22,8 +22,8 @@
         , distanceAngleToPoint: function( _distance, _angle){
             var _radian = _angle * Math.PI / 180;					
             return {
-                x: parseInt( Math.cos( _radian  ) * _distance )
-                , y: parseInt( Math.sin( _radian ) * _distance )
+                x: ( Math.cos( _radian  ) * _distance )
+                , y: ( Math.sin( _radian ) * _distance )
             }
         }
     };

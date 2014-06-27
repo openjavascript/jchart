@@ -124,6 +124,28 @@
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
                     //_p._view.updateTips( _index, _offset );
                 });
+
+                _p.on( 'unselected_piepart', function( _evt, _isSelected, _id ){
+                    _p._model.piePart() && _p._model.piePart().length &&
+                        $.each( _p._model.piePart(), function( _k, _item ){
+                            if( _item.id() == _id ) return;
+                            _item.selected( false );
+                        });
+                });
+
+                _p.on( 'update_default_selected', function( _evt ){
+                    var _ix;
+                    _p._model.pieData() && _p._model.pieData().length
+                        && $.each( _p._model.pieData(), function( _k, _item ){
+                            _item.selected && ( _ix = _k );
+                        });
+
+                    typeof _ix != 'undefined' 
+                        && _p._model.piePart() 
+                        && _p._model.piePart()[ _ix ]
+                        && _p._model.piePart()[ _ix ].selected( true )
+                        ;
+                });
             }
 
         , _inited:
@@ -164,6 +186,18 @@
         init:
             function(){
                 //JC.log( 'PieGraph.Model.init:', new Date().getTime() );
+            }
+
+        , pieData:
+            function(){
+                var _p = this;
+
+                typeof _p._pieData == 'undefined' && _p.data() && _p.data().series 
+                    && _p.data().series.length 
+                    && _p.data().series[0].data
+                    && _p.data().series[0].data.length
+                    && ( _p._pieData = _p.data().series[0].data )
+                return _p._pieData;
             }
 
         , itemStyle:
@@ -314,6 +348,11 @@
                     var _tmp;
                     $.each( _parts, function( _k, _pieCor ){
                         _tmp = new JChart.GraphicPiePart( _p.stage(), _pieCor, _p.itemStyle( _k ), _p.itemHoverStyle( _k ) );
+                        _tmp.on( 'selected_changed', function( _evt, _isSelected, _id ){
+                            //JC.log( 'selected_changed', _id, JC.f.ts() );
+                            _p.trigger( 'unselected_piepart', [ _isSelected, _id ] );
+                        });
+                        _p._piePart.push( _tmp );
                     });
                 }
                 return _p._piePart;
@@ -457,16 +496,6 @@
                         _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2;
                         _pieC.endAngle = _angleCount += _pieC.angle;
 
-                        /*
-                        JC.log( _k
-                            , JC.f.padChar( _pieC.startAngle.toFixed(2), 6, ' ' )
-                            , JC.f.padChar( _pieC.endAngle.toFixed(2), 6, ' ' )
-                            , JC.f.padChar( _pieC.midAngle.toFixed(2), 6, ' ' )
-                            , JC.f.padChar( _angleCount.toFixed(2), 6, ' ' )
-                            , JC.f.padChar( _pieC.angle.toFixed(2), 6, ' ' )
-                        );
-                        */
-
                         _pieC.startPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.startAngle );
                         _pieC.endPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.endAngle );
 
@@ -518,6 +547,7 @@
                 }
                 if( _c.piePart ){
                     _p._model.piePart( _c.piePart );
+                    _p.trigger( 'update_default_selected' );
                 }
                 _p._model.tips().toFront();
             }

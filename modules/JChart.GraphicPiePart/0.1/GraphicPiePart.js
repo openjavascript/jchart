@@ -56,25 +56,38 @@
 
                 _p.on( 'draw_done', function(){
                     _p._model.item( 'element' ).click( function( _evt ){
-                        _p.trigger( 'update_isSelected', _p._model.toggleSelected() );
+                        var _isSelected = _p._model.toggleSelected();
+                        _p.trigger( 'update_isSelected', _isSelected );
+                        _p.trigger( 'selected_changed', [ _isSelected, _p._model.id() ] );
                     });
                 });
 
                 _p.on( 'update_isSelected', function( _evt, _isSelected ){
-                    JC.log( 'update_isSelected', _isSelected, JC.f.ts() );
                     _p._view.updateSelected( _isSelected );
                 });
             }
 
         , isSelected: function(){ return this._model._isSelected; }
+        , id: function(){ return this._model.id(); }
+        , selected: 
+            function( _setter ){
+                typeof _setter != 'undefined' 
+                    && this.trigger( 'update_isSelected', [ _setter ] );
+                return this;
+            }
     });
 
     GraphicPiePart.Model._instanceName = 'JCGraphicPiePart';
+    GraphicPiePart.Model.INS_COUNT = 1;
+
     JC.f.extendObject( GraphicPiePart.Model.prototype, {
         init:
             function(){
                 //JC.log( 'GraphicPiePart.Model.init:', new Date().getTime() );
+                this._insCount = GraphicPiePart.Model.INS_COUNT++;
             }
+
+        , id: function(){ return this._insCount; }
 
         , toggleSelected:
             function(){
@@ -82,6 +95,11 @@
             }
 
         , isSelected: 
+            function(){ 
+                return this._isSelected; 
+            }
+
+        , selected: 
             function( _setter ){ 
                 typeof _setter != 'undefined' && ( this._isSelected = _setter );
                 return this._isSelected; 
@@ -127,7 +145,9 @@
                     , _transform
                     ;
                 _ms = _ms || 200;
-                _distance = _distance || 10;
+                _distance = _distance || 15;
+
+                _p._model.selected( _isSelected );
 
                 _item.stop();
                 _target = JChart.Geometry.distanceAngleToPoint( _distance, _p._model._pieCor.midAngle );

@@ -145,7 +145,7 @@
                     , _transform
                     ;
                 _ms = _ms || 200;
-                _distance = _distance || 15;
+                _distance = _distance || 10;
 
                 _p._model.selected( _isSelected );
 

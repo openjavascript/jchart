@@ -358,6 +358,27 @@
                 return _p._piePart;
             }
 
+        , pieLine:
+            function( _lines ){
+                var _p = this;
+
+                if( _lines && typeof this._pieLine == 'undefined' ){
+                    _p._pieLine = [];
+                    var _tmp, _path;
+                    $.each( _lines, function( _k, _item ){
+                        _path = JC.f.printf( 'M{0} {1}L{2} {3}'
+                                                , _item.start.x, _item.start.y
+                                                , _item.end.x, _item.end.y 
+                                            );
+                        _tmp = _p.stage().path( _path );
+                        _p._pieLine.push( _tmp );
+                        JC.log( 111111111, _k, JC.f.ts() );
+                    });
+                }
+
+                return _p._pieLine;
+            }
+
         , coordinate:
             function( _data ){
                 if( typeof this._coordinate != 'undefined' || !_data ){
@@ -477,24 +498,26 @@
 
                 //_p.stage().circle( _c.cx, _c.cy, _c.radius );
 
-                if( _p.data().series && _p.data().series.length ){
+                if( _p.pieData() && _p.pieData().length ){
                     var _angle = 360
-                        , _angleCount = 270
+                        , _angleCount = 0
+                        , _offsetAngle = _p.offsetAngle()
                         , _partSize = 100
                         , _tmpPoint
                         ;
 
                     _c.piePart = [];
+                    _c.pieLine = [];
 
-                    $.each( _p.data().series[0].data, function( _k, _item ){
-                        var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius };
+                    $.each( _p.pieData(), function( _k, _item ){
+                        var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius }, _pieL = {};
 
                         _pieC.radians = Math.PI / 180;
                         _pieC.angle = _item.y / _partSize * _angle;
 
-                        _pieC.startAngle = _angleCount;
+                        _pieC.startAngle = ( _angleCount + _offsetAngle ) % _angle;
                         _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2;
-                        _pieC.endAngle = _angleCount += _pieC.angle;
+                        _pieC.endAngle = ( ( _angleCount += _pieC.angle ) + _offsetAngle ) % _angle;
 
                         _pieC.startPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.startAngle );
                         _pieC.endPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.endAngle );
@@ -505,9 +528,67 @@
                         _pieC.endPoint.y += _pieC.cy;
                         _pieC.data = _item;
 
+                        _pieL.start = JChart.Geometry.distanceAngleToPoint( _pieC.radius - 10, _pieC.midAngle );
+                        _pieL.end = JChart.Geometry.distanceAngleToPoint( _pieC.radius + 40, _pieC.midAngle );
+                        _pieL.cx = _c.cx, _pieL.cy = _c.cy;
+                        _pieL.start.x += _pieL.cx;
+                        _pieL.start.y += _pieL.cy;
+                        _pieL.end.x += _pieL.cx;
+                        _pieL.end.y += _pieL.cy;
+                        _pieL.data = _item;
+
+                        JC.log( _k, _pieC.midAngle );
+
+                        var _tmpPath, _controlX = _pieL.end.x, _controlY = _pieL.end.y, _minAngle = 5;
+
+                        if( Math.abs( 270 - _pieC.midAngle ) <= _minAngle ){
+                            _pieL.direction = "top";
+                        }else if( ( Math.abs( 360 - _pieC.midAngle ) <= _minAngle ) || _pieC.midAngle <= _minAngle ){
+                            _pieL.direction = "right";
+                        }else if( Math.abs( 90 - _pieC.midAngle ) <= _minAngle ){
+                            _pieL.direction = "bottom";
+                        }else if( Math.abs( 180 - _pieC.midAngle ) <= _minAngle ){
+                            _pieL.direction = "left";
+                        }else{
+                            //left top
+                            if( _pieL.end.x < _pieL.cx && _pieL.end.y < _pieL.cy ){
+                                _controlY -= 5;
+                                _controlX += 5;
+                                _pieL.direction = "left_top";
+                            }
+                            //right top
+                            if( _pieL.end.x > _pieL.cx && _pieL.end.y < _pieL.cy ){
+                                _controlY -= 5;
+                                _controlX -= 5;
+                                _pieL.direction = "right_top";
+                            }
+                            //left bottom
+                            if( _pieL.end.x < _pieL.cx && _pieL.end.y > _pieL.cy ){
+                                _controlY += 5;
+                                _controlX += 5;
+                                _pieL.direction = "left_bottom";
+                            }
+                            //right bottom
+                            if( _pieL.end.x > _pieL.cx && _pieL.end.y > _pieL.cy ){
+                                _controlY += 5;
+                                _controlX -= 5;
+                                _pieL.direction = "right_bottom";
+                            }
+                        }
+                        _pieL.control = { x: _controlX, y: _controlY };
+
+                        _tmpPath = JC.f.printf( 'M{0} {1}S{2} {3} {4} {5}'
+                            , _pieL.start.x, _pieL.start.y
+                            , _controlX, _controlY 
+                            , _pieL.end.x, _pieL.end.y
+                        );
+                        _p.stage().path( _tmpPath ).attr( { 'stroke': '#999' } ).translate( .5, .5 );
+
                         _c.piePart.push( _pieC );
+                        _c.pieLine.push( _pieL );
                     });
                 }
+                JC.log();
 
                 JC.dir( _p._coordinate );
                 JC.dir( _p.data() );
@@ -516,11 +597,18 @@
                 return _p._coordinate;
             }
 
+        , offsetAngle:
+            function(){
+                var _r = 270;
+                this.data() && 'offsetAngle' in this.data() && ( _r = this.data().offsetAngle );
+                return _r;
+            }
+
         , calcRadius:
             function( _w, _h ){
                 var _r = _w;
                 _h < _r && ( _r = _h );
-                _r = parseInt( _r / 5 * 3.5 / 2 );
+                _r = parseInt( _r / 5 * 3 / 2 );
                 return _r;
             }
     });
@@ -544,6 +632,9 @@
                 }
                 if( _c.legend ){
                     _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                }
+                if( _c.pieLine ){
+                    //_p._model.pieLine( _c.pieLine );
                 }
                 if( _c.piePart ){
                     _p._model.piePart( _c.piePart );

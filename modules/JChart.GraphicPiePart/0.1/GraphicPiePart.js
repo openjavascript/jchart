@@ -24,9 +24,9 @@
 
     JChart.GraphicPiePart = GraphicPiePart;
 
-    function GraphicPiePart( _stage, _pieCor, _style, _hoverStyle  ){
+    function GraphicPiePart( _stage, _pieCor, _style, _hoverStyle, _index  ){
 
-        this._model = new GraphicPiePart.Model( _stage, _pieCor, _style, _hoverStyle );
+        this._model = new GraphicPiePart.Model( _stage, _pieCor, _style, _hoverStyle, _index );
         this._view = new GraphicPiePart.View( this._model );
 
         this._init();
@@ -35,11 +35,12 @@
     }
 
     GraphicPiePart.Model = 
-        function( _stage, _pieCor, _style, _hoverStyle ){
+        function( _stage, _pieCor, _style, _hoverStyle, _index ){
             this._stage = _stage;
             this._pieCor = _pieCor;
             this._style = _style;
             this._hoverStyle = _hoverStyle;
+            this._index = _index;
         };
 
     JC.PureMVC.build( GraphicPiePart, JChart.GraphicBase );
@@ -58,8 +59,19 @@
                     _p._model.item( 'element' ).click( function( _evt ){
                         var _isSelected = _p._model.toggleSelected();
                         _p.trigger( 'update_isSelected', _isSelected );
-                        _p.trigger( 'selected_changed', [ _isSelected, _p._model.id() ] );
+                        _p.trigger( 'selected_changed', [ _isSelected, _p._model.id(), _p._model.index() ] );
                     });
+
+                    _p._model.item( 'element' ).hover(
+                        function( _evt ){
+                            //JC.log( 'hover in', _p._model.id(), JC.f.ts() );
+                            _p.trigger( 'hover_in', [ _evt, _p._model.id(), _p._model.index() ] );
+                        },
+                        function( _evt ){
+                            //JC.log( 'hover out', _p._model.id(), JC.f.ts() );
+                            _p.trigger( 'hover_out', [ _evt, _p._model.id(), _p._model.index() ] );
+                        }
+                    );
                 });
 
                 _p.on( 'update_isSelected', function( _evt, _isSelected ){
@@ -75,6 +87,7 @@
                     && this.trigger( 'update_isSelected', [ _setter ] );
                 return this;
             }
+        , index: function(){ return this._model.index(); }
     });
 
     GraphicPiePart.Model._instanceName = 'JCGraphicPiePart';
@@ -88,6 +101,7 @@
             }
 
         , id: function(){ return this._insCount; }
+        , index: function(){ return this._index; }
 
         , toggleSelected:
             function(){

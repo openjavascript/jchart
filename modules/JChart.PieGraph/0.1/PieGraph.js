@@ -96,7 +96,7 @@
 
                 _p.on( 'update_moving_status', function( _evt, _srcEvt, _srcEle ){
                     var _offset = _p._model.globalEventToLocalOffset( _srcEvt )
-                        , _index = _p._model.indexAt( _offset );
+                        , _index = _p._model.indexAt();
 
                     _p.trigger( 'clear_status' );
                     if( typeof _index == 'undefined' ) return;
@@ -107,11 +107,13 @@
                 _p.on( 'moving_start', function( _evt ){
                     _p.trigger( 'clear_status' );
                     _p._model.tips() && _p._model.tips().show();
+                    //JC.log( 'moving_start', JC.f.ts() );
                 });
 
                 _p.on( 'moving_done', function( _evt ){
                     _p.trigger( 'clear_status' );
                     _p._model.tips() && _p._model.tips().hide();
+                    //JC.log( 'moving_done', JC.f.ts() );
                 });
 
                 _p.on( 'clear_status', function(){
@@ -122,7 +124,7 @@
                     if( !_offset ) return;
                     if( typeof _index == 'undefined' ) return;
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
-                    //_p._view.updateTips( _index, _offset );
+                    _p._view.updateTips( _index, _offset );
                 });
 
                 _p.on( 'unselected_piepart', function( _evt, _isSelected, _id ){
@@ -251,30 +253,9 @@
             }
 
         , indexAt:
-            function( _offset ){
-                var _p = this
-                    , _c = _p.coordinate()
-                    , _realX = _offset.x - _c.wsX
-                    , _realY = _offset.y - _c.wsY
-                    , _maxX = _c.wsWidth
-                    , _maxY = _c.wsHeight
-                    , _itemLen, _partWidth
-                    , _partWhat = 0;
-                    ;
-
-                if( _realX <= 0 || _realY <= 0 || _realX >= _maxX || _realY >= _maxY ){
-                    return undefined;
-                }
-
-                _itemLen = ( _c.hlen - 1 ) * 2;
-                _partWidth = _c.wsWidth / _itemLen;
-                _partWhat = Math.floor( _realX / _partWidth  );
-                _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
-
-                //JC.log( _partWhat, _realX, _realY, JC.f.ts() );
-                //JC.log( _partWhat );
-
-                return _partWhat;
+            function( _setter ){
+                typeof _setter != 'undefined' && ( this._index = _setter );
+                return this._index;
             }
         /**
          * 数据图例图标
@@ -347,11 +328,31 @@
                     _p._piePart = [];
                     var _tmp;
                     $.each( _parts, function( _k, _pieCor ){
-                        _tmp = new JChart.GraphicPiePart( _p.stage(), _pieCor, _p.itemStyle( _k ), _p.itemHoverStyle( _k ) );
+                        _tmp = new JChart.GraphicPiePart( _p.stage(), _pieCor, _p.itemStyle( _k ), _p.itemHoverStyle( _k ), _k );
+                        _tmp.index( _k );
                         _tmp.on( 'selected_changed', function( _evt, _isSelected, _id ){
                             //JC.log( 'selected_changed', _id, JC.f.ts() );
                             _p.trigger( 'unselected_piepart', [ _isSelected, _id ] );
                         });
+
+                       _tmp.on( 'hover_in', function( _evt, _srcEvt, _id, _index ){
+                            //JC.log( 'hover in', _id, JC.f.ts() );
+                            JC.f.safeTimeout( function(){}, _p, 'asdfawsef_hide_tips', 200 );
+                            _jdoc.on( 'mousemove', PieGraph.DEFAULT_MOVE );
+                            PieGraph.CURRENT_INS = _p;
+                            _p.indexAt( _index );
+                            _p.trigger( 'moving_start' );
+                       });
+
+                       _tmp.on( 'hover_out', function( _evt, _srcEvt, _id, _index ){
+                            //JC.log( 'hover out', _id, JC.f.ts() );
+                            JC.f.safeTimeout( function(){
+                                _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
+                                _p.trigger( 'moving_done' );
+                                PieGraph.CURRENT_INS = null;
+                            }, _p, 'asdfawsef_hide_tips', 200 );
+                       });
+
                         _p._piePart.push( _tmp );
                     });
                 }
@@ -425,6 +426,94 @@
             }
 
         , pieLineText: function(){ return this._pieLineText; }
+
+        /**
+         * 获取 tips 对象
+         */
+        , tips:
+            function( _ix ){
+                var _p = this, _c = _p.coordinate(), _items, _text, _val
+                    , _len = _c.hlen, _count = 0
+                    , _offsetY = 34
+                    , _offsetX = 20
+                    , _padWidth = 14
+                    , _padHeight = 8
+                    , _strokeColor = '#000'
+                    , _tmp, _tmpBox, _tmpItem, _maxWidth = 0
+                    ;
+
+                if( !_p._tips ){
+                    var _initOffset = { x: 10000, y: 0 };
+                    //_initOffset.x = 0;
+                    _p._tips = new JChart.Group();
+
+                    _p._tips.addChild( 
+                        _p.stage().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
+                            'stroke': '#999'
+                            , 'fill': '#fff' 
+                            , 'fill-opacity': .98
+                        } )
+                    , 'rect' );
+
+                    _p._tips.addChild( _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, 'tips' )
+                            .attr( { 'font-weight': 'bold', 'fill': '#999', 'text-anchor': 'start' } )
+                    , 'title' );
+
+                    _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _p.data().series[0].name || 'empty' ).attr( { 'text-anchor': 'start' } );
+                    _tmpBox = _tmp.getBBox();
+                    _offsetY += _tmpBox.height + 5;
+                    _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
+                    _p._tips.addChild( _tmp, 'label_0' );
+
+                    _tmpItem = _p._tips.getChildByName( 'label_0' );
+                    _tmpBox = _tmpItem.getBBox();
+                    _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' ).attr( { 'text-anchor': 'start' } );
+                    _p._tips.addChild( _tmp, 'val_0' );
+
+                    _tmpItem = _p._tips.getChildByName( 'val_0' );
+                    _tmpItem.attr( 'text', '0.00' );
+
+                    _p._tipLabelMaxWidth = _maxWidth;
+                }
+                if( typeof _ix != 'undefined' ){
+                    _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
+
+                    var _maxTextWidth = 0, _tmpLabel;
+                    _maxTextWidth = _p._tips.getChildByName( 'val_' + 0 ).attr( 'text', JC.f.moneyFormat( _p.pieData()[ _ix ].y, 3, _p.floatLen() ) ).getBBox().width;
+
+                    _p._tips.getChildByName( 'title' ).attr( 'fill', _p.itemStyle( _ix ).fill );
+
+                    $.each( _p.data().series, function( _k, _item ){
+                        _tmp = _p._tips.getChildByName( 'val_' + _k );
+                        _tmpLabel = _p._tips.getChildByName( 'label_' + _k );
+                        _tmpBox = _tmpLabel.getBBox();
+                        _tmp.attr( 'x', _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - _tmp.getBBox().width );
+                    });
+                }
+                _p._tips.getChildByName( 'rect' ).attr( { width: 80, height: 50 } );
+                _tmpBox = _p._tips.getBBox();
+                _p._tips.getChildByName( 'rect' ).attr( { 'width': _tmpBox.width + _padWidth, 'height': _tmpBox.height + _padHeight } );
+
+                return _p._tips;
+            }
+        /**
+         * 获取 tips 标题文本
+         */
+        , tipsTitle:
+            function( _ix ){
+                var _p = this, _r = '';
+                _p.pieData() && _p.pieData().length && _p.pieData()[ _ix ] &&
+                    ( _r = _p.pieData()[ _ix ].name );
+                return _r;
+            }
+
+        , tipsLabel:
+            function(){
+                var _p = this, _r = '';
+                _p.data() && _p.data().series && _p.data().series.length &&
+                    ( _r = _p.data().series[ 0 ].name );
+                return _r;
+            }
 
         , coordinate:
             function( _data ){
@@ -696,21 +785,6 @@
                 var _p = this, _coordinate;
 
                 _p.setStaticPosition( _p._model.coordinate( _data ) );
-
-                _p._model.dataBackground().mouseenter( function( _evt ){
-                    PieGraph.CURRENT_INS = _p;
-                    //JC.log( 'mouseenter', JC.f.ts() );
-                    _jdoc.on( 'mousemove', PieGraph.DEFAULT_MOVE );
-                    _p.trigger( 'moving_start' );
-                });
-
-                _p._model.dataBackground().mouseleave( function( _evt ){
-                    //JC.log( 'mouseleave', JC.f.ts() );
-                    _p.trigger( 'moving_done' );
-                    _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
-                    PieGraph.CURRENT_INS = null;
-                });
-                //JC.dir( _p.stage() );
             }
 
         , updateTips:
@@ -720,7 +794,6 @@
                     , _bbox = _tips.getBBox()
                     , _c = _p._model.coordinate()
                     , _x = _offset.x + 15, _y = _offset.y + 18
-                    , _point = _c.vlinePoint[ _ix ]
                     ;
 
                 if( ( _y + _bbox.height ) > _c.stage.height ){

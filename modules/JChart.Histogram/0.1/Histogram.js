@@ -639,7 +639,8 @@
                     Histogram.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );
-            }
+                //
+             }
 
         , updateTips:
             function( _ix, _offset ){

@@ -364,20 +364,67 @@
 
                 if( _lines && typeof this._pieLine == 'undefined' ){
                     _p._pieLine = [];
-                    var _tmp, _path;
+                    _p._pieLineText = [];
+                    var _tmp, _path, _style, _text;
                     $.each( _lines, function( _k, _item ){
-                        _path = JC.f.printf( 'M{0} {1}L{2} {3}'
-                                                , _item.start.x, _item.start.y
-                                                , _item.end.x, _item.end.y 
-                                            );
-                        _tmp = _p.stage().path( _path );
+                        _style = _p.itemStyle( _k );
+                        _tmp = _p.stage().path( _item.path )
+                            .attr( { 'stroke': _style.fill } )
+                            .translate( .5, .5 )
+                            ;
                         _p._pieLine.push( _tmp );
-                        JC.log( 111111111, _k, JC.f.ts() );
+                        _text = _p.stage().text( 0, 0, _item.data.name )
+                            .attr( { 'fill': '#999' } )
+                            ;
+                        switch( _item.direction ){
+                            case 'top':
+                                {
+                                    _text.attr( { x: _item.end.x, y: _item.end.y - 5 } );
+                                    break;
+                                }
+                            case 'left_top':
+                                {
+                                    _text.attr( { x: _item.end.x - 5, y: _item.end.y, 'text-anchor': 'end' } );
+                                    break;
+                                }
+                            case 'right_top':
+                                {
+                                    _text.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
+                                    break;
+                                }
+                            case 'left_bottom':
+                                {
+                                    _text.attr( { x: _item.end.x - 5, y: _item.end.y, 'text-anchor': 'end' } );
+                                    break;
+                                }
+                            case 'right_bottom':
+                                {
+                                    _text.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
+                                    break;
+                                }
+                            case 'right':
+                                {
+                                    _text.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
+                                    break;
+                                }
+                            case 'bottom':
+                                {
+                                    _text.attr( { x: _item.end.x, y: _item.end.y + 5 } );
+                                    break;
+                                }
+                            case 'left':
+                                {
+                                    _text.attr( { x: _item.end.x - 5, y: _item.end.y, 'text-anchor': 'end' } );
+                                    break;
+                                }
+                        }
                     });
                 }
 
                 return _p._pieLine;
             }
+
+        , pieLineText: function(){ return this._pieLineText; }
 
         , coordinate:
             function( _data ){
@@ -537,7 +584,7 @@
                         _pieL.end.y += _pieL.cy;
                         _pieL.data = _item;
 
-                        JC.log( _k, _pieC.midAngle );
+                        //JC.log( _k, _pieC.midAngle );
 
                         var _tmpPath, _controlX = _pieL.end.x, _controlY = _pieL.end.y, _minAngle = 5;
 
@@ -582,13 +629,14 @@
                             , _controlX, _controlY 
                             , _pieL.end.x, _pieL.end.y
                         );
-                        _p.stage().path( _tmpPath ).attr( { 'stroke': '#999' } ).translate( .5, .5 );
+                        //_p.stage().path( _tmpPath ).attr( { 'stroke': '#999' } ).translate( .5, .5 );
+                        _pieL.path = _tmpPath;
 
                         _c.piePart.push( _pieC );
                         _c.pieLine.push( _pieL );
                     });
                 }
-                JC.log();
+                //JC.log();
 
                 JC.dir( _p._coordinate );
                 JC.dir( _p.data() );
@@ -634,7 +682,7 @@
                     _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
                 }
                 if( _c.pieLine ){
-                    //_p._model.pieLine( _c.pieLine );
+                    _p._model.pieLine( _c.pieLine );
                 }
                 if( _c.piePart ){
                     _p._model.piePart( _c.piePart );

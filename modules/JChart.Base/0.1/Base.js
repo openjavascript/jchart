@@ -123,12 +123,16 @@ window.JChart = window.JChart || {};
 
     Base.Model._instanceName = 'JChartBase';
     Base.Model.LABEL_RATE = [ 1, .75, .5, .25, 0 ];
+    Base.Model.INS_COUNT = 1;
 
     JC.f.extendObject( Base.Model.prototype, {
         init:
             function(){
                 //JC.log( 'Base.Model.init:', new Date().getTime() );
+                this._gid = Base.Model.INS_COUNT++;
+                this.afterInit && this.afterInit();
             }
+        , gid: function(){ return this._gid; }
         /**
          * 图表宽度
          */
@@ -205,10 +209,12 @@ window.JChart = window.JChart || {};
                     //JC.log( _k, JC.f.ts() );
                     if( /^\_/.test( _k ) ){
                         if( _k == '_selector' ) continue;
+                        if( _k == '_gid' ) continue;
                         _p[ _k ] = undefined;
                     }
                 }
                 //JC.log( 'JChart.Base clear', JC.f.ts() );
+                _p.afterClear && _p.afterClear();
             }
         /**
          * 清除图表状态

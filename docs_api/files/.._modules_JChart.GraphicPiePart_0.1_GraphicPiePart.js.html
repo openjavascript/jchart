@@ -154,9 +154,9 @@
 
     JChart.GraphicPiePart = GraphicPiePart;
 
-    function GraphicPiePart( _stage, _pieCor, _style, _hoverStyle  ){
+    function GraphicPiePart( _stage, _pieCor, _style, _hoverStyle, _index  ){
 
-        this._model = new GraphicPiePart.Model( _stage, _pieCor, _style, _hoverStyle );
+        this._model = new GraphicPiePart.Model( _stage, _pieCor, _style, _hoverStyle, _index );
         this._view = new GraphicPiePart.View( this._model );
 
         this._init();
@@ -165,27 +165,88 @@
     }
 
     GraphicPiePart.Model = 
-        function( _stage, _pieCor, _style, _hoverStyle ){
+        function( _stage, _pieCor, _style, _hoverStyle, _index ){
             this._stage = _stage;
             this._pieCor = _pieCor;
             this._style = _style;
             this._hoverStyle = _hoverStyle;
+            this._index = _index;
         };
 
     JC.PureMVC.build( GraphicPiePart, JChart.GraphicBase );
 
     JC.f.extendObject( GraphicPiePart.prototype, {
-        _beforeInit:
+
+        _initHanlderEvent:
             function(){
-                //JC.log( &#x27;GraphicPiePart _beforeInit&#x27;, new Date().getTime() );
+                var _p = this;
+
+                _p.on( &#x27;inited&#x27;, function(){
+                    _p._view.draw();
+                });
+
+                _p.on( &#x27;draw_done&#x27;, function(){
+                    _p._model.item( &#x27;element&#x27; ).click( function( _evt ){
+                        var _isSelected = _p._model.toggleSelected();
+                        _p.trigger( &#x27;update_isSelected&#x27;, _isSelected );
+                        _p.trigger( &#x27;selected_changed&#x27;, [ _isSelected, _p._model.id(), _p._model.index() ] );
+                    });
+
+                    _p._model.item( &#x27;element&#x27; ).hover(
+                        function( _evt ){
+                            //JC.log( &#x27;hover in&#x27;, _p._model.id(), JC.f.ts() );
+                            _p.trigger( &#x27;hover_in&#x27;, [ _evt, _p._model.id(), _p._model.index() ] );
+                        },
+                        function( _evt ){
+                            //JC.log( &#x27;hover out&#x27;, _p._model.id(), JC.f.ts() );
+                            _p.trigger( &#x27;hover_out&#x27;, [ _evt, _p._model.id(), _p._model.index() ] );
+                        }
+                    );
+                });
+
+                _p.on( &#x27;update_isSelected&#x27;, function( _evt, _isSelected ){
+                    _p._view.updateSelected( _isSelected );
+                });
             }
+
+        , isSelected: function(){ return this._model._isSelected; }
+        , id: function(){ return this._model.id(); }
+        , selected: 
+            function( _setter ){
+                typeof _setter != &#x27;undefined&#x27; 
+                    &amp;&amp; this.trigger( &#x27;update_isSelected&#x27;, [ _setter ] );
+                return this;
+            }
+        , index: function(){ return this._model.index(); }
     });
 
     GraphicPiePart.Model._instanceName = &#x27;JCGraphicPiePart&#x27;;
+    GraphicPiePart.Model.INS_COUNT = 1;
+
     JC.f.extendObject( GraphicPiePart.Model.prototype, {
         init:
             function(){
                 //JC.log( &#x27;GraphicPiePart.Model.init:&#x27;, new Date().getTime() );
+                this._insCount = GraphicPiePart.Model.INS_COUNT++;
+            }
+
+        , id: function(){ return this._insCount; }
+        , index: function(){ return this._index; }
+
+        , toggleSelected:
+            function(){
+                return this._isSelected = !this._isSelected;
+            }
+
+        , isSelected: 
+            function(){ 
+                return this._isSelected; 
+            }
+
+        , selected: 
+            function( _setter ){ 
+                typeof _setter != &#x27;undefined&#x27; &amp;&amp; ( this._isSelected = _setter );
+                return this._isSelected; 
             }
     });
 
@@ -217,20 +278,31 @@
                 _item = _p._model.stage().path( _corText );
                 _p._model.add( _item, &#x27;element&#x27; );
                 _p.unhover();
+
+                _p.trigger( &#x27;draw_done&#x27; );
             }
-        /*
-        function drawPiePart( _stage, _pie ) {
-            return _stage.path();
-        }
+        , updateSelected:
+            function( _isSelected, _ms, _distance ){
+                var _p = this
+                    , _item = _p._model.item( &#x27;element&#x27; )
+                    , _target
+                    , _transform
+                    ;
+                _ms = _ms || 200;
+                _distance = _distance || 10;
 
-        _tmp = drawPiePart( _p.stage(), _pieC );
+                _p._model.selected( _isSelected );
 
-        if( _k === 6 ){
-            var _tmp2 = JChart.Geometry.distanceAngleToPoint( 5, _pieC.midAngle );
-                _tmp.transform( JC.f.printf( &#x27;t{0} {1}&#x27;, _tmp2.x, _tmp2.y ) );
-        }
-        */
+                _item.stop();
+                _target = JChart.Geometry.distanceAngleToPoint( _distance, _p._model._pieCor.midAngle );
 
+                if( _isSelected ){
+                    _transform = JC.f.printf( &#x27;t{0} {1}&#x27;, _target.x, _target.y );
+                }else{
+                    _transform = JC.f.printf( &#x27;t{0} {1}&#x27;, 0, 0 );
+                }
+                _item.animate( { transform: _transform}, _ms );
+            }
     });
 
     return JC.GraphicPiePart;

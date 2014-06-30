@@ -169,13 +169,6 @@
                 "JChart": 1
             }
         },
-        "../modules/exCanvas/0.3.0/excanvas.js": {
-            "name": "../modules/exCanvas/0.3.0/excanvas.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "../config.js": {
             "name": "../config.js",
             "modules": {},
@@ -3170,14 +3163,14 @@
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
             "line": 820,
-            "description": "显示数值时 浮点数 的长度",
+            "description": "获取 tips 标题文本",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 831,
-            "description": "获取 tips 标题文本",
+            "line": 837,
+            "description": "显示数值时 浮点数 的长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
@@ -3344,101 +3337,30 @@
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
-            "line": 245,
+            "line": 260,
             "description": "数据图例图标",
             "class": "JChart.PieGraph",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
-            "line": 291,
+            "line": 306,
             "description": "保存图表数据",
             "class": "JChart.PieGraph",
             "namespace": "JChart"
         },
         {
-            "file": "../modules/exCanvas/0.3.0/excanvas.js",
-            "line": 53,
-            "description": "This funtion is assigned to the <canvas> elements as element.getContext().",
-            "this": "{HTMLElement}",
-            "return": {
-                "description": "",
-                "type": "CanvasRenderingContext2D_"
-            },
-            "class": "window.requirejs",
+            "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
+            "line": 431,
+            "description": "获取 tips 对象",
+            "class": "JChart.PieGraph",
             "namespace": "JChart"
         },
         {
-            "file": "../modules/exCanvas/0.3.0/excanvas.js",
-            "line": 65,
-            "description": "Binds a function to an object. The returned function will always use the\npassed in {@code obj} as {@code this}.\n\nExample:\n\n  g = bind(f, obj, a, b)\n  g(c, d) // will do f.call(obj, a, b, c, d)",
-            "params": [
-                {
-                    "name": "f",
-                    "description": "The function to bind the object to",
-                    "type": "Function"
-                },
-                {
-                    "name": "obj",
-                    "description": "The object that should act as this when the function\n    is called",
-                    "type": "Object"
-                },
-                {
-                    "name": "var_args",
-                    "description": "Rest arguments that will be used as the initial\n    arguments when the function is called",
-                    "type": "*"
-                }
-            ],
-            "return": {
-                "description": "A new function that has bound this",
-                "type": "Function"
-            },
-            "class": "window.requirejs",
-            "namespace": "JChart"
-        },
-        {
-            "file": "../modules/exCanvas/0.3.0/excanvas.js",
-            "line": 132,
-            "description": "Public initializes a canvas element so that it can be used as canvas\nelement from now on. This is called automatically before the page is\nloaded but if you are creating elements using createElement you need to\nmake sure this is called on the element.",
-            "params": [
-                {
-                    "name": "el",
-                    "description": "The canvas element to initialize.",
-                    "type": "HTMLElement"
-                }
-            ],
-            "return": {
-                "description": "the element that was created.",
-                "type": "HTMLElement"
-            },
-            "class": "window.requirejs",
-            "namespace": "JChart"
-        },
-        {
-            "file": "../modules/exCanvas/0.3.0/excanvas.js",
-            "line": 563,
-            "description": "This class implements CanvasRenderingContext2D interface as described by\nthe WHATWG.",
-            "params": [
-                {
-                    "name": "canvasElement",
-                    "description": "The element that the 2D context should\nbe associated with",
-                    "type": "HTMLElement"
-                }
-            ],
-            "class": "window.requirejs",
-            "namespace": "JChart"
-        },
-        {
-            "file": "../modules/exCanvas/0.3.0/excanvas.js",
-            "line": 1200,
-            "description": "The text drawing function.\nThe maxWidth argument isn't taken in account, since no browser supports\nit yet.",
-            "class": "window.requirejs",
-            "namespace": "JChart"
-        },
-        {
-            "file": "../modules/exCanvas/0.3.0/excanvas.js",
-            "line": 1318,
-            "class": "window.requirejs",
+            "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
+            "line": 500,
+            "description": "获取 tips 标题文本",
+            "class": "JChart.PieGraph",
             "namespace": "JChart"
         },
         {
@@ -3891,10 +3813,6 @@
             "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:2"
         },
         {
-            "message": "unknown tag: this",
-            "line": " ../modules/exCanvas/0.3.0/excanvas.js:53"
-        },
-        {
             "message": "unknown tag: license",
             "line": " ../lib.js:8"
         },
@@ -4183,12 +4101,12 @@
             "line": " ../modules/JChart.Base/0.1/Base.js:741"
         },
         {
-            "message": "Missing item type\n显示数值时 浮点数 的长度",
+            "message": "Missing item type\n获取 tips 标题文本",
             "line": " ../modules/JChart.Base/0.1/Base.js:820"
         },
         {
-            "message": "Missing item type\n获取 tips 标题文本",
-            "line": " ../modules/JChart.Base/0.1/Base.js:831"
+            "message": "Missing item type\n显示数值时 浮点数 的长度",
+            "line": " ../modules/JChart.Base/0.1/Base.js:837"
         },
         {
             "message": "Missing item type\n把全局事件对象转换为局部坐标点",
@@ -4248,35 +4166,19 @@
         },
         {
             "message": "Missing item type\n数据图例图标",
-            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:245"
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:260"
         },
         {
             "message": "Missing item type\n保存图表数据",
-            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:291"
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:306"
         },
         {
-            "message": "Missing item type\nThis funtion is assigned to the <canvas> elements as element.getContext().",
-            "line": " ../modules/exCanvas/0.3.0/excanvas.js:53"
+            "message": "Missing item type\n获取 tips 对象",
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:431"
         },
         {
-            "message": "Missing item type\nBinds a function to an object. The returned function will always use the\npassed in {@code obj} as {@code this}.\n\nExample:\n\n  g = bind(f, obj, a, b)\n  g(c, d) // will do f.call(obj, a, b, c, d)",
-            "line": " ../modules/exCanvas/0.3.0/excanvas.js:65"
-        },
-        {
-            "message": "Missing item type\nPublic initializes a canvas element so that it can be used as canvas\nelement from now on. This is called automatically before the page is\nloaded but if you are creating elements using createElement you need to\nmake sure this is called on the element.",
-            "line": " ../modules/exCanvas/0.3.0/excanvas.js:132"
-        },
-        {
-            "message": "Missing item type\nThis class implements CanvasRenderingContext2D interface as described by\nthe WHATWG.",
-            "line": " ../modules/exCanvas/0.3.0/excanvas.js:563"
-        },
-        {
-            "message": "Missing item type\nThe text drawing function.\nThe maxWidth argument isn't taken in account, since no browser supports\nit yet.",
-            "line": " ../modules/exCanvas/0.3.0/excanvas.js:1200"
-        },
-        {
-            "message": "Missing item type",
-            "line": " ../modules/exCanvas/0.3.0/excanvas.js:1318"
+            "message": "Missing item type\n获取 tips 标题文本",
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:500"
         },
         {
             "message": "Missing item type\nrequirejs config.js for JC Chart Project",

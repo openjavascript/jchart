@@ -758,6 +758,7 @@
                 _p._model.dataBackground().mouseenter( function( _evt ){
                     Histogram.CURRENT_INS = _p;
                     //JC.log( &#x27;mouseenter&#x27;, JC.f.ts() );
+                    _jdoc.off( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
                     _jdoc.on( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
                     _p.trigger( &#x27;moving_start&#x27; );
                 });
@@ -769,7 +770,8 @@
                     Histogram.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );
-            }
+                //
+             }
 
         , updateTips:
             function( _ix, _offset ){

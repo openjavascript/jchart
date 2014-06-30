@@ -948,17 +948,6 @@ window.JChart = window.JChart || {};
                 return _p._tips;
             }
         /**
-         * 显示数值时 浮点数 的长度
-         */
-        , floatLen:
-            function(){
-                if( typeof this._floatLen == &#x27;undefined&#x27; ){
-                    this._floatLen = 2;
-                    &#x27;floatLen&#x27; in this.data() &amp;&amp; ( this._floatLen = this.data().floatLen );
-                }
-                return this._floatLen;
-            }
-        /**
          * 获取 tips 标题文本
          */
         , tipsTitle:
@@ -974,6 +963,17 @@ window.JChart = window.JChart || {};
                     &amp;&amp; ( _r = JC.f.printf(  _p.data().xAxis.tipTitlePostfix, _r ) );
 
                 return _r;
+            }
+        /**
+         * 显示数值时 浮点数 的长度
+         */
+        , floatLen:
+            function(){
+                if( typeof this._floatLen == &#x27;undefined&#x27; ){
+                    this._floatLen = 2;
+                    &#x27;floatLen&#x27; in this.data() &amp;&amp; ( this._floatLen = this.data().floatLen );
+                }
+                return this._floatLen;
             }
         /**
          * 把全局事件对象转换为局部坐标点

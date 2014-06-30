@@ -335,7 +335,7 @@
                             _p.trigger( 'unselected_piepart', [ _isSelected, _id ] );
                         });
 
-                       _tmp.on( 'hover_in', function( _evt, _srcEvt, _id, _index ){
+                       _tmp.on( 'mouseenter', function( _evt, _srcEvt, _id, _index ){
                             //JC.log( 'hover in', _id, JC.f.ts() );
                             JC.f.safeTimeout( function(){}, _p, 'asdfawsef_hide_tips', 200 );
                             _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
@@ -345,7 +345,7 @@
                             _p.trigger( 'moving_start' );
                        });
 
-                       _tmp.on( 'hover_out', function( _evt, _srcEvt, _id, _index ){
+                       _tmp.on( 'mouseleave', function( _evt, _srcEvt, _id, _index ){
                             //JC.log( 'hover out', _id, JC.f.ts() );
                             JC.f.safeTimeout( function(){
                                 _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );

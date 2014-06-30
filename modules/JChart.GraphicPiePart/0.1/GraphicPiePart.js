@@ -65,11 +65,11 @@
                     _p._model.item( 'element' ).hover(
                         function( _evt ){
                             //JC.log( 'hover in', _p._model.id(), JC.f.ts() );
-                            _p.trigger( 'hover_in', [ _evt, _p._model.id(), _p._model.index() ] );
+                            _p.trigger( 'mouseenter', [ _evt, _p._model.id(), _p._model.index() ] );
                         },
                         function( _evt ){
                             //JC.log( 'hover out', _p._model.id(), JC.f.ts() );
-                            _p.trigger( 'hover_out', [ _evt, _p._model.id(), _p._model.index() ] );
+                            _p.trigger( 'mouseleave', [ _evt, _p._model.id(), _p._model.index() ] );
                         }
                     );
                 });

@@ -253,12 +253,16 @@ window.JChart = window.JChart || {};
 
     Base.Model._instanceName = &#x27;JChartBase&#x27;;
     Base.Model.LABEL_RATE = [ 1, .75, .5, .25, 0 ];
+    Base.Model.INS_COUNT = 1;
 
     JC.f.extendObject( Base.Model.prototype, {
         init:
             function(){
                 //JC.log( &#x27;Base.Model.init:&#x27;, new Date().getTime() );
+                this._gid = Base.Model.INS_COUNT++;
+                this.afterInit &amp;&amp; this.afterInit();
             }
+        , gid: function(){ return this._gid; }
         /**
          * 图表宽度
          */
@@ -335,10 +339,12 @@ window.JChart = window.JChart || {};
                     //JC.log( _k, JC.f.ts() );
                     if( /^\_/.test( _k ) ){
                         if( _k == &#x27;_selector&#x27; ) continue;
+                        if( _k == &#x27;_gid&#x27; ) continue;
                         _p[ _k ] = undefined;
                     }
                 }
                 //JC.log( &#x27;JChart.Base clear&#x27;, JC.f.ts() );
+                _p.afterClear &amp;&amp; _p.afterClear();
             }
         /**
          * 清除图表状态

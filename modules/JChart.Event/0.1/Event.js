@@ -53,7 +53,7 @@
                     , y: Math.floor( _offset.y + _bbox.y )
                     , y2: Math.floor( _offset.y + _bbox.y2 )
                 };
-                _win.on( 'mousemove', _innerMousemove );
+                _win.on( 'mouseout', _innerMousemove );
             });
 
             function _innerMousemove( _evt ){
@@ -65,7 +65,7 @@
                         _bbox = null;
                         _p.IS_LEAVE = false;
                         _handler && _handler.call( _p, _evt );
-                        _win.off( 'mousemove', _innerMousemove );
+                        _win.off( 'mouseout', _innerMousemove );
                     }
                 //}, _p, 'asdfaweasdfawsef_leave', 200 );
             }

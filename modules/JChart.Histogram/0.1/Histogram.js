@@ -167,7 +167,7 @@
     var _oldWorkspaceOffset = Histogram.Model.prototype.workspaceOffset;
 
     JC.f.extendObject( Histogram.Model.prototype, {
-        afterInit:
+        init:
             function(){
                 //JC.log( 'Histogram.Model.init:', new Date().getTime() );
             }
@@ -627,23 +627,14 @@
 
                 _p._model.dataBackground().mouseenter( function( _evt ){
                     Histogram.CURRENT_INS = _p;
-                    JC.log( 'mouseenter', JC.f.ts(), _p._model.gid() );
-                    _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
                     _jdoc.on( 'mousemove', Histogram.DEFAULT_MOVE );
                     _p.trigger( 'moving_start' );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
-                    JC.log( 'mouseleave', JC.f.ts(), _p._model.gid() );
-                     JC.f.safeTimeout( function(){
-                         if( Histogram.CURRENT_INS && Histogram.CURRENT_INS._model.gid() == _p._model.gid() ){
-                            JC.log( 'mouseleave', JC.f.ts(), _p._model.gid() );
-                            _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
-                             Histogram.CURRENT_INS = null;
-                         }
-                        _p.trigger( 'moving_done' );
-
-                     }, _p, 'asdfawsef_hide_tips', 200 );
+                    _p.trigger( 'moving_done' );
+                    _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
+                    Histogram.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );
                 //

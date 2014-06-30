@@ -338,6 +338,7 @@
                        _tmp.on( 'hover_in', function( _evt, _srcEvt, _id, _index ){
                             //JC.log( 'hover in', _id, JC.f.ts() );
                             JC.f.safeTimeout( function(){}, _p, 'asdfawsef_hide_tips', 200 );
+                            _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
                             _jdoc.on( 'mousemove', PieGraph.DEFAULT_MOVE );
                             PieGraph.CURRENT_INS = _p;
                             _p.indexAt( _index );

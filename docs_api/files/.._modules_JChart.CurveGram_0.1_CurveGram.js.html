@@ -151,7 +151,7 @@
  *
  * @namespace   JChart
  * @class       CurveGram
- * @extends     JChart.BaseMVC
+ * @extends     JChart.Base
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2014-06-11
@@ -490,20 +490,22 @@
                     _maxY = _c.credits.y - 8;
                 }
 
-                var _legend = _p.legend( _data, &#x27;line&#x27;, function( _ix, _legend, _text, _data ){
-                    var _color = _data.stroke 
-                                    || CurveGram.Model.STYLE.data[ _ix % CurveGram.Model.STYLE.data.length ].stroke 
-                                    || &#x27;#fff&#x27;;
-                    _legend.attr( &#x27;fill&#x27;, _color ).attr( &#x27;stroke&#x27;, _color );;
-                } );
-                if( _legend ){
-                    _bbox = _legend.getBBox();
-                    _c.legend = {
-                        x: ( _maxX - _bbox.width ) / 2
-                        , y: _maxY - _bbox.height - 2
-                        , ele: _legend
+                if( _p.showInLegend() ){
+                    var _legend = _p.legend( _data, &#x27;line&#x27;, function( _ix, _legend, _text, _data ){
+                        var _color = _data.stroke 
+                                        || CurveGram.Model.STYLE.data[ _ix % CurveGram.Model.STYLE.data.length ].stroke 
+                                        || &#x27;#fff&#x27;;
+                        _legend.attr( &#x27;fill&#x27;, _color ).attr( &#x27;stroke&#x27;, _color );;
+                    } );
+                    if( _legend ){
+                        _bbox = _legend.getBBox();
+                        _c.legend = {
+                            x: ( _maxX - _bbox.width ) / 2
+                            , y: _maxY - _bbox.height - 2
+                            , ele: _legend
+                        }
+                        _maxY = _c.legend.y;
                     }
-                    _maxY = _c.legend.y;
                 }
 
                 _maxY -= _p.varrowSize();
@@ -734,14 +736,14 @@
                 _p._model.dataBackground().mouseenter( function( _evt ){
                     CurveGram.CURRENT_INS = _p;
                     //JC.log( &#x27;mouseenter&#x27;, JC.f.ts() );
-                    _jdoc.on( &#x27;mousemove&#x27;, CurveGram.DEFAULT_MOVE );
+                    _jwin.on( &#x27;mousemove&#x27;, CurveGram.DEFAULT_MOVE );
                     _p.trigger( &#x27;moving_start&#x27; );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
                     //JC.log( &#x27;mouseleave&#x27;, JC.f.ts() );
                     _p.trigger( &#x27;moving_done&#x27; );
-                    _jdoc.off( &#x27;mousemove&#x27;, CurveGram.DEFAULT_MOVE );
+                    _jwin.off( &#x27;mousemove&#x27;, CurveGram.DEFAULT_MOVE );
                     CurveGram.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );

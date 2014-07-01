@@ -36,55 +36,102 @@
                 <script type="text/template">
                     {
                         title: {
-                            text:'Chart Title'
+                            text:'浏览器使用份额'
                         },
                         subtitle: {
-                            text: 'sub title'
+                            text: 'for PC'
                         }, 
-                        xAxis: {
-                            categories: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12' ]
-                            , tipTitlePostfix: '{0}月份'
-                        }, 
-                        yAxis: {
-                            title: {
-                                text: '(Vertical Title - 中文)'
-                            }
-                        },
-                        series:[
-                            {
-                                name: 'Temperature'
-                                , data: [-10, 0, 3, -110, -20, 27, 28, 32, 30, 25, 15, -58]
-                                , style: { 'stroke': '#ff7100' } 
-                                , pointStyle: {}
-                            }
-                            , {
-                                name: 'Rainfall',
-                                data: [20, 21, 20, 100, 200, 210, 220, 100, 20, 10, 20, 10]
-                            }
-                            , {
-                                name: 'Rainfall1',
-                                data: [20, 21, 20, 200, 200, 210, 220, 100, 20, 10, 20, 10]
-                            }
-                            , {
-                                name: 'Rainfall2',
-                                data: [20, 21, 20, 300, 200, 210, 220, 100, 20, 10, 20, 10]
-                            }
-                            , {
-                                name: 'Rainfall3',
-                                data: [20, 21, 20, 400, 200, 210, 220, 100, 20, 10, 20, 10]
-                            }
-                        ],
-                        credits: {
-                            enabled: true
-                            , text: 'jchart.openjavascript.org'
-                            , href: 'http://jchart.openjavascript.org/'
-                        },
-                        displayAllLabel: true,
-                        displayLegend: true
+                        series:[{
+                            name: 'Browser share',
+                            data: [
+                                ['Firefox',  99]
+                                , ['chrome',  1]
+                            ]
+                        }]
                     }
                 </script>
             </div>
         </dd>
+
+        <dd>
+            <div class="js_jchart jchartPieGraph"
+                chartScriptData="/script"
+                >
+                <script type="text/template">
+                    {
+                        title: {
+                            text:'浏览器使用份额'
+                        },
+                        series:[{
+                            name: 'Browser share',
+                            data: [
+                                ['Firefox',  99]
+                                , ['chrome',  1]
+                            ]
+                        }]
+                    }
+                </script>
+            </div>
+        </dd>
+
+        <dd>
+            <div class="js_jchart jchartPieGraph"
+                chartScriptData="/script"
+                >
+                <script type="text/template">
+                    {
+                        series: [
+                            {
+                                name: 'Browser share',
+                                data: [
+                                    ['Firefox',  99]
+                                    , ['chrome',  1]
+                                ]
+                            }
+                       ]
+                        , plotOptions: {
+                            pie: {
+                                dataLabels: {
+                                    enabled: true
+                                }
+                            }
+                            , showInLegend: true
+                        }
+
+                    }
+                </script>
+            </div>
+        </dd>
+
+        <dd>
+            <div class="js_jchart jchartPieGraph"
+                chartScriptData="/script"
+                >
+                <script type="text/template">
+                    {
+                        series: [
+                            {
+                                name: 'Browser share',
+                                data: [
+                                    ['Firefox',  99]
+                                    , ['chrome',  1]
+                                ]
+                            }
+                       ]
+                        , plotOptions: {
+                            pie: {
+                                dataLabels: {
+                                    enabled: false
+                                }
+                            }
+                            , showInLegend: true
+                        }
+
+                    }
+                </script>
+            </div>
+        </dd>
+
     </dl>
 </body>
 </html>

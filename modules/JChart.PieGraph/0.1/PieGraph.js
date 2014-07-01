@@ -352,7 +352,6 @@
 
                        _tmp.on( 'mouseenter', function( _evt, _srcEvt, _id, _index ){
                             //JC.log( 'hover in', _id, JC.f.ts() );
-                            JC.f.safeTimeout( function(){}, _p, 'asdfawsef_hide_tips', 200 );
                             _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
                             _jdoc.on( 'mousemove', PieGraph.DEFAULT_MOVE );
                             PieGraph.CURRENT_INS = _p;
@@ -362,11 +361,9 @@
 
                        _tmp.on( 'mouseleave', function( _evt, _srcEvt, _id, _index ){
                             //JC.log( 'hover out', _id, JC.f.ts() );
-                            JC.f.safeTimeout( function(){
-                                _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
-                                _p.trigger( 'moving_done' );
-                                PieGraph.CURRENT_INS = null;
-                            }, _p, 'asdfawsef_hide_tips', 200 );
+                            _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
+                            _p.trigger( 'moving_done' );
+                            PieGraph.CURRENT_INS = null;
                        });
 
                         _p._piePart.push( _tmp );
@@ -663,7 +660,7 @@
                     _c.piePart = [];
                     _p.dataLabelEnabled() && ( _c.pieLine = [] );
 
-                    JC.log( '_p.dataLabelEnabled:', _p.dataLabelEnabled() );
+                    //JC.log( '_p.dataLabelEnabled:', _p.dataLabelEnabled() );
 
                     $.each( _p.pieData(), function( _k, _item ){
                         var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius }, _pieL = {};
@@ -759,8 +756,10 @@
                 }
                 //JC.log();
 
+                /*
                 JC.dir( _p._coordinate );
                 JC.dir( _p.data() );
+                */
 
                 var _tips = _p.tips();
                 return _p._coordinate;

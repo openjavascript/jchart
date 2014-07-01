@@ -630,11 +630,14 @@
 
                 _p._model.dataBackground().mouseenter( function( _evt ){
                     Histogram.CURRENT_INS = _p;
+                    //JC.log( 'mouseenter', JC.f.ts() );
+                    _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
                     _jdoc.on( 'mousemove', Histogram.DEFAULT_MOVE );
                     _p.trigger( 'moving_start' );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
+                    //JC.log( 'mouseleave', JC.f.ts() );
                     _p.trigger( 'moving_done' );
                     _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
                     Histogram.CURRENT_INS = null;

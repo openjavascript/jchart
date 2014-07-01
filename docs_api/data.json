@@ -352,7 +352,7 @@
             "file": "../modules/JChart.CurveGram/0.1/CurveGram.js",
             "line": 2,
             "description": "曲线图\n\n<p><b>require</b>:\n  <a href='JChart.Base.html'>JChart.Base</a>\n</p>\n\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.CurveGram.html' target='_blank'>API docs</a>\n  | <a href='../../modules/JChart.CurveGram/0.1/_demo' target='_blank'>demo link</a></p>\n \n<h2>页面只要引用本脚本, 默认会处理 span class=\"jchartCurveGram\"</h2>\n\n<h2>可用的 HTML attribute</h2>\n\n<dl>\n   <dt></dt>\n   <dd><dd>\n</dl>",
-            "extends": "JChart.BaseMVC",
+            "extends": "JChart.Base",
             "is_constructor": 1,
             "params": [
                 {
@@ -487,7 +487,7 @@
             "file": "../modules/JChart.Histogram/0.1/Histogram.js",
             "line": 2,
             "description": "柱状图\n\n<p><b>require</b>:\n  <a href='JChart.Base.html'>JChart.Base</a>\n</p>\n\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Histogram.html' target='_blank'>API docs</a>\n  | <a href='../../modules/JChart.Histogram/0.1/_demo' target='_blank'>demo link</a></p>\n \n<h2>页面只要引用本脚本, 默认会处理 span class=\"jchartHistogram\"</h2>\n\n<h2>可用的 HTML attribute</h2>\n\n<dl>\n   <dt></dt>\n   <dd><dd>\n</dl>",
-            "extends": "JChart.BaseMVC",
+            "extends": "JChart.Base",
             "is_constructor": 1,
             "params": [
                 {
@@ -592,7 +592,7 @@
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
             "line": 2,
             "description": "柱状图\n\n<p><b>require</b>:\n  <a href='JChart.Base.html'>JChart.Base</a>\n</p>\n\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.PieGraph.html' target='_blank'>API docs</a>\n  | <a href='../../modules/JChart.PieGraph/0.1/_demo' target='_blank'>demo link</a></p>\n \n<h2>页面只要引用本脚本, 默认会处理 span class=\"jchartPieGraph\"</h2>\n\n<h2>可用的 HTML attribute</h2>\n\n<dl>\n   <dt></dt>\n   <dd><dd>\n</dl>",
-            "extends": "JChart.BaseMVC",
+            "extends": "JChart.Base",
             "is_constructor": 1,
             "params": [
                 {
@@ -3191,69 +3191,76 @@
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
             "line": 872,
-            "description": "是否显示所有内容",
+            "description": "是否显示图例说明",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 884,
+            "line": 885,
+            "description": "是否显示所有内容标签",
+            "class": "JChart.Base",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Base/0.1/Base.js",
+            "line": 905,
             "description": "图表高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 888,
+            "line": 909,
             "description": "图表高度",
-            "class": "JChart.Base",
-            "namespace": "JChart"
-        },
-        {
-            "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 892,
-            "description": "图表画布",
-            "class": "JChart.Base",
-            "namespace": "JChart"
-        },
-        {
-            "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 896,
-            "description": "初始化的选择器",
-            "class": "JChart.Base",
-            "namespace": "JChart"
-        },
-        {
-            "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 903,
-            "description": "清除图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
             "line": 913,
+            "description": "图表画布",
+            "class": "JChart.Base",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Base/0.1/Base.js",
+            "line": 917,
+            "description": "初始化的选择器",
+            "class": "JChart.Base",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Base/0.1/Base.js",
+            "line": 924,
+            "description": "清除图表数据",
+            "class": "JChart.Base",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Base/0.1/Base.js",
+            "line": 934,
             "description": "清除图表状态",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 919,
+            "line": 940,
             "description": "更新图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 929,
+            "line": 950,
             "description": "渲染图表外观",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 935,
+            "line": 956,
             "description": "显示静态外观",
             "class": "JChart.Base",
             "namespace": "JChart"
@@ -3337,28 +3344,28 @@
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
-            "line": 260,
+            "line": 275,
             "description": "数据图例图标",
             "class": "JChart.PieGraph",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
-            "line": 306,
+            "line": 321,
             "description": "保存图表数据",
             "class": "JChart.PieGraph",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
-            "line": 431,
+            "line": 443,
             "description": "获取 tips 对象",
             "class": "JChart.PieGraph",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
-            "line": 500,
+            "line": 512,
             "description": "获取 tips 标题文本",
             "class": "JChart.PieGraph",
             "namespace": "JChart"
@@ -4117,44 +4124,48 @@
             "line": " ../modules/JChart.Base/0.1/Base.js:864"
         },
         {
-            "message": "Missing item type\n是否显示所有内容",
+            "message": "Missing item type\n是否显示图例说明",
             "line": " ../modules/JChart.Base/0.1/Base.js:872"
         },
         {
-            "message": "Missing item type\n图表高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:884"
+            "message": "Missing item type\n是否显示所有内容标签",
+            "line": " ../modules/JChart.Base/0.1/Base.js:885"
         },
         {
             "message": "Missing item type\n图表高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:888"
+            "line": " ../modules/JChart.Base/0.1/Base.js:905"
+        },
+        {
+            "message": "Missing item type\n图表高度",
+            "line": " ../modules/JChart.Base/0.1/Base.js:909"
         },
         {
             "message": "Missing item type\n图表画布",
-            "line": " ../modules/JChart.Base/0.1/Base.js:892"
-        },
-        {
-            "message": "Missing item type\n初始化的选择器",
-            "line": " ../modules/JChart.Base/0.1/Base.js:896"
-        },
-        {
-            "message": "Missing item type\n清除图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:903"
-        },
-        {
-            "message": "Missing item type\n清除图表状态",
             "line": " ../modules/JChart.Base/0.1/Base.js:913"
         },
         {
+            "message": "Missing item type\n初始化的选择器",
+            "line": " ../modules/JChart.Base/0.1/Base.js:917"
+        },
+        {
+            "message": "Missing item type\n清除图表数据",
+            "line": " ../modules/JChart.Base/0.1/Base.js:924"
+        },
+        {
+            "message": "Missing item type\n清除图表状态",
+            "line": " ../modules/JChart.Base/0.1/Base.js:934"
+        },
+        {
             "message": "Missing item type\n更新图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:919"
+            "line": " ../modules/JChart.Base/0.1/Base.js:940"
         },
         {
             "message": "Missing item type\n渲染图表外观",
-            "line": " ../modules/JChart.Base/0.1/Base.js:929"
+            "line": " ../modules/JChart.Base/0.1/Base.js:950"
         },
         {
             "message": "Missing item type\n显示静态外观",
-            "line": " ../modules/JChart.Base/0.1/Base.js:935"
+            "line": " ../modules/JChart.Base/0.1/Base.js:956"
         },
         {
             "message": "Missing item type\n计算两个坐标点之间的距离",
@@ -4166,19 +4177,19 @@
         },
         {
             "message": "Missing item type\n数据图例图标",
-            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:260"
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:275"
         },
         {
             "message": "Missing item type\n保存图表数据",
-            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:306"
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:321"
         },
         {
             "message": "Missing item type\n获取 tips 对象",
-            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:431"
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:443"
         },
         {
             "message": "Missing item type\n获取 tips 标题文本",
-            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:500"
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:512"
         },
         {
             "message": "Missing item type\nrequirejs config.js for JC Chart Project",

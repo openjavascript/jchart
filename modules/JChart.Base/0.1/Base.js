@@ -870,10 +870,6 @@ window.JChart = window.JChart || {};
                 return this._preItems;
             }
         /**
-         * 是否显示所有内容
-         */
-        , displayAllLabel: function(){ return this.data().displayAllLabel; }
-        /**
          * 是否显示图例说明
          */
         , showInLegend:
@@ -883,6 +879,18 @@ window.JChart = window.JChart || {};
                     && _p.data().plotOptions
                     && ( 'showInLegend' in _p.data().plotOptions )
                     && ( _r = _p.data().plotOptions )
+                    ;
+                return _r;
+            }
+        /**
+         * 是否显示所有内容标签
+         */
+        , displayAllLabel:
+            function(){
+                var _p = this, _r = true;
+                _p.data() 
+                    && ( 'displayAllLabel' in _p.data() )
+                    && ( _r = _p.data().displayAllLabel )
                     ;
                 return _r;
             }

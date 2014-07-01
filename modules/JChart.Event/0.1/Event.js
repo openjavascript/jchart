@@ -19,7 +19,7 @@
                     , y: Math.floor( _offset.y + _bbox.y )
                     , y2: Math.floor( _offset.y + _bbox.y2 )
                 };
-                _p.mouseout( _innerMousemove );
+                _win.mousemove( _innerMousemove );
             });
 
             function _innerMousemove( _evt ){
@@ -29,7 +29,7 @@
                 }else{
                     _bbox = null;
                     _p.IS_ENTER = false;
-                    _p.unmouseout( _innerMousemove );
+                    _win.mousemove( _innerMousemove );
                 }
             }
         };

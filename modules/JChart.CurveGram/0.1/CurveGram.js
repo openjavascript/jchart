@@ -604,14 +604,14 @@
                 _p._model.dataBackground().mouseenter( function( _evt ){
                     CurveGram.CURRENT_INS = _p;
                     //JC.log( 'mouseenter', JC.f.ts() );
-                    _jdoc.on( 'mousemove', CurveGram.DEFAULT_MOVE );
+                    _jwin.on( 'mousemove', CurveGram.DEFAULT_MOVE );
                     _p.trigger( 'moving_start' );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
                     //JC.log( 'mouseleave', JC.f.ts() );
                     _p.trigger( 'moving_done' );
-                    _jdoc.off( 'mousemove', CurveGram.DEFAULT_MOVE );
+                    _jwin.off( 'mousemove', CurveGram.DEFAULT_MOVE );
                     CurveGram.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );

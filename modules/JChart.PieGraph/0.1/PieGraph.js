@@ -656,7 +656,7 @@
                     var _angle = 360
                         , _angleCount = 0
                         , _offsetAngle = _p.offsetAngle()
-                        , _partSize = 100
+                        , _partSize = _p.partSize()
                         , _tmpPoint
                         ;
 
@@ -669,11 +669,23 @@
                         var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius }, _pieL = {};
 
                         _pieC.radians = Math.PI / 180;
-                        _pieC.angle = _item.y / _partSize * _angle;
+                        _pieC.offsetAngle = _offsetAngle;
+                        
+                        if( _item.y === _partSize ){
+                            _pieC.angle = 360;
+                            _pieC.percent = 100;
 
-                        _pieC.startAngle = ( _angleCount + _offsetAngle ) % _angle;
-                        _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2;
-                        _pieC.endAngle = ( ( _angleCount += _pieC.angle ) + _offsetAngle ) % _angle;
+                            _pieC.startAngle = ( _angleCount + _offsetAngle ) % _angle;
+                            _pieC.midAngle = ( _pieC.startAngle + _pieC.angle / 2 ) % _angle;
+                            _pieC.endAngle = ( ( _angleCount += _pieC.angle ) + _offsetAngle ) % _angle;
+                        }else{
+                            _pieC.percent = _item.y / _partSize * 100;
+                            _pieC.angle = _item.y / _partSize * _angle;
+
+                            _pieC.startAngle = ( _angleCount + _offsetAngle ) % _angle;
+                            _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2;
+                            _pieC.endAngle = ( ( _angleCount += _pieC.angle ) + _offsetAngle ) % _angle;
+                        }
 
                         _pieC.startPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.startAngle );
                         _pieC.endPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.endAngle );
@@ -684,8 +696,8 @@
                         _pieC.endPoint.y += _pieC.cy;
                         _pieC.data = _item;
 
-                        _pieL.start = JChart.Geometry.distanceAngleToPoint( _pieC.radius - 10, _pieC.midAngle );
-                        _pieL.end = JChart.Geometry.distanceAngleToPoint( _pieC.radius + 40, _pieC.midAngle );
+                        _pieL.start = JChart.Geometry.distanceAngleToPoint( _pieC.radius - _p.lineStart(), _pieC.midAngle );
+                        _pieL.end = JChart.Geometry.distanceAngleToPoint( _pieC.radius + _p.lineLength(), _pieC.midAngle );
                         _pieL.cx = _c.cx, _pieL.cy = _c.cy;
                         _pieL.start.x += _pieL.cx;
                         _pieL.start.y += _pieL.cy;
@@ -754,6 +766,23 @@
                 return _p._coordinate;
             }
 
+        , partSize:
+            function(){
+                var _p = this;
+                typeof _p._partSize == 'undefined' 
+                    &&_p.pieData() 
+                    && _p.pieData().length && (
+                            _p._partSize = 0
+                            , $.each( _p.pieData(), function( _k, _item ){
+                                _p ._partSize += _item.y
+                            })
+                       );
+                return this._partSize || 100;
+            }
+
+        , lineStart: function(){ return 10; }
+        , lineLength: function(){ return 40; }
+
         , offsetAngle:
             function(){
                 var _r = 270;
@@ -763,9 +792,17 @@
 
         , calcRadius:
             function( _w, _h ){
-                var _r = _w;
-                _h < _r && ( _r = _h );
-                _r = parseInt( _r / 5 * 3 / 2 );
+                var _p = this, _r = Math.min( _w, _h );
+                //_r = parseInt( _r / 5 * 3 / 2 );
+                if( _p.showInLegend() ){
+                    _r -= 30;
+                }
+                if( _p.dataLabelEnabled() ){
+                    _r -= ( _p.lineLength() - _p.lineStart() + 40 ) * 2;
+                }else{
+                    _r -= 40;
+                }
+                _r /= 2;
                 return _r;
             }
     });

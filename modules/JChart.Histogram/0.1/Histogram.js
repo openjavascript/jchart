@@ -279,7 +279,7 @@
                     , _c = {}
                     , _bbox
                     , _x = 0, _maxX = _p.width() - 10
-                    , _y = 0, _maxY = _p.height() - 5
+                    , _y = 0, _maxY = _p.height()
                     , _tmp, _tmpX, _tmpY, _padX, _tmpA, _tmpA1
                     ;
                 this._coordinate = _c;
@@ -334,23 +334,26 @@
                         , y: _maxY - _bbox.height / 2
                         , ele: _credits
                     }
-                    _maxY = _c.credits.y - 8;
+                    _maxY = _c.credits.y - 5;
                 }
 
-                var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
-                    var _color = _data.stroke 
-                                    || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
-                                    || '#fff';
-                    _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
-                } );
-                if( _legend ){
-                    _bbox = _legend.getBBox();
-                    _c.legend = {
-                        x: ( _maxX - _bbox.width ) / 2
-                        , y: _maxY - _bbox.height - 2
-                        , ele: _legend
+                if( _p.showInLegend() ){
+                    var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
+                        var _color = _data.stroke 
+                                        || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
+                                        || '#fff';
+                        _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
+                    } );
+                    if( _legend ){
+                        _bbox = _legend.getBBox();
+                        _c.legend = {
+                            x: ( _maxX - _bbox.width ) / 2
+                            , y: _maxY - _bbox.height + 5
+                            , ele: _legend
+                        }
+                        _maxY = _c.legend.y;
                     }
-                    _maxY = _c.legend.y;
+                }else{
                 }
 
                 _maxY -= _p.varrowSize();

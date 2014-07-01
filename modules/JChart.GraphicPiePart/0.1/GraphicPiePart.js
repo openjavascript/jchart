@@ -131,21 +131,29 @@
                 var _p = this
                     , _item, _corText
                     , _pie = _p._model._pieCor
+                    , _isReverse = 0
                     ;
-                _corText = 
-                    [
-                        "M", _pie.cx, _pie.cy
-                    , "L"
-                    , _pie.endPoint.x, _pie.endPoint.y
-                    , "A"
-                        , _pie.radius, _pie.radius
-                        , 0
-                        , 0
-                        , 0
-                        , _pie.startPoint.x, _pie.startPoint.y
-                        , "z"
-                ];
-                _item = _p._model.stage().path( _corText );
+                if( _pie.startAngle === _pie.endAngle && _pie.startPoint != 0 ){
+                    _item = _p._model.stage().circle( _pie.cx, _pie.cy, _pie.radius );
+                }else{
+                    if( _pie.percent > 50 ){
+                        _isReverse = 1;
+                    }
+                    _corText = 
+                        [
+                            "M", _pie.cx, _pie.cy
+                        , "L"
+                        , _pie.endPoint.x, _pie.endPoint.y
+                        , "A"
+                            , _pie.radius, _pie.radius
+                            , 0
+                            , _isReverse
+                            , 0
+                            , _pie.startPoint.x, _pie.startPoint.y
+                            , "z"
+                    ];
+                    _item = _p._model.stage().path( _corText );
+                }
                 _p._model.add( _item, 'element' );
                 _p.unhover();
 
@@ -157,21 +165,26 @@
                     , _item = _p._model.item( 'element' )
                     , _target
                     , _transform
+                    , _pie = _p._model._pieCor
                     ;
                 _ms = _ms || 200;
                 _distance = _distance || 10;
 
                 _p._model.selected( _isSelected );
 
-                _item.stop();
-                _target = JChart.Geometry.distanceAngleToPoint( _distance, _p._model._pieCor.midAngle );
 
-                if( _isSelected ){
-                    _transform = JC.f.printf( 't{0} {1}', _target.x, _target.y );
+                if( _pie.startAngle === _pie.endAngle && _pie.startPoint != 0 ){
                 }else{
-                    _transform = JC.f.printf( 't{0} {1}', 0, 0 );
+                    _item.stop();
+                    _target = JChart.Geometry.distanceAngleToPoint( _distance, _p._model._pieCor.midAngle );
+
+                    if( _isSelected ){
+                        _transform = JC.f.printf( 't{0} {1}', _target.x, _target.y );
+                    }else{
+                        _transform = JC.f.printf( 't{0} {1}', 0, 0 );
+                    }
+                    _item.animate( { transform: _transform}, _ms );
                 }
-                _item.animate( { transform: _transform}, _ms );
             }
     });
 

@@ -360,20 +360,22 @@
                     _maxY = _c.credits.y - 8;
                 }
 
-                var _legend = _p.legend( _data, 'line', function( _ix, _legend, _text, _data ){
-                    var _color = _data.stroke 
-                                    || CurveGram.Model.STYLE.data[ _ix % CurveGram.Model.STYLE.data.length ].stroke 
-                                    || '#fff';
-                    _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
-                } );
-                if( _legend ){
-                    _bbox = _legend.getBBox();
-                    _c.legend = {
-                        x: ( _maxX - _bbox.width ) / 2
-                        , y: _maxY - _bbox.height - 2
-                        , ele: _legend
+                if( _p.showInLegend() ){
+                    var _legend = _p.legend( _data, 'line', function( _ix, _legend, _text, _data ){
+                        var _color = _data.stroke 
+                                        || CurveGram.Model.STYLE.data[ _ix % CurveGram.Model.STYLE.data.length ].stroke 
+                                        || '#fff';
+                        _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
+                    } );
+                    if( _legend ){
+                        _bbox = _legend.getBBox();
+                        _c.legend = {
+                            x: ( _maxX - _bbox.width ) / 2
+                            , y: _maxY - _bbox.height - 2
+                            , ele: _legend
+                        }
+                        _maxY = _c.legend.y;
                     }
-                    _maxY = _c.legend.y;
                 }
 
                 _maxY -= _p.varrowSize();

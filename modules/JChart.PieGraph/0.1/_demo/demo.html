@@ -55,7 +55,7 @@
                                 },
                                 ['Safari',    8.5],
                                 ['Opera',     6.2],
-                                ['Others',   0.7]
+                                ['Others',   50]
                             ]
                         }]
                     }
@@ -200,23 +200,40 @@
                             name: 'Browser share',
                             innerSize: '40%', 
                             data: [
-                                ['Firefox',   45.0],
-                                ['IE',       26.8],
-                                {
-                                    name: 'Chrome',
-                                    y: 12.8,
-                                    selected: true
-                                },
-                                ['Safari',    8.5],
-                                ['Opera',     6.2],
-                                ['Others',   0.7]
+                                ['Firefox',  100],
                             ]
                         }]
-                        ,offsetAngle: 45
                     }
                 </script>
             </div>
         </dd>
+        <dd>
+            <div class="js_jchart jchartPieGraph"
+                chartScriptData="/script"
+                chartWidth="600"
+                chartHeight="500"
+                >
+                <script type="text/template">
+                    {
+                        title: {
+                            text:'浏览器使用份额'
+                        },
+                        subtitle: {
+                            text: 'for PC'
+                        }, 
+                        series:[{
+                            name: 'Browser share',
+                            innerSize: '40%', 
+                            data: [
+                                ['Firefox',  99]
+                                , ['chrome',  1]
+                            ]
+                        }]
+                    }
+                </script>
+            </div>
+        </dd>
+
     </dl>
 </body>
 </html>

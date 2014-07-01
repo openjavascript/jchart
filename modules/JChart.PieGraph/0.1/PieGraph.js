@@ -76,7 +76,6 @@
                 return;
             }
             var _p = PieGraph.CURRENT_INS;
-            //JC.log( 'PieGraph.DEFAULT_MOVE', _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
             _p.trigger( 'update_moving_status', [ _evt ] );
         };
 
@@ -85,7 +84,6 @@
     JC.f.extendObject( PieGraph.prototype, {
         _beforeInit:
             function(){
-                //JC.log( 'PieGraph _beforeInit', new Date().getTime() );
             }
 
         , _initHanlderEvent:
@@ -105,13 +103,11 @@
                 _p.on( 'moving_start', function( _evt ){
                     _p.trigger( 'clear_status' );
                     _p._model.tips() && _p._model.tips().show();
-                    //JC.log( 'moving_start', JC.f.ts() );
                 });
 
                 _p.on( 'moving_done', function( _evt ){
                     _p.trigger( 'clear_status' );
                     _p._model.tips() && _p._model.tips().hide();
-                    //JC.log( 'moving_done', JC.f.ts() );
                 });
 
                 _p.on( 'clear_status', function(){
@@ -121,7 +117,6 @@
                 _p.on( 'update_status', function( _evt, _index, _offset ){
                     if( !_offset ) return;
                     if( typeof _index == 'undefined' ) return;
-                    //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
                     _p._view.updateTips( _index, _offset );
                 });
 
@@ -150,7 +145,6 @@
 
         , _inited:
             function(){
-                //JC.log( 'PieGraph _inited', new Date().getTime() );
             }
     });
 
@@ -185,7 +179,6 @@
     JC.f.extendObject( PieGraph.Model.prototype, {
         init:
             function(){
-                //JC.log( 'PieGraph.Model.init:', new Date().getTime() );
             }
 
         , pieData:
@@ -344,12 +337,11 @@
                         _tmp = new JChart.GraphicPiePart( _p.stage(), _pieCor, _p.itemStyle( _k ), _p.itemHoverStyle( _k ), _k );
                         _tmp.index( _k );
                         _tmp.on( 'selected_changed', function( _evt, _isSelected, _id ){
-                            //JC.log( 'selected_changed', _id, JC.f.ts() );
                             _p.trigger( 'unselected_piepart', [ _isSelected, _id ] );
                         });
 
                        _tmp.on( 'mouseenter', function( _evt, _srcEvt, _id, _index ){
-                            JC.log( 'mouseenter', _id, JC.f.ts() );
+                            //JC.log( 'mouseenter', _id, JC.f.ts() );
                             _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
                             _jdoc.on( 'mousemove', PieGraph.DEFAULT_MOVE );
                             PieGraph.CURRENT_INS = _p;
@@ -358,7 +350,7 @@
                        });
 
                        _tmp.on( 'mouseleave', function( _evt, _srcEvt, _id, _index ){
-                            JC.log( 'mouseleaveout', _id, JC.f.ts() );
+                            //JC.log( 'mouseleaveout', _id, JC.f.ts() );
                             _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
                             _p.trigger( 'moving_done' );
                             PieGraph.CURRENT_INS = null;

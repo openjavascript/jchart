@@ -7,7 +7,7 @@ JC.PATH = JC.PATH || scriptPath();
 window.requirejs && 
 requirejs.config( {
     baseUrl: JC.PATH
-    , urlArgs: 'v=20140212'
+    , urlArgs: 'v=20140212&nocache=' + new Date().getTime()
     , paths: {
         'JC.common': 'modules/JC.common/0.2/common'
         , 'JC.BaseMVC': 'modules/JC.BaseMVC/0.1/BaseMVC'
@@ -33,7 +33,7 @@ requirejs.config( {
         , 'JChart.IconLine': 'modules/JChart.IconLine/0.1/IconLine'
         , 'JChart.IconRect': 'modules/JChart.IconRect/0.1/IconRect'
 
-        , 'Raphael': 'modules/Raphael/2.1.2/Raphael'
+        , 'Raphael': 'modules/Raphael/latest/raphael'
         , 'json2': 'modules/JSON/2/JSON'
     }
 });

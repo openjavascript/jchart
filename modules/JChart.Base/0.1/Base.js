@@ -57,6 +57,19 @@ window.JChart = window.JChart || {};
     }
     JC.BaseMVC.build( Base );
 
+    Base.getBBox =
+        function( _item ){
+            var _r;
+            if( _item.node && _item.node.getBBox ){
+                _r = _item.node.getBBox();
+                _r.x2 = _r.x + _r.width;
+                _r.y2 = _r.y + _r.height;
+            }else if( _item.getBBox ){
+                _r = _item.getBBox();
+            }
+            return _r;
+        };
+
     JChart.Base.init =
         function( _class, _items, _count, _tmMs){
             if( _items[ _count ] ){

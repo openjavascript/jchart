@@ -21,7 +21,7 @@
  *
  * @namespace   JChart
  * @class       PieGraph
- * @extends     JChart.BaseMVC
+ * @extends     JChart.Base
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2014-06-20
@@ -200,6 +200,21 @@
                     && _p.data().series[0].data.length
                     && ( _p._pieData = _p.data().series[0].data )
                 return _p._pieData;
+            }
+
+        , dataLabelEnabled:
+            function(){
+                var _p = this, _r = true;
+
+                _p.data() 
+                    && _p.data().plotOptions 
+                    && _p.data().plotOptions.pie
+                    && _p.data().plotOptions.pie.dataLabels
+                    && ( 'enabled' in _p.data().plotOptions.pie.dataLabels )
+                    && ( _r = _p.data().plotOptions.pie.dataLabels.enabled )
+                    ;
+
+                return _r;
             }
 
         , itemStyle:
@@ -583,20 +598,22 @@
                     _maxY = _c.credits.y - 8;
                 }
 
-                var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
-                    var _color = _data.stroke 
-                                    || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
-                                    || '#fff';
-                    _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
-                } );
-                if( _legend ){
-                    _bbox = _legend.getBBox();
-                    _c.legend = {
-                        x: ( _maxX - _bbox.width ) / 2
-                        , y: _maxY - _bbox.height - 2
-                        , ele: _legend
+                if( _p.showInLegend() ){
+                    var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
+                        var _color = _data.stroke 
+                                        || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
+                                        || '#fff';
+                        _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
+                    } );
+                    if( _legend ){
+                        _bbox = _legend.getBBox();
+                        _c.legend = {
+                            x: ( _maxX - _bbox.width ) / 2
+                            , y: _maxY - _bbox.height - 2
+                            , ele: _legend
+                        }
+                        _maxY = _c.legend.y;
                     }
-                    _maxY = _c.legend.y;
                 }
 
                 _maxY -= _p.varrowSize();
@@ -644,7 +661,9 @@
                         ;
 
                     _c.piePart = [];
-                    _c.pieLine = [];
+                    _p.dataLabelEnabled() && ( _c.pieLine = [] );
+
+                    JC.log( '_p.dataLabelEnabled:', _p.dataLabelEnabled() );
 
                     $.each( _p.pieData(), function( _k, _item ){
                         var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius }, _pieL = {};
@@ -723,7 +742,7 @@
                         _pieL.path = _tmpPath;
 
                         _c.piePart.push( _pieC );
-                        _c.pieLine.push( _pieL );
+                        _p.dataLabelEnabled() && _c.pieLine.push( _pieL );
                     });
                 }
                 //JC.log();

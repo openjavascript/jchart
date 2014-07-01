@@ -21,7 +21,7 @@
  *
  * @namespace   JChart
  * @class       Histogram
- * @extends     JChart.BaseMVC
+ * @extends     JChart.Base
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2014-06-20

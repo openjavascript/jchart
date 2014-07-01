@@ -873,6 +873,19 @@ window.JChart = window.JChart || {};
          * 是否显示所有内容
          */
         , displayAllLabel: function(){ return this.data().displayAllLabel; }
+        /**
+         * 是否显示图例说明
+         */
+        , showInLegend:
+            function(){
+                var _p = this, _r = false;
+                _p.data() 
+                    && _p.data().plotOptions
+                    && ( 'showInLegend' in _p.data().plotOptions )
+                    && ( _r = _p.data().plotOptions )
+                    ;
+                return _r;
+            }
 
     });
 

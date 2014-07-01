@@ -194,9 +194,7 @@
                 if( _selector.hasClass( &#x27;jchartCurveGram&#x27; )  ){
                     _r.push( new CurveGram( _selector ) );
                 }else{
-                    _selector.find( &#x27;div.jchartCurveGram&#x27; ).each( function(){
-                        _r.push( new CurveGram( this ) );
-                    });
+                    JChart.Base.init( CurveGram, $( &#x27;div.jchartCurveGram&#x27; ), 0, 1 );
                 }
             }
             return _r;

@@ -64,9 +64,7 @@
                 if( _selector.hasClass( 'jchartCurveGram' )  ){
                     _r.push( new CurveGram( _selector ) );
                 }else{
-                    _selector.find( 'div.jchartCurveGram' ).each( function(){
-                        _r.push( new CurveGram( this ) );
-                    });
+                    JChart.Base.init( CurveGram, $( 'div.jchartCurveGram' ), 0, 1 );
                 }
             }
             return _r;

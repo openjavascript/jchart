@@ -8,7 +8,7 @@
                 if( _p.IS_ENTER ) return;
                 var _offset;
                 _handler && _handler.call( _p, _evt );
-                _bbox = JChart.Base.getBBox( _p );
+                _bbox = _p.getBBox();
                 _p.IS_ENTER = true;
                 _offset = $( _p.paper.selector ).offset();
                 _offset.x = _offset.left;
@@ -42,7 +42,7 @@
             _p.mouseover( function( _evt ){
                 if( _p.IS_LEAVE ) return;
                 var _offset;
-                _bbox = JChart.Base.getBBox( _p );
+                _bbox = _p.getBBox();
                 _p.IS_LEAVE = true;
                 _offset = $( _p.paper.selector ).offset();
                 _offset.x = _offset.left;

@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'Raphael', 'JChart.Event', 'JChart.Base' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'Raphael', 'JChart.Event' ], function(){
 window.JChart = window.JChart || {};
 
     JChart.Group = Group;
@@ -80,13 +80,8 @@ window.JChart = window.JChart || {};
         , getBBox:
             function(){
                 var _r; 
-                //JC.dir( this._children );
                 $.each( this._children, function( _k, _item ){
-
-                    var _bbox = JChart.Base.getBBox( _item );
-                    _bbox.x2 = _bbox.x + _bbox.width;
-                    _bbox.y2 = _bbox.y + _bbox.height;
-                    //JC.dir( _bbox );
+                    var _bbox = _item.getBBox();
                     if( !_r ){
                         _r = {};
                         _r.x = _bbox.x;
@@ -144,7 +139,7 @@ window.JChart = window.JChart || {};
                         }
                         _item.setPosition( _rx, _ry, _offset );
                     }else{
-                        var _sbbox = JChart.Base.getBBox( _item );
+                        var _sbbox = _item.getBBox();
                         if( _item.node.nodeName == 'circle' ){
                             if( typeof _rx != 'undefined' ){
                                 _item.attr( 'cx', _rx + ( _item.attr( 'cx' ) - _bbox.x ) );

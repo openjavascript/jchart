@@ -192,9 +192,7 @@
                 if( _selector.hasClass( &#x27;jchartHistogram&#x27; )  ){
                     _r.push( new Histogram( _selector ) );
                 }else{
-                    _selector.find( &#x27;div.jchartHistogram&#x27; ).each( function(){
-                        _r.push( new Histogram( this ) );
-                    });
+                    JChart.Base.init( Histogram, $( &#x27;div.jchartHistogram&#x27; ), 0, 1 );
                 }
             }
             return _r;

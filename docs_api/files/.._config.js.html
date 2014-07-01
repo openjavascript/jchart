@@ -137,7 +137,7 @@ JC.PATH = JC.PATH || scriptPath();
 window.requirejs &amp;&amp; 
 requirejs.config( {
     baseUrl: JC.PATH
-    , urlArgs: &#x27;v=20140212&#x27;
+    , urlArgs: &#x27;v=20140212&amp;nocache=&#x27; + new Date().getTime()
     , paths: {
         &#x27;JC.common&#x27;: &#x27;modules/JC.common/0.2/common&#x27;
         , &#x27;JC.BaseMVC&#x27;: &#x27;modules/JC.BaseMVC/0.1/BaseMVC&#x27;
@@ -163,7 +163,7 @@ requirejs.config( {
         , &#x27;JChart.IconLine&#x27;: &#x27;modules/JChart.IconLine/0.1/IconLine&#x27;
         , &#x27;JChart.IconRect&#x27;: &#x27;modules/JChart.IconRect/0.1/IconRect&#x27;
 
-        , &#x27;Raphael&#x27;: &#x27;modules/Raphael/2.1.2/Raphael&#x27;
+        , &#x27;Raphael&#x27;: &#x27;modules/Raphael/latest/raphael&#x27;
         , &#x27;json2&#x27;: &#x27;modules/JSON/2/JSON&#x27;
     }
 });

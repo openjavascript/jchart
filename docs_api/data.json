@@ -2868,14 +2868,14 @@
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 99,
+            "line": 109,
             "description": "初始化数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 112,
+            "line": 122,
             "description": "更新数据",
             "itemtype": "method",
             "name": "update",
@@ -2890,377 +2890,377 @@
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 136,
+            "line": 146,
             "description": "图表宽度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 147,
+            "line": 157,
             "description": "图表高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 159,
+            "line": 169,
             "description": "图表实时宽度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 168,
+            "line": 178,
             "description": "图表实时高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 177,
+            "line": 187,
             "description": "设置或保存图表的宽高",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 185,
+            "line": 195,
             "description": "图表画布",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 198,
+            "line": 208,
             "description": "画布圆角弧度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 202,
+            "line": 212,
             "description": "清除图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 219,
+            "line": 229,
             "description": "清除图表状态",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 225,
+            "line": 235,
             "description": "图表背景",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 243,
+            "line": 253,
             "description": "图表数据背景",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 254,
+            "line": 264,
             "description": "保存图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 262,
+            "line": 272,
             "description": "数据图例图标",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 330,
+            "line": 340,
             "description": "图表标题",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 343,
+            "line": 353,
             "description": "图表子标题",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 355,
+            "line": 365,
             "description": "图表垂直标题",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 368,
+            "line": 378,
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 388,
+            "line": 398,
             "description": "图表数据种类的长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 399,
+            "line": 409,
             "description": "图表数据的长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 413,
+            "line": 423,
             "description": "图表粒度的长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 427,
+            "line": 437,
             "description": "最大的数值",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 456,
+            "line": 466,
             "description": "最小的负数值",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 482,
+            "line": 492,
             "description": "垂直粒度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 516,
+            "line": 526,
             "description": "垂直粒度的具体信息",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 554,
+            "line": 564,
             "description": "垂直标签",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 580,
+            "line": 590,
             "description": "水平标签",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 602,
+            "line": 612,
             "description": "获取要显示的水平标签索引位置\n如果返回 undefined, 将显示全部",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 626,
+            "line": 636,
             "description": "垂直背景线的突出长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 630,
+            "line": 640,
             "description": "水平背景线的突出长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 634,
+            "line": 644,
             "description": "获取垂直 label 的最大宽度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 648,
+            "line": 658,
             "description": "获取水平 label 的最大宽度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 662,
+            "line": 672,
             "description": "垂直的背景线",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 693,
+            "line": 703,
             "description": "水平的背景线",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 708,
+            "line": 718,
             "description": "计算所有显示内容的坐标",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 716,
+            "line": 726,
             "description": "图标的默认样式",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 724,
+            "line": 734,
             "description": "图标的默认 hover 样式",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 732,
+            "line": 742,
             "description": "背景线的样式",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 740,
+            "line": 750,
             "description": "通过坐标点计算当前在那个数据范围",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 747,
+            "line": 757,
             "description": "获取 tips 对象",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 826,
+            "line": 836,
             "description": "获取 tips 标题文本",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 843,
+            "line": 853,
             "description": "显示数值时 浮点数 的长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 854,
+            "line": 864,
             "description": "把全局事件对象转换为局部坐标点",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 864,
+            "line": 874,
             "description": "设置或者获取上一次的数据对象",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 872,
+            "line": 882,
             "description": "是否显示图例说明",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 885,
+            "line": 895,
             "description": "是否显示所有内容标签",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 905,
+            "line": 915,
             "description": "图表高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 909,
+            "line": 919,
             "description": "图表高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 913,
+            "line": 923,
             "description": "图表画布",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 917,
+            "line": 927,
             "description": "初始化的选择器",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 924,
+            "line": 934,
             "description": "清除图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 934,
+            "line": 944,
             "description": "清除图表状态",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 940,
+            "line": 950,
             "description": "更新图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 950,
+            "line": 960,
             "description": "渲染图表外观",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 956,
+            "line": 966,
             "description": "显示静态外观",
             "class": "JChart.Base",
             "namespace": "JChart"
@@ -3344,28 +3344,28 @@
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
-            "line": 275,
+            "line": 273,
             "description": "数据图例图标",
             "class": "JChart.PieGraph",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
-            "line": 321,
+            "line": 319,
             "description": "保存图表数据",
             "class": "JChart.PieGraph",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
-            "line": 443,
+            "line": 441,
             "description": "获取 tips 对象",
             "class": "JChart.PieGraph",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",
-            "line": 512,
+            "line": 511,
             "description": "获取 tips 标题文本",
             "class": "JChart.PieGraph",
             "namespace": "JChart"
@@ -3949,223 +3949,223 @@
         },
         {
             "message": "Missing item type\n初始化数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:99"
+            "line": " ../modules/JChart.Base/0.1/Base.js:109"
         },
         {
             "message": "Missing item type\n图表宽度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:136"
+            "line": " ../modules/JChart.Base/0.1/Base.js:146"
         },
         {
             "message": "Missing item type\n图表高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:147"
+            "line": " ../modules/JChart.Base/0.1/Base.js:157"
         },
         {
             "message": "Missing item type\n图表实时宽度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:159"
+            "line": " ../modules/JChart.Base/0.1/Base.js:169"
         },
         {
             "message": "Missing item type\n图表实时高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:168"
+            "line": " ../modules/JChart.Base/0.1/Base.js:178"
         },
         {
             "message": "Missing item type\n设置或保存图表的宽高",
-            "line": " ../modules/JChart.Base/0.1/Base.js:177"
+            "line": " ../modules/JChart.Base/0.1/Base.js:187"
         },
         {
             "message": "Missing item type\n图表画布",
-            "line": " ../modules/JChart.Base/0.1/Base.js:185"
+            "line": " ../modules/JChart.Base/0.1/Base.js:195"
         },
         {
             "message": "Missing item type\n画布圆角弧度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:198"
+            "line": " ../modules/JChart.Base/0.1/Base.js:208"
         },
         {
             "message": "Missing item type\n清除图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:202"
+            "line": " ../modules/JChart.Base/0.1/Base.js:212"
         },
         {
             "message": "Missing item type\n清除图表状态",
-            "line": " ../modules/JChart.Base/0.1/Base.js:219"
+            "line": " ../modules/JChart.Base/0.1/Base.js:229"
         },
         {
             "message": "Missing item type\n图表背景",
-            "line": " ../modules/JChart.Base/0.1/Base.js:225"
+            "line": " ../modules/JChart.Base/0.1/Base.js:235"
         },
         {
             "message": "Missing item type\n图表数据背景",
-            "line": " ../modules/JChart.Base/0.1/Base.js:243"
+            "line": " ../modules/JChart.Base/0.1/Base.js:253"
         },
         {
             "message": "Missing item type\n保存图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:254"
+            "line": " ../modules/JChart.Base/0.1/Base.js:264"
         },
         {
             "message": "Missing item type\n数据图例图标",
-            "line": " ../modules/JChart.Base/0.1/Base.js:262"
+            "line": " ../modules/JChart.Base/0.1/Base.js:272"
         },
         {
             "message": "Missing item type\n图表标题",
-            "line": " ../modules/JChart.Base/0.1/Base.js:330"
+            "line": " ../modules/JChart.Base/0.1/Base.js:340"
         },
         {
             "message": "Missing item type\n图表子标题",
-            "line": " ../modules/JChart.Base/0.1/Base.js:343"
+            "line": " ../modules/JChart.Base/0.1/Base.js:353"
         },
         {
             "message": "Missing item type\n图表垂直标题",
-            "line": " ../modules/JChart.Base/0.1/Base.js:355"
+            "line": " ../modules/JChart.Base/0.1/Base.js:365"
         },
         {
             "message": "Missing item type",
-            "line": " ../modules/JChart.Base/0.1/Base.js:368"
+            "line": " ../modules/JChart.Base/0.1/Base.js:378"
         },
         {
             "message": "Missing item type\n图表数据种类的长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:388"
+            "line": " ../modules/JChart.Base/0.1/Base.js:398"
         },
         {
             "message": "Missing item type\n图表数据的长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:399"
+            "line": " ../modules/JChart.Base/0.1/Base.js:409"
         },
         {
             "message": "Missing item type\n图表粒度的长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:413"
+            "line": " ../modules/JChart.Base/0.1/Base.js:423"
         },
         {
             "message": "Missing item type\n最大的数值",
-            "line": " ../modules/JChart.Base/0.1/Base.js:427"
+            "line": " ../modules/JChart.Base/0.1/Base.js:437"
         },
         {
             "message": "Missing item type\n最小的负数值",
-            "line": " ../modules/JChart.Base/0.1/Base.js:456"
+            "line": " ../modules/JChart.Base/0.1/Base.js:466"
         },
         {
             "message": "Missing item type\n垂直粒度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:482"
+            "line": " ../modules/JChart.Base/0.1/Base.js:492"
         },
         {
             "message": "Missing item type\n垂直粒度的具体信息",
-            "line": " ../modules/JChart.Base/0.1/Base.js:516"
+            "line": " ../modules/JChart.Base/0.1/Base.js:526"
         },
         {
             "message": "Missing item type\n垂直标签",
-            "line": " ../modules/JChart.Base/0.1/Base.js:554"
+            "line": " ../modules/JChart.Base/0.1/Base.js:564"
         },
         {
             "message": "Missing item type\n水平标签",
-            "line": " ../modules/JChart.Base/0.1/Base.js:580"
+            "line": " ../modules/JChart.Base/0.1/Base.js:590"
         },
         {
             "message": "Missing item type\n获取要显示的水平标签索引位置\n如果返回 undefined, 将显示全部",
-            "line": " ../modules/JChart.Base/0.1/Base.js:602"
+            "line": " ../modules/JChart.Base/0.1/Base.js:612"
         },
         {
             "message": "Missing item type\n垂直背景线的突出长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:626"
+            "line": " ../modules/JChart.Base/0.1/Base.js:636"
         },
         {
             "message": "Missing item type\n水平背景线的突出长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:630"
+            "line": " ../modules/JChart.Base/0.1/Base.js:640"
         },
         {
             "message": "Missing item type\n获取垂直 label 的最大宽度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:634"
+            "line": " ../modules/JChart.Base/0.1/Base.js:644"
         },
         {
             "message": "Missing item type\n获取水平 label 的最大宽度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:648"
+            "line": " ../modules/JChart.Base/0.1/Base.js:658"
         },
         {
             "message": "Missing item type\n垂直的背景线",
-            "line": " ../modules/JChart.Base/0.1/Base.js:662"
+            "line": " ../modules/JChart.Base/0.1/Base.js:672"
         },
         {
             "message": "Missing item type\n水平的背景线",
-            "line": " ../modules/JChart.Base/0.1/Base.js:693"
+            "line": " ../modules/JChart.Base/0.1/Base.js:703"
         },
         {
             "message": "Missing item type\n计算所有显示内容的坐标",
-            "line": " ../modules/JChart.Base/0.1/Base.js:708"
+            "line": " ../modules/JChart.Base/0.1/Base.js:718"
         },
         {
             "message": "Missing item type\n图标的默认样式",
-            "line": " ../modules/JChart.Base/0.1/Base.js:716"
+            "line": " ../modules/JChart.Base/0.1/Base.js:726"
         },
         {
             "message": "Missing item type\n图标的默认 hover 样式",
-            "line": " ../modules/JChart.Base/0.1/Base.js:724"
+            "line": " ../modules/JChart.Base/0.1/Base.js:734"
         },
         {
             "message": "Missing item type\n背景线的样式",
-            "line": " ../modules/JChart.Base/0.1/Base.js:732"
+            "line": " ../modules/JChart.Base/0.1/Base.js:742"
         },
         {
             "message": "Missing item type\n通过坐标点计算当前在那个数据范围",
-            "line": " ../modules/JChart.Base/0.1/Base.js:740"
+            "line": " ../modules/JChart.Base/0.1/Base.js:750"
         },
         {
             "message": "Missing item type\n获取 tips 对象",
-            "line": " ../modules/JChart.Base/0.1/Base.js:747"
+            "line": " ../modules/JChart.Base/0.1/Base.js:757"
         },
         {
             "message": "Missing item type\n获取 tips 标题文本",
-            "line": " ../modules/JChart.Base/0.1/Base.js:826"
+            "line": " ../modules/JChart.Base/0.1/Base.js:836"
         },
         {
             "message": "Missing item type\n显示数值时 浮点数 的长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:843"
+            "line": " ../modules/JChart.Base/0.1/Base.js:853"
         },
         {
             "message": "Missing item type\n把全局事件对象转换为局部坐标点",
-            "line": " ../modules/JChart.Base/0.1/Base.js:854"
-        },
-        {
-            "message": "Missing item type\n设置或者获取上一次的数据对象",
             "line": " ../modules/JChart.Base/0.1/Base.js:864"
         },
         {
+            "message": "Missing item type\n设置或者获取上一次的数据对象",
+            "line": " ../modules/JChart.Base/0.1/Base.js:874"
+        },
+        {
             "message": "Missing item type\n是否显示图例说明",
-            "line": " ../modules/JChart.Base/0.1/Base.js:872"
+            "line": " ../modules/JChart.Base/0.1/Base.js:882"
         },
         {
             "message": "Missing item type\n是否显示所有内容标签",
-            "line": " ../modules/JChart.Base/0.1/Base.js:885"
+            "line": " ../modules/JChart.Base/0.1/Base.js:895"
         },
         {
             "message": "Missing item type\n图表高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:905"
+            "line": " ../modules/JChart.Base/0.1/Base.js:915"
         },
         {
             "message": "Missing item type\n图表高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:909"
+            "line": " ../modules/JChart.Base/0.1/Base.js:919"
         },
         {
             "message": "Missing item type\n图表画布",
-            "line": " ../modules/JChart.Base/0.1/Base.js:913"
+            "line": " ../modules/JChart.Base/0.1/Base.js:923"
         },
         {
             "message": "Missing item type\n初始化的选择器",
-            "line": " ../modules/JChart.Base/0.1/Base.js:917"
+            "line": " ../modules/JChart.Base/0.1/Base.js:927"
         },
         {
             "message": "Missing item type\n清除图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:924"
-        },
-        {
-            "message": "Missing item type\n清除图表状态",
             "line": " ../modules/JChart.Base/0.1/Base.js:934"
         },
         {
-            "message": "Missing item type\n更新图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:940"
+            "message": "Missing item type\n清除图表状态",
+            "line": " ../modules/JChart.Base/0.1/Base.js:944"
         },
         {
-            "message": "Missing item type\n渲染图表外观",
+            "message": "Missing item type\n更新图表数据",
             "line": " ../modules/JChart.Base/0.1/Base.js:950"
         },
         {
+            "message": "Missing item type\n渲染图表外观",
+            "line": " ../modules/JChart.Base/0.1/Base.js:960"
+        },
+        {
             "message": "Missing item type\n显示静态外观",
-            "line": " ../modules/JChart.Base/0.1/Base.js:956"
+            "line": " ../modules/JChart.Base/0.1/Base.js:966"
         },
         {
             "message": "Missing item type\n计算两个坐标点之间的距离",
@@ -4177,19 +4177,19 @@
         },
         {
             "message": "Missing item type\n数据图例图标",
-            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:275"
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:273"
         },
         {
             "message": "Missing item type\n保存图表数据",
-            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:321"
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:319"
         },
         {
             "message": "Missing item type\n获取 tips 对象",
-            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:443"
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:441"
         },
         {
             "message": "Missing item type\n获取 tips 标题文本",
-            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:512"
+            "line": " ../modules/JChart.PieGraph/0.1/PieGraph.js:511"
         },
         {
             "message": "Missing item type\nrequirejs config.js for JC Chart Project",

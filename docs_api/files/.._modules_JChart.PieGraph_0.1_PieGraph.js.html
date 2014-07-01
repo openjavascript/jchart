@@ -192,9 +192,7 @@
                 if( _selector.hasClass( &#x27;jchartPieGraph&#x27; )  ){
                     _r.push( new PieGraph( _selector ) );
                 }else{
-                    _selector.find( &#x27;div.jchartPieGraph&#x27; ).each( function(){
-                        _r.push( new PieGraph( this ) );
-                    });
+                    JChart.Base.init( PieGraph, $( &#x27;div.jchartPieGraph&#x27; ), 0, 1 );
                 }
             }
             return _r;
@@ -422,8 +420,8 @@
                                 var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
                                 _x += _bx;
 
-                                _data.series &amp;&amp; _data.series.length &amp;&amp;
-                                $.each( _data.series[0].data, function( _k, _item ){
+                                _p.pieData() &amp;&amp;
+                                $.each( _p.pieData(), function( _k, _item ){
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
                                     _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
@@ -622,7 +620,8 @@
                     _p._tips.getChildByName( &#x27;title&#x27; ).attr( &#x27;text&#x27;, _p.tipsTitle( _ix ) );
 
                     var _maxTextWidth = 0, _tmpLabel;
-                    _maxTextWidth = _p._tips.getChildByName( &#x27;val_&#x27; + 0 ).attr( &#x27;text&#x27;, JC.f.moneyFormat( _p.pieData()[ _ix ].y, 3, _p.floatLen() ) ).getBBox().width;
+                    _maxTextWidth = _p._tips.getChildByName( &#x27;val_&#x27; + 0 )
+                                    .attr( &#x27;text&#x27;, JC.f.moneyFormat( _p.pieData()[ _ix ].y, 3, _p.floatLen() ) ).getBBox().width;
 
                     _p._tips.getChildByName( &#x27;title&#x27; ).attr( &#x27;fill&#x27;, _p.itemStyle( _ix ).fill );
 
@@ -660,9 +659,13 @@
 
         , coordinate:
             function( _data ){
+
                 if( typeof this._coordinate != &#x27;undefined&#x27; || !_data ){
                     return this._coordinate;
+                }else{
+                    this._coordinate = {};
                 }
+
                 var _p = this
                     , _c = {}
                     , _bbox
@@ -726,6 +729,7 @@
                 }
 
                 if( _p.showInLegend() ){
+
                     var _legend = _p.legend( _data, &#x27;rect&#x27;, function( _ix, _legend, _text, _data ){
                         var _color = _data.stroke 
                                         || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
@@ -884,7 +888,6 @@
                         _p.dataLabelEnabled() &amp;&amp; _c.pieLine.push( _pieL );
                     });
                 }
-                //JC.log();
 
                 /*
                 JC.dir( _p._coordinate );
@@ -892,6 +895,7 @@
                 */
 
                 var _tips = _p.tips();
+
                 return _p._coordinate;
             }
 

@@ -62,9 +62,7 @@
                 if( _selector.hasClass( 'jchartHistogram' )  ){
                     _r.push( new Histogram( _selector ) );
                 }else{
-                    _selector.find( 'div.jchartHistogram' ).each( function(){
-                        _r.push( new Histogram( this ) );
-                    });
+                    JChart.Base.init( Histogram, $( 'div.jchartHistogram' ), 0, 1 );
                 }
             }
             return _r;

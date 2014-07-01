@@ -187,6 +187,16 @@ window.JChart = window.JChart || {};
     }
     JC.BaseMVC.build( Base );
 
+    JChart.Base.init =
+        function( _class, _items, _count, _tmMs){
+            if( _items[ _count ] ){
+                setTimeout( function(){
+                    new _class( _items[_count] );
+                    JChart.Base.init( _class, _items, ++_count, _tmMs );
+                }, _tmMs );
+            }
+        };
+
     var _oldInit = Base.prototype._init;
 
     JC.f.extendObject( Base.prototype, {
@@ -1099,16 +1109,18 @@ window.JChart = window.JChart || {};
     Base.reset =
         function( _selector, _class ){
             $( _selector ).each( function( _k, _item ){
-                _item = $( _item );
-                var _ins = JC.BaseMVC.getInstance( _item, _class ), _size, _newSize, _w, _h;
-                if( !( _ins &amp;&amp; _ins._model.data() ) ) return;
-                _size = _ins._model.chartSize();
-                if( !_size ) return;
-                _w = _ins._model.realtimeWidth(); _h = _ins._model.realtimeHeight();
-                if( _size.width == _w &amp;&amp; _size.height == _h ) return;
-                _w &lt; 100 &amp;&amp; ( _w = 100 ); 
-                _h &lt; 100 &amp;&amp; ( _h = 100 );
-                _ins.trigger( &#x27;update&#x27;, _ins._model.data() );
+                setTimeout( function(){
+                    _item = $( _item );
+                    var _ins = JC.BaseMVC.getInstance( _item, _class ), _size, _newSize, _w, _h;
+                    if( !( _ins &amp;&amp; _ins._model.data() ) ) return;
+                    _size = _ins._model.chartSize();
+                    if( !_size ) return;
+                    _w = _ins._model.realtimeWidth(); _h = _ins._model.realtimeHeight();
+                    if( _size.width == _w &amp;&amp; _size.height == _h ) return;
+                    _w &lt; 100 &amp;&amp; ( _w = 100 ); 
+                    _h &lt; 100 &amp;&amp; ( _h = 100 );
+                    _ins.trigger( &#x27;update&#x27;, _ins._model.data() );
+                }, 1 );
             });
         };
 

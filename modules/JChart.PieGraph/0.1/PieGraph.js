@@ -349,7 +349,7 @@
                         });
 
                        _tmp.on( 'mouseenter', function( _evt, _srcEvt, _id, _index ){
-                            //JC.log( 'hover in', _id, JC.f.ts() );
+                            JC.log( 'mouseenter', _id, JC.f.ts() );
                             _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
                             _jdoc.on( 'mousemove', PieGraph.DEFAULT_MOVE );
                             PieGraph.CURRENT_INS = _p;
@@ -358,7 +358,7 @@
                        });
 
                        _tmp.on( 'mouseleave', function( _evt, _srcEvt, _id, _index ){
-                            //JC.log( 'hover out', _id, JC.f.ts() );
+                            JC.log( 'mouseleaveout', _id, JC.f.ts() );
                             _jdoc.off( 'mousemove', PieGraph.DEFAULT_MOVE );
                             _p.trigger( 'moving_done' );
                             PieGraph.CURRENT_INS = null;

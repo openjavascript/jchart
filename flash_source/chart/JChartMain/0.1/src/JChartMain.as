@@ -2,6 +2,7 @@ package
 {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import org.xas.XAS;
 	
 	/**
 	 * ...
@@ -20,6 +21,7 @@ package
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			// entry point
+		
 		}
 		
 	}

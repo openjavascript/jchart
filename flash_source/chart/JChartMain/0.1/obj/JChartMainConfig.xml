@@ -33,6 +33,7 @@
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
       <path-element>G:\My Documents\git\jchart\flash_source\chart\JChartMain\0.1\src</path-element>
+      <path-element>G:\My Documents\git\jchart\flash_source\lib\src</path-element>
       <path-element>G:\My Documents\svn\default-software\app\FlashDevelop-4.6.2\Library\AS3\classes</path-element>
     </source-path>
   </compiler>

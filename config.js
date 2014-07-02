@@ -13,6 +13,7 @@ requirejs.config( {
         , 'JC.BaseMVC': 'modules/JC.BaseMVC/0.1/BaseMVC'
         , 'JC.PureMVC': 'modules/JC.PureMVC/0.1/PureMVC'
 
+        , 'JChart.common': 'modules/JChart.common/0.1/common'
         , 'JChart.Base': 'modules/JChart.Base/0.1/Base'
 
         , 'JChart.CurveGram': 'modules/JChart.CurveGram/0.1/CurveGram'

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../modules/JChart.GraphicPoint/0.1/GraphicPoint.js - JChart</title>
+    <title>../modules/JChart.common/0.1/common.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -128,99 +128,72 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.GraphicPoint/0.1/GraphicPoint.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.common/0.1/common.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.PureMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.GraphicBase&#x27; ], function(){
-/**
- * 组件用途简述
- *
- *  &lt;p&gt;&lt;b&gt;require&lt;/b&gt;:
- *      &lt;a href=&#x27;JC.PureMVC.html&#x27;&gt;JC.PureMVC&lt;/a&gt;
- *  &lt;/p&gt;
- *
- *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
- *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.GraphicPoint.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
- *      | &lt;a href=&#x27;../../modules/JChart.GraphicPoint/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
- *  
- * @namespace   JChart
- * @class       GraphicPoint
- * @extends     JChart.GraphicBase
- * @constructor
- * @param   {selector|string}   _selector   
- * @version dev 0.1 2013-12-13
- * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
- * @example
-        &lt;h2&gt;JC.GraphicPoint 示例&lt;/h2&gt;
- */
-    var _jdoc = $( document ), _jwin = $( window );
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.common&#x27; ], function(){
+    /**
+     * 声明主要命名空间, 方便迁移
+     */
+    window.JChart = window.JChart || {};
+    JChart.PATH = JChart.PATH || JC.PATH;
+    /**
+     * JChart.f 是 JChart.common 的别名
+     * &lt;br /&gt;具体使用请见 &lt;a href=&#x27;JChart.common.html&#x27;&gt;JChart.common&lt;/a&gt;&lt;/p&gt;
+     * @class JChart.f
+     * @static
+     */
+    /**
+     * JChart 组件通用静态方法和属性 ( JChart.common, &lt;b&gt;别名: JChart.f&lt;/b&gt; )
+     * &lt;br /&gt;所有 JC 组件都会依赖这个静态类
+     * &lt;p&gt;&lt;b&gt;require&lt;/b&gt;: &lt;a href=&#x27;window.jQuery.html&#x27;&gt;jQuery&lt;/a&gt;&lt;/p&gt;
+     * &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jchart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
+     * | &lt;a href=&#x27;http://JChart.openjavascript.org/docs_api/classes/JChart.common.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+     * | &lt;a href=&#x27;../../modules/JChart.common/0.1/_demo/&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+     * @class JChart.common
+     * @static
+     * @version 2014-07-02
+     * @author  qiushaowei   &lt;suches@btbtd.org&gt; | 360 75 Team
+     */
+    JChart.common = JChart.f = {
+        &quot;isArray&quot;: isArray
+        , &#x27;getBBox&#x27;: getBBox
+    };
+    /**
+     * 判断参数是否为数组
+     * @method  isArray
+     * @param   {Object}    obj
+     * @return  {bool}
+     * @static
+     */
+    function isArray(obj){  
+        return Object.prototype.toString.call(obj) === &#x27;[object Array]&#x27; ;  
+    }  
 
-    JChart.GraphicPoint = GraphicPoint;
+    function getBBox( _item ){
+        var _r;
+        if( _item.node &amp;&amp; _item.node.getBBox ){
+            _r = _item.node.getBBox();
+            _r.x2 = _r.x + _r.width;
+            _r.y2 = _r.y + _r.height;
+        }else if( _item.getBBox ){
+            _r = _item.getBBox();
+        }
+        return _r;
+    };
 
-    function GraphicPoint( _stage, _x, _y, _radius, _style, _hoverStyle  ){
+    return JChart.common;
 
-        this._model = new GraphicPoint.Model( _stage, _x, _y, _radius, _style, _hoverStyle );
-        this._view = new GraphicPoint.View( this._model );
-
-        this._init();
-
-        //JC.log( GraphicPoint.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
-    }
-
-    GraphicPoint.Model = 
-        function( _stage, _x, _y, _radius, _style, _hoverStyle ){
-            this._stage = _stage;
-            this._x = _x;
-            this._y = _y;
-            this._radius = _radius;
-            this._style = _style;
-            this._hoverStyle = _hoverStyle;
-        };
-
-    JC.PureMVC.build( GraphicPoint, JChart.GraphicBase );
-
-    JC.f.extendObject( GraphicPoint.prototype, {
-        _beforeInit:
-            function(){
-                //JC.log( &#x27;GraphicPoint _beforeInit&#x27;, new Date().getTime() );
-            }
-    });
-
-    GraphicPoint.Model._instanceName = &#x27;JCGraphicPoint&#x27;;
-    JC.f.extendObject( GraphicPoint.Model.prototype, {
-        init:
-            function(){
-                //JC.log( &#x27;GraphicPoint.Model.init:&#x27;, new Date().getTime() );
-            }
-    });
-
-    JC.f.extendObject( GraphicPoint.View.prototype, {
-        init:
-            function(){
-                //JC.log( &#x27;GraphicPoint.View.init:&#x27;, new Date().getTime() );
-            }
-
-        , draw:
-            function(){
-                var _p = this
-                    , _element = _p._model.stage().circle( _p._model._x, _p._model._y, _p._model._radius )
-                    ;
-                _p._model.add( _element, &#x27;element&#x27; );
-                _p.unhover();
-            }
-    });
-
-    return JC.GraphicPoint;
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
-        function ( _name, _require, _cb ) { 
+        function ( _name, _require, _cb) { 
             typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );
             typeof _require == &#x27;function&#x27; &amp;&amp; ( _cb = _require ); 
             _cb &amp;&amp; _cb(); 
         }
         , window
     )
-)
+);
 
     </pre>
 </div>

@@ -1,5 +1,7 @@
 ;(function(define, _win) { 'use strict'; define( [ 
-    'JC.BaseMVC', 'Raphael'
+    'JC.BaseMVC'
+    , 'Raphael'
+    , 'JChart.common'
     , 'JChart.DefaultOptions' 
     , 'JChart.Event', 'JChart.Group'
     , 'JChart.IconLine', 'JChart.IconRect'
@@ -56,19 +58,6 @@ window.JChart = window.JChart || {};
         //JC.log( Base.Model._instanceName, 'all inited', new Date().getTime() );
     }
     JC.BaseMVC.build( Base );
-
-    Base.getBBox =
-        function( _item ){
-            var _r;
-            if( _item.node && _item.node.getBBox ){
-                _r = _item.node.getBBox();
-                _r.x2 = _r.x + _r.width;
-                _r.y2 = _r.y + _r.height;
-            }else if( _item.getBBox ){
-                _r = _item.getBBox();
-            }
-            return _r;
-        };
 
     JChart.Base.init =
         function( _class, _items, _count, _tmMs){
@@ -305,9 +294,9 @@ window.JChart = window.JChart || {};
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
                                     _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by, 18, 3, 1, 4 );
-                                    _lb = JChart.Base.getBBox( _legend );
+                                    _lb = JChart.f.getBBox( _legend );
                                     _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
-                                    _tb = JChart.Base.getBBox( _text );
+                                    _tb = JChart.f.getBBox( _text );
                                     _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2  + 2  } );
                                     _legend.attr( _style );
                                     _legend.attr( 'fill', _style.stroke );
@@ -330,9 +319,9 @@ window.JChart = window.JChart || {};
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
                                     _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
-                                    _lb = JChart.Base.getBBox( _legend );
+                                    _lb = JChart.f.getBBox( _legend );
                                     _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
-                                    _tb = JChart.Base.getBBox( _text );
+                                    _tb = JChart.f.getBBox( _text );
                                     _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
                                     _legend.attr( _style );
                                     _legend.attr( 'fill', _style.stroke );
@@ -662,7 +651,7 @@ window.JChart = window.JChart || {};
                 var _r = 0, _p = this, _tmp;
 
                 _p.vlables( _data ) && $.each( _p.vlables( _data ), function( _k, _item ){
-                    _tmp = JChart.Base.getBBox( _item );
+                    _tmp = JChart.f.getBBox( _item );
                     _tmp.width > _r && ( _r = _tmp.width );
                 });
 
@@ -676,7 +665,7 @@ window.JChart = window.JChart || {};
                 var _r = 0, _p = this, _tmp;
 
                 _p.hlables( _data ) && $.each( _p.hlables(), function( _k, _item ){
-                    _tmp = JChart.Base.getBBox( _item );
+                    _tmp = JChart.f.getBBox( _item );
                      _tmp.height > _r && ( _r = _tmp.height );
                 });
 
@@ -803,7 +792,7 @@ window.JChart = window.JChart || {};
                         _strokeColor = _p.itemStyle( _k ).stroke;
                         _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || 'empty' )
                                 .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
-                        _tmpBox = JChart.Base.getBBox( _tmp );
+                        _tmpBox = JChart.f.getBBox( _tmp );
                         _p._tips.addChild( _tmp, 'label_' + _k );
                         _offsetY += _tmpBox.height + 5;
                         _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
@@ -812,7 +801,7 @@ window.JChart = window.JChart || {};
                     $.each( _p.data().series, function( _k, _item ){
                         _strokeColor = _p.itemStyle( _k ).stroke;
                         _tmpItem = _p._tips.getChildByName( 'label_' + _k );
-                        _tmpBox = JChart.Base.getBBox( _tmpItem );
+                        _tmpBox = JChart.f.getBBox( _tmpItem );
                         _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
                                 .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
                         _p._tips.addChild( _tmp, 'val_' + _k );
@@ -829,19 +818,19 @@ window.JChart = window.JChart || {};
                     _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
                     var _maxTextWidth = 0, _tmpLabel;
                     $.each( _p.data().series, function( _k, _item ){
-                        _tmp = JChart.Base.getBBox( _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) ));
+                        _tmp = JChart.f.getBBox( _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) ));
                         _tmp.width > _maxTextWidth && ( _maxTextWidth = _tmp.width );
                     });
                     $.each( _p.data().series, function( _k, _item ){
                         _tmp = _p._tips.getChildByName( 'val_' + _k );
                         _tmpLabel = _p._tips.getChildByName( 'label_' + _k );
-                        _tmpBox = JChart.Base.getBBox( _tmpLabel );
-                        _tmp.attr( 'x', _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - JChart.Base.getBBox( _tmp ).width );
+                        _tmpBox = JChart.f.getBBox( _tmpLabel );
+                        _tmp.attr( 'x', _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - JChart.f.getBBox( _tmp ).width );
                     });
 
                 }
                 _p._tips.getChildByName( 'rect' ).attr( { width: 80, height: 50 } );
-                _tmpBox = JChart.Base.getBBox( _p._tips );
+                _tmpBox = JChart.f.getBBox( _p._tips );
                 _p._tips.getChildByName( 'rect' ).attr( { 'width': _tmpBox.width + _padWidth, 'height': _tmpBox.height + _padHeight } );
 
                 return _p._tips;

@@ -290,7 +290,7 @@
 
                 var _title = _p.title( _data );
                 if( _title ){
-                    _bbox = JChart.Base.getBBox( _title );
+                    _bbox = JChart.f.getBBox( _title );
                     _c.title = {
                         x: _p.width() / 2
                         , y: _y + _bbox.height / 2 + 5
@@ -301,7 +301,7 @@
 
                 var _subtitle = _p.subtitle( _data );
                 if( _subtitle ){
-                    _bbox = JChart.Base.getBBox( _subtitle );
+                    _bbox = JChart.f.getBBox( _subtitle );
                     _c.subtitle = {
                         x: _p.width() / 2
                         , y: _y + _bbox.height / 2 + 5
@@ -314,7 +314,7 @@
 
                 var _vtitle = _p.vtitle( _data );
                 if( _vtitle ){
-                    _bbox = JChart.Base.getBBox( _vtitle );
+                    _bbox = JChart.f.getBBox( _vtitle );
                     _c.vtitle = {
                         x: _x + _bbox.height / 2 + 5
                         , y: _p.height() / 2
@@ -326,7 +326,7 @@
 
                 var _credits = _p.credits( _data );
                 if( _credits ){
-                    _bbox = JChart.Base.getBBox( _credits );
+                    _bbox = JChart.f.getBBox( _credits );
                     _c.credits = {
                         x: _maxX - _bbox.width / 2
                         , y: _maxY - _bbox.height / 2
@@ -343,7 +343,7 @@
                         _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
                     } );
                     if( _legend ){
-                        _bbox = JChart.Base.getBBox( _legend );
+                        _bbox = JChart.f.getBBox( _legend );
                         _c.legend = {
                             x: ( _maxX - _bbox.width ) / 2
                             , y: _maxY - _bbox.height + 5
@@ -447,7 +447,7 @@
                     _tmp = 0;
                     _tmpA = [];
                     $.each( _vlabels, function( _ix, _item ){
-                        _bbox = JChart.Base.getBBox( _item );
+                        _bbox = JChart.f.getBBox( _item );
                         _tmpX = _vx - _bbox.width / 2;
                         _tmpY = parseInt( _y + ( _maxY - _y ) * _tmp );
                         _tmp += .25;
@@ -464,7 +464,7 @@
                         var _item = _hlabels[_ix ], _bbox;
                         if( !_item ) return;
                         _tmpX = _lineItem.end.x;
-                        _bbox = JChart.Base.getBBox( _item );
+                        _bbox = JChart.f.getBBox( _item );
                         if( _ix === ( _c.vlinePoint.length - 1 ) ){
                             _tmpX = _lineItem.end.x + 2;
                             if(  ( _tmpX + _bbox.width / 2 ) > _c.wsMaxX ){
@@ -649,7 +649,7 @@
             function( _ix, _offset ){
                 var _p = this
                     , _tips = _p._model.tips( _ix )
-                    , _bbox = JChart.Base.getBBox( _tips )
+                    , _bbox = JChart.f.getBBox( _tips )
                     , _c = _p._model.coordinate()
                     , _x = _offset.x + 15, _y = _offset.y + 18
                     , _point = _c.vlinePoint[ _ix ]

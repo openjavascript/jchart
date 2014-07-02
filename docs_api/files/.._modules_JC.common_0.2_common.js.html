@@ -61,7 +61,11 @@
             
                 <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
             
+                <li><a href="../classes/JChart.common.html">JChart.common</a></li>
+            
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
+            
+                <li><a href="../classes/JChart.f.html">JChart.f</a></li>
             
                 <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
             
@@ -221,8 +225,6 @@
         , &quot;fixPath&quot;: fixPath
         , &quot;arrayId&quot;: arrayId
         , &quot;docSize&quot;: docSize
-
-        , &quot;isArray&quot;: isArray
 
         /**
          * 判断 JC.common 是否需要向后兼容, 如果需要的话, 向 window 添加全局静态函数
@@ -1623,16 +1625,7 @@
 
         return _r;
     }
-    /**
-     * 判断参数是否为数组
-     * @method  isArray
-     * @param   {Object}    obj
-     * @return  {bool}
-     * @static
-     */
-    function isArray(obj){  
-        return Object.prototype.toString.call(obj) === &#x27;[object Array]&#x27; ;  
-    }  
+
 
     return JC.f;
 

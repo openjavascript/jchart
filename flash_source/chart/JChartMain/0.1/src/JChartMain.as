@@ -49,7 +49,6 @@ package
 		}
 		
 		private function initHanlder( _evt:BaseEvent ):void {
-			Log.print( 'main initHandler' );	
 			
 			if( ExternalInterface.available ){
 				ExternalInterface.addCallback(  'update', update );
@@ -67,18 +66,16 @@ package
 			!ExternalInterface.available && ( Config.setDebug( true ) );
 			
 			Log.debug = Config.debug;
-			
-			Log.print( 'main initData' );
 		}
 				
 		private function update( _data:Object ):void{
-			//MainFacade.getInstance().update( _data );
-			Log.print( 'test' );
 		}
 		
 		private function initDraw( _evt:BaseEvent ):void {
+			
 			FreeMemory.getInstance().execute();
-			MainFacade.getInstance().update( Config.params.data );
+			
+			MainFacade.getInstance().update( Config.params.chart );
 		}
 		
 	}

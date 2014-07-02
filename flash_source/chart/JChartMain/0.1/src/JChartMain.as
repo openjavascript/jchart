@@ -3,15 +3,18 @@ package
 	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.external.ExternalInterface;
 	import flash.system.Security;
+	
 	import org.xas.core.*;
 	import org.xas.core.events.BaseEvent;
+	import org.xas.core.utils.FreeMemory;
 	import org.xas.core.utils.Log;
 	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.*;
-	import flash.display.StageScaleMode;
+	import org.xas.jchart.main.MainFacade;
 	
 	/**
 	 * ...
@@ -26,8 +29,9 @@ package
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.LEFT;
 			
-			this.addEventListener( 'init_data', initData );
 			this.addEventListener( 'init_handler', initHanlder );
+			this.addEventListener( 'init_data', initData );
+			this.addEventListener( 'initDraw', initDraw );
 			
 			if (stage) init();
 			else addEventListener(Event.ADDED_TO_STAGE, init);
@@ -40,25 +44,42 @@ package
 	
 			dispatchEvent( new BaseEvent( 'init_data' ) );
 			dispatchEvent( new BaseEvent( 'init_handler' ) );
+			
+			dispatchEvent( new BaseEvent( 'initDraw' ) );
 		}
 		
-		private function initData( _evt:Event ):void {
-			XAS.test();
+		private function initHanlder( _evt:BaseEvent ):void {
+			Log.print( 'main initHandler' );	
 			
-			Config.setParams( LoaderInfo( this.root.stage.loaderInfo ).parameters );
+			if( ExternalInterface.available ){
+				ExternalInterface.addCallback(  'update', update );
+			}
+		}
+		
+		private function initData( _evt:BaseEvent ):void {
+			
+			Config.setParams( LoaderInfo( this.root.stage.loaderInfo ).parameters || {} );
 			
 			Config.params 
 				&& ( 'debug' in Config.params )
 				&& ( Config.setDebug( StringUtils.parseBool( Config.params.debug ) ) );
 				
-			!ExternalInterface.available && ( Config.setDebug( false ) );
+			!ExternalInterface.available && ( Config.setDebug( true ) );
 			
 			Log.debug = Config.debug;
+			
+			Log.print( 'main initData' );
+		}
+				
+		private function update( _data:Object ):void{
+			//MainFacade.getInstance().update( _data );
+			Log.print( 'test' );
 		}
 		
-		private function initHanlder( _evt:Event ):void {
+		private function initDraw( _evt:BaseEvent ):void {
+			FreeMemory.getInstance().execute();
+			MainFacade.getInstance().update( Config.params.data );
 		}
-		
 		
 	}
 	

@@ -1,16 +1,21 @@
 package org.xas.chart.histogram.view.mediator
 {
 	import flash.display.Sprite;
+	import flash.utils.describeType;
 	
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	import org.xas.chart.histogram.view.components.MainView;
+	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class MainMediator extends Mediator implements IMediator
 	{
 		public static const name:String = 'MainMediator';
 		
 		private var _view:Sprite;
+		public function get view():Sprite{ return _view; }
 		
 		public function MainMediator()
 		{
@@ -18,7 +23,11 @@ package org.xas.chart.histogram.view.mediator
 		}
 		
 		override public function onRegister():void{
-			_view = new MainView();
+			
+			Config.root.stage.addChild( _view = new MainView() );
+			
+			sendNotification( JChartEvent.CALC_COORDINATE );
+			//Log.printClass( Config.root );
 		}
 		
 		override public function listNotificationInterests():Array{

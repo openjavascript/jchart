@@ -1,5 +1,6 @@
 package org.xas.core.utils
 {
+	import flash.utils.*;
 	/**
 	 * 用于打印调试 内容的类
 	 * @author 		suches@btbtd.org
@@ -25,6 +26,19 @@ package org.xas.core.utils
 		public static function  printJSON( _d:Object, $pad:int = 0, $before:Boolean = true, $symbol:String = '-' ):void{
 			if(!debug) return;
 			processLog( JSON.stringify( _d ), $pad, $before, $symbol);
+		}
+		
+		public static function  printClass( _d:*, $pad:int = 0, $before:Boolean = true, $symbol:String = '-' ):void{
+			if(!debug) return;
+			processLog( flash.utils.describeType( _d ).toString(), $pad, $before, $symbol);
+		}
+		
+		public static function  printObject( _d:*, $pad:int = 0, $before:Boolean = true, $symbol:String = '-' ):void{
+			if(!debug) return;
+			for( var _k:String in _d ){
+				processLog( _k + ': ' + _d[_k].toString(), $pad, $before, $symbol);
+			}
+			
 		}
 		
 		public static function marker( $log:*, $pad:int = 50, $symbol:String = '#' ):void

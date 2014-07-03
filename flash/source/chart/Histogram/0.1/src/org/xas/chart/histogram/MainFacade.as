@@ -19,7 +19,6 @@ package org.xas.chart.histogram
 		}
 		
 		public function execute( notification:INotification ):void{
-			
 		}
 		
 		public static function getInstance():Facade {

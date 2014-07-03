@@ -895,6 +895,19 @@ window.JChart = window.JChart || {};
                 return _r;
             }
         /**
+         * 是否显示图例说明
+         */
+        , legendEnable:
+            function(){
+                var _p = this, _r = true;
+                _p.data() 
+                    && _p.data().legend
+                    && ( 'enabled' in _p.data().legend )
+                    && ( _r = _p.data().legend.enabled )
+                    ;
+                return _r;
+            }
+        /**
          * 是否显示所有内容标签
          */
         , displayAllLabel:

@@ -335,7 +335,7 @@
                     _maxY = _c.credits.y - 5;
                 }
 
-                if( _p.showInLegend() ){
+                if( _p.legendEnable() ){
                     var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
                         var _color = _data.stroke 
                                         || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 

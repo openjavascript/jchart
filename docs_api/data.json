@@ -3217,69 +3217,76 @@
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
             "line": 897,
+            "description": "是否显示图例说明",
+            "class": "JChart.Base",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Base/0.1/Base.js",
+            "line": 910,
             "description": "是否显示所有内容标签",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 917,
+            "line": 930,
             "description": "图表高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 921,
+            "line": 934,
             "description": "图表高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 925,
+            "line": 938,
             "description": "图表画布",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 929,
+            "line": 942,
             "description": "初始化的选择器",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 936,
+            "line": 949,
             "description": "清除图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 946,
+            "line": 959,
             "description": "清除图表状态",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 952,
+            "line": 965,
             "description": "更新图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 962,
+            "line": 975,
             "description": "渲染图表外观",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 968,
+            "line": 981,
             "description": "显示静态外观",
             "class": "JChart.Base",
             "namespace": "JChart"
@@ -4179,44 +4186,48 @@
             "line": " ../modules/JChart.Base/0.1/Base.js:884"
         },
         {
-            "message": "Missing item type\n是否显示所有内容标签",
+            "message": "Missing item type\n是否显示图例说明",
             "line": " ../modules/JChart.Base/0.1/Base.js:897"
         },
         {
-            "message": "Missing item type\n图表高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:917"
+            "message": "Missing item type\n是否显示所有内容标签",
+            "line": " ../modules/JChart.Base/0.1/Base.js:910"
         },
         {
             "message": "Missing item type\n图表高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:921"
+            "line": " ../modules/JChart.Base/0.1/Base.js:930"
+        },
+        {
+            "message": "Missing item type\n图表高度",
+            "line": " ../modules/JChart.Base/0.1/Base.js:934"
         },
         {
             "message": "Missing item type\n图表画布",
-            "line": " ../modules/JChart.Base/0.1/Base.js:925"
+            "line": " ../modules/JChart.Base/0.1/Base.js:938"
         },
         {
             "message": "Missing item type\n初始化的选择器",
-            "line": " ../modules/JChart.Base/0.1/Base.js:929"
+            "line": " ../modules/JChart.Base/0.1/Base.js:942"
         },
         {
             "message": "Missing item type\n清除图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:936"
+            "line": " ../modules/JChart.Base/0.1/Base.js:949"
         },
         {
             "message": "Missing item type\n清除图表状态",
-            "line": " ../modules/JChart.Base/0.1/Base.js:946"
+            "line": " ../modules/JChart.Base/0.1/Base.js:959"
         },
         {
             "message": "Missing item type\n更新图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:952"
+            "line": " ../modules/JChart.Base/0.1/Base.js:965"
         },
         {
             "message": "Missing item type\n渲染图表外观",
-            "line": " ../modules/JChart.Base/0.1/Base.js:962"
+            "line": " ../modules/JChart.Base/0.1/Base.js:975"
         },
         {
             "message": "Missing item type\n显示静态外观",
-            "line": " ../modules/JChart.Base/0.1/Base.js:968"
+            "line": " ../modules/JChart.Base/0.1/Base.js:981"
         },
         {
             "message": "Missing item type\n计算两个坐标点之间的距离",

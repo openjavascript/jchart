@@ -358,7 +358,7 @@
                     _maxY = _c.credits.y - 8;
                 }
 
-                if( _p.showInLegend() ){
+                if( _p.legendEnable() ){
                     var _legend = _p.legend( _data, 'line', function( _ix, _legend, _text, _data ){
                         var _color = _data.stroke 
                                         || CurveGram.Model.STYLE.data[ _ix % CurveGram.Model.STYLE.data.length ].stroke 

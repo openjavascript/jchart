@@ -62,7 +62,9 @@
                                     "enabled": true
                                 }
                             }
-                            , "showInLegend": false
+                        }
+                        , legend:{
+                            enabled: false
                         }
 
                     }
@@ -72,12 +74,12 @@
             <table>
                 <tr>
                     <td>
-                        <textarea>{"series":[{"name":"Browser share","data":[["Firefox",99],["chrome",1]]}],"plotOptions":{"pie":{"dataLabels":{"enabled":false}},"showInLegend":true}}</textarea>
+                        <textarea>{"series":[{"name":"Browser share","data":[["Firefox",99],["chrome",1]]}],"plotOptions":{"pie":{"dataLabels":{"enabled":false}}}}</textarea>
                         <div><button type="button" class="js_updateChart">update</button></div>
                     </td>
 
                     <td>
-                        <textarea>{"series":[{"name":"Browser share","data":[["Firefox",99],["chrome",1]]}],"plotOptions":{"pie":{"dataLabels":{"enabled":true}},"showInLegend":true}}</textarea>
+                        <textarea>{"series":[{"name":"Browser share","data":[["Firefox",99],["chrome",1]]}],"plotOptions":{"pie":{"dataLabels":{"enabled":true}}}}</textarea>
                         <div><button type="button" class="js_updateChart">update</button></div>
                     </td>
                 </tr>

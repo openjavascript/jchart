@@ -590,7 +590,7 @@
                     _maxY = _c.credits.y - 8;
                 }
 
-                if( _p.showInLegend() ){
+                if( _p.legendEnable() ){
 
                     var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
                         var _color = _data.stroke 
@@ -789,7 +789,7 @@
             function( _w, _h ){
                 var _p = this, _r = Math.min( _w, _h );
                 //_r = parseInt( _r / 5 * 3 / 2 );
-                if( _p.showInLegend() ){
+                if( _p.legendEnable() ){
                     _r -= 30;
                 }
                 if( _p.dataLabelEnabled() ){

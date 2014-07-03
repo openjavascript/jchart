@@ -1029,6 +1029,19 @@ window.JChart = window.JChart || {};
                 return _r;
             }
         /**
+         * 是否显示图例说明
+         */
+        , legendEnable:
+            function(){
+                var _p = this, _r = true;
+                _p.data() 
+                    &amp;&amp; _p.data().legend
+                    &amp;&amp; ( &#x27;enabled&#x27; in _p.data().legend )
+                    &amp;&amp; ( _r = _p.data().legend.enabled )
+                    ;
+                return _r;
+            }
+        /**
          * 是否显示所有内容标签
          */
         , displayAllLabel:

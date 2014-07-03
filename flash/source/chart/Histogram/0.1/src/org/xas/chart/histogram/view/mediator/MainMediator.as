@@ -14,8 +14,8 @@ package org.xas.chart.histogram.view.mediator
 	{
 		public static const name:String = 'MainMediator';
 		
-		private var _view:Sprite;
-		public function get view():Sprite{ return _view; }
+		private var _view:MainView;
+		public function get view():MainView{ return _view; }
 		
 		public function MainMediator()
 		{

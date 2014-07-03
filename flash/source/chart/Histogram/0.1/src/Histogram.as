@@ -58,9 +58,12 @@ package
 			
 			Config.setDebug( true );
 			Config.setRoot( this.root );
-			Config.setChartData( {} );
+			Config.setChartData( {
+				title: { text: 'test title 中文' }
+				, t: 'test'
+			});
 			
-			update( Config.chartData );
+			update( Config.cd );
 		}
 		
 		public function update( _data:Object ):void{

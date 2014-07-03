@@ -53,5 +53,23 @@ package org.xas.core.utils
 			}
 			return !!_input;
 		}
+		
+		public static function printf(  ...args ):String{
+			var _r:String = '';
+			if( args.length ){
+				_r = args[0].toString();
+				for( var i:int = 1, j:int = args.length; i < j; i++ ){
+					_r = _r.replace( new RegExp('\\{'+( i - 1 )+'\\}', 'g'), args[i] );
+				}
+			}
+			return _r;
+		}		
+		
+		public static function printKey( _str:String, _keys:Object ):String{
+			for( var k:String in _keys ){
+				_str = _str.replace( new RegExp('\\{'+( k )+'\\}', 'g'), _keys[k] );
+			}
+			return _str;
+		}
 	}
 }

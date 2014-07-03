@@ -10,8 +10,11 @@ package
 	import flash.utils.setInterval;
 	import flash.utils.setTimeout;
 	
-	import org.xas.core.events.*;
+	import org.puremvc.as3.multicore.patterns.facade.*;
+	import org.xas.chart.histogram.HistogramFacade;
+	import org.xas.core.ui.error.BaseError;
 	import org.xas.core.utils.Log;
+	import org.xas.core.events.*;
 	
 	[SWF(frameRate="30", width="600", height="400")]
 	public class Histogram extends Sprite
@@ -19,6 +22,7 @@ package
 		private var _inited: Boolean = false;
 		private var _timer:Timer;
 		private var _data:Object;
+		private var _facade:Facade;
 		
 		public function Histogram()
 		{
@@ -29,6 +33,7 @@ package
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
 			
+			addEventListener( 'process', process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -63,6 +68,11 @@ package
 			_timer && _timer.stop();
 			
 			dispatchEvent( new BaseEvent( 'process', _data ) );
+		}
+		
+		private function process( _evt:BaseEvent ):void{
+			//Log.printJSON( _evt.data );
+			!_facade && ( _facade = HistogramFacade.getInstance() );
 		}
 		
 		private function timerHandler( _evt:TimerEvent ):void{

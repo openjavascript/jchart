@@ -10,6 +10,8 @@ package org.xas.jchart.common.event
 		public static const DRAW:String = 'draw';
 		public static const CLEAR:String = 'clear';
 		
+		public static const SHOW_CHART:String = 'show_chart';
+		
 		public function JChartEvent($type:String, $data:Object=null)
 		{
 			super($type, $data);

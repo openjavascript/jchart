@@ -13,9 +13,9 @@ package org.xas.jchart.common
 	public class Config 
 	{
 		private static var _debug:Boolean = false;		
-		public static function setDebug( _debug:Boolean ):Boolean {
-			Log.debug = _debug;
-			return Config._debug = _debug;
+		public static function setDebug( _d:Boolean ):Boolean {
+			Log.debug = _d;
+			return Config._debug = _d;
 		}		
 		public static function get debug():Object {
 			return Config._debug;

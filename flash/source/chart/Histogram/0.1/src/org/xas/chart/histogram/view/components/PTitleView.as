@@ -5,15 +5,19 @@ package org.xas.chart.histogram.view.components
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFormat;
+	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
 	
-	public class TitleView extends Sprite
+	public class PTitleView extends Sprite
 	{
 		private var _text:String;
 		private var _textf:TextField;
+		private var _tf:TextFormat;
 		
-		public function TitleView( _text:String )
+		public function PTitleView( _text:String )
 		{
 			super();
 		
@@ -24,11 +28,10 @@ package org.xas.chart.histogram.view.components
 		private function addToStage( _evt:Event ):void{
 			_textf = new TextField();
 			_textf.text = _text;
-			
+			_textf.autoSize = TextFieldAutoSize.LEFT;
+			_textf.x = -_textf.width / 2;
 			addChild( _textf );
-		
-			_textf.x = 100;
-			_textf.y = 100;
 		}
+
 	}
 }

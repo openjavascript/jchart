@@ -21,6 +21,11 @@ package org.xas.core.utils
 		{	
 			if(!debug) return;
 			processLog($log, $pad, $before, $symbol);
+		}		
+		
+		public static function log( ...args ):void{
+			if(!debug) return;
+			trace( args.join(' ' ) );
 		}
 		
 		public static function  printJSON( _d:Object, $pad:int = 0, $before:Boolean = true, $symbol:String = '-' ):void{

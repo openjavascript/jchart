@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>JChartMain</name>
+	<name>Histogram</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -18,7 +18,7 @@
 		<link>
 			<name>[source path] src</name>
 			<type>2</type>
-			<location>G:/My Documents/git/jchart/flash_source/lib/src</location>
+			<location>G:/My Documents/git/jchart/flash/source/lib/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

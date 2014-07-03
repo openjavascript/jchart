@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties mainApplicationPath="JChartMain.as" projectUUID="d21763b2-d80d-462d-a2bf-f14805b8c0b9" version="6">
+<actionScriptProperties mainApplicationPath="Histogram.as" projectUUID="8c325813-0eaf-4b18-aca5-7b354688bf4d" version="6">
   <compiler additionalCompilerArguments="-locale zh_CN" autoRSLOrdering="true" copyDependentFiles="true" flexSDK="Flex 4.6" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath>
-      <compilerSourcePathEntry kind="1" linkType="1" path="G:/My Documents/git/jchart/flash_source/lib/src"/>
+      <compilerSourcePathEntry kind="1" linkType="1" path="G:/My Documents/git/jchart/flash/source/lib/src"/>
     </compilerSourcePath>
     <libraryPath defaultLinkType="0">
       <libraryPathEntry kind="4" path="">
@@ -30,7 +30,7 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="JChartMain.as"/>
+    <application path="Histogram.as"/>
   </applications>
   <modules/>
   <buildCSSFiles/>

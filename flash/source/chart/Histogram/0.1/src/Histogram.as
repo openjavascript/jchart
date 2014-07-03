@@ -11,10 +11,12 @@ package
 	import flash.utils.setTimeout;
 	
 	import org.puremvc.as3.multicore.patterns.facade.*;
-	import org.xas.chart.histogram.HistogramFacade;
+	import org.xas.chart.histogram.MainFacade;
+	import org.xas.core.events.*;
 	import org.xas.core.ui.error.BaseError;
 	import org.xas.core.utils.Log;
-	import org.xas.core.events.*;
+	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.event.JChartEvent;
 	
 	[SWF(frameRate="30", width="600", height="400")]
 	public class Histogram extends Sprite
@@ -25,15 +27,13 @@ package
 		private var _facade:Facade;
 		
 		public function Histogram()
-		{
-			Log.debug = true;
-			
+		{			
 			flash.system.Security.allowDomain("*");	
 			
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
 			
-			addEventListener( 'process', process );
+			addEventListener( JChartEvent.PROCESS, process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -55,24 +55,33 @@ package
 		private function init():void
 		{			
 			_inited = true;
+			
+			Config.setDebug( true );
+			Config.setRoot( this.root );
+			Config.setChartData( {} );
+			
+			update( Config.chartData );
 		}
 		
 		public function update( _data:Object ):void{
 			if( !_inited ){
 				this._data = _data;
 				_timer = new Timer( 50 );
-				_timer.addEventListener( 'timer', timerHandler );
+				_timer.addEventListener( TimerEvent.TIMER, timerHandler );
 				_timer.start();
 				return;
 			}
 			_timer && _timer.stop();
 			
-			dispatchEvent( new BaseEvent( 'process', _data ) );
+			dispatchEvent( new JChartEvent( JChartEvent.PROCESS, _data ) );
 		}
 		
-		private function process( _evt:BaseEvent ):void{
+		private function process( _evt:JChartEvent ):void{
 			//Log.printJSON( _evt.data );
-			!_facade && ( _facade = HistogramFacade.getInstance() );
+			var _data:Object = _evt.data || {};
+			!_facade && ( _facade = MainFacade.getInstance() );
+			
+			_facade.sendNotification( JChartEvent.DRAW, _data );
 		}
 		
 		private function timerHandler( _evt:TimerEvent ):void{

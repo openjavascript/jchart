@@ -1,21 +1,23 @@
-package org.xas.chart.histogram.view.mediator
+package org.xas.jchart.common.view.mediator
 {
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import org.xas.chart.histogram.view.components.PTitleView;
+	import org.xas.chart.histogram.view.mediator.MainMediator;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.Config;
 	import org.xas.jchart.common.event.JChartEvent;
+	import org.xas.jchart.common.view.components.SubtitleView;
+	import org.xas.jchart.common.view.components.TitleView;
 	
-	public class PTitleMediator extends Mediator implements IMediator
+	public class SubtitleMediator extends Mediator implements IMediator
 	{
-		public static const name:String = 'PTitleMediator';
+		public static const name:String = 'PSubtitleMediator';
 		private var _text:String;
-		private var _view:PTitleView;
-		public function get view():PTitleView{ return _view; }
+		private var _view:SubtitleView;
+		public function get view():SubtitleView{ return _view; }
 		
-		public function PTitleMediator( _text:String )
+		public function SubtitleMediator( _text:String )
 		{
 			super( name );
 			
@@ -23,7 +25,7 @@ package org.xas.chart.histogram.view.mediator
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index5.addChild( _view = new PTitleView( _text ) );
+			mainMediator.view.index5.addChild( _view = new SubtitleView( _text ) );
 			
 		}
 		
@@ -38,8 +40,8 @@ package org.xas.chart.histogram.view.mediator
 			case JChartEvent.SHOW_CHART:
 				{
 					
-					_view.x = Config.c.title.x;
-					_view.y = Config.c.title.y;
+					_view.x = Config.c.subtitle.x;
+					_view.y = Config.c.subtitle.y;
 					break;
 				}
 			

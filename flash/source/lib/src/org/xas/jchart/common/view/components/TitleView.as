@@ -1,4 +1,4 @@
-package org.xas.chart.histogram.view.components
+package org.xas.jchart.common.view.components
 {
 	import com.adobe.utils.StringUtil;
 	
@@ -11,13 +11,13 @@ package org.xas.chart.histogram.view.components
 	
 	import org.xas.core.utils.Log;
 	
-	public class PTitleView extends Sprite
+	public class TitleView extends Sprite
 	{
 		private var _text:String;
 		private var _textf:TextField;
 		private var _tf:TextFormat;
 		
-		public function PTitleView( _text:String )
+		public function TitleView( _text:String )
 		{
 			super();
 		

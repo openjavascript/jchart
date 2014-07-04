@@ -60,6 +60,7 @@ package
 			Config.setRoot( this.root );
 			Config.setChartData( {
 				title: { text: 'test title 中文' }
+				, subtitle: { text: 'test subtitle 中文' }
 				, t: 'test'
 			});
 			

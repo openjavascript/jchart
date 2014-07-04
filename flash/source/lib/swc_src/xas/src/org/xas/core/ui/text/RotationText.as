@@ -28,7 +28,7 @@ package org.xas.core.ui.text
 		}
 		
 		private function init():void
-		{
+		{ 
 			_tf = new TextField();
 			_tf.text = _text;
 			_tf.autoSize = TextFieldAutoSize.LEFT;
@@ -37,19 +37,20 @@ package org.xas.core.ui.text
 			
 			if( _initTextCallback != null )
 			{
-				_initTextCallback( _tf );
+				_initTextCallback( _tf ); 
 			}
 			
-			_bitmapData = new BitmapData( _tf.width + 10, _tf.height + 4, true, 0xffffffff );
+			_bitmapData = new BitmapData( _tf.width + 10, _tf.height + 4, true, 0 ); 
 			var mtx:Matrix = new Matrix();
 			_bitmapData.draw( _tf, mtx, null, null, null, true );
 			
 			_bitmap = new Bitmap( _bitmapData, "auto", true );
 			
-			
 			if( _angle !== 0 )
 			{
-				this.rotation = _angle;
+				_bitmap.rotation = _angle;
+				_bitmap.y = _tf.width / 2;
+				_bitmap.x = 0;
 			}
 			addChild( _bitmap );
 		}

@@ -93,10 +93,23 @@ package org.xas.chart.histogram.controller
 					Config.c.credits = { x: Config.c.maxX, y: Config.c.maxY, item: pCreditMediator };
 					Config.c.maxY -= pCreditMediator.view.height;
 				}	
+				
+				facade.registerMediator( new VLabelMediator() );
+				Config.c.minX += pVLabelMediator.maxWidth();
+				
+				facade.registerMediator( new HLabelMediator() );
+				Config.c.maxY -= pHLabelMediator.maxHeight();
 			}
-			
-						
+									
 			sendNotification( JChartEvent.SHOW_CHART );			
+		}
+		
+		private function get pHLabelMediator():HLabelMediator{
+			return facade.retrieveMediator( HLabelMediator.name ) as HLabelMediator;
+		}
+		
+		private function get pVLabelMediator():VLabelMediator{
+			return facade.retrieveMediator( VLabelMediator.name ) as VLabelMediator;
 		}
 		
 		private function get pCreditMediator():CreditMediator{

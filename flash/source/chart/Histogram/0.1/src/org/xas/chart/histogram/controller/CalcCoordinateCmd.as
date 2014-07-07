@@ -1,5 +1,7 @@
 package org.xas.chart.histogram.controller
 {
+	import flash.geom.Point;
+	
 	import org.puremvc.as3.multicore.interfaces.ICommand;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
@@ -94,14 +96,72 @@ package org.xas.chart.histogram.controller
 					Config.c.maxY -= pCreditMediator.view.height;
 				}	
 				
+				Config.c.maxX -= 5;
+				
 				facade.registerMediator( new VLabelMediator() );
-				Config.c.minX += pVLabelMediator.maxWidth();
+				Config.c.minX += pVLabelMediator.maxWidth;
 				
 				facade.registerMediator( new HLabelMediator() );
-				Config.c.maxY -= pHLabelMediator.maxHeight();
+				Config.c.maxY -= pHLabelMediator.maxHeight;
+				
+				Config.c.chartWidth = Config.c.maxX - Config.c.minX - 5;
+				Config.c.chartHeight = Config.c.maxY - Config.c.minY;
+				
+				calcChartPoint();
+				
+				Log.log( Config.c.chartWidth, Config.c.chartHeight );
 			}
 									
 			sendNotification( JChartEvent.SHOW_CHART );			
+		}
+		
+		private function calcChartPoint():void{
+			calcChartVPoint();
+			calcChartHPoint();
+		}
+		
+		private function calcChartVPoint():void{
+			var _partN:Number = Config.c.chartHeight / ( Config.rate.length -1 )
+				, _sideLen:Number = 5
+				;
+			Config.c.vpoint = [];
+			Config.c.vpointReal = [];
+			
+			Config.each( Config.rate, function( _k:int, _item:* ):void{
+				var _n:Number = Config.c.minY + _partN * _k, _sideLen:int = 5;
+				Config.c.vpoint.push( {
+					start: new Point( Config.c.minX, _n )
+					, end: new Point( Config.c.maxX, _n )
+				});
+				
+				Config.c.vpointReal.push( {
+					start: new Point( Config.c.minX + _sideLen, _n )
+					, end: new Point( Config.c.maxX + _sideLen, _n )
+				});
+			});
+		}
+		
+		private function calcChartHPoint():void{
+			var _partN:Number = Config.c.chartWidth / ( Config.categories.length )
+				, _sideLen:Number = 5
+				;
+			Config.c.hpoint = [];
+			Config.c.hpointReal = [];
+			
+			Log.log( 'tt', Config.c.chartWidth, _partN );
+			
+			Config.each( Config.categories, function( _k:int, _item:* ):void{
+				var _n:Number = Config.c.minX + _partN * _k + 5, _sideLen:int = 5;
+				Config.c.hpoint.push( {
+					start: new Point( _n + _partN / 2, Config.c.minY )
+					, end: new Point( _n + _partN / 2, Config.c.maxY + _sideLen )
+				});
+				
+				Config.c.hpointReal.push( {
+					start: new Point( _n, Config.c.minY )
+					, end: new Point( _n, Config.c.maxY )
+				});
+			});
 		}
 		
 		private function get pHLabelMediator():HLabelMediator{

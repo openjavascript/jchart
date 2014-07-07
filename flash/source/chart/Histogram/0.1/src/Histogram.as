@@ -35,6 +35,7 @@ package
 			
 			addEventListener( JChartEvent.PROCESS, process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);
+			 
 		}
 		
 		private function onAddedToStage($evt:Event):void

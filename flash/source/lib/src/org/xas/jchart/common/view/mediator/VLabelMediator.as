@@ -20,8 +20,8 @@ package org.xas.jchart.common.view.mediator
 			super( name );			
 		}
 		
-		override public function onRegister():void{
-			
+		override public function onRegister():void{			
+			mainMediator.view.index5.addChild( _view = new VLabelView( ) );
 		}
 		
 		override public function listNotificationInterests():Array{
@@ -34,18 +34,15 @@ package org.xas.jchart.common.view.mediator
 			switch( notification.getName() ){
 			case JChartEvent.SHOW_CHART:
 				{
-					/*
-					_view.x = Config.c.title.x;
-					_view.y = Config.c.title.y;
-					*/
+					_view.update();
 					break;
 				}
 			
 			}
 		}
 		
-		public function maxWidth():Number{
-			return 0;
+		public function get maxWidth():Number{
+			return _view.maxWidth;
 		}
 		
 		

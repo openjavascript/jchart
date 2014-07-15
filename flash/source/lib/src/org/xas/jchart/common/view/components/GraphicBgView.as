@@ -73,6 +73,7 @@ package org.xas.jchart.common.view.components
 			}
 					
 			//Log.log( _ix );
+			dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, _ix ) );
 		}
 
 	}

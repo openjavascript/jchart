@@ -6,28 +6,25 @@ package org.xas.jchart.common.view.mediator
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.Config;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.common.view.components.GraphicBgView;
+	import org.xas.jchart.common.view.components.TipsView;
 	import org.xas.jchart.common.view.components.TitleView;
 	import org.xas.jchart.histogram.view.mediator.MainMediator;
 	
-	public class GraphicBgMediator extends Mediator implements IMediator
+	public class TipsMediator extends Mediator implements IMediator
 	{
-		public static const name:String = 'PChartBgMediator';
-		private var _view:GraphicBgView;
-		public function get view():GraphicBgView{ return _view; }
+		public static const name:String = 'PTipsMediator';
+		private var _view:TipsView;
+		public function get view():TipsView{ return _view; }
 		
-		public function GraphicBgMediator( )
+		public function TipsMediator( )
 		{
 			super( name );
 			
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index5.addChild( _view = new GraphicBgView() );
-			//Log.log( 'ChartBgMediator register' );	
-			_view.addEventListener( JChartEvent.UPDATE_TIPS, function( _evt:JChartEvent ):void{
-				sendNotification( JChartEvent.UPDATE_TIPS, _evt.data as int );
-			});
+			mainMediator.view.index5.addChild( _view = new TipsView() );
+			//Log.log( 'TipsMediator register' );	
 		}
 		
 		override public function onRemove():void{

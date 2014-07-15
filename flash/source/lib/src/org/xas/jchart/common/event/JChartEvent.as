@@ -22,6 +22,8 @@ package org.xas.jchart.common.event
 		public static const MOUSE_ENTER:String = 'mouse_enter';
 		public static const MOUSE_LEAVE:String = 'mouse_leave';
 		
+		public static const UPDATE_TIPS:String = 'update_tips';
+		
 		public function JChartEvent($type:String, $data:Object=null)
 		{
 			super($type, $data);

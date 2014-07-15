@@ -18,9 +18,10 @@ package
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.histogram.MainFacade;
 	
+	
 	[SWF(frameRate="30", width="800", height="400")]
 	public class Histogram extends Sprite
-	{
+	{ 
 		private var _inited: Boolean = false;
 		private var _timer:Timer;
 		private var _data:Object;

@@ -17,7 +17,7 @@ package org.xas.jchart.histogram.controller
 		
 		override public function execute( notification:INotification ):void{
 			
-			Log.log( 'ClearCmd' );
+			//Log.log( 'ClearCmd' );
 			
 			facade.hasMediator( BgMediator.name ) && facade.removeMediator( BgMediator.name );
 			facade.hasMediator( TitleMediator.name ) && facade.removeMediator( TitleMediator.name );
@@ -27,8 +27,10 @@ package org.xas.jchart.histogram.controller
 			facade.hasMediator( VLabelMediator.name ) && facade.removeMediator( VLabelMediator.name );
 			facade.hasMediator( HLabelMediator.name ) && facade.removeMediator( HLabelMediator.name );
 			facade.hasMediator( GraphicMediator.name ) && facade.removeMediator( GraphicMediator.name );
+			facade.hasMediator( GraphicBgMediator.name ) && facade.removeMediator( GraphicBgMediator.name );
 			facade.hasMediator( MainMediator.name ) && facade.removeMediator( MainMediator.name );
 			facade.hasMediator( BgLineMediator.name ) && facade.removeMediator( BgLineMediator.name );
+			facade.hasMediator( LegendMediator.name ) && facade.removeMediator( LegendMediator.name );
 			
 		}
 	}

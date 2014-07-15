@@ -17,7 +17,7 @@ package org.xas.jchart.histogram.controller
 		}
 		
 		override public function execute( notification:INotification ):void{
-			Log.log( 'DRAW cmd' );
+			//Log.log( 'DRAW cmd' );
 			sendNotification( JChartEvent.CLEAR );
 			facade.registerMediator( new MainMediator() );
 		}

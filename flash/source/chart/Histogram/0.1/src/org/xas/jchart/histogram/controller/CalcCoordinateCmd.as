@@ -66,6 +66,16 @@ package org.xas.jchart.histogram.controller
 					Config.c.maxY -= pCreditMediator.view.height;
 				}	
 				
+				if( Config.legendEnabled ){
+					facade.registerMediator( new LegendMediator() );
+					Config.c.maxY -= pLegendMediator.view.height;
+					Config.c.legend = { 
+						x: Config.width / 2 - pLegendMediator.view.width / 2
+						, y: Config.c.maxY
+					};
+					Config.c.maxY -= 2;
+				}
+				
 				Config.c.maxX -= 5;
 				
 				facade.registerMediator( new VLabelMediator() );
@@ -76,13 +86,17 @@ package org.xas.jchart.histogram.controller
 				
 				Config.c.arrowLength = 8;
 				Config.c.chartWidth = Config.c.maxX - Config.c.minX - 5;
-				Config.c.chartHeight = Config.c.maxY - Config.c.minY;
+				Config.c.chartHeight = Config.c.maxY - Config.c.minY;	
+				
+				Config.c.chartX = Config.c.minX + Config.c.arrowLength - 2;
+				Config.c.chartY = Config.c.minY;
+				facade.registerMediator( new GraphicBgMediator() );		
 				
 				calcChartPoint();
 				
-				calcGraphic();
+				calcGraphic();	
 				
-				Log.log( Config.c.chartWidth, Config.c.chartHeight );
+				//Log.log( Config.c.chartWidth, Config.c.chartHeight );
 			}
 									
 			sendNotification( JChartEvent.SHOW_CHART );			
@@ -202,6 +216,10 @@ package org.xas.jchart.histogram.controller
 					, end: new Point( _n, Config.c.maxY )
 				});
 			});
+		}
+		
+		private function get pLegendMediator():LegendMediator{
+			return facade.retrieveMediator( LegendMediator.name ) as LegendMediator;
 		}
 		
 		private function get pHLabelMediator():HLabelMediator{

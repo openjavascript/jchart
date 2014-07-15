@@ -6,25 +6,24 @@ package org.xas.jchart.common.view.mediator
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.Config;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.common.view.components.BgView;
-	import org.xas.jchart.common.view.components.TitleView;
+	import org.xas.jchart.common.view.components.*;
 	import org.xas.jchart.histogram.view.mediator.MainMediator;
 	
-	public class BgMediator extends Mediator implements IMediator
+	public class LegendMediator extends Mediator implements IMediator
 	{
-		public static const name:String = 'PBgMediator';
-		private var _view:BgView;
-		public function get view():BgView{ return _view; }
+		public static const name:String = 'PLegendMediator';
+		private var _view:LegendView;
+		public function get view():LegendView{ return _view; }
 		
-		public function BgMediator( )
+		public function LegendMediator( )
 		{
 			super( name );
 			
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index5.addChild( _view = new BgView() );
-			//Log.log( 'BgMediator register' );	
+			mainMediator.view.index9.addChild( _view = new LegendView() );
+			//Log.log( 'LegendMediator register' );	
 		}
 		
 		override public function onRemove():void{
@@ -41,7 +40,11 @@ package org.xas.jchart.common.view.mediator
 			switch( notification.getName() ){
 			case JChartEvent.SHOW_CHART:
 				{
-					_view.dispatchEvent( new JChartEvent( JChartEvent.SHOW_CHART ) );
+					//_view.dispatchEvent( new JChartEvent( JChartEvent.SHOW_CHART ) );
+					if( !( Config.c && Config.c.legend ) ) return;
+					
+					_view.x = Config.c.legend.x;
+					_view.y = Config.c.legend.y;
 					break;
 				}
 			

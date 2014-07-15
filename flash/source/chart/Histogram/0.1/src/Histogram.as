@@ -31,7 +31,7 @@ package
 		public function Histogram()
 		{			
 			flash.system.Security.allowDomain("*");	
-			_ins = this;
+			_ins = this; 
 			
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
@@ -56,18 +56,18 @@ package
 					name: 'Temperature',
 					data: [-50, -1, -3, 10, -20, -27, -28, -32, -30]
 				}, {
-					name: 'Rainfall',
+					name: 'Rainfall1',
 					data: [-20, -21, 50, 100, -10, -210, -220, -100, -20]
 				}, {
-					name: 'Rainfall',
+					name: 'Rainfall2',
 					data: [-20, -21, -20, -100, -10, -210, -20, -100, -20]
 				}, {
-					name: 'Rainfall',
+					name: 'Rainfall3',
 					data: [-20, -21, -20, -100, -10, -210, -120, -100, -20]
 				}
 				],
 				legend: {
-					enabled: false
+					enabled: true
 				}
 			});
 			

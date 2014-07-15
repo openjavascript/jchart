@@ -3,7 +3,7 @@ package org.xas.jchart.common
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	
-	import org.xas.core.utils.Log;
+	import org.xas.core.utils.*;
 	import org.xas.jchart.common.data.Coordinate;
 	
 	/**
@@ -92,6 +92,7 @@ package org.xas.jchart.common
 				});
 				_tmp.length && ( _r = Math.max.apply( null, _tmp ) );
 			}
+
 			_r < 0 && ( _r = 0 );
 			_r > 0 && _r && ( _r = numberUp( _r ) );
 			_r === 0 && ( _r = 10 );
@@ -243,6 +244,20 @@ package org.xas.jchart.common
 		
 		public static function isNegative( _num:Number ):Boolean{
 			return _num < 0;
+		}
+		
+		public static function get legendEnabled():Boolean{
+			var _r:Boolean = true;
+			
+			if( Config.cd && Config.cd.legend && ( 'enabled' in Config.cd.legend ) ){
+				_r = StringUtils.parseBool( Config.cd.legend.enabled );
+			}
+			
+			return _r;
+		}
+		
+		public static function　pointRectangleIntersection( p:Object, r:Object ):Boolean {
+			return p.x >= r.x && p.x <= r.x2 && p.y >= r.y && p.y <= r.y2;
 		}
 
 	}

@@ -5,12 +5,12 @@ package org.xas.jchart.histogram.controller
 	import org.puremvc.as3.multicore.interfaces.ICommand;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	import org.xas.jchart.histogram.view.mediator.MainMediator;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.Config;
 	import org.xas.jchart.common.data.Coordinate;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.mediator.*;
+	import org.xas.jchart.histogram.view.mediator.*;
 	
 	public class CalcCoordinateCmd extends SimpleCommand implements ICommand
 	{
@@ -109,10 +109,44 @@ package org.xas.jchart.histogram.controller
 				
 				calcChartPoint();
 				
+				calcGraphic();
+				
 				Log.log( Config.c.chartWidth, Config.c.chartHeight );
 			}
 									
 			sendNotification( JChartEvent.SHOW_CHART );			
+		}
+		
+		private function calcGraphic():void{			
+			facade.registerMediator( new GraphicMediator() );
+			
+			Config.c.rects = [];
+			if( !( Config.cd.series && Config.cd.series.length ) ) return;
+			
+			Config.c.partWidth = Config.c.itemWidth / Config.cd.series.length;
+			
+			Config.each( Config.cd.xAxis.categories, function( _k:int, _item:Object ):void{
+				
+				var _items:Array = []
+					, _pointItem:Object = Config.c.hlinePoint[ _k ]
+					, _sp:Point = _pointItem.start as Point
+					, _ep:Point = _pointItem.end as Point
+					, _x:Number = _sp.x + ( Config.c.itemWidth - Config.c.itemWidth / 2 ) / 2
+					;
+				
+				Config.each( Config.cd.series, function( _sk:int, _sitem:Object ):void{
+					var _rectItem:Object = {};
+					
+					_rectItem.x = _x + _sk * Config.c.partWidth;
+					_rectItem.y = _sp.y;
+					_rectItem.width = Config.c.partWidth;
+					_rectItem.height = _ep.y - _sp.y;
+					
+					_items.push( _rectItem );
+				});
+				
+				Config.c.rects.push( _items );
+			});
 		}
 		
 		private function calcChartPoint():void{
@@ -127,6 +161,8 @@ package org.xas.jchart.histogram.controller
 			var _partN:Number = Config.c.chartHeight / ( Config.rate.length -1 )
 				, _sideLen:Number = Config.c.arrowLength
 				;
+			Config.c.hpart = _partN;
+			Config.c.itemWidth = _partN / 2;
 			Config.c.vpoint = [];
 			Config.c.vpointReal = [];
 			

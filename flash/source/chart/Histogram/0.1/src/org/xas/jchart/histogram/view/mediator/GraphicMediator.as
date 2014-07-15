@@ -1,28 +1,25 @@
-package org.xas.jchart.common.view.mediator
+package org.xas.jchart.histogram.view.mediator
 {
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import org.xas.jchart.histogram.view.mediator.MainMediator;
-	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.common.view.components.BgLineView;
+	import org.xas.jchart.histogram.view.components.GraphicView;
 	
-	public class BgLineMediator extends Mediator implements IMediator
+	public class GraphicMediator extends Mediator implements IMediator
 	{
-		public static const name:String = 'PBgLineMediator';
-		private var _view:BgLineView;
-		public function get view():BgLineView{ return _view; }
+		public static const name:String = 'PChartMediator';
+		private var _view:GraphicView;
+		public function get view():GraphicView{ return _view; }
 		
-		public function BgLineMediator()
+		public function GraphicMediator()
 		{
 			super( name );
 			
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index5.addChild( _view = new BgLineView() );			
+			mainMediator.view.index6.addChild( _view = new GraphicView() );			
 		}
 		
 		override public function listNotificationInterests():Array{

@@ -3,12 +3,12 @@ package org.xas.jchart.common.view.mediator
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import org.xas.jchart.histogram.view.mediator.MainMediator;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.Config;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.components.BgView;
 	import org.xas.jchart.common.view.components.TitleView;
+	import org.xas.jchart.histogram.view.mediator.MainMediator;
 	
 	public class BgMediator extends Mediator implements IMediator
 	{
@@ -24,7 +24,11 @@ package org.xas.jchart.common.view.mediator
 		
 		override public function onRegister():void{
 			mainMediator.view.index5.addChild( _view = new BgView() );
-			
+			Log.log( 'BgMediator register' );	
+		}
+		
+		override public function onRemove():void{
+			_view.parent.removeChild( _view );
 		}
 		
 		override public function listNotificationInterests():Array{

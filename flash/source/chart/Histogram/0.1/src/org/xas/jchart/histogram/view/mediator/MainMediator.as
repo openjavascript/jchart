@@ -30,6 +30,10 @@ package org.xas.jchart.histogram.view.mediator
 			//Log.printClass( Config.root );
 		}
 		
+		override public function onRemove():void{
+			_view.parent.removeChild( _view );
+		}
+		
 		override public function listNotificationInterests():Array{
 			return [
 				

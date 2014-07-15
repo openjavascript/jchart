@@ -22,6 +22,10 @@ package org.xas.jchart.histogram.view.mediator
 			mainMediator.view.index6.addChild( _view = new GraphicView() );			
 		}
 		
+		override public function onRemove():void{
+			_view.parent.removeChild( _view );
+		}
+		
 		override public function listNotificationInterests():Array{
 			return [
 				JChartEvent.SHOW_CHART

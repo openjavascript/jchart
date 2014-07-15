@@ -36,6 +36,8 @@ package org.xas.jchart.common
 		}		
 		public static function get chartData():Object {	return Config._chartData; }	
 		public static function get cd():Object {	return Config._chartData; }
+		public static function get rateZeroIndex():int{ return _rateZeroIndex; }
+		private static var _rateZeroIndex:int = 0; 
 		
 		private static function calcRate():void{
 			var _data:Object = Config._chartData;
@@ -51,18 +53,25 @@ package org.xas.jchart.common
 				if( _maxNum > _absNum ){
 					if( Math.abs( _finalMaxNum * 0.33333 ) > _absNum ){
 						_rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
+						_rateZeroIndex = 3;
 					}
 				}else{
 					if( _maxNum == 0 ){
 						_rate = [ 0, -0.25, -0.5, -0.75, -1 ];
+						_rateZeroIndex = 0;
 					}else if( Math.abs( _finalMaxNum * 0.33333 ) > _maxNum ){
 						_rate = [ 0.33333, 0, -0.33333, -0.66666, -1 ];
+						_rateZeroIndex = 1;
 					}
 				}
-				!_rate && ( _rate = [ 1, .5, 0, -.5, -1 ] );
+				if( !_rate.length ){
+					_rate = [ 1, .5, 0, -.5, -1 ];
+					_rateZeroIndex = 2;
+				} 
 				
-			}else if( _data ){
+			}else{
 				_rate = [1, .75, .5, .25, 0 ];
+				_rateZeroIndex = 4;
 			}
 		}
 		private static var _absNum:Number;
@@ -84,9 +93,13 @@ package org.xas.jchart.common
 				_tmp.length && ( _r = Math.max.apply( null, _tmp ) );
 			}
 			_r < 0 && ( _r = 0 );
-			_r && ( _r = numberUp( _r ) );
+			_r > 0 && _r && ( _r = numberUp( _r ) );
 			_r === 0 && ( _r = 10 );
 			return _r;
+		}
+		
+		public static function get chartMaxNum():Number{
+			return Config.finalMaxNum * Config.rate[0];
 		}
 		
 		private static var _minNum:Number = 0;
@@ -226,6 +239,10 @@ package org.xas.jchart.common
 				_r = Config.cd.xAxis.categories;
 			}
 			return _r;
+		}
+		
+		public static function isNegative( _num:Number ):Boolean{
+			return _num < 0;
 		}
 
 	}

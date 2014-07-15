@@ -32,40 +32,10 @@ package org.xas.jchart.histogram.controller
 			_c.maxX = _c.x + _c.width - 5;
 			_c.maxY = _c.y + _c.height - 5;
 						
-			facade.registerMediator( new BgMediator( ) )	
-				
-			Config.setChartData( {
-				title: { text: 'test title 中文' }
-				, subtitle: { text: 'test subtitle 中文' }
-				, subtitle: { text: 'test subtitle 中文' }
-				, yAxis: { title: { text: 'vtitle 中文' } }
-				, credits: {
-					enabled: true
-					, text: 'jchart.openjavascript.org'
-					, href: 'http://jchart.openjavascript.org/'
-				},
-				xAxis: {
-					categories: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-					, tipTitlePostfix: '{0}月'
-				}, 
-				series:[{
-					name: 'Temperature',
-					data: [-50, -1, -3, -10, -20, -27, -28, -32, -30]
-				}, {
-					name: 'Rainfall',
-					data: [-20, -21, -20, -100, -10, -210, -220, -100, -20]
-				}, {
-					name: 'Rainfall',
-					data: [-20, -21, -20, -100, -10, -210, -220, -100, -20]
-				}, {
-					name: 'Rainfall',
-					data: [-20, -21, -20, -100, -10, -210, -220, -100, -20]
-				}
-				],
-				legend: {
-					enabled: false
-				}
-			});
+			facade.registerMediator( new BgMediator( ) )		
+			
+			Log.log( Config.rate.length );
+			Log.log( Config.maxNum, Config.finalMaxNum, Config.chartMaxNum, 11111 );
 			
 			if( Config.cd ){			
 				
@@ -104,6 +74,7 @@ package org.xas.jchart.histogram.controller
 				facade.registerMediator( new HLabelMediator() );
 				Config.c.maxY -= pHLabelMediator.maxHeight;
 				
+				Config.c.arrowLength = 8;
 				Config.c.chartWidth = Config.c.maxX - Config.c.minX - 5;
 				Config.c.chartHeight = Config.c.maxY - Config.c.minY;
 				
@@ -131,16 +102,33 @@ package org.xas.jchart.histogram.controller
 					, _pointItem:Object = Config.c.hlinePoint[ _k ]
 					, _sp:Point = _pointItem.start as Point
 					, _ep:Point = _pointItem.end as Point
-					, _x:Number = _sp.x + ( Config.c.itemWidth - Config.c.itemWidth / 2 ) / 2
+					, _x:Number = _sp.x + ( Config.c.itemWidth - Config.c.itemWidth / 2 )
 					;
 				
 				Config.each( Config.cd.series, function( _sk:int, _sitem:Object ):void{
-					var _rectItem:Object = {};
+					var _rectItem:Object = {}
+						, _num:Number = _sitem.data[ _k ]
+						, _itemNum:Number
+						, _h:Number, _y:Number
+						;
 					
+					if( Config.isNegative( _num ) ){
+						_itemNum = Math.abs( _num );	
+						_h = Config.c.vpart * Math.abs( Config.rate.length - Config.rateZeroIndex -1 );
+						_y = _sp.y + Config.c.vpart * Config.rateZeroIndex;
+						_h = Math.abs( _num / Config.finalMaxNum ) * _h;
+					}else{
+						_h = Config.c.vpart * Config.rateZeroIndex;
+						_h = ( _num / Config.chartMaxNum || 1 ) * _h;
+						_y = _sp.y + Config.c.vpart * Config.rateZeroIndex - _h;
+					}
+					
+					//Log.log( _h, _y );
+										
 					_rectItem.x = _x + _sk * Config.c.partWidth;
-					_rectItem.y = _sp.y;
+					_rectItem.y = _y;
 					_rectItem.width = Config.c.partWidth;
-					_rectItem.height = _ep.y - _sp.y;
+					_rectItem.height = _h;
 					
 					_items.push( _rectItem );
 				});
@@ -151,7 +139,6 @@ package org.xas.jchart.histogram.controller
 		
 		private function calcChartPoint():void{
 			facade.registerMediator( new BgLineMediator() );
-			Config.c.arrowLength = 8;
 			
 			calcChartVPoint();
 			calcChartHPoint();
@@ -161,8 +148,8 @@ package org.xas.jchart.histogram.controller
 			var _partN:Number = Config.c.chartHeight / ( Config.rate.length -1 )
 				, _sideLen:Number = Config.c.arrowLength
 				;
-			Config.c.hpart = _partN;
-			Config.c.itemWidth = _partN / 2;
+			Config.c.vpart = _partN;
+			Config.c.itemHeight = _partN / 2;
 			Config.c.vpoint = [];
 			Config.c.vpointReal = [];
 			
@@ -184,9 +171,11 @@ package org.xas.jchart.histogram.controller
 			var _partN:Number = Config.c.chartWidth / ( Config.categories.length )
 				, _sideLen:Number = Config.c.arrowLength
 				;
+			Config.c.hpart = _partN;
 			Config.c.hpoint = [];
 			Config.c.hlinePoint = [];
 			Config.c.hpointReal = [];
+			Config.c.itemWidth = _partN / 2;
 						
 			Config.each( Config.categories, function( _k:int, _item:* ):void{
 				var _n:Number = Config.c.minX + _partN * _k + 5, _sideLen:int = Config.c.arrowLength;

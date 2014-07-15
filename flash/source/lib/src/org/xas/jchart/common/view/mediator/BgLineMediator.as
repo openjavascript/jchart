@@ -25,6 +25,10 @@ package org.xas.jchart.common.view.mediator
 			mainMediator.view.index5.addChild( _view = new BgLineView() );			
 		}
 		
+		override public function onRemove():void{
+			_view.parent.removeChild( _view );
+		}
+		
 		override public function listNotificationInterests():Array{
 			return [
 				JChartEvent.SHOW_CHART

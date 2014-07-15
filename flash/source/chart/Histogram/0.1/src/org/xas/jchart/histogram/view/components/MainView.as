@@ -1,4 +1,4 @@
-package org.xas.chart.histogram.view.components
+package org.xas.jchart.histogram.view.components
 {
 	import flash.display.Sprite;
 	

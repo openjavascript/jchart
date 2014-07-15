@@ -1,11 +1,11 @@
-package org.xas.chart.histogram.controller
+package org.xas.jchart.histogram.controller
 {
 	import flash.geom.Point;
 	
 	import org.puremvc.as3.multicore.interfaces.ICommand;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	import org.xas.chart.histogram.view.mediator.MainMediator;
+	import org.xas.jchart.histogram.view.mediator.MainMediator;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.Config;
 	import org.xas.jchart.common.data.Coordinate;
@@ -116,19 +116,22 @@ package org.xas.chart.histogram.controller
 		}
 		
 		private function calcChartPoint():void{
+			facade.registerMediator( new BgLineMediator() );
+			Config.c.arrowLength = 8;
+			
 			calcChartVPoint();
 			calcChartHPoint();
 		}
 		
 		private function calcChartVPoint():void{
 			var _partN:Number = Config.c.chartHeight / ( Config.rate.length -1 )
-				, _sideLen:Number = 5
+				, _sideLen:Number = Config.c.arrowLength
 				;
 			Config.c.vpoint = [];
 			Config.c.vpointReal = [];
 			
 			Config.each( Config.rate, function( _k:int, _item:* ):void{
-				var _n:Number = Config.c.minY + _partN * _k, _sideLen:int = 5;
+				var _n:Number = Config.c.minY + _partN * _k, _sideLen:int = Config.c.arrowLength;
 				Config.c.vpoint.push( {
 					start: new Point( Config.c.minX, _n )
 					, end: new Point( Config.c.maxX, _n )
@@ -143,17 +146,29 @@ package org.xas.chart.histogram.controller
 		
 		private function calcChartHPoint():void{
 			var _partN:Number = Config.c.chartWidth / ( Config.categories.length )
-				, _sideLen:Number = 5
+				, _sideLen:Number = Config.c.arrowLength
 				;
 			Config.c.hpoint = [];
+			Config.c.hlinePoint = [];
 			Config.c.hpointReal = [];
-			
-			Log.log( 'tt', Config.c.chartWidth, _partN );
-			
+						
 			Config.each( Config.categories, function( _k:int, _item:* ):void{
-				var _n:Number = Config.c.minX + _partN * _k + 5, _sideLen:int = 5;
+				var _n:Number = Config.c.minX + _partN * _k + 5, _sideLen:int = Config.c.arrowLength;
+				
+				if( _k === 0 ){					
+					Config.c.hlinePoint.push( {
+						start: new Point( _n, Config.c.minY )
+						, end: new Point( _n, Config.c.maxY + 1 )
+					});					
+				}
+								
+				Config.c.hlinePoint.push( {
+					start: new Point( _n + _partN, Config.c.minY )
+					, end: new Point( _n + _partN, Config.c.maxY + 1 )
+				});
+				
 				Config.c.hpoint.push( {
-					start: new Point( _n + _partN / 2, Config.c.minY )
+					start: new Point( _n + _partN / 2, Config.c.maxY )
 					, end: new Point( _n + _partN / 2, Config.c.maxY + _sideLen )
 				});
 				

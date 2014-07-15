@@ -11,7 +11,7 @@ package
 	import flash.utils.setTimeout;
 	
 	import org.puremvc.as3.multicore.patterns.facade.*;
-	import org.xas.chart.histogram.MainFacade;
+	import org.xas.jchart.histogram.MainFacade;
 	import org.xas.core.events.*;
 	import org.xas.core.ui.error.BaseError;
 	import org.xas.core.utils.Log;

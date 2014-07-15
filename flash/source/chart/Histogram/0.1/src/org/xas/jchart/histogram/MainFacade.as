@@ -1,12 +1,12 @@
-package org.xas.chart.histogram
+package org.xas.jchart.histogram
 {
 	import flash.net.registerClassAlias;
 	
 	import org.puremvc.as3.multicore.interfaces.*;
 	import org.puremvc.as3.multicore.patterns.facade.*;
-	import org.xas.chart.histogram.controller.CalcCoordinateCmd;
-	import org.xas.chart.histogram.controller.ClearCmd;
-	import org.xas.chart.histogram.controller.DrawCmd;
+	import org.xas.jchart.histogram.controller.CalcCoordinateCmd;
+	import org.xas.jchart.histogram.controller.ClearCmd;
+	import org.xas.jchart.histogram.controller.DrawCmd;
 	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class MainFacade extends Facade implements ICommand

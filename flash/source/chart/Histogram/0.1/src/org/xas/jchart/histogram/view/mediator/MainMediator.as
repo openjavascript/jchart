@@ -1,11 +1,11 @@
-package org.xas.chart.histogram.view.mediator
+package org.xas.jchart.histogram.view.mediator
 {
 	import flash.display.Sprite;
 	import flash.utils.describeType;
 	
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import org.xas.chart.histogram.view.components.MainView;
+	import org.xas.jchart.histogram.view.components.MainView;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.Config;
 	import org.xas.jchart.common.event.JChartEvent;

@@ -7,21 +7,22 @@ package org.xas.jchart.common.view.mediator
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.Config;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.common.view.components.*;
+	import org.xas.jchart.common.view.components.BgLineView;
 	
-	public class VLabelMediator extends Mediator implements IMediator
+	public class BgLineMediator extends Mediator implements IMediator
 	{
-		public static const name:String = 'PVLabelMediator';
-		private var _view:VLabelView;
-		public function get view():VLabelView{ return _view; }
+		public static const name:String = 'PBgLineMediator';
+		private var _view:BgLineView;
+		public function get view():BgLineView{ return _view; }
 		
-		public function VLabelMediator( )
+		public function BgLineMediator()
 		{
-			super( name );			
+			super( name );
+			
 		}
 		
-		override public function onRegister():void{			
-			mainMediator.view.index5.addChild( _view = new VLabelView( ) );
+		override public function onRegister():void{
+			mainMediator.view.index6.addChild( _view = new BgLineView() );			
 		}
 		
 		override public function listNotificationInterests():Array{
@@ -32,17 +33,12 @@ package org.xas.jchart.common.view.mediator
 		
 		override public function handleNotification(notification:INotification):void{
 			switch( notification.getName() ){
-			case JChartEvent.SHOW_CHART:
-				{
-					_view.update();
-					break;
-				}
-			
+				case JChartEvent.SHOW_CHART:
+					{								
+						_view.update();
+						break;
+					}			
 			}
-		}
-		
-		public function get maxWidth():Number{
-			return _view.maxWidth;
 		}
 		
 		

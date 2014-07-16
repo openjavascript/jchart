@@ -8,31 +8,31 @@ package org.xas.jchart.histogram.view.components
 		public function get index0():Sprite{ return _index0; }
 		
 		private var _index1:Sprite;
-		public function get index1():Sprite{ return _index0; }
+		public function get index1():Sprite{ return _index1; }
 		
 		private var _index2:Sprite;
-		public function get index2():Sprite{ return _index0; }
+		public function get index2():Sprite{ return _index2; }
 		
 		private var _index3:Sprite;
-		public function get index3():Sprite{ return _index0; }
+		public function get index3():Sprite{ return _index3; }
 		
 		private var _index4:Sprite;
-		public function get index4():Sprite{ return _index0; }
+		public function get index4():Sprite{ return _index4; }
 		
 		private var _index5:Sprite;
-		public function get index5():Sprite{ return _index0; }
+		public function get index5():Sprite{ return _index4; }
 		
 		private var _index6:Sprite;
-		public function get index6():Sprite{ return _index0; }
+		public function get index6():Sprite{ return _index5; }
 		
 		private var _index7:Sprite;
-		public function get index7():Sprite{ return _index0; }
+		public function get index7():Sprite{ return _index6; }
 		
 		private var _index8:Sprite;
-		public function get index8():Sprite{ return _index0; }
+		public function get index8():Sprite{ return _index8; }
 		
 		private var _index9:Sprite;
-		public function get index9():Sprite{ return _index0; }
+		public function get index9():Sprite{ return _index9; }
 		
 		
 		public function MainView()

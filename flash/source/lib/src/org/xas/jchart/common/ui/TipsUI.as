@@ -58,8 +58,9 @@ package org.xas.jchart.common.ui
 		
 		public function buildLayout( _data:Object ):TipsUI{			
 			this._data = _data;
-			ElementUtility.removeAllChild( _layout );
 			_layout.graphics.clear();
+			graphics.clear();
+			ElementUtility.removeAllChild( _layout );
 			
 			_layout.addChild( _tmpTxf = new TextField() );
 			_tmpTxf.autoSize = TextFieldAutoSize.LEFT;
@@ -106,6 +107,16 @@ package org.xas.jchart.common.ui
 				});
 			}
 			
+			graphics.beginFill( 0xffffff, .8 );
+			graphics.lineStyle( 2, 0x999999 );
+			
+			graphics.drawRoundRect( 
+				0, 0
+				, _layout.width + _offsetX * 2
+				, _layout.height + _offsetY * 2
+				, 10, 10 
+			);
+			
 			return this;
 		}
 		
@@ -113,6 +124,8 @@ package org.xas.jchart.common.ui
 			var _point:Point = _evt.data as Point;
 			if( !_point ) return;
 			
+			this.x = _point.x + 15;
+			this.y = _point.y + 18;
 			//Log.log( 'TipsUI updateTips', _point.x, _point.y );
 		}
 	}

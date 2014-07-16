@@ -37,7 +37,7 @@ package
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
 			
-			
+			 
 			//update( {} );			
 			update( {
 				title: { text: 'test title 中文' }

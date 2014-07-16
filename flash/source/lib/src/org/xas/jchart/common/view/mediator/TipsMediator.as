@@ -3,6 +3,7 @@ package org.xas.jchart.common.view.mediator
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import org.xas.core.utils.ElementUtility;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.Config;
 	import org.xas.jchart.common.event.JChartEvent;
@@ -23,7 +24,8 @@ package org.xas.jchart.common.view.mediator
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index5.addChild( _view = new TipsView() );
+			mainMediator.view.index8.addChild( _view = new TipsView() ); 
+			ElementUtility.topIndex( _view );
 			//Log.log( 'TipsMediator register' );	
 		}
 		

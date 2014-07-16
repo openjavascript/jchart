@@ -13,7 +13,8 @@ package org.xas.jchart.common.view.components
 	
 	import org.xas.core.utils.Log;
 	import org.xas.core.utils.StringUtils;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.TipsUI;
 	
@@ -46,26 +47,26 @@ package org.xas.jchart.common.view.components
 		
 		private function buildData():void{
 			
-			if( !Config.series.length ){
+			if( !BaseConfig.ins.series.length ){
 				return;
 			}
 			
-			_data = { test: 't' };
+			_data = {};
 			
-			Config.each( Config.series[0].data, function( _k:int, _item:Number ):void{
-				_data[ _k ] = { data: [] };
+			Common.each( BaseConfig.ins.series[0].data, function( _k:int, _item:Number ):void{
+				_data[ _k ] = { items: [] };
 				
-				if( Config.categories.length ){
-					_data[ _k ].name = StringUtils.printf( Config.tipTitlePostfix,  Config.categories[ _k ] );
+				if( BaseConfig.ins.categories.length ){
+					_data[ _k ].name = StringUtils.printf( BaseConfig.ins.tipTitlePostfix,  BaseConfig.ins.categories[ _k ] );
 				}else{
 					_data[ _k ].name = '';
 				}
 				
-				Config.each( Config.series, function( _sk:int, _sitem:Object ):void{
+				Common.each( BaseConfig.ins.series, function( _sk:int, _sitem:Object ):void{
 					//_data[ _k ][ 'name' ] = _sitem.name || '';
-					_data[ _k ].data.push( {
+					_data[ _k ].items.push( {
 						'name': _sitem.name
-						, 'value': _sitem.data[ _k ]
+						, 'value': Common.moneyFormat( _sitem.data[ _k ], 3, BaseConfig.ins.floatLen )
 					});
 				});
 			});

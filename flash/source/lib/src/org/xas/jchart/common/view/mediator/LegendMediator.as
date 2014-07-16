@@ -4,7 +4,7 @@ package org.xas.jchart.common.view.mediator
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.components.*;
 	import org.xas.jchart.histogram.view.mediator.MainMediator;
@@ -41,10 +41,10 @@ package org.xas.jchart.common.view.mediator
 			case JChartEvent.SHOW_CHART:
 				{
 					//_view.dispatchEvent( new JChartEvent( JChartEvent.SHOW_CHART ) );
-					if( !( Config.c && Config.c.legend ) ) return;
+					if( !( BaseConfig.ins.c && BaseConfig.ins.c.legend ) ) return;
 					
-					_view.x = Config.c.legend.x;
-					_view.y = Config.c.legend.y;
+					_view.x = BaseConfig.ins.c.legend.x;
+					_view.y = BaseConfig.ins.c.legend.y;
 					break;
 				}
 			

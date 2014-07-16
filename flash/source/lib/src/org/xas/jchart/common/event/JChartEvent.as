@@ -7,7 +7,7 @@ package org.xas.jchart.common.event
 	
 	import org.xas.core.events.BaseEvent;
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.Common;
 	
 	public class JChartEvent extends BaseEvent
 	{
@@ -37,12 +37,20 @@ package org.xas.jchart.common.event
 			
 			_ele.root.stage.addEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
 			_ele.root.stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseOut );
+			_ele.root.stage.addEventListener( Event.MOUSE_LEAVE, stageLeave );
 			_ele.root.stage.addEventListener( Event.RESIZE, remove );
 			_ele.addEventListener( Event.REMOVED_FROM_STAGE, remove );	
+			
+			
+			function stageLeave( _evt:Event ):void{				
+				_isOver = false;
+				_isOut = true;
+			}
 				
 			function remove( _evt:Event ):void{				
 				_ele.root.stage.removeEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
 				_ele.root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseOut );
+				_ele.root.stage.removeEventListener( Event.MOUSE_LEAVE, stageLeave );
 				_ele.root.stage.removeEventListener( Event.RESIZE, remove );
 				_ele.removeEventListener( Event.REMOVED_FROM_STAGE, remove );
 			}
@@ -56,7 +64,7 @@ package org.xas.jchart.common.event
 			
 			function onMouseOut( _evt:MouseEvent ):void{
 				//Log.log( _evt.stageX, _evt.stageY, _ele.x, _ele.y, _ele.width, _ele.height );
-				if( Config.pointRectangleIntersection( 
+				if( Common.pointRectangleIntersection( 
 					{ x: _evt.stageX, y: _evt.stageY }
 					, { x: _ele.x, y: _ele.y, x2: _ele.x + _ele.width, y2: _ele.y + _ele.height }		
 				)){	
@@ -95,7 +103,7 @@ package org.xas.jchart.common.event
 			
 			function onMouseOut( _evt:MouseEvent ):void{
 				//Log.log( _evt.stageX, _evt.stageY, _ele.x, _ele.y, _ele.width, _ele.height );
-				if( Config.pointRectangleIntersection( 
+				if( Common.pointRectangleIntersection( 
 					{ x: _evt.stageX, y: _evt.stageY }
 					, { x: _ele.x, y: _ele.y, x2: _ele.x + _ele.width, y2: _ele.y + _ele.height }		
 				)){	

@@ -11,7 +11,8 @@ package org.xas.jchart.common.view.components
 	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class BgLineView extends Sprite
@@ -37,9 +38,9 @@ package org.xas.jchart.common.view.components
 		}
 		
 		private function drawHLine():void{
-			if( !( Config.c && Config.c.vpoint )  ) return;
+			if( !( BaseConfig.ins.c && BaseConfig.ins.c.vpoint )  ) return;
 			
-			Config.each( Config.c.vpoint, function( _k:int, _item:Object ):void{
+			Common.each( BaseConfig.ins.c.vpoint, function( _k:int, _item:Object ):void{
 				var _sp:Point =_item.start as Point
 					, _ep:Point = _item.end as Point;
 					;
@@ -53,9 +54,9 @@ package org.xas.jchart.common.view.components
 		}
 		
 		private function drawVLine():void{
-			if( !( Config.c && Config.c.hpoint && Config.c.hlinePoint )  ) return;
+			if( !( BaseConfig.ins.c && BaseConfig.ins.c.hpoint && BaseConfig.ins.c.hlinePoint )  ) return;
 			
-			Config.each( Config.c.hpoint, function( _k:int, _item:Object ):void{
+			Common.each( BaseConfig.ins.c.hpoint, function( _k:int, _item:Object ):void{
 				var _sp:Point =_item.start as Point
 				, _ep:Point = _item.end as Point;
 				;
@@ -67,7 +68,7 @@ package org.xas.jchart.common.view.components
 				
 			});		
 			
-			Config.each( Config.c.hlinePoint, function( _k:int, _item:Object ):void{
+			Common.each( BaseConfig.ins.c.hlinePoint, function( _k:int, _item:Object ):void{
 				var _sp:Point =_item.start as Point
 				, _ep:Point = _item.end as Point;
 				;

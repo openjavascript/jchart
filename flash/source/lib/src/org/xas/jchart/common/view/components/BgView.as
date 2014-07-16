@@ -10,7 +10,7 @@ package org.xas.jchart.common.view.components
 	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class BgView extends Sprite
@@ -29,8 +29,12 @@ package org.xas.jchart.common.view.components
 		private function showChart( _evt: JChartEvent ):void{
 			this.graphics.clear();
 			
-			this.graphics.beginFill( 0x999999, .3 );
-			this.graphics.drawRoundRect( Config.c.x, Config.c.y, Config.c.width, Config.c.height, Config.c.corner, Config.c.corner );
+			this.graphics.beginFill( 0xcccccc, .08 );
+			this.graphics.drawRoundRect( 
+				BaseConfig.ins.c.x, BaseConfig.ins.c.y
+				, BaseConfig.ins.c.width, BaseConfig.ins.c.height
+				, BaseConfig.ins.c.corner, BaseConfig.ins.c.corner 
+			);
 			this.graphics.endFill();
 		}
 

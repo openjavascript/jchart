@@ -11,7 +11,8 @@ package org.xas.jchart.common.view.components
 	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class GraphicBgView extends Sprite
@@ -33,17 +34,17 @@ package org.xas.jchart.common.view.components
 		private function showChart( _evt: JChartEvent ):void{
 			this.graphics.clear();
 			
-			this.graphics.beginFill( 0x999999, .3 );
+			this.graphics.beginFill( 0x000000, .01 );
 			this.graphics.drawRect(
-				0, 0, Config.c.chartWidth, Config.c.chartHeight 
+				0, 0, BaseConfig.ins.c.chartWidth, BaseConfig.ins.c.chartHeight 
 			);
-			this.x = Config.c.chartX;
-			this.y = Config.c.chartY;
+			this.x = BaseConfig.ins.c.chartX;
+			this.y = BaseConfig.ins.c.chartY;
 			this.graphics.endFill();
 		}
 		
 		private function onMouseEnter( _evt:MouseEvent ):void{
-			//og.log( 'GraphicView mouse onMouseEnter' );
+			//Log.log( 'GraphicView mouse onMouseEnter' );
 			this.root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			this.root.stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			dispatchEvent( new JChartEvent( JChartEvent.SHOW_TIPS, _evt ) );
@@ -59,19 +60,19 @@ package org.xas.jchart.common.view.components
 			//Log.log( 'GraphicView onMouseMove', new Date().getTime() );
 			var _point:Object = { x: _evt.stageX, y: _evt.stageY }
 				, _rect:Object = { 
-					x: Config.c.chartX
-					, y: Config.c.chartY
-					, x2: Config.c.chartX + Config.c.chartWidth 
-					, y2: Config.c.chartX + Config.c.chartHeight 
+					x: BaseConfig.ins.c.chartX
+					, y: BaseConfig.ins.c.chartY
+					, x2: BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth 
+					, y2: BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartHeight 
 				}
 				, _ix:int = 0
 				;
-			if( !Config.pointRectangleIntersection( _point, _rect ) ) return;
+			if( !Common.pointRectangleIntersection( _point, _rect ) ) return;
 			
-			_ix = ( _point.x  - _rect.x ) / Config.c.hpart;
+			_ix = ( _point.x  - _rect.x ) / BaseConfig.ins.c.hpart;
 		 	_ix < 0 && ( _ix = 0 );
-			if( Config.cd && Config.cd.series && Config.cd.series.length && Config.cd.series[0].data ){
-				_ix >= Config.cd.series[0].data.length && ( _ix = Config.cd.series[0].data.length - 1 );
+			if( BaseConfig.ins.cd && BaseConfig.ins.cd.series && BaseConfig.ins.cd.series.length && BaseConfig.ins.cd.series[0].data ){
+				_ix >= BaseConfig.ins.cd.series[0].data.length && ( _ix = BaseConfig.ins.cd.series[0].data.length - 1 );
 			}
 					
 			dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, { evt: _evt, index: _ix } ) );

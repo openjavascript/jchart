@@ -6,7 +6,8 @@ package org.xas.jchart.histogram.controller
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.data.Coordinate;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.mediator.*;
@@ -23,7 +24,7 @@ package org.xas.jchart.histogram.controller
 		
 		override public function execute(notification:INotification):void{
 			
-			_c = Config.setCoordinate( new Coordinate() );
+			_c = BaseConfig.ins.setCoordinate( new Coordinate() );
 			
 			_c.corner = corner();
 			
@@ -34,62 +35,62 @@ package org.xas.jchart.histogram.controller
 						
 			facade.registerMediator( new BgMediator( ) )		
 			
-			//Log.log( Config.rate.length );
-			//Log.log( Config.maxNum, Config.finalMaxNum, Config.chartMaxNum, 11111 );
+			//Log.log( BaseConfig.ins.rate.length );
+			//Log.log( BaseConfig.ins.maxNum, BaseConfig.ins.finalMaxNum, BaseConfig.ins.chartMaxNum, 11111 );
 			
-			if( Config.cd ){			
+			if( BaseConfig.ins.cd ){			
 				
-				if( Config.cd.title && Config.cd.title.text ){
-					facade.registerMediator( new TitleMediator( Config.cd.title.text ) )	
-					Config.c.title = { x: _c.width / 2, y: _c.minY, item: pTitleMediator };
-					Config.c.minY += pTitleMediator.view.height;			
+				if( BaseConfig.ins.cd.title && BaseConfig.ins.cd.title.text ){
+					facade.registerMediator( new TitleMediator( BaseConfig.ins.cd.title.text ) )	
+					BaseConfig.ins.c.title = { x: _c.width / 2, y: _c.minY, item: pTitleMediator };
+					BaseConfig.ins.c.minY += pTitleMediator.view.height;			
 				}
 				
-				if( Config.cd.subtitle && Config.cd.subtitle.text ){
-					facade.registerMediator( new SubtitleMediator( Config.cd.subtitle.text ) )
+				if( BaseConfig.ins.cd.subtitle && BaseConfig.ins.cd.subtitle.text ){
+					facade.registerMediator( new SubtitleMediator( BaseConfig.ins.cd.subtitle.text ) )
 					
-					Config.c.subtitle = { x: _c.width / 2, y: _c.minY, item: pSubtitleMediator };
-					Config.c.minY += pSubtitleMediator.view.height + 5;
+					BaseConfig.ins.c.subtitle = { x: _c.width / 2, y: _c.minY, item: pSubtitleMediator };
+					BaseConfig.ins.c.minY += pSubtitleMediator.view.height + 5;
 				}				
 				
-				if( Config.cd.yAxis && Config.cd.yAxis.title && Config.cd.yAxis.title.text ){
-					facade.registerMediator( new VTitleMediator( Config.cd.yAxis.title.text ) )
+				if( BaseConfig.ins.cd.yAxis && BaseConfig.ins.cd.yAxis.title && BaseConfig.ins.cd.yAxis.title.text ){
+					facade.registerMediator( new VTitleMediator( BaseConfig.ins.cd.yAxis.title.text ) )
 					
-					Config.c.vtitle = { x: Config.c.minX, y: Config.c.x + Config.c.height / 2, item: pVTitleMediator };
-					Config.c.minX += pVTitleMediator.view.width;
+					BaseConfig.ins.c.vtitle = { x: BaseConfig.ins.c.minX, y: BaseConfig.ins.c.x + BaseConfig.ins.c.height / 2, item: pVTitleMediator };
+					BaseConfig.ins.c.minX += pVTitleMediator.view.width;
 				}
 				
-				if( Config.cd.credits && Config.cd.credits.enabled && ( Config.cd.credits.text || Config.cd.credits.href ) ){
-					facade.registerMediator( new CreditMediator( Config.cd.credits.text, Config.cd.credits.href ) )
+				if( BaseConfig.ins.cd.credits && BaseConfig.ins.cd.credits.enabled && ( BaseConfig.ins.cd.credits.text || BaseConfig.ins.cd.credits.href ) ){
+					facade.registerMediator( new CreditMediator( BaseConfig.ins.cd.credits.text, BaseConfig.ins.cd.credits.href ) )
 					
-					Config.c.credits = { x: Config.c.maxX, y: Config.c.maxY, item: pCreditMediator };
-					Config.c.maxY -= pCreditMediator.view.height;
+					BaseConfig.ins.c.credits = { x: BaseConfig.ins.c.maxX, y: BaseConfig.ins.c.maxY, item: pCreditMediator };
+					BaseConfig.ins.c.maxY -= pCreditMediator.view.height;
 				}	
 				
-				if( Config.legendEnabled ){
+				if( BaseConfig.ins.legendEnabled ){
 					facade.registerMediator( new LegendMediator() );
-					Config.c.maxY -= pLegendMediator.view.height;
-					Config.c.legend = { 
-						x: Config.width / 2 - pLegendMediator.view.width / 2
-						, y: Config.c.maxY
+					BaseConfig.ins.c.maxY -= pLegendMediator.view.height;
+					BaseConfig.ins.c.legend = { 
+						x: BaseConfig.ins.width / 2 - pLegendMediator.view.width / 2
+						, y: BaseConfig.ins.c.maxY
 					};
-					Config.c.maxY -= 2;
+					BaseConfig.ins.c.maxY -= 2;
 				}
 				
-				Config.c.maxX -= 5;
+				BaseConfig.ins.c.maxX -= 5;
 				
 				facade.registerMediator( new VLabelMediator() );
-				Config.c.minX += pVLabelMediator.maxWidth;
+				BaseConfig.ins.c.minX += pVLabelMediator.maxWidth;
 				
 				facade.registerMediator( new HLabelMediator() );
-				Config.c.maxY -= pHLabelMediator.maxHeight;
+				BaseConfig.ins.c.maxY -= pHLabelMediator.maxHeight;
 				
-				Config.c.arrowLength = 8;
-				Config.c.chartWidth = Config.c.maxX - Config.c.minX - 5;
-				Config.c.chartHeight = Config.c.maxY - Config.c.minY;	
+				BaseConfig.ins.c.arrowLength = 8;
+				BaseConfig.ins.c.chartWidth = BaseConfig.ins.c.maxX - BaseConfig.ins.c.minX - 5;
+				BaseConfig.ins.c.chartHeight = BaseConfig.ins.c.maxY - BaseConfig.ins.c.minY;	
 				
-				Config.c.chartX = Config.c.minX + Config.c.arrowLength - 2;
-				Config.c.chartY = Config.c.minY;
+				BaseConfig.ins.c.chartX = BaseConfig.ins.c.minX + BaseConfig.ins.c.arrowLength - 2;
+				BaseConfig.ins.c.chartY = BaseConfig.ins.c.minY;
 				
 				facade.registerMediator( new GraphicBgMediator() );	
 				facade.registerMediator( new TipsMediator() );
@@ -98,7 +99,7 @@ package org.xas.jchart.histogram.controller
 				
 				calcGraphic();	
 				
-				//Log.log( Config.c.chartWidth, Config.c.chartHeight );
+				//Log.log( BaseConfig.ins.c.chartWidth, BaseConfig.ins.c.chartHeight );
 			}
 									
 			sendNotification( JChartEvent.SHOW_CHART );			
@@ -107,49 +108,49 @@ package org.xas.jchart.histogram.controller
 		private function calcGraphic():void{			
 			facade.registerMediator( new GraphicMediator() );
 			
-			Config.c.rects = [];
-			if( !( Config.cd.series && Config.cd.series.length ) ) return;
+			BaseConfig.ins.c.rects = [];
+			if( !( BaseConfig.ins.cd.series && BaseConfig.ins.cd.series.length ) ) return;
 			
-			Config.c.partWidth = Config.c.itemWidth / Config.cd.series.length;
+			BaseConfig.ins.c.partWidth = BaseConfig.ins.c.itemWidth / BaseConfig.ins.cd.series.length;
 			
-			Config.each( Config.cd.xAxis.categories, function( _k:int, _item:Object ):void{
+			Common.each( BaseConfig.ins.cd.xAxis.categories, function( _k:int, _item:Object ):void{
 				
 				var _items:Array = []
-					, _pointItem:Object = Config.c.hlinePoint[ _k ]
+					, _pointItem:Object = BaseConfig.ins.c.hlinePoint[ _k ]
 					, _sp:Point = _pointItem.start as Point
 					, _ep:Point = _pointItem.end as Point
-					, _x:Number = _sp.x + ( Config.c.itemWidth - Config.c.itemWidth / 2 )
+					, _x:Number = _sp.x + ( BaseConfig.ins.c.itemWidth - BaseConfig.ins.c.itemWidth / 2 )
 					;
 				
-				Config.each( Config.cd.series, function( _sk:int, _sitem:Object ):void{
+				Common.each( BaseConfig.ins.cd.series, function( _sk:int, _sitem:Object ):void{
 					var _rectItem:Object = {}
 						, _num:Number = _sitem.data[ _k ]
 						, _itemNum:Number
 						, _h:Number, _y:Number
 						;
 					
-					if( Config.isNegative( _num ) ){
+					if( Common.isNegative( _num ) ){
 						_itemNum = Math.abs( _num );	
-						_h = Config.c.vpart * Math.abs( Config.rate.length - Config.rateZeroIndex -1 );
-						_y = _sp.y + Config.c.vpart * Config.rateZeroIndex;
-						_h = Math.abs( _num / Config.finalMaxNum ) * _h;
+						_h = BaseConfig.ins.c.vpart * Math.abs( BaseConfig.ins.rate.length - BaseConfig.ins.rateZeroIndex -1 );
+						_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
+						_h = Math.abs( _num / BaseConfig.ins.finalMaxNum ) * _h;
 					}else{
-						_h = Config.c.vpart * Config.rateZeroIndex;
-						_h = ( _num / Config.chartMaxNum || 1 ) * _h;
-						_y = _sp.y + Config.c.vpart * Config.rateZeroIndex - _h;
+						_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
+						_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
+						_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h;
 					}
 					
 					//Log.log( _h, _y );
 										
-					_rectItem.x = _x + _sk * Config.c.partWidth;
+					_rectItem.x = _x + _sk * BaseConfig.ins.c.partWidth;
 					_rectItem.y = _y;
-					_rectItem.width = Config.c.partWidth;
+					_rectItem.width = BaseConfig.ins.c.partWidth;
 					_rectItem.height = _h;
 					
 					_items.push( _rectItem );
 				});
 				
-				Config.c.rects.push( _items );
+				BaseConfig.ins.c.rects.push( _items );
 			});
 		}
 		
@@ -161,61 +162,61 @@ package org.xas.jchart.histogram.controller
 		}
 		
 		private function calcChartVPoint():void{
-			var _partN:Number = Config.c.chartHeight / ( Config.rate.length -1 )
-				, _sideLen:Number = Config.c.arrowLength
+			var _partN:Number = BaseConfig.ins.c.chartHeight / ( BaseConfig.ins.rate.length -1 )
+				, _sideLen:Number = BaseConfig.ins.c.arrowLength
 				;
-			Config.c.vpart = _partN;
-			Config.c.itemHeight = _partN / 2;
-			Config.c.vpoint = [];
-			Config.c.vpointReal = [];
+			BaseConfig.ins.c.vpart = _partN;
+			BaseConfig.ins.c.itemHeight = _partN / 2;
+			BaseConfig.ins.c.vpoint = [];
+			BaseConfig.ins.c.vpointReal = [];
 			
-			Config.each( Config.rate, function( _k:int, _item:* ):void{
-				var _n:Number = Config.c.minY + _partN * _k, _sideLen:int = Config.c.arrowLength;
-				Config.c.vpoint.push( {
-					start: new Point( Config.c.minX, _n )
-					, end: new Point( Config.c.maxX, _n )
+			Common.each( BaseConfig.ins.rate, function( _k:int, _item:* ):void{
+				var _n:Number = BaseConfig.ins.c.minY + _partN * _k, _sideLen:int = BaseConfig.ins.c.arrowLength;
+				BaseConfig.ins.c.vpoint.push( {
+					start: new Point( BaseConfig.ins.c.minX, _n )
+					, end: new Point( BaseConfig.ins.c.maxX, _n )
 				});
 				
-				Config.c.vpointReal.push( {
-					start: new Point( Config.c.minX + _sideLen, _n )
-					, end: new Point( Config.c.maxX + _sideLen, _n )
+				BaseConfig.ins.c.vpointReal.push( {
+					start: new Point( BaseConfig.ins.c.minX + _sideLen, _n )
+					, end: new Point( BaseConfig.ins.c.maxX + _sideLen, _n )
 				});
 			});
 		}
 		
 		private function calcChartHPoint():void{
-			var _partN:Number = Config.c.chartWidth / ( Config.categories.length )
-				, _sideLen:Number = Config.c.arrowLength
+			var _partN:Number = BaseConfig.ins.c.chartWidth / ( BaseConfig.ins.categories.length )
+				, _sideLen:Number = BaseConfig.ins.c.arrowLength
 				;
-			Config.c.hpart = _partN;
-			Config.c.hpoint = [];
-			Config.c.hlinePoint = [];
-			Config.c.hpointReal = [];
-			Config.c.itemWidth = _partN / 2;
+			BaseConfig.ins.c.hpart = _partN;
+			BaseConfig.ins.c.hpoint = [];
+			BaseConfig.ins.c.hlinePoint = [];
+			BaseConfig.ins.c.hpointReal = [];
+			BaseConfig.ins.c.itemWidth = _partN / 2;
 						
-			Config.each( Config.categories, function( _k:int, _item:* ):void{
-				var _n:Number = Config.c.minX + _partN * _k + 5, _sideLen:int = Config.c.arrowLength;
+			Common.each( BaseConfig.ins.categories, function( _k:int, _item:* ):void{
+				var _n:Number = BaseConfig.ins.c.minX + _partN * _k + 5, _sideLen:int = BaseConfig.ins.c.arrowLength;
 				
 				if( _k === 0 ){					
-					Config.c.hlinePoint.push( {
-						start: new Point( _n, Config.c.minY )
-						, end: new Point( _n, Config.c.maxY + 1 )
+					BaseConfig.ins.c.hlinePoint.push( {
+						start: new Point( _n, BaseConfig.ins.c.minY )
+						, end: new Point( _n, BaseConfig.ins.c.maxY + 1 )
 					});					
 				}
 								
-				Config.c.hlinePoint.push( {
-					start: new Point( _n + _partN, Config.c.minY )
-					, end: new Point( _n + _partN, Config.c.maxY + 1 )
+				BaseConfig.ins.c.hlinePoint.push( {
+					start: new Point( _n + _partN, BaseConfig.ins.c.minY )
+					, end: new Point( _n + _partN, BaseConfig.ins.c.maxY + 1 )
 				});
 				
-				Config.c.hpoint.push( {
-					start: new Point( _n + _partN / 2, Config.c.maxY )
-					, end: new Point( _n + _partN / 2, Config.c.maxY + _sideLen )
+				BaseConfig.ins.c.hpoint.push( {
+					start: new Point( _n + _partN / 2, BaseConfig.ins.c.maxY )
+					, end: new Point( _n + _partN / 2, BaseConfig.ins.c.maxY + _sideLen )
 				});
 				
-				Config.c.hpointReal.push( {
-					start: new Point( _n, Config.c.minY )
-					, end: new Point( _n, Config.c.maxY )
+				BaseConfig.ins.c.hpointReal.push( {
+					start: new Point( _n, BaseConfig.ins.c.minY )
+					, end: new Point( _n, BaseConfig.ins.c.maxY )
 				});
 			});
 		}

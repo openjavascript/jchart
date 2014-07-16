@@ -10,7 +10,8 @@ package org.xas.jchart.common.view.components
 	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.LegendItemUI;
 	
@@ -32,12 +33,12 @@ package org.xas.jchart.common.view.components
 		private function showChart( ):void{
 			this.graphics.clear();
 			
-			if( !( Config.chartData && Config.chartData.series && Config.chartData.series.length ) ) return;
+			if( !( BaseConfig.ins.chartData && BaseConfig.ins.chartData.series && BaseConfig.ins.chartData.series.length ) ) return;
 			var _x:int = 0, _tmp:LegendItemUI;
 			
 			_items = new Vector.<LegendItemUI>();
 			
-			Config.each( Config.chartData.series, function( _k:int, _item:Object ):void{
+			Common.each( BaseConfig.ins.chartData.series, function( _k:int, _item:Object ):void{
 				addChild( _tmp = new LegendItemUI( _item ) );
 				_tmp.x = _x;
 				_items.push( _tmp );

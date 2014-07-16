@@ -11,7 +11,8 @@ package org.xas.jchart.histogram.view.components
 	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class GraphicView extends Sprite
@@ -30,10 +31,10 @@ package org.xas.jchart.histogram.view.components
 			
 			graphics.clear();
 			
-			if( !( Config.c && Config.c.rects ) ) return;
-			Config.each( Config.c.rects, function( _k:int, _item:Object ):void{
+			if( !( BaseConfig.ins.c && BaseConfig.ins.c.rects ) ) return;
+			Common.each( BaseConfig.ins.c.rects, function( _k:int, _item:Object ):void{
 				
-				Config.each( _item, function( _sk:int, _sitem:Object ):void{
+				Common.each( _item, function( _sk:int, _sitem:Object ):void{
 					var _gitem:Sprite = new Sprite();
 						_gitem.graphics.beginFill( 0x000000, 1 );
 					

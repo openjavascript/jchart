@@ -65,7 +65,7 @@ package
 				
 			!ExternalInterface.available && ( Config.setDebug( true ) );
 			
-			Log.debug = Config.debug;
+			Log.debug = BaseConfig.ins.debug;
 		}
 				
 		private function update( _data:Object ):void{

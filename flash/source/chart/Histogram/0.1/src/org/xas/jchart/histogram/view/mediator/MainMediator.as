@@ -5,10 +5,10 @@ package org.xas.jchart.histogram.view.mediator
 	
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import org.xas.jchart.histogram.view.components.MainView;
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.event.JChartEvent;
+	import org.xas.jchart.histogram.view.components.MainView;
 	
 	public class MainMediator extends Mediator implements IMediator
 	{
@@ -24,10 +24,10 @@ package org.xas.jchart.histogram.view.mediator
 		
 		override public function onRegister():void{
 			
-			Config.root.stage.addChild( _view = new MainView() );
+			BaseConfig.ins.root.stage.addChild( _view = new MainView() );
 			
 			sendNotification( JChartEvent.CALC_COORDINATE );
-			//Log.printClass( Config.root );
+			//Log.printClass( BaseConfig.ins.root );
 		}
 		
 		override public function onRemove():void{

@@ -14,7 +14,8 @@ package
 	import org.xas.core.events.*;
 	import org.xas.core.ui.error.BaseError;
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.config.HistogramConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.histogram.MainFacade;
 	
@@ -37,6 +38,7 @@ package
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
 			
+			BaseConfig.setIns( new HistogramConfig() );
 			 
 			//update( {} );			
 			update( {
@@ -54,10 +56,10 @@ package
 				}, 
 				series:[{
 					name: 'Temperature',
-					data: [-50, -1, -3, 10, -20, -27, -28, -32, -30]
+					data: [-50, -1, -3, 10.01, -20, -27, -28, -32, -30]
 				}, {
 					name: 'Rainfall1',
-					data: [-20, -21, 50, 100, -10, -210, -220, -100, -20]
+					data: [-20.10, -21, 50, 100, -10, -210, -220, -100, -20]
 				}, {
 					name: 'Rainfall2',
 					data: [-20, -21, -20, -100, -10, -210, -20, -100, -20]
@@ -88,8 +90,8 @@ package
 		{			
 			_inited = true;
 			
-			Config.setDebug( true );
-			//Config.setChartData( {});
+			BaseConfig.ins.setDebug( true );
+			//BaseConfig.ins.setChartData( {});
 		}
 		
 		public function update( _data:Object, _x:int = 0, _y:int = 0 ):void{			
@@ -107,9 +109,9 @@ package
 		
 		private function process( _evt:JChartEvent ):void{
 			//Log.printJSON( _evt.data );
-			Config.setRoot( _ins.root );
+			BaseConfig.ins.setRoot( _ins.root );
 			if( _evt.data as Object ){
-				Config.setChartData( _evt.data as Object );
+				BaseConfig.ins.setChartData( _evt.data as Object );
 			}
 			!_facade && ( _facade = MainFacade.getInstance() );			
 			_facade.sendNotification( JChartEvent.DRAW );
@@ -131,7 +133,7 @@ package
 		}
 		
 		private function resize( _evt:Event ):void{
-			if( !Config.chartData ) return;
+			if( !BaseConfig.ins.chartData ) return;
 			
 			if( _resizeTimer ){
 				_resizeTimer.stop();
@@ -145,8 +147,8 @@ package
 		
 		private function onResize( _evt:TimerEvent ):void{
 			
-			if( !Config.chartData ) return;
-			dispatchEvent( new JChartEvent( JChartEvent.PROCESS, Config.chartData ) );
+			if( !BaseConfig.ins.chartData ) return;
+			dispatchEvent( new JChartEvent( JChartEvent.PROCESS, BaseConfig.ins.chartData ) );
 			//_facade.sendNotification( JChartEvent.CLEAR );
 		}
 		

@@ -5,7 +5,7 @@ package org.xas.jchart.common.view.mediator
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	import org.xas.jchart.common.view.components.TitleView;
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.histogram.view.mediator.MainMediator;
 	
@@ -43,8 +43,8 @@ package org.xas.jchart.common.view.mediator
 			case JChartEvent.SHOW_CHART:
 				{
 					
-					_view.x = Config.c.title.x;
-					_view.y = Config.c.title.y;
+					_view.x = BaseConfig.ins.c.title.x;
+					_view.y = BaseConfig.ins.c.title.y;
 					break;
 				}
 			

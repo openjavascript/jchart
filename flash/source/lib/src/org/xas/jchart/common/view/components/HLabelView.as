@@ -10,7 +10,8 @@ package org.xas.jchart.common.view.components
 	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
 	
 	public class HLabelView extends Sprite
 	{
@@ -31,9 +32,9 @@ package org.xas.jchart.common.view.components
 			_labels = new Vector.<TextField>();
 			var _v:Number, _t:String, _titem:TextField;
 			
-			if( Config.cd && Config.cd.xAxis && Config.cd.xAxis.categories ){
+			if( BaseConfig.ins.cd && BaseConfig.ins.cd.xAxis && BaseConfig.ins.cd.xAxis.categories ){
 								
-				Config.each( Config.cd.xAxis.categories, function( _k:int, _item:* ):*{
+				Common.each( BaseConfig.ins.cd.xAxis.categories, function( _k:int, _item:* ):*{
 					_t = _item + '';
 					
 					_titem = new TextField();
@@ -50,9 +51,9 @@ package org.xas.jchart.common.view.components
 		}
 		
 		public function update():void{
-			if( !( Config.c && Config.c.hpoint ) ) return;
+			if( !( BaseConfig.ins.c && BaseConfig.ins.c.hpoint ) ) return;
 			
-			Config.each( Config.c.hpoint, function( _k:int, _item:Object ):void{
+			Common.each( BaseConfig.ins.c.hpoint, function( _k:int, _item:Object ):void{
 				var _tf:TextField = _labels[ _k ];
 				_tf.x = _item.end.x - _tf.width / 2;
 				_tf.y = _item.end.y;

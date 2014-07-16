@@ -5,7 +5,7 @@ package org.xas.jchart.common.view.mediator
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	import org.xas.core.utils.ElementUtility;
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.components.TipsView;
 	import org.xas.jchart.common.view.components.TitleView;

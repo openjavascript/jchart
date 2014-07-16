@@ -9,14 +9,14 @@ package org.xas.jchart.common.ui
 	
 	import org.xas.core.utils.ElementUtility;
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class TipsUI extends Sprite
 	{
 		/*
 		{
-			"data":[
+			"items":[
 				{"name":"Temperature","value":-30}
 				,{"name":"Rainfall1","value":-20}
 				,{"name":"Rainfall2","value":-20}
@@ -28,8 +28,10 @@ package org.xas.jchart.common.ui
 		private var _data:Object;
 		private var _layout:Sprite;
 		
-		private var _tmpTxf:TextField;
-		private var _tmpTxf1:TextField;
+		private var _nameTxf:TextField;
+		private var _valTxf:TextField;
+		
+		private var _eleData:Object;
 		
 		public function TipsUI()
 		{
@@ -41,12 +43,12 @@ package org.xas.jchart.common.ui
 		}
 		
 		public function update( _data:Object, _position:Point = null ):TipsUI{
-			_position && dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, _position ) );
+			_position && dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, { data: _data, point: _position } ) );
 			return this;
 		}
 		
 		public function show( _position:Point = null ):TipsUI{
-			_position && dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, _position ) );
+			_position && dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, { point: _position } ) );
 			visible = true;
 			return this;
 		}
@@ -62,53 +64,90 @@ package org.xas.jchart.common.ui
 			graphics.clear();
 			ElementUtility.removeAllChild( _layout );
 			
-			_layout.addChild( _tmpTxf = new TextField() );
-			_tmpTxf.autoSize = TextFieldAutoSize.LEFT;
-			_tmpTxf.text = _data.name || '';
+			_layout.addChild( _nameTxf = new TextField() );
+			_nameTxf.autoSize = TextFieldAutoSize.LEFT;
+			_nameTxf.text = _data.name || '';
+						
+			var _offsetY:Number = 10
+				, _y:Number = _offsetY + _nameTxf.height
+				;
 			
-			var _tmpData:Array = []
-				, _nameMaxLen:Number = 0
+			_eleData = {
+				name: _nameTxf
+				, items: []
+			};
+			
+			if( _data.items ){
+				Common.each( _data.items, function( _k:int, _item:Object ):void{
+					
+					_layout.addChild( _nameTxf = new TextField() );
+					_nameTxf.text = _item.name
+					_nameTxf.autoSize = TextFieldAutoSize.LEFT;
+					_nameTxf.y = _y;
+					
+					_layout.addChild( _valTxf = new TextField() );
+					_valTxf.text = _item.value
+					_valTxf.autoSize = TextFieldAutoSize.LEFT;
+					_valTxf.y = _y;
+					
+					_y += _nameTxf.height;
+					
+
+					_eleData.items.push( { 'name': _nameTxf, 'value': _valTxf } );
+				});
+
+			}
+			
+			updateLayout();
+			
+			return this;
+		}
+		
+		private function updateLayout( _data:Object = null ):void{
+			
+			if( !_eleData ) return;
+			
+			_layout.graphics.clear();
+			graphics.clear();
+			graphics.beginFill( 0xffffff, .9 );
+			graphics.lineStyle( 2, 0x999999 );
+			
+			_nameTxf = _eleData.name as TextField;
+			
+			var _nameMaxLen:Number = 0
 				, _valueMaxLen:Number = 0
 				, _offsetX:Number = 15
 				, _offsetY:Number = 10
-				, _y:Number = _offsetY + _tmpTxf.height
+				, _y:Number = _offsetY + _nameTxf.height
 				;
 			
-			_tmpTxf.x = _offsetX;
-			_tmpTxf.y = _offsetY;
+			_nameTxf.x = _offsetX;
+			_nameTxf.y = _offsetY;
 			
-			if( _data.data ){
-				Config.each( _data.data, function( _k:int, _item:Object ):void{
-					
-					_layout.addChild( _tmpTxf = new TextField() );
-					_tmpTxf.text = _item.name
-					_tmpTxf.autoSize = TextFieldAutoSize.LEFT;
-					_tmpTxf.y = _y;
-					
-					_layout.addChild( _tmpTxf1 = new TextField() );
-					_tmpTxf1.text = _item.value
-					_tmpTxf1.autoSize = TextFieldAutoSize.LEFT;
-					_tmpTxf1.y = _y;
-					
-					_y += _tmpTxf.height;
-					
-					_tmpTxf.width > _nameMaxLen && ( _nameMaxLen = _tmpTxf.width );
-					_tmpTxf1.width > _valueMaxLen && ( _valueMaxLen = _tmpTxf1.width );
-
-					_tmpData.push( { 'name': _tmpTxf, 'value': _tmpTxf1 } );
-				});
-				
-				Config.each( _tmpData, function( _k:int, _item:Object ):void{
-					_tmpTxf = _item.name as TextField;
-					_tmpTxf1 = _item.value as TextField;
-					
-					_tmpTxf.x = _offsetX * 2;					
-					_tmpTxf1.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _tmpTxf1.width );
-				});
+			if( _data ){
+				_nameTxf.text = _data.name;
 			}
 			
-			graphics.beginFill( 0xffffff, .9 );
-			graphics.lineStyle( 2, 0x999999 );
+			Common.each( _eleData.items, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				if( _data ){
+					_nameTxf.text = _data.items[ _k ].name;
+					_valTxf.text = _data.items[ _k ].value;					
+				}
+				
+				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );
+				_valTxf.width > _valueMaxLen && ( _valueMaxLen = _valTxf.width );
+			});
+			
+			Common.each( _eleData.items, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				_nameTxf.x = _offsetX * 2;					
+				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
+			});
 			
 			graphics.drawRoundRect( 
 				0, 0
@@ -116,16 +155,37 @@ package org.xas.jchart.common.ui
 				, _layout.height + _offsetY * 2
 				, 10, 10 
 			);
-			
-			return this;
 		}
 		
 		private function updateTips( _evt:JChartEvent ):void{
-			var _point:Point = _evt.data as Point;
+			var _point:Point = _evt.data.point as Point
+				, _data:Object = _evt.data.data as Object
+				;
 			if( !_point ) return;
 			
-			this.x = _point.x + 15;
-			this.y = _point.y + 18;
+			updateLayout( _data );
+			
+			var _x:Number = _point.x + 15
+				, _y:Number = _point.y + 18
+				, _x2:Number = _x + this.width
+				, _y2:Number = _y + this.height
+				;
+			
+			if( _x2 >= root.stage.x + root.stage.width ){
+				_x = _point.x - this.width;
+			}
+			
+			if( _y2 >= root.stage.y + root.stage.height ){
+				_y = _point.y - this.height;
+			}
+			
+			_x < 0 && ( _x = 0 );
+			_y < 0 && ( _y = 0 );
+			
+			//Log.log( _x2, root.stage.x + root.stage.width );
+			
+			this.x = _x;
+			this.y = _y;
 			//Log.log( 'TipsUI updateTips', _point.x, _point.y );
 		}
 	}

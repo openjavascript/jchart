@@ -13,7 +13,8 @@ package org.xas.jchart.common.view.components
 	import mx.controls.Text;
 	
 	import org.xas.core.utils.Log;
-	import org.xas.jchart.common.Config;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
 	
 	public class VLabelView extends Sprite
 	{
@@ -35,9 +36,9 @@ package org.xas.jchart.common.view.components
 			_labels = new Vector.<TextField>();
 			var _v:Number, _t:String, _titem:TextField;
 			
-			Config.each( Config.rate, function( _k:int, _item:Number ):*{
-				_v = Config.finalMaxNum * _item;
-				_t = Config.parseFinance( _v ).toString();
+			Common.each( BaseConfig.ins.rate, function( _k:int, _item:Number ):*{
+				_v = BaseConfig.ins.finalMaxNum * _item;
+				_t = Common.parseFinance( _v ).toString();
 				
 				_titem = new TextField();
 				_titem.autoSize = TextFieldAutoSize.LEFT;
@@ -52,9 +53,9 @@ package org.xas.jchart.common.view.components
 		}
 		
 		public function update():void{
-			if( !( Config.c && Config.c.vpoint ) ) return;
+			if( !( BaseConfig.ins.c && BaseConfig.ins.c.vpoint ) ) return;
 			
-			Config.each( Config.c.vpoint, function( _k:int, _item:Object ):void{
+			Common.each( BaseConfig.ins.c.vpoint, function( _k:int, _item:Object ):void{
 				var _tf:TextField = _labels[ _k ];
 				_tf.x = _item.start.x - _tf.width;
 				_tf.y = _item.start.y - _tf.height / 2;

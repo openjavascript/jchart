@@ -107,7 +107,7 @@ package org.xas.jchart.common.ui
 				});
 			}
 			
-			graphics.beginFill( 0xffffff, .8 );
+			graphics.beginFill( 0xffffff, .9 );
 			graphics.lineStyle( 2, 0x999999 );
 			
 			graphics.drawRoundRect( 

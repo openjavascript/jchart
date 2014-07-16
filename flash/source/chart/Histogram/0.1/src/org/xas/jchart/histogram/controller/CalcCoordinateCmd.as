@@ -34,8 +34,8 @@ package org.xas.jchart.histogram.controller
 						
 			facade.registerMediator( new BgMediator( ) )		
 			
-			Log.log( Config.rate.length );
-			Log.log( Config.maxNum, Config.finalMaxNum, Config.chartMaxNum, 11111 );
+			//Log.log( Config.rate.length );
+			//Log.log( Config.maxNum, Config.finalMaxNum, Config.chartMaxNum, 11111 );
 			
 			if( Config.cd ){			
 				

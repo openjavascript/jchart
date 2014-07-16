@@ -22,7 +22,7 @@ package org.xas.jchart.common.view.mediator
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index9.addChild( _view = new LegendView() );
+			mainMediator.view.index7.addChild( _view = new LegendView() );
 			//Log.log( 'LegendMediator register' );	
 		}
 		

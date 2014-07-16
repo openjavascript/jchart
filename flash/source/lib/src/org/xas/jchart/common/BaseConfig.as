@@ -37,6 +37,8 @@ package org.xas.jchart.common
 			_chartData = _d;
 			calcRate();
 			
+			//_displaySeries = JSON.parse( JSON.stringify(
+			
 			return _d;
 		}		
 		public function get chartData():Object { return _chartData; }	

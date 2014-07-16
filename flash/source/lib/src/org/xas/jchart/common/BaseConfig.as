@@ -36,6 +36,7 @@ package org.xas.jchart.common
 		public function setChartData( _d:Object ):Object { 
 			_chartData = _d;
 			calcRate();
+			
 			return _d;
 		}		
 		public function get chartData():Object { return _chartData; }	
@@ -128,6 +129,11 @@ package org.xas.jchart.common
 				_r = cd.xAxis.tipTitlePostfix;
 			}
 			return _r;
+		}
+		
+		protected var _displaySeries:Array;
+		public function get displaySeries():Array{
+			return _displaySeries;	
 		}
 		
 		public function get series():Array{

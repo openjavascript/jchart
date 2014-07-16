@@ -40,10 +40,7 @@ package org.xas.core.utils
 		
 		public static function  printObject( _d:*, $pad:int = 0, $before:Boolean = true, $symbol:String = '-' ):void{
 			if(!debug) return;
-			for( var _k:String in _d ){
-				processLog( _k + ': ' + _d[_k].toString(), $pad, $before, $symbol);
-			}
-			
+			processLog( JSON.stringify( _d as Object ), $pad, $before, $symbol);			
 		}
 		
 		public static function marker( $log:*, $pad:int = 50, $symbol:String = '#' ):void

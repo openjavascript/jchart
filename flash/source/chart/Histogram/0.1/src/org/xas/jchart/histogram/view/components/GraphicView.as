@@ -39,7 +39,7 @@ package org.xas.jchart.histogram.view.components
 					
 					
 					_gitem.graphics.drawRect( _sitem.x, _sitem.y, _sitem.width, _sitem.height );
-					Log.printObject( _gitem );
+					//Log.printObject( _gitem );
 					
 					addChild( _gitem );
 				});

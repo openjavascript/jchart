@@ -42,7 +42,6 @@ package
 			update( {
 				title: { text: 'test title 中文' }
 				, subtitle: { text: 'test subtitle 中文' }
-				, subtitle: { text: 'test subtitle 中文' }
 				, yAxis: { title: { text: 'vtitle 中文' } }
 				, credits: {
 					enabled: true

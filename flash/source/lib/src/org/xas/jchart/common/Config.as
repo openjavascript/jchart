@@ -242,6 +242,22 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public static function get tipTitlePostfix():String{
+			var _r:String = '{0}';
+			if( Config.cd && Config.cd.xAxis && ( 'tipTitlePostfix' in  Config.cd.xAxis ) ){
+				_r = Config.cd.xAxis.tipTitlePostfix;
+			}
+			return _r;
+		}
+		
+		public static function get series():Array{
+			var _r:Array = [];
+			if( Config.cd && Config.cd.series && Config.cd.series.length ){
+				_r = Config.cd.series;
+			}
+			return _r;
+		}
+		
 		public static function isNegative( _num:Number ):Boolean{
 			return _num < 0;
 		}

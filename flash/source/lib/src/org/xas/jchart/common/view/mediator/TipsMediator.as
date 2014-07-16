@@ -33,18 +33,29 @@ package org.xas.jchart.common.view.mediator
 		
 		override public function listNotificationInterests():Array{
 			return [
-				JChartEvent.SHOW_CHART
+				JChartEvent.UPDATE_TIPS
+				, JChartEvent.SHOW_TIPS
+				, JChartEvent.HIDE_TIPS
 			];
 		}
 		
 		override public function handleNotification(notification:INotification):void{
 			switch( notification.getName() ){
-			case JChartEvent.SHOW_CHART:
+				case JChartEvent.UPDATE_TIPS:
 				{
-					_view.dispatchEvent( new JChartEvent( JChartEvent.SHOW_CHART ) );
+					_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, notification.getBody() ) );
 					break;
-				}
-			
+				}	
+				case JChartEvent.SHOW_TIPS:
+				{
+					_view.dispatchEvent( new JChartEvent( JChartEvent.SHOW_TIPS, notification.getBody() ) );
+					break;
+				}	
+				case JChartEvent.HIDE_TIPS:
+				{
+					_view.dispatchEvent( new JChartEvent( JChartEvent.HIDE_TIPS, notification.getBody() ) );
+					break;
+				}			
 			}
 		}
 		

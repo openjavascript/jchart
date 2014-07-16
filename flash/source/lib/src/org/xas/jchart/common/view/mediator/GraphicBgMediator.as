@@ -25,8 +25,17 @@ package org.xas.jchart.common.view.mediator
 		override public function onRegister():void{
 			mainMediator.view.index5.addChild( _view = new GraphicBgView() );
 			//Log.log( 'ChartBgMediator register' );	
+			
 			_view.addEventListener( JChartEvent.UPDATE_TIPS, function( _evt:JChartEvent ):void{
-				sendNotification( JChartEvent.UPDATE_TIPS, _evt.data as int );
+				sendNotification( JChartEvent.UPDATE_TIPS, _evt.data );
+			});
+			
+			_view.addEventListener( JChartEvent.SHOW_TIPS, function( _evt:JChartEvent ):void{
+				sendNotification( JChartEvent.SHOW_TIPS, _evt.data );
+			});
+			
+			_view.addEventListener( JChartEvent.HIDE_TIPS, function( _evt:JChartEvent ):void{
+				sendNotification( JChartEvent.HIDE_TIPS, _evt.data );
 			});
 		}
 		

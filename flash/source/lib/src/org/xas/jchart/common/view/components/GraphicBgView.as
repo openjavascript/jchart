@@ -46,11 +46,13 @@ package org.xas.jchart.common.view.components
 			//og.log( 'GraphicView mouse onMouseEnter' );
 			this.root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			this.root.stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
+			dispatchEvent( new JChartEvent( JChartEvent.SHOW_TIPS, _evt ) );
 		}
 		
 		private function onMouseLeave( _evt:MouseEvent ):void{
 			//Log.log( 'GraphicView mouse onMouseLeave' );		
-			this.root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );	
+			this.root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
+			dispatchEvent( new JChartEvent( JChartEvent.HIDE_TIPS, _evt ) );	
 		}
 		
 		private function onMouseMove( _evt:MouseEvent ):void{
@@ -72,8 +74,7 @@ package org.xas.jchart.common.view.components
 				_ix >= Config.cd.series[0].data.length && ( _ix = Config.cd.series[0].data.length - 1 );
 			}
 					
-			//Log.log( _ix );
-			dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, _ix ) );
+			dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, { evt: _evt, index: _ix } ) );
 		}
 
 	}

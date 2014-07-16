@@ -90,7 +90,9 @@ package org.xas.jchart.histogram.controller
 				
 				Config.c.chartX = Config.c.minX + Config.c.arrowLength - 2;
 				Config.c.chartY = Config.c.minY;
-				facade.registerMediator( new GraphicBgMediator() );		
+				
+				facade.registerMediator( new GraphicBgMediator() );	
+				facade.registerMediator( new TipsMediator() );
 				
 				calcChartPoint();
 				

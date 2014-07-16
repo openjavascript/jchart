@@ -1,14 +1,31 @@
 package org.xas.jchart.common.ui
 {
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
+	import flash.ui.Mouse;
+	import flash.ui.MouseCursor;
+	
+	import org.xas.core.utils.Log;
 	
 	public class LegendItemUI extends Sprite
 	{
 		private var _data:Object;
 		private var _rect:Sprite;
 		private var _txf:TextField;
+		private var _selected:Boolean = false;
+		public function get selected():Boolean{ return _selected; }
+		public function set selected( _setter:Boolean ):void{ 
+			_selected = _setter;			
+			dispatchEvent( new Event( 'update_status' ) );
+		}
+		public function toggle():LegendItemUI{
+			_selected = !_selected;
+			dispatchEvent( new Event( 'update_status' ) );
+			return this;
+		}
 		
 		public function LegendItemUI( _data:Object )
 		{
@@ -16,7 +33,38 @@ package org.xas.jchart.common.ui
 			
 			this._data = _data;
 			
-			draw();
+			init();
+		}
+		
+		private function init():void{
+			draw();	
+			
+			addEventListener( MouseEvent.ROLL_OVER, onMouseOver );
+			addEventListener( MouseEvent.ROLL_OUT, onMouseOut );
+			addEventListener( MouseEvent.CLICK, onMouseClick );
+			addEventListener( 'update_status', onUpdateStatus );
+		}
+		
+		private function onUpdateStatus( _evt:Event ):void{
+			Log.log( '_selected', _selected );	
+			
+			if( _selected ){
+				this.alpha = .3;
+			}else{
+				this.alpha = 1;
+			}
+		}
+		
+		private function onMouseClick( _evt:MouseEvent ):void{			
+			toggle();
+		}
+		
+		private function onMouseOver( _evt:MouseEvent ):void{
+			Mouse.cursor = MouseCursor.BUTTON;			
+		}
+		
+		private function onMouseOut( _evt:MouseEvent ):void{
+			Mouse.cursor = MouseCursor.AUTO;			
 		}
 		
 		private function draw():void{
@@ -30,6 +78,9 @@ package org.xas.jchart.common.ui
 			_txf.autoSize = TextFieldAutoSize.LEFT;
 			_txf.text = _data.name || '';
 			_txf.x = _rect.width + 1;
+			_txf.mouseEnabled = false;
 		}
+		
+	
 	}
 }

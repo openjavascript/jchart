@@ -8,7 +8,7 @@ package org.xas.jchart.common
 
 	public class BaseConfig
 	{
-		private static var _ins:BaseConfig;
+		protected static var _ins:BaseConfig;
 		public static function setIns( _ins:BaseConfig ):BaseConfig{
 			return BaseConfig._ins = _ins;
 		}
@@ -17,7 +17,7 @@ package org.xas.jchart.common
 			return BaseConfig._ins;	
 		}
 		
-		private var _debug:Boolean = false;		
+		protected var _debug:Boolean = false;		
 		public function setDebug( _d:Boolean ):Boolean {
 			Log.debug = _d;
 			return _debug = _d;
@@ -26,13 +26,13 @@ package org.xas.jchart.common
 			return _debug;
 		}
 		
-		private var _params:Object;
+		protected var _params:Object;
 		public function setParams( _d:Object ):Object {	return _params = _d; }		
 		public function get params():Object { return _params;	}		
 		public function get p():Object { return _params;	}
 		
 		
-		private var _chartData:Object;
+		protected var _chartData:Object;
 		public function setChartData( _d:Object ):Object { 
 			_chartData = _d;
 			calcRate();
@@ -41,62 +41,26 @@ package org.xas.jchart.common
 		public function get chartData():Object { return _chartData; }	
 		public function get cd():Object {	return _chartData; }
 		public function get rateZeroIndex():int{ return _rateZeroIndex; }
-		private var _rateZeroIndex:int = 0; 
+		protected var _rateZeroIndex:int = 0; 
 		
-		private var _absNum:Number;
-		private var _finalMaxNum:Number;
+		protected var _absNum:Number;
+		protected var _finalMaxNum:Number;
 		public function get finalMaxNum():Number{ return _finalMaxNum; }
 		
-		private var _rate:Array;
+		protected var _rate:Array;
 		public function get rate():Array{ return _rate; }
 		
-		private var _maxNum:Number = 0;
+		protected var _maxNum:Number = 0;
 		public function get maxNum():Number{ return _maxNum; }
-		
-		private function calcRate():void{
-			var _data:Object = _chartData;
-			_rate = [];
-			if( !_data ) return;
-			
-			_maxNum = calcMaxNum();
-			_minNum = calcminNum();
-			_absNum = Math.abs( _minNum );
-			_finalMaxNum = Math.max( _maxNum, _absNum );
-			
-			if( _data && Common.hasNegative( _data.series ) ){				
-				if( _maxNum > _absNum ){
-					if( Math.abs( _finalMaxNum * 0.33333 ) > _absNum ){
-						_rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
-						_rateZeroIndex = 3;
-					}
-				}else{
-					if( _maxNum == 0 ){
-						_rate = [ 0, -0.25, -0.5, -0.75, -1 ];
-						_rateZeroIndex = 0;
-					}else if( Math.abs( _finalMaxNum * 0.33333 ) > _maxNum ){
-						_rate = [ 0.33333, 0, -0.33333, -0.66666, -1 ];
-						_rateZeroIndex = 1;
-					}
-				}
-				if( !_rate.length ){
-					_rate = [ 1, .5, 0, -.5, -1 ];
-					_rateZeroIndex = 2;
-				} 
-				
-			}else{
-				_rate = [1, .75, .5, .25, 0 ];
-				_rateZeroIndex = 4;
-			}
-		}
 		
 		
 		public function get chartMaxNum():Number{
 			return finalMaxNum * rate[0];
 		}
 		
-		private var _minNum:Number = 0;
+		protected var _minNum:Number = 0;
 		public function get minNum():Number{ return _minNum; }
-		private function calcminNum():Number{
+		protected function calcminNum():Number{
 			var _r:Number = 0, _tmp:Array;
 			if( cd && cd.series ){
 				_tmp = [];
@@ -122,10 +86,8 @@ package org.xas.jchart.common
 			return _r;
 		}
 
-		
-
-			
-		private var _root:DisplayObject;
+					
+		protected var _root:DisplayObject;
 		public function get root():DisplayObject{ return _root; }
 		public function setRoot( _d:* ):DisplayObject{
 			_root = _d as DisplayObject;
@@ -134,13 +96,13 @@ package org.xas.jchart.common
 			return _root;
 		}
 		
-		private var _width:uint;
+		protected var _width:uint;
 		public function get width():uint{ return _width; }
 		
-		private var _height:uint;
+		protected var _height:uint;
 		public function get height():uint{ return _height; }
 		
-		private var _coordinate:Coordinate
+		protected var _coordinate:Coordinate
 		public function get c():Coordinate{ return _coordinate; }
 		public function get coordinate():Coordinate{	return _coordinate;	}
 		public function setCoordinate( _d:Coordinate ):Coordinate{
@@ -187,7 +149,7 @@ package org.xas.jchart.common
 		}
 
 		
-		private function calcMaxNum():Number{
+		protected function calcMaxNum():Number{
 			var _r:Number = 0, _tmp:Array;
 			if( cd && cd.series ){
 				_tmp = [];
@@ -201,6 +163,43 @@ package org.xas.jchart.common
 			_r > 0 && _r && ( _r = Common.numberUp( _r ) );
 			_r === 0 && ( _r = 10 );
 			return _r;
+		}
+		
+		
+		protected function calcRate():void{
+			var _data:Object = _chartData;
+			_rate = [];
+			if( !_data ) return;
+			
+			_maxNum = calcMaxNum();
+			_minNum = calcminNum();
+			_absNum = Math.abs( _minNum );
+			_finalMaxNum = Math.max( _maxNum, _absNum );
+			
+			if( _data && Common.hasNegative( _data.series ) ){				
+				if( _maxNum > _absNum ){
+					if( Math.abs( _finalMaxNum * 0.33333 ) > _absNum ){
+						_rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
+						_rateZeroIndex = 3;
+					}
+				}else{
+					if( _maxNum == 0 ){
+						_rate = [ 0, -0.25, -0.5, -0.75, -1 ];
+						_rateZeroIndex = 0;
+					}else if( Math.abs( _finalMaxNum * 0.33333 ) > _maxNum ){
+						_rate = [ 0.33333, 0, -0.33333, -0.66666, -1 ];
+						_rateZeroIndex = 1;
+					}
+				}
+				if( !_rate.length ){
+					_rate = [ 1, .5, 0, -.5, -1 ];
+					_rateZeroIndex = 2;
+				} 
+				
+			}else{
+				_rate = [1, .75, .5, .25, 0 ];
+				_rateZeroIndex = 4;
+			}
 		}
 				
 		public function BaseConfig()

@@ -71,8 +71,8 @@ package org.xas.jchart.common.view.components
 			
 			_ix = ( _point.x  - _rect.x ) / BaseConfig.ins.c.hpart;
 		 	_ix < 0 && ( _ix = 0 );
-			if( BaseConfig.ins.cd && BaseConfig.ins.cd.series && BaseConfig.ins.cd.series.length && BaseConfig.ins.cd.series[0].data ){
-				_ix >= BaseConfig.ins.cd.series[0].data.length && ( _ix = BaseConfig.ins.cd.series[0].data.length - 1 );
+			if( BaseConfig.ins.cd && BaseConfig.ins.series && BaseConfig.ins.series.length && BaseConfig.ins.series[0].data ){
+				_ix >= BaseConfig.ins.series[0].data.length && ( _ix = BaseConfig.ins.series[0].data.length - 1 );
 			}
 					
 			dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, { evt: _evt, index: _ix } ) );

@@ -109,9 +109,10 @@ package
 		
 		private function process( _evt:JChartEvent ):void{
 			//Log.printJSON( _evt.data );
+			var _data:Object = _evt.data as Object;
 			BaseConfig.ins.setRoot( _ins.root );
-			if( _evt.data as Object ){
-				BaseConfig.ins.setChartData( _evt.data as Object );
+			if( _data ){
+				BaseConfig.ins.setChartData( _data );
 			}
 			!_facade && ( _facade = MainFacade.getInstance() );			
 			_facade.sendNotification( JChartEvent.DRAW );

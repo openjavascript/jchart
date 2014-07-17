@@ -30,15 +30,13 @@ package org.xas.jchart.common
 		public function setParams( _d:Object ):Object {	return _params = _d; }		
 		public function get params():Object { return _params;	}		
 		public function get p():Object { return _params;	}
-		
-		
-		
+			
 		protected var _displaySeries:Array;
 		public function get displaySeries():Array{
 			return _displaySeries;	
 		}
-		public function updateDisplaySeries( _filter:Object = null ):BaseConfig{
-			_displaySeries = JSON.parse( JSON.stringify( chartData.series ) ) as Array;
+		public function updateDisplaySeries( _filter:Object = null, _data:Object = null ):BaseConfig{
+			_displaySeries = JSON.parse( JSON.stringify( (_data || chartData ).series ) ) as Array;
 			if( _filter ){
 				var _tmp:Array = [];
 				Common.each( _displaySeries, function( _k:int, _item:Object ):void{
@@ -55,8 +53,7 @@ package org.xas.jchart.common
 		protected var _chartData:Object;
 		public function setChartData( _d:Object ):Object { 
 			_chartData = _d;
-			calcRate();
-			updateDisplaySeries();			
+			calcRate();		
 			return _d;
 		}		
 		public function get chartData():Object { return _chartData; }	

@@ -4,10 +4,11 @@ package org.xas.jchart.histogram
 	
 	import org.puremvc.as3.multicore.interfaces.*;
 	import org.puremvc.as3.multicore.patterns.facade.*;
+	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.histogram.controller.CalcCoordinateCmd;
 	import org.xas.jchart.histogram.controller.ClearCmd;
 	import org.xas.jchart.histogram.controller.DrawCmd;
-	import org.xas.jchart.common.event.JChartEvent;
+	import org.xas.jchart.histogram.controller.FilterDataCmd;
 	
 	public class MainFacade extends Facade implements ICommand
 	{
@@ -34,6 +35,7 @@ package org.xas.jchart.histogram
 			
 			registerCommand( JChartEvent.CLEAR, ClearCmd );
 			registerCommand( JChartEvent.DRAW, DrawCmd );
+			registerCommand( JChartEvent.FILTER_DATA, FilterDataCmd );
 		}			
 	}
 }

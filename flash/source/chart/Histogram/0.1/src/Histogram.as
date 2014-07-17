@@ -104,6 +104,7 @@ package
 			}
 			_timer && _timer.stop();
 			
+			BaseConfig.ins.updateDisplaySeries( {}, _data );
 			dispatchEvent( new JChartEvent( JChartEvent.PROCESS, _data ) );
 		}
 		

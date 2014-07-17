@@ -9,6 +9,7 @@ package org.xas.jchart.common.ui
 	import flash.ui.MouseCursor;
 	
 	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class LegendItemUI extends Sprite
 	{
@@ -19,11 +20,11 @@ package org.xas.jchart.common.ui
 		public function get selected():Boolean{ return _selected; }
 		public function set selected( _setter:Boolean ):void{ 
 			_selected = _setter;			
-			dispatchEvent( new Event( 'update_status' ) );
+			dispatchEvent( new JChartEvent( JChartEvent.UPDATE_STATUS, _selected ) );
 		}
 		public function toggle():LegendItemUI{
 			_selected = !_selected;
-			dispatchEvent( new Event( 'update_status' ) );
+			dispatchEvent( new JChartEvent( JChartEvent.UPDATE_STATUS, _selected ) );
 			return this;
 		}
 		
@@ -42,11 +43,11 @@ package org.xas.jchart.common.ui
 			addEventListener( MouseEvent.ROLL_OVER, onMouseOver );
 			addEventListener( MouseEvent.ROLL_OUT, onMouseOut );
 			addEventListener( MouseEvent.CLICK, onMouseClick );
-			addEventListener( 'update_status', onUpdateStatus );
+			addEventListener( JChartEvent.UPDATE_STATUS, onUpdateStatus );
 		}
 		
 		private function onUpdateStatus( _evt:Event ):void{
-			Log.log( '_selected', _selected );	
+			//Log.log( '_selected', _selected );	
 			
 			if( _selected ){
 				this.alpha = .3;

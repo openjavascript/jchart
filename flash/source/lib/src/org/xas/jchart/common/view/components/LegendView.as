@@ -40,11 +40,25 @@ package org.xas.jchart.common.view.components
 			
 			Common.each( BaseConfig.ins.chartData.series, function( _k:int, _item:Object ):void{
 				addChild( _tmp = new LegendItemUI( _item ) );
+				_tmp.addEventListener( JChartEvent.UPDATE_STATUS, onUpdateStatus );
 				_tmp.x = _x;
 				_items.push( _tmp );
 				
 				_x = _x + 2 + _tmp.width;
 			});
+		}
+		
+		private function onUpdateStatus( _evt:JChartEvent ):void{
+			var _selected:Boolean = _evt.data as Boolean
+				, _filterObject:Object = {}
+				;
+			//Log.log( 'onUpdateStatus', _selected );
+			Common.each( _items, function( _k:int, _item:LegendItemUI ):void{
+				//Log.log( 'selected', _item.selected );
+				_item.selected && ( _filterObject[ _k ] = 1 );
+			});
+			
+			dispatchEvent( new JChartEvent( JChartEvent.FILTER_DATA, _filterObject ) );
 		}
 
 	}

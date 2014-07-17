@@ -32,13 +32,31 @@ package org.xas.jchart.common
 		public function get p():Object { return _params;	}
 		
 		
+		
+		protected var _displaySeries:Array;
+		public function get displaySeries():Array{
+			return _displaySeries;	
+		}
+		public function updateDisplaySeries( _filter:Object = null ):BaseConfig{
+			_displaySeries = JSON.parse( JSON.stringify( chartData.series ) ) as Array;
+			if( _filter ){
+				var _tmp:Array = [];
+				Common.each( _displaySeries, function( _k:int, _item:Object ):void{
+					if( !(_k in _filter) ){
+						_tmp.push( _item );	
+					}
+				});
+				_displaySeries = _tmp;
+			}
+			
+			return this;
+		}
+		
 		protected var _chartData:Object;
 		public function setChartData( _d:Object ):Object { 
 			_chartData = _d;
 			calcRate();
-			
-			//_displaySeries = JSON.parse( JSON.stringify(
-			
+			updateDisplaySeries();			
 			return _d;
 		}		
 		public function get chartData():Object { return _chartData; }	
@@ -131,11 +149,6 @@ package org.xas.jchart.common
 				_r = cd.xAxis.tipTitlePostfix;
 			}
 			return _r;
-		}
-		
-		protected var _displaySeries:Array;
-		public function get displaySeries():Array{
-			return _displaySeries;	
 		}
 		
 		public function get series():Array{

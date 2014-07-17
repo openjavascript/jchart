@@ -111,7 +111,7 @@ package org.xas.jchart.histogram.controller
 			BaseConfig.ins.c.rects = [];
 			if( !( BaseConfig.ins.series && BaseConfig.ins.series.length ) ) return;
 			
-			BaseConfig.ins.c.partWidth = BaseConfig.ins.c.itemWidth / BaseConfig.ins.series.length;
+			BaseConfig.ins.c.partWidth = BaseConfig.ins.c.itemWidth / BaseConfig.ins.displaySeries.length;
 			
 			Common.each( BaseConfig.ins.cd.xAxis.categories, function( _k:int, _item:Object ):void{
 				
@@ -122,7 +122,7 @@ package org.xas.jchart.histogram.controller
 					, _x:Number = _sp.x + ( BaseConfig.ins.c.itemWidth - BaseConfig.ins.c.itemWidth / 2 )
 					;
 				
-				Common.each( BaseConfig.ins.series, function( _sk:int, _sitem:Object ):void{
+				Common.each( BaseConfig.ins.displaySeries, function( _sk:int, _sitem:Object ):void{
 					var _rectItem:Object = {}
 						, _num:Number = _sitem.data[ _k ]
 						, _itemNum:Number

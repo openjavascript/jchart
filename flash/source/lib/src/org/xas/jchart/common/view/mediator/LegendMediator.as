@@ -24,6 +24,9 @@ package org.xas.jchart.common.view.mediator
 		override public function onRegister():void{
 			mainMediator.view.index7.addChild( _view = new LegendView() );
 			//Log.log( 'LegendMediator register' );	
+			_view.addEventListener( JChartEvent.FILTER_DATA, function( _evt:JChartEvent ):void{
+				sendNotification( JChartEvent.FILTER_DATA, _evt.data );	
+			});
 		}
 		
 		override public function onRemove():void{

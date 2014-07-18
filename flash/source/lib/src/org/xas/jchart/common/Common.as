@@ -167,7 +167,8 @@ import org.xas.jchart.common.Common;
 		public static function implementStyle( _txf:TextField
 											  	, _styleList:Array
 												, _autoSize:String = TextFieldAutoSize.LEFT 
-												  , _mouseEnabled:Boolean = false
+												  , _selectable:Boolean = false
+												  , _mouseEnabled:Boolean = true
 												
 		):TextField{
 		
@@ -184,6 +185,7 @@ import org.xas.jchart.common.Common;
 				_txf.setTextFormat( _tf );
 				_txf.defaultTextFormat = _tf;
 			}
+			_txf.selectable = _selectable;
 			_txf.mouseEnabled = _mouseEnabled;
 			_txf.autoSize = _autoSize;
 			

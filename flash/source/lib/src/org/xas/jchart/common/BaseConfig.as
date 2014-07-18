@@ -268,6 +268,17 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get vtitleStyle():Object{
+			var _r:Object = {};
+			chartData 
+			&& chartData.yAxis
+				&& chartData.yAxis.title
+				&& chartData.yAxis.title.style
+				&& ( _r = chartData.yAxis.title.style )
+				;
+			return _r;
+		}
+		
 		public function get subtitleStyle():Object{
 			var _r:Object = {};
 			chartData 

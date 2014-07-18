@@ -752,7 +752,7 @@ package org.xas.jchart.common.data
 				{
 					"style":
 					{
-						"bold": true, 
+						"bold": false, 
 						"font": "Trebuchet MS, Verdana, sans-serif", 
 						"size": 12, 
 						"color": 0x333333

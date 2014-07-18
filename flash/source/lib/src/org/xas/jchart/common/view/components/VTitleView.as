@@ -14,6 +14,9 @@ package org.xas.jchart.common.view.components
 	
 	import org.xas.core.ui.text.RotationText;
 	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
+	import org.xas.jchart.common.data.DefaultOptions;
 	
 	public class VTitleView extends Sprite 
 	{
@@ -31,6 +34,11 @@ package org.xas.jchart.common.view.components
 		private function addToStage( _evt:Event ):void{
 			_textf = new RotationText( _text, -90, function( _stf:TextField ):void{
 				
+				Common.implementStyle( _stf, [
+					DefaultOptions.title.style
+					, DefaultOptions.yAxis.title.style
+					, BaseConfig.ins.vtitleStyle
+				] );
 			});
 			addChild( _textf );
 		}

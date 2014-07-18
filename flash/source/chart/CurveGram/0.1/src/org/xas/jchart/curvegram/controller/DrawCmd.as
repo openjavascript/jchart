@@ -1,13 +1,13 @@
-package org.xas.jchart.histogram.controller
+package org.xas.jchart.curvegram.controller
 {
 	import flash.net.registerClassAlias;
 	
 	import org.puremvc.as3.multicore.interfaces.ICommand;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.command.SimpleCommand;
-	import org.xas.jchart.common.view.mediator.MainMediator;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.event.JChartEvent;
+	import org.xas.jchart.common.view.mediator.MainMediator;
 	
 	public class DrawCmd extends SimpleCommand implements ICommand
 	{

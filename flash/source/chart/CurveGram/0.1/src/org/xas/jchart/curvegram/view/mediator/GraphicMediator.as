@@ -1,11 +1,11 @@
-package org.xas.jchart.histogram.view.mediator
+package org.xas.jchart.curvegram.view.mediator
 {
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.histogram.view.components.GraphicView;
 	import org.xas.jchart.common.view.mediator.MainMediator;
+	import org.xas.jchart.curvegram.view.components.GraphicView;
 	
 	public class GraphicMediator extends Mediator implements IMediator
 	{

@@ -6,7 +6,6 @@ package org.xas.jchart.common.view.mediator
 	import org.xas.jchart.common.view.components.HLabelView;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.histogram.view.mediator.MainMediator;
 	
 	public class HLabelMediator extends Mediator implements IMediator
 	{

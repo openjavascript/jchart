@@ -9,7 +9,6 @@ package org.xas.jchart.common.view.mediator
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.components.TipsView;
 	import org.xas.jchart.common.view.components.TitleView;
-	import org.xas.jchart.histogram.view.mediator.MainMediator;
 	
 	public class TipsMediator extends Mediator implements IMediator
 	{

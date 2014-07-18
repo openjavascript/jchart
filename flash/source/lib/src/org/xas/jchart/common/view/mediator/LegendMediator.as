@@ -7,7 +7,6 @@ package org.xas.jchart.common.view.mediator
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.components.*;
-	import org.xas.jchart.histogram.view.mediator.MainMediator;
 	
 	public class LegendMediator extends Mediator implements IMediator
 	{

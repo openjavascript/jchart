@@ -1,4 +1,4 @@
-package org.xas.jchart.histogram.view.mediator
+package org.xas.jchart.common.view.mediator
 {
 	import flash.display.Sprite;
 	import flash.utils.describeType;
@@ -8,7 +8,7 @@ package org.xas.jchart.histogram.view.mediator
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.histogram.view.components.MainView;
+	import org.xas.jchart.common.view.components.MainView;
 	
 	public class MainMediator extends Mediator implements IMediator
 	{

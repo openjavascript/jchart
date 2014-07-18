@@ -57,7 +57,7 @@ package org.xas.jchart.histogram.controller
 					facade.registerMediator( new VTitleMediator( BaseConfig.ins.cd.yAxis.title.text ) )
 					
 					BaseConfig.ins.c.vtitle = { x: BaseConfig.ins.c.minX, y: BaseConfig.ins.c.x + BaseConfig.ins.c.height / 2, item: pVTitleMediator };
-					BaseConfig.ins.c.minX += pVTitleMediator.view.width;
+					BaseConfig.ins.c.minX += pVTitleMediator.view.width - 5;
 				}
 				
 				if( BaseConfig.ins.cd.credits && BaseConfig.ins.cd.credits.enabled && ( BaseConfig.ins.cd.credits.text || BaseConfig.ins.cd.credits.href ) ){

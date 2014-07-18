@@ -47,13 +47,13 @@ package org.xas.jchart.common.view.components
 		
 		private function buildData():void{
 			
-			if( !BaseConfig.ins.series.length ){
+			if( !BaseConfig.ins.displaySeries.length ){
 				return;
 			}
 			
 			_data = {};
 			
-			Common.each( BaseConfig.ins.series[0].data, function( _k:int, _item:Number ):void{
+			Common.each( BaseConfig.ins.displaySeries[0].data, function( _k:int, _item:Number ):void{
 				_data[ _k ] = { items: [] };
 				
 				if( BaseConfig.ins.categories.length ){
@@ -62,7 +62,7 @@ package org.xas.jchart.common.view.components
 					_data[ _k ].name = '';
 				}
 				
-				Common.each( BaseConfig.ins.series, function( _sk:int, _sitem:Object ):void{
+				Common.each( BaseConfig.ins.displaySeries, function( _sk:int, _sitem:Object ):void{
 					//_data[ _k ][ 'name' ] = _sitem.name || '';
 					_data[ _k ].items.push( {
 						'name': _sitem.name

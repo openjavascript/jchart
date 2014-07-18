@@ -5,6 +5,7 @@ package org.xas.jchart.common
 	import org.xas.core.utils.Log;
 	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.data.Coordinate;
+	import org.xas.jchart.common.data.DefaultOptions;
 
 	public class BaseConfig
 	{
@@ -38,11 +39,14 @@ package org.xas.jchart.common
 		public function updateDisplaySeries( _filter:Object = null, _data:Object = null ):BaseConfig{
 			
 			_displaySeries = JSON.parse( JSON.stringify( (_data || chartData ).series ) ) as Array;
+			_displaySeriesIndexMap = null;
 			if( _filter ){
-				var _tmp:Array = [];
+				var _tmp:Array = [], _count:int = 0;
+				_displaySeriesIndexMap = {};
 				Common.each( _displaySeries, function( _k:int, _item:Object ):void{
 					if( !(_k in _filter) ){
 						_tmp.push( _item );	
+						_displaySeriesIndexMap[ _count++ ] = _k;
 					}
 				});
 				_displaySeries = _tmp;
@@ -51,6 +55,8 @@ package org.xas.jchart.common
 			
 			return this;
 		}
+		protected var _displaySeriesIndexMap:Object;
+		public function get displaySeriesIndexMap():Object{ return _displaySeriesIndexMap; }
 		
 		protected var _filterData:Object;
 		public function get filterData():Object{
@@ -267,6 +273,16 @@ package org.xas.jchart.common
 				;
 			return _r;
 		}
+		public function get labelsStyle():Object{
+			var _r:Object = {};
+			chartData 
+			&& chartData.xAxis
+				&& chartData.xAxis.labels
+				&& chartData.xAxis.labels.style
+				&& ( _r = chartData.xAxis.labels.style )
+				;
+			return _r;
+		}
 		
 		public function get vtitleStyle():Object{
 			var _r:Object = {};
@@ -279,6 +295,17 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get vlabelsStyle():Object{
+			var _r:Object = {};
+			chartData 
+			&& chartData.yAxis
+				&& chartData.yAxis.labels
+				&& chartData.yAxis.labels.style
+				&& ( _r = chartData.yAxis.labels.style )
+				;
+			return _r;
+		}
+		
 		public function get subtitleStyle():Object{
 			var _r:Object = {};
 			chartData 
@@ -286,6 +313,43 @@ package org.xas.jchart.common
 				&& chartData.subtitle.style
 				&& ( _r = chartData.subtitle.style )
 				;
+			return _r;
+		}
+		
+		public function get creditsStyle():Object{
+			var _r:Object = {};
+			chartData 
+			&& chartData.credits
+				&& chartData.credits.style
+				&& ( _r = chartData.credits.style )
+				;
+			return _r;
+		}
+		
+		public function get legendItemStyle():Object{
+			var _r:Object = {};
+			chartData 
+			&& chartData.legend
+				&& chartData.legend.itemStyle
+				&& ( _r = chartData.legend.itemStyle )
+				;
+			return _r;
+		}
+		
+		public function itemColor( _ix:uint, _fixColorIndex:Boolean = true ):uint{
+			var _r:uint = 0, _colors:Array = DefaultOptions.colors;
+			chartData 
+			&& chartData.colors
+			&& chartData.colors.length
+			&& ( _colors = chartData.colors );
+			
+			if( _fixColorIndex && displaySeriesIndexMap && ( _ix in displaySeriesIndexMap ) ){
+				//Log.log( 'find', _ix, filterData[ _ix ] );
+				//_ix = _filterData[ _ix ];
+				_ix = displaySeriesIndexMap[ _ix ];
+			}
+				
+			_r = _colors[ _ix % ( _colors.length - 1 ) ];			
 			return _r;
 		}
 				

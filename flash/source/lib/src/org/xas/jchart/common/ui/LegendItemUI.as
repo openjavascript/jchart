@@ -9,11 +9,14 @@ package org.xas.jchart.common.ui
 	import flash.ui.MouseCursor;
 	
 	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class LegendItemUI extends Sprite
 	{
 		private var _data:Object;
+		private var _styles:Object;
+		
 		private var _rect:Sprite;
 		private var _txf:TextField;
 		private var _selected:Boolean = false;
@@ -28,11 +31,12 @@ package org.xas.jchart.common.ui
 			return this;
 		}
 		
-		public function LegendItemUI( _data:Object )
+		public function LegendItemUI( _data:Object, _styles:Object = null )
 		{
 			super();
 			
 			this._data = _data;
+			this._styles = _styles;
 			
 			init();
 		}
@@ -72,11 +76,13 @@ package org.xas.jchart.common.ui
 			addChild( _rect = new Sprite() );
 			addChild( _txf = new TextField() );
 			
-			_rect.graphics.beginFill( 0x000000 );
+			
+			Common.implementStyle( _txf, [ _styles ] );
+			
+			_rect.graphics.beginFill( _styles.color || 0x000000 );
 			_rect.graphics.drawRect( 0, 0, 18, 10 );
 			_rect.y = 5;
 			
-			_txf.autoSize = TextFieldAutoSize.LEFT;
 			_txf.text = _data.name || '';
 			_txf.x = _rect.width + 1;
 			_txf.mouseEnabled = false;

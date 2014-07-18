@@ -15,6 +15,7 @@ package org.xas.jchart.common.view.components
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
+	import org.xas.jchart.common.data.DefaultOptions;
 	
 	public class VLabelView extends Sprite
 	{
@@ -41,8 +42,14 @@ package org.xas.jchart.common.view.components
 				_t = Common.parseFinance( _v ).toString();
 				
 				_titem = new TextField();
-				_titem.autoSize = TextFieldAutoSize.LEFT;
 				_titem.text = _t;
+				
+				Common.implementStyle( _titem, [
+					DefaultOptions.title.style
+					, DefaultOptions.yAxis.labels.style
+					, BaseConfig.ins.vlabelsStyle
+				] );
+				
 				addChild( _titem );
 				
 				_labels.push( _titem );

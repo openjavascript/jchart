@@ -27,11 +27,8 @@ package org.xas.jchart.common.data
 				"backgroundColor": "rgba(255, 255, 255, .85)", 
 				"style":
 				{
-					"whiteSpace": "nowrap", 
-					"padding": "8px", 
-					"fontSize": "12px", 
-					"cursor": "default", 
-					"color": "#333333"
+					"size": 12,  
+					"color": 0x333333
 				}, 
 				"shadow": true, 
 				"enabled": true
@@ -63,7 +60,7 @@ package org.xas.jchart.common.data
 					{
 						"bold": true, 
 						"font": 'Trebuchet MS, Verdana, sans-serif',
-						"size": 12, 
+						"size": 14, 
 						"color": 0x333333
 					}
 				}, 
@@ -73,8 +70,9 @@ package org.xas.jchart.common.data
 				{
 					"style":
 					{
-						"font": "11px Trebuchet MS, Verdana, sans-serif", 
-						"color": "#000"
+						"font": "Trebuchet MS, Verdana, sans-serif",
+						"size": 11,
+						"color": 0x000000
 					}
 				}
 			};
@@ -754,7 +752,7 @@ package org.xas.jchart.common.data
 					{
 						"bold": false, 
 						"font": "Trebuchet MS, Verdana, sans-serif", 
-						"size": 12, 
+						"size": 14, 
 						"color": 0x333333
 					}
 				}, 
@@ -765,8 +763,9 @@ package org.xas.jchart.common.data
 				{
 					"style":
 					{
-						"font": "11px Trebuchet MS, Verdana, sans-serif", 
-						"color": "#000"
+						"font": "Trebuchet MS, Verdana, sans-serif",
+						"size": 11,
+						"color": 0x000000
 					}
 				}, 
 				"tickColor": "#000"
@@ -774,23 +773,22 @@ package org.xas.jchart.common.data
 		
 		public static var colors:Array =
 			[
-				"#058DC7", 
-				"#50B432", 
-				"#ED561B", 
-				"#DDDF00", 
-				"#24CBE5", 
-				"#64E572", 
-				"#FF9655", 
-				"#FFF263", 
-				"#6AF9C4"
+				0x058DC7, 
+				0x50B432, 
+				0xED561B, 
+				0xDDDF00, 
+				0x24CBE5, 
+				0x64E572, 
+				0xFF9655, 
+				0xFFF263, 
+				0x6AF9C4
 			];
 		
 		public static var labels:Object =
 		{
 			"style":
 			{
-				"position": "absolute", 
-				"color": "#99b"
+				"color": 0x9999bb
 			}
 		};
 		
@@ -822,18 +820,16 @@ package org.xas.jchart.common.data
 			{
 				"itemStyle":
 				{
-					"font": "9pt Trebuchet MS, Verdana, sans-serif", 
-					"fontSize": "12px", 
-					"cursor": "pointer", 
-					"color": "black"
+					"font": "Trebuchet MS, Verdana, sans-serif", 
+					"size": 12, 
+					"color": 0x000000
 				}, 
 				"verticalAlign": "bottom", 
 				"layout": "horizontal", 
 				"itemCheckboxStyle":
 				{
-					"position": "absolute", 
-					"width": "13px", 
-					"height": "13px"
+					"width": 13, 
+					"height": 13
 				}, 
 				"borderWidth": 1, 
 				"symbolWidth": 16, 
@@ -845,7 +841,7 @@ package org.xas.jchart.common.data
 				{
 					"style":
 					{
-						"fontWeight": "bold"
+						"bold": true
 					}
 				}, 
 				"y": 0, 
@@ -858,12 +854,12 @@ package org.xas.jchart.common.data
 				{
 					"color": "gray"
 				}, 
-				"borderColor": "#909090", 
+				"borderColor": 0x909090, 
 				"borderRadius": 5, 
 				"navigation":
 				{
-					"inactiveColor": "#CCC", 
-					"activeColor": "#274b6d"
+					"inactiveColor": 0xCCCCCC, 
+					"activeColor": 0x274b6d
 				}
 			};
 		
@@ -937,9 +933,8 @@ package org.xas.jchart.common.data
 				}, 
 				"style":
 				{
-					"fontSize": "9px", 
-					"cursor": "pointer", 
-					"color": "#909090"
+					"size": 9, 
+					"color": 0x909090
 				}, 
 				"href": "http://jchart.openjavascript.org", 
 				"text": "jchart.openjavascript.org"

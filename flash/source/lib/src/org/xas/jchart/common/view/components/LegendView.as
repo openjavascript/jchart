@@ -12,6 +12,7 @@ package org.xas.jchart.common.view.components
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
+	import org.xas.jchart.common.data.DefaultOptions;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.LegendItemUI;
 	
@@ -39,7 +40,21 @@ package org.xas.jchart.common.view.components
 			_items = new Vector.<LegendItemUI>();
 			
 			Common.each( BaseConfig.ins.chartData.series, function( _k:int, _item:Object ):void{
-				addChild( _tmp = new LegendItemUI( _item ) );
+				
+				var _styles:Object = {};
+				_styles = Common.extendObject( 
+					DefaultOptions.title.style
+					, DefaultOptions.legend.itemStyle
+				);
+				
+				_styles.color = BaseConfig.ins.itemColor( _k, false );
+				
+				_styles = Common.extendObject( 
+					_styles
+					, BaseConfig.ins.legendItemStyle
+				);
+				
+				addChild( _tmp = new LegendItemUI( _item, _styles ) );
 				_tmp.addEventListener( JChartEvent.UPDATE_STATUS, onUpdateStatus );
 				_tmp.x = _x;
 				_items.push( _tmp );
@@ -59,7 +74,7 @@ package org.xas.jchart.common.view.components
 			//Log.log( 'onUpdateStatus', _selected );
 			Common.each( _items, function( _k:int, _item:LegendItemUI ):void{
 				//Log.log( 'selected', _item.selected );
-				_item.selected && ( _filterObject[ _k ] = 1 );
+				_item.selected && ( _filterObject[ _k ] = _k );
 			});
 			
 			dispatchEvent( new JChartEvent( JChartEvent.FILTER_DATA, _filterObject ) );

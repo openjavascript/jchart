@@ -37,7 +37,7 @@ package org.xas.jchart.histogram.view.components
 				Common.each( _item, function( _sk:int, _sitem:Object ):void{
 					
 					var _gitem:Sprite = new Sprite();
-						_gitem.graphics.beginFill( 0x000000, 1 );
+						_gitem.graphics.beginFill( BaseConfig.ins.itemColor( _sk ), 1 );
 										
 					_gitem.graphics.drawRect( _sitem.x, _sitem.y, _sitem.width, _sitem.height );
 					//Log.printObject( _gitem );

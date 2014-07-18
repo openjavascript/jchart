@@ -9,7 +9,9 @@ package org.xas.jchart.common.ui
 	
 	import org.xas.core.utils.ElementUtility;
 	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
+	import org.xas.jchart.common.data.DefaultOptions;
 	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class TipsUI extends Sprite
@@ -65,7 +67,8 @@ package org.xas.jchart.common.ui
 			ElementUtility.removeAllChild( _layout );
 			
 			_layout.addChild( _nameTxf = new TextField() );
-			_nameTxf.autoSize = TextFieldAutoSize.LEFT;
+			Common.implementStyle( _nameTxf, [ DefaultOptions.tooltip.style ] );
+			
 			_nameTxf.text = _data.name || '';
 						
 			var _offsetY:Number = 10
@@ -80,18 +83,22 @@ package org.xas.jchart.common.ui
 			if( _data.items ){
 				Common.each( _data.items, function( _k:int, _item:Object ):void{
 					
+					var _styles:Object = { color: BaseConfig.ins.itemColor( _k ) };
+					
 					_layout.addChild( _nameTxf = new TextField() );
 					_nameTxf.text = _item.name
-					_nameTxf.autoSize = TextFieldAutoSize.LEFT;
+					Common.implementStyle( _nameTxf, [ _styles ] );
 					_nameTxf.y = _y;
 					
+					
 					_layout.addChild( _valTxf = new TextField() );
-					_valTxf.text = _item.value
-					_valTxf.autoSize = TextFieldAutoSize.LEFT;
+					_valTxf.text = _item.value;
+					Common.implementStyle( _valTxf, [ _styles ] );
 					_valTxf.y = _y;
 					
 					_y += _nameTxf.height;
 					
+					Common.implementStyle( _nameTxf, [ _styles ] );
 
 					_eleData.items.push( { 'name': _nameTxf, 'value': _valTxf } );
 				});

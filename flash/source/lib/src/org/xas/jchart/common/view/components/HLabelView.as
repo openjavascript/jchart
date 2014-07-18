@@ -12,6 +12,7 @@ package org.xas.jchart.common.view.components
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
+	import org.xas.jchart.common.data.DefaultOptions;
 	
 	public class HLabelView extends Sprite
 	{
@@ -38,8 +39,13 @@ package org.xas.jchart.common.view.components
 					_t = _item + '';
 					
 					_titem = new TextField();
-					_titem.autoSize = TextFieldAutoSize.LEFT;
 					_titem.text = _t;
+					
+					Common.implementStyle( _titem, [
+						DefaultOptions.title.style
+						, DefaultOptions.xAxis.labels.style
+						, BaseConfig.ins.labelsStyle
+					] );
 					addChild( _titem );
 					
 					_labels.push( _titem );

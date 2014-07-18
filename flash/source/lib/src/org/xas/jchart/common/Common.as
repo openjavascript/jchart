@@ -1,22 +1,9 @@
 package org.xas.jchart.common
 {
+	import flash.text.TextField;
+	
 	public class Common
 	{		
-		public static function hasNegative( _data:Array ):Boolean{
-			var _r:Boolean = false;
-			
-			if( _data && _data.length ){
-				each( _data, function( _ix:int, _item:Object ):*{
-					var _tmp:Number = Math.min.apply( null, _item.data );
-					if( _tmp < 0 ){
-						_r = true;
-						return false;
-					}
-				});
-			}
-			
-			return _r;
-		}
 		
 		public static function numberUp( _in:Number, _floatLen:int = 5 ):Number{
 			var _out:Number = 0, _inStr:String = _in.toFixed( _floatLen )
@@ -68,6 +55,10 @@ package org.xas.jchart.common
 			
 			return _items;
 		}
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormat;
+
+import org.xas.jchart.common.Common;
 			
 		public static function isNegative( _num:Number ):Boolean{
 			return _num < 0;
@@ -136,8 +127,6 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
-		
-		
 		/**
 		 * 取小数点的N位
 		 * <br />JS 解析 浮点数的时候，经常出现各种不可预知情况，这个函数就是为了解决这个问题
@@ -151,6 +140,69 @@ package org.xas.jchart.common
 			_i = parseFloat( _i.toString() ) || 0;
 			_i && ( _i = parseFloat( _i.toFixed( _dot ) ) );
 			return _i;
+		}
+		
+		/**
+		 * 扩展对象属性
+		 * @method  extendObject
+		 * @param   {object}    _source
+		 * @param   {object}    _new
+		 * @param   {bool}      _overwrite      是否覆盖已有属性, default = true  
+		 * @return  object
+		 * @static
+		 */
+		public static function extendObject( _source:Object, _new:Object, _overwrite:Boolean = true ):Object{
+			if( _source && _new ){
+				for( var k:String in _new ){
+					if( _overwrite ){
+						_source[ k ] = _new[ k ];
+					}else if( !( k in _source ) ){
+						_source[ k ] = _new[ k ];
+					}
+				}
+			}
+			return _source;
+		}
+		
+		public static function implementStyle( _txf:TextField
+											  	, _styleList:Array
+												, _autoSize:String = TextFieldAutoSize.LEFT 
+												  , _mouseEnabled:Boolean = false
+												
+		):TextField{
+		
+			if( _styleList && _styleList.length ){
+				var _style:Object = {}, _tf:TextFormat = new TextFormat();
+				Common.each( _styleList, function( _k:int, _item:Object ):void{
+					_style = extendObject( _style, _item );
+				});
+				
+				Common.each( _style, function( _k:String, _item:* ):void{
+					_tf[ _k ] = _item;
+				});
+				
+				_txf.setTextFormat( _tf );
+				_txf.defaultTextFormat = _tf;
+			}
+			_txf.mouseEnabled = _mouseEnabled;
+			_txf.autoSize = _autoSize;
+			
+			return _txf;
+		}
+		
+		public static function hasNegative( _data:Array ):Boolean{
+			var _r:Boolean = false;
+			
+			if( _data && _data.length ){
+				each( _data, function( _ix:int, _item:Object ):*{
+					var _tmp:Number = Math.min.apply( null, _item.data );
+					if( _tmp < 0 ){
+						_r = true;
+						return false;
+					}
+				});
+			}			
+			return _r;
 		}
 	}
 }

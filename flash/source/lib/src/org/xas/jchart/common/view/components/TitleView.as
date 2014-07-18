@@ -10,6 +10,9 @@ package org.xas.jchart.common.view.components
 	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
+	import org.xas.jchart.common.data.DefaultOptions;
 	
 	public class TitleView extends Sprite
 	{
@@ -28,8 +31,15 @@ package org.xas.jchart.common.view.components
 		private function addToStage( _evt:Event ):void{
 			_textf = new TextField();
 			_textf.text = _text;
-			_textf.autoSize = TextFieldAutoSize.LEFT;
+			
+			Common.implementStyle( _textf, [
+				DefaultOptions.title.style
+				, DefaultOptions.xAxis.title.style
+				, BaseConfig.ins.titleStyle
+			] );
+			
 			_textf.x = -_textf.width / 2;
+			//textf.mouseEnabled
 			addChild( _textf );
 		}
 

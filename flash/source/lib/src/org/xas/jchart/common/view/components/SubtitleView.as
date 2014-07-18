@@ -10,6 +10,9 @@ package org.xas.jchart.common.view.components
 	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.Common;
+	import org.xas.jchart.common.data.DefaultOptions;
 	
 	public class SubtitleView extends Sprite
 	{
@@ -28,7 +31,12 @@ package org.xas.jchart.common.view.components
 		private function addToStage( _evt:Event ):void{
 			_textf = new TextField();
 			_textf.text = _text;
-			_textf.autoSize = TextFieldAutoSize.LEFT;
+			
+			Common.implementStyle( _textf, [
+				DefaultOptions.subtitle.style
+				, BaseConfig.ins.subtitleStyle
+			] );
+			
 			_textf.x = -_textf.width / 2;
 			addChild( _textf );
 		}

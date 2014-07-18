@@ -87,7 +87,7 @@ package org.xas.jchart.common.data
 				{
 					//"font": "bold 16px \"Trebuchet MS\", Verdana, sans-serif", 
 					'font': 'Trebuchet MS, Verdana, sans-serif',
-					'bold': true,
+					'bold': false,
 					"size": 12, 
 					"color": 0x000000
 				}, 

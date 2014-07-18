@@ -36,6 +36,7 @@ package org.xas.jchart.common
 			return _displaySeries;	
 		}
 		public function updateDisplaySeries( _filter:Object = null, _data:Object = null ):BaseConfig{
+			
 			_displaySeries = JSON.parse( JSON.stringify( (_data || chartData ).series ) ) as Array;
 			if( _filter ){
 				var _tmp:Array = [];
@@ -46,9 +47,15 @@ package org.xas.jchart.common
 				});
 				_displaySeries = _tmp;
 			}
+			_filterData = _filter || {};
 			
 			return this;
 		}
+		
+		protected var _filterData:Object;
+		public function get filterData():Object{
+			return _filterData;	
+		}	
 		
 		protected var _chartData:Object;
 		public function setChartData( _d:Object ):Object { 
@@ -82,8 +89,8 @@ package org.xas.jchart.common
 			var _r:Number = 0, _tmp:Array;
 			if( cd && cd.series ){
 				_tmp = [];
-				Common.each( cd.series, function( _k:int, _item:Number ):*{
-					_tmp = _tmp.concat( cd.series[ _k ].data );
+				Common.each( displaySeries, function( _k:int, _item:Number ):*{
+					_tmp = _tmp.concat( displaySeries[ _k ].data );
 				});
 				_tmp.length && ( _r = Math.min.apply( null, _tmp ) );
 				
@@ -171,8 +178,8 @@ package org.xas.jchart.common
 			var _r:Number = 0, _tmp:Array;
 			if( cd && cd.series ){
 				_tmp = [];
-				Common.each( cd.series, function( _k:int, _item:Number ):*{
-					_tmp = _tmp.concat( cd.series[ _k ].data );
+				Common.each( displaySeries, function( _k:int, _item:Number ):*{
+					_tmp = _tmp.concat( displaySeries[ _k ].data );
 				});
 				_tmp.length && ( _r = Math.max.apply( null, _tmp ) );
 			}
@@ -184,7 +191,7 @@ package org.xas.jchart.common
 		}
 		
 		
-		protected function calcRate():void{
+		public function calcRate():void{
 			var _data:Object = _chartData;
 			_rate = [];
 			if( !_data ) return;
@@ -194,7 +201,7 @@ package org.xas.jchart.common
 			_absNum = Math.abs( _minNum );
 			_finalMaxNum = Math.max( _maxNum, _absNum );
 			
-			if( _data && Common.hasNegative( _data.series ) ){				
+			if( _data && Common.hasNegative( displaySeries ) ){				
 				if( _maxNum > _absNum ){
 					if( Math.abs( _finalMaxNum * 0.33333 ) > _absNum ){
 						_rate = [ 1, 0.66666, 0.33333, 0, -0.33333];

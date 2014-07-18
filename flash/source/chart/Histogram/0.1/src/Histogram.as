@@ -57,7 +57,9 @@ package
 				series:[{
 					name: 'Temperature',
 					data: [-50, -1, -3, 10.01, -20, -27, -28, -32, -30]
-				}, {
+				}
+				
+				, {
 					name: 'Rainfall1',
 					data: [-20.10, -21, 50, 100, -10, -210, -220, -100, -20]
 				}, {
@@ -67,6 +69,7 @@ package
 					name: 'Rainfall3',
 					data: [-20, -21, -20, -100, -10, -210, -120, -100, -20]
 				}
+				
 				],
 				legend: {
 					enabled: true

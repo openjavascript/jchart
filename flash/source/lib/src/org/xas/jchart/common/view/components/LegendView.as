@@ -44,6 +44,10 @@ package org.xas.jchart.common.view.components
 				_tmp.x = _x;
 				_items.push( _tmp );
 				
+				if( _k in BaseConfig.ins.filterData ){
+					_tmp.toggle();
+				} 
+				
 				_x = _x + 2 + _tmp.width;
 			});
 		}

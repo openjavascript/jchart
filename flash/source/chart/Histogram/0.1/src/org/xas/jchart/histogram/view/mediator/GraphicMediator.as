@@ -29,6 +29,9 @@ package org.xas.jchart.histogram.view.mediator
 		override public function listNotificationInterests():Array{
 			return [
 				JChartEvent.SHOW_CHART
+				, JChartEvent.UPDATE_TIPS
+				, JChartEvent.SHOW_TIPS
+				, JChartEvent.HIDE_TIPS
 			];
 		}
 		
@@ -38,7 +41,22 @@ package org.xas.jchart.histogram.view.mediator
 					{								
 						_view.update();
 						break;
-					}			
+					}	
+				case JChartEvent.UPDATE_TIPS:
+				{
+					_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, notification.getBody() ) );
+					break;
+				}	
+				case JChartEvent.SHOW_TIPS:
+				{
+					_view.dispatchEvent( new JChartEvent( JChartEvent.SHOW_TIPS, notification.getBody() ) );
+					break;
+				}	
+				case JChartEvent.HIDE_TIPS:
+				{
+					_view.dispatchEvent( new JChartEvent( JChartEvent.HIDE_TIPS, notification.getBody() ) );
+					break;
+				}
 			}
 		}
 		

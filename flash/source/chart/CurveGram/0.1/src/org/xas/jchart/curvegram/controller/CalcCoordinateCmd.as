@@ -108,12 +108,53 @@ package org.xas.jchart.curvegram.controller
 		private function calcGraphic():void{			
 			facade.registerMediator( new GraphicMediator() );
 			
-			BaseConfig.ins.c.rects = [];
+			BaseConfig.ins.c.paths = [];
 			if( !( BaseConfig.ins.series && BaseConfig.ins.series.length ) ) return;
-			
 			BaseConfig.ins.c.partWidth = BaseConfig.ins.c.itemWidth / BaseConfig.ins.displaySeries.length;
+
 			
+			Common.each( BaseConfig.ins.displaySeries, function( _k:int, _item:Object ):void{
+				
+				var _cmd:Vector.<int> = new Vector.<int>
+				, _path:Vector.<Number> = new Vector.<Number>
+				;				
+				
+				Common.each( _item.data, function( _sk:int, _num:Number ):void{
+					var _rectItem:Object = {}
+						, _pointItem:Object = BaseConfig.ins.c.hpointReal[ _sk ]
+						, _sp:Point = _pointItem.start as Point
+						, _ep:Point = _pointItem.end as Point
+						, _h:Number, _x:Number, _y:Number
+						, _itemNum:Number
+						;
+						//Log.log( _sk, _sp.x, _sp.y );
+						
+						if( Common.isNegative( _num ) ){
+							_itemNum = Math.abs( _num );	
+							_h = BaseConfig.ins.c.vpart * Math.abs( BaseConfig.ins.rate.length - BaseConfig.ins.rateZeroIndex -1 );
+							_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
+							_h = Math.abs( _num / BaseConfig.ins.finalMaxNum ) * _h;
+							_y += _h;
+						}else{
+							_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
+							_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
+							_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h;
+						}
+						
+						_x = _sp.x;
+						
+						_cmd.push( _k === 0 ? 1 : 2 );
+						_path.push( _x, _y );
+						Log.log( _y, _sp.y, BaseConfig.ins.c.vpart, BaseConfig.ins.rateZeroIndex, _h, BaseConfig.ins.finalMaxNum );
+						
+				});
+				
+				BaseConfig.ins.c.paths.push( { cmd: _cmd, path: _path } );
+			});
+			/*
 			Common.each( BaseConfig.ins.cd.xAxis.categories, function( _k:int, _item:Object ):void{
+				
+				_cmd.push( _k === 0 ? 1 : 2 );
 				
 				var _items:Array = []
 					, _pointItem:Object = BaseConfig.ins.c.hlinePoint[ _k ]
@@ -150,8 +191,9 @@ package org.xas.jchart.curvegram.controller
 					_items.push( _rectItem );
 				});
 				
-				BaseConfig.ins.c.rects.push( _items );
+				//BaseConfig.ins.c.paths.push( _items );
 			});
+			*/
 		}
 		
 		private function calcChartPoint():void{

@@ -17,15 +17,15 @@ package org.xas.jchart.curvegram.view.components
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.CurveGramUI;
 	
-	public class GraphicView extends Sprite
+	public class GraphicView1 extends Sprite
 	{	
 		private var _boxs:Vector.<Sprite>;
 		private var _preIndex:int = -1;
 		
-		public function GraphicView()
+		public function GraphicView1()
 		{
 			super(); 
-			
+		
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
 			
 			addEventListener( JChartEvent.SHOW_TIPS, showTips );
@@ -35,43 +35,31 @@ package org.xas.jchart.curvegram.view.components
 		
 		private function addToStage( _evt:Event ):void{
 		}
-		
+
 		public function update():void{
 			
 			graphics.clear();
+
+            
 			
-			if( !( BaseConfig.ins.c && BaseConfig.ins.c.paths && BaseConfig.ins.c.paths.length ) ) return;
-			
-			graphics.lineStyle( 0x000000 );
-			
-			Common.each( BaseConfig.ins.c.paths, function( _k:int, _item:Object ):void{
-			
-				var _cmd:Vector.<int> = _item.cmd as Vector.<int>
-					, _path:Vector.<Number> = _item.path as Vector.<Number>
-					;
-				graphics.drawPath( _cmd, _path );
-				Log.log( _cmd );
-				Log.log( _path );
-			});
-			
-			/*
+            /*
 			if( !( BaseConfig.ins.c && BaseConfig.ins.c.rects ) ) return;
 			_boxs = new Vector.<Sprite>();
 			Common.each( BaseConfig.ins.c.rects, function( _k:int, _item:Object ):void{
-			
-			var _box:Sprite = new Sprite();
-			Common.each( _item, function( _sk:int, _sitem:Object ):void{
-			var _item:CurveGramUI = new CurveGramUI(
-			_sitem.x, _sitem.y
-			, _sitem.width, _sitem.height
-			, BaseConfig.ins.itemColor( _sk ) 
-			);
-			_box.addChild( _item );
+				
+				var _box:Sprite = new Sprite();
+				Common.each( _item, function( _sk:int, _sitem:Object ):void{
+					var _item:CurveGramUI = new CurveGramUI(
+						_sitem.x, _sitem.y
+						, _sitem.width, _sitem.height
+						, BaseConfig.ins.itemColor( _sk ) 
+					);
+					_box.addChild( _item );
+				});
+				addChild( _box );
+				_boxs.push( _box );
 			});
-			addChild( _box );
-			_boxs.push( _box );
-			});
-			*/
+            */
 		}
 		
 		private function showTips( _evt: JChartEvent ):void{
@@ -99,6 +87,6 @@ package org.xas.jchart.curvegram.view.components
 			_boxs[ _ix ].alpha = .65;
 			_preIndex = _ix;
 		}
-		
+
 	}
 }

@@ -47,7 +47,7 @@ package org.xas.jchart.common.view.components
 		
 		private function buildData():void{
 			
-			if( !BaseConfig.ins.displaySeries.length ){
+			if( !( BaseConfig.ins.displaySeries && BaseConfig.ins.displaySeries.length ) ){
 				return;
 			}
 			

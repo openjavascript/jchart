@@ -1,6 +1,10 @@
 package org.xas.jchart.common
 {
 	import flash.text.TextField;
+	import flash.text.TextFieldAutoSize;
+	import flash.text.TextFormat;
+	
+	import org.xas.jchart.common.Common;
 	
 	public class Common
 	{		
@@ -55,10 +59,6 @@ package org.xas.jchart.common
 			
 			return _items;
 		}
-import flash.text.TextFieldAutoSize;
-import flash.text.TextFormat;
-
-import org.xas.jchart.common.Common;
 			
 		public static function isNegative( _num:Number ):Boolean{
 			return _num < 0;

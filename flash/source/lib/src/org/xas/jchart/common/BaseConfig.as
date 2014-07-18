@@ -37,8 +37,9 @@ package org.xas.jchart.common
 			return _displaySeries;	
 		}
 		public function updateDisplaySeries( _filter:Object = null, _data:Object = null ):BaseConfig{
-			
-			_displaySeries = JSON.parse( JSON.stringify( (_data || chartData ).series ) ) as Array;
+			_data = _data || chartData;
+			if( !( _data && _data.series && _data.series.length ) ) return this;
+			_displaySeries = JSON.parse( JSON.stringify( _data.series ) ) as Array;
 			_displaySeriesIndexMap = null;
 			if( _filter ){
 				var _tmp:Array = [], _count:int = 0;

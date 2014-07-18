@@ -1,10 +1,12 @@
 package
 {
+	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
+	import flash.external.ExternalInterface;
 	import flash.system.Security;
 	import flash.utils.Timer;
 	import flash.utils.setInterval;
@@ -29,6 +31,7 @@ package
 		private var _facade:Facade;
 		private var _resizeTimer:Timer;
 		private var _ins:Histogram;
+		private var _loaderInfo:Object;
 		
 		public function Histogram()
 		{			
@@ -40,41 +43,7 @@ package
 			
 			BaseConfig.setIns( new HistogramConfig() );
 			 
-			//update( {} );			
-			update( {
-				title: { text: 'test title 中文' }
-				, subtitle: { text: 'test subtitle 中文' }
-				, yAxis: { title: { text: 'vtitle 中文' } }
-				, credits: {
-					enabled: true
-					, text: 'jchart.openjavascript.org'
-					, href: 'http://jchart.openjavascript.org/'
-				},
-				xAxis: {
-					categories: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-					, tipTitlePostfix: '{0}月'
-				}, 
-				series:[{
-					name: 'Temperature',
-					data: [-50, -1, -3, 10.01, -20, -27, -28, -32, -30]
-				}
-				
-				, {
-					name: 'Rainfall1',
-					data: [-20.10, -21, 50, 100, -10, -210, -220, -100, -20]
-				}, {
-					name: 'Rainfall2',
-					data: [-20, -21, -20, -100, -10, -210, -20, -100, -20]
-				}, {
-					name: 'Rainfall3',
-					data: [-20, -21, -20, -100, -10, -210, -120, -100, -20]
-				}
-				
-				],
-				legend: {
-					enabled: true
-				}
-			});
+			//update( {} );	
 			
 			addEventListener( JChartEvent.PROCESS, process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);
@@ -94,6 +63,7 @@ package
 			_inited = true;
 			
 			BaseConfig.ins.setDebug( true );
+			runData();
 			//BaseConfig.ins.setChartData( {});
 		}
 		
@@ -163,6 +133,53 @@ package
 			removeEventListener( Event.REMOVED_FROM_STAGE, onRemovedFromStage );
 			removeEventListener( Event.ENTER_FRAME, onEnterFrame );
 			_timer &&_timer.stop();
+		}		
+		
+		private function runData():void{
+			
+			var _data:Object = {};
+			
+			if( !ExternalInterface.available ){				
+				_data = {
+					title: { text: 'test title 中文' }
+					, subtitle: { text: 'test subtitle 中文' }
+					, yAxis: { title: { text: 'vtitle 中文' } }
+					, credits: {
+						enabled: true
+						, text: 'jchart.openjavascript.org'
+						, href: 'http://jchart.openjavascript.org/'
+					},
+					xAxis: {
+						categories: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+						, tipTitlePostfix: '{0}月'
+					}, 
+					series:[{
+						name: 'Temperature',
+						data: [-50, -1, -3, 10.01, -20, -27, -28, -32, -30]
+					}
+						
+						, {
+							name: 'Rainfall1',
+							data: [-20.10, -21, 50, 100, -10, -210, -220, -100, -20]
+						}, {
+							name: 'Rainfall2',
+							data: [-20, -21, -20, -100, -10, -210, -20, -100, -20]
+						}, {
+							name: 'Rainfall3',
+							data: [-20, -21, -20, -100, -10, -210, -120, -100, -20]
+						}
+						
+					],
+					legend: {
+						enabled: true
+					}
+				};	
+			}else{
+				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
+				_data = _loaderInfo.chart || _data;
+			}
+			
+			update( _data );
 		}
 	}
 }

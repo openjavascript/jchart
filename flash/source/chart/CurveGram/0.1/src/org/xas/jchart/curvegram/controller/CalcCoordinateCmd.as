@@ -121,7 +121,7 @@ package org.xas.jchart.curvegram.controller
 				
 				Common.each( _item.data, function( _sk:int, _num:Number ):void{
 					var _rectItem:Object = {}
-						, _pointItem:Object = BaseConfig.ins.c.hpointReal[ _sk ]
+						, _pointItem:Object = BaseConfig.ins.c.hlinePoint[ _sk ]
 						, _sp:Point = _pointItem.start as Point
 						, _ep:Point = _pointItem.end as Point
 						, _h:Number, _x:Number, _y:Number
@@ -140,12 +140,11 @@ package org.xas.jchart.curvegram.controller
 							_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
 							_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h;
 						}
-						
 						_x = _sp.x;
 						
-						_cmd.push( _k === 0 ? 1 : 2 );
+						_cmd.push( _sk === 0 ? 1 : 2 );
 						_path.push( _x, _y );
-						Log.log( _y, _sp.y, BaseConfig.ins.c.vpart, BaseConfig.ins.rateZeroIndex, _h, BaseConfig.ins.finalMaxNum );
+					//Log.log( _y, _sp.y, BaseConfig.ins.c.vpart, BaseConfig.ins.rateZeroIndex, _h, BaseConfig.ins.finalMaxNum );
 						
 				});
 				
@@ -227,7 +226,7 @@ package org.xas.jchart.curvegram.controller
 		}
 		
 		private function calcChartHPoint():void{
-			var _partN:Number = BaseConfig.ins.c.chartWidth / ( BaseConfig.ins.categories.length )
+			var _partN:Number = BaseConfig.ins.c.chartWidth / ( BaseConfig.ins.categories.length - 1 )
 				, _sideLen:Number = BaseConfig.ins.c.arrowLength
 				;
 			BaseConfig.ins.c.hpart = _partN;
@@ -238,22 +237,23 @@ package org.xas.jchart.curvegram.controller
 						
 			Common.each( BaseConfig.ins.categories, function( _k:int, _item:* ):void{
 				var _n:Number = BaseConfig.ins.c.minX + _partN * _k + 5, _sideLen:int = BaseConfig.ins.c.arrowLength;
-				
+				/*
 				if( _k === 0 ){					
 					BaseConfig.ins.c.hlinePoint.push( {
 						start: new Point( _n, BaseConfig.ins.c.minY )
 						, end: new Point( _n, BaseConfig.ins.c.maxY + 1 )
 					});					
 				}
+				*/
 								
 				BaseConfig.ins.c.hlinePoint.push( {
-					start: new Point( _n + _partN, BaseConfig.ins.c.minY )
-					, end: new Point( _n + _partN, BaseConfig.ins.c.maxY + 1 )
+					start: new Point( _n, BaseConfig.ins.c.minY )
+					, end: new Point( _n, BaseConfig.ins.c.maxY + 1 )
 				});
 				
 				BaseConfig.ins.c.hpoint.push( {
-					start: new Point( _n + _partN / 2, BaseConfig.ins.c.maxY )
-					, end: new Point( _n + _partN / 2, BaseConfig.ins.c.maxY + _sideLen )
+					start: new Point( _n, BaseConfig.ins.c.maxY )
+					, end: new Point( _n, BaseConfig.ins.c.maxY + _sideLen )
 				});
 				
 				BaseConfig.ins.c.hpointReal.push( {

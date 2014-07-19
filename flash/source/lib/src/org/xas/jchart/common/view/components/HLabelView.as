@@ -60,8 +60,15 @@ package org.xas.jchart.common.view.components
 			if( !( BaseConfig.ins.c && BaseConfig.ins.c.hpoint ) ) return;
 			
 			Common.each( BaseConfig.ins.c.hpoint, function( _k:int, _item:Object ):void{
-				var _tf:TextField = _labels[ _k ];
-				_tf.x = _item.end.x - _tf.width / 2;
+				var _tf:TextField = _labels[ _k ], _x:Number = _item.end.x - _tf.width / 2;
+				
+				if( _k === 0 ){
+					_x < BaseConfig.ins.c.chartX && ( _x = BaseConfig.ins.c.chartX - 4 );
+				}else if( _k === BaseConfig.ins.c.hpoint.length - 1 ){
+					
+				}
+				
+				_tf.x = _x;
 				_tf.y = _item.end.y;
 			});
 		}

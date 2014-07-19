@@ -34,7 +34,7 @@ package org.xas.jchart.common.view.components.GraphicBgView
 		protected function showChart( _evt: JChartEvent ):void{
 			this.graphics.clear();
 			
-			this.graphics.beginFill( 0x000000, .01 );
+			this.graphics.beginFill( 0xffffff, .01 );
 			this.graphics.drawRect(
 				0, 0, BaseConfig.ins.c.chartWidth, BaseConfig.ins.c.chartHeight 
 			);

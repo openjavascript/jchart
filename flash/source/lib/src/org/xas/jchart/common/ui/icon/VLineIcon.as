@@ -34,7 +34,7 @@ package org.xas.jchart.common.ui.icon
 		public function hover():void{
 			graphics.clear();
 			graphics.beginFill( 0xffffff );
-			graphics.lineStyle( 2, _hoverColor );
+			graphics.lineStyle( 1, _hoverColor );
 			graphics.moveTo( _spoint.x, _spoint.y );
 			graphics.lineTo( _epoint.x, _epoint.y );
 		}

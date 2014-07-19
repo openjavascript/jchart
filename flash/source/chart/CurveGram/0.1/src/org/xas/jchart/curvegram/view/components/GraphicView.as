@@ -41,6 +41,7 @@ package org.xas.jchart.curvegram.view.components
 			if( !( BaseConfig.ins.c && BaseConfig.ins.c.paths && BaseConfig.ins.c.paths.length ) ) return;
 			
 			graphics.clear();
+			_boxs = new Vector.<CurveGramUI>;
 			Common.each( BaseConfig.ins.c.paths, function( _k:int, _item:Object ):void{
 			
 				var _cmd:Vector.<int> = _item.cmd as Vector.<int>
@@ -49,7 +50,7 @@ package org.xas.jchart.curvegram.view.components
 					;
 				
 				addChild( _gitem = new CurveGramUI( _cmd, _path, BaseConfig.ins.itemColor( _k ) ) );
-
+				_boxs.push( _gitem );
 			});
 		}
 		
@@ -57,30 +58,34 @@ package org.xas.jchart.curvegram.view.components
 		}
 		
 		private function hideTips( _evt: JChartEvent ):void{	
-			/*
-			if( _preIndex >= 0 && _boxs[ _preIndex ] ){
-				_boxs[ _preIndex ].alpha = 1;
+			
+			if( _preIndex >= 0 ){
+				Common.each( _boxs, function( _k:int, _item:CurveGramUI ):void{
+					_boxs[ _k ].items[ _preIndex ].unhover();
+				});
 			}
 			_preIndex = -1;
-			*/
+			
 		}		
 		
 		private function updateTips( _evt: JChartEvent ):void{
-			/*
+			
 			var _srcEvt:MouseEvent = _evt.data.evt as MouseEvent
 				, _ix:int = _evt.data.index as int
 				;	
 			if( !( _boxs && _boxs.length ) ) return;
 			if( _preIndex == _ix ) return;
-			if( !_boxs[ _ix ] ) return;
 			
-			if( _preIndex >= 0 && _boxs[ _preIndex ] ){
-				_boxs[ _preIndex ].alpha = 1;
+			if( _preIndex >= 0 ){
+				Common.each( _boxs, function( _k:int, _item:CurveGramUI ):void{
+					_preIndex >= 0 && _boxs[ _k ].items[ _preIndex ].unhover();
+				});
 			}
+			Common.each( _boxs, function( _k:int, _item:CurveGramUI ):void{
+				_ix >= 0 && _boxs[ _k ].items[ _ix ].hover();
+			});
 			
-			_boxs[ _ix ].alpha = .65;
 			_preIndex = _ix;
-			*/
 		}
 		
 	}

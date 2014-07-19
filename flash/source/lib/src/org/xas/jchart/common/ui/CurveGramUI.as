@@ -13,6 +13,8 @@ package org.xas.jchart.common.ui
 		private var _path:Vector.<Number>;
 		private var _color:Number;
 		private var _point:Vector.<Point>;
+		private var _items:Vector.<CircleIcon>;
+		public function get items():Vector.<CircleIcon>{ return _items; }
 		
 		public function CurveGramUI( _cmd:Vector.<int>, _path:Vector.<Number>, _color:uint )
 		{
@@ -36,12 +38,17 @@ package org.xas.jchart.common.ui
 			graphics.drawPath( _cmd, _path );
 			//graphics.endFill();
 			_point = new Vector.<Point>;
+			_items = new Vector.<CircleIcon>();
 			while( _path.length ){
 				var _x:Number = _path.shift(), _y:Number = _path.shift()
-					, _tmp:Point = new Point( _x, _y );
+					, _tmp:Point = new Point( _x, _y )
+					, _tmpItem:CircleIcon = new CircleIcon( _tmp, _color )
+					;
 				_point.push( _tmp );
-				addChild( new CircleIcon( _tmp, _color ) );
+				_items.push( _tmpItem );
+				addChild( _tmpItem  );
 			}
 		}
 	}
 }
+

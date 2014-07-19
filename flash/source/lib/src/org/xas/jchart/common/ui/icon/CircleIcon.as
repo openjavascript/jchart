@@ -27,20 +27,20 @@ package org.xas.jchart.common.ui.icon
 		private function init():void{
 			this.x = _point.x;
 			this.y = _point.y;
-			hover();
+			unhover();
 		}
 		
 		public function hover():void{
 			graphics.clear();
-			graphics.beginFill( _color );
-			graphics.lineStyle( 2, 0xffffff );
+			graphics.beginFill( 0xffffff );
+			graphics.lineStyle( 2, _color );
 			graphics.drawCircle( 0, 0, _radius );
 		}
 		
 		public function unhover():void{
 			graphics.clear();
-			graphics.beginFill( 0xffffff );
-			graphics.lineStyle( 2, _color );
+			graphics.beginFill( _color );
+			graphics.lineStyle( 2, 0xffffff );
 			graphics.drawCircle( 0, 0, _radius );
 		}
 	}

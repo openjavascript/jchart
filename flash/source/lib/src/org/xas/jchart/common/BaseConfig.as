@@ -354,6 +354,14 @@ package org.xas.jchart.common
 			_r = _colors[ _ix % ( _colors.length - 1 ) ];			
 			return _r;
 		}
+		
+		public function displayAllLabel():Boolean{
+			var _r:Boolean = true;
+			chartData 
+				&& ( 'displayAllLabel' in chartData )
+				&& ( _r = chartData[ 'displayAllLabel' ] );
+			return _r;
+		}
 				
 		public function BaseConfig()
 		{

@@ -148,7 +148,7 @@ package
 						, href: 'http://jchart.openjavascript.org/'
 					},
 					xAxis: {
-						categories: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+						categories: [1111111111111, 2, 3, 4, 5, 6, 7, 8, 9]
 						, tipTitlePostfix: '{0}月'
 					}, 
 					series:[{

@@ -150,49 +150,7 @@ package org.xas.jchart.curvegram.controller
 				
 				BaseConfig.ins.c.paths.push( { cmd: _cmd, path: _path } );
 			});
-			/*
-			Common.each( BaseConfig.ins.cd.xAxis.categories, function( _k:int, _item:Object ):void{
-				
-				_cmd.push( _k === 0 ? 1 : 2 );
-				
-				var _items:Array = []
-					, _pointItem:Object = BaseConfig.ins.c.hlinePoint[ _k ]
-					, _sp:Point = _pointItem.start as Point
-					, _ep:Point = _pointItem.end as Point
-					, _x:Number = _sp.x + ( BaseConfig.ins.c.itemWidth - BaseConfig.ins.c.itemWidth / 2 )
-					;
-				
-				Common.each( BaseConfig.ins.displaySeries, function( _sk:int, _sitem:Object ):void{
-					var _rectItem:Object = {}
-						, _num:Number = _sitem.data[ _k ]
-						, _itemNum:Number
-						, _h:Number, _y:Number
-						;
-					
-					if( Common.isNegative( _num ) ){
-						_itemNum = Math.abs( _num );	
-						_h = BaseConfig.ins.c.vpart * Math.abs( BaseConfig.ins.rate.length - BaseConfig.ins.rateZeroIndex -1 );
-						_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
-						_h = Math.abs( _num / BaseConfig.ins.finalMaxNum ) * _h;
-					}else{
-						_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
-						_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
-						_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h;
-					}
-					
-					//Log.log( _h, _y );
-										
-					_rectItem.x = _x + _sk * BaseConfig.ins.c.partWidth;
-					_rectItem.y = _y;
-					_rectItem.width = BaseConfig.ins.c.partWidth;
-					_rectItem.height = _h;
-					
-					_items.push( _rectItem );
-				});
-				
-				//BaseConfig.ins.c.paths.push( _items );
-			});
-			*/
+
 		}
 		
 		private function calcChartPoint():void{

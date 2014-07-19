@@ -4,13 +4,14 @@ package org.xas.jchart.curvegram
 	
 	import org.puremvc.as3.multicore.interfaces.*;
 	import org.puremvc.as3.multicore.patterns.facade.*;
+	import org.xas.jchart.common.BaseFacade;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.curvegram.controller.CalcCoordinateCmd;
 	import org.xas.jchart.curvegram.controller.ClearCmd;
 	import org.xas.jchart.curvegram.controller.DrawCmd;
 	import org.xas.jchart.curvegram.controller.FilterDataCmd;
 	
-	public class MainFacade extends Facade implements ICommand
+	public class MainFacade extends BaseFacade implements IFacade
 	{
 		public static const name:String = 'CurveGramFacade';
 		

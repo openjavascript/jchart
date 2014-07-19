@@ -19,7 +19,7 @@ package org.xas.jchart.curvegram.view.components
 	
 	public class GraphicView extends Sprite
 	{	
-		private var _boxs:Vector.<Sprite>;
+		private var _boxs:Vector.<CurveGramUI>;
 		private var _preIndex:int = -1;
 		
 		public function GraphicView()
@@ -38,53 +38,35 @@ package org.xas.jchart.curvegram.view.components
 		
 		public function update():void{
 			
-			graphics.clear();
-			
 			if( !( BaseConfig.ins.c && BaseConfig.ins.c.paths && BaseConfig.ins.c.paths.length ) ) return;
 			
-			graphics.lineStyle( 0x000000 );
-			
+			graphics.clear();
 			Common.each( BaseConfig.ins.c.paths, function( _k:int, _item:Object ):void{
 			
 				var _cmd:Vector.<int> = _item.cmd as Vector.<int>
 					, _path:Vector.<Number> = _item.path as Vector.<Number>
+					, _gitem:CurveGramUI
 					;
-				graphics.drawPath( _cmd, _path );
-				Log.log( _cmd );
-				Log.log( _path );
+				
+				addChild( _gitem = new CurveGramUI( _cmd, _path, BaseConfig.ins.itemColor( _k ) ) );
+
 			});
-			
-			/*
-			if( !( BaseConfig.ins.c && BaseConfig.ins.c.rects ) ) return;
-			_boxs = new Vector.<Sprite>();
-			Common.each( BaseConfig.ins.c.rects, function( _k:int, _item:Object ):void{
-			
-			var _box:Sprite = new Sprite();
-			Common.each( _item, function( _sk:int, _sitem:Object ):void{
-			var _item:CurveGramUI = new CurveGramUI(
-			_sitem.x, _sitem.y
-			, _sitem.width, _sitem.height
-			, BaseConfig.ins.itemColor( _sk ) 
-			);
-			_box.addChild( _item );
-			});
-			addChild( _box );
-			_boxs.push( _box );
-			});
-			*/
 		}
 		
 		private function showTips( _evt: JChartEvent ):void{
 		}
 		
-		private function hideTips( _evt: JChartEvent ):void{			
+		private function hideTips( _evt: JChartEvent ):void{	
+			/*
 			if( _preIndex >= 0 && _boxs[ _preIndex ] ){
 				_boxs[ _preIndex ].alpha = 1;
 			}
 			_preIndex = -1;
+			*/
 		}		
 		
 		private function updateTips( _evt: JChartEvent ):void{
+			/*
 			var _srcEvt:MouseEvent = _evt.data.evt as MouseEvent
 				, _ix:int = _evt.data.index as int
 				;	
@@ -98,6 +80,7 @@ package org.xas.jchart.curvegram.view.components
 			
 			_boxs[ _ix ].alpha = .65;
 			_preIndex = _ix;
+			*/
 		}
 		
 	}

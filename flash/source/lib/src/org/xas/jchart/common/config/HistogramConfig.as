@@ -8,5 +8,6 @@ package org.xas.jchart.common.config
 		{
 			super();
 		}
+
 	}
 }

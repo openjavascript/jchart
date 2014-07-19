@@ -4,15 +4,18 @@ package org.xas.jchart.common.view.mediator
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.BaseFacade;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.common.view.components.GraphicBgView;
+	import org.xas.jchart.common.view.components.GraphicBgView.BaseGraphicBgView;
+	import org.xas.jchart.common.view.components.GraphicBgView.CurveGramGraphicBgView;
+	import org.xas.jchart.common.view.components.GraphicBgView.HistogramGraphicBgView;
 	import org.xas.jchart.common.view.components.TitleView;
 	
 	public class GraphicBgMediator extends Mediator implements IMediator
 	{
 		public static const name:String = 'PChartBgMediator';
-		private var _view:GraphicBgView;
-		public function get view():GraphicBgView{ return _view; }
+		private var _view:BaseGraphicBgView;
+		public function get view():BaseGraphicBgView{ return _view; }
 		
 		public function GraphicBgMediator( )
 		{
@@ -21,7 +24,21 @@ package org.xas.jchart.common.view.mediator
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index5.addChild( _view = new GraphicBgView() );
+			
+			switch( (facade as BaseFacade).name ){
+				case 'CurveGramFacade':{
+					mainMediator.view.index5.addChild( _view = new CurveGramGraphicBgView() );
+					break;
+				}
+				case 'HistogramFacade':{
+					mainMediator.view.index5.addChild( _view = new HistogramGraphicBgView() );
+					break;
+				}
+				default:{
+					mainMediator.view.index5.addChild( _view = new BaseGraphicBgView() );
+					break;
+				}
+			}
 			//Log.log( 'ChartBgMediator register' );	
 			
 			_view.addEventListener( JChartEvent.UPDATE_TIPS, function( _evt:JChartEvent ):void{

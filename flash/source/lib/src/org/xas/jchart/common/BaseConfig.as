@@ -1,6 +1,7 @@
 package org.xas.jchart.common
 {
 	import flash.display.DisplayObject;
+	import flash.geom.Point;
 	
 	import org.xas.core.utils.Log;
 	import org.xas.core.utils.StringUtils;

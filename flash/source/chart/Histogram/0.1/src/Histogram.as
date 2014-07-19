@@ -150,7 +150,7 @@ package
 						, href: 'http://jchart.openjavascript.org/'
 					},
 					xAxis: {
-						categories: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+						categories: [6666666666661, 2, 3, 4, 5, 6, 7, 8, 988888888888888888]
 						, tipTitlePostfix: '{0}月'
 					}, 
 					series:[{

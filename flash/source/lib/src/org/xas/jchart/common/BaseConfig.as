@@ -69,6 +69,7 @@ package org.xas.jchart.common
 		public function setChartData( _d:Object ):Object { 
 			_chartData = _d;
 			calcRate();		
+			calcLabelDisplayIndex();
 			return _d;
 		}		
 		public function get chartData():Object { return _chartData; }	
@@ -355,13 +356,33 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
-		public function displayAllLabel():Boolean{
+		public function get displayAllLabel():Boolean{
 			var _r:Boolean = true;
 			chartData 
 				&& ( 'displayAllLabel' in chartData )
 				&& ( _r = chartData[ 'displayAllLabel' ] );
 			return _r;
 		}
+		
+		/**
+		 * 获取要显示的水平标签索引位置
+		 * 如果返回 undefined, 将显示全部
+		 */
+		protected function calcLabelDisplayIndex():void{
+			var _tmp:Number, _len:int = categories.length;
+			_labelDisplayIndex = {};
+			if( !displayAllLabel ){
+				_labelDisplayIndex[ 0 ] = true;
+				_labelDisplayIndex[ _len - 1 ] = true;
+				
+				_tmp = Math.ceil( _len / 3 );
+				
+				_labelDisplayIndex[ Math.floor( _tmp * 1 ) - 1 ] = true;
+				_labelDisplayIndex[ Math.floor( _tmp * 2 ) - 1 ] = true;
+			}
+		}
+		protected var _labelDisplayIndex:Object = {};
+		public function get labelDisplayIndex():Object{ return _labelDisplayIndex; }
 				
 		public function BaseConfig()
 		{

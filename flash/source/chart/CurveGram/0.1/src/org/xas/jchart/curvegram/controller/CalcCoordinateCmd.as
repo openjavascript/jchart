@@ -194,20 +194,19 @@ package org.xas.jchart.curvegram.controller
 			BaseConfig.ins.c.itemWidth = _partN / 2;
 						
 			Common.each( BaseConfig.ins.categories, function( _k:int, _item:* ):void{
-				var _n:Number = BaseConfig.ins.c.minX + _partN * _k + 5, _sideLen:int = BaseConfig.ins.c.arrowLength;
-				/*
-				if( _k === 0 ){					
-					BaseConfig.ins.c.hlinePoint.push( {
-						start: new Point( _n, BaseConfig.ins.c.minY )
-						, end: new Point( _n, BaseConfig.ins.c.maxY + 1 )
-					});					
-				}
-				*/
+				var _n:Number = BaseConfig.ins.c.minX + _partN * _k + 5
+					, _sideLen:int = BaseConfig.ins.c.arrowLength;
 								
 				BaseConfig.ins.c.hlinePoint.push( {
 					start: new Point( _n, BaseConfig.ins.c.minY )
 					, end: new Point( _n, BaseConfig.ins.c.maxY + 1 )
 				});
+				
+				if( !BaseConfig.ins.displayAllLabel ){
+					if( !( _k in BaseConfig.ins.labelDisplayIndex ) ){
+						_sideLen = 0;
+					}
+				}
 				
 				BaseConfig.ins.c.hpoint.push( {
 					start: new Point( _n, BaseConfig.ins.c.maxY )

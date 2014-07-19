@@ -46,6 +46,13 @@ package org.xas.jchart.common.view.components
 						, DefaultOptions.xAxis.labels.style
 						, BaseConfig.ins.labelsStyle
 					] );
+					
+					if( !BaseConfig.ins.displayAllLabel ){
+						if( !( _k in BaseConfig.ins.labelDisplayIndex ) ){
+							_titem.visible = false;
+						}
+					}
+					
 					addChild( _titem );
 					
 					_labels.push( _titem );
@@ -63,9 +70,11 @@ package org.xas.jchart.common.view.components
 				var _tf:TextField = _labels[ _k ], _x:Number = _item.end.x - _tf.width / 2;
 				
 				if( _k === 0 ){
-					_x < BaseConfig.ins.c.chartX && ( _x = BaseConfig.ins.c.chartX - 4 );
+					_x < BaseConfig.ins.c.chartX && ( _x = BaseConfig.ins.c.chartX - 3 );
 				}else if( _k === BaseConfig.ins.c.hpoint.length - 1 ){
-					
+					if( _x + _tf.width > BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth ){
+						_x = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - _tf.width + 3;
+					}
 				}
 				
 				_tf.x = _x;

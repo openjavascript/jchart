@@ -148,7 +148,7 @@ package
 						, href: 'http://jchart.openjavascript.org/'
 					},
 					xAxis: {
-						categories: [1111111111111, 2, 3, 4, 5, 6, 7, 8, 999999999999]
+						categories: [2111111111111, 2, 3, 4, 5, 6, 7, 8, 999999999999]
 						, tipTitlePostfix: '{0}月'
 					}, 
 					series:[{
@@ -169,7 +169,9 @@ package
 					legend: {
 						enabled: true
 					}
-				};	
+					, displayAllLabel: false
+				};
+				//_data = {};
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
 				_data = _loaderInfo.chart || _data;

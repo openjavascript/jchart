@@ -20,7 +20,7 @@ package org.xas.jchart.histogram.controller
 			super();
 		}
 		override public function execute(notification:INotification):void{
-			Log.log( 'filter data cmd' );
+			//Log.log( 'filter data cmd' );
 			//Log.printJSON( BaseConfig.ins.displaySeries );
 			
 			update( notification.getBody() );

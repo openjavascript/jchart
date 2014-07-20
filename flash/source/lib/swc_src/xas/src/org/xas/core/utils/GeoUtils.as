@@ -84,5 +84,13 @@ package org.xas.core.utils
 			
 			return r;
 		}
+		
+		public static function radians( _angle:Number ):Number{
+			return _angle * Math.PI / 180;	
+		}
+		
+		public static function degree( _radians:Number ):Number{
+			return _radians / Math.PI * 180;
+		}
 	}
 }

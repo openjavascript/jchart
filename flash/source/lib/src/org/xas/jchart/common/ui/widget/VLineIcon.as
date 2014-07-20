@@ -1,4 +1,4 @@
-package org.xas.jchart.common.ui.icon
+package org.xas.jchart.common.ui.widget
 {
 	import flash.display.Sprite;
 	import flash.events.Event;

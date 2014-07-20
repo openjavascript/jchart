@@ -15,7 +15,7 @@ package org.xas.jchart.common.view.components.BgLineView
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.common.ui.icon.VLineIcon;
+	import org.xas.jchart.common.ui.widget.*;
 	
 	public class CurveGramBgLineView extends BaseBgLineView
 	{

@@ -55,6 +55,7 @@ package org.xas.jchart.common.view.components
 			addChild( _index8 = new Sprite() );
 			addChild( _index9 = new Sprite() );
 
+			/*
 			_index9.addChild(
 				new PiePart( 
 					new Point( 200, 200 )
@@ -62,6 +63,7 @@ package org.xas.jchart.common.view.components
 					, 50
 				) 
 			);
+			*/
 		}
 
 	}

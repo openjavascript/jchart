@@ -32,23 +32,30 @@ package org.xas.jchart.common.ui.widget
 		
 		public function get midAngle():Number{ return _beginAngle + ( _endAngle - _beginAngle ) / 2; }
 		
-		private var _offsetPosition:Number;
-		public function get offsetPosition():Number{ return _offsetPosition; }
+		private var _offsetAngle:Number;
 		
-		private var _parts:Vector.<PiePart>;
-		public function get parts():Vector.<PiePart>{ return _parts; }
+		private var _style:Object;
+		private var _hoverStyle:Object;
 
 		
 		public function PiePart( 
 			_centerPoint:Point
 			 , _beginAngle:Number, _endAngle:Number
-			 , _radius:Number
+			 , _radius:Number = 100
+			 , _style:Object = null
+			 , _hoverStyle:Object = null
+			 , _offsetAngle:Number = 270
+			 
 		)
 		{
 			this._centerPoint = _centerPoint;
-			this._beginAngle = _beginAngle;
-			this._endAngle = _endAngle;
+			this._beginAngle = _beginAngle + _offsetAngle;
+			this._endAngle = _endAngle + _offsetAngle;
 			this._radius = _radius;
+			this._offsetAngle = _offsetAngle;
+			
+			this._style = _style;
+			this._hoverStyle = _hoverStyle;
 			
 			init();
 		}

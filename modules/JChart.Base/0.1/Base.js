@@ -726,6 +726,15 @@ window.JChart = window.JChart || {};
                 typeof _setter != 'undefined' && ( this._coordinate = _setter );
                 return this._coordinate; 
             }
+        , colors:
+            function(){
+                if( !this._colors ){
+                    this._colors = JChart.DefaultOptions.colors;
+                    this.data() && this.data().colors 
+                        && ( this._colors = this.data().colors )
+                }
+                return this._colors;
+            }
         /**
          * 图标的默认样式
          */

@@ -73,8 +73,20 @@
             }
             return _r;
         };
-
+    /**
+     * 当前活动的图表实例
+     * @property    CURRENT_INS
+     * @type        JChart.Histogram
+     * @default     null
+     * @static
+     */
     Histogram.CURRENT_INS = null;
+    /**
+     * 响应图表 鼠标移动的默认函数
+     * @method  DEFAULT_MOVE
+     * @param   {Event} _evt
+     * @static
+     */
     Histogram.DEFAULT_MOVE =
         function( _evt ){
             if( !Histogram.CURRENT_INS ){

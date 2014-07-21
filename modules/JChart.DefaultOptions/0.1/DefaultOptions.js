@@ -1,6 +1,15 @@
 ;(function(define, _win) { 'use strict'; define( [], function(){
+/**
+ * JChart.DefaultOptions 是 JChart 图表库的默认配置, 提供所有图表的默认参数
+ * <p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
+ *   | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Histogram.html' target='_blank'>API docs</a></p>
+ *  
+ * @namespace   JChart
+ * @class       DefaultOptions
+ * @version dev 0.1 2014-06-20
+ * @author  qiushaowei <suches@btbtd.org> | 75 Team
+ */
     window.JChart = window.JChart || {};
-
     JChart.DefaultOptions = 
         {
             "tooltip":

@@ -735,6 +735,13 @@ window.JChart = window.JChart || {};
                 }
                 return this._colors;
             }
+        , itemColor:
+            function( _ix ){
+                var _r = '#000';
+                this.colors() && this.colors().length
+                    && ( _r = this.colors()[ _ix % ( this.colors().length - 1 ) ] );
+                return _r;
+            }
         /**
          * 图标的默认样式
          */

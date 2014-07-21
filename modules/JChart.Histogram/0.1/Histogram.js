@@ -231,8 +231,8 @@
                 !_r.fill && _r.stroke && ( _r.fill = _r.stroke );
 
                 */
-                _r.stroke = '#000';
-                _r.fill= '#000';
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
                 _r[ 'fill-opacity' ] = 1;
 
                 return _r;
@@ -256,8 +256,8 @@
                 _r[ 'fill-opacity' ] = .65;
                 */
 
-                _r.stroke = '#000';
-                _r.fill= '#000';
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
                 _r[ 'fill-opacity' ] = .65;
 
 

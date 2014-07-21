@@ -152,6 +152,7 @@
 
     Histogram.Model._instanceName = 'JChartHistogram';
 
+    /*
     Histogram.Model.STYLE = {
         lineStyle: {
             'stroke': '#999'
@@ -179,6 +180,7 @@
         }
         , radius: 4
     };
+    */
 
     var _oldWorkspaceOffset = Histogram.Model.prototype.workspaceOffset;
 
@@ -266,7 +268,8 @@
 
         , lineStyle:
             function( _ix ){
-                var _r = JC.f.cloneObject( Histogram.Model.STYLE.lineStyle );
+                //var _r = JC.f.cloneObject( Histogram.Model.STYLE.lineStyle );
+                var _r = { stroke: '#999', opacity: .35 };
                 return _r;
             }
 

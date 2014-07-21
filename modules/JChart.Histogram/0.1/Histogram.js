@@ -95,7 +95,7 @@
             }
             var _p = Histogram.CURRENT_INS;
             //JC.log( 'Histogram.DEFAULT_MOVE', _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
-            _p.trigger( 'update_moving_status', [ _evt ] );
+            _p.trigger( Histogram.Model.UPDATE_MOVING_STATUS, [ _evt ] );
         };
 
     JC.BaseMVC.build( Histogram, JChart.Base );
@@ -110,31 +110,31 @@
             function(){
                 var _p = this;
 
-                _p.on( 'update_moving_status', function( _evt, _srcEvt, _srcEle ){
+                _p.on( Histogram.Model.UPDATE_MOVING_STATUS, function( _evt, _srcEvt, _srcEle ){
                     var _offset = _p._model.globalEventToLocalOffset( _srcEvt )
                         , _index = _p._model.indexAt( _offset );
 
-                    _p.trigger( 'clear_status' );
+                    _p.trigger( Histogram.Model.CLEAR_STATUS );
                     if( typeof _index == 'undefined' ) return;
 
-                    _p.trigger( 'update_status', [ _index, _offset  ] );
+                    _p.trigger( Histogram.Model.UPDATE_STATUS, [ _index, _offset  ] );
                 });
 
-                _p.on( 'moving_start', function( _evt ){
-                    _p.trigger( 'clear_status' );
+                _p.on( Histogram.Model.MOVING_START, function( _evt ){
+                    _p.trigger( Histogram.Model.CLEAR_STATUS );
                     _p._model.tips() && _p._model.tips().show();
                 });
 
-                _p.on( 'moving_done', function( _evt ){
-                    _p.trigger( 'clear_status' );
+                _p.on( Histogram.Model.MOVING_DONE, function( _evt ){
+                    _p.trigger( Histogram.Model.CLEAR_STATUS );
                     _p._model.tips() && _p._model.tips().hide();
                 });
 
-                _p.on( 'clear_status', function(){
+                _p.on( Histogram.Model.CLEAR_STATUS, function(){
                     _p._view.clearStatus();
                 });
 
-                _p.on( 'update_status', function( _evt, _index, _offset ){
+                _p.on( Histogram.Model.UPDATE_STATUS, function( _evt, _index, _offset ){
                     if( !_offset ) return;
                     if( typeof _index == 'undefined' ) return;
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
@@ -152,35 +152,11 @@
 
     Histogram.Model._instanceName = 'JChartHistogram';
 
-    /*
-    Histogram.Model.STYLE = {
-        lineStyle: {
-            'stroke': '#999'
-            , 'opacity': '.35'
-        }
-        , style: [
-            { 'stroke': '#09c100', 'stroke-opacity': 0 }
-            , { 'stroke': '#FFBF00', 'stroke-opacity': 0 }
-            , { 'stroke': '#0c76c4', 'stroke-opacity': 0 }
-            , { 'stroke': '#41e2e6', 'stroke-opacity': 0 }
-
-            , { 'stroke': '#ffb2bc', 'stroke-opacity': 0 }
-
-            , { 'stroke': '#dbb8fd', 'stroke-opacity': 0 }
-
-            , { 'stroke': '#ff06b3', 'stroke-opacity': 0 }
-            , { 'stroke': '#ff7100', 'stroke-opacity': 0 }
-            , { 'stroke': '#c3e2a4', 'stroke-opacity': 0 }
-
-            , { 'stroke': '#ff0619', 'stroke-opacity': 0 }
-
-        ]
-        , pathStyle: {
-            'stroke-width': 2
-        }
-        , radius: 4
-    };
-    */
+    Histogram.Model.UPDATE_MOVING_STATUS = 'update_moving_status';
+    Histogram.Model.UPDATE_STATUS = 'update_status';
+    Histogram.Model.MOVING_START = 'moving_start';
+    Histogram.Model.MOVING_DONE = 'moving_done';
+    Histogram.Model.CLEAR_STATUS = 'clear_status';
 
     var _oldWorkspaceOffset = Histogram.Model.prototype.workspaceOffset;
 
@@ -220,19 +196,6 @@
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    /*
-                    , _len = Histogram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
-
-                _p.data().series[ _ix ].style
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
-
-                !_r.fill && _r.stroke && ( _r.fill = _r.stroke );
-
-                */
                 _r.stroke = _p.itemColor( _ix );
                 _r.fill = _p.itemColor( _ix );
                 _r[ 'fill-opacity' ] = 1;
@@ -243,32 +206,16 @@
         , itemHoverStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    /*
-                    , _len = Histogram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
-
-                _p.data().series[ _ix ].style
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
-
-                _p.data().series[ _ix ].hoverStyle
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
-
-                _r[ 'fill-opacity' ] = .65;
-                */
 
                 _r.stroke = _p.itemColor( _ix );
                 _r.fill = _p.itemColor( _ix );
                 _r[ 'fill-opacity' ] = .65;
-
 
                 return _r;
             }
 
         , lineStyle:
             function( _ix ){
-                //var _r = JC.f.cloneObject( Histogram.Model.STYLE.lineStyle );
                 var _r = { stroke: '#999', opacity: .35 };
                 return _r;
             }
@@ -293,9 +240,6 @@
                 _partWidth = _c.wsWidth / _itemLen;
                 _partWhat = Math.floor( _realX / _partWidth  );
                 _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
-
-                //JC.log( _partWhat, _realX, _realY, JC.f.ts() );
-                //JC.log( _partWhat );
 
                 return _partWhat;
             }
@@ -664,12 +608,12 @@
                     //JC.log( 'mouseenter', JC.f.ts() );
                     _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
                     _jdoc.on( 'mousemove', Histogram.DEFAULT_MOVE );
-                    _p.trigger( 'moving_start' );
+                    _p.trigger( Histogram.Model.MOVING_START );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
                     //JC.log( 'mouseleave', JC.f.ts() );
-                    _p.trigger( 'moving_done' );
+                    _p.trigger( Histogram.Model.MOVING_DONE );
                     _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
                     Histogram.CURRENT_INS = null;
                 });

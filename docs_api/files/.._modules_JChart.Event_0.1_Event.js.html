@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../config.js - JChart</title>
+    <title>../modules/JChart.Event/0.1/Event.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -132,62 +132,105 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../config.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.Event/0.1/Event.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(){
-window.JC = window.JC|| {log:function(){}};
-JC.PATH = JC.PATH || scriptPath();
-/**
- * requirejs config.js for JC Chart Project
- */
-window.requirejs &amp;&amp; 
-requirejs.config( {
-    baseUrl: JC.PATH
-    , urlArgs: &#x27;v=20140212&amp;nocache=&#x27; + new Date().getTime()
-    , paths: {
-        &#x27;JC.common&#x27;: &#x27;modules/JC.common/0.2/common&#x27;
-        , &#x27;JC.BaseMVC&#x27;: &#x27;modules/JC.BaseMVC/0.1/BaseMVC&#x27;
-        , &#x27;JC.PureMVC&#x27;: &#x27;modules/JC.PureMVC/0.1/PureMVC&#x27;
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;Raphael&#x27;, &#x27;JChart.Geometry&#x27;, &#x27;JChart.common&#x27; ], function(){
+    /**
+     * 扩展 RaphaelJS 的基础事件
+     * &lt;p&gt;&lt;b&gt;require&lt;/b&gt;: 
+     *      &lt;a href=&#x27;Raphael&#x27;&gt;Raphael&lt;/a&gt;
+     *      , &lt;a href=&#x27;JChart.Geometry&#x27;&gt;JChart.Geometry.html&lt;/a&gt;
+     *      , &lt;a href=&#x27;JChart.common&#x27;&gt;JChart.common.html&lt;/a&gt;
+     * &lt;/p&gt;
+     * &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
+     * | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.Event.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+     * @version dev 0.1 2014-07-21
+     * @author  qiushaowei   &lt;suches@btbtd.org&gt; | 75 Team
+     */
+    Raphael.el.mouseenter =
+        function( _handler ){
+            var _p = this, _bbox, _doc = $( document ), _win = $( window ), _rect;
+            if( !_p.paper.selector ) return;
 
-        , &#x27;JChart.common&#x27;: &#x27;modules/JChart.common/0.1/common&#x27;
-        , &#x27;JChart.Base&#x27;: &#x27;modules/JChart.Base/0.1/Base&#x27;
+            _p.mouseover( function( _evt ){
+                if( _p.IS_ENTER ) return;
+                var _offset;
+                _handler &amp;&amp; _handler.call( _p, _evt );
+                _bbox = JChart.f.getBBox( _p );
+                _p.IS_ENTER = true;
+                _offset = $( _p.paper.selector ).offset();
+                _offset.x = _offset.left;
+                _offset.y = _offset.top;
+                _rect = {
+                    x: Math.floor( _offset.x + _bbox.x )
+                    , x2: Math.floor( _offset.x + _bbox.x2 )
+                    , y: Math.floor( _offset.y + _bbox.y )
+                    , y2: Math.floor( _offset.y + _bbox.y2 )
+                };
+                _win.on( &#x27;mousemove&#x27;, _innerMousemove );
+            });
 
-        , &#x27;JChart.CurveGram&#x27;: &#x27;modules/JChart.CurveGram/0.1/CurveGram&#x27;
-        , &#x27;JChart.Histogram&#x27;: &#x27;modules/JChart.Histogram/0.1/Histogram&#x27;
-        , &#x27;JChart.PieGraph&#x27;: &#x27;modules/JChart.PieGraph/0.1/PieGraph&#x27;
+            function _innerMousemove( _evt ){
+                if( !_bbox ) return;
+                var _offset = { x: Math.floor( _evt.pageX ), y : Math.floor( _evt.pageY ) };
+                if( JChart.Geometry.pointRectangleIntersection( _offset, _rect ) ){
+                }else{
+                    _bbox = null;
+                    _p.IS_ENTER = false;
+                    _win.off( &#x27;mousemove&#x27;, _innerMousemove );
+                }
+            }
+        };
 
-        , &#x27;JChart.DefaultOptions&#x27;: &#x27;modules/JChart.DefaultOptions/0.1/DefaultOptions&#x27;
-        , &#x27;JChart.Event&#x27;: &#x27;modules/JChart.Event/0.1/Event&#x27;
-        , &#x27;JChart.Geometry&#x27;: &#x27;modules/JChart.Geometry/0.1/Geometry&#x27;
-        , &#x27;JChart.Group&#x27;: &#x27;modules/JChart.Group/0.1/Group&#x27;
+    Raphael.el.mouseleave =
+        function( _handler ){
+            var _p = this, _bbox, _doc = $( document ), _win = $( window ), _rect;
+            if( !_p.paper.selector ) return;
 
-        , &#x27;JChart.GraphicBase&#x27;: &#x27;modules/JChart.GraphicBase//0.1/GraphicBase&#x27;
-        , &#x27;JChart.GraphicPoint&#x27;: &#x27;modules/JChart.GraphicPoint/0.1/GraphicPoint&#x27;
-        , &#x27;JChart.GraphicRect&#x27;: &#x27;modules/JChart.GraphicRect/0.1/GraphicRect&#x27;
-        , &#x27;JChart.GraphicPiePart&#x27;: &#x27;modules/JChart.GraphicPiePart/0.1/GraphicPiePart&#x27;
+            _p.mouseover( function( _evt ){
+                if( _p.IS_LEAVE ) return;
+                var _offset;
+                _bbox = JChart.f.getBBox( _p );
+                _p.IS_ENTER = true;
+                _p.IS_LEAVE = true;
+                _offset = $( _p.paper.selector ).offset();
+                _offset.x = _offset.left;
+                _offset.y = _offset.top;
+                _rect = {
+                    x: Math.floor( _offset.x + _bbox.x )
+                    , x2: Math.floor( _offset.x + _bbox.x2 )
+                    , y: Math.floor( _offset.y + _bbox.y )
+                    , y2: Math.floor( _offset.y + _bbox.y2 )
+                };
+                _win.on( &#x27;mouseout&#x27;, _innerMousemove );
+            });
 
-        , &#x27;JChart.IconVLine&#x27;: &#x27;modules/JChart.IconVLine/0.1/IconVLine&#x27;
-        , &#x27;JChart.IconLine&#x27;: &#x27;modules/JChart.IconLine/0.1/IconLine&#x27;
-        , &#x27;JChart.IconRect&#x27;: &#x27;modules/JChart.IconRect/0.1/IconRect&#x27;
+            function _innerMousemove( _evt ){
+                if( !_bbox ) return;
+                //JC.f.safeTimeout( function(){
+                    var _offset = { x: Math.floor( _evt.pageX ), y : Math.floor( _evt.pageY ) };
+                    if( JChart.Geometry.pointRectangleIntersection( _offset, _rect ) ){
+                    }else{
+                        _bbox = null;
+                        _p.IS_LEAVE = false;
+                        _handler &amp;&amp; _handler.call( _p, _evt );
+                        _win.off( &#x27;mouseout&#x27;, _innerMousemove );
+                    }
+                //}, _p, &#x27;asdfaweasdfawsef_leave&#x27;, 200 );
+            }
+        };
 
-        , &#x27;Raphael&#x27;: &#x27;modules/Raphael/latest/raphael&#x27;
-        , &#x27;json2&#x27;: &#x27;modules/JSON/2/JSON&#x27;
-    }
-});
-/**
- * 取当前脚本标签的 src路径 
- * @static
- * @return  {string} 脚本所在目录的完整路径
- */
-function scriptPath(){
-    var _sc = document.getElementsByTagName(&#x27;script&#x27;), _sc = _sc[ _sc.length - 1 ], _path = _sc.getAttribute(&#x27;src&#x27;);
-    if( /\//.test( _path ) ){ _path = _path.split(&#x27;/&#x27;); _path.pop(); _path = _path.join(&#x27;/&#x27;) + &#x27;/&#x27;; }
-    else if( /\\/.test( _path ) ){ _path = _path.split(&#x27;\\&#x27;); _path.pop(); _path = _path.join(&#x27;\\&#x27;) + &#x27;/&#x27;; }
-    return _path;
-}
-}());
+});}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
+        function ( _name, _require, _cb ) { 
+            typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );
+            typeof _require == &#x27;function&#x27; &amp;&amp; ( _cb = _require ); 
+            _cb &amp;&amp; _cb(); 
+        }
+        , window
+    )
+);
 
     </pre>
 </div>

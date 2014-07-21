@@ -67,6 +67,8 @@
             
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
             
+                <li><a href="../classes/JChart.Geometry.html">JChart.Geometry</a></li>
+            
                 <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
             
                 <li><a href="../classes/JChart.GraphicPiePart.html">JChart.GraphicPiePart</a></li>
@@ -86,6 +88,8 @@
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
+            
+                <li><a href="../classes/window.Raphael.html">window.Raphael</a></li>
             
                 <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
             
@@ -224,9 +228,21 @@
          * 使用 jquery trigger 触发绑定事件
          * @method  {string}    trigger
          * @param   {string}    _evtName
+         * @param   {*|Array}   _args      
          * @return  PureMVCInstance
          */
         , trigger: function( _evtName, _data ){ $(this).trigger( _evtName, _data ); return this;}
+        /**
+         * 通知选择器有新事件
+         * &lt;br /&gt;JC 组件以后不会在 HTML 属性里放回调, 改为触发 selector 的事件
+         * @method  notification
+         * @param   {string}    _evtName
+         * @param   {*|Array}   _args      
+         */
+        , notification:
+            function( _evtName, _args ){
+                this._model.notification( _evtName, _args );
+            }
     }
     /**
      * 复制 PureMVC 的所有方法到 _outClass
@@ -347,13 +363,25 @@
          * 使用 jquery trigger 触发 controler 绑定事件
          * @method  {string}    trigger
          * @param   {string}    _evtName
+         * @param   {*|Array}   _args      
          */
         , trigger:
             function( _evtName, _args ){
                 _args = _args || [];
+                !jQuery.isArray( _args ) &amp;&amp; ( _args = [ _args ] );
                 _args.unshift( _evtName );
                 $( this ).trigger( &#x27;TriggerEvent&#x27;, _args );
                 return this;
+            }
+        /**
+         * 通知选择器有新事件
+         * @method  notification
+         * @param   {string}    _evtName
+         * @param   {*|Array}   _args      
+         */
+        , notification:
+            function( _evtName, _args ){
+                this.trigger( _evtName, _args );
             }
     });
     
@@ -376,9 +404,14 @@
         , trigger:
             function( _evtName, _args ){
                 _args = _args || [];
+                !jQuery.isArray( _args ) &amp;&amp; ( _args = [ _args ] );
                 _args.unshift( _evtName );
                 $( this ).trigger( &#x27;TriggerEvent&#x27;, _args );
                 return this;
+            }
+        , notification:
+            function( _evtName, _args ){
+                this._model.notification( _evtName, _args );
             }
     });
 

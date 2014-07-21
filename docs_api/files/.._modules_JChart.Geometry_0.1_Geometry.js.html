@@ -67,6 +67,8 @@
             
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
             
+                <li><a href="../classes/JChart.Geometry.html">JChart.Geometry</a></li>
+            
                 <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
             
                 <li><a href="../classes/JChart.GraphicPiePart.html">JChart.GraphicPiePart</a></li>
@@ -86,6 +88,8 @@
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
+            
+                <li><a href="../classes/window.Raphael.html">window.Raphael</a></li>
             
                 <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
             
@@ -134,14 +138,35 @@
     <pre class="code prettyprint linenums">
 ;(function(define, _win) { &#x27;use strict&#x27;; define( [], function(){
     window.JChart = window.JChart || {};
-
+    /**
+     * JChart.Geometry 提供一些实用的几何算法
+     * &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
+     * | &lt;a href=&#x27;http://raphaeljs.com/reference.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+     * @namespace   JChart
+     * @class       Geometry
+     * @version dev 0.1 2014-07-21
+     * @author  qiushaowei   &lt;suches@btbtd.org&gt; | 75 Team
+     */
     JChart.Geometry = {
+        /**
+         * 判断一个点是否在矩形里面
+         * @method  pointRectangleIntersection
+         * @param   {point} _p
+         * @param   {rect}  _r
+         * @return  Boolean
+         * @static
+         */
         pointRectangleIntersection:
             function(p, r) {
                 return p.x &gt;= r.x &amp;&amp; p.x &lt;= r.x2 &amp;&amp; p.y &gt;= r.y &amp;&amp; p.y &lt;= r.y2;
             }
         /**
          * 计算两个坐标点之间的距离
+         * @method pointDistance
+         * @param   {point} _p1
+         * @param   {point} _p2
+         * @return  Boolean
+         * @static
          */
         , pointDistance: function( _p1, _p2 ){
             var _dx = _p2.x - _p1.x
@@ -152,6 +177,11 @@
         }
         /**
          * 从长度和角度求坐标点
+         * @method  distanceAngleToPoint
+         * @param  {Number} _distance
+         * @param  {Number} _angle
+         * @return Point
+         * @static
          */
         , distanceAngleToPoint: function( _distance, _angle){
             var _radian = _angle * Math.PI / 180;					
@@ -160,6 +190,22 @@
                 , y: ( Math.sin( _radian ) * _distance )
             }
         }
+        /**
+         * 从角度获取弧度
+         * @method  radians
+         * @param   {Number} _angle
+         * @return  {Number}
+         * @static
+         */
+        , radians: function( _angle ){ return _angle * Math.PI / 180; }
+        /**
+         * 从弧度获取角度
+         * @method  degree
+         * @param   {Number} _radians
+         * @return  {Number}
+         * @static
+         */
+        , degree: function( _radians ){ return _radians / Math.PI * 180; }
     };
 
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 

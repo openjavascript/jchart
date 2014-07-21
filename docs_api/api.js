@@ -8,6 +8,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "JC.f",
         "JChart.Base",
         "JChart.CurveGram",
+        "JChart.Geometry",
         "JChart.GraphicBase",
         "JChart.GraphicPiePart",
         "JChart.GraphicPoint",
@@ -19,6 +20,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "JChart.PieGraph",
         "JChart.common",
         "JChart.f",
+        "window.Raphael",
         "window.jQuery",
         "window.requirejs"
     ],

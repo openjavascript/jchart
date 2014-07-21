@@ -63,12 +63,23 @@
                 "JChart": 1
             }
         },
-        "../modules/JChart.Geometry/0.1/Geometry.js": {
-            "name": "../modules/JChart.Geometry/0.1/Geometry.js",
+        "../modules/JChart.Event/0.1/Event.js": {
+            "name": "../modules/JChart.Event/0.1/Event.js",
             "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
+        },
+        "../modules/JChart.Geometry/0.1/Geometry.js": {
+            "name": "../modules/JChart.Geometry/0.1/Geometry.js",
+            "modules": {},
+            "classes": {
+                "JChart.Geometry": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "JChart": 1
+            }
         },
         "../modules/JChart.GraphicBase/0.1/GraphicBase.js": {
             "name": "../modules/JChart.GraphicBase/0.1/GraphicBase.js",
@@ -179,6 +190,17 @@
             "fors": {},
             "namespaces": {}
         },
+        "../modules/Raphael/2.1.2/Raphael.js": {
+            "name": "../modules/Raphael/2.1.2/Raphael.js",
+            "modules": {},
+            "classes": {
+                "window.Raphael": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "window": 1
+            }
+        },
         "../config.js": {
             "name": "../config.js",
             "modules": {},
@@ -234,7 +256,7 @@
             "extension_for": [],
             "namespace": "JC",
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 215,
+            "line": 227,
             "description": "MVC Model 类( <b>仅供扩展用</b> )\n<br />这个类默认已经包含在lib.js里面, 不需要显式引用\n<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n| <a href='http://jc2.openjavascript.org/docs_api/classes/JC.BaseMVC.Model.html' target='_blank'>API docs</a>\n| <a href='../../modules/JC.BaseMVC/0.1/_demo' target='_blank'>demo link</a></p>\n<p><b>see also</b>: <a href='JC.BaseMVC.html'>JC.BaseMVC</a></p>",
             "is_constructor": 1,
             "params": [
@@ -280,7 +302,7 @@
             "extension_for": [],
             "namespace": "JC",
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
-            "line": 172,
+            "line": 184,
             "description": "MVC Model 类( <b>仅供扩展用</b> )\n<br />这个类默认已经包含在lib.js里面, 不需要显式引用\n<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n| <a href='http://jc2.openjavascript.org/docs_api/classes/JC.PureMVC.Model.html' target='_blank'>API docs</a>\n| <a href='../../modules/JC.PureMVC/0.1/_demo' target='_blank'>demo link</a></p>\n<p><b>see also</b>: <a href='JC.PureMVC.html'>JC.PureMVC</a></p>",
             "is_constructor": 1,
             "params": [
@@ -376,6 +398,21 @@
             "example": [
                 "\n       <h2>JChart.CurveGram 示例</h2>"
             ]
+        },
+        "JChart.Geometry": {
+            "name": "JChart.Geometry",
+            "shortname": "JChart.Geometry",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JChart",
+            "file": "../modules/JChart.Geometry/0.1/Geometry.js",
+            "line": 3,
+            "description": "JChart.Geometry 提供一些实用的几何算法\n<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n| <a href='http://raphaeljs.com/reference.html' target='_blank'>API docs</a>",
+            "version": "dev 0.1 2014-07-21",
+            "author": "qiushaowei   <suches@btbtd.org> | 75 Team"
         },
         "JChart.GraphicBase": {
             "name": "JChart.GraphicBase",
@@ -496,7 +533,7 @@
             "namespace": "JChart",
             "file": "../modules/JChart.Histogram/0.1/Histogram.js",
             "line": 2,
-            "description": "柱状图\n\n<p><b>require</b>:\n  <a href='JChart.Base.html'>JChart.Base</a>\n</p>\n\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Histogram.html' target='_blank'>API docs</a>\n  | <a href='../../modules/JChart.Histogram/0.1/_demo' target='_blank'>demo link</a></p>\n \n<h2>页面只要引用本脚本, 默认会处理 span class=\"jchartHistogram\"</h2>\n\n<h2>可用的 HTML attribute</h2>\n\n<dl>\n   <dt></dt>\n   <dd><dd>\n</dl>",
+            "description": "柱状图\n\n<p><b>require</b>:\n  <a href='JChart.Base.html'>JChart.Base</a>\n</p>\n\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Histogram.html' target='_blank'>API docs</a>\n  | <a href='../../modules/JChart.Histogram/0.1/_demo' target='_blank'>demo link</a></p>\n \n<h2>页面只要引用本脚本, 默认会处理 span class=\"jchartHistogram\"</h2>\n\n<h2>可用的 HTML attribute</h2>\n\n<dl>\n   <dt>chartScriptData = script selector</dt>\n   <dd>保存图表数据的脚本标签</dd>\n\n   <dt>chartWidth = int, default = auto</dt>\n   <dd>显式设置图表的宽度, 如果为空则为自适应宽度</dd>\n\n   <dt>chartWidth = int, default = 400</dt>\n   <dd>设置图表的宽度</dd>\n</dl>",
             "extends": "JChart.Base",
             "is_constructor": 1,
             "params": [
@@ -644,6 +681,20 @@
             "version": "2014-07-02",
             "author": "qiushaowei   <suches@btbtd.org> | 360 75 Team"
         },
+        "window.Raphael": {
+            "name": "window.Raphael",
+            "shortname": "window.Raphael",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "window",
+            "file": "../modules/Raphael/2.1.2/Raphael.js",
+            "line": 1,
+            "description": "Raphaël 2.1.2 - JavaScript Vector Library \n<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n| <a href='http://raphaeljs.com/reference.html' target='_blank'>API docs</a>\n| <a href='http://raphaeljs.com/' target='_blank'>demo</a>",
+            "version": "2.1.2"
+        },
         "window.requirejs": {
             "name": "window.requirejs",
             "shortname": "window.requirejs",
@@ -774,6 +825,11 @@
                     "name": "_evtName",
                     "description": "",
                     "type": "String"
+                },
+                {
+                    "name": "_args",
+                    "description": "",
+                    "type": "*|Array"
                 }
             ],
             "return": {
@@ -785,6 +841,27 @@
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
             "line": 107,
+            "description": "通知选择器有新事件\n<br />JC 组件以后不会在 HTML 属性里放回调, 改为触发 selector 的事件",
+            "itemtype": "method",
+            "name": "notification",
+            "params": [
+                {
+                    "name": "_evtName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "_args",
+                    "description": "",
+                    "type": "*|Array"
+                }
+            ],
+            "class": "JC.BaseMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
+            "line": 119,
             "description": "获取或设置组件实例",
             "itemtype": "method",
             "name": "getInstance",
@@ -815,7 +892,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 132,
+            "line": 144,
             "description": "是否自动初始化",
             "itemtype": "property",
             "name": "autoInit",
@@ -827,7 +904,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 140,
+            "line": 152,
             "description": "复制 BaseMVC 的所有方法到 _outClass",
             "itemtype": "method",
             "name": "build",
@@ -844,7 +921,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 158,
+            "line": 170,
             "description": "复制 _inClass 的所有方法到 _outClass",
             "itemtype": "method",
             "name": "buildClass",
@@ -866,7 +943,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 187,
+            "line": 199,
             "description": "为 _outClass 生成一个通用 Model 类",
             "itemtype": "method",
             "name": "buildModel",
@@ -883,7 +960,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 200,
+            "line": 212,
             "description": "为 _outClass 生成一个通用 View 类",
             "itemtype": "method",
             "name": "buildView",
@@ -900,14 +977,14 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 210,
+            "line": 222,
             "description": "初始化 BaseMVC Model 类 和 View 类",
             "class": "JC.BaseMVC",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 230,
+            "line": 242,
             "description": "设置 selector 实例引用的 data 属性名",
             "itemtype": "property",
             "name": "_instanceName",
@@ -921,7 +998,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 244,
+            "line": 256,
             "description": "使用 jquery on 为 controler 绑定事件",
             "itemtype": "method",
             "name": "on",
@@ -943,7 +1020,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 255,
+            "line": 267,
             "description": "使用 jquery trigger 触发 controler 绑定事件",
             "itemtype": "method",
             "name": "trigger",
@@ -953,6 +1030,11 @@
                     "name": "_evtName",
                     "description": "",
                     "type": "String"
+                },
+                {
+                    "name": "_args",
+                    "description": "",
+                    "type": "*|Array"
                 }
             ],
             "class": "JC.BaseMVC.Model",
@@ -960,7 +1042,28 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 267,
+            "line": 281,
+            "description": "通知选择器有新事件",
+            "itemtype": "method",
+            "name": "notification",
+            "params": [
+                {
+                    "name": "_evtName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "_args",
+                    "description": "",
+                    "type": "*|Array"
+                }
+            ],
+            "class": "JC.BaseMVC.Model",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
+            "line": 293,
             "description": "初始化的 jq 选择器",
             "itemtype": "method",
             "name": "selector",
@@ -979,7 +1082,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 278,
+            "line": 304,
             "description": "读取 int 属性的值",
             "itemtype": "method",
             "name": "intProp",
@@ -1003,7 +1106,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 299,
+            "line": 325,
             "description": "读取 float 属性的值",
             "itemtype": "method",
             "name": "floatProp",
@@ -1027,7 +1130,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 320,
+            "line": 346,
             "description": "读取 string 属性的值",
             "itemtype": "method",
             "name": "stringProp",
@@ -1051,7 +1154,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 338,
+            "line": 364,
             "description": "读取 html 属性值\n<br />这个跟 stringProp 的区别是不会强制转换为小写",
             "itemtype": "method",
             "name": "attrProp",
@@ -1075,7 +1178,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 361,
+            "line": 387,
             "description": "读取 boolean 属性的值",
             "itemtype": "method",
             "name": "boolProp",
@@ -1105,7 +1208,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 387,
+            "line": 413,
             "description": "读取 callback 属性的值",
             "itemtype": "method",
             "name": "callbackProp",
@@ -1130,7 +1233,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 410,
+            "line": 436,
             "description": "获取与属性名匹配的 window 变量",
             "itemtype": "method",
             "name": "windowProp",
@@ -1155,7 +1258,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 421,
+            "line": 447,
             "description": "获取 selector 属性的 jquery 选择器",
             "itemtype": "method",
             "name": "selectorProp",
@@ -1179,7 +1282,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 444,
+            "line": 470,
             "description": "获取 脚本模板 jquery 选择器",
             "itemtype": "method",
             "name": "scriptTplProp",
@@ -1203,7 +1306,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 469,
+            "line": 495,
             "description": "获取 selector 属性的 json 数据",
             "itemtype": "method",
             "name": "jsonProp",
@@ -1228,7 +1331,7 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 493,
+            "line": 519,
             "description": "判断 _selector 是否具体某种特征",
             "itemtype": "method",
             "name": "is",
@@ -1252,14 +1355,14 @@
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 522,
+            "line": 548,
             "description": "使用 jquery on 为 controler 绑定事件",
             "class": "JC.BaseMVC.Model",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.BaseMVC/0.1/BaseMVC.js",
-            "line": 530,
+            "line": 556,
             "description": "使用 jquery trigger 触发 controler 绑定事件",
             "class": "JC.BaseMVC.Model",
             "namespace": "JC"
@@ -1352,6 +1455,11 @@
                     "name": "_evtName",
                     "description": "",
                     "type": "String"
+                },
+                {
+                    "name": "_args",
+                    "description": "",
+                    "type": "*|Array"
                 }
             ],
             "return": {
@@ -1363,6 +1471,27 @@
         {
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
             "line": 97,
+            "description": "通知选择器有新事件\n<br />JC 组件以后不会在 HTML 属性里放回调, 改为触发 selector 的事件",
+            "itemtype": "method",
+            "name": "notification",
+            "params": [
+                {
+                    "name": "_evtName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "_args",
+                    "description": "",
+                    "type": "*|Array"
+                }
+            ],
+            "class": "JC.PureMVC",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 109,
             "description": "复制 PureMVC 的所有方法到 _outClass",
             "itemtype": "method",
             "name": "build",
@@ -1379,7 +1508,7 @@
         },
         {
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
-            "line": 115,
+            "line": 127,
             "description": "复制 _inClass 的所有方法到 _outClass",
             "itemtype": "method",
             "name": "buildClass",
@@ -1401,7 +1530,7 @@
         },
         {
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
-            "line": 144,
+            "line": 156,
             "description": "为 _outClass 生成一个通用 Model 类",
             "itemtype": "method",
             "name": "buildModel",
@@ -1418,7 +1547,7 @@
         },
         {
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
-            "line": 157,
+            "line": 169,
             "description": "为 _outClass 生成一个通用 View 类",
             "itemtype": "method",
             "name": "buildView",
@@ -1435,14 +1564,14 @@
         },
         {
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
-            "line": 167,
+            "line": 179,
             "description": "初始化 PureMVC Model 类 和 View 类",
             "class": "JC.PureMVC",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
-            "line": 187,
+            "line": 199,
             "description": "设置 selector 实例引用的 data 属性名",
             "itemtype": "property",
             "name": "_instanceName",
@@ -1456,7 +1585,7 @@
         },
         {
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
-            "line": 201,
+            "line": 213,
             "description": "使用 jquery on 为 controler 绑定事件",
             "itemtype": "method",
             "name": "on",
@@ -1478,7 +1607,7 @@
         },
         {
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
-            "line": 212,
+            "line": 224,
             "description": "使用 jquery trigger 触发 controler 绑定事件",
             "itemtype": "method",
             "name": "trigger",
@@ -1488,6 +1617,11 @@
                     "name": "_evtName",
                     "description": "",
                     "type": "String"
+                },
+                {
+                    "name": "_args",
+                    "description": "",
+                    "type": "*|Array"
                 }
             ],
             "class": "JC.PureMVC.Model",
@@ -1495,14 +1629,35 @@
         },
         {
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
-            "line": 231,
+            "line": 238,
+            "description": "通知选择器有新事件",
+            "itemtype": "method",
+            "name": "notification",
+            "params": [
+                {
+                    "name": "_evtName",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "_args",
+                    "description": "",
+                    "type": "*|Array"
+                }
+            ],
+            "class": "JC.PureMVC.Model",
+            "namespace": "JC"
+        },
+        {
+            "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
+            "line": 255,
             "description": "使用 jquery on 为 controler 绑定事件",
             "class": "JC.PureMVC.Model",
             "namespace": "JC"
         },
         {
             "file": "../modules/JC.PureMVC/0.1/PureMVC.js",
-            "line": 239,
+            "line": 263,
             "description": "使用 jquery trigger 触发 controler 绑定事件",
             "class": "JC.PureMVC.Model",
             "namespace": "JC"
@@ -2894,7 +3049,7 @@
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 124,
+            "line": 125,
             "description": "更新数据",
             "itemtype": "method",
             "name": "update",
@@ -2909,384 +3064,384 @@
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 148,
+            "line": 149,
             "description": "图表宽度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 159,
+            "line": 160,
             "description": "图表高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 171,
+            "line": 172,
             "description": "图表实时宽度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 180,
+            "line": 181,
             "description": "图表实时高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 189,
+            "line": 190,
             "description": "设置或保存图表的宽高",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 197,
+            "line": 198,
             "description": "图表画布",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 210,
+            "line": 211,
             "description": "画布圆角弧度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 214,
+            "line": 215,
             "description": "清除图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 231,
+            "line": 232,
             "description": "清除图表状态",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 237,
+            "line": 238,
             "description": "图表背景",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 255,
+            "line": 256,
             "description": "图表数据背景",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 266,
+            "line": 267,
             "description": "保存图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 274,
+            "line": 275,
             "description": "数据图例图标",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 342,
+            "line": 343,
             "description": "图表标题",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 355,
+            "line": 356,
             "description": "图表子标题",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 367,
+            "line": 368,
             "description": "图表垂直标题",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 380,
+            "line": 381,
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 400,
+            "line": 401,
             "description": "图表数据种类的长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 411,
+            "line": 412,
             "description": "图表数据的长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 425,
+            "line": 426,
             "description": "图表粒度的长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 439,
+            "line": 440,
             "description": "最大的数值",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 468,
+            "line": 469,
             "description": "最小的负数值",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 494,
+            "line": 495,
             "description": "垂直粒度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 528,
+            "line": 529,
             "description": "垂直粒度的具体信息",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 566,
+            "line": 567,
             "description": "垂直标签",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 592,
+            "line": 593,
             "description": "水平标签",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 614,
+            "line": 615,
             "description": "获取要显示的水平标签索引位置\n如果返回 undefined, 将显示全部",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 638,
+            "line": 639,
             "description": "垂直背景线的突出长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 642,
+            "line": 643,
             "description": "水平背景线的突出长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 646,
+            "line": 647,
             "description": "获取垂直 label 的最大宽度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 660,
+            "line": 661,
             "description": "获取水平 label 的最大宽度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 674,
+            "line": 675,
             "description": "垂直的背景线",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 705,
+            "line": 706,
             "description": "水平的背景线",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 720,
+            "line": 721,
             "description": "计算所有显示内容的坐标",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 728,
+            "line": 729,
             "description": "图标的默认样式",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 736,
+            "line": 737,
             "description": "图标的默认 hover 样式",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 744,
+            "line": 745,
             "description": "背景线的样式",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 752,
+            "line": 753,
             "description": "通过坐标点计算当前在那个数据范围",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 759,
+            "line": 760,
             "description": "获取 tips 对象",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 838,
+            "line": 839,
             "description": "获取 tips 标题文本",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 855,
+            "line": 856,
             "description": "显示数值时 浮点数 的长度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 866,
+            "line": 867,
             "description": "把全局事件对象转换为局部坐标点",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 876,
+            "line": 877,
             "description": "设置或者获取上一次的数据对象",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 884,
+            "line": 885,
             "description": "是否显示图例说明",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 897,
+            "line": 898,
             "description": "是否显示图例说明",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 910,
+            "line": 911,
             "description": "是否显示所有内容标签",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 930,
+            "line": 931,
             "description": "图表高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 934,
+            "line": 935,
             "description": "图表高度",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 938,
+            "line": 939,
             "description": "图表画布",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 942,
+            "line": 943,
             "description": "初始化的选择器",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 949,
+            "line": 950,
             "description": "清除图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 959,
+            "line": 960,
             "description": "清除图表状态",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 965,
+            "line": 966,
             "description": "更新图表数据",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 975,
+            "line": 976,
             "description": "渲染图表外观",
             "class": "JChart.Base",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Base/0.1/Base.js",
-            "line": 981,
+            "line": 982,
             "description": "显示静态外观",
             "class": "JChart.Base",
             "namespace": "JChart"
@@ -3313,22 +3468,134 @@
             "namespace": "JChart"
         },
         {
-            "file": "../modules/JChart.Geometry/0.1/Geometry.js",
-            "line": 9,
-            "description": "计算两个坐标点之间的距离",
-            "class": "JChart.GraphicBase",
+            "file": "../modules/JChart.Event/0.1/Event.js",
+            "line": 2,
+            "description": "扩展 RaphaelJS 的基础事件\n<p><b>require</b>: \n     <a href='Raphael'>Raphael</a>\n     , <a href='JChart.Geometry'>JChart.Geometry.html</a>\n     , <a href='JChart.common'>JChart.common.html</a>\n</p>\n<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n| <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Event.html' target='_blank'>API docs</a>",
+            "version": "dev 0.1 2014-07-21",
+            "author": "qiushaowei   <suches@btbtd.org> | 75 Team",
+            "class": "JChart.Geometry",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Geometry/0.1/Geometry.js",
-            "line": 19,
+            "line": 13,
+            "description": "判断一个点是否在矩形里面",
+            "itemtype": "method",
+            "name": "pointRectangleIntersection",
+            "params": [
+                {
+                    "name": "_p",
+                    "description": "",
+                    "type": "Point"
+                },
+                {
+                    "name": "_r",
+                    "description": "",
+                    "type": "Rect"
+                }
+            ],
+            "return": {
+                "description": "Boolean"
+            },
+            "static": 1,
+            "class": "JChart.Geometry",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Geometry/0.1/Geometry.js",
+            "line": 25,
+            "description": "计算两个坐标点之间的距离",
+            "itemtype": "method",
+            "name": "pointDistance",
+            "params": [
+                {
+                    "name": "_p1",
+                    "description": "",
+                    "type": "Point"
+                },
+                {
+                    "name": "_p2",
+                    "description": "",
+                    "type": "Point"
+                }
+            ],
+            "return": {
+                "description": "Boolean"
+            },
+            "static": 1,
+            "class": "JChart.Geometry",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Geometry/0.1/Geometry.js",
+            "line": 40,
             "description": "从长度和角度求坐标点",
-            "class": "JChart.GraphicBase",
+            "itemtype": "method",
+            "name": "distanceAngleToPoint",
+            "params": [
+                {
+                    "name": "_distance",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "_angle",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "Point"
+            },
+            "static": 1,
+            "class": "JChart.Geometry",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Geometry/0.1/Geometry.js",
+            "line": 55,
+            "description": "从角度获取弧度",
+            "itemtype": "method",
+            "name": "radians",
+            "params": [
+                {
+                    "name": "_angle",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "class": "JChart.Geometry",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.Geometry/0.1/Geometry.js",
+            "line": 63,
+            "description": "从弧度获取角度",
+            "itemtype": "method",
+            "name": "degree",
+            "params": [
+                {
+                    "name": "_radians",
+                    "description": "",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "static": 1,
+            "class": "JChart.Geometry",
             "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.Histogram/0.1/Histogram.js",
-            "line": 49,
+            "line": 55,
             "description": "初始化可识别的 Histogram 实例",
             "itemtype": "method",
             "name": "init",
@@ -3429,7 +3696,7 @@
             "line": 4,
             "description": "requirejs config.js for JC Chart Project",
             "class": "window.requirejs",
-            "namespace": "JChart"
+            "namespace": "window"
         },
         {
             "file": "../config.js",
@@ -3441,7 +3708,7 @@
                 "type": "String"
             },
             "class": "window.requirejs",
-            "namespace": "JChart"
+            "namespace": "window"
         },
         {
             "file": "../lib.js",
@@ -3803,7 +4070,7 @@
         },
         {
             "message": "unknown tag: version",
-            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:215"
+            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:227"
         },
         {
             "message": "unknown tag: version",
@@ -3811,7 +4078,7 @@
         },
         {
             "message": "unknown tag: version",
-            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:172"
+            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:184"
         },
         {
             "message": "unknown tag: version",
@@ -3836,6 +4103,14 @@
         {
             "message": "unknown tag: version",
             "line": " ../modules/JChart.CurveGram/0.1/CurveGram.js:2"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " ../modules/JChart.Event/0.1/Event.js:2"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " ../modules/JChart.Geometry/0.1/Geometry.js:3"
         },
         {
             "message": "unknown tag: version",
@@ -3878,6 +4153,10 @@
             "line": " ../modules/JChart.common/0.1/common.js:13"
         },
         {
+            "message": "unknown tag: version",
+            "line": " ../modules/Raphael/2.1.2/Raphael.js:1"
+        },
+        {
             "message": "unknown tag: license",
             "line": " ../lib.js:8"
         },
@@ -3899,27 +4178,27 @@
         },
         {
             "message": "Missing item type\n初始化 BaseMVC Model 类 和 View 类",
-            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:210"
+            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:222"
         },
         {
             "message": "Missing item type\n使用 jquery on 为 controler 绑定事件",
-            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:522"
+            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:548"
         },
         {
             "message": "Missing item type\n使用 jquery trigger 触发 controler 绑定事件",
-            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:530"
+            "line": " ../modules/JC.BaseMVC/0.1/BaseMVC.js:556"
         },
         {
             "message": "Missing item type\n初始化 PureMVC Model 类 和 View 类",
-            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:167"
+            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:179"
         },
         {
             "message": "Missing item type\n使用 jquery on 为 controler 绑定事件",
-            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:231"
+            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:255"
         },
         {
             "message": "Missing item type\n使用 jquery trigger 触发 controler 绑定事件",
-            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:239"
+            "line": " ../modules/JC.PureMVC/0.1/PureMVC.js:263"
         },
         {
             "message": "Missing item type\n如果 console 不可用, 生成一个模拟的 console 对象",
@@ -4011,231 +4290,227 @@
         },
         {
             "message": "Missing item type\n图表宽度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:148"
+            "line": " ../modules/JChart.Base/0.1/Base.js:149"
         },
         {
             "message": "Missing item type\n图表高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:159"
+            "line": " ../modules/JChart.Base/0.1/Base.js:160"
         },
         {
             "message": "Missing item type\n图表实时宽度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:171"
+            "line": " ../modules/JChart.Base/0.1/Base.js:172"
         },
         {
             "message": "Missing item type\n图表实时高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:180"
+            "line": " ../modules/JChart.Base/0.1/Base.js:181"
         },
         {
             "message": "Missing item type\n设置或保存图表的宽高",
-            "line": " ../modules/JChart.Base/0.1/Base.js:189"
+            "line": " ../modules/JChart.Base/0.1/Base.js:190"
         },
         {
             "message": "Missing item type\n图表画布",
-            "line": " ../modules/JChart.Base/0.1/Base.js:197"
+            "line": " ../modules/JChart.Base/0.1/Base.js:198"
         },
         {
             "message": "Missing item type\n画布圆角弧度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:210"
+            "line": " ../modules/JChart.Base/0.1/Base.js:211"
         },
         {
             "message": "Missing item type\n清除图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:214"
+            "line": " ../modules/JChart.Base/0.1/Base.js:215"
         },
         {
             "message": "Missing item type\n清除图表状态",
-            "line": " ../modules/JChart.Base/0.1/Base.js:231"
+            "line": " ../modules/JChart.Base/0.1/Base.js:232"
         },
         {
             "message": "Missing item type\n图表背景",
-            "line": " ../modules/JChart.Base/0.1/Base.js:237"
+            "line": " ../modules/JChart.Base/0.1/Base.js:238"
         },
         {
             "message": "Missing item type\n图表数据背景",
-            "line": " ../modules/JChart.Base/0.1/Base.js:255"
+            "line": " ../modules/JChart.Base/0.1/Base.js:256"
         },
         {
             "message": "Missing item type\n保存图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:266"
+            "line": " ../modules/JChart.Base/0.1/Base.js:267"
         },
         {
             "message": "Missing item type\n数据图例图标",
-            "line": " ../modules/JChart.Base/0.1/Base.js:274"
+            "line": " ../modules/JChart.Base/0.1/Base.js:275"
         },
         {
             "message": "Missing item type\n图表标题",
-            "line": " ../modules/JChart.Base/0.1/Base.js:342"
+            "line": " ../modules/JChart.Base/0.1/Base.js:343"
         },
         {
             "message": "Missing item type\n图表子标题",
-            "line": " ../modules/JChart.Base/0.1/Base.js:355"
+            "line": " ../modules/JChart.Base/0.1/Base.js:356"
         },
         {
             "message": "Missing item type\n图表垂直标题",
-            "line": " ../modules/JChart.Base/0.1/Base.js:367"
+            "line": " ../modules/JChart.Base/0.1/Base.js:368"
         },
         {
             "message": "Missing item type",
-            "line": " ../modules/JChart.Base/0.1/Base.js:380"
+            "line": " ../modules/JChart.Base/0.1/Base.js:381"
         },
         {
             "message": "Missing item type\n图表数据种类的长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:400"
+            "line": " ../modules/JChart.Base/0.1/Base.js:401"
         },
         {
             "message": "Missing item type\n图表数据的长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:411"
+            "line": " ../modules/JChart.Base/0.1/Base.js:412"
         },
         {
             "message": "Missing item type\n图表粒度的长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:425"
+            "line": " ../modules/JChart.Base/0.1/Base.js:426"
         },
         {
             "message": "Missing item type\n最大的数值",
-            "line": " ../modules/JChart.Base/0.1/Base.js:439"
+            "line": " ../modules/JChart.Base/0.1/Base.js:440"
         },
         {
             "message": "Missing item type\n最小的负数值",
-            "line": " ../modules/JChart.Base/0.1/Base.js:468"
+            "line": " ../modules/JChart.Base/0.1/Base.js:469"
         },
         {
             "message": "Missing item type\n垂直粒度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:494"
+            "line": " ../modules/JChart.Base/0.1/Base.js:495"
         },
         {
             "message": "Missing item type\n垂直粒度的具体信息",
-            "line": " ../modules/JChart.Base/0.1/Base.js:528"
+            "line": " ../modules/JChart.Base/0.1/Base.js:529"
         },
         {
             "message": "Missing item type\n垂直标签",
-            "line": " ../modules/JChart.Base/0.1/Base.js:566"
+            "line": " ../modules/JChart.Base/0.1/Base.js:567"
         },
         {
             "message": "Missing item type\n水平标签",
-            "line": " ../modules/JChart.Base/0.1/Base.js:592"
+            "line": " ../modules/JChart.Base/0.1/Base.js:593"
         },
         {
             "message": "Missing item type\n获取要显示的水平标签索引位置\n如果返回 undefined, 将显示全部",
-            "line": " ../modules/JChart.Base/0.1/Base.js:614"
+            "line": " ../modules/JChart.Base/0.1/Base.js:615"
         },
         {
             "message": "Missing item type\n垂直背景线的突出长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:638"
+            "line": " ../modules/JChart.Base/0.1/Base.js:639"
         },
         {
             "message": "Missing item type\n水平背景线的突出长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:642"
+            "line": " ../modules/JChart.Base/0.1/Base.js:643"
         },
         {
             "message": "Missing item type\n获取垂直 label 的最大宽度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:646"
+            "line": " ../modules/JChart.Base/0.1/Base.js:647"
         },
         {
             "message": "Missing item type\n获取水平 label 的最大宽度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:660"
+            "line": " ../modules/JChart.Base/0.1/Base.js:661"
         },
         {
             "message": "Missing item type\n垂直的背景线",
-            "line": " ../modules/JChart.Base/0.1/Base.js:674"
+            "line": " ../modules/JChart.Base/0.1/Base.js:675"
         },
         {
             "message": "Missing item type\n水平的背景线",
-            "line": " ../modules/JChart.Base/0.1/Base.js:705"
+            "line": " ../modules/JChart.Base/0.1/Base.js:706"
         },
         {
             "message": "Missing item type\n计算所有显示内容的坐标",
-            "line": " ../modules/JChart.Base/0.1/Base.js:720"
+            "line": " ../modules/JChart.Base/0.1/Base.js:721"
         },
         {
             "message": "Missing item type\n图标的默认样式",
-            "line": " ../modules/JChart.Base/0.1/Base.js:728"
+            "line": " ../modules/JChart.Base/0.1/Base.js:729"
         },
         {
             "message": "Missing item type\n图标的默认 hover 样式",
-            "line": " ../modules/JChart.Base/0.1/Base.js:736"
+            "line": " ../modules/JChart.Base/0.1/Base.js:737"
         },
         {
             "message": "Missing item type\n背景线的样式",
-            "line": " ../modules/JChart.Base/0.1/Base.js:744"
+            "line": " ../modules/JChart.Base/0.1/Base.js:745"
         },
         {
             "message": "Missing item type\n通过坐标点计算当前在那个数据范围",
-            "line": " ../modules/JChart.Base/0.1/Base.js:752"
+            "line": " ../modules/JChart.Base/0.1/Base.js:753"
         },
         {
             "message": "Missing item type\n获取 tips 对象",
-            "line": " ../modules/JChart.Base/0.1/Base.js:759"
+            "line": " ../modules/JChart.Base/0.1/Base.js:760"
         },
         {
             "message": "Missing item type\n获取 tips 标题文本",
-            "line": " ../modules/JChart.Base/0.1/Base.js:838"
+            "line": " ../modules/JChart.Base/0.1/Base.js:839"
         },
         {
             "message": "Missing item type\n显示数值时 浮点数 的长度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:855"
+            "line": " ../modules/JChart.Base/0.1/Base.js:856"
         },
         {
             "message": "Missing item type\n把全局事件对象转换为局部坐标点",
-            "line": " ../modules/JChart.Base/0.1/Base.js:866"
+            "line": " ../modules/JChart.Base/0.1/Base.js:867"
         },
         {
             "message": "Missing item type\n设置或者获取上一次的数据对象",
-            "line": " ../modules/JChart.Base/0.1/Base.js:876"
+            "line": " ../modules/JChart.Base/0.1/Base.js:877"
         },
         {
             "message": "Missing item type\n是否显示图例说明",
-            "line": " ../modules/JChart.Base/0.1/Base.js:884"
+            "line": " ../modules/JChart.Base/0.1/Base.js:885"
         },
         {
             "message": "Missing item type\n是否显示图例说明",
-            "line": " ../modules/JChart.Base/0.1/Base.js:897"
+            "line": " ../modules/JChart.Base/0.1/Base.js:898"
         },
         {
             "message": "Missing item type\n是否显示所有内容标签",
-            "line": " ../modules/JChart.Base/0.1/Base.js:910"
+            "line": " ../modules/JChart.Base/0.1/Base.js:911"
         },
         {
             "message": "Missing item type\n图表高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:930"
+            "line": " ../modules/JChart.Base/0.1/Base.js:931"
         },
         {
             "message": "Missing item type\n图表高度",
-            "line": " ../modules/JChart.Base/0.1/Base.js:934"
+            "line": " ../modules/JChart.Base/0.1/Base.js:935"
         },
         {
             "message": "Missing item type\n图表画布",
-            "line": " ../modules/JChart.Base/0.1/Base.js:938"
+            "line": " ../modules/JChart.Base/0.1/Base.js:939"
         },
         {
             "message": "Missing item type\n初始化的选择器",
-            "line": " ../modules/JChart.Base/0.1/Base.js:942"
+            "line": " ../modules/JChart.Base/0.1/Base.js:943"
         },
         {
             "message": "Missing item type\n清除图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:949"
+            "line": " ../modules/JChart.Base/0.1/Base.js:950"
         },
         {
             "message": "Missing item type\n清除图表状态",
-            "line": " ../modules/JChart.Base/0.1/Base.js:959"
+            "line": " ../modules/JChart.Base/0.1/Base.js:960"
         },
         {
             "message": "Missing item type\n更新图表数据",
-            "line": " ../modules/JChart.Base/0.1/Base.js:965"
+            "line": " ../modules/JChart.Base/0.1/Base.js:966"
         },
         {
             "message": "Missing item type\n渲染图表外观",
-            "line": " ../modules/JChart.Base/0.1/Base.js:975"
+            "line": " ../modules/JChart.Base/0.1/Base.js:976"
         },
         {
             "message": "Missing item type\n显示静态外观",
-            "line": " ../modules/JChart.Base/0.1/Base.js:981"
+            "line": " ../modules/JChart.Base/0.1/Base.js:982"
         },
         {
-            "message": "Missing item type\n计算两个坐标点之间的距离",
-            "line": " ../modules/JChart.Geometry/0.1/Geometry.js:9"
-        },
-        {
-            "message": "Missing item type\n从长度和角度求坐标点",
-            "line": " ../modules/JChart.Geometry/0.1/Geometry.js:19"
+            "message": "Missing item type\n扩展 RaphaelJS 的基础事件\n<p><b>require</b>: \n     <a href='Raphael'>Raphael</a>\n     , <a href='JChart.Geometry'>JChart.Geometry.html</a>\n     , <a href='JChart.common'>JChart.common.html</a>\n</p>\n<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n| <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Event.html' target='_blank'>API docs</a>",
+            "line": " ../modules/JChart.Event/0.1/Event.js:2"
         },
         {
             "message": "Missing item type\n数据图例图标",

@@ -116,6 +116,7 @@ window.JChart = window.JChart || {};
                 var _data;
                 if( this.selector().attr( 'chartScriptData' ) ){
                     _data = JC.f.scriptContent( this._model.selectorProp( 'chartScriptData' ) );
+                    _data = _data.replace( /\}[\s]*?,[\s]*?\}$/g, '}}');
                     _data = eval( '(' + _data + ')' );
                     this.trigger( 'update', [ _data ] );
                 }

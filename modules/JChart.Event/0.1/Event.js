@@ -1,4 +1,16 @@
 ;(function(define, _win) { 'use strict'; define( [ 'Raphael', 'JChart.Geometry', 'JChart.common' ], function(){
+    /**
+     * 扩展 RaphaelJS 的基础事件
+     * <p><b>require</b>: 
+     *      <a href='Raphael'>Raphael</a>
+     *      , <a href='JChart.Geometry'>JChart.Geometry.html</a>
+     *      , <a href='JChart.common'>JChart.common.html</a>
+     * </p>
+     * <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
+     * | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Event.html' target='_blank'>API docs</a>
+     * @version dev 0.1 2014-07-21
+     * @author  qiushaowei   <suches@btbtd.org> | 75 Team
+     */
     Raphael.el.mouseenter =
         function( _handler ){
             var _p = this, _bbox, _doc = $( document ), _win = $( window ), _rect;

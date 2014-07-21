@@ -15,8 +15,14 @@
  *<h2>可用的 HTML attribute</h2>
  *
  *<dl>
- *    <dt></dt>
- *    <dd><dd>
+ *    <dt>chartScriptData = script selector</dt>
+ *    <dd>保存图表数据的脚本标签</dd>
+ *
+ *    <dt>chartWidth = int, default = auto</dt>
+ *    <dd>显式设置图表的宽度, 如果为空则为自适应宽度</dd>
+ *
+ *    <dt>chartWidth = int, default = 400</dt>
+ *    <dd>设置图表的宽度</dd>
  *</dl> 
  *
  * @namespace   JChart

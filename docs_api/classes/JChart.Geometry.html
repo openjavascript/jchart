@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <title>JChart.Geometry - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -92,53 +93,21 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
+                        <h1>JChart.Geometry Class</h1>
 <div class="box meta">
         <div class="foundat">
-            Defined in: <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l184"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:184</code></a>
+            Defined in: <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l3"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:3</code></a>
         </div>
 </div>
 <div class="box intro">
-    <p>MVC Model 类( <b>仅供扩展用</b> )
-<br />这个类默认已经包含在lib.js里面, 不需要显式引用</p>
-<p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
-| <a href='../../modules/JC.PureMVC/0.1/_demo' target='_blank'>demo link</a></p>
-<p><b>see also</b>: <a href='JC.PureMVC.html'>JC.PureMVC</a></p>
+    <p>JChart.Geometry 提供一些实用的几何算法</p>
+<p><p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
+| <a href='http://raphaeljs.com/reference.html' target='_blank'>API docs</a></p>
 </div>
-    <div class="constructor">
-        <h2>Constructor</h2>
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>_selector</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l184"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:184</code></a>
-        </p>
-    </div>
-    <div class="description">
-    </div>
-        <div class="params">
-            <h4>Parameters:</h4>
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">_selector</code>
-                        <span class="type">Selector | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    <div class="param-description">
-                    </div>
-                </li>
-            </ul>
-        </div>
-</div>
-    </div>
 <div id="classdocs" class="tabview">
     <ul class="api-class-tabs">
         <li class="api-class-tab index"><a href="#index">Index</a></li>
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
     <div>
         <div id="index" class="api-class-tabpanel index">
@@ -147,21 +116,23 @@
                     <h3>Methods</h3>
                     <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_notification">notification</a>
+                                <a href="#method_degree">degree</a>
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
-                                <a href="#method_on">on</a>
+                                <a href="#method_distanceAngleToPoint">distanceAngleToPoint</a>
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
-                                <a href="#method_trigger">trigger</a>
+                                <a href="#method_pointDistance">pointDistance</a>
+                                    <span class="flag static">static</span>
                             </li>
-                    </ul>
-                </div>
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-                    <ul class="index-list properties">
-                            <li class="index-item property private">
-                                <a href="#property__instanceName">_instanceName</a>
+                            <li class="index-item method">
+                                <a href="#method_pointRectangleIntersection">pointRectangleIntersection</a>
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_radians">radians</a>
                                     <span class="flag static">static</span>
                             </li>
                     </ul>
@@ -169,141 +140,232 @@
         </div>
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
-                    <div id="method_notification" class="method item">
-    <h3 class="name"><code>notification</code></h3>
+                    <div id="method_degree" class="method item">
+    <h3 class="name"><code>degree</code></h3>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
-                        <code>_evtName</code>
-                </li>
-                <li class="arg">
-                        <code>_args</code>
+                        <code>_radians</code>
                 </li>
             </ul><span class="paren">)</span>
         </div>
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l238"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:238</code></a>
-        </p>
-    </div>
-    <div class="description">
-        <p>通知选择器有新事件</p>
-    </div>
-        <div class="params">
-            <h4>Parameters:</h4>
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">_evtName</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    <div class="param-description">
-                    </div>
-                </li>
-                <li class="param">
-                        <code class="param-name">_args</code>
-                        <span class="type"> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-                    <div class="param-description">
-                    </div>
-                </li>
-            </ul>
-        </div>
-</div>
-                    <div id="method_on" class="method item">
-    <h3 class="name"><code>on</code></h3>
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>_evtName</code>
-                </li>
-                <li class="arg">
-                        <code>_cb</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l213"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:213</code></a>
-        </p>
-    </div>
-    <div class="description">
-        <p>使用 jquery on 为 controler 绑定事件</p>
-    </div>
-        <div class="params">
-            <h4>Parameters:</h4>
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">_evtName</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    <div class="param-description">
-                    </div>
-                </li>
-                <li class="param">
-                        <code class="param-name">_cb</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
-                    <div class="param-description">
-                    </div>
-                </li>
-            </ul>
-        </div>
-</div>
-                    <div id="method_trigger" class="method item">
-    <h3 class="name"><code>trigger</code></h3>
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-                <li class="arg">
-                        <code>_evtName</code>
-                </li>
-                <li class="arg">
-                        <code>_args</code>
-                </li>
-            </ul><span class="paren">)</span>
-        </div>
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l224"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:224</code></a>
-        </p>
-    </div>
-    <div class="description">
-        <p>使用 jquery trigger 触发 controler 绑定事件</p>
-    </div>
-        <div class="params">
-            <h4>Parameters:</h4>
-            <ul class="params-list">
-                <li class="param">
-                        <code class="param-name">_evtName</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    <div class="param-description">
-                    </div>
-                </li>
-                <li class="param">
-                        <code class="param-name">_args</code>
-                        <span class="type"> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-                    <div class="param-description">
-                    </div>
-                </li>
-            </ul>
-        </div>
-</div>
-            </div>
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-                    <div id="property__instanceName" class="property item private">
-    <h3 class="name"><code>_instanceName</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-        <span class="flag private">private</span>
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
         <span class="flag static">static</span>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l199"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:199</code></a>
+        <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l63"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:63</code></a>
         </p>
     </div>
     <div class="description">
-        <p>设置 selector 实例引用的 data 属性名</p>
+        <p>从弧度获取角度</p>
     </div>
-        <p><strong>Default:</strong> PureMVCIns</p>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_radians</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+            </div>
+        </div>
+</div>
+                    <div id="method_distanceAngleToPoint" class="method item">
+    <h3 class="name"><code>distanceAngleToPoint</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_distance</code>
+                </li>
+                <li class="arg">
+                        <code>_angle</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l40"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:40</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>从长度和角度求坐标点</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_distance</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_angle</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                    <p>Point</p>
+            </div>
+        </div>
+</div>
+                    <div id="method_pointDistance" class="method item">
+    <h3 class="name"><code>pointDistance</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_p1</code>
+                </li>
+                <li class="arg">
+                        <code>_p2</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l25"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:25</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>计算两个坐标点之间的距离</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_p1</code>
+                        <span class="type">Point</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_p2</code>
+                        <span class="type">Point</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                    <p>Boolean</p>
+            </div>
+        </div>
+</div>
+                    <div id="method_pointRectangleIntersection" class="method item">
+    <h3 class="name"><code>pointRectangleIntersection</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_p</code>
+                </li>
+                <li class="arg">
+                        <code>_r</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l13"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:13</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>判断一个点是否在矩形里面</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_p</code>
+                        <span class="type">Point</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_r</code>
+                        <span class="type">Rect</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                    <p>Boolean</p>
+            </div>
+        </div>
+</div>
+                    <div id="method_radians" class="method item">
+    <h3 class="name"><code>radians</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_angle</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l55"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:55</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>从角度获取弧度</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_angle</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+            </div>
+        </div>
 </div>
             </div>
     </div>

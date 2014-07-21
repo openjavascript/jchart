@@ -218,6 +218,7 @@
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
+                    /*
                     , _len = Histogram.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
                     ;
@@ -229,6 +230,9 @@
 
                 !_r.fill && _r.stroke && ( _r.fill = _r.stroke );
 
+                */
+                _r.stroke = '#000';
+                _r.fill= '#000';
                 _r[ 'fill-opacity' ] = 1;
 
                 return _r;
@@ -237,6 +241,7 @@
         , itemHoverStyle:
             function( _ix ){
                 var _r = {}, _p = this
+                    /*
                     , _len = Histogram.Model.STYLE.style.length
                     , _ix = _ix % ( _len - 1 )
                     ;
@@ -249,6 +254,12 @@
                     && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
 
                 _r[ 'fill-opacity' ] = .65;
+                */
+
+                _r.stroke = '#000';
+                _r.fill= '#000';
+                _r[ 'fill-opacity' ] = .65;
+
 
                 return _r;
             }

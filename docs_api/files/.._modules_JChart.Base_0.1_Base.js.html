@@ -866,6 +866,22 @@ window.JChart = window.JChart || {};
                 typeof _setter != &#x27;undefined&#x27; &amp;&amp; ( this._coordinate = _setter );
                 return this._coordinate; 
             }
+        , colors:
+            function(){
+                if( !this._colors ){
+                    this._colors = JChart.DefaultOptions.colors;
+                    this.data() &amp;&amp; this.data().colors 
+                        &amp;&amp; ( this._colors = this.data().colors )
+                }
+                return this._colors;
+            }
+        , itemColor:
+            function( _ix ){
+                var _r = &#x27;#000&#x27;;
+                this.colors() &amp;&amp; this.colors().length
+                    &amp;&amp; ( _r = this.colors()[ _ix % ( this.colors().length - 1 ) ] );
+                return _r;
+            }
         /**
          * 图标的默认样式
          */

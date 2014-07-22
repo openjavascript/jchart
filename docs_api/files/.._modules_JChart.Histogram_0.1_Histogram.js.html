@@ -235,7 +235,7 @@
             }
             var _p = Histogram.CURRENT_INS;
             //JC.log( &#x27;Histogram.DEFAULT_MOVE&#x27;, _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
-            _p.trigger( &#x27;update_moving_status&#x27;, [ _evt ] );
+            _p.trigger( Histogram.Model.UPDATE_MOVING_STATUS, [ _evt ] );
         };
 
     JC.BaseMVC.build( Histogram, JChart.Base );
@@ -250,31 +250,31 @@
             function(){
                 var _p = this;
 
-                _p.on( &#x27;update_moving_status&#x27;, function( _evt, _srcEvt, _srcEle ){
+                _p.on( Histogram.Model.UPDATE_MOVING_STATUS, function( _evt, _srcEvt, _srcEle ){
                     var _offset = _p._model.globalEventToLocalOffset( _srcEvt )
                         , _index = _p._model.indexAt( _offset );
 
-                    _p.trigger( &#x27;clear_status&#x27; );
+                    _p.trigger( Histogram.Model.CLEAR_STATUS );
                     if( typeof _index == &#x27;undefined&#x27; ) return;
 
-                    _p.trigger( &#x27;update_status&#x27;, [ _index, _offset  ] );
+                    _p.trigger( Histogram.Model.UPDATE_STATUS, [ _index, _offset  ] );
                 });
 
-                _p.on( &#x27;moving_start&#x27;, function( _evt ){
-                    _p.trigger( &#x27;clear_status&#x27; );
+                _p.on( Histogram.Model.MOVING_START, function( _evt ){
+                    _p.trigger( Histogram.Model.CLEAR_STATUS );
                     _p._model.tips() &amp;&amp; _p._model.tips().show();
                 });
 
-                _p.on( &#x27;moving_done&#x27;, function( _evt ){
-                    _p.trigger( &#x27;clear_status&#x27; );
+                _p.on( Histogram.Model.MOVING_DONE, function( _evt ){
+                    _p.trigger( Histogram.Model.CLEAR_STATUS );
                     _p._model.tips() &amp;&amp; _p._model.tips().hide();
                 });
 
-                _p.on( &#x27;clear_status&#x27;, function(){
+                _p.on( Histogram.Model.CLEAR_STATUS, function(){
                     _p._view.clearStatus();
                 });
 
-                _p.on( &#x27;update_status&#x27;, function( _evt, _index, _offset ){
+                _p.on( Histogram.Model.UPDATE_STATUS, function( _evt, _index, _offset ){
                     if( !_offset ) return;
                     if( typeof _index == &#x27;undefined&#x27; ) return;
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
@@ -292,33 +292,11 @@
 
     Histogram.Model._instanceName = &#x27;JChartHistogram&#x27;;
 
-    Histogram.Model.STYLE = {
-        lineStyle: {
-            &#x27;stroke&#x27;: &#x27;#999&#x27;
-            , &#x27;opacity&#x27;: &#x27;.35&#x27;
-        }
-        , style: [
-            { &#x27;stroke&#x27;: &#x27;#09c100&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#FFBF00&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#0c76c4&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#41e2e6&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-
-            , { &#x27;stroke&#x27;: &#x27;#ffb2bc&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-
-            , { &#x27;stroke&#x27;: &#x27;#dbb8fd&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-
-            , { &#x27;stroke&#x27;: &#x27;#ff06b3&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#ff7100&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#c3e2a4&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-
-            , { &#x27;stroke&#x27;: &#x27;#ff0619&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-
-        ]
-        , pathStyle: {
-            &#x27;stroke-width&#x27;: 2
-        }
-        , radius: 4
-    };
+    Histogram.Model.UPDATE_MOVING_STATUS = &#x27;update_moving_status&#x27;;
+    Histogram.Model.UPDATE_STATUS = &#x27;update_status&#x27;;
+    Histogram.Model.MOVING_START = &#x27;moving_start&#x27;;
+    Histogram.Model.MOVING_DONE = &#x27;moving_done&#x27;;
+    Histogram.Model.CLEAR_STATUS = &#x27;clear_status&#x27;;
 
     var _oldWorkspaceOffset = Histogram.Model.prototype.workspaceOffset;
 
@@ -327,7 +305,9 @@
             function(){
                 //JC.log( &#x27;Histogram.Model.init:&#x27;, new Date().getTime() );
             }
-
+        /**
+         * 创建所有的柱状矩形
+         */
         , rects:
             function( ){
                 var _p = this, _tmp;
@@ -354,57 +334,48 @@
                 }
                 return _p._rects;
             }
-
+        /**
+         * 从不同的索引获取对应的样式
+         */
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
-
-                _p.data().series[ _ix ].style
-                    &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
-
-                !_r.fill &amp;&amp; _r.stroke &amp;&amp; ( _r.fill = _r.stroke );
-
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
                 _r[ &#x27;fill-opacity&#x27; ] = 1;
 
                 return _r;
             }
-
+        /**
+         * 从不同的索引获取不同 hover 样式
+         */
         , itemHoverStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
 
-                _p.data().series[ _ix ].style
-                    &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
-
-                _p.data().series[ _ix ].hoverStyle
-                    &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
-
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
                 _r[ &#x27;fill-opacity&#x27; ] = .65;
 
                 return _r;
             }
-
+        /**
+         * 从不同的索引获取 背景线条的样式
+         */
         , lineStyle:
             function( _ix ){
-                var _r = JC.f.cloneObject( Histogram.Model.STYLE.lineStyle );
+                var _r = { stroke: &#x27;#999&#x27;, opacity: .35 };
                 return _r;
             }
-
+        /**
+         * 从坐标点计算位于哪个数据项
+         */
         , indexAt:
-            function( _offset ){
+            function( _point ){
                 var _p = this
                     , _c = _p.coordinate()
-                    , _realX = _offset.x - _c.wsX
-                    , _realY = _offset.y - _c.wsY
+                    , _realX = _point.x - _c.wsX
+                    , _realY = _point.y - _c.wsY
                     , _maxX = _c.wsWidth
                     , _maxY = _c.wsHeight
                     , _itemLen, _partWidth
@@ -420,12 +391,13 @@
                 _partWhat = Math.floor( _realX / _partWidth  );
                 _partWhat &gt; 1 &amp;&amp; ( _partWhat = Math.round( _partWhat / 2 ) );
 
-                //JC.log( _partWhat, _realX, _realY, JC.f.ts() );
-                //JC.log( _partWhat );
-
                 return _partWhat;
             }
-
+        /**
+         * 计算图表所有显示内容的坐标
+         * @param   {object} _data
+         * @return object
+         */
         , coordinate:
             function( _data ){
                 if( typeof this._coordinate != &#x27;undefined&#x27; || !_data ){
@@ -446,6 +418,9 @@
                 _p.background( _c );
                 _x = 2, _y = 2;
 
+                /**
+                 * 标题文字的显示坐标
+                 */
                 var _title = _p.title( _data );
                 if( _title ){
                     _bbox = JChart.f.getBBox( _title );
@@ -456,7 +431,9 @@
                     }
                     _y = _c.title.y + _bbox.height / 2;
                 }
-
+                /**
+                 * 子标题文字的显示坐标
+                 */
                 var _subtitle = _p.subtitle( _data );
                 if( _subtitle ){
                     _bbox = JChart.f.getBBox( _subtitle );
@@ -469,7 +446,9 @@
                 }
 
                 !( _title &amp;&amp; _subtitle ) &amp;&amp; ( _y += 10 );
-
+                /**
+                 * 垂直标题文字的显示坐标
+                 */
                 var _vtitle = _p.vtitle( _data );
                 if( _vtitle ){
                     _bbox = JChart.f.getBBox( _vtitle );
@@ -481,7 +460,9 @@
                     }
                     _x = _c.vtitle.x + 5 + 10;
                 }
-
+                /**
+                 * 版权信息的显示坐标
+                 */
                 var _credits = _p.credits( _data );
                 if( _credits ){
                     _bbox = JChart.f.getBBox( _credits );
@@ -492,7 +473,9 @@
                     }
                     _maxY = _c.credits.y - 5;
                 }
-
+                /**
+                 * 图例图标的显示坐标
+                 */
                 if( _p.legendEnable() ){
                     var _legend = _p.legend( _data, &#x27;rect&#x27;, function( _ix, _legend, _text, _data ){
                         var _color = _data.stroke 
@@ -509,7 +492,6 @@
                         }
                         _maxY = _c.legend.y;
                     }
-                }else{
                 }
 
                 _maxY -= _p.varrowSize();
@@ -790,12 +772,12 @@
                     //JC.log( &#x27;mouseenter&#x27;, JC.f.ts() );
                     _jdoc.off( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
                     _jdoc.on( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
-                    _p.trigger( &#x27;moving_start&#x27; );
+                    _p.trigger( Histogram.Model.MOVING_START );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
                     //JC.log( &#x27;mouseleave&#x27;, JC.f.ts() );
-                    _p.trigger( &#x27;moving_done&#x27; );
+                    _p.trigger( Histogram.Model.MOVING_DONE );
                     _jdoc.off( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
                     Histogram.CURRENT_INS = null;
                 });

@@ -165,7 +165,9 @@
             function(){
                 //JC.log( 'Histogram.Model.init:', new Date().getTime() );
             }
-
+        /**
+         * 创建所有的柱状矩形
+         */
         , rects:
             function( ){
                 var _p = this, _tmp;
@@ -192,7 +194,9 @@
                 }
                 return _p._rects;
             }
-
+        /**
+         * 从不同的索引获取对应的样式
+         */
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
@@ -202,7 +206,9 @@
 
                 return _r;
             }
-
+        /**
+         * 从不同的索引获取不同 hover 样式
+         */
         , itemHoverStyle:
             function( _ix ){
                 var _r = {}, _p = this
@@ -213,19 +219,23 @@
 
                 return _r;
             }
-
+        /**
+         * 从不同的索引获取 背景线条的样式
+         */
         , lineStyle:
             function( _ix ){
                 var _r = { stroke: '#999', opacity: .35 };
                 return _r;
             }
-
+        /**
+         * 从坐标点计算位于哪个数据项
+         */
         , indexAt:
-            function( _offset ){
+            function( _point ){
                 var _p = this
                     , _c = _p.coordinate()
-                    , _realX = _offset.x - _c.wsX
-                    , _realY = _offset.y - _c.wsY
+                    , _realX = _point.x - _c.wsX
+                    , _realY = _point.y - _c.wsY
                     , _maxX = _c.wsWidth
                     , _maxY = _c.wsHeight
                     , _itemLen, _partWidth
@@ -243,7 +253,11 @@
 
                 return _partWhat;
             }
-
+        /**
+         * 计算图表所有显示内容的坐标
+         * @param   {object} _data
+         * @return object
+         */
         , coordinate:
             function( _data ){
                 if( typeof this._coordinate != 'undefined' || !_data ){
@@ -264,6 +278,9 @@
                 _p.background( _c );
                 _x = 2, _y = 2;
 
+                /**
+                 * 标题文字的显示坐标
+                 */
                 var _title = _p.title( _data );
                 if( _title ){
                     _bbox = JChart.f.getBBox( _title );
@@ -274,7 +291,9 @@
                     }
                     _y = _c.title.y + _bbox.height / 2;
                 }
-
+                /**
+                 * 子标题文字的显示坐标
+                 */
                 var _subtitle = _p.subtitle( _data );
                 if( _subtitle ){
                     _bbox = JChart.f.getBBox( _subtitle );
@@ -287,7 +306,9 @@
                 }
 
                 !( _title && _subtitle ) && ( _y += 10 );
-
+                /**
+                 * 垂直标题文字的显示坐标
+                 */
                 var _vtitle = _p.vtitle( _data );
                 if( _vtitle ){
                     _bbox = JChart.f.getBBox( _vtitle );
@@ -299,7 +320,9 @@
                     }
                     _x = _c.vtitle.x + 5 + 10;
                 }
-
+                /**
+                 * 版权信息的显示坐标
+                 */
                 var _credits = _p.credits( _data );
                 if( _credits ){
                     _bbox = JChart.f.getBBox( _credits );
@@ -310,7 +333,9 @@
                     }
                     _maxY = _c.credits.y - 5;
                 }
-
+                /**
+                 * 图例图标的显示坐标
+                 */
                 if( _p.legendEnable() ){
                     var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
                         var _color = _data.stroke 
@@ -327,7 +352,6 @@
                         }
                         _maxY = _c.legend.y;
                     }
-                }else{
                 }
 
                 _maxY -= _p.varrowSize();

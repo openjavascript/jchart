@@ -215,6 +215,7 @@
             }
         /**
          * 从不同的索引获取对应的样式
+         * @param   {int}   _ix
          */
         , itemStyle:
             function( _ix ){
@@ -227,6 +228,7 @@
             }
         /**
          * 从不同的索引获取不同 hover 样式
+         * @param   {int}   _ix
          */
         , itemHoverStyle:
             function( _ix ){
@@ -240,6 +242,7 @@
             }
         /**
          * 从不同的索引获取 背景线条的样式
+         * @param   {int}   _ix
          */
         , lineStyle:
             function( _ix ){
@@ -248,6 +251,7 @@
             }
         /**
          * 从坐标点计算位于哪个数据项
+         * @param   {Point} _point
          */
         , indexAt:
             function( _point ){
@@ -418,15 +422,33 @@
                  * 计算总共有多少条数据
                  */
                 _c.seriesPart = Math.floor( _c.hpart / ( _c.seriesLength * 1.5 ) );
-
+                /**
+                 * 柱状图的高度
+                 */
                 _c.chartHeight = _maxY - _y;
+                /**
+                 * 柱状图的 y 坐标
+                 */
                 _c.chartY = _y;
+                /**
+                 * 柱状图的最大 y 坐标
+                 */
                 _c.chartMaxY = _maxY;
-
+                /**
+                 * 柱状图的宽度
+                 */
                 _c.chartWidth = _maxX - _x;
+                /**
+                 * 柱状图的 x 坐标
+                 */
                 _c.chartX = _x;
-                _c.wsMaxX = _maxX;
-
+                /**
+                 * 柱状图的最大 x 坐标
+                 */
+                _c.chartMaxX = _maxX;
+                /**
+                 * 柱状图的背景
+                 */
                 var _dataBackground = _p.dataBackground( _c.chartX, _c.chartY, _c.chartWidth, _c.chartHeight );
                 if( _dataBackground ){
                     _c.dataBackground = {
@@ -446,15 +468,18 @@
                             !_tmp[ _ix ] && ( _padX = 0 );
                         }
                         _tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.chartHeight }
-                        //_tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
                             , end: { 'x': _tmpX, 'y': _maxY + _padX }
                             , 'item': _item  } );
                         _tmpA1.push( {  start: { 'x': _tmpX, 'y': _y }
                             , end: { 'x': _tmpX, 'y': _maxY }
                             , 'item': _item  } );
                     });
-                    _tmpA.length && ( _c.vlines = _tmpA );
-                    _tmpA1.length && ( _c.vlinePoint = _tmpA1 );
+                    _tmpA.length && ( 
+                        _c.vlines = _tmpA  //垂直线条带箭头的坐标
+                    );
+                    _tmpA1.length && ( 
+                        _c.vlinePoint = _tmpA1 //垂直线条的坐标
+                    );
                 }
 
                 var _hlines = _p.hlines( _data );
@@ -470,11 +495,18 @@
                             , end: { 'x': _maxX , 'y': _tmpY }
                             , 'item': _item  } );
                     });
-                    _tmpA.length && ( _c.hlines = _tmpA );
-                    _tmpA1.length && ( _c.hlinePoint = _tmpA1 );
+                    _tmpA.length && ( 
+                        _c.hlines = _tmpA //水平线条带箭头的坐标
+                    );
+                    _tmpA1.length && ( 
+                        _c.hlinePoint = _tmpA1 //水平线条的坐标
+                    );
                 }
 
                 if( _vlabelMaxWidth ){
+                    /**
+                     * 垂直 label
+                     */
                     var _vlabels = _p.vlables( _data );
                     _tmp = 0;
                     _tmpA = [];
@@ -489,6 +521,9 @@
                 }
 
                 if( _hlabelMaxHeight ){
+                    /**
+                     * 水平 label
+                     */
                     var _hlabels = _p.hlables( _data );
                     _tmp = 0;
                     _tmpA = [];
@@ -499,8 +534,8 @@
                         _bbox = JChart.f.getBBox( _item );
                         if( _ix === ( _c.vlinePoint.length - 1 ) ){
                             _tmpX = _lineItem.end.x + 2;
-                            if(  ( _tmpX + _bbox.width / 2 ) > _c.wsMaxX ){
-                                _tmpX = _c.wsMaxX - _bbox.width / 2;
+                            if(  ( _tmpX + _bbox.width / 2 ) > _c.chartMaxX ){
+                                _tmpX = _c.chartMaxX - _bbox.width / 2;
                             }
                         }else if( _ix === 0 ){
                             _tmpX = _lineItem.end.x - 2;
@@ -515,7 +550,13 @@
                 }
 
                 //get data point
+                /**
+                 * 所有矩形的坐标
+                 */
                 _c.rects = [];
+                /**
+                 * 所有矩形的线条坐标
+                 */
                 _c.rectLine = [];
 
                 var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) )
@@ -586,7 +627,10 @@
         _inited:
             function(){
             }
-
+        /**
+         * 显示所有图表内容
+         * @param   {Object}    _coordinate
+         */
         , setStaticPosition:
             function( _coordinate ){
                 var _p = this, _c = _coordinate, _tmp;
@@ -638,7 +682,6 @@
                         $.each( _item, function( _sk, _sitem ){
                             _tmp = _rects[ _k ][ _sk ];
                             _tmp.attr( { x: _sitem.x, y: _sitem.y, width: _sitem.width, height: _sitem.height } );
-                            //JC.log( _sitem.x, _sitem.y, JC.f.ts() );
                         });
                     });
                 }
@@ -652,7 +695,10 @@
                 }, 200 );
                 */
             }
-
+        /**
+         * 从给出的数据显示图表
+         * @param   {object}  _data
+         */
         , draw: 
             function( _data ){
                 var _p = this, _coordinate;
@@ -673,10 +719,12 @@
                     _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
                     Histogram.CURRENT_INS = null;
                 });
-                //JC.dir( _p.stage() );
-                //
              }
-
+        /**
+         * 显示 Tips
+         * @param   {int}   _ix     数据索引
+         * @param   {point} _offset 当前鼠标位置
+         */
         , updateTips:
             function( _ix, _offset ){
                 var _p = this
@@ -699,7 +747,10 @@
 
                 _tips.setPosition( _x, _y );
             }
-
+        /**
+         * 更新当前距行的显示状态
+         * @param   {int}   _ix     
+         */
         , updateRect:
             function( _ix ){
                 var _p = this, _r = [], _preItems = _p._model.preItems() || {};
@@ -710,7 +761,10 @@
                 _preItems.point = _r;
                 _p._model.preItems( _preItems );
             }
-
+        /**
+         * 更新当前背景线的显示状态
+         * @param   {int}   _ix     
+         */
         , updateVLine:
             function( _ix ){
                 var _p = this, _r = [], _preItems = _p._model.preItems() || {};
@@ -719,7 +773,10 @@
                     && ( _preItems.vlines = _p._model.vlines()[ _ix ].hover() )
                     && _p._model.preItems( _preItems );
             }
-
+        /**
+         * 清除所有显示状态
+         * @param   {int}   _ix     
+         */
         , clearStatus:
             function(){
                 var _p = this, _preItems = _p._model.preItems();

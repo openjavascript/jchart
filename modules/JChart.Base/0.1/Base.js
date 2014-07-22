@@ -1104,6 +1104,48 @@ window.JChart = window.JChart || {};
             return _d;
         };
 
+    JChart.moveSet =
+        function( _set, _x, _y ){
+            if( _set && _set.length ){
+                var _tmpX = 1000000, _tmpY = 1000000, _tmpBBox;
+                $.each( _set, function( _ix, _item ){
+                    _tmpBBox = _item.getBBox();
+                    _tmpX = Math.min( _tmpX, _tmpBBox.x );
+                    _tmpY = Math.min( _tmpY, _tmpBBox.y );
+                });
+                _set.transform( JC.f.printf( 't{0} {1}', -_tmpX + _x, -_tmpY + _y ) );
+            }
+            return _set;
+        };
+
+    JChart.moveSetX =
+        function( _set, _x ){
+            if( _set && _set.length ){
+                var _tmpX = 1000000, _tmpBBox;
+                $.each( _set, function( _ix, _item ){
+                    _tmpBBox = _item.getBBox();
+                    _tmpX = Math.min( _tmpX, _tmpBBox.x );
+                });
+                _set.transform( JC.f.printf( 't{0} {1}', -_tmpX + _x, 0 ) );
+            }
+            return _set;
+        };
+
+    JChart.moveSetY =
+        function( _set, _y ){
+            if( _set && _set.length ){
+                var _tmpY = 1000000, _tmpBBox;
+                $.each( _set, function( _ix, _item ){
+                    _tmpBBox = _item.getBBox();
+                    _tmpY = Math.min( _tmpY, _tmpBBox.y );
+                });
+                _set.transform( JC.f.printf( 't{0} {1}', 0, -_tmpY + _y ) );
+            }
+            return _set;
+        };
+
+
+
     _jwin.on( 'resize', function(){
         JC.f.safeTimeout( function(){
             _jwin.trigger( Base.RESIZE_UPDATE );

@@ -135,7 +135,7 @@
                 });
 
                 _p.on( 'legendUpdate', function( _evt, _ix ){
-                    JC.log( 'legendUpdate', _ix, JC.f.ts() );
+                    //JC.log( 'legendUpdate', _ix, JC.f.ts() );
                 });
 
                 _p.on( Histogram.Model.UPDATE_STATUS, function( _evt, _index, _offset ){
@@ -691,6 +691,18 @@
                 }
 
                 _p._model.tips().toFront();
+
+                /*
+                var _text = _p.stage().text( 100, 100, 'test 1' ).attr( { 'text-anchor': 'start' } )
+                    , _text2 = _p.stage().text( 80, 120, 'test 2' ).attr( { 'text-anchor': 'start' } )
+                    , _set = _p.stage().set()
+                    ;
+                _set.push( _text );
+                _set.push( _text2 );
+
+                JChart.moveSet( _set, 0, 0);
+                */
+
             }
         /**
          * 从给出的数据显示图表

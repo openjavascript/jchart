@@ -84,6 +84,11 @@
 
         , show: function(){ this._view.show(); }
         , hide: function(){ this._view.hide(); }
+
+        , item:
+            function( _name ){
+                return _name ? this._model._elementMap[ _name ] : this._model._elementMap;
+            }
     });
 
     GraphicBase.Model._instanceName = 'JCGraphicBase';

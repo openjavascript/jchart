@@ -456,6 +456,7 @@ window.JChart = window.JChart || {};
                             {
                                 var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
                                 _x += _bx;
+                                _p._legendSet = [];
                                 $.each( _data.series, function( _k, _item ){
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
@@ -469,6 +470,18 @@ window.JChart = window.JChart || {};
                                     _p._legend.addChild( _text, &#x27;text_&#x27; + _k );
                                     _x = _tb.x + _tb.width + _pad;
                                     _h = _tb.height * 1.8;
+
+                                    var _set = _p.stage().set();
+                                        _set.push( _legend.item( &#x27;element&#x27; ), _text );
+                                        _set.attr( { &#x27;cursor&#x27;: &#x27;pointer&#x27; } ).data( &#x27;ix&#x27;, _k );
+
+                                        //JC.log( &#x27;set ix&#x27;, _set.data( &#x27;ix&#x27; ), JC.f.ts(), _set.length );
+
+                                        _set.click( function( _evt ){
+                                            //JC.log( &#x27;set click&#x27;, this.data(&#x27;ix&#x27;), JC.f.ts() );
+                                            _p.trigger( &#x27;legendUpdate&#x27;, [ this.data(&#x27;ix&#x27;) ] );
+                                        });
+                                        _p._legendSet.push( _set );
                                 });
 
                                 var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
@@ -480,6 +493,7 @@ window.JChart = window.JChart || {};
                     
                 return this._legend;
             }
+        , legendSet: function(){ return this._legendSet; }
         /**
          * 图表标题
          */
@@ -487,7 +501,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 _data &amp;&amp; _data.title &amp;&amp; _data.title.text 
                     &amp;&amp; !this._title 
-                    &amp;&amp; ( this._title = this.stage().text( -9999, 0, _data.title.text ) )
+                    &amp;&amp; ( this._title = this.stage().text( -9999, 0, _data.title.text ).attr( { &#x27;cursor&#x27;: &#x27;default&#x27; } ) )
                     &amp;&amp; ( this._title.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_title&#x27; ) )
                     ;
 
@@ -500,7 +514,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 _data &amp;&amp; _data.subtitle &amp;&amp; _data.subtitle.text 
                     &amp;&amp; !this._subtitle 
-                    &amp;&amp; ( this._subtitle = this.stage().text( 0, 0, _data.subtitle.text ) )
+                    &amp;&amp; ( this._subtitle = this.stage().text( 0, 0, _data.subtitle.text ).attr( { &#x27;cursor&#x27;: &#x27;default&#x27; } ) )
                     &amp;&amp; ( this._subtitle.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_subtitle&#x27; ) )
                     ;
                 return this._subtitle;
@@ -512,7 +526,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 _data &amp;&amp; _data.yAxis &amp;&amp; _data.yAxis.title &amp;&amp; _data.yAxis.title.text
                     &amp;&amp; !this._vtitle 
-                    &amp;&amp; ( this._vtitle = this.stage().text( -9999, 0, _data.yAxis.title.text )
+                    &amp;&amp; ( this._vtitle = this.stage().text( -9999, 0, _data.yAxis.title.text ).attr( { &#x27;cursor&#x27;: &#x27;default&#x27; } )
                           , this._vtitle.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_vtitle&#x27; )   
                         )
                     ;
@@ -535,6 +549,8 @@ window.JChart = window.JChart || {};
                                 , this._credits.node.setAttribute( &#x27;class&#x27;, &#x27;jcc_credit jcc_pointer jcc_link&#x27; ) 
                                 , this._credits.click( function(){ location.href = _data.credits.href; } )
                             );
+
+                    this._credits &amp;&amp; !_data.credits.href &amp;&amp; this.credits.attr( { &#x27;cursor&#x27;: &#x27;default&#x27; } );
                 }
                 return this._credits;
             }
@@ -722,7 +738,7 @@ window.JChart = window.JChart || {};
                     $.each( _rate, function( _ix, _item ){
                         _text = _maxNum * _item;
                         _rateInfo.minNNum &amp;&amp; ( _text = JC.f.parseFinance( _text, _p.floatLen() ) );
-                        _tmp = _p.stage().text( 10000, 0, _text.toString()  );
+                        _tmp = _p.stage().text( 10000, 0, _text.toString()  ).attr( { &#x27;cursor&#x27;: &#x27;default&#x27; } );
                         _eles.push( _tmp );
                     });
 
@@ -743,7 +759,7 @@ window.JChart = window.JChart || {};
                         ;
 
                     $.each( _data.xAxis.categories, function( _ix, _item ){
-                        _tmp = _p.stage().text( 10000, 0, _item || &#x27;&#x27; );
+                        _tmp = _p.stage().text( 10000, 0, _item || &#x27;&#x27; ).attr( { &#x27;cursor&#x27;: &#x27;default&#x27; } );
                         _match &amp;&amp; _match.length &amp;&amp; !_match[ _ix ] &amp;&amp; _tmp.hide();
                         _eles.push( _tmp );
                     });

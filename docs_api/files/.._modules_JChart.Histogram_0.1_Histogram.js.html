@@ -274,6 +274,10 @@
                     _p._view.clearStatus();
                 });
 
+                _p.on( &#x27;legendUpdate&#x27;, function( _evt, _ix ){
+                    JC.log( &#x27;legendUpdate&#x27;, _ix, JC.f.ts() );
+                });
+
                 _p.on( Histogram.Model.UPDATE_STATUS, function( _evt, _index, _offset ){
                     if( !_offset ) return;
                     if( typeof _index == &#x27;undefined&#x27; ) return;
@@ -827,13 +831,6 @@
                 }
 
                 _p._model.tips().toFront();
-
-                /*
-                var _t = new JChart.GraphicRect( _p.stage(), 0, 0, 100, 100, { &#x27;fill&#x27;: &#x27;#000&#x27; }, { &#x27;fill&#x27;: &#x27;#fff&#x27; } );
-                setTimeout( function(){
-                    _t.hover();
-                }, 200 );
-                */
             }
         /**
          * 从给出的数据显示图表

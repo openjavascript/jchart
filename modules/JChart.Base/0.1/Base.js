@@ -316,6 +316,7 @@ window.JChart = window.JChart || {};
                             {
                                 var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
                                 _x += _bx;
+                                _p._legendSet = [];
                                 $.each( _data.series, function( _k, _item ){
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
@@ -329,6 +330,18 @@ window.JChart = window.JChart || {};
                                     _p._legend.addChild( _text, 'text_' + _k );
                                     _x = _tb.x + _tb.width + _pad;
                                     _h = _tb.height * 1.8;
+
+                                    var _set = _p.stage().set();
+                                        _set.push( _legend.item( 'element' ), _text );
+                                        _set.attr( { 'cursor': 'pointer' } ).data( 'ix', _k );
+
+                                        //JC.log( 'set ix', _set.data( 'ix' ), JC.f.ts(), _set.length );
+
+                                        _set.click( function( _evt ){
+                                            //JC.log( 'set click', this.data('ix'), JC.f.ts() );
+                                            _p.trigger( 'legendUpdate', [ this.data('ix') ] );
+                                        });
+                                        _p._legendSet.push( _set );
                                 });
 
                                 var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
@@ -340,6 +353,7 @@ window.JChart = window.JChart || {};
                     
                 return this._legend;
             }
+        , legendSet: function(){ return this._legendSet; }
         /**
          * 图表标题
          */
@@ -347,7 +361,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 _data && _data.title && _data.title.text 
                     && !this._title 
-                    && ( this._title = this.stage().text( -9999, 0, _data.title.text ) )
+                    && ( this._title = this.stage().text( -9999, 0, _data.title.text ).attr( { 'cursor': 'default' } ) )
                     && ( this._title.node.setAttribute( 'class', 'jcc_title' ) )
                     ;
 
@@ -360,7 +374,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 _data && _data.subtitle && _data.subtitle.text 
                     && !this._subtitle 
-                    && ( this._subtitle = this.stage().text( 0, 0, _data.subtitle.text ) )
+                    && ( this._subtitle = this.stage().text( 0, 0, _data.subtitle.text ).attr( { 'cursor': 'default' } ) )
                     && ( this._subtitle.node.setAttribute( 'class', 'jcc_subtitle' ) )
                     ;
                 return this._subtitle;
@@ -372,7 +386,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 _data && _data.yAxis && _data.yAxis.title && _data.yAxis.title.text
                     && !this._vtitle 
-                    && ( this._vtitle = this.stage().text( -9999, 0, _data.yAxis.title.text )
+                    && ( this._vtitle = this.stage().text( -9999, 0, _data.yAxis.title.text ).attr( { 'cursor': 'default' } )
                           , this._vtitle.node.setAttribute( 'class', 'jcc_vtitle' )   
                         )
                     ;
@@ -395,6 +409,8 @@ window.JChart = window.JChart || {};
                                 , this._credits.node.setAttribute( 'class', 'jcc_credit jcc_pointer jcc_link' ) 
                                 , this._credits.click( function(){ location.href = _data.credits.href; } )
                             );
+
+                    this._credits && !_data.credits.href && this.credits.attr( { 'cursor': 'default' } );
                 }
                 return this._credits;
             }
@@ -582,7 +598,7 @@ window.JChart = window.JChart || {};
                     $.each( _rate, function( _ix, _item ){
                         _text = _maxNum * _item;
                         _rateInfo.minNNum && ( _text = JC.f.parseFinance( _text, _p.floatLen() ) );
-                        _tmp = _p.stage().text( 10000, 0, _text.toString()  );
+                        _tmp = _p.stage().text( 10000, 0, _text.toString()  ).attr( { 'cursor': 'default' } );
                         _eles.push( _tmp );
                     });
 
@@ -603,7 +619,7 @@ window.JChart = window.JChart || {};
                         ;
 
                     $.each( _data.xAxis.categories, function( _ix, _item ){
-                        _tmp = _p.stage().text( 10000, 0, _item || '' );
+                        _tmp = _p.stage().text( 10000, 0, _item || '' ).attr( { 'cursor': 'default' } );
                         _match && _match.length && !_match[ _ix ] && _tmp.hide();
                         _eles.push( _tmp );
                     });

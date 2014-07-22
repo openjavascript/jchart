@@ -17,7 +17,6 @@ window.JChart = window.JChart || {};
  *
  *<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
  *   | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Base.html' target='_blank'>API docs</a>
- *   | <a href='../../modules/JChart.Base/0.1/_demo' target='_blank'>demo link</a></p>
  *  
  *<h2>页面只要引用本脚本, 默认会处理 div class="js_compBase"</h2>
  *

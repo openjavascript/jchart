@@ -291,11 +291,30 @@
     });
 
     Histogram.Model._instanceName = &#x27;JChartHistogram&#x27;;
-
+    /**
+     * 鼠标移动式触发的事件
+     * @event update_moving_status
+     */
     Histogram.Model.UPDATE_MOVING_STATUS = &#x27;update_moving_status&#x27;;
+    /**
+     * 更新 图表 和 Tips 的显示状态
+     * @event update_status
+     */
     Histogram.Model.UPDATE_STATUS = &#x27;update_status&#x27;;
+    /**
+     * 鼠标进入图表主区域时, 触发的事件
+     * @event   moving_start
+     */
     Histogram.Model.MOVING_START = &#x27;moving_start&#x27;;
+    /**
+     * 鼠标离开图表主区域时, 触发的事件
+     * @event   moving_done
+     */
     Histogram.Model.MOVING_DONE = &#x27;moving_done&#x27;;
+    /**
+     * 清除图表的显示状态
+     * @event   clear_status
+     */
     Histogram.Model.CLEAR_STATUS = &#x27;clear_status&#x27;;
 
     var _oldWorkspaceOffset = Histogram.Model.prototype.workspaceOffset;
@@ -497,9 +516,12 @@
                 _maxY -= _p.varrowSize();
                 _x += _p.harrowSize();
 
-                var _hlabelMaxHeight = _p.hlabelMaxHeight( _data );
-                var _vlabelMaxWidth = _p.vlabelMaxWidth( _data );
-                var _vx = _x, _hy = _y;
+                    //水平 label 的最大高度
+                var _hlabelMaxHeight = _p.hlabelMaxHeight( _data )
+                    //垂直 label 的最大宽度
+                    , _vlabelMaxWidth = _p.vlabelMaxWidth( _data )
+                    , _vx = _x, _hy = _y
+                    ;
 
                 if( _vlabelMaxWidth ){
                     _x += _vlabelMaxWidth;
@@ -514,14 +536,19 @@
                     _maxY -= 5;
                 }
 
-                //JC.log( _x, _maxX, _maxX - _x );
-
-                _c.vlen = _p.vlen();
-                _c.hlen = _p.hlen();
-
-                _c.vpart = ( _maxY - _y ) / ( _c.vlen - 1 );
+                _c.vlen = _p.vlen(); //图表数据粒度的长度
+                _c.hlen = _p.hlen(); //图表数据的长度
+                /**
+                 * 垂直内容的高度
+                 */
+                _c.vpart = ( _maxY - _y ) / ( _c.vlen - 1 ); 
+                /**
+                 * 水平内容的宽度
+                 */
                 _c.hpart = ( _maxX - _x ) / ( _c.hlen );
-
+                /**
+                 * 水平内容人一半宽度
+                 */
                 _c.halfHPart = _c.hpart / 2;
 
                 _c.seriesLength = _p.seriesLength();

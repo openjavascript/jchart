@@ -151,11 +151,30 @@
     });
 
     Histogram.Model._instanceName = 'JChartHistogram';
-
+    /**
+     * 鼠标移动式触发的事件
+     * @event update_moving_status
+     */
     Histogram.Model.UPDATE_MOVING_STATUS = 'update_moving_status';
+    /**
+     * 更新 图表 和 Tips 的显示状态
+     * @event update_status
+     */
     Histogram.Model.UPDATE_STATUS = 'update_status';
+    /**
+     * 鼠标进入图表主区域时, 触发的事件
+     * @event   moving_start
+     */
     Histogram.Model.MOVING_START = 'moving_start';
+    /**
+     * 鼠标离开图表主区域时, 触发的事件
+     * @event   moving_done
+     */
     Histogram.Model.MOVING_DONE = 'moving_done';
+    /**
+     * 清除图表的显示状态
+     * @event   clear_status
+     */
     Histogram.Model.CLEAR_STATUS = 'clear_status';
 
     var _oldWorkspaceOffset = Histogram.Model.prototype.workspaceOffset;
@@ -234,10 +253,10 @@
             function( _point ){
                 var _p = this
                     , _c = _p.coordinate()
-                    , _realX = _point.x - _c.wsX
-                    , _realY = _point.y - _c.wsY
-                    , _maxX = _c.wsWidth
-                    , _maxY = _c.wsHeight
+                    , _realX = _point.x - _c.chartX
+                    , _realY = _point.y - _c.chartY
+                    , _maxX = _c.chartWidth
+                    , _maxY = _c.chartHeight
                     , _itemLen, _partWidth
                     , _partWhat = 0;
                     ;
@@ -247,7 +266,7 @@
                 }
 
                 _itemLen = ( _c.hlen - 1 ) * 2;
-                _partWidth = _c.wsWidth / _itemLen;
+                _partWidth = _c.chartWidth / _itemLen;
                 _partWhat = Math.floor( _realX / _partWidth  );
                 _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
 
@@ -357,9 +376,12 @@
                 _maxY -= _p.varrowSize();
                 _x += _p.harrowSize();
 
-                var _hlabelMaxHeight = _p.hlabelMaxHeight( _data );
-                var _vlabelMaxWidth = _p.vlabelMaxWidth( _data );
-                var _vx = _x, _hy = _y;
+                    //水平 label 的最大高度
+                var _hlabelMaxHeight = _p.hlabelMaxHeight( _data )
+                    //垂直 label 的最大宽度
+                    , _vlabelMaxWidth = _p.vlabelMaxWidth( _data )
+                    , _vx = _x, _hy = _y
+                    ;
 
                 if( _vlabelMaxWidth ){
                     _x += _vlabelMaxWidth;
@@ -374,31 +396,41 @@
                     _maxY -= 5;
                 }
 
-                //JC.log( _x, _maxX, _maxX - _x );
-
-                _c.vlen = _p.vlen();
-                _c.hlen = _p.hlen();
-
-                _c.vpart = ( _maxY - _y ) / ( _c.vlen - 1 );
+                _c.vlen = _p.vlen(); //图表数据粒度的长度
+                _c.hlen = _p.hlen(); //图表数据的长度
+                /**
+                 * 垂直内容的高度
+                 */
+                _c.vpart = ( _maxY - _y ) / ( _c.vlen - 1 ); 
+                /**
+                 * 水平内容的宽度
+                 */
                 _c.hpart = ( _maxX - _x ) / ( _c.hlen );
-
+                /**
+                 * 水平内容的一半宽度
+                 */
                 _c.halfHPart = _c.hpart / 2;
-
+                /**
+                 * 图表有多少条数据
+                 */
                 _c.seriesLength = _p.seriesLength();
+                /**
+                 * 计算总共有多少条数据
+                 */
                 _c.seriesPart = Math.floor( _c.hpart / ( _c.seriesLength * 1.5 ) );
 
-                _c.wsHeight = _maxY - _y;
-                _c.wsY = _y;
-                _c.wsMaxY = _maxY;
+                _c.chartHeight = _maxY - _y;
+                _c.chartY = _y;
+                _c.chartMaxY = _maxY;
 
-                _c.wsWidth = _maxX - _x;
-                _c.wsX = _x;
+                _c.chartWidth = _maxX - _x;
+                _c.chartX = _x;
                 _c.wsMaxX = _maxX;
 
-                var _dataBackground = _p.dataBackground( _c.wsX, _c.wsY, _c.wsWidth, _c.wsHeight );
+                var _dataBackground = _p.dataBackground( _c.chartX, _c.chartY, _c.chartWidth, _c.chartHeight );
                 if( _dataBackground ){
                     _c.dataBackground = {
-                        x: _c.wsX, y: _c.wsY, width: _c.wsWidth, height: _c.wsHeight, item: _dataBackground
+                        x: _c.chartX, y: _c.chartY, width: _c.chartWidth, height: _c.chartHeight, item: _dataBackground
                     };
                 }
 
@@ -413,7 +445,7 @@
                         if( _tmp && _tmp.length ){
                             !_tmp[ _ix ] && ( _padX = 0 );
                         }
-                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.wsHeight }
+                        _tmpA.push( {  start: { 'x': _tmpX, 'y': _y + _c.chartHeight }
                         //_tmpA.push( {  start: { 'x': _tmpX, 'y': _y }
                             , end: { 'x': _tmpX, 'y': _maxY + _padX }
                             , 'item': _item  } );
@@ -472,8 +504,8 @@
                             }
                         }else if( _ix === 0 ){
                             _tmpX = _lineItem.end.x - 2;
-                            if(  ( _tmpX - _bbox.width / 2 ) < _c.wsX ){
-                                _tmpX = _c.wsX + _bbox.width / 2;
+                            if(  ( _tmpX - _bbox.width / 2 ) < _c.chartX ){
+                                _tmpX = _c.chartX + _bbox.width / 2;
                             }
                         }
                         _tmpY = _hy;
@@ -494,20 +526,20 @@
                     var _rectItems = []
                         , _lineItem = _c.vlinePoint[ _ix ]
                         , _sstart = _lineItem.end.x - _c.seriesPart * _data.series.length / 2
-                        , _wsX = _lineItem.end.x - _c.hpart / 2 
+                        , _chartX = _lineItem.end.x - _c.hpart / 2 
                         , _maxNum
                         ;
                     _c.rectLine.push( {
-                        start: { x: _wsX, y: _lineStartY }
-                        , end: { x: _wsX, y: _lineEndY }
+                        start: { x: _chartX, y: _lineStartY }
+                        , end: { x: _chartX, y: _lineEndY }
                         , item: _p.stage().path('M0 0').attr( _p.lineStyle( _ix ) )
                     } );
 
                     if( _ix === _data.xAxis.categories.length - 1 ){
-                        _wsX = _lineItem.end.x + _c.hpart / 2;
+                        _chartX = _lineItem.end.x + _c.hpart / 2;
                         _c.rectLine.push( {
-                            start: { x: _wsX, y: _lineStartY }
-                            , end: { x: _wsX, y: _lineEndY }
+                            start: { x: _chartX, y: _lineStartY }
+                            , end: { x: _chartX, y: _lineEndY }
                             , item: _p.stage().path('M0 0').attr( _p.lineStyle( _ix ) )
                         } );
                     }
@@ -521,14 +553,14 @@
                         if( JChart.Base.isNegative( _num ) ){
                             _num = Math.abs( _num );
                             _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
-                            _dataY = _c.wsY + _c.vpart * _rateInfo.zeroIndex;
+                            _dataY = _c.chartY + _c.vpart * _rateInfo.zeroIndex;
                             _maxNum = Math.abs( _rateInfo.finalMaxNum * _p.rate()[ _p.rate().length - 1 ] );
                             _height = ( _num / _maxNum ) * _dataHeight;
-                            _d.y = _d.y + _c.wsHeight - _dataHeight;
+                            _d.y = _d.y + _c.chartHeight - _dataHeight;
                             //JC.log( _rateInfo.length, _rateInfo.zeroIndex, _c.vpart, _dataHeight, JC.f.ts() );
                         }else{
                             _dataHeight = _c.vpart * _rateInfo.zeroIndex;
-                            _dataY = _c.wsY;
+                            _dataY = _c.chartY;
                             _maxNum = _rateInfo.finalMaxNum;
                             _height = ( _num / _maxNum ) * _dataHeight;
                             _d.y = _d.y + _dataHeight - _height;

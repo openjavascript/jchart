@@ -77,7 +77,7 @@ window.JChart = window.JChart || {};
 
                 _oldInit.call( _p );
 
-                _p.on( 'update', function( _evt, _data ){
+                _p.on( 'update_data', function( _evt, _data ){
                     _p.trigger( 'clear' );
                     _p._view.update( _data );
 
@@ -117,7 +117,8 @@ window.JChart = window.JChart || {};
                     _data = JC.f.scriptContent( this._model.selectorProp( 'chartScriptData' ) );
                     _data = _data.replace( /\}[\s]*?,[\s]*?\}$/g, '}}');
                     _data = eval( '(' + _data + ')' );
-                    this.trigger( 'update', [ _data ] );
+                    this.trigger( 'update_data', [ _data ] );
+                    this.trigger( 'initDisplaySeries' );
                 }
                 return this;
             }
@@ -128,7 +129,9 @@ window.JChart = window.JChart || {};
          */
         , update:
             function( _data ){
-                this.trigger( 'update', _data );
+                this.trigger( 'resetDisplaySeries' );
+                this.trigger( 'update_data', _data );
+                this.trigger( 'initDisplaySeries' );
                 return this;
             }
     });
@@ -952,6 +955,23 @@ window.JChart = window.JChart || {};
                 return _r;
             }
 
+        , displaySeries:
+            function(){
+            }
+
+        , updateDisplaySeries:
+            function(){
+                JC.log( 'updateDisplaySeries', JC.f.ts(), this.series() );
+                //this.displaySeriesData = _series;
+            }
+
+        , series:
+            function(){
+                var _r;
+                this.data() && ( 'series' in this.data() ) 
+                    && ( _r = this.data().series );
+                return _r;
+            }
     });
 
     JC.f.extendObject( Base.View.prototype, {

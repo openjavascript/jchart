@@ -134,10 +134,6 @@
                     _p._view.clearStatus();
                 });
 
-                _p.on( 'legendUpdate', function( _evt, _ix ){
-                    //JC.log( 'legendUpdate', _ix, JC.f.ts() );
-                });
-
                 _p.on( Histogram.Model.UPDATE_STATUS, function( _evt, _index, _offset ){
                     if( !_offset ) return;
                     if( typeof _index == 'undefined' ) return;
@@ -145,6 +141,18 @@
                     _p._view.updateTips( _index, _offset );
                     _p._view.updateRect( _index );
                     _p._view.updateVLine( _index );
+                });
+
+                _p.on( 'resetDisplaySeries', function( _evt ){
+                });
+
+                _p.on( 'initDisplaySeries', function( _evt ){
+                    JC.log( 'initDisplaySeries', JC.f.ts() );
+                    _p._model.updateDisplaySeries();
+                });
+
+                _p.on( 'legendUpdate', function( _evt, _ix ){
+                    //JC.log( 'legendUpdate', _ix, JC.f.ts() );
                 });
             }
 

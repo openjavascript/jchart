@@ -47,10 +47,10 @@
 
         this._model = new Histogram.Model( _selector );
         this._view = new Histogram.View( this._model );
-
+        console.log(this._init);
         this._init();
 
-        //JC.log( Histogram.Model._instanceName, 'all inited', new Date().getTime() );
+        JC.log( Histogram.Model._instanceName, 'all inited', new Date().getTime() );
     }
     /**
      * 初始化可识别的 Histogram 实例

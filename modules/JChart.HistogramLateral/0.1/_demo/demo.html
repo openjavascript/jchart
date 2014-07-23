@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Open JQuery Components Library - suches</title>
+    <style>
+        body{
+            margin: 20px 40px;
+        }
+
+        .defDl > dd{
+            border-bottom:1px solid #e2e3ea; 
+        }
+
+    </style>
+    <link href='../../../../res/default/style.css' rel='stylesheet' />
+    <script src="../../../../lib.js"></script>
+    <script src="../../../../config.js"></script>
+    <script>
+        JC.debug = true;
+
+        requirejs( [ 'JChart.HistogramLateral', 'json2' ], function(){
+        });
+    </script>
+</head>    
+<body>
+    <h2>JChart.HistogramLateral 示例</h2>
+
+    <dl class="defDl">
+        <dt></dt>
+        <dd>
+            <div class="js_jchart jcharHistogramLateral"
+                chartScriptData="/script"
+                chartWidth="600"
+                chartHeight="400"
+                >
+                <script type="text/template">
+                    {
+                        chart: {
+                            type: 'column',
+                            renderTo: 'columnCont'
+                        }, 
+                        title: {
+                            text:'北京每月平均温度和降水'
+                        },
+                        subtitle: {
+                            text: '北京气象局'
+                        }, 
+                        xAxis: {
+                            categories: JChart.getOptions().lang.shortMonths
+                        }, 
+                        yAxis: {
+                            title: {
+                                text: '平均温度'
+                            }
+                        },
+                        series:[{
+                            name: 'Temperature',
+                            data: [-50, 1, 3, 10, 20, 27, 28, 32, 30, 25, 15, -5]
+                        }, {
+                            name: 'Rainfall',
+                            data: [20, 21, 20, 100, -10, 210, 220, 100, 20, 10, 20, 10]
+                        }],
+                        displayAllLabel: true,
+                        legend: {
+                            enabled: false
+                        },
+                        credits: {
+                            enabled: true
+                            , text: 'jchart.openjavascript.org'
+                            , href: 'http://jchart.openjavascript.org/'
+                        },
+                    }
+                </script>
+            </div>
+        </dd>
+    </dl>
+</body>
+</html>
+
+

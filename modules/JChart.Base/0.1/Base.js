@@ -4,7 +4,7 @@
     , 'JChart.common'
     , 'JChart.DefaultOptions' 
     , 'JChart.Event', 'JChart.Group'
-    , 'JChart.IconLine', 'JChart.IconRect'
+    , 'JChart.IconLine', 'JChart.IconRect', 'JChart.IconCircle'
 ], function(){
 window.JChart = window.JChart || {};
 /**
@@ -355,6 +355,7 @@ window.JChart = window.JChart || {};
                                 var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
                                         .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
                                 _p._legend.addChild( _box, 'box' );
+                                break;
                             }
 
                         case 'circle':
@@ -386,6 +387,7 @@ window.JChart = window.JChart || {};
                                 var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
                                         .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
                                 _p._legend.addChild( _box, 'box' );
+                                break;
                             }
 
                     }

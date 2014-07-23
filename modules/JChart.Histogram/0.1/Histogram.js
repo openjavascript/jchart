@@ -144,7 +144,7 @@
                     _p._view.updateVLine( _index );
                 });
 
-                _p.on( 'resetDisplaySeries', function( _evt, _data ){
+                _p.on( JChart.Base.Model.RESET_DISPLAY_SERIES, function( _evt, _data ){
                     _p._model.displayLegend = {};
                     _p._model.displayLegendMap = {};
                     _p._model.displaySeries = [];
@@ -158,7 +158,7 @@
                     }
                 });
 
-                _p.on( 'legendUpdate', function( _evt, _ix ){
+                _p.on( JChart.Base.Model.LEGEND_UPDATE, function( _evt, _ix ){
                     if( !( _p._model.legendSet() && _p._model.legendSet().length ) ) return;
                     var _set = _p._model.legendSet()[ _ix ];
                     if( !_set ) return;
@@ -195,7 +195,7 @@
                             });
                         }
 
-                        _p.trigger( 'update_data', [ _p._model.data() ] );
+                        _p.trigger( JChart.Base.Model.UPDATE_CHART_DATA, [ _p._model.data() ] );
                         //JC.dir( _p._model.displaySeries );
                     }
                 });

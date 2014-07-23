@@ -77,15 +77,15 @@ window.JChart = window.JChart || {};
 
                 _oldInit.call( _p );
 
-                _p.on( 'update_data', function( _evt, _data ){
-                    _p.trigger( 'clear' );
+                _p.on( Base.Model.UPDATE_CHART_DATA, function( _evt, _data ){
+                    _p.trigger( Base.Model.CLEAR );
                     _p._view.update( _data );
 
                     _p._model.chartSize( { width: _p._model.width(), height: _p._model.height() } );
                 });
 
-                _p.on( 'clear', function( _evt ){
-                    _p.trigger( 'clear_status' );
+                _p.on( Base.Model.CLEAR, function( _evt ){
+                    _p.trigger( Base.Model.CLEAR_STATUS );
                     _p._view && _p._view.clear();
                     //_p._model.clear && _p._model.clear();
                 });
@@ -117,8 +117,8 @@ window.JChart = window.JChart || {};
                     _data = JC.f.scriptContent( this._model.selectorProp( 'chartScriptData' ) );
                     _data = _data.replace( /\}[\s]*?,[\s]*?\}$/g, '}}');
                     _data = eval( '(' + _data + ')' );
-                    this.trigger( 'resetDisplaySeries', [ _data ] );
-                    this.trigger( 'update_data', [ _data ] );
+                    this.trigger( Base.Model.RESET_DISPLAY_SERIES, [ _data ] );
+                    this.trigger( Base.Model.UPDATE_CHART_DATA, [ _data ] );
                 }
 
                 _p._model.width() && _p.selector().css( { 'width': _p._model.width() } );
@@ -132,8 +132,8 @@ window.JChart = window.JChart || {};
          */
         , update:
             function( _data ){
-                this.trigger( 'resetDisplaySeries', [ _data ] );
-                this.trigger( 'update_data', _data );
+                this.trigger( Base.Model.RESET_DISPLAY_SERIES, [ _data ] );
+                this.trigger( Base.Model.UPDATE_CHART_DATA, _data );
                 return this;
             }
     });
@@ -141,6 +141,12 @@ window.JChart = window.JChart || {};
     Base.Model._instanceName = 'JChartBase';
     Base.Model.LABEL_RATE = [ 1, .75, .5, .25, 0 ];
     Base.Model.INS_COUNT = 1;
+
+    Base.Model.CLEAR = 'clear';
+    Base.Model.CLEAR_STATUS = 'clear_status';
+    Base.Model.UPDATE_CHART_DATA = 'update_data';
+    Base.Model.RESET_DISPLAY_SERIES = 'resetDisplaySeries';
+    Base.Model.LEGEND_UPDATE = 'legendUpdate';
 
     JC.f.extendObject( Base.Model.prototype, {
         init:
@@ -349,7 +355,7 @@ window.JChart = window.JChart || {};
 
                                         _set.click( function( _evt ){
                                             //JC.log( 'set click', this.data('ix'), JC.f.ts() );
-                                            _p.trigger( 'legendUpdate', [ this.data('ix') ] );
+                                            _p.trigger( Base.Model.LEGEND_UPDATE, [ this.data('ix') ] );
                                         });
                                         _p._legendSet.push( _set );
                                 });
@@ -1084,7 +1090,7 @@ window.JChart = window.JChart || {};
                     if( _size.width == _w && _size.height == _h ) return;
                     _w < 100 && ( _w = 100 ); 
                     _h < 100 && ( _h = 100 );
-                    _ins.trigger( 'update_data', _ins._model.data() );
+                    _ins.trigger( Base.Model.UPDATE_CHART_DATA, _ins._model.data() );
                 }, 1 );
             });
         };

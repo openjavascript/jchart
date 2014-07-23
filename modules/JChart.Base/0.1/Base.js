@@ -294,7 +294,8 @@ window.JChart = window.JChart || {};
                           _tmp
                         )
                     ){
-                    this._legend =  new JChart.Group();
+                    _p._legend =  new JChart.Group();
+                    _p._legendSet = [];
                     _type = _type || 'line';
                     switch( _type ){
                         case 'line':
@@ -314,6 +315,11 @@ window.JChart = window.JChart || {};
                                     _p._legend.addChild( _text, 'text_' + _k );
                                     _x = _tb.x + _tb.width + _pad;
                                     _h = _tb.height * 1.8;
+
+                                    var _set = _p.stage().set();
+                                    _set.push( _legend.item( 'element' ), _text );
+                                    _p.initLegendSet( _set, _k );
+                                    _p._legendSet.push( _set );
                                 });
 
                                 var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
@@ -326,7 +332,6 @@ window.JChart = window.JChart || {};
                             {
                                 var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
                                 _x += _bx;
-                                _p._legendSet = [];
                                 $.each( _p.series(), function( _k, _item ){
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
@@ -343,20 +348,7 @@ window.JChart = window.JChart || {};
 
                                     var _set = _p.stage().set();
                                         _set.push( _legend.item( 'element' ), _text );
-                                        _set.attr( { 'cursor': 'pointer' } ).data( 'ix', _k );
-
-                                        //JC.log( 'set ix', _set.items[0].data( 'ix' ), JC.f.ts(), _set.length );
-                                        //
-                                        if( _p.displayLegend ){
-                                            if( !( _k in _p.displayLegend ) ){
-                                                _set.attr( { 'opacity': .35 } ).data( 'selected', true );
-                                            }
-                                        }
-
-                                        _set.click( function( _evt ){
-                                            //JC.log( 'set click', this.data('ix'), JC.f.ts() );
-                                            _p.trigger( Base.Model.LEGEND_UPDATE, [ this.data('ix') ] );
-                                        });
+                                        _p.initLegendSet( _set, _k );
                                         _p._legendSet.push( _set );
                                 });
 
@@ -368,6 +360,22 @@ window.JChart = window.JChart || {};
                 }
                     
                 return this._legend;
+            }
+        , initLegendSet:
+            function( _set, _k ){
+                var _p = this;
+                _set.attr( { 'cursor': 'pointer' } ).data( 'ix', _k );
+
+                if( _p.displayLegend ){
+                    if( !( _k in _p.displayLegend ) ){
+                        _set.attr( { 'opacity': .35 } ).data( 'selected', true );
+                    }
+                }
+
+                _set.click( function( _evt ){
+                    //JC.log( 'set click', this.data('ix'), JC.f.ts() );
+                    _p.trigger( Base.Model.LEGEND_UPDATE, [ this.data('ix') ] );
+                });
             }
         , legendSet: function(){ return this._legendSet; }
         /**
@@ -844,7 +852,7 @@ window.JChart = window.JChart || {};
                             , 'title' );
 
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _strokeColor = _p.itemStyle( _k ).stroke;
+                        _strokeColor = _p.itemStyle( _p.getLegendMapIndex( _k ) ).stroke;
                         _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || 'empty' )
                                 .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
                         _tmpBox = JChart.f.getBBox( _tmp );
@@ -854,7 +862,7 @@ window.JChart = window.JChart || {};
                     });
 
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _strokeColor = _p.itemStyle( _k ).stroke;
+                        _strokeColor = _p.itemStyle( _p.getLegendMapIndex( _k ) ).stroke;
                         _tmpItem = _p._tips.getChildByName( 'label_' + _k );
                         _tmpBox = JChart.f.getBBox( _tmpItem );
                         _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
@@ -1004,6 +1012,72 @@ window.JChart = window.JChart || {};
                     _r = this.displaySeries;
                 }
                 return _r;
+            }
+
+        , resetDisplaySeries:
+            function( _data ){
+                var _p = this;
+                _p.displayLegend = {};
+                _p.displayLegendMap = {};
+                _p.displaySeries = [];
+
+                if( _data && _data.series ){
+                    $.each( _data.series, function( _k, _item ){
+                        _p.displayLegend[ _k ] = _k;
+                        _p.displayLegendMap[ _k ] = _k;
+                        _p.displaySeries.push( _item );
+                    });
+                }
+            }
+
+        , getLegendMapIndex:
+            function( _ix ){
+                this.displayLegendMap && ( _ix = this.displayLegendMap[ _ix ] );
+                return _ix;
+            }
+
+        , updateLegend:
+            function( _ix ){
+                var _p = this;
+                if( !( _p.legendSet() && _p.legendSet().length ) ) return;
+                var _set = _p.legendSet()[ _ix ];
+                if( !_set ) return;
+
+                if( _set.items.length ){
+                    var _selected = !JC.f.parseBool( _set.items[0].data( 'selected' ) ); 
+                    _set.data( 'selected', _selected );
+                    if( _selected ){
+                        _set.attr( { opacity: .35 } );
+                    }else{
+                        _set.attr( { opacity: 1 } );
+                        _p.displayLegend[ _ix ] = _ix;
+                    }
+
+                    _p.displayLegend = {};
+                    _p.displayLegendMap = {};
+                    var _count = 0;
+                    $.each( _p.legendSet(), function( _k, _item ){
+                        if( !JC.f.parseBool( _item.items[0].data( 'selected' ) ) ){
+                            _p.displayLegend[ _k ] = _count;
+                            _p.displayLegendMap[ _count ] = _k;
+                            //JC.log( _k, _count );
+                            _count++;
+                        }
+                    });
+
+                    //JC.dir( _p.displayLegend );
+                    _p.displaySeries = [];
+                    if( _p.series() && _p.series().length ){
+                        $.each( _p.series(), function( _k, _item ){
+                            if( _k in _p.displayLegend ){
+                                _p.displaySeries.push( _item );
+                            }
+                        });
+                    }
+                    _p.trigger( JChart.Base.Model.UPDATE_CHART_DATA, [ _p.data() ] );
+                    //JC.dir( _p._model.displaySeries );
+                }
+
             }
     });
 

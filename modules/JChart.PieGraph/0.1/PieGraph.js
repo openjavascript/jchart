@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconVLine', 'JChart.IconRect', 'JChart.GraphicPiePart' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconVLine', 'JChart.IconCircle', 'JChart.GraphicPiePart' ], function(){
 /**
  * 柱状图
  *
@@ -130,8 +130,8 @@
 
                 _p.on( 'update_default_selected', function( _evt ){
                     var _ix;
-                    _p._model.pieData() && _p._model.pieData().length
-                        && $.each( _p._model.pieData(), function( _k, _item ){
+                    _p._model.series() && _p._model.series().length
+                        && $.each( _p._model.series(), function( _k, _item ){
                             _item.selected && ( _ix = _k );
                         });
 
@@ -141,6 +141,17 @@
                         && _p._model.piePart()[ _ix ].selected( true )
                         ;
                 });
+
+                _p.on( JChart.Base.Model.RESET_DISPLAY_SERIES, function( _evt, _data ){
+                    //_p._model.resetDisplaySeries( _data );
+                    JC.log( JChart.Base.Model.RESET_DISPLAY_SERIES, JC.f.ts() );
+                });
+
+                _p.on( JChart.Base.Model.LEGEND_UPDATE, function( _evt, _ix ){
+                    //_p._model.updateLegend( _ix );
+                    JC.log( JChart.Base.Model.LEGEND_UPDATE, _ix, JC.f.ts() );
+                });
+
             }
 
         , _inited:
@@ -179,18 +190,6 @@
     JC.f.extendObject( PieGraph.Model.prototype, {
         init:
             function(){
-            }
-
-        , pieData:
-            function(){
-                var _p = this;
-
-                typeof _p._pieData == 'undefined' && _p.data() && _p.data().series 
-                    && _p.data().series.length 
-                    && _p.data().series[0].data
-                    && _p.data().series[0].data.length
-                    && ( _p._pieData = _p.data().series[0].data )
-                return _p._pieData;
             }
 
         , dataLabelEnabled:
@@ -263,52 +262,6 @@
                 typeof _setter != 'undefined' && ( this._index = _setter );
                 return this._index;
             }
-        /**
-         * 数据图例图标
-         */
-        , legend:
-            function( _data, _type, _cb ){
-                var _p = this, _tmp = true, _type;
-
-                if( !this._legend && _data && 
-                        ( ( _data.legend && ( 'enabled' in _data.legend ) && ( _tmp = _data.legend.enabled ) ) ||
-                          _tmp
-                        )
-                    ){
-                    this._legend =  new JChart.Group();
-                    _type = _type || 'line';
-                    switch( _type ){
-                        case 'rect':
-                            {
-                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
-                                _x += _bx;
-
-                                _p.pieData() &&
-                                $.each( _p.pieData(), function( _k, _item ){
-                                    if( !_item.name ) return;
-                                    var _style = _p.itemStyle( _k );
-                                    _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
-                                    _lb = JChart.f.getBBox( _legend );
-                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
-                                    _tb = JChart.f.getBBox( _text );
-                                    _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
-                                    _legend.attr( _style );
-                                    _legend.attr( 'fill', _style.fill );
-                                    _p._legend.addChild( _text, 'text_' + _k );
-                                    _x = _tb.x + _tb.width + _pad;
-                                    _h = _tb.height * 1.8;
-                                });
-
-                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                                        .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
-                                _p._legend.addChild( _box, 'box' );
-                            }
-                    }
-                }
-                    
-                return this._legend;
-            }
-
         /**
          * 保存图表数据
          */
@@ -483,7 +436,7 @@
 
                     var _maxTextWidth = 0, _tmpLabel;
                     _maxTextWidth = JChart.f.getBBox( _p._tips.getChildByName( 'val_' + 0 )
-                                    .attr( 'text', JC.f.moneyFormat( _p.pieData()[ _ix ].y, 3, _p.floatLen() ) )).width;
+                                    .attr( 'text', JC.f.moneyFormat( _p.series()[ _ix ].y, 3, _p.floatLen() ) )).width;
 
                     _p._tips.getChildByName( 'title' ).attr( 'fill', _p.itemStyle( _ix ).fill );
 
@@ -506,8 +459,8 @@
         , tipsTitle:
             function( _ix ){
                 var _p = this, _r = '';
-                _p.pieData() && _p.pieData().length && _p.pieData()[ _ix ] &&
-                    ( _r = _p.pieData()[ _ix ].name );
+                _p.series() && _p.series().length && _p.series()[ _ix ] &&
+                    ( _r = _p.series()[ _ix ].name );
                 return _r;
             }
 
@@ -592,7 +545,7 @@
 
                 if( _p.legendEnable() ){
 
-                    var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
+                    var _legend = _p.legend( _data, 'circle', function( _ix, _legend, _text, _data ){
                         var _color = _data.stroke 
                                         || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
                                         || '#fff';
@@ -645,7 +598,7 @@
 
                 //_p.stage().circle( _c.cx, _c.cy, _c.radius );
 
-                if( _p.pieData() && _p.pieData().length ){
+                if( _p.series() && _p.series().length ){
                     var _angle = 360
                         , _angleCount = 0
                         , _offsetAngle = _p.offsetAngle()
@@ -658,7 +611,7 @@
 
                     //JC.log( '_p.dataLabelEnabled:', _p.dataLabelEnabled() );
 
-                    $.each( _p.pieData(), function( _k, _item ){
+                    $.each( _p.series(), function( _k, _item ){
                         var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius }, _pieL = {};
 
                         _pieC.radians = Math.PI / 180;
@@ -765,10 +718,10 @@
             function(){
                 var _p = this;
                 typeof _p._partSize == 'undefined' 
-                    &&_p.pieData() 
-                    && _p.pieData().length && (
+                    &&_p.series() 
+                    && _p.series().length && (
                             _p._partSize = 0
-                            , $.each( _p.pieData(), function( _k, _item ){
+                            , $.each( _p.series(), function( _k, _item ){
                                 _p ._partSize += _item.y
                             })
                        );
@@ -800,6 +753,19 @@
                 _r /= 2;
                 return _r;
             }
+
+        , series:
+            function(){
+                var _p = this;
+
+                typeof _p._series == 'undefined' && _p.data() && _p.data().series 
+                    && _p.data().series.length 
+                    && _p.data().series[0].data
+                    && _p.data().series[0].data.length
+                    && ( _p._series = _p.data().series[0].data )
+                return _p._series;
+            }
+
     });
 
     JC.f.extendObject( PieGraph.View.prototype, {

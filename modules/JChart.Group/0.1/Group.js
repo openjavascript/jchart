@@ -3,8 +3,8 @@ window.JChart = window.JChart || {};
 
     JChart.Group = Group;
 
-    function  Group(){
-        this._model = new Model();
+    function  Group( _stage ){
+        this._model = new Model( _stage );
         this._view = new View( this._model );
     }
 
@@ -59,11 +59,13 @@ window.JChart = window.JChart || {};
             }
     };
 
-    function Model(){
+    function Model( _stage ){
         this._children = [];
         this._nameMap = {};
         this._offsetMap = {};
         this._offsetMapList = [];
+        this._stage = _stage;
+        this._set = this._stage ? this._stage.set() : null;
     }
 
     Model.prototype = {
@@ -73,7 +75,12 @@ window.JChart = window.JChart || {};
                 this._offsetMapList.push( _offset );
                 _name && ( this._nameMap[ _name ] = _item );
                 _name && _offset && ( this._offsetMap[ _name ] = _offset );
+
+                this.set() && this.set().push( _item );
             }
+
+        , stage: function(){ return this._stage; }
+        , set: function(){ return this._set; }
 
         , children: function(){ return this._children; }
 

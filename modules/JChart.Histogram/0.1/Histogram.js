@@ -122,6 +122,7 @@
 
                 _p.on( Histogram.Model.MOVING_START, function( _evt ){
                     _p.trigger( Histogram.Model.CLEAR_STATUS );
+                    if( !( _p._model.displaySeries && _p._model.displaySeries.length ) ) return;
                     _p._model.tips() && _p._model.tips().show();
                 });
 
@@ -141,6 +142,62 @@
                     _p._view.updateTips( _index, _offset );
                     _p._view.updateRect( _index );
                     _p._view.updateVLine( _index );
+                });
+
+                _p.on( 'resetDisplaySeries', function( _evt, _data ){
+                    _p._model.displayLegend = {};
+                    _p._model.displayLegendMap = {};
+                    _p._model.displaySeries = [];
+
+                    if( _data && _data.series ){
+                        $.each( _data.series, function( _k, _item ){
+                            _p._model.displayLegend[ _k ] = _k;
+                            _p._model.displayLegendMap[ _k ] = _k;
+                            _p._model.displaySeries.push( _item );
+                        });
+                    }
+                });
+
+                _p.on( 'legendUpdate', function( _evt, _ix ){
+                    if( !( _p._model.legendSet() && _p._model.legendSet().length ) ) return;
+                    var _set = _p._model.legendSet()[ _ix ];
+                    if( !_set ) return;
+
+                    if( _set.items.length ){
+                        var _selected = !JC.f.parseBool( _set.items[0].data( 'selected' ) ); 
+                        _set.data( 'selected', _selected );
+                        if( _selected ){
+                            _set.attr( { opacity: .35 } );
+                        }else{
+                            _set.attr( { opacity: 1 } );
+                            _p._model.displayLegend[ _ix ] = _ix;
+                        }
+
+                        _p._model.displayLegend = {};
+                        _p._model.displayLegendMap = {};
+                        var _count = 0;
+                        $.each( _p._model.legendSet(), function( _k, _item ){
+                            if( !JC.f.parseBool( _item.items[0].data( 'selected' ) ) ){
+                                _p._model.displayLegend[ _k ] = _count;
+                                _p._model.displayLegendMap[ _count ] = _k;
+                                //JC.log( _k, _count );
+                                _count++;
+                            }
+                        });
+
+                        //JC.dir( _p._model.displayLegend );
+                        _p._model.displaySeries = [];
+                        if( _p._model.series() && _p._model.series().length ){
+                            $.each( _p._model.series(), function( _k, _item ){
+                                if( _k in _p._model.displayLegend ){
+                                    _p._model.displaySeries.push( _item );
+                                }
+                            });
+                        }
+
+                        _p.trigger( 'update_data', [ _p._model.data() ] );
+                        //JC.dir( _p._model.displaySeries );
+                    }
                 });
             }
 
@@ -196,15 +253,16 @@
 
                     $.each( _p.data().xAxis.categories, function( _k, _item ){
                         var _items = [];
-                        $.each( _p.data().series, function( _sk, _sitem ){
+                        $.each( _p.displaySeries, function( _sk, _sitem ){
                             _tmp = new JChart.GraphicRect( 
                                 _p.stage()
                                 , 10000, 0
                                 , 100
                                 , 100
-                                , _p.itemStyle( _sk )
-                                , _p.itemHoverStyle( _sk )
+                                , _p.itemStyle( _p.displayLegendMap[ _sk ] )
+                                , _p.itemHoverStyle( _p.displayLegendMap[ _sk ] )
                             );
+                            //JC.log( _sk, _p.displayLegendMap[ _sk ] );
                             _items.push( _tmp );
                         });
 
@@ -566,7 +624,7 @@
                 $.each( _data.xAxis.categories, function( _ix, _items ){
                     var _rectItems = []
                         , _lineItem = _c.vlinePoint[ _ix ]
-                        , _sstart = _lineItem.end.x - _c.seriesPart * _data.series.length / 2
+                        , _sstart = _lineItem.end.x - _c.seriesPart * _p.displaySeries.length / 2
                         , _chartX = _lineItem.end.x - _c.hpart / 2 
                         , _maxNum
                         ;
@@ -585,7 +643,9 @@
                         } );
                     }
 
-                    $.each( _data.series, function( _six, _sd ){
+                    //JC.dir( _p.displaySeries );
+
+                    $.each( _p.displaySeries, function( _six, _sd ){
                         var _d = { 'y': _lineItem.start.y, 'x': _sstart + _six * _c.seriesPart  }
                             , _item, _dataHeight, _dataY, _height
                             , _num = _sd.data[ _ix ]
@@ -689,11 +749,16 @@
                 _p._model.tips().toFront();
 
                 /*
-                var _t = new JChart.GraphicRect( _p.stage(), 0, 0, 100, 100, { 'fill': '#000' }, { 'fill': '#fff' } );
-                setTimeout( function(){
-                    _t.hover();
-                }, 200 );
+                var _text = _p.stage().text( 100, 100, 'test 1' ).attr( { 'text-anchor': 'start' } )
+                    , _text2 = _p.stage().text( 80, 120, 'test 2' ).attr( { 'text-anchor': 'start' } )
+                    , _set = _p.stage().set()
+                    ;
+                _set.push( _text );
+                _set.push( _text2 );
+
+                JChart.moveSet( _set, 0, 0);
                 */
+
             }
         /**
          * 从给出的数据显示图表
@@ -727,8 +792,9 @@
          */
         , updateTips:
             function( _ix, _offset ){
-                var _p = this
-                    , _tips = _p._model.tips( _ix )
+                var _p = this;
+                if( !( _p._model.displaySeries && _p._model.displaySeries.length ) ) return;
+                var _tips = _p._model.tips( _ix )
                     , _bbox = JChart.f.getBBox( _tips )
                     , _c = _p._model.coordinate()
                     , _x = _offset.x + 15, _y = _offset.y + 18

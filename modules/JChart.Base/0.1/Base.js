@@ -121,7 +121,7 @@ window.JChart = window.JChart || {};
                     this.trigger( Base.Model.UPDATE_CHART_DATA, [ _data ] );
                 }
 
-                _p._model.width() && _p.selector().css( { 'width': _p._model.width() } );
+                //_p._model.width() && _p.selector().css( { 'width': _p._model.width() } );
                 _p._model.height() && _p.selector().css( { 'height': _p._model.height() } );
                 return this;
             }
@@ -1090,7 +1090,7 @@ window.JChart = window.JChart || {};
                     if( _size.width == _w && _size.height == _h ) return;
                     _w < 100 && ( _w = 100 ); 
                     _h < 100 && ( _h = 100 );
-                    _ins.trigger( Base.Model.UPDATE_CHART_DATA, _ins._model.data() );
+                    _ins.trigger( JChart.Base.Model.UPDATE_CHART_DATA, _ins._model.data() );
                 }, 1 );
             });
         };

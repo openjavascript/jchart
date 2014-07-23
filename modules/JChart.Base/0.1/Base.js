@@ -112,14 +112,17 @@ window.JChart = window.JChart || {};
          */
         , _initData:
             function(){
-                var _data;
+                var _p = this, _data;
                 if( this.selector().attr( 'chartScriptData' ) ){
                     _data = JC.f.scriptContent( this._model.selectorProp( 'chartScriptData' ) );
                     _data = _data.replace( /\}[\s]*?,[\s]*?\}$/g, '}}');
                     _data = eval( '(' + _data + ')' );
+                    this.trigger( 'resetDisplaySeries', [ _data ] );
                     this.trigger( 'update_data', [ _data ] );
-                    this.trigger( 'initDisplaySeries' );
                 }
+
+                _p._model.width() && _p.selector().css( { 'width': _p._model.width() } );
+                _p._model.height() && _p.selector().css( { 'height': _p._model.height() } );
                 return this;
             }
         /**
@@ -129,9 +132,8 @@ window.JChart = window.JChart || {};
          */
         , update:
             function( _data ){
-                this.trigger( 'resetDisplaySeries' );
+                this.trigger( 'resetDisplaySeries', [ _data ] );
                 this.trigger( 'update_data', _data );
-                this.trigger( 'initDisplaySeries' );
                 return this;
             }
     });
@@ -293,7 +295,7 @@ window.JChart = window.JChart || {};
                             {
                                 var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
                                 _x += _bx;
-                                $.each( _data.series, function( _k, _item ){
+                                $.each( _p.series(), function( _k, _item ){
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
                                     _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by, 18, 3, 1, 4 );
@@ -319,7 +321,7 @@ window.JChart = window.JChart || {};
                                 var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
                                 _x += _bx;
                                 _p._legendSet = [];
-                                $.each( _data.series, function( _k, _item ){
+                                $.each( _p.series(), function( _k, _item ){
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
                                     _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
@@ -337,7 +339,13 @@ window.JChart = window.JChart || {};
                                         _set.push( _legend.item( 'element' ), _text );
                                         _set.attr( { 'cursor': 'pointer' } ).data( 'ix', _k );
 
-                                        //JC.log( 'set ix', _set.data( 'ix' ), JC.f.ts(), _set.length );
+                                        //JC.log( 'set ix', _set.items[0].data( 'ix' ), JC.f.ts(), _set.length );
+                                        //
+                                        if( _p.displayLegend ){
+                                            if( !( _k in _p.displayLegend ) ){
+                                                _set.attr( { 'opacity': .35 } ).data( 'selected', true );
+                                            }
+                                        }
 
                                         _set.click( function( _evt ){
                                             //JC.log( 'set click', this.data('ix'), JC.f.ts() );
@@ -421,10 +429,12 @@ window.JChart = window.JChart || {};
          */
         , seriesLength:
             function(){
-                typeof this._partLength == 'undefined' 
-                    && this.data() 
-                    && this.data().series 
-                    && ( this._seriesLength = this.data().series.length );
+                if( typeof this._partLength == 'undefined' ){
+                    this.getDisplaySeries()
+                        && ( this._seriesLength = this.getDisplaySeries().length );
+
+                    this._seriesLength < 2 && ( this._seriesLength = 2 );
+                }
                 return this._seriesLength;
             }
         /**
@@ -437,7 +447,11 @@ window.JChart = window.JChart || {};
 
                 if( typeof this._hlen == 'undefined' ){
                     _data.xAxis && _data.xAxis.categories && ( this._hlen = _data.xAxis.categories.length );
-                    _data.series && _data.series.data && ( this._hlen = _data.series.data.length );
+
+                    _p.series() 
+                        && _p.series().length 
+                        && _p.series()[0].data 
+                        && ( this._hlen = _p.series()[0].data.length );
                 }
                 return this._hlen;
             }
@@ -467,7 +481,7 @@ window.JChart = window.JChart || {};
                     _p._maxNum = 0;
 
                     if( _data ){
-                        $.each( _data.series, function( _ix, _item ){
+                        $.each( _p.getDisplaySeries(), function( _ix, _item ){
                             _tmp = Math.max.apply( null, _item.data );
                             _tmp > _p._maxNum && ( _p._maxNum = _tmp );
                         });
@@ -495,7 +509,7 @@ window.JChart = window.JChart || {};
                     _p._minNNum = 0;
 
                     if( _data ){
-                        $.each( _data.series, function( _ix, _item ){
+                        $.each( _p.getDisplaySeries(), function( _ix, _item ){
                             _tmp = Math.min.apply( null, _item.data );
                             _tmp < 0 && _tmp < _p._minNNum && ( _p._minNNum = _tmp );
                         });
@@ -517,7 +531,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 var _p = this;
                 
-                if( _data && hasNegative( _data ) ){
+                if( _data && hasNegative( _p.getDisplaySeries() ) ){
                     var _maxNum, _minNNum, _absNNum, _finalMaxNum;
                     _maxNum = _p.maxNum( _data );
                     _minNNum = _p.minNNum( _data );
@@ -701,11 +715,11 @@ window.JChart = window.JChart || {};
 
                     _data && _data.xAxis && _data.xAxis.categories && ( _items = _data.xAxis.categories );
                     _data 
-                        && _data.series 
-                        && _data.series[0]
-                        && _data.series[0].data
-                        && _data.series[0].data.length
-                        && ( _items = _data.series[0].data );
+                        && _p.series()
+                        && _p.series().length
+                        && _p.series()[0].data
+                        && _p.series()[0].data.length
+                        && ( _items = _p.series()[0].data );
 
                     _items && 
                         $.each( _items, function( _k, _item ){
@@ -823,7 +837,7 @@ window.JChart = window.JChart || {};
                             .attr( { 'font-weight': 'bold', 'fill': '#999', 'text-anchor': 'start' } )
                             , 'title' );
 
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
                         _strokeColor = _p.itemStyle( _k ).stroke;
                         _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || 'empty' )
                                 .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
@@ -833,7 +847,7 @@ window.JChart = window.JChart || {};
                         _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
                     });
 
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
                         _strokeColor = _p.itemStyle( _k ).stroke;
                         _tmpItem = _p._tips.getChildByName( 'label_' + _k );
                         _tmpBox = JChart.f.getBBox( _tmpItem );
@@ -842,7 +856,7 @@ window.JChart = window.JChart || {};
                         _p._tips.addChild( _tmp, 'val_' + _k );
                     });
 
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
                         _tmpItem = _p._tips.getChildByName( 'val_' + _k );
                         _tmpItem.attr( 'text', '0.00' );
                     });
@@ -852,11 +866,11 @@ window.JChart = window.JChart || {};
                 if( typeof _ix != 'undefined' ){
                     _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
                     var _maxTextWidth = 0, _tmpLabel;
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
                         _tmp = JChart.f.getBBox( _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) ));
                         _tmp.width > _maxTextWidth && ( _maxTextWidth = _tmp.width );
                     });
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
                         _tmp = _p._tips.getChildByName( 'val_' + _k );
                         _tmpLabel = _p._tips.getChildByName( 'label_' + _k );
                         _tmpBox = JChart.f.getBBox( _tmpLabel );
@@ -954,22 +968,35 @@ window.JChart = window.JChart || {};
                     ;
                 return _r;
             }
-
-        , displaySeries:
-            function(){
-            }
-
-        , updateDisplaySeries:
-            function(){
-                JC.log( 'updateDisplaySeries', JC.f.ts(), this.series() );
-                //this.displaySeriesData = _series;
-            }
-
+        /**
+         * 获取图表数据组
+         */
         , series:
             function(){
                 var _r;
                 this.data() && ( 'series' in this.data() ) 
                     && ( _r = this.data().series );
+                return _r;
+            }
+        /**
+         * 获取图表分类标签
+         */
+        , categories:
+            function(){
+                var _r;
+                this.data() && this.data().xAxis && this.data().xAxis.categories 
+                    && ( _r = this.data().xAxis.categories );
+                return _r;
+            }
+        /**
+         * 获取图表用于显示的数据组
+         */
+        , getDisplaySeries:
+            function(){
+                var _r = this.series();
+                if( 'displaySeries' in this ){
+                    _r = this.displaySeries;
+                }
                 return _r;
             }
     });
@@ -1019,10 +1046,11 @@ window.JChart = window.JChart || {};
          */
         , update: 
             function( _data ){
-                this.clear();
-                this._model.clear();
-                this._model.data( _data );
-                this.draw( _data );
+                var _p = this;
+                _p.clear();
+                _p._model.clear();
+                _p._model.data( _data );
+                _p.draw( _data );
             }
         /**
          * 渲染图表外观
@@ -1056,7 +1084,7 @@ window.JChart = window.JChart || {};
                     if( _size.width == _w && _size.height == _h ) return;
                     _w < 100 && ( _w = 100 ); 
                     _h < 100 && ( _h = 100 );
-                    _ins.trigger( 'update', _ins._model.data() );
+                    _ins.trigger( 'update_data', _ins._model.data() );
                 }, 1 );
             });
         };
@@ -1065,11 +1093,11 @@ window.JChart = window.JChart || {};
         return _num < 0;
     }
 
-    function hasNegative( _data ){
+    function hasNegative( _series ){
         var _r = false;
 
-        if( _data && _data.series ){
-            $.each( _data.series, function( _ix, _item ){
+        if( _series && _series.length ){
+            $.each( _series, function( _ix, _item ){
                 var _tmp = Math.min.apply( null, _item.data );
                 if( _tmp < 0 ){
                     _r = true;
@@ -1163,8 +1191,6 @@ window.JChart = window.JChart || {};
             }
             return _set;
         };
-
-
 
     _jwin.on( 'resize', function(){
         JC.f.safeTimeout( function(){

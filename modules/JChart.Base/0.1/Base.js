@@ -317,7 +317,7 @@ window.JChart = window.JChart || {};
                                     _h = _tb.height * 1.8;
 
                                     var _set = _p.stage().set();
-                                    _set.push( _legend.item( 'element' ), _text );
+                                    _set.push( _legend.item( 'rect' ), _legend.item( 'circle' ), _text );
                                     _p.initLegendSet( _set, _k );
                                     _p._legendSet.push( _set );
                                 });

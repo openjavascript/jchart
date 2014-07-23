@@ -44,6 +44,8 @@
 
         this._init();
 
+        //JC.dir( this );
+
         //JC.log( PieGraph.Model._instanceName, 'all inited', new Date().getTime() );
     }
     /**
@@ -130,8 +132,8 @@
 
                 _p.on( 'update_default_selected', function( _evt ){
                     var _ix;
-                    _p._model.series() && _p._model.series().length
-                        && $.each( _p._model.series(), function( _k, _item ){
+                    _p._model.getDisplaySeries() && _p._model.getDisplaySeries().length
+                        && $.each( _p._model.getDisplaySeries(), function( _k, _item ){
                             _item.selected && ( _ix = _k );
                         });
 
@@ -143,13 +145,13 @@
                 });
 
                 _p.on( JChart.Base.Model.RESET_DISPLAY_SERIES, function( _evt, _data ){
-                    //_p._model.resetDisplaySeries( _data );
-                    JC.log( JChart.Base.Model.RESET_DISPLAY_SERIES, JC.f.ts() );
+                    _p._model.resetDisplaySeries( _data );
+                    //JC.log( JChart.Base.Model.RESET_DISPLAY_SERIES, JC.f.ts() );
                 });
 
                 _p.on( JChart.Base.Model.LEGEND_UPDATE, function( _evt, _ix ){
-                    //_p._model.updateLegend( _ix );
-                    JC.log( JChart.Base.Model.LEGEND_UPDATE, _ix, JC.f.ts() );
+                    _p._model.updateLegend( _ix );
+                    //JC.log( JChart.Base.Model.LEGEND_UPDATE, _ix, JC.f.ts() );
                 });
 
             }
@@ -275,6 +277,7 @@
                         $.each( _p._data.series[0].data, function( _k, _item ){
                             if( JChart.f.isArray( _item ) ){
                                 _p._data.series[0].data[ _k ] = { 'name': _item[0], 'y': _item[1] };
+                                _p.getDisplaySeries()[ _k ] = { 'name': _item[0], 'y': _item[1] };
                             }
                         });
                 }
@@ -598,7 +601,7 @@
 
                 //_p.stage().circle( _c.cx, _c.cy, _c.radius );
 
-                if( _p.series() && _p.series().length ){
+                if( _p.getDisplaySeries() && _p.getDisplaySeries().length ){
                     var _angle = 360
                         , _angleCount = 0
                         , _offsetAngle = _p.offsetAngle()
@@ -610,8 +613,12 @@
                     _p.dataLabelEnabled() && ( _c.pieLine = [] );
 
                     //JC.log( '_p.dataLabelEnabled:', _p.dataLabelEnabled() );
+                    /*
+                    JC.dir( _p.series() );
+                    JC.dir( _p.getDisplaySeries() );
+                    */
 
-                    $.each( _p.series(), function( _k, _item ){
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
                         var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius }, _pieL = {};
 
                         _pieC.radians = Math.PI / 180;
@@ -718,10 +725,10 @@
             function(){
                 var _p = this;
                 typeof _p._partSize == 'undefined' 
-                    &&_p.series() 
-                    && _p.series().length && (
+                    &&_p.getDisplaySeries() 
+                    && _p.getDisplaySeries().length && (
                             _p._partSize = 0
-                            , $.each( _p.series(), function( _k, _item ){
+                            , $.each( _p.getDisplaySeries(), function( _k, _item ){
                                 _p ._partSize += _item.y
                             })
                        );
@@ -765,6 +772,66 @@
                     && ( _p._series = _p.data().series[0].data )
                 return _p._series;
             }
+
+        , resetDisplaySeries:
+            function( _data ){
+                var _p = this;
+                _p.displayLegend = {};
+                _p.displayLegendMap = {};
+                _p.displaySeries = [];
+
+                if( _data && _data.series && _data.series.length ){
+                    $.each( _data.series[0].data, function( _k, _item ){
+                        _p.displayLegend[ _k ] = _k;
+                        _p.displayLegendMap[ _k ] = _k;
+                        _p.displaySeries.push( _item );
+                    });
+                }
+            }
+
+        , updateLegend:
+            function( _ix ){
+                var _p = this;
+                if( !( _p.legendSet() && _p.legendSet().length ) ) return;
+                var _set = _p.legendSet()[ _ix ];
+                if( !_set ) return;
+
+                if( _set.items.length ){
+                    var _selected = !JC.f.parseBool( _set.items[0].data( 'selected' ) ); 
+                    _set.data( 'selected', _selected );
+                    if( _selected ){
+                        _set.attr( { opacity: .35 } );
+                    }else{
+                        _set.attr( { opacity: 1 } );
+                        _p.displayLegend[ _ix ] = _ix;
+                    }
+
+                    _p.displayLegend = {};
+                    _p.displayLegendMap = {};
+                    var _count = 0;
+                    $.each( _p.legendSet(), function( _k, _item ){
+                        if( !JC.f.parseBool( _item.items[0].data( 'selected' ) ) ){
+                            _p.displayLegend[ _k ] = _count;
+                            _p.displayLegendMap[ _count ] = _k;
+                            //JC.log( _k, _count );
+                            _count++;
+                        }
+                    });
+
+                    //JC.dir( _p.displayLegend );
+                    _p.displaySeries = [];
+                    if( _p.series() && _p.series().length ){
+                        $.each( _p.series(), function( _k, _item ){
+                            if( _k in _p.displayLegend ){
+                                _p.displaySeries.push( _item );
+                            }
+                        });
+                    }
+                    _p.trigger( JChart.Base.Model.UPDATE_CHART_DATA, [ _p.data() ] );
+                    //JC.dir( _p._model.displaySeries );
+                }
+            }
+
 
     });
 

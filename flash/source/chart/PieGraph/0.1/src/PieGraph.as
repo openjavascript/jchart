@@ -22,7 +22,7 @@ package
 	import org.xas.jchart.piegraph.MainFacade;
 	
 	
-	[SWF(frameRate="30", width="800", height="400")]
+	[SWF(frameRate="30", width="600", height="500")]
 	public class PieGraph extends Sprite
 	{ 
 		private var _inited: Boolean = false;
@@ -139,37 +139,30 @@ package
 			
 			if( !ExternalInterface.available ){				
 				_data = {
-					title: { text: 'test title 中文' }
-					, subtitle: { text: 'test subtitle 中文' }
-					, yAxis: { title: { text: 'vtitle 中文' } }
-					, credits: {
-						enabled: true
-						, text: 'jchart.openjavascript.org'
-						, href: 'http://jchart.openjavascript.org/'
+					title: {
+						text:'浏览器使用份额'
 					},
-					xAxis: {
-						categories: [2111111111111, 2, 3, 4, 5, 6, 7, 8, 999999999999]
-						, tipTitlePostfix: '{0}月'
+					subtitle: {
+						text: 'for PC'
 					}, 
 					series:[{
-						name: 'Temperature',
-						data: [-50, -1, -3, 10.01, -20, -27, -28, -32, -30]
-						}, {
-							name: 'Rainfall1',
-							data: [-20.10, -21, 50, 100, -10, -210, -220, -100, -20]
-						}, {
-							name: 'Rainfall2',
-							data: [-30, -21, -20, -100, -10, -210, -20, -100, -20]
-						}, {
-							name: 'Rainfall3',
-							data: [-40, -21, -20, -100, -10, -210, -120, -100, -20]
-						}
-						
-					],
-					legend: {
+						name: 'Browser share',
+						data: [
+							['Firefox',   45.0],
+							['IE',       26.8],
+							{
+								name: 'Chrome',
+								y: 12.8,
+								selected: true
+							},
+							['Safari',    8.5],
+							['Opera',     6.2],
+							['Others',   50]
+						]
+					}]
+					, legend: {
 						enabled: true
 					}
-					, displayAllLabel: false
 				};
 				//_data = {};
 			}else{

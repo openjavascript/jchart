@@ -39,7 +39,7 @@ package org.xas.jchart.common.view.components
 			
 			_items = new Vector.<LegendItemUI>();
 			
-			Common.each( BaseConfig.ins.chartData.series, function( _k:int, _item:Object ):void{
+			Common.each( BaseConfig.ins.series, function( _k:int, _item:Object ):void{
 				
 				var _styles:Object = {};
 				_styles = Common.extendObject( 

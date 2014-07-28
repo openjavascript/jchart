@@ -16,6 +16,7 @@ package org.xas.jchart.piegraph.view.components
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.PieGraphUI;
+	import org.xas.jchart.common.ui.widget.PiePart;
 	
 	public class GraphicView extends Sprite
 	{	
@@ -27,17 +28,21 @@ package org.xas.jchart.piegraph.view.components
 			super(); 
 			
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
-			
+			/*
 			addEventListener( JChartEvent.SHOW_TIPS, showTips );
 			addEventListener( JChartEvent.UPDATE_TIPS, updateTips );
 			addEventListener( JChartEvent.HIDE_TIPS, hideTips );
+			*/
 		}
 		
 		private function addToStage( _evt:Event ):void{
+			
+			//addChild( new PiePart( new Point( 200, 200 ), 0, 100 ) );
 		}
 		
 		public function update():void{
 			
+			/*
 			if( !( BaseConfig.ins.c && BaseConfig.ins.c.paths && BaseConfig.ins.c.paths.length ) ) return;
 			
 			graphics.clear();
@@ -52,6 +57,7 @@ package org.xas.jchart.piegraph.view.components
 				addChild( _gitem = new PieGraphUI( _cmd, _path, BaseConfig.ins.itemColor( _k ) ) );
 				_boxs.push( _gitem );
 			});
+			*/
 		}
 		
 		private function showTips( _evt: JChartEvent ):void{

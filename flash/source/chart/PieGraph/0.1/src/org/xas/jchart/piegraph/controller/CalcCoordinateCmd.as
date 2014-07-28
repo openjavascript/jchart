@@ -95,7 +95,7 @@ package org.xas.jchart.piegraph.controller
 				BaseConfig.ins.c.chartY = BaseConfig.ins.c.minY;
 				
 				facade.registerMediator( new GraphicBgMediator() );	
-				facade.registerMediator( new TipsMediator() );
+				//facade.registerMediator( new TipsMediator() );
 								
 				calcGraphic();	
 				
@@ -111,8 +111,6 @@ package org.xas.jchart.piegraph.controller
 			if( !( BaseConfig.ins.series && BaseConfig.ins.series.length ) ) return;
 
 		}
-		
-
 		
 		private function get pLegendMediator():LegendMediator{
 			return facade.retrieveMediator( LegendMediator.name ) as LegendMediator;

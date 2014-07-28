@@ -729,7 +729,7 @@
                     && _p.getDisplaySeries().length && (
                             _p._partSize = 0
                             , $.each( _p.getDisplaySeries(), function( _k, _item ){
-                                _p ._partSize += _item.y
+                                _p._partSize += _item.y
                             })
                        );
                 return this._partSize || 100;

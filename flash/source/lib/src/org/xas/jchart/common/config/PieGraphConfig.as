@@ -75,10 +75,19 @@ package org.xas.jchart.common.config
 			
 			_filterData = _filter || {};
 			
-			Log.printJSON( _displaySeries );
-			
+			//Log.printJSON( _displaySeries );			
 			
 			return this;
+		}
+		
+		override public function get totalNum():Number{
+			var _r:Number = 0;
+			
+			Common.each( _displaySeries, function( _k:int, _item:Object ):void{
+				_r += _item.y;
+			});
+			
+			return _r;
 		}
 	}
 }

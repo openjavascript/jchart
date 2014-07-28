@@ -108,8 +108,52 @@ package org.xas.jchart.piegraph.controller
 		private function calcGraphic():void{			
 			facade.registerMediator( new GraphicMediator() );
 			
+			BaseConfig.ins.c.cx = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth / 2;
+			BaseConfig.ins.c.cy = BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight / 2;
+			BaseConfig.ins.c.lineLength = 40;
+			BaseConfig.ins.c.lineStart = 10;
+			BaseConfig.ins.c.radius = calcRadius( BaseConfig.ins.c.chartWidth, BaseConfig.ins.c.chartHeight );
+			
+			BaseConfig.ins.c.piePart = [];
+			BaseConfig.ins.c.pieLine = [];
+			
 			if( !( BaseConfig.ins.series && BaseConfig.ins.series.length ) ) return;
+			
+			var _angle:Number = 360
+				, _angleCount:Number = 0
+				, _offsetAngle:Number = BaseConfig.ins.offsetAngle
+				, _totalNum:Number = BaseConfig.ins.totalNum
+				, _tmpPoint:Point
+				;
 
+			Common.each( BaseConfig.ins.displaySeries, function( _k:int, _item:Object ):void {
+				var _pieP:Object = { 
+						cx: BaseConfig.ins.c.cx
+						, cy: BaseConfig.ins.c.cy
+						, radius: BaseConfig.ins.c.radius 
+						, offsetAngle: _offsetAngle
+					}
+					, _pieL:Object  = {}
+					;
+			});
+		}
+		
+		private function calcRadius( _w:Number, _h:Number ):Number{
+			var _radius:Number = Math.min( _w, _h );
+			
+			if( BaseConfig.ins.legendEnabled ){
+				_radius -= 30;
+			}
+			
+			if( BaseConfig.ins.dataLabelEnabled ){
+				_radius -= ( BaseConfig.ins.c.lineLength - BaseConfig.ins.c.lineStart + 40 ) * 2;
+			}else{
+				_radius -= 40;
+			}
+			
+			_radius /= 2;
+			
+			return _radius;
 		}
 		
 		private function get pLegendMediator():LegendMediator{

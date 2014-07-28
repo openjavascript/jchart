@@ -181,6 +181,18 @@ package org.xas.jchart.common
 			
 			return _r;
 		}
+		
+		public function get dataLabelEnabled():Boolean{
+			var _r:Boolean = true;
+			cd 
+				&& cd.plotOptions
+				&& cd.plotOptions.pie
+				&& cd.plotOptions.pie.dataLabels
+				&& ( 'enabled' in cd.plotOptions.pie.dataLabels )
+				&& ( _r = cd.plotOptions.pie.dataLabels.enabled );
+				
+			return _r;
+		}
 
 		
 		protected function calcMaxNum():Number{
@@ -353,6 +365,19 @@ package org.xas.jchart.common
 		}
 		protected var _labelDisplayIndex:Object = {};
 		public function get labelDisplayIndex():Object{ return _labelDisplayIndex; }
+		
+		public function get offsetAngle():Number{
+			var _r:Number = 270;
+			
+			cd 
+				&& ( 'offsetAngle' in cd )
+				&& ( _r = cd.offsetAngle );
+			
+			return _r;
+		}
+		public function get totalNum():Number{
+			return 0;
+		}
 				
 		public function BaseConfig()
 		{

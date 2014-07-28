@@ -33,7 +33,7 @@ package org.xas.core.utils
 		
 		public static function  printJSON( _d:Object, $pad:int = 0, $before:Boolean = true, $symbol:String = '-' ):void{
 			if(!debug) return;
-			processLog( JSON.encode( _d ), $pad, $before, $symbol);
+			processLog( com.adobe.serialization.json.JSON.encode( _d ), $pad, $before, $symbol);
 		}
 		
 		public static function  printClass( _d:*, $pad:int = 0, $before:Boolean = true, $symbol:String = '-' ):void{
@@ -43,7 +43,7 @@ package org.xas.core.utils
 		
 		public static function  printObject( _d:*, $pad:int = 0, $before:Boolean = true, $symbol:String = '-' ):void{
 			if(!debug) return;
-			processLog( JSON.encode( _d as Object ), $pad, $before, $symbol);			
+			processLog( com.adobe.serialization.json.JSON.encode( _d as Object ), $pad, $before, $symbol);			
 		}
 		
 		public static function marker( $log:*, $pad:int = 50, $symbol:String = '#' ):void

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>xas</name>
+	<name>PieGraph</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -12,14 +12,13 @@
 		</buildCommand>
 	</buildSpec>
 	<natures>
-		<nature>com.adobe.flexbuilder.project.flexlibnature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 	</natures>
 	<linkedResources>
 		<link>
-			<name>bin-debug</name>
+			<name>[source path] src</name>
 			<type>2</type>
-			<location>G:/My Documents/git/jchart_dev/flash/source/lib/swc</location>
+			<location>G:/My Documents/git/jchart_dev/flash/source/lib/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

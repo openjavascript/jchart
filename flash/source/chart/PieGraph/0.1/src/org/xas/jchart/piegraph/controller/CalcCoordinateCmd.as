@@ -79,13 +79,15 @@ package org.xas.jchart.piegraph.controller
 				
 				BaseConfig.ins.c.maxX -= 5;
 				
+				/*
 				facade.registerMediator( new VLabelMediator() );
 				BaseConfig.ins.c.minX += pVLabelMediator.maxWidth;
 				
 				facade.registerMediator( new HLabelMediator() );
 				BaseConfig.ins.c.maxY -= pHLabelMediator.maxHeight;
+				*/
 				
-				BaseConfig.ins.c.arrowLength = 8;
+				BaseConfig.ins.c.arrowLength = 0;
 				BaseConfig.ins.c.chartWidth = BaseConfig.ins.c.maxX - BaseConfig.ins.c.minX - 5;
 				BaseConfig.ins.c.chartHeight = BaseConfig.ins.c.maxY - BaseConfig.ins.c.minY;	
 				
@@ -94,9 +96,7 @@ package org.xas.jchart.piegraph.controller
 				
 				facade.registerMediator( new GraphicBgMediator() );	
 				facade.registerMediator( new TipsMediator() );
-				
-				calcChartPoint();
-				
+								
 				calcGraphic();	
 				
 				//Log.log( BaseConfig.ins.c.chartWidth, BaseConfig.ins.c.chartHeight );
@@ -108,117 +108,11 @@ package org.xas.jchart.piegraph.controller
 		private function calcGraphic():void{			
 			facade.registerMediator( new GraphicMediator() );
 			
-			BaseConfig.ins.c.paths = [];
 			if( !( BaseConfig.ins.series && BaseConfig.ins.series.length ) ) return;
-			BaseConfig.ins.c.partWidth = BaseConfig.ins.c.itemWidth / BaseConfig.ins.displaySeries.length;
-
-			
-			Common.each( BaseConfig.ins.displaySeries, function( _k:int, _item:Object ):void{
-				
-				var _cmd:Vector.<int> = new Vector.<int>
-				, _path:Vector.<Number> = new Vector.<Number>
-				;				
-				
-				Common.each( _item.data, function( _sk:int, _num:Number ):void{
-					var _rectItem:Object = {}
-						, _pointItem:Object = BaseConfig.ins.c.hlinePoint[ _sk ]
-						, _sp:Point = _pointItem.start as Point
-						, _ep:Point = _pointItem.end as Point
-						, _h:Number, _x:Number, _y:Number
-						, _itemNum:Number
-						;
-						//Log.log( _sk, _sp.x, _sp.y );
-						
-						if( Common.isNegative( _num ) ){
-							_itemNum = Math.abs( _num );	
-							_h = BaseConfig.ins.c.vpart * Math.abs( BaseConfig.ins.rate.length - BaseConfig.ins.rateZeroIndex -1 );
-							_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
-							_h = Math.abs( _num / BaseConfig.ins.finalMaxNum ) * _h;
-							_y += _h;
-						}else{
-							_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
-							_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
-							_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h;
-						}
-						_x = _sp.x;
-						
-						_cmd.push( _sk === 0 ? 1 : 2 );
-						_path.push( _x, _y );
-					//Log.log( _y, _sp.y, BaseConfig.ins.c.vpart, BaseConfig.ins.rateZeroIndex, _h, BaseConfig.ins.finalMaxNum );
-						
-				});
-				
-				BaseConfig.ins.c.paths.push( { cmd: _cmd, path: _path } );
-			});
 
 		}
 		
-		private function calcChartPoint():void{
-			facade.registerMediator( new BgLineMediator() );
-			
-			calcChartVPoint();
-			calcChartHPoint();
-		}
-		
-		private function calcChartVPoint():void{
-			var _partN:Number = BaseConfig.ins.c.chartHeight / ( BaseConfig.ins.rate.length -1 )
-				, _sideLen:Number = BaseConfig.ins.c.arrowLength
-				;
-			BaseConfig.ins.c.vpart = _partN;
-			BaseConfig.ins.c.itemHeight = _partN / 2;
-			BaseConfig.ins.c.vpoint = [];
-			BaseConfig.ins.c.vpointReal = [];
-			
-			Common.each( BaseConfig.ins.rate, function( _k:int, _item:* ):void{
-				var _n:Number = BaseConfig.ins.c.minY + _partN * _k, _sideLen:int = BaseConfig.ins.c.arrowLength;
-				BaseConfig.ins.c.vpoint.push( {
-					start: new Point( BaseConfig.ins.c.minX, _n )
-					, end: new Point( BaseConfig.ins.c.maxX, _n )
-				});
-				
-				BaseConfig.ins.c.vpointReal.push( {
-					start: new Point( BaseConfig.ins.c.minX + _sideLen, _n )
-					, end: new Point( BaseConfig.ins.c.maxX + _sideLen, _n )
-				});
-			});
-		}
-		
-		private function calcChartHPoint():void{
-			var _partN:Number = BaseConfig.ins.c.chartWidth / ( BaseConfig.ins.categories.length - 1 )
-				, _sideLen:Number = BaseConfig.ins.c.arrowLength
-				;
-			BaseConfig.ins.c.hpart = _partN;
-			BaseConfig.ins.c.hpoint = [];
-			BaseConfig.ins.c.hlinePoint = [];
-			BaseConfig.ins.c.hpointReal = [];
-			BaseConfig.ins.c.itemWidth = _partN / 2;
-						
-			Common.each( BaseConfig.ins.categories, function( _k:int, _item:* ):void{
-				var _n:Number = BaseConfig.ins.c.minX + _partN * _k + 5
-					, _sideLen:int = BaseConfig.ins.c.arrowLength;
-								
-				BaseConfig.ins.c.hlinePoint.push( {
-					start: new Point( _n, BaseConfig.ins.c.minY )
-					, end: new Point( _n, BaseConfig.ins.c.maxY + 1 )
-				});
-				
-				if( !BaseConfig.ins.displayAllLabel ){
-					if( !( _k in BaseConfig.ins.labelDisplayIndex ) ){
-						_sideLen = 0;
-					}
-				}
-				
-				BaseConfig.ins.c.hpoint.push( {
-					start: new Point( _n, BaseConfig.ins.c.maxY )
-					, end: new Point( _n, BaseConfig.ins.c.maxY + _sideLen )
-				});
-				
-				BaseConfig.ins.c.hpointReal.push( {
-					start: new Point( _n, BaseConfig.ins.c.minY )
-					, end: new Point( _n, BaseConfig.ins.c.maxY )
-				});
-			});
-		}
+
 		
 		private function get pLegendMediator():LegendMediator{
 			return facade.retrieveMediator( LegendMediator.name ) as LegendMediator;

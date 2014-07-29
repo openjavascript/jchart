@@ -82,7 +82,7 @@ package org.xas.jchart.common.ui
 			
 			if( _data.items ){
 				Common.each( _data.items, function( _k:int, _item:Object ):void{
-					
+					if( !_item ) return;					
 					var _styles:Object = { color: BaseConfig.ins.itemColor( _k ) };
 					
 					_layout.addChild( _nameTxf = new TextField() );

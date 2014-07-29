@@ -383,8 +383,9 @@ package org.xas.jchart.common
 		protected var _selected:int = -1;
 		public function get selected():int{ return _selected; }
 		public function set selected( _setter:int ):void{ _selected = _setter; }
+		public function get itemName():String{ return ''; }
 		
-		public static var author:String = "suches@btbtd.org"
+		public static var author:String = "suches@btbtd.org";
 				
 		public function BaseConfig()
 		{

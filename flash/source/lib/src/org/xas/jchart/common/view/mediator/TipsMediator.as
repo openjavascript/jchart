@@ -28,7 +28,7 @@ package org.xas.jchart.common.view.mediator
 			
 			switch( (facade as BaseFacade).name ){
 				case 'PieGraphFacade':{
-					mainMediator.view.index5.addChild( _view = new PieTipsView() );
+					mainMediator.view.index8.addChild( _view = new PieTipsView() );
 					break;
 				}
 				default:{

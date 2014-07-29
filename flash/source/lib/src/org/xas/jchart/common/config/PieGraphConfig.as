@@ -89,5 +89,11 @@ package org.xas.jchart.common.config
 			
 			return _r;
 		}
+		
+		override public function get itemName():String{
+			var _r:String = '';
+			cd && cd.series && cd.series.length && ( _r = cd.series[0].name || '' );
+			return _r;
+		}
 	}
 }

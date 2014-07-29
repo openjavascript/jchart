@@ -79,14 +79,6 @@ package org.xas.jchart.piegraph.controller
 				
 				BaseConfig.ins.c.maxX -= 5;
 				
-				/*
-				facade.registerMediator( new VLabelMediator() );
-				BaseConfig.ins.c.minX += pVLabelMediator.maxWidth;
-				
-				facade.registerMediator( new HLabelMediator() );
-				BaseConfig.ins.c.maxY -= pHLabelMediator.maxHeight;
-				*/
-				
 				BaseConfig.ins.c.arrowLength = 0;
 				BaseConfig.ins.c.chartWidth = BaseConfig.ins.c.maxX - BaseConfig.ins.c.minX - 5;
 				BaseConfig.ins.c.chartHeight = BaseConfig.ins.c.maxY - BaseConfig.ins.c.minY;	
@@ -124,6 +116,7 @@ package org.xas.jchart.piegraph.controller
 				, _offsetAngle:Number = BaseConfig.ins.offsetAngle
 				, _totalNum:Number = BaseConfig.ins.totalNum
 				, _tmpPoint:Point
+				, _cpoint:Point = new Point( BaseConfig.ins.c.cx, BaseConfig.ins.c.cy )
 				;
 
 			Common.each( BaseConfig.ins.displaySeries, function( _k:int, _item:Object ):void {
@@ -132,9 +125,43 @@ package org.xas.jchart.piegraph.controller
 						, cy: BaseConfig.ins.c.cy
 						, radius: BaseConfig.ins.c.radius 
 						, offsetAngle: _offsetAngle
+						, totalNum: _totalNum
+						, data: _item
 					}
-					, _pieL:Object  = {}
+					, _pieL:Object  = { data: _item }
 					;
+					
+				_pieP.offsetAngle = _offsetAngle;		
+				
+				if( _item.y == _totalNum ){
+					_pieP.angle = _angle;
+					_pieP.percent = 100;
+				}else{
+					_pieP.percent = _item.y / _totalNum * 100;
+					_pieP.angle = _item.y / _totalNum * _angle;
+				}
+				
+				_pieP.startAngle = ( _angleCount + _offsetAngle ) % _angle;
+				_pieP.midAngle = ( _pieP.startAngle + _pieP.angle / 2 ) % _angle;
+				_pieP.endAngle = ( ( _angleCount += _pieP.angle ) + _offsetAngle ) % _angle;
+				
+				var _spoint:Point = Common.distanceAngleToPoint( _pieP.radius, _pieP.startAngle )
+					, _epoint:Point = Common.distanceAngleToPoint( _pieP.radius, _pieP.endAngle )
+					; 
+				
+				_pieP.startPoint = { x: _spoint.x + _pieP.cx, y: _spoint.y + _pieP.cy };
+				_pieP.endPoint = { x: _epoint.x + _pieP.cx, y: _epoint.y + _pieP.cy };
+				
+				_spoint = Common.distanceAngleToPoint( _pieP.radius - BaseConfig.ins.c.lineStart, _pieP.midAngle );
+				_epoint = Common.distanceAngleToPoint( _pieP.radius + BaseConfig.ins.c.lineLength, _pieP.midAngle );
+				
+				_pieL.cx = BaseConfig.ins.c.cx;
+				_pieL.cy = BaseConfig.ins.c.cy;
+				_pieL.start = { x: _spoint.x + _pieL.cx, y: _spoint.y + _pieL.cy };
+				_pieL.end = { x: _epoint.x + _pieL.cx, y: _epoint.y + _pieL.cy };
+				
+				BaseConfig.ins.c.piePart.push( _pieP );
+				BaseConfig.ins.c.pieLine.push( _pieL );
 			});
 		}
 		

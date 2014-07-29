@@ -619,7 +619,7 @@
                     */
 
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius }, _pieL = {};
+                        var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius, data: _item }, _pieL = { data: _item };
 
                         _pieC.radians = Math.PI / 180;
                         _pieC.offsetAngle = _offsetAngle;
@@ -627,18 +627,14 @@
                         if( _item.y === _partSize ){
                             _pieC.angle = 360;
                             _pieC.percent = 100;
-
-                            _pieC.startAngle = ( _angleCount + _offsetAngle ) % _angle;
-                            _pieC.midAngle = ( _pieC.startAngle + _pieC.angle / 2 ) % _angle;
-                            _pieC.endAngle = ( ( _angleCount += _pieC.angle ) + _offsetAngle ) % _angle;
                         }else{
                             _pieC.percent = _item.y / _partSize * 100;
                             _pieC.angle = _item.y / _partSize * _angle;
 
-                            _pieC.startAngle = ( _angleCount + _offsetAngle ) % _angle;
-                            _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2;
-                            _pieC.endAngle = ( ( _angleCount += _pieC.angle ) + _offsetAngle ) % _angle;
                         }
+                        _pieC.startAngle = ( _angleCount + _offsetAngle ) % _angle;
+                        _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2 % _angle;
+                        _pieC.endAngle = ( ( _angleCount += _pieC.angle ) + _offsetAngle ) % _angle;
 
                         _pieC.startPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.startAngle );
                         _pieC.endPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.endAngle );
@@ -647,16 +643,16 @@
                         _pieC.startPoint.y += _pieC.cy;
                         _pieC.endPoint.x += _pieC.cx;
                         _pieC.endPoint.y += _pieC.cy;
-                        _pieC.data = _item;
 
                         _pieL.start = JChart.Geometry.distanceAngleToPoint( _pieC.radius - _p.lineStart(), _pieC.midAngle );
                         _pieL.end = JChart.Geometry.distanceAngleToPoint( _pieC.radius + _p.lineLength(), _pieC.midAngle );
-                        _pieL.cx = _c.cx, _pieL.cy = _c.cy;
+
+                        _pieL.cx = _c.cx;
+                        _pieL.cy = _c.cy;
                         _pieL.start.x += _pieL.cx;
                         _pieL.start.y += _pieL.cy;
                         _pieL.end.x += _pieL.cx;
                         _pieL.end.y += _pieL.cy;
-                        _pieL.data = _item;
 
                         //JC.log( _k, _pieC.midAngle );
 

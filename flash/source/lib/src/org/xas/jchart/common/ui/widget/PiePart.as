@@ -15,6 +15,7 @@ package org.xas.jchart.common.ui.widget
 	import org.xas.core.utils.EffectUtility;
 	import org.xas.core.utils.ElementUtility;
 	import org.xas.core.utils.GeoUtils;
+	import org.xas.core.utils.Log;
 	
 	public class PiePart extends Sprite
 	{
@@ -44,7 +45,7 @@ package org.xas.jchart.common.ui.widget
 			 , _radius:Number = 100
 			 , _style:Object = null
 			 , _hoverStyle:Object = null
-			 , _offsetAngle:Number = 270
+			 , _offsetAngle:Number = 0
 			 
 		)
 		{
@@ -80,6 +81,12 @@ package org.xas.jchart.common.ui.widget
 			var angleStep:Number = .5;
 			
 			var tempPoint:Point;
+			
+			if( countAngle > _endAngle ){
+				_endAngle += 360;
+			}
+			
+			//Log.log( countAngle, _endAngle );
 			
 			while( true )
 			{

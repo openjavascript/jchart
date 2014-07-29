@@ -21,7 +21,9 @@ package org.xas.jchart.piegraph.view.components
 	public class GraphicView extends Sprite
 	{	
 		private var _boxs:Vector.<PieGraphUI>;
+		
 		private var _preIndex:int = -1;
+		private var _piePart:Vector.<PiePart>;
 		
 		public function GraphicView()
 		{
@@ -42,10 +44,39 @@ package org.xas.jchart.piegraph.view.components
 		
 		public function update():void{
 			
-			/*
-			if( !( BaseConfig.ins.c && BaseConfig.ins.c.paths && BaseConfig.ins.c.paths.length ) ) return;
+			if( !( BaseConfig.ins.c && BaseConfig.ins.c.piePart && BaseConfig.ins.c.piePart.length ) ) return;
+			//Log.log( 'GraphicView update', BaseConfig.ins.c.piePart.length );
 			
 			graphics.clear();
+			_piePart = new Vector.<PiePart>();
+			
+			Common.each( BaseConfig.ins.c.piePart, function( _k:int, _item:Object ):void{
+				var _pp:PiePart = new PiePart( 
+										new Point( _item.cx, _item.cy )
+										, _item.startAngle, _item.endAngle
+										, _item.radius
+									);
+				
+				addChild( _pp );
+				_piePart.push( _pp );
+				
+				if( BaseConfig.ins.dataLabelEnabled ){
+					var _tmp:Sprite = new Sprite()
+						, _lineData:Object = BaseConfig.ins.c.pieLine[ _k ]
+						;
+						_tmp.graphics.lineStyle( 1, 0x000000 );
+						_tmp.graphics.moveTo( _lineData.start.x, _lineData.start.y );
+						_tmp.graphics.lineTo( _lineData.end.x, _lineData.end.y );
+						
+						
+						addChild( _tmp );
+						
+						Log.log( _lineData.start.x, _lineData.start.y, _lineData.end.x, _lineData.end.y );
+				}
+				//Log.log( _item.cx, _item.cy, _item.startAngle, _item.endAngle, _item.radius );
+			});
+			/*
+			
 			_boxs = new Vector.<PieGraphUI>;
 			Common.each( BaseConfig.ins.c.paths, function( _k:int, _item:Object ):void{
 			

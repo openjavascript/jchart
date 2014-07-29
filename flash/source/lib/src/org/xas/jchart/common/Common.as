@@ -6,6 +6,8 @@ package org.xas.jchart.common
 	
 	import org.xas.jchart.common.Common;
 	
+	import flash.geom.Point;
+	
 	public class Common
 	{		
 		
@@ -206,5 +208,39 @@ package org.xas.jchart.common
 			}			
 			return _r;
 		}
+		
+		/**
+		 * 从长度和角度求坐标点
+		 * @method  distanceAngleToPoint
+		 * @param  {Number} _distance
+		 * @param  {Number} _angle
+		 * @return Point
+		 * @static
+		 */
+		public static function distanceAngleToPoint( _distance:Number, _angle:Number ):Point{
+			var _radian:Number = Common.radians( _angle );					
+			return new Point(
+				Math.cos( _radian  ) * _distance
+				, Math.sin( _radian ) * _distance
+			)
+		}
+		/**
+		 * 从角度获取弧度
+		 * @method  radians
+		 * @param   {Number} _angle
+		 * @return  {Number}
+		 * @static
+		 */
+		public static function radians( _angle:Number ):Number{ return _angle * Math.PI / 180; }
+		/**
+		 * 从弧度获取角度
+		 * @method  degree
+		 * @param   {Number} _radians
+		 * @return  {Number}
+		 * @static
+		 */
+		public static function degree( _radians:Number ):Number{ return _radians / Math.PI * 180; }
+
+
 	}
 }

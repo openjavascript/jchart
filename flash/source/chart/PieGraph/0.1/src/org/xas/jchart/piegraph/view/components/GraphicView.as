@@ -56,6 +56,7 @@ package org.xas.jchart.piegraph.view.components
 										new Point( _item.cx, _item.cy )
 										, _item.startAngle, _item.endAngle
 										, _item.radius
+										, _k
 										, { 'color': BaseConfig.ins.itemColor( _k ) }
 									);
 				
@@ -64,6 +65,8 @@ package org.xas.jchart.piegraph.view.components
 						, _lineData:Object = BaseConfig.ins.c.pieLine[ _k ]
 						, _text:TextField = new TextField()
 						;
+						
+						//Log.log( _lineData.control.x, _lineData.control.y, _lineData.end.x, _lineData.end.y  );
 						
 						_tmp.graphics.lineStyle( 1, BaseConfig.ins.itemColor( _k ) );
 						_tmp.graphics.moveTo( _lineData.start.x, _lineData.start.y );
@@ -134,11 +137,72 @@ package org.xas.jchart.piegraph.view.components
 						
 						//Log.log( _lineData.start.x, _lineData.start.y, _lineData.end.x, _lineData.end.y );
 				}
+				
+				_pp.addEventListener( JChartEvent.UPDATE_STATUS, onPiePartUpdateStatus );
+				_pp.addEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
+				_pp.addEventListener( MouseEvent.MOUSE_OUT, onMouseOut );
 				addChild( _pp );
 				_piePart.push( _pp );
 				
 				//Log.log( _item.cx, _item.cy, _item.startAngle, _item.endAngle, _item.radius );
 			});
+			
+			
+			var _selectedIndex:int = -1;
+			Common.each( BaseConfig.ins.displaySeries, function( _k:int, _item:Object ):void{
+				if( _item.selected ){
+					_selectedIndex = _k;
+				}
+			});
+			
+			//Log.log( _selectedIndex );
+			if( BaseConfig.ins.selected >= 0 ){
+				_selectedIndex = BaseConfig.ins.selected;
+			}
+			
+			if( _selectedIndex >= 0 && _selectedIndex <= (_piePart.length - 1 ) ){
+				_piePart[ _selectedIndex ].selected( true );
+			}
+		}
+				
+		protected function onMouseOver( _evt:MouseEvent ):void{
+			
+			root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
+			addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
+			dispatchEvent( new JChartEvent( JChartEvent.SHOW_TIPS, _evt ) );
+			//Log.log( 'show tips' );
+			
+		}
+		
+		protected function onMouseOut( _evt:MouseEvent ):void{
+			
+			root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
+			dispatchEvent( new JChartEvent( JChartEvent.HIDE_TIPS, _evt ) );			
+			//Log.log( 'hide tips' );
+			
+		}
+		
+		protected function onMouseMove( _evt:MouseEvent ):void{
+			//Log.log( 'GraphicView onMouseMove', new Date().getTime() );
+			var _pp:PiePart = _evt.target as PiePart;
+			if( !_pp ) return;
+			//Log.log( _pp.dataIndex );
+			dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, { evt: _evt, index: _pp.dataIndex } ) );
+		}	
+				
+		private function onPiePartUpdateStatus( _evt:JChartEvent ):void{
+			var _data:Object = _evt.data as Object;
+
+			if( BaseConfig.ins.selected >= 0 && BaseConfig.ins.selected != _data.dataIndex ){
+				_piePart[ BaseConfig.ins.selected ].unselected();
+			}
+			
+			if( _data.selected ){
+				BaseConfig.ins.selected = _data.dataIndex;
+			}else{
+				BaseConfig.ins.selected = -1;
+			}					
+			//Log.log( BaseConfig.ins.selected );			
 		}
 		
 		private function showTips( _evt: JChartEvent ):void{

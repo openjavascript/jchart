@@ -379,6 +379,10 @@ package org.xas.jchart.common
 		public function get totalNum():Number{
 			return 0;
 		}
+		
+		protected var _selected:int = -1;
+		public function get selected():int{ return _selected; }
+		public function set selected( _setter:int ):void{ _selected = _setter; }
 				
 		public function BaseConfig()
 		{

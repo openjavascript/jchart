@@ -56,6 +56,7 @@ package org.xas.jchart.piegraph.view.components
 										new Point( _item.cx, _item.cy )
 										, _item.startAngle, _item.endAngle
 										, _item.radius
+										, BaseConfig.ins.c.pieLine[ _k ]
 									);
 				
 				addChild( _pp );
@@ -64,32 +65,81 @@ package org.xas.jchart.piegraph.view.components
 				if( BaseConfig.ins.dataLabelEnabled ){
 					var _tmp:Sprite = new Sprite()
 						, _lineData:Object = BaseConfig.ins.c.pieLine[ _k ]
+						, _text:TextField = new TextField()
 						;
+						
 						_tmp.graphics.lineStyle( 1, 0x000000 );
 						_tmp.graphics.moveTo( _lineData.start.x, _lineData.start.y );
-						_tmp.graphics.lineTo( _lineData.end.x, _lineData.end.y );
-						
-						
+						_tmp.graphics.curveTo( _lineData.control.x, _lineData.control.y, _lineData.end.x, _lineData.end.y );												
 						addChild( _tmp );
+						
+						_text.text = BaseConfig.ins.displaySeries[ _k ].name;
+						_text.autoSize = TextFieldAutoSize.LEFT;
+						
+						switch( _lineData.direction ){
+							case 'top':
+							{
+								_text.x = _lineData.end.x - _text.width / 2;
+								_text.y = _lineData.end.y - 5 - _text.height;
+								break;
+							}
+							case 'left_top':
+							{
+								_text.x = _lineData.end.x - 5 - _text.width;
+								_text.y = _lineData.end.y - _text.height / 2;
+								break;
+							}
+							case 'right_top':
+							{
+								//_text.attr( { x: , y: , 'text-anchor': 'start' } );
+								_text.x = _lineData.end.x + 5;
+								_text.y = _lineData.end.y - _text.height / 2;
+								break;
+							}
+							case 'left_bottom':
+							{
+								//_text.attr( { x: 5, y: , 'text-anchor': 'end' } );
+								_text.x = _lineData.end.x - 5 - _text.width;
+								_text.y = _lineData.end.y - _text.height / 2;
+								break;
+							}
+							case 'right_bottom':
+							{
+								//_text.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
+								_text.x = _lineData.end.x + 5;
+								_text.y = _lineData.end.y - _text.height / 2;
+								break;
+							}
+							case 'right':
+							{
+								//_text.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
+								_text.x = _lineData.end.x + 5;
+								_text.y = _lineData.end.y - _text.height / 2;
+								break;
+							}
+							case 'bottom':
+							{
+								//_text.attr( { x: _item.end.x, y: _item.end.y + 5 } );
+								_text.x = _lineData.end.x - _text.width / 2;
+								_text.y = _lineData.end.y;
+								break;
+							}
+							case 'left':
+							{
+								//_text.attr( { x: _item.end.x - 5, y: _item.end.y, 'text-anchor': 'end' } );
+								_text.x = _lineData.end.x - 5 - _text.width;
+								_text.y = _lineData.end.y - _text.height / 2;
+								break;
+							}
+						}
+
+						
+						addChild( _text );
 						
 						//Log.log( _lineData.start.x, _lineData.start.y, _lineData.end.x, _lineData.end.y );
 				}
 				//Log.log( _item.cx, _item.cy, _item.startAngle, _item.endAngle, _item.radius );
 			});
-			/*
-			
-			_boxs = new Vector.<PieGraphUI>;
-			Common.each( BaseConfig.ins.c.paths, function( _k:int, _item:Object ):void{
-			
-				var _cmd:Vector.<int> = _item.cmd as Vector.<int>
-					, _path:Vector.<Number> = _item.path as Vector.<Number>
-					, _gitem:PieGraphUI
-					;
-				
-				addChild( _gitem = new PieGraphUI( _cmd, _path, BaseConfig.ins.itemColor( _k ) ) );
-				_boxs.push( _gitem );
-			});
-			*/
 		}
 		
 		private function showTips( _evt: JChartEvent ):void{

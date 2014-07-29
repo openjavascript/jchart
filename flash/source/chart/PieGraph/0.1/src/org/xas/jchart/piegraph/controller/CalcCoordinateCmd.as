@@ -160,6 +160,56 @@ package org.xas.jchart.piegraph.controller
 				_pieL.start = { x: _spoint.x + _pieL.cx, y: _spoint.y + _pieL.cy };
 				_pieL.end = { x: _epoint.x + _pieL.cx, y: _epoint.y + _pieL.cy };
 				
+				var _controlX:Number = _pieL.end.x
+					, _controlY:Number = _pieL.end.y
+					, _minAngle:Number = 5
+					;
+									
+					
+				if( Math.abs( 270 - _pieP.midAngle ) <= _minAngle ){
+					_pieL.direction = "top";
+				}else if( ( Math.abs( 360 - _pieP.midAngle ) <= _minAngle ) || _pieP.midAngle <= _minAngle ){
+					_pieL.direction = "right";
+				}else if( Math.abs( 90 - _pieP.midAngle ) <= _minAngle ){
+					_pieL.direction = "bottom";
+				}else if( Math.abs( 180 - _pieP.midAngle ) <= _minAngle ){
+					_pieL.direction = "left";
+				}else{
+					//left top
+					if( _pieL.end.x < _pieL.cx && _pieL.end.y < _pieL.cy ){
+						_controlY -= 5;
+						_controlX += 5;
+						_pieL.direction = "left_top";
+					}
+					//right top
+					if( _pieL.end.x > _pieL.cx && _pieL.end.y < _pieL.cy ){
+						_controlY -= 5;
+						_controlX -= 5;
+						_pieL.direction = "right_top";
+					}
+					//left bottom
+					if( _pieL.end.x < _pieL.cx && _pieL.end.y > _pieL.cy ){
+						_controlY += 5;
+						_controlX += 5;
+						_pieL.direction = "left_bottom";
+					}
+					//right bottom
+					if( _pieL.end.x > _pieL.cx && _pieL.end.y > _pieL.cy ){
+						_controlY += 5;
+						_controlX -= 5;
+						_pieL.direction = "right_bottom";
+					}
+				}
+				_pieL.control = { x: _controlX, y: _controlY };
+				
+				/*
+				_tmpPath = JC.f.printf( 'M{0} {1}S{2} {3} {4} {5}'
+					, _pieL.start.x, _pieL.start.y
+					, _controlX, _controlY 
+					, _pieL.end.x, _pieL.end.y
+				);
+				*/
+				
 				BaseConfig.ins.c.piePart.push( _pieP );
 				BaseConfig.ins.c.pieLine.push( _pieL );
 			});

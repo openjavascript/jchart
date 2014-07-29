@@ -619,33 +619,33 @@
                     */
 
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius, data: _item }, _pieL = { data: _item };
+                        var _pieP = { cx: _c.cx, cy: _c.cy, radius: _c.radius, data: _item }, _pieL = { data: _item };
 
-                        _pieC.radians = Math.PI / 180;
-                        _pieC.offsetAngle = _offsetAngle;
+                        _pieP.radians = Math.PI / 180;
+                        _pieP.offsetAngle = _offsetAngle;
                         
                         if( _item.y === _partSize ){
-                            _pieC.angle = 360;
-                            _pieC.percent = 100;
+                            _pieP.angle = 360;
+                            _pieP.percent = 100;
                         }else{
-                            _pieC.percent = _item.y / _partSize * 100;
-                            _pieC.angle = _item.y / _partSize * _angle;
+                            _pieP.percent = _item.y / _partSize * 100;
+                            _pieP.angle = _item.y / _partSize * _angle;
 
                         }
-                        _pieC.startAngle = ( _angleCount + _offsetAngle ) % _angle;
-                        _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2 % _angle;
-                        _pieC.endAngle = ( ( _angleCount += _pieC.angle ) + _offsetAngle ) % _angle;
+                        _pieP.startAngle = ( _angleCount + _offsetAngle ) % _angle;
+                        _pieP.midAngle = _pieP.startAngle + _pieP.angle / 2 % _angle;
+                        _pieP.endAngle = ( ( _angleCount += _pieP.angle ) + _offsetAngle ) % _angle;
 
-                        _pieC.startPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.startAngle );
-                        _pieC.endPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.endAngle );
+                        _pieP.startPoint = JChart.Geometry.distanceAngleToPoint( _pieP.radius, _pieP.startAngle );
+                        _pieP.endPoint = JChart.Geometry.distanceAngleToPoint( _pieP.radius, _pieP.endAngle );
 
-                        _pieC.startPoint.x += _pieC.cx;
-                        _pieC.startPoint.y += _pieC.cy;
-                        _pieC.endPoint.x += _pieC.cx;
-                        _pieC.endPoint.y += _pieC.cy;
+                        _pieP.startPoint.x += _pieP.cx;
+                        _pieP.startPoint.y += _pieP.cy;
+                        _pieP.endPoint.x += _pieP.cx;
+                        _pieP.endPoint.y += _pieP.cy;
 
-                        _pieL.start = JChart.Geometry.distanceAngleToPoint( _pieC.radius - _p.lineStart(), _pieC.midAngle );
-                        _pieL.end = JChart.Geometry.distanceAngleToPoint( _pieC.radius + _p.lineLength(), _pieC.midAngle );
+                        _pieL.start = JChart.Geometry.distanceAngleToPoint( _pieP.radius - _p.lineStart(), _pieP.midAngle );
+                        _pieL.end = JChart.Geometry.distanceAngleToPoint( _pieP.radius + _p.lineLength(), _pieP.midAngle );
 
                         _pieL.cx = _c.cx;
                         _pieL.cy = _c.cy;
@@ -654,17 +654,17 @@
                         _pieL.end.x += _pieL.cx;
                         _pieL.end.y += _pieL.cy;
 
-                        //JC.log( _k, _pieC.midAngle );
+                        //JC.log( _k, _pieP.midAngle );
 
                         var _tmpPath, _controlX = _pieL.end.x, _controlY = _pieL.end.y, _minAngle = 5;
 
-                        if( Math.abs( 270 - _pieC.midAngle ) <= _minAngle ){
+                        if( Math.abs( 270 - _pieP.midAngle ) <= _minAngle ){
                             _pieL.direction = "top";
-                        }else if( ( Math.abs( 360 - _pieC.midAngle ) <= _minAngle ) || _pieC.midAngle <= _minAngle ){
+                        }else if( ( Math.abs( 360 - _pieP.midAngle ) <= _minAngle ) || _pieP.midAngle <= _minAngle ){
                             _pieL.direction = "right";
-                        }else if( Math.abs( 90 - _pieC.midAngle ) <= _minAngle ){
+                        }else if( Math.abs( 90 - _pieP.midAngle ) <= _minAngle ){
                             _pieL.direction = "bottom";
-                        }else if( Math.abs( 180 - _pieC.midAngle ) <= _minAngle ){
+                        }else if( Math.abs( 180 - _pieP.midAngle ) <= _minAngle ){
                             _pieL.direction = "left";
                         }else{
                             //left top
@@ -702,7 +702,7 @@
                         //_p.stage().path( _tmpPath ).attr( { 'stroke': '#999' } ).translate( .5, .5 );
                         _pieL.path = _tmpPath;
 
-                        _c.piePart.push( _pieC );
+                        _c.piePart.push( _pieP );
                         _p.dataLabelEnabled() && _c.pieLine.push( _pieL );
                     });
                 }

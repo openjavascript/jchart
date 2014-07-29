@@ -161,7 +161,7 @@ package
 						]
 					}]
 					, legend: {
-						enabled: true
+						enabled: false
 					}
 				};
 				//_data = {};

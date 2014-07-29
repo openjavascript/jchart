@@ -56,11 +56,8 @@ package org.xas.jchart.piegraph.view.components
 										new Point( _item.cx, _item.cy )
 										, _item.startAngle, _item.endAngle
 										, _item.radius
-										, BaseConfig.ins.c.pieLine[ _k ]
+										, { 'color': BaseConfig.ins.itemColor( _k ) }
 									);
-				
-				addChild( _pp );
-				_piePart.push( _pp );
 				
 				if( BaseConfig.ins.dataLabelEnabled ){
 					var _tmp:Sprite = new Sprite()
@@ -68,7 +65,7 @@ package org.xas.jchart.piegraph.view.components
 						, _text:TextField = new TextField()
 						;
 						
-						_tmp.graphics.lineStyle( 1, 0x000000 );
+						_tmp.graphics.lineStyle( 1, BaseConfig.ins.itemColor( _k ) );
 						_tmp.graphics.moveTo( _lineData.start.x, _lineData.start.y );
 						_tmp.graphics.curveTo( _lineData.control.x, _lineData.control.y, _lineData.end.x, _lineData.end.y );												
 						addChild( _tmp );
@@ -131,13 +128,15 @@ package org.xas.jchart.piegraph.view.components
 								_text.y = _lineData.end.y - _text.height / 2;
 								break;
 							}
-						}
-
-						
+						}			
+						_text.textColor = BaseConfig.ins.itemColor( _k );
 						addChild( _text );
 						
 						//Log.log( _lineData.start.x, _lineData.start.y, _lineData.end.x, _lineData.end.y );
 				}
+				addChild( _pp );
+				_piePart.push( _pp );
+				
 				//Log.log( _item.cx, _item.cy, _item.startAngle, _item.endAngle, _item.radius );
 			});
 		}

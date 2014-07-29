@@ -63,9 +63,17 @@ package org.xas.jchart.common.ui.widget
 		
 		private function init():void
 		{
+			
+			var _lineColor:uint = 0xffffff
+				, _fillColor:uint = 0x000000
+				;
+			
+			if( _style && _style.color ){
+				_fillColor = _style.color;
+			}
 	
-			graphics.lineStyle(1, 0xffffff);
-			graphics.beginFill( 0x000000 );
+			graphics.lineStyle(1, _lineColor);
+			graphics.beginFill( _fillColor );
 			
 			graphics.moveTo( _centerPoint.x, _centerPoint.y );
 			
@@ -88,8 +96,7 @@ package org.xas.jchart.common.ui.widget
 			}
 			
 			if( countAngle == _endAngle || ( countAngle == 0 && _endAngle == 360 ) ){
-				
-				graphics.lineStyle( 1, 0x000000 );
+				graphics.lineStyle( 1, _fillColor );
 			}
 			
 			if( countAngle == _endAngle ){

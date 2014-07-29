@@ -418,7 +418,8 @@
                             .attr( { 'font-weight': 'bold', 'fill': '#999', 'text-anchor': 'start' } )
                     , 'title' );
 
-                    _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _p.data().series[0].name || 'empty' ).attr( { 'text-anchor': 'start' } );
+                    _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _p.data().series[0].name || 'empty' )
+                            .attr( { 'text-anchor': 'start' } );
                     _tmpBox = JChart.f.getBBox( _tmp );
                     _offsetY += _tmpBox.height + 5;
                     _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
@@ -426,7 +427,8 @@
 
                     _tmpItem = _p._tips.getChildByName( 'label_0' );
                     _tmpBox = JChart.f.getBBox( _tmpItem );
-                    _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' ).attr( { 'text-anchor': 'start' } );
+                    _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
+                            .attr( { 'text-anchor': 'start' } );
                     _p._tips.addChild( _tmp, 'val_0' );
 
                     _tmpItem = _p._tips.getChildByName( 'val_0' );

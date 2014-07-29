@@ -158,6 +158,7 @@
                     _item = _p._model.stage().path( _corText );
                 }
                 _p._model.add( _item, 'element' );
+                _item.attr( { 'cursor': 'pointer' } );
                 _p.unhover();
 
                 _p.trigger( 'draw_done' );

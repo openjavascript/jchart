@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties mainApplicationPath="Histogram.as" projectUUID="8c325813-0eaf-4b18-aca5-7b354688bf4d" version="6">
+<actionScriptProperties mainApplicationPath="PieGraph.as" projectUUID="8c325813-0eaf-4b18-aca5-7b354688bf4f" version="6">
   <compiler additionalCompilerArguments="-locale zh_CN" autoRSLOrdering="false" copyDependentFiles="true" flexSDK="Flex 4.6" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="G:/My Documents/git/jchart_dev/flash/source/lib/src"/>
@@ -31,9 +31,10 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="Histogram.as"/>
+    <application path="PieGraph.as"/>
   </applications>
   <modules/>
   <buildCSSFiles/>
 </actionScriptProperties>
+
 

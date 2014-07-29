@@ -144,60 +144,12 @@
                     _p._view.updateVLine( _index );
                 });
 
-                _p.on( 'resetDisplaySeries', function( _evt, _data ){
-                    _p._model.displayLegend = {};
-                    _p._model.displayLegendMap = {};
-                    _p._model.displaySeries = [];
-
-                    if( _data && _data.series ){
-                        $.each( _data.series, function( _k, _item ){
-                            _p._model.displayLegend[ _k ] = _k;
-                            _p._model.displayLegendMap[ _k ] = _k;
-                            _p._model.displaySeries.push( _item );
-                        });
-                    }
+                _p.on( JChart.Base.Model.RESET_DISPLAY_SERIES, function( _evt, _data ){
+                    _p._model.resetDisplaySeries( _data );
                 });
 
-                _p.on( 'legendUpdate', function( _evt, _ix ){
-                    if( !( _p._model.legendSet() && _p._model.legendSet().length ) ) return;
-                    var _set = _p._model.legendSet()[ _ix ];
-                    if( !_set ) return;
-
-                    if( _set.items.length ){
-                        var _selected = !JC.f.parseBool( _set.items[0].data( 'selected' ) ); 
-                        _set.data( 'selected', _selected );
-                        if( _selected ){
-                            _set.attr( { opacity: .35 } );
-                        }else{
-                            _set.attr( { opacity: 1 } );
-                            _p._model.displayLegend[ _ix ] = _ix;
-                        }
-
-                        _p._model.displayLegend = {};
-                        _p._model.displayLegendMap = {};
-                        var _count = 0;
-                        $.each( _p._model.legendSet(), function( _k, _item ){
-                            if( !JC.f.parseBool( _item.items[0].data( 'selected' ) ) ){
-                                _p._model.displayLegend[ _k ] = _count;
-                                _p._model.displayLegendMap[ _count ] = _k;
-                                //JC.log( _k, _count );
-                                _count++;
-                            }
-                        });
-
-                        //JC.dir( _p._model.displayLegend );
-                        _p._model.displaySeries = [];
-                        if( _p._model.series() && _p._model.series().length ){
-                            $.each( _p._model.series(), function( _k, _item ){
-                                if( _k in _p._model.displayLegend ){
-                                    _p._model.displaySeries.push( _item );
-                                }
-                            });
-                        }
-
-                        _p.trigger( 'update_data', [ _p._model.data() ] );
-                        //JC.dir( _p._model.displaySeries );
-                    }
+                _p.on( JChart.Base.Model.LEGEND_UPDATE, function( _evt, _ix ){
+                    _p._model.updateLegend( _ix );
                 });
             }
 

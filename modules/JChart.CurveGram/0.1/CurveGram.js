@@ -126,6 +126,14 @@
                     _p._view.updatePoint( _index );
                     _p._view.updateVLine( _index );
                 });
+
+                _p.on( JChart.Base.Model.RESET_DISPLAY_SERIES, function( _evt, _data ){
+                    _p._model.resetDisplaySeries( _data );
+                });
+
+                _p.on( JChart.Base.Model.LEGEND_UPDATE, function( _evt, _ix ){
+                    _p._model.updateLegend( _ix );
+                });
             }
 
         , _inited:
@@ -175,8 +183,8 @@
                 var _p = this, _tmp, _style;
                 if( typeof _p._path == 'undefined' ){
                     _p._path = [];
-                    $.each( _p.data().series, function( _k, _item ){
-                        _tmp = _p.stage().path( 'M0 0' ).attr(_p.pathStyle( _k ) );
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
+                        _tmp = _p.stage().path( 'M0 0' ).attr(_p.pathStyle( _p.displayLegendMap[ _k ] ) );
                         _p._path.push( _tmp );
                     });
                 }
@@ -191,15 +199,15 @@
                 if( typeof _p._point == 'undefined' ){
                     _p._point = [];
 
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
                         var _items = [];
                         $.each( _item.data, function( _sk, _sitem ){
                             _tmp = new JChart.GraphicPoint( 
                                 _p.stage()
                                 , 0, 0
                                 , CurveGram.Model.STYLE.radius 
-                                , _p.itemStyle( _k )
-                                , _p.itemHoverStyle( _k )
+                                , _p.itemStyle( _p.displayLegendMap[ _k ] )
+                                , _p.itemHoverStyle( _p.displayLegendMap[ _k ] )
                             );
                             _items.push( _tmp );
                         });
@@ -219,8 +227,8 @@
                     ;
                 _r = JC.f.cloneObject( CurveGram.Model.STYLE.style[ _ix ] );
 
-                _p.data().series[ _ix ].style
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
+                _p.series()[ _ix ].style
+                    && ( _r = JC.f.extendObject( _r, _p.series()[ _ix ].style ) );
 
                 !_r.fill && _r.stroke && ( _r.fill = _r.stroke );
 
@@ -235,11 +243,11 @@
                     ;
                 _r = JC.f.cloneObject( CurveGram.Model.STYLE.style[ _ix ] );
 
-                _p.data().series[ _ix ].style
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
+                _p.series()[ _ix ].style
+                    && ( _r = JC.f.extendObject( _r, _p.series()[ _ix ].style ) );
 
-                _p.data().series[ _ix ].hoverStyle
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
+                _p.series()[ _ix ].hoverStyle
+                    && ( _r = JC.f.extendObject( _r, _p.series()[ _ix ].hoverStyle ) );
 
                 !_r.fill && _r.stroke && ( _r.fill = '#fff' );
 
@@ -497,7 +505,7 @@
                 _c.path = [];
 
                 var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) );
-                $.each( _data.series, function( _ix, _items ){
+                $.each( _p.getDisplaySeries(), function( _ix, _items ){
                     var _x, _y, _dataHeight, _pathPoint = [], _purePoint = [], _dataY, _maxNum;
                     $.each( _items.data, function( _six, _num ){
 
@@ -620,8 +628,9 @@
 
         , updateTips:
             function( _ix, _offset ){
-                var _p = this
-                    , _tips = _p._model.tips( _ix )
+                var _p = this;
+                if( !( _p._model.getDisplaySeries() && _p._model.getDisplaySeries().length ) ) return;
+                var _tips = _p._model.tips( _ix )
                     , _bbox = JChart.f.getBBox( _tips )
                     , _c = _p._model.coordinate()
                     , _x = _offset.x + 15, _y = _offset.y + 18

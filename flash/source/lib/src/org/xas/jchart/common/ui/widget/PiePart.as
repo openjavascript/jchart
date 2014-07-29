@@ -15,6 +15,7 @@ package org.xas.jchart.common.ui.widget
 	import org.xas.core.utils.EffectUtility;
 	import org.xas.core.utils.ElementUtility;
 	import org.xas.core.utils.GeoUtils;
+	import org.xas.core.utils.Log;
 	
 	public class PiePart extends Sprite
 	{
@@ -44,7 +45,7 @@ package org.xas.jchart.common.ui.widget
 			 , _radius:Number = 100
 			 , _style:Object = null
 			 , _hoverStyle:Object = null
-			 , _offsetAngle:Number = 270
+			 , _offsetAngle:Number = 0
 			 
 		)
 		{
@@ -62,9 +63,17 @@ package org.xas.jchart.common.ui.widget
 		
 		private function init():void
 		{
+			
+			var _lineColor:uint = 0xffffff
+				, _fillColor:uint = 0x000000
+				;
+			
+			if( _style && _style.color ){
+				_fillColor = _style.color;
+			}
 	
-			graphics.lineStyle(1, 0xffffff);
-			graphics.beginFill( 0x000000 );
+			graphics.lineStyle(1, _lineColor);
+			graphics.beginFill( _fillColor );
 			
 			graphics.moveTo( _centerPoint.x, _centerPoint.y );
 			
@@ -81,6 +90,21 @@ package org.xas.jchart.common.ui.widget
 			
 			var tempPoint:Point;
 			
+			
+			if( countAngle > _endAngle ){
+				_endAngle += 360;
+			}
+			
+			if( countAngle == _endAngle || ( countAngle == 0 && _endAngle == 360 ) ){
+				graphics.lineStyle( 1, _fillColor );
+			}
+			
+			if( countAngle == _endAngle ){
+				_endAngle += 360;		
+			}
+						
+			//Log.log( countAngle, _endAngle );
+			
 			while( true )
 			{
 				if( countAngle >= _endAngle )
@@ -91,6 +115,8 @@ package org.xas.jchart.common.ui.widget
 				}
 				tempPoint = GeoUtils.moveByAngle( countAngle, _centerPoint, _radius );
 				graphics.lineTo( tempPoint.x, tempPoint.y );
+				
+				//Log.log( countAngle, _radius );
 				
 				countAngle += angleStep;
 			}

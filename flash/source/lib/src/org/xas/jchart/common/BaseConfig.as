@@ -32,7 +32,7 @@ package org.xas.jchart.common
 		public function setParams( _d:Object ):Object {	return _params = _d; }		
 		public function get params():Object { return _params;	}		
 		public function get p():Object { return _params;	}
-			
+	
 		protected var _displaySeries:Array;
 		public function get displaySeries():Array{
 			return _displaySeries;	
@@ -181,6 +181,19 @@ package org.xas.jchart.common
 			
 			return _r;
 		}
+		
+		public function get dataLabelEnabled():Boolean{
+			var _r:Boolean = true;
+			//return false;
+			cd 
+				&& cd.plotOptions
+				&& cd.plotOptions.pie
+				&& cd.plotOptions.pie.dataLabels
+				&& ( 'enabled' in cd.plotOptions.pie.dataLabels )
+				&& ( _r = cd.plotOptions.pie.dataLabels.enabled );
+				
+			return _r;
+		}
 
 		
 		protected function calcMaxNum():Number{
@@ -235,36 +248,6 @@ package org.xas.jchart.common
 				_rateZeroIndex = 4;
 			}
 		}
-		
-		protected var _defaultStyle:Object =
-			{
-				lineStyle: {
-					'stroke': '#999'
-					, 'opacity': '.35'
-				}
-				, style: [
-					{ 'stroke': '#09c100', 'stroke-opacity': 0 }
-					, { 'stroke': '#FFBF00', 'stroke-opacity': 0 }
-					, { 'stroke': '#0c76c4', 'stroke-opacity': 0 }
-					, { 'stroke': '#41e2e6', 'stroke-opacity': 0 }
-					
-					, { 'stroke': '#ffb2bc', 'stroke-opacity': 0 }
-					
-					, { 'stroke': '#dbb8fd', 'stroke-opacity': 0 }
-					
-					, { 'stroke': '#ff06b3', 'stroke-opacity': 0 }
-					, { 'stroke': '#ff7100', 'stroke-opacity': 0 }
-					, { 'stroke': '#c3e2a4', 'stroke-opacity': 0 }
-					
-					, { 'stroke': '#ff0619', 'stroke-opacity': 0 }
-					
-				]
-				, pathStyle: {
-					'stroke-width': 2
-				}
-				, radius: 4
-			};
-		public function get defaultStyle():Object{ return _defaultStyle; }
 		
 		public function get titleStyle():Object{
 			var _r:Object = {};
@@ -383,6 +366,19 @@ package org.xas.jchart.common
 		}
 		protected var _labelDisplayIndex:Object = {};
 		public function get labelDisplayIndex():Object{ return _labelDisplayIndex; }
+		
+		public function get offsetAngle():Number{
+			var _r:Number = 270;
+			
+			cd 
+				&& ( 'offsetAngle' in cd )
+				&& ( _r = cd.offsetAngle );
+			
+			return _r;
+		}
+		public function get totalNum():Number{
+			return 0;
+		}
 				
 		public function BaseConfig()
 		{

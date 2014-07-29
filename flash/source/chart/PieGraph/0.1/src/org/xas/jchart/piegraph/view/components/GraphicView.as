@@ -39,7 +39,8 @@ package org.xas.jchart.piegraph.view.components
 		
 		private function addToStage( _evt:Event ):void{
 			
-			//addChild( new PiePart( new Point( 200, 200 ), 0, 100 ) );
+			//addChild( new PiePart( new Point( 200, 200 ), 0, 100 ) );			
+			//addChild( new PiePart( new Point( 200, 200 ), 0, 360, 100 ) );
 		}
 		
 		public function update():void{
@@ -71,7 +72,7 @@ package org.xas.jchart.piegraph.view.components
 						
 						addChild( _tmp );
 						
-						Log.log( _lineData.start.x, _lineData.start.y, _lineData.end.x, _lineData.end.y );
+						//Log.log( _lineData.start.x, _lineData.start.y, _lineData.end.x, _lineData.end.y );
 				}
 				//Log.log( _item.cx, _item.cy, _item.startAngle, _item.endAngle, _item.radius );
 			});

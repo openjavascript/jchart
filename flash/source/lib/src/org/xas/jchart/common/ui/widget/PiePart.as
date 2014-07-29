@@ -82,10 +82,20 @@ package org.xas.jchart.common.ui.widget
 			
 			var tempPoint:Point;
 			
+			
 			if( countAngle > _endAngle ){
 				_endAngle += 360;
 			}
 			
+			if( countAngle == _endAngle || ( countAngle == 0 && _endAngle == 360 ) ){
+				
+				graphics.lineStyle( 1, 0x000000 );
+			}
+			
+			if( countAngle == _endAngle ){
+				_endAngle += 360;		
+			}
+						
 			//Log.log( countAngle, _endAngle );
 			
 			while( true )
@@ -98,6 +108,8 @@ package org.xas.jchart.common.ui.widget
 				}
 				tempPoint = GeoUtils.moveByAngle( countAngle, _centerPoint, _radius );
 				graphics.lineTo( tempPoint.x, tempPoint.y );
+				
+				//Log.log( countAngle, _radius );
 				
 				countAngle += angleStep;
 			}

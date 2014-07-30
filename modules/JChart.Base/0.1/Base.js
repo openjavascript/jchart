@@ -184,6 +184,8 @@ window.JChart = window.JChart || {};
                 if( _r === 0 ){
                     if( JChart.browser.msie ){
                         _r = 1;
+                    }else if( JChart.browser.safari ){
+                        _r = 1;
                     }else{
                         _r = 2;
                     }

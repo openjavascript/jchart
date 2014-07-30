@@ -132,14 +132,16 @@ package org.xas.jchart.histogram.controller
 					
 					if( Common.isNegative( _num ) || _num == 0 ){
 						_num = Math.abs( _num );
-						_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
-						_dataHeight = BaseConfig.ins.c.chartHeight - _h;
-						_dataHeight = 
+						_dataHeight = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
+						
+						_h = BaseConfig.ins.c.chartHeight - _dataHeight;
+						_y = _sp.y + _dataHeight ;
+						
+						_h = 
 						( _num / 
-							Math.abs( BaseConfig.ins.chartMaxNum * BaseConfig.ins.rate[ BaseConfig.ins.rate.length - 1 ] ) ) 
-						* _dataHeight;
-						_y = _sp.y + _h;
-						_h = _dataHeight;
+							Math.abs( BaseConfig.ins.finalMaxNum * BaseConfig.ins.rate[ BaseConfig.ins.rate.length - 1 ] ) ) 
+						* _h;
+						//Log.log( _h, BaseConfig.ins.finalMaxNum );
 					}else{
 						_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
 						_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
@@ -147,25 +149,6 @@ package org.xas.jchart.histogram.controller
 						+ BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h
 						;
 					}
-					/*
-					if( Common.isNegative( _num ) || _num == 0 ){
-						_num = Math.abs( _num );
-						_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
-						_dataHeight = BaseConfig.ins.c.chartHeight - _h;
-						_dataHeight = 
-						( _num / 
-							Math.abs( BaseConfig.ins.chartMaxNum * BaseConfig.ins.rate[ BaseConfig.ins.rate.length - 1 ] ) ) 
-						* _dataHeight;
-						Log.log( _num, BaseConfig.ins.chartMaxNum, _dataHeight, BaseConfig.ins.rate[ BaseConfig.ins.rate.length - 1 ] );
-						_y = _sp.y + _h + _dataHeight;
-					}else{							
-						_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
-						_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
-						_y = _sp.y 
-						+ BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h
-						;
-					}
-					*/
 					
 					//Log.log( _h, _y );
 										

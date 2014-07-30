@@ -3,6 +3,7 @@ package org.xas.jchart.piegraph.view.mediator
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.mediator.MainMediator;
 	import org.xas.jchart.piegraph.view.components.GraphicView;
@@ -20,7 +21,22 @@ package org.xas.jchart.piegraph.view.mediator
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index6.addChild( _view = new GraphicView() );			
+			mainMediator.view.index6.addChild( _view = new GraphicView() );		
+			
+			_view.addEventListener( JChartEvent.UPDATE_TIPS, function( _evt:JChartEvent ):void{
+				sendNotification( JChartEvent.UPDATE_TIPS, _evt.data );
+				//Log.log( 'update tips' );
+			});
+			
+			_view.addEventListener( JChartEvent.SHOW_TIPS, function( _evt:JChartEvent ):void{
+				sendNotification( JChartEvent.SHOW_TIPS, _evt.data );
+				//Log.log( 'show tips' );
+			});
+			
+			_view.addEventListener( JChartEvent.HIDE_TIPS, function( _evt:JChartEvent ):void{
+				sendNotification( JChartEvent.HIDE_TIPS, _evt.data );
+				//Log.log( 'hide tips' );
+			});
 		}
 		
 		override public function onRemove():void{
@@ -30,9 +46,11 @@ package org.xas.jchart.piegraph.view.mediator
 		override public function listNotificationInterests():Array{
 			return [
 				JChartEvent.SHOW_CHART
+				/*
 				, JChartEvent.UPDATE_TIPS
 				, JChartEvent.SHOW_TIPS
 				, JChartEvent.HIDE_TIPS
+				*/
 			];
 		}
 		
@@ -43,6 +61,7 @@ package org.xas.jchart.piegraph.view.mediator
 						_view.update();
 						break;
 					}	
+				/*
 				case JChartEvent.UPDATE_TIPS:
 				{
 					_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, notification.getBody() ) );
@@ -58,6 +77,7 @@ package org.xas.jchart.piegraph.view.mediator
 					_view.dispatchEvent( new JChartEvent( JChartEvent.HIDE_TIPS, notification.getBody() ) );
 					break;
 				}
+				*/
 			}
 		}
 		

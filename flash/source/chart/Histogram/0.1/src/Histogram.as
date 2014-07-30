@@ -44,7 +44,7 @@ package
 			BaseConfig.setIns( new HistogramConfig() );
 			 
 			//update( {} );	
-			
+			 
 			addEventListener( JChartEvent.PROCESS, process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);
 			addEventListener( Event.REMOVED_FROM_STAGE, onRemovedFromStage );	

@@ -1,4 +1,4 @@
-package org.xas.jchart.common.view.components
+package org.xas.jchart.common.view.components.TipsView
 {
 	import com.adobe.utils.StringUtil;
 	
@@ -18,12 +18,12 @@ package org.xas.jchart.common.view.components
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.TipsUI;
 	
-	public class TipsView extends Sprite
+	public class BaseTipsView extends Sprite
 	{	
-		private var _data:Object;
-		private var _tips:TipsUI;
+		protected var _data:Object;
+		protected var _tips:TipsUI;
 		
-		public function TipsView()
+		public function BaseTipsView()
 		{
 			super();
 			
@@ -34,18 +34,18 @@ package org.xas.jchart.common.view.components
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
 		}
 		
-		private function addToStage( _evt:Event ):void{
+		protected function addToStage( _evt:Event ):void{
 			
 			init();
 		}
 		
-		private function init():void{
+		protected function init():void{
 			buildData();
 			
 			addChild( _tips = new TipsUI() );
 		}
 		
-		private function buildData():void{
+		protected function buildData():void{
 			
 			if( !( BaseConfig.ins.displaySeries && BaseConfig.ins.displaySeries.length ) ){
 				return;
@@ -74,20 +74,20 @@ package org.xas.jchart.common.view.components
 			//Log.printObject( _data );
 		}
 		
-		private function showTips( _evt: JChartEvent ):void{
+		protected function showTips( _evt: JChartEvent ):void{
 			var _srcEvt:MouseEvent = _evt.data as MouseEvent;			
 			//Log.log( 'TipsView showTips' );
 			if( !( _data && _data[ 0 ] ) ) return;
 			_tips.buildLayout( _data[ 0 ] ).show( new Point( 10000, 0 ) );
 		}
 		
-		private function hideTips( _evt: JChartEvent ):void{
+		protected function hideTips( _evt: JChartEvent ):void{
 			var _srcEvt:MouseEvent = _evt.data as MouseEvent;		
 			//Log.log( 'TipsView hideTips' );
 			_tips.hide();
 		}		
 		
-		private function updateTips( _evt: JChartEvent ):void{
+		protected function updateTips( _evt: JChartEvent ):void{
 			var _srcEvt:MouseEvent = _evt.data.evt as MouseEvent
 				, _ix:int = _evt.data.index as int
 				;		

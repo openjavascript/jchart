@@ -87,7 +87,7 @@ package org.xas.jchart.piegraph.controller
 				BaseConfig.ins.c.chartY = BaseConfig.ins.c.minY;
 				
 				facade.registerMediator( new GraphicBgMediator() );	
-				//facade.registerMediator( new TipsMediator() );
+				facade.registerMediator( new TipsMediator() );
 								
 				calcGraphic();	
 				

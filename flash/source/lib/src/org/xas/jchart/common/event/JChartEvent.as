@@ -26,6 +26,7 @@ package org.xas.jchart.common.event
 		public static const SHOW_TIPS:String = 'show_tips';
 		public static const HIDE_TIPS:String = 'hide_tips';
 		
+		public static const UPDATE:String = 'update';
 		public static const UPDATE_STATUS:String = 'update_status';
 		public static const FILTER_DATA:String = 'filter_data';
 		

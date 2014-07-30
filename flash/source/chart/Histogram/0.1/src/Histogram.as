@@ -179,5 +179,8 @@ package
 			
 			update( _data );
 		}
+		
+		public static var author:String = 'suches@btbtd.org';
+		public static var version:String = '0.1, 2014-07-30';
 	}
 }

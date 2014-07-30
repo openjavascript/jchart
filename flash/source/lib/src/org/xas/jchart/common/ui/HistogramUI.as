@@ -22,10 +22,12 @@ package org.xas.jchart.common.ui
 		
 		private function init():void{
 			
+			if( _w > 0 && _h > 0 ){
 			graphics.beginFill( _color, 1 );
 			graphics.drawRect( 0, 0, _w, _h );
 			this.x = _x;
 			this.y = _y;
+			}
 		}
 	}
 }

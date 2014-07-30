@@ -131,7 +131,7 @@ package org.xas.jchart.curvegram.controller
 						;
 						//Log.log( _sk, _sp.x, _sp.y );
 						
-						if( Common.isNegative( _num ) || _num == 0 ){
+						if( Common.isNegative( _num ) && _num != 0 ){
 							_num = Math.abs( _num );
 							_dataHeight = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
 							
@@ -146,7 +146,12 @@ package org.xas.jchart.curvegram.controller
 							//Log.log( _h, BaseConfig.ins.finalMaxNum );
 						}else{							
 							_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
-							_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
+							if( _num > 0 ){
+								_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
+							}
+							if( _num == 0 ){
+								_h = 0;
+							}
 							_y = _sp.y 
 								+ BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h
 								;

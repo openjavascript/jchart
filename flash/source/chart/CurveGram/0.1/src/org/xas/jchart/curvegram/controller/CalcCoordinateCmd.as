@@ -136,7 +136,7 @@ package org.xas.jchart.curvegram.controller
 							_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
 							_dataHeight = BaseConfig.ins.c.chartHeight - _h;
 							_dataHeight = 
-								Math.floor( _num / 
+								( _num / 
 									Math.abs( BaseConfig.ins.chartMaxNum * BaseConfig.ins.rate[ BaseConfig.ins.rate.length - 1 ] ) ) 
 								* _dataHeight;
 							Log.log( _num, BaseConfig.ins.chartMaxNum, _dataHeight, BaseConfig.ins.rate[ BaseConfig.ins.rate.length - 1 ] );

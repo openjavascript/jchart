@@ -17,7 +17,7 @@
 
 /* global ActiveXObject: false */
 
-var swfobject = function () {
+window.swfobject = function () {
 
     var UNDEF = "undefined",
         OBJECT = "object",

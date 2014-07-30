@@ -52,6 +52,7 @@
 
         //JC.log( Histogram.Model._instanceName, 'all inited', new Date().getTime() );
     }
+    Histogram.FLASH_PATH = "{0}/flash/pub/charts/Histogram.swf";
     /**
      * 初始化可识别的 Histogram 实例
      * @method  init
@@ -192,6 +193,7 @@
         init:
             function(){
                 //JC.log( 'Histogram.Model.init:', new Date().getTime() );
+                JChart.Base.Model.prototype.init.call( this );
             }
         /**
          * 创建所有的柱状矩形
@@ -719,6 +721,19 @@
             function( _data ){
                 var _p = this, _coordinate;
 
+                var _detect = _p._model.displayDetect();
+                //JC.log( 'draw displayDetect', _detect, JC.f.ts() );
+                //_detect = 1;
+
+                if( _detect === 1 && Histogram.FLASH_PATH ){
+                    _p.drawFlash( _data );
+                }else{
+                    _p.drawSVG( _data );
+                }
+             }
+        , drawSVG:
+            function( _data ){
+                var _p = this, _coordinate;
                 _p.setStaticPosition( _p._model.coordinate( _data ) );
 
                 _p._model.dataBackground().mouseenter( function( _evt ){
@@ -735,7 +750,30 @@
                     _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
                     Histogram.CURRENT_INS = null;
                 });
-             }
+            }
+        , drawFlash:
+            function( _data ){
+                //JC.dir( _data );
+                var _p = this
+                    , _fpath =  JC.f.printf( Histogram.FLASH_PATH, JChart.PATH ).replace( /[\/]+/g, '/' )
+                    , _element
+                    , _dataStr = JSON.stringify( _data ) 
+                    ; 
+                _element = $( JC.f.printf( '<span id="{0}"></span>', _p._model.gid() ) );
+                _element.appendTo( _p.selector() );
+                //JC.log( 'drawFlash', _fpath, _p._model.gid(), _p._model.width(), _p._model.height(), _element[0] );
+                JC.log( _dataStr );
+                swfobject.embedSWF( 
+                    _fpath
+                    , _p._model.gid()
+                    , _p._model.width()
+                    , _p._model.height()
+                    , '10' 
+                    , ''
+                    , { 'testparams': 2, 'chart': _dataStr }
+                    , { 'wmode': 'transparent' }
+                );
+            }
         /**
          * 显示 Tips
          * @param   {int}   _ix     数据索引

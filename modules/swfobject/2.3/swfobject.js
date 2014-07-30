@@ -2,6 +2,7 @@
  * swfobject v2.3
  * <br />An open source Javascript framework for detecting the Adobe Flash Player plugin and embedding Flash (swf) files.
  * <p><a href='https://github.com/swfobject/swfobject' target='_blank'>source</a>
+ * | <a href='https://code.google.com/p/swfobject/wiki/documentation' target='_blank'>docs</a>
  * | <a href='../../modules/swfobject/2.3/_demo' target='_blank'>demo link</a></p>
  * @namespace   window
  * @class       swfobject

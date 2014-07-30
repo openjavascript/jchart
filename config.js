@@ -38,6 +38,7 @@ requirejs.config( {
         , 'Raphael': 'modules/Raphael/latest/raphael'
         , 'json2': 'modules/JSON/2/JSON'
         , 'swfobject': 'modules/swfobject/2.3/swfobject'
+        , 'SWFObject': 'modules/swfobject/2.3/swfobject'
     }
 });
 /**

@@ -5,7 +5,7 @@
     , 'JChart.DefaultOptions' 
     , 'JChart.Event', 'JChart.Group'
     , 'JChart.IconLine', 'JChart.IconRect', 'JChart.IconCircle'
-    , 'SWFObject'
+    , 'swfobject'
 ], function(){
 window.JChart = window.JChart || {};
 /**

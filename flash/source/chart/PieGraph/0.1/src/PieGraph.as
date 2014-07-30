@@ -167,10 +167,16 @@ package
 				//_data = {};
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
-				_data = _loaderInfo.chart || _data;
+				if( _loaderInfo.chart ){
+					_data = JSON.parse( _loaderInfo.chart );
+				}				
+				_data = _data || {};
 			}
 			
 			update( _data );
 		}
+		
+		public static var author:String = 'suches@btbtd.org';
+		public static var version:String = '0.1, 2014-07-30';
 	}
 }

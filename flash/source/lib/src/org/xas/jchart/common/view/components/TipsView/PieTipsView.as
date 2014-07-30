@@ -62,7 +62,7 @@ package org.xas.jchart.common.view.components.TipsView
 			//Log.log( 'TipsView ix', _ix, _srcEvt.stageX, _srcEvt.stageY );
 			if( !( _data && _data[ _ix ] ) ) return;
 			//Log.printObject( _data[ _ix ] );
-			_tips.update( _data[ _ix ], new Point( _srcEvt.stageX, _srcEvt.stageY ) );
+			_tips.update( _data[ _ix ], new Point( _srcEvt.stageX, _srcEvt.stageY ), [ BaseConfig.ins.itemColor( _ix ) ] );
 		}
 
 	}

@@ -52,6 +52,7 @@
 
         JC.log( Histogram.Model._instanceName, 'all inited', new Date().getTime() );
     }
+    Histogram.FLASH_PATH = "{0}/flash/pub/charts/Histogram.swf";
     /**
      * 初始化可识别的 Histogram 实例
      * @method  init
@@ -192,6 +193,7 @@
         init:
             function(){
                 //JC.log( 'Histogram.Model.init:', new Date().getTime() );
+                JChart.Base.Model.prototype.init.call( this );
             }
         /**
          * 创建所有的柱状矩形
@@ -279,10 +281,9 @@
                     return undefined;
                 }
 
-                _itemLen = ( _c.hlen - 1 ) * 2;
+                _itemLen = ( _c.hlen );
                 _partWidth = _c.chartWidth / _itemLen;
                 _partWhat = Math.floor( _realX / _partWidth  );
-                _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
 
                 return _partWhat;
             }
@@ -720,6 +721,19 @@
             function( _data ){
                 var _p = this, _coordinate;
 
+                var _detect = _p._model.displayDetect();
+                //JC.log( 'draw displayDetect', _detect, JC.f.ts() );
+                //_detect = 1;
+
+                if( _detect === JChart.Base.Model.FLASH && Histogram.FLASH_PATH ){
+                    _p.drawFlash( _data, Histogram.FLASH_PATH );
+                }else{
+                    _p.drawSVG( _data );
+                }
+             }
+        , drawSVG:
+            function( _data ){
+                var _p = this, _coordinate;
                 _p.setStaticPosition( _p._model.coordinate( _data ) );
 
                 _p._model.dataBackground().mouseenter( function( _evt ){
@@ -736,7 +750,7 @@
                     _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
                     Histogram.CURRENT_INS = null;
                 });
-             }
+            }
         /**
          * 显示 Tips
          * @param   {int}   _ix     数据索引

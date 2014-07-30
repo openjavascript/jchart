@@ -141,13 +141,13 @@ package org.xas.jchart.piegraph.view.components
 				_pp.addEventListener( JChartEvent.UPDATE_STATUS, onPiePartUpdateStatus );
 				_pp.addEventListener( MouseEvent.MOUSE_OVER, onMouseOver );
 				_pp.addEventListener( MouseEvent.MOUSE_OUT, onMouseOut );
+				_pp.addEventListener( MouseEvent.CLICK, onMouseClick );
 				addChild( _pp );
 				_piePart.push( _pp );
 				
 				//Log.log( _item.cx, _item.cy, _item.startAngle, _item.endAngle, _item.radius );
 			});
-			
-			
+						
 			var _selectedIndex:int = -1;
 			Common.each( BaseConfig.ins.displaySeries, function( _k:int, _item:Object ):void{
 				if( _item.selected ){
@@ -160,7 +160,7 @@ package org.xas.jchart.piegraph.view.components
 				_selectedIndex = BaseConfig.ins.selected;
 			}
 			
-			if( _selectedIndex >= 0 && _selectedIndex <= (_piePart.length - 1 ) ){
+			if( _selectedIndex >= 0 && _selectedIndex <= (_piePart.length - 1 ) && _piePart.length > 1 ){
 				_piePart[ _selectedIndex ].selected( true );
 			}
 		}
@@ -182,6 +182,12 @@ package org.xas.jchart.piegraph.view.components
 			
 		}
 		
+		protected function onMouseClick( _evt:MouseEvent ):void{
+			var _pp:PiePart = _evt.target as PiePart;
+			if( !(　_pp && BaseConfig.ins.displaySeries.length >= 2 ) )  return;
+			_pp.toggle();
+		}
+		
 		protected function onMouseMove( _evt:MouseEvent ):void{
 			//Log.log( 'GraphicView onMouseMove', new Date().getTime() );
 			var _pp:PiePart = _evt.target as PiePart;
@@ -192,8 +198,16 @@ package org.xas.jchart.piegraph.view.components
 				
 		private function onPiePartUpdateStatus( _evt:JChartEvent ):void{
 			var _data:Object = _evt.data as Object;
-
-			if( BaseConfig.ins.selected >= 0 && BaseConfig.ins.selected != _data.dataIndex ){
+			
+			
+			if( _piePart.length === 1 ) {
+				return;
+			}
+			
+			if( BaseConfig.ins.selected >= 0 
+				&& BaseConfig.ins.selected <= ( _piePart.length - 1 ) 
+				&& BaseConfig.ins.selected != _data.dataIndex 
+			){
 				_piePart[ BaseConfig.ins.selected ].unselected();
 			}
 			

@@ -48,6 +48,7 @@
 
         //JC.log( PieGraph.Model._instanceName, 'all inited', new Date().getTime() );
     }
+    PieGraph.FLASH_PATH = "{0}/flash/pub/charts/PieGraph.swf";
     /**
      * 初始化可识别的 PieGraph 实例
      * @method  init
@@ -192,6 +193,7 @@
     JC.f.extendObject( PieGraph.Model.prototype, {
         init:
             function(){
+                JChart.Base.Model.prototype.init.call( this );
             }
 
         , dataLabelEnabled:
@@ -862,14 +864,28 @@
                 }
                 _p._model.tips().toFront();
             }
-
+        /**
+         * 从给出的数据显示图表
+         * @param   {object}  _data
+         */
         , draw: 
             function( _data ){
                 var _p = this, _coordinate;
+                var _detect = _p._model.displayDetect();
+                //JC.log( 'draw displayDetect', _detect, JC.f.ts() );
+                //_detect = 1;
 
+                if( _detect === JChart.Base.Model.FLASH && PieGraph.FLASH_PATH ){
+                    _p.drawFlash( _data, PieGraph.FLASH_PATH ); 
+                }else{
+                    _p.drawSVG( _data );
+                }
+             }
+        , drawSVG:
+            function( _data ){
+                var _p = this, _coordinate;
                 _p.setStaticPosition( _p._model.coordinate( _data ) );
             }
-
         , updateTips:
             function( _ix, _offset ){
                 var _p = this

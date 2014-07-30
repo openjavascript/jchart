@@ -5,8 +5,12 @@
     , 'JChart.DefaultOptions' 
     , 'JChart.Event', 'JChart.Group'
     , 'JChart.IconLine', 'JChart.IconRect', 'JChart.IconCircle'
+    , 'swfobject'
+    , 'browser'
+    , 'json2'
 ], function(){
 window.JChart = window.JChart || {};
+
 /**
  * 组件用途简述
  *
@@ -58,6 +62,18 @@ window.JChart = window.JChart || {};
     }
     JC.BaseMVC.build( Base );
 
+    /**
+     * 图表使用 svg 或者 flash 
+     * <br />0 = auto
+     * <br />1 = flash
+     * <br />2 = svg
+     * @property    DISPLAYDETECT
+     * @type        int
+     * @default     0
+     * @static
+     */
+    JChart.Base.DISPLAYDETECT = 0;
+
     JChart.Base.init =
         function( _class, _items, _count, _tmMs){
             if( _items[ _count ] ){
@@ -80,7 +96,6 @@ window.JChart = window.JChart || {};
                 _p.on( Base.Model.UPDATE_CHART_DATA, function( _evt, _data ){
                     _p.trigger( Base.Model.CLEAR );
                     _p._view.update( _data );
-
                     _p._model.chartSize( { width: _p._model.width(), height: _p._model.height() } );
                 });
 
@@ -136,6 +151,8 @@ window.JChart = window.JChart || {};
                 this.trigger( Base.Model.UPDATE_CHART_DATA, _data );
                 return this;
             }
+
+        , displayDetect: function(){ return this._model.displayDetect(); }
     });
 
     Base.Model._instanceName = 'JChartBase';
@@ -148,13 +165,19 @@ window.JChart = window.JChart || {};
     Base.Model.RESET_DISPLAY_SERIES = 'resetDisplaySeries';
     Base.Model.LEGEND_UPDATE = 'legendUpdate';
 
+    Base.Model.FLASH = 1;
+    Base.Model.SVG = 2;
+
+    Base.Model
+
     JC.f.extendObject( Base.Model.prototype, {
         init:
             function(){
                 //JC.log( 'Base.Model.init:', new Date().getTime() );
-                this._gid = Base.Model.INS_COUNT++;
+                this._gid = 'jchart_gid_' + ( Base.Model.INS_COUNT++ );
                 this.afterInit && this.afterInit();
             }
+
         , gid: function(){ return this._gid; }
         /**
          * 图表宽度
@@ -1113,6 +1136,36 @@ window.JChart = window.JChart || {};
                 }
 
             }
+        /**
+         * 判断使用 svg 或者 flash
+         */
+        , displayDetect:
+            function(){
+                var _r = JChart.Base.DISPLAYDETECT;
+                this.is( '[displayDetect]' ) && ( _r = this.intProp( 'displayDetect' ) || 0 );
+                if( _r === 0 ){
+                    /*
+                    if( JChart.browser.msie ){
+                        _r = 1;
+                    }else if( JChart.browser.safari ){
+                        _r = 1;
+                    }else{
+                        _r = 2;
+                    }
+                    */
+                    if( JChart.browser.chrome ){
+                        _r = 2;
+                    }else{
+                        _r = 1;
+                    }
+                }
+
+                if( _r > 2 || _r < 1 ){
+                    _r = 1;
+                }
+                return _r;
+            }
+
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -1176,6 +1229,30 @@ window.JChart = window.JChart || {};
          * 显示静态外观
          */
         , setStaticPosition: function(){}
+        , drawFlash:
+            function( _data, _path ){
+                //JC.dir( _data );
+                var _p = this
+                    , _fpath =  JC.f.printf( _path, JChart.PATH ).replace( /[\/]+/g, '/' )
+                    , _element
+                    , _dataStr = JSON.stringify( _data ) 
+                    ; 
+                _element = $( JC.f.printf( '<span id="{0}"></span>', _p._model.gid() ) );
+                _element.appendTo( _p.selector() );
+                //JC.log( 'drawFlash', _fpath, _p._model.gid(), _p._model.width(), _p._model.height(), _element[0] );
+                JC.log( _dataStr );
+                swfobject.embedSWF( 
+                    _fpath
+                    , _p._model.gid()
+                    , _p._model.width()
+                    , _p._model.height()
+                    , '10' 
+                    , ''
+                    , { 'testparams': 2, 'chart': _dataStr }
+                    , { 'wmode': 'transparent' }
+                );
+            }
+
     });
 
     Base.numberUp = numberUp;
@@ -1192,8 +1269,10 @@ window.JChart = window.JChart || {};
                     _item = $( _item );
                     var _ins = JC.BaseMVC.getInstance( _item, _class ), _size, _newSize, _w, _h;
                     if( !( _ins && _ins._model.data() ) ) return;
+                    if( _ins.displayDetect() === 1 ) return;
                     _size = _ins._model.chartSize();
                     if( !_size ) return;
+                    JC.log( 'displayDetect', _ins.displayDetect(), JC.f.ts() );
                     _w = _ins._model.realtimeWidth(); _h = _ins._model.realtimeHeight();
                     if( _size.width == _w && _size.height == _h ) return;
                     _w < 100 && ( _w = 100 ); 

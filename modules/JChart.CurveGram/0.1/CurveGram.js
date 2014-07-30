@@ -48,6 +48,7 @@
 
         //JC.log( CurveGram.Model._instanceName, 'all inited', new Date().getTime() );
     }
+    CurveGram.FLASH_PATH = '{0}/flash/pub/charts/CurveGram.swf';
     /**
      * 初始化可识别的 CurveGram 实例
      * @method  init
@@ -176,6 +177,7 @@
         init:
             function(){
                 //JC.log( 'CurveGram.Model.init:', new Date().getTime() );
+                JChart.Base.Model.prototype.init.call( this );
             }
 
         , path:
@@ -603,8 +605,24 @@
 
                 _p._model.tips().toFront();
             }
-
+        /**
+         * 从给出的数据显示图表
+         * @param   {object}  _data
+         */
         , draw: 
+            function( _data ){
+                var _p = this, _coordinate;
+                var _detect = _p._model.displayDetect();
+                //JC.log( 'draw displayDetect', _detect, JC.f.ts() );
+                //_detect = 1;
+
+                if( _detect === JChart.Base.Model.FLASH && CurveGram.FLASH_PATH ){
+                    _p.drawFlash( _data, CurveGram.FLASH_PATH ); 
+                }else{
+                    _p.drawSVG( _data );
+                }
+             }
+        , drawSVG:
             function( _data ){
                 var _p = this, _coordinate;
 
@@ -625,7 +643,6 @@
                 });
                 //JC.dir( _p.stage() );
             }
-
         , updateTips:
             function( _ix, _offset ){
                 var _p = this;

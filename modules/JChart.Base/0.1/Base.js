@@ -177,28 +177,6 @@ window.JChart = window.JChart || {};
                 this._gid = 'jchart_gid_' + ( Base.Model.INS_COUNT++ );
                 this.afterInit && this.afterInit();
             }
-        /**
-         * 判断使用 svg 或者 flash
-         */
-        , displayDetect:
-            function(){
-                var _r = JChart.Base.DISPLAYDETECT;
-                this.is( '[displayDetect]' ) && ( _r = this.intProp( 'displayDetect' ) || 0 );
-                if( _r === 0 ){
-                    if( JChart.browser.msie ){
-                        _r = 1;
-                    }else if( JChart.browser.safari ){
-                        _r = 1;
-                    }else{
-                        _r = 2;
-                    }
-                }
-
-                if( _r > 2 || _r < 1 ){
-                    _r = 1;
-                }
-                return _r;
-            }
 
         , gid: function(){ return this._gid; }
         /**
@@ -1158,6 +1136,36 @@ window.JChart = window.JChart || {};
                 }
 
             }
+        /**
+         * 判断使用 svg 或者 flash
+         */
+        , displayDetect:
+            function(){
+                var _r = JChart.Base.DISPLAYDETECT;
+                this.is( '[displayDetect]' ) && ( _r = this.intProp( 'displayDetect' ) || 0 );
+                if( _r === 0 ){
+                    /*
+                    if( JChart.browser.msie ){
+                        _r = 1;
+                    }else if( JChart.browser.safari ){
+                        _r = 1;
+                    }else{
+                        _r = 2;
+                    }
+                    */
+                    if( JChart.browser.chrome ){
+                        _r = 2;
+                    }else{
+                        _r = 1;
+                    }
+                }
+
+                if( _r > 2 || _r < 1 ){
+                    _r = 1;
+                }
+                return _r;
+            }
+
     });
 
     JC.f.extendObject( Base.View.prototype, {
@@ -1221,6 +1229,30 @@ window.JChart = window.JChart || {};
          * 显示静态外观
          */
         , setStaticPosition: function(){}
+        , drawFlash:
+            function( _data, _path ){
+                //JC.dir( _data );
+                var _p = this
+                    , _fpath =  JC.f.printf( _path, JChart.PATH ).replace( /[\/]+/g, '/' )
+                    , _element
+                    , _dataStr = JSON.stringify( _data ) 
+                    ; 
+                _element = $( JC.f.printf( '<span id="{0}"></span>', _p._model.gid() ) );
+                _element.appendTo( _p.selector() );
+                //JC.log( 'drawFlash', _fpath, _p._model.gid(), _p._model.width(), _p._model.height(), _element[0] );
+                JC.log( _dataStr );
+                swfobject.embedSWF( 
+                    _fpath
+                    , _p._model.gid()
+                    , _p._model.width()
+                    , _p._model.height()
+                    , '10' 
+                    , ''
+                    , { 'testparams': 2, 'chart': _dataStr }
+                    , { 'wmode': 'transparent' }
+                );
+            }
+
     });
 
     Base.numberUp = numberUp;

@@ -279,10 +279,9 @@
                     return undefined;
                 }
 
-                _itemLen = ( _c.hlen - 1 ) * 2;
+                _itemLen = ( _c.hlen );
                 _partWidth = _c.chartWidth / _itemLen;
                 _partWhat = Math.floor( _realX / _partWidth  );
-                _partWhat > 1 && ( _partWhat = Math.round( _partWhat / 2 ) );
 
                 return _partWhat;
             }

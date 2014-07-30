@@ -725,7 +725,7 @@
                 //JC.log( 'draw displayDetect', _detect, JC.f.ts() );
                 //_detect = 1;
 
-                if( _detect === 1 && Histogram.FLASH_PATH ){
+                if( _detect === JChart.Base.Model.FLASH && Histogram.FLASH_PATH ){
                     _p.drawFlash( _data );
                 }else{
                     _p.drawSVG( _data );

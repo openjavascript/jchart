@@ -95,8 +95,8 @@ window.JChart = window.JChart || {};
 
                 _p.on( Base.Model.UPDATE_CHART_DATA, function( _evt, _data ){
                     _p.trigger( Base.Model.CLEAR );
-                    _p._model.chartSize( { width: _p._model.width(), height: _p._model.height() } );
                     _p._view.update( _data );
+                    _p._model.chartSize( { width: _p._model.width(), height: _p._model.height() } );
                 });
 
                 _p.on( Base.Model.CLEAR, function( _evt ){
@@ -164,6 +164,9 @@ window.JChart = window.JChart || {};
     Base.Model.UPDATE_CHART_DATA = 'update_data';
     Base.Model.RESET_DISPLAY_SERIES = 'resetDisplaySeries';
     Base.Model.LEGEND_UPDATE = 'legendUpdate';
+
+    Base.Model.FLASH = 1;
+    Base.Model.SVG = 2;
 
     Base.Model
 
@@ -1237,6 +1240,7 @@ window.JChart = window.JChart || {};
                     if( _ins.displayDetect() === 1 ) return;
                     _size = _ins._model.chartSize();
                     if( !_size ) return;
+                    JC.log( 'displayDetect', _ins.displayDetect(), JC.f.ts() );
                     _w = _ins._model.realtimeWidth(); _h = _ins._model.realtimeHeight();
                     if( _size.width == _w && _size.height == _h ) return;
                     _w < 100 && ( _w = 100 ); 

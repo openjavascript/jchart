@@ -126,19 +126,27 @@ package org.xas.jchart.curvegram.controller
 						, _ep:Point = _pointItem.end as Point
 						, _h:Number, _x:Number, _y:Number
 						, _itemNum:Number
+						, _dataHeight:Number
+						, _dataY:Number
 						;
 						//Log.log( _sk, _sp.x, _sp.y );
 						
-						if( Common.isNegative( _num ) ){
-							_itemNum = Math.abs( _num );	
-							_h = BaseConfig.ins.c.vpart * Math.abs( BaseConfig.ins.rate.length - BaseConfig.ins.rateZeroIndex -1 );
-							_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
-							_h = Math.abs( _num / BaseConfig.ins.finalMaxNum ) * _h;
-							_y += _h;
-						}else{
+						if( Common.isNegative( _num ) || _num == 0 ){
+							_num = Math.abs( _num );
+							_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
+							_dataHeight = BaseConfig.ins.c.chartHeight - _h;
+							_dataHeight = 
+								Math.floor( _num / 
+									Math.abs( BaseConfig.ins.chartMaxNum * BaseConfig.ins.rate[ BaseConfig.ins.rate.length - 1 ] ) ) 
+								* _dataHeight;
+							Log.log( _num, BaseConfig.ins.chartMaxNum, _dataHeight, BaseConfig.ins.rate[ BaseConfig.ins.rate.length - 1 ] );
+							_y = _sp.y + _h + _dataHeight;
+						}else{							
 							_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
 							_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
-							_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h;
+							_y = _sp.y 
+								+ BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h
+								;
 						}
 						_x = _sp.x;
 						

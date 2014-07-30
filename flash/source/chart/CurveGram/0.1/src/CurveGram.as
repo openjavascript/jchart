@@ -138,6 +138,7 @@ package
 			var _data:Object = {};
 			
 			if( !ExternalInterface.available ){				
+				/*
 				_data = {
 					title: { text: 'test title 中文' }
 					, subtitle: { text: 'test subtitle 中文' }
@@ -171,6 +172,43 @@ package
 					}
 					, displayAllLabel: false
 				};
+				*/
+				_data = 
+					{
+						title: {
+							text:'Chart Title'
+						},
+						subtitle: {
+							text: 'sub title'
+						}, 
+						xAxis: {
+							categories: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12' ]
+							, tipTitlePostfix: '{0}月'
+						}, 
+						yAxis: {
+							title: {
+								text: '(Vertical Title - 中文)'
+							}
+						},
+						series:[{
+							name: 'Temperature'
+							, data: [-50, 0, 3, -20, -20, 27, 28, 32, 30, 25, 15, -58]
+							, style: { 'stroke': '#ff7100' } 
+							, pointStyle: {}
+						}, {
+							name: 'Rainfall',
+							data: [20, 21, 20, 100, 200, 210, 220, 100, 20, 10, 20, 10]
+						}],
+						credits: {
+							enabled: true
+							, text: 'jchart.openjavascript.org'
+							, href: 'http://jchart.openjavascript.org/'
+						},
+						displayAllLabel: true,
+						legend: {
+							enabled: true
+						}
+					};
 				//_data = {};
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				

@@ -147,7 +147,12 @@ package org.xas.jchart.common.ui.widget
 		
 		private function onUpdate( _evt:JChartEvent ):void{
 			update( _selected = _evt.data as Boolean );	
-			this.dispatchEvent( new JChartEvent( JChartEvent.UPDATE_STATUS, { selected: _selected, dataIndex: dataIndex, type: 'click' } ) );	
+			this.dispatchEvent( 
+				new JChartEvent( 
+					JChartEvent.UPDATE_STATUS
+					, { selected: _selected, dataIndex: dataIndex, type: 'click' }
+				) 
+			);	
 		}
 		
 		private function update( _setter:Boolean ):void{
@@ -210,6 +215,11 @@ package org.xas.jchart.common.ui.widget
 			return this;
 		}
 		
+		public function toggle():PiePart{
+			selected( !_selected );
+			return this;
+		}
+		
 		protected function onMouseOver( _evt:MouseEvent ):void{
 			flash.ui.Mouse.cursor = MouseCursor.BUTTON;	
 		}
@@ -221,7 +231,7 @@ package org.xas.jchart.common.ui.widget
 		private function onMouseClick( _evt:MouseEvent ):void
 		{
 			//Log.log( 'PiePart click' );
-			selected( !_selected );
+			//selected( !_selected );
 		}
 
 	}

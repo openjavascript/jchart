@@ -7,6 +7,7 @@ package org.xas.jchart.common.ui
 	
 	import mx.controls.Text;
 	
+	import org.xas.core.utils.EffectUtility;
 	import org.xas.core.utils.ElementUtility;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
@@ -44,8 +45,10 @@ package org.xas.jchart.common.ui
 			addEventListener( JChartEvent.UPDATE_TIPS, updateTips );	
 		}
 		
-		public function update( _data:Object, _position:Point = null ):TipsUI{
-			_position && dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, { data: _data, point: _position } ) );
+		public function update( _data:Object, _position:Point = null, _colors:Array = null ):TipsUI{
+			_position && dispatchEvent( 
+				new JChartEvent( JChartEvent.UPDATE_TIPS, { data: _data, point: _position, colors: _colors } ) 
+			);
 			return this;
 		}
 		
@@ -110,14 +113,14 @@ package org.xas.jchart.common.ui
 			return this;
 		}
 		
-		private function updateLayout( _data:Object = null ):void{
+		private function updateLayout( _data:Object = null, _colors:Array = null ):void{
 			
 			if( !_eleData ) return;
 			
 			_layout.graphics.clear();
 			graphics.clear();
-			graphics.beginFill( 0xffffff, .9 );
-			graphics.lineStyle( 2, 0x999999 );
+			graphics.beginFill( 0xffffff, .95 );
+			graphics.lineStyle( 1, 0x999999, .35 );
 			
 			_nameTxf = _eleData.name as TextField;
 			
@@ -156,6 +159,25 @@ package org.xas.jchart.common.ui
 				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
 			});
 			
+			if( _colors && _colors.length ){
+				if( _colors.length === 1 ){
+					Common.each( _eleData.items, function( _k:int, _item:Object ):void{
+						_nameTxf = _item.name as TextField;
+						_valTxf = _item.value as TextField;
+						
+						/*
+						EffectUtility.textShadow( _nameTxf, { color: 0xffffff }, _colors[0] );
+						EffectUtility.textShadow( _valTxf, { color: 0xffffff }, _colors[0] );
+						*/
+						
+						_nameTxf.textColor = _colors[0];
+						_valTxf.textColor = _colors[0];
+					});
+				}else{
+					
+				}
+			}
+			
 			graphics.drawRoundRect( 
 				0, 0
 				, _layout.width + _offsetX * 2
@@ -167,10 +189,11 @@ package org.xas.jchart.common.ui
 		private function updateTips( _evt:JChartEvent ):void{
 			var _point:Point = _evt.data.point as Point
 				, _data:Object = _evt.data.data as Object
+				, _colors:Array = _evt.data.colors as Array
 				;
 			if( !_point ) return;
 			
-			updateLayout( _data );
+			updateLayout( _data, _colors );
 			
 			var _x:Number = _point.x + 15
 				, _y:Number = _point.y + 18

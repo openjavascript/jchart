@@ -333,7 +333,7 @@
                     if( _legend ){
                         _bbox = JChart.f.getBBox( _legend );
                         _c.legend = {
-                            x: _offsetX/2 - _bbox.width / 2,
+                            x: _offsetX / 2 - _bbox.width / 2,
                             y: _offsetY - _bbox.height,
                             ele: _legend
                         }
@@ -344,7 +344,6 @@
 
                 /* 底部水平标签 */
                 var vLabels = _p.vlables( _data );
-                    
                 if( vLabels ) {
                     var _len = vLabels.length,
                         _bottomY = _offsetY - _tableMargin,
@@ -408,24 +407,23 @@
                 
                 /* 水平线条 和 柱状体 */
                 _c.rectLine = [];
+                _c.rects = [];
                 var _baseX = _c._baseX = _x,
                     _baseY = _c._baseY = _y,
                     _maxX = _offsetX - _vLabelMaxWidth / 2,
                     _maxY = _offsetY - _tableMargin,
                     _tableWidth = _c._tableWidth = _maxX - _x,
                     _tableHeight = _c._tableHeight = _maxY - _y - _harrowWidth;
-
-                    _partY = _c._partY = _tableHeight / _hlen;
-                    _partX = _tableWidth / ( vLabels.length - 1 );
-
-                _c.rects = [];
-                var _rectItems;
+                _partY = _c._partY = _tableHeight / _hlen;
+                _partX = _tableWidth / ( vLabels.length - 1 );
+                _c.displaySeries = _p.displaySeries.length; /* 图表数据组个数 */
+                var _rectItems, _rectMaxNum, _rectMaxWidth, _num, _d;
                 var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) );
-                _c.displaySeries = _p.displaySeries.length;/* 图表数据组个数 */
+                
                 var _rectY = Math.floor( _partY / ( _c.displaySeries * 1.5 ) ),
-                    _rectBaseY, _rectBaseX, _rectX;
-                var _rectPadding = ( _partY - _rectY * _c.displaySeries ) / 2;
-                var _rectLines = _p.rectLines( _data );
+                    _rectBaseY, _rectBaseX, _rectX,
+                    _rectPadding = ( _partY - _rectY * _c.displaySeries ) / 2,
+                    _rectLines = _p.rectLines( _data );
                 _rectLines && _rectLines.length &&
                 $.each( _rectLines, function( _i, _item ) {
                     /* 水平线条 */
@@ -440,10 +438,9 @@
                     _rectItems = [];
                     _rectBaseY = _baseY + _rectPadding;
                     _rectBaseX = _c.rectBaseX = _baseX + _partX * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
-                    var _rectMaxNum, _rectMaxWidth;
                     $.each( _p.displaySeries, function( _si, _sitem ){
-                        var _num = _sitem.data[ _i ];
-                        var _d = { 'y': _rectBaseY + _si * _rectY, 'x': _rectBaseX };
+                        _num = _sitem.data[ _i ];
+                        _d = { 'y': _rectBaseY + _si * _rectY, 'x': _rectBaseX };
                         if( JChart.Base.isNegative( _num ) ) {
                             _num = Math.abs( _num );
                             _rectMaxNum = Math.abs( _rateInfo.finalMaxNum * _p.rate()[ _p.rate().length - 1 ] );

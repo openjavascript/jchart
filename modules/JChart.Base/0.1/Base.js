@@ -4,7 +4,7 @@
     , 'JChart.common'
     , 'JChart.DefaultOptions' 
     , 'JChart.Event', 'JChart.Group'
-    , 'JChart.IconLine', 'JChart.IconRect', 'JChart.IconCircle'
+    , 'JChart.IconRect'
     , 'swfobject'
     , 'browser'
     , 'json2'
@@ -328,101 +328,30 @@ window.JChart = window.JChart || {};
                     ){
                     _p._legend =  new JChart.Group();
                     _p._legendSet = [];
-                    _type = _type || 'line';
-                    switch( _type ){
-                        case 'line':
-                            {
-                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
-                                _x += _bx;
-                                $.each( _p.series(), function( _k, _item ){
-                                    if( !_item.name ) return;
-                                    var _style = _p.itemStyle( _k );
-                                    _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by, 18, 3, 1, 4 );
-                                    _lb = JChart.f.getBBox( _legend );
-                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
-                                    _tb = JChart.f.getBBox( _text );
-                                    _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2  + 2  } );
-                                    _legend.attr( _style );
-                                    _legend.attr( 'fill', _style.stroke );
-                                    _p._legend.addChild( _text, 'text_' + _k );
-                                    _x = _tb.x + _tb.width + _pad;
-                                    _h = _tb.height * 1.8;
+                    var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
+                    _x += _bx;
+                    $.each( _p.series(), function( _k, _item ){
+                        if( !_item.name ) return;
+                        _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
+                        _lb = JChart.f.getBBox( _legend );
+                        _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
+                        _tb = JChart.f.getBBox( _text );
+                        _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
+                        _legend.attr( 'fill', _p.itemColor( _k ) );
+                        _legend.attr( 'stroke', _p.itemColor( _k ) );
+                        _p._legend.addChild( _text, 'text_' + _k );
+                        _x = _tb.x + _tb.width + _pad;
+                        _h = _tb.height * 1.8;
 
-                                    var _set = _p.stage().set();
-                                    _set.push( _legend.item( 'rect' ), _legend.item( 'circle' ), _text );
-                                    _p.initLegendSet( _set, _k );
-                                    _p._legendSet.push( _set );
-                                });
+                        var _set = _p.stage().set();
+                            _set.push( _legend.item( 'element' ), _text );
+                            _p.initLegendSet( _set, _k );
+                            _p._legendSet.push( _set );
+                    });
 
-                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                                        .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
-                                _p._legend.addChild( _box, 'box' );
-
-                                break;
-                            }
-                        case 'rect':
-                            {
-                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
-                                _x += _bx;
-                                $.each( _p.series(), function( _k, _item ){
-                                    if( !_item.name ) return;
-                                    var _style = _p.itemStyle( _k );
-                                    _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
-                                    _lb = JChart.f.getBBox( _legend );
-                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
-                                    _tb = JChart.f.getBBox( _text );
-                                    _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
-                                    _legend.attr( _style );
-                                    _legend.attr( 'fill', _style.stroke );
-                                    _p._legend.addChild( _text, 'text_' + _k );
-                                    _x = _tb.x + _tb.width + _pad;
-                                    _h = _tb.height * 1.8;
-
-                                    var _set = _p.stage().set();
-                                        _set.push( _legend.item( 'element' ), _text );
-                                        _p.initLegendSet( _set, _k );
-                                        _p._legendSet.push( _set );
-                                });
-
-                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                                        .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
-                                _p._legend.addChild( _box, 'box' );
-                                break;
-                            }
-
-                        case 'circle':
-                            {
-                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
-                                _x += _bx;
-
-                                _p.series() &&
-                                $.each( _p.series(), function( _k, _item ){
-                                    if( !_item.name ) return;
-                                    var _style = _p.itemStyle( _k );
-                                    _legend = new JChart.IconCircle( _p.stage(), _x, 0 + _by - 7, 5 );
-                                    _lb = JChart.f.getBBox( _legend );
-                                    _text = _p.stage().text( _lb.x + 15 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
-                                    _tb = JChart.f.getBBox( _text );
-                                    _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
-                                    _legend.attr( _style );
-                                    _legend.attr( 'fill', _style.fill );
-                                    _p._legend.addChild( _text, 'text_' + _k );
-                                    _x = _tb.x + _tb.width + _pad;
-                                    _h = _tb.height * 1.8;
-
-                                    var _set = _p.stage().set();
-                                        _set.push( _legend.item( 'element' ), _text );
-                                        _p.initLegendSet( _set, _k );
-                                        _p._legendSet.push( _set );
-                                });
-
-                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                                        .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
-                                _p._legend.addChild( _box, 'box' );
-                                break;
-                            }
-
-                    }
+                    var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
+                            .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
+                    _p._legend.addChild( _box, 'box' );
                 }
                     
                 return this._legend;
@@ -855,27 +784,39 @@ window.JChart = window.JChart || {};
                 return _r;
             }
         /**
-         * 图标的默认样式
+         * 从不同的索引获取对应的样式
+         * @param   {int}   _ix
          */
         , itemStyle:
             function( _ix ){
-                var _r = {};
+                var _r = {}, _p = this
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
+                _r[ 'fill-opacity' ] = 1;
+
                 return _r;
             }
         /**
-         * 图标的默认 hover 样式
+         * 从不同的索引获取不同 hover 样式
+         * @param   {int}   _ix
          */
         , itemHoverStyle:
             function( _ix ){
-                var _r = {};
+                var _r = {}, _p = this
+
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
+                _r[ 'fill-opacity' ] = .65;
+
                 return _r;
             }
         /**
-         * 背景线的样式
+         * 从不同的索引获取 背景线条的样式
+         * @param   {int}   _ix
          */
         , lineStyle:
             function( _ix ){
-                var _r = {};
+                var _r = { stroke: '#999', opacity: .35 };
                 return _r;
             }
         /**
@@ -918,9 +859,8 @@ window.JChart = window.JChart || {};
                             , 'title' );
 
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _strokeColor = _p.itemStyle( _p.getLegendMapIndex( _k ) ).stroke;
                         _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || 'empty' )
-                                .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
+                                .attr( { 'text-anchor': 'start', 'fill': _p.itemColor( _k )  } );
                         _tmpBox = JChart.f.getBBox( _tmp );
                         _p._tips.addChild( _tmp, 'label_' + _k );
                         _offsetY += _tmpBox.height + 5;
@@ -928,11 +868,10 @@ window.JChart = window.JChart || {};
                     });
 
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _strokeColor = _p.itemStyle( _p.getLegendMapIndex( _k ) ).stroke;
                         _tmpItem = _p._tips.getChildByName( 'label_' + _k );
                         _tmpBox = JChart.f.getBBox( _tmpItem );
                         _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
-                                .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
+                                .attr( { 'text-anchor': 'start', 'fill': _p.itemColor( _k ) } );
                         _p._tips.addChild( _tmp, 'val_' + _k );
                     });
 

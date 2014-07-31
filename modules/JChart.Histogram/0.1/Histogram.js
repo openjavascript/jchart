@@ -226,42 +226,6 @@
                 return _p._rects;
             }
         /**
-         * 从不同的索引获取对应的样式
-         * @param   {int}   _ix
-         */
-        , itemStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-                _r.stroke = _p.itemColor( _ix );
-                _r.fill = _p.itemColor( _ix );
-                _r[ 'fill-opacity' ] = 1;
-
-                return _r;
-            }
-        /**
-         * 从不同的索引获取不同 hover 样式
-         * @param   {int}   _ix
-         */
-        , itemHoverStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-
-                _r.stroke = _p.itemColor( _ix );
-                _r.fill = _p.itemColor( _ix );
-                _r[ 'fill-opacity' ] = .65;
-
-                return _r;
-            }
-        /**
-         * 从不同的索引获取 背景线条的样式
-         * @param   {int}   _ix
-         */
-        , lineStyle:
-            function( _ix ){
-                var _r = { stroke: '#999', opacity: .35 };
-                return _r;
-            }
-        /**
          * 从坐标点计算位于哪个数据项
          * @param   {Point} _point
          */

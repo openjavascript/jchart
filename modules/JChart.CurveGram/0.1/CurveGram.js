@@ -1,4 +1,4 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.GraphicPoint', 'JChart.IconVLine' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.GraphicPoint', 'JChart.IconVLine', 'JChart.IconLine'  ], function(){
 /**
  * 曲线图
  *
@@ -145,32 +145,6 @@
 
     CurveGram.Model._instanceName = 'JChartCurveGram';
 
-    CurveGram.Model.STYLE = {
-        lineStyle: {
-            'stroke': '#999'
-            , 'opacity': '.35'
-        }
-        , style: [
-            { 'stroke': '#ff0619' }
-            , { 'stroke': '#09c100' }
-            , { 'stroke': '#ff7100' }
-
-            , { 'stroke': '#FFBF00' }
-            , { 'stroke': '#ff06b3' }
-            , { 'stroke': '#c3e2a4' }
-
-            , { 'stroke': '#0c76c4' }
-            , { 'stroke': '#41e2e6' }
-            , { 'stroke': '#ffb2bc' }
-
-            , { 'stroke': '#dbb8fd' }
-        ]
-        , pathStyle: {
-            'stroke-width': 2
-        }
-        , radius: 4
-    };
-
     var _oldWorkspaceOffset = CurveGram.Model.prototype.workspaceOffset;
 
     JC.f.extendObject( CurveGram.Model.prototype, {
@@ -207,7 +181,7 @@
                             _tmp = new JChart.GraphicPoint( 
                                 _p.stage()
                                 , 0, 0
-                                , CurveGram.Model.STYLE.radius 
+                                , 5
                                 , _p.itemStyle( _p.displayLegendMap[ _k ] )
                                 , _p.itemHoverStyle( _p.displayLegendMap[ _k ] )
                             );
@@ -221,56 +195,49 @@
                 return _p._point;
             }
 
+        , pathStyle:
+            function( _ix ){
+                var _r = {}, _p = this;
+                _r.stroke = _p.itemColor( _ix );
+                _r[ 'stroke-width' ] = 2;
+                return _r;
+            }
+        /**
+         * 从不同的索引获取对应的样式
+         * @param   {int}   _ix
+         */
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = CurveGram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-                _r = JC.f.cloneObject( CurveGram.Model.STYLE.style[ _ix ] );
-
-                _p.series()[ _ix ].style
-                    && ( _r = JC.f.extendObject( _r, _p.series()[ _ix ].style ) );
-
-                !_r.fill && _r.stroke && ( _r.fill = _r.stroke );
+                _r.stroke = '#fff';
+                _r[ 'stroke-width' ] = 1;
+                _r.fill = _p.itemColor( _ix );
+                _r[ 'fill-opacity' ] = 1;
 
                 return _r;
             }
 
         , itemHoverStyle:
             function( _ix ){
-                var _r = {}, _p = this
-                    , _len = CurveGram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-                _r = JC.f.cloneObject( CurveGram.Model.STYLE.style[ _ix ] );
+                var _r = {}, _p = this;
 
+                _r.fill = '#fff';
+                _r.stroke = _p.itemColor( _ix );
+                _r[ 'stroke-width' ] = 2;
+
+                /*
                 _p.series()[ _ix ].style
                     && ( _r = JC.f.extendObject( _r, _p.series()[ _ix ].style ) );
 
                 _p.series()[ _ix ].hoverStyle
                     && ( _r = JC.f.extendObject( _r, _p.series()[ _ix ].hoverStyle ) );
+                */
 
                 !_r.fill && _r.stroke && ( _r.fill = '#fff' );
 
                 return _r;
             }
 
-        , pathStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-                    , _len = CurveGram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                _r = JC.f.cloneObject( CurveGram.Model.STYLE.pathStyle );
-                _r.stroke = CurveGram.Model.STYLE.style[ _ix ].stroke;
-                return _r;
-            }
-
-        , lineStyle:
-            function( _ix ){
-                var _r = JC.f.cloneObject( CurveGram.Model.STYLE.lineStyle );
-                return _r;
-            }
 
         , indexAt:
             function( _offset ){
@@ -297,6 +264,47 @@
                 //JC.log( _partWhat );
 
                 return _partWhat;
+            }
+        /**
+         * 数据图例图标
+         */
+        , legend:
+            function( _data, _type, _cb ){
+                var _p = this, _tmp = true, _type;
+
+                if( !this._legend && _data && 
+                        ( ( _data.legend && ( 'enabled' in _data.legend ) && ( _tmp = _data.legend.enabled ) ) ||
+                          _tmp
+                        )
+                    ){
+                    _p._legend =  new JChart.Group();
+                    _p._legendSet = [];
+                    var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
+                    _x += _bx;
+                    $.each( _p.series(), function( _k, _item ){
+                        if( !_item.name ) return;
+                        _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by, 18, 3, 1, 4 );
+                        _lb = JChart.f.getBBox( _legend );
+                        _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
+                        _tb = JChart.f.getBBox( _text );
+                        _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2  + 2  } );
+                        _legend.attr( 'fill', _p.itemColor( _k ) );
+                        _legend.attr( 'stroke', _p.itemColor( _k ) );
+                        _p._legend.addChild( _text, 'text_' + _k );
+                        _x = _tb.x + _tb.width + _pad;
+                        _h = _tb.height * 1.8;
+
+                        var _set = _p.stage().set();
+                        _set.push( _legend.item( 'rect' ), _legend.item( 'circle' ), _text );
+                        _p.initLegendSet( _set, _k );
+                        _p._legendSet.push( _set );
+                    });
+
+                    var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
+                            .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
+                    _p._legend.addChild( _box, 'box' );
+                }
+                return this._legend;
             }
 
         , coordinate:
@@ -370,9 +378,7 @@
 
                 if( _p.legendEnable() ){
                     var _legend = _p.legend( _data, 'line', function( _ix, _legend, _text, _data ){
-                        var _color = _data.stroke 
-                                        || CurveGram.Model.STYLE.data[ _ix % CurveGram.Model.STYLE.data.length ].stroke 
-                                        || '#fff';
+                        var _color = _p.itemColor( _ix );
                         _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
                     } );
                     if( _legend ){

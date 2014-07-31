@@ -478,6 +478,51 @@
                     ( _r = _p.data().series[ 0 ].name );
                 return _r;
             }
+        /**
+         * 数据图例图标
+         */
+        , legend:
+            function( _data, _type, _cb ){
+                var _p = this, _tmp = true, _type;
+
+                if( !this._legend && _data && 
+                        ( ( _data.legend && ( 'enabled' in _data.legend ) && ( _tmp = _data.legend.enabled ) ) ||
+                          _tmp
+                        )
+                    ){
+                    _p._legend =  new JChart.Group();
+                    _p._legendSet = [];
+
+                    var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
+                    _x += _bx;
+
+                    _p.series() &&
+                    $.each( _p.series(), function( _k, _item ){
+                        if( !_item.name ) return;
+                        _legend = new JChart.IconCircle( _p.stage(), _x, 0 + _by - 7, 5 );
+                        _lb = JChart.f.getBBox( _legend );
+                        _text = _p.stage().text( _lb.x + 15 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
+                        _tb = JChart.f.getBBox( _text );
+                        _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
+                        _legend.attr( 'fill', _p.itemColor( _k ) );
+                        _legend.attr( 'stroke', _p.itemColor( _k ) );
+                        _p._legend.addChild( _text, 'text_' + _k );
+                        _x = _tb.x + _tb.width + _pad;
+                        _h = _tb.height * 1.8;
+
+                        var _set = _p.stage().set();
+                            _set.push( _legend.item( 'element' ), _text );
+                            _p.initLegendSet( _set, _k );
+                            _p._legendSet.push( _set );
+                    });
+
+                    var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
+                            .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
+                    _p._legend.addChild( _box, 'box' );
+                }
+                    
+                return this._legend;
+            }
 
         , coordinate:
             function( _data ){

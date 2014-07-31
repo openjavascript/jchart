@@ -127,17 +127,27 @@ package org.xas.jchart.histogram.controller
 						, _num:Number = _sitem.data[ _k ]
 						, _itemNum:Number
 						, _h:Number, _y:Number
+						, _dataHeight:Number
 						;
 					
-					if( Common.isNegative( _num ) ){
-						_itemNum = Math.abs( _num );	
-						_h = BaseConfig.ins.c.vpart * Math.abs( BaseConfig.ins.rate.length - BaseConfig.ins.rateZeroIndex -1 );
-						_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
-						_h = Math.abs( _num / BaseConfig.ins.finalMaxNum ) * _h;
+					if( Common.isNegative( _num ) || _num == 0 ){
+						_num = Math.abs( _num );
+						_dataHeight = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
+						
+						_h = BaseConfig.ins.c.chartHeight - _dataHeight;
+						_y = _sp.y + _dataHeight ;
+						
+						_h = 
+						( _num / 
+							Math.abs( BaseConfig.ins.finalMaxNum * BaseConfig.ins.rate[ BaseConfig.ins.rate.length - 1 ] ) ) 
+						* _h;
+						//Log.log( _h, BaseConfig.ins.finalMaxNum );
 					}else{
 						_h = BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex;
 						_h = ( _num / BaseConfig.ins.chartMaxNum || 1 ) * _h;
-						_y = _sp.y + BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h;
+						_y = _sp.y 
+						+ BaseConfig.ins.c.vpart * BaseConfig.ins.rateZeroIndex - _h
+						;
 					}
 					
 					//Log.log( _h, _y );

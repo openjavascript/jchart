@@ -209,6 +209,42 @@ package
 							enabled: true
 						}
 					};
+				_data =
+					{
+						title: {
+							text:'北京每月平均温度和降水'
+						},
+						subtitle: {
+							text: '北京气象局'
+						}, 
+						xAxis: {
+							categories: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+							, tipTitlePostfix: '{0}月'
+						}, 
+						yAxis: {
+							title: {
+								text: '平均温度'
+							}
+						},
+						series:[{
+							name: 'Temperature',
+							data: [-50, -1, -3, -10, -20, -27, -28, -32, -30]
+						}, {
+							name: 'Rainfall',
+							data: [-20, -21, -20, -100, -10, -210, -220, -100, -20]
+						}, {
+							name: 'Rainfall',
+							data: [-20, -21, -20, -100, -10, -210, -220, -100, -20]
+						}, {
+							name: 'Rainfall',
+							data: [-20, -21, -20, -100, -10, -210, -220, -100, -20]
+						}
+						],
+						legend: {
+							enabled: true
+						}
+					};
+				_data = {"title":{},"subtitle":{},"xAxis":{"categories":["111111","2","3","4","5","6","7","8","9","10","11","122222"]},"yAxis":{"title":{}},"series":[{"name":"Temperature","data":[10,0,3,10,20,27,28,32,30,25,15,5]},{"name":"Rainfall","data":[20,21,20,100,200,210,220,100,20,10,20,10]}],"credits":{"enabled":false,"text":"jchart.openjavascript.org","href":"http://jchart.openjavascript.org/"},"displayAllLabel":true};
 				//_data = {};
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				

@@ -201,7 +201,16 @@ window.JChart = window.JChart || {};
                 }
                 return this._height;
             }
-
+        /**
+         * 图表宽度
+         */
+        , sourceWidth:
+            function(){
+                if( typeof this._sourceWidth== 'undefined' ){
+                    this.is( '[chartWidth]' ) && ( this._sourceWidth = this.intProp( 'chartWidth' ) || this._sourceWidth );
+                }
+                return this._sourceWidth || '100%';
+            }
         /**
          * 图表实时宽度
          */
@@ -1244,7 +1253,7 @@ window.JChart = window.JChart || {};
                 swfobject.embedSWF( 
                     _fpath
                     , _p._model.gid()
-                    , _p._model.width()
+                    , _p._model.sourceWidth()
                     , _p._model.height()
                     , '10' 
                     , ''

@@ -1150,8 +1150,10 @@ window.JChart = window.JChart || {};
          */
         , displayDetect:
             function(){
-                var _r = JChart.Base.DISPLAYDETECT;
+                var _r = JChart.Base.DISPLAYDETECT, _urlParam = JC.f.getUrlParam( 'jchart_display' );
                 this.is( '[displayDetect]' ) && ( _r = this.intProp( 'displayDetect' ) || 0 );
+                _urlParam  && ( _r = parseInt( _urlParam ) );
+
                 if( _r === 0 ){
                     /*
                     if( JChart.browser.msie ){

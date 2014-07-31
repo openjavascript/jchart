@@ -63,7 +63,18 @@ package
 			
 			BaseConfig.ins.setDebug( true );
 			runData();
+			
+			if( ExternalInterface.available ){
+				ExternalInterface.addCallback( 'update', extenalUpdate );
+			}
 			//BaseConfig.ins.setChartData( {});
+		}
+		
+		private function extenalUpdate( _data:Object ):void{
+			BaseConfig.ins.clearData();
+			BaseConfig.ins.updateDisplaySeries( null, _data );
+			BaseConfig.ins.setChartData( _data );
+			_facade.sendNotification( JChartEvent.DRAW );
 		}
 		
 		public function update( _data:Object, _x:int = 0, _y:int = 0 ):void{			

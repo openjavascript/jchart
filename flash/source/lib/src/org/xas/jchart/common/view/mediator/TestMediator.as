@@ -32,6 +32,8 @@ package org.xas.jchart.common.view.mediator
 				;
 			//Log.log( _index );
 			//Log.printJSON( _data );
+			BaseConfig.ins.clearData();
+			BaseConfig.ins.updateDisplaySeries( null, _data );
 			BaseConfig.ins.setChartData( _data );
 			sendNotification( JChartEvent.DRAW );
 		}

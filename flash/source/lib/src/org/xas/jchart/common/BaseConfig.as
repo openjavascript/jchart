@@ -384,6 +384,15 @@ package org.xas.jchart.common
 		public function get selected():int{ return _selected; }
 		public function set selected( _setter:int ):void{ _selected = _setter; }
 		public function get itemName():String{ return ''; }
+		
+		public function clearData():BaseConfig{
+			_displaySeries = [];
+			_displaySeriesIndexMap = {};
+			_filterData = {};
+			_chartData = {};
+			
+			return this;
+		}
 				
 		public function BaseConfig()
 		{

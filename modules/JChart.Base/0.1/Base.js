@@ -1245,11 +1245,13 @@ window.JChart = window.JChart || {};
                 //JC.dir( _data );
                 var _p = this
                     , _fpath =  JC.f.printf( _path, JChart.PATH ).replace( /[\/]+/g, '/' )
-                    , _element
+                    , _element = $( '#' + _p._model.gid() )
                     , _dataStr = JSON.stringify( _data ) 
                     ; 
-                _element = $( JC.f.printf( '<span id="{0}"></span>', _p._model.gid() ) );
-                _element.appendTo( _p.selector() );
+                if( !$( '#' +  _p._model.gid() ).length ){
+                    _element = $( JC.f.printf( '<span id="{0}"></span>', _p._model.gid() ) );
+                    _element.appendTo( _p.selector() );
+                }
                 //JC.log( 'drawFlash', _fpath, _p._model.gid(), _p._model.width(), _p._model.height(), _element[0] );
                 JC.log( _dataStr );
                 swfobject.embedSWF( 

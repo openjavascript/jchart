@@ -151,11 +151,11 @@
             "name": "../modules/JChart.HistogramLateral/0.1/HistogramLateral.js",
             "modules": {},
             "classes": {
-                "JChar.HistogramLateral": 1
+                "JChart.HistogramLateral": 1
             },
             "fors": {},
             "namespaces": {
-                "JChar": 1
+                "JChart": 1
             }
         },
         "../modules/JChart.IconCircle/0.1/IconCircle.js": {
@@ -612,19 +612,19 @@
             "version": "dev 0.1 2014-06-20",
             "author": "qiushaowei <suches@btbtd.org> | 75 Team"
         },
-        "JChar.HistogramLateral": {
-            "name": "JChar.HistogramLateral",
-            "shortname": "JChar.HistogramLateral",
+        "JChart.HistogramLateral": {
+            "name": "JChart.HistogramLateral",
+            "shortname": "JChart.HistogramLateral",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "namespace": "JChar",
+            "namespace": "JChart",
             "file": "../modules/JChart.HistogramLateral/0.1/HistogramLateral.js",
             "line": 2,
-            "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href=\"widnow.jQuery.html\">jQuery</a>\n     , <a href='JC.BaseMVC.html'>JC.BaseMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.HistogramLateral.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChar.HistogramLateral/0.1/_demo' target='_blank'>demo link</a></p>\n \n <h2>页面只要引用本脚本, 默认会处理 div class=\"JCharHistogramLateral\"</h2>\n\n <h2>可用的 HTML attribute</h2>\n\n <dl>\n     <dt></dt>\n     <dd><dd>\n </dl>",
-            "extends": "JChar.Base",
+            "description": "组件用途简述\n\n <p><b>require</b>:\n     <a href=\"widnow.jQuery.html\">jQuery</a>\n     , <a href='JC.BaseMVC.html'>JC.BaseMVC</a>\n </p>\n\n <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>\n     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.HistogramLateral.html' target='_blank'>API docs</a>\n     | <a href='../../modules/JChart.HistogramLateral/0.1/_demo' target='_blank'>demo link</a></p>\n \n <h2>页面只要引用本脚本, 默认会处理 div class=\"JCharHistogramLateral\"</h2>\n\n <h2>可用的 HTML attribute</h2>\n\n <dl>\n     <dt></dt>\n     <dd><dd>\n </dl>",
+            "extends": "JChart.Base",
             "is_constructor": 1,
             "params": [
                 {
@@ -633,7 +633,7 @@
                     "type": "Selector|string"
                 }
             ],
-            "version": "dev 0.1 2013-12-13",
+            "version": "dev 0.1 2014-07-31",
             "author": "qiushaowei <suches@btbtd.org> | 75 Team",
             "example": [
                 "\n       <h2>JC.HistogramLateral 示例</h2>"
@@ -4217,8 +4217,8 @@
                 "description": "",
                 "type": "Array of HistogramLateralInstance"
             },
-            "class": "JChar.HistogramLateral",
-            "namespace": "JChar"
+            "class": "JChart.HistogramLateral",
+            "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.HistogramLateral/0.1/HistogramLateral.js",
@@ -4229,8 +4229,8 @@
             "type": "JChart.Histogram",
             "default": "null",
             "static": 1,
-            "class": "JChar.HistogramLateral",
-            "namespace": "JChar"
+            "class": "JChart.HistogramLateral",
+            "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.HistogramLateral/0.1/HistogramLateral.js",
@@ -4246,36 +4246,36 @@
                 }
             ],
             "static": 1,
-            "class": "JChar.HistogramLateral",
-            "namespace": "JChar"
+            "class": "JChart.HistogramLateral",
+            "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.HistogramLateral/0.1/HistogramLateral.js",
             "line": 171,
             "description": "创建所有的柱状矩形",
-            "class": "JChar.HistogramLateral",
-            "namespace": "JChar"
+            "class": "JChart.HistogramLateral",
+            "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.HistogramLateral/0.1/HistogramLateral.js",
             "line": 201,
             "description": "垂直的背景线",
-            "class": "JChar.HistogramLateral",
-            "namespace": "JChar"
+            "class": "JChart.HistogramLateral",
+            "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.HistogramLateral/0.1/HistogramLateral.js",
             "line": 489,
             "description": "获取垂直 label 的最大宽度",
-            "class": "JChar.HistogramLateral",
-            "namespace": "JChar"
+            "class": "JChart.HistogramLateral",
+            "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.HistogramLateral/0.1/HistogramLateral.js",
             "line": 501,
             "description": "获取水平 label 的最大高度",
-            "class": "JChar.HistogramLateral",
-            "namespace": "JChar"
+            "class": "JChart.HistogramLateral",
+            "namespace": "JChart"
         },
         {
             "file": "../modules/JChart.PieGraph/0.1/PieGraph.js",

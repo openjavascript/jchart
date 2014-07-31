@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JChart.Histogram - JChart</title>
+    <title>JChart.HistogramLateral - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -97,38 +97,35 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1>JChart.Histogram Class</h1>
+                        <h1>JChart.HistogramLateral Class</h1>
 <div class="box meta">
         <div class="extends">
             Extends <a href="../classes/JChart.Base.html" class="crosslink">JChart.Base</a>
         </div>
         <div class="foundat">
-            Defined in: <a href="../files/.._modules_JChart.Histogram_0.1_Histogram.js.html#l2"><code>..&#x2F;modules&#x2F;JChart.Histogram&#x2F;0.1&#x2F;Histogram.js:2</code></a>
+            Defined in: <a href="../files/.._modules_JChart.HistogramLateral_0.1_HistogramLateral.js.html#l2"><code>..&#x2F;modules&#x2F;JChart.HistogramLateral&#x2F;0.1&#x2F;HistogramLateral.js:2</code></a>
         </div>
 </div>
 <div class="box intro">
-    <p>柱状图</p>
-<p><b>require</b>:
-  <a href='JChart.Base.html'>JChart.Base</a>
-</p>
-<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
-  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Histogram.html' target='_blank'>API docs</a>
-  | <a href='../../modules/JChart.Histogram/0.1/_demo' target='_blank'>demo link</a></p>
-<h2>页面只要引用本脚本, 默认会处理 span class=&quot;jchartHistogram&quot;</h2>
-<h2>可用的 HTML attribute</h2>
-<dl>
-   <dt>chartScriptData = script selector</dt>
-   <dd>保存图表数据的脚本标签</dd>
-   <dt>chartWidth = int, default = auto</dt>
-   <dd>显式设置图表的宽度, 如果为空则为自适应宽度</dd>
-   <dt>chartWidth = int, default = 400</dt>
-   <dd>设置图表的宽度</dd>
-</dl>
+    <p>组件用途简述</p>
+ <p><b>require</b>:
+     <a href="widnow.jQuery.html">jQuery</a>
+     , <a href='JC.BaseMVC.html'>JC.BaseMVC</a>
+ </p>
+ <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
+     | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.HistogramLateral.html' target='_blank'>API docs</a>
+     | <a href='../../modules/JChart.HistogramLateral/0.1/_demo' target='_blank'>demo link</a></p>
+ <h2>页面只要引用本脚本, 默认会处理 div class=&quot;JCharHistogramLateral&quot;</h2>
+ <h2>可用的 HTML attribute</h2>
+ <dl>
+     <dt></dt>
+     <dd><dd>
+ </dl>
 </div>
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_JChart.Histogram" class="method item">
-    <h3 class="name"><code>JChart.Histogram</code></h3>
+        <div id="method_JChart.HistogramLateral" class="method item">
+    <h3 class="name"><code>JChart.HistogramLateral</code></h3>
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
                 <li class="arg">
@@ -139,7 +136,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JChart.Histogram_0.1_Histogram.js.html#l2"><code>..&#x2F;modules&#x2F;JChart.Histogram&#x2F;0.1&#x2F;Histogram.js:2</code></a>
+        <a href="../files/.._modules_JChart.HistogramLateral_0.1_HistogramLateral.js.html#l2"><code>..&#x2F;modules&#x2F;JChart.HistogramLateral&#x2F;0.1&#x2F;HistogramLateral.js:2</code></a>
         </p>
     </div>
     <div class="description">
@@ -155,6 +152,12 @@
                 </li>
             </ul>
         </div>
+        <div class="example">
+            <h4>Example:</h4>
+            <div class="example-content">
+                <pre class="code prettyprint"><code>   &lt;h2&gt;JC.HistogramLateral 示例&lt;/h2&gt;</code></pre>
+            </div>
+        </div>
 </div>
     </div>
 <div id="classdocs" class="tabview">
@@ -162,7 +165,6 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
             <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-            <li class="api-class-tab events"><a href="#events">Events</a></li>
     </ul>
     <div>
         <div id="index" class="api-class-tabpanel index">
@@ -213,26 +215,6 @@
                             <li class="index-item property">
                                 <a href="#property_CURRENT_INS">CURRENT_INS</a>
                                     <span class="flag static">static</span>
-                            </li>
-                    </ul>
-                </div>
-                <div class="index-section events">
-                    <h3>Events</h3>
-                    <ul class="index-list events extends">
-                            <li class="index-item event">
-                                <a href="#event_clear_status">clear_status</a>
-                            </li>
-                            <li class="index-item event">
-                                <a href="#event_moving_done">moving_done</a>
-                            </li>
-                            <li class="index-item event">
-                                <a href="#event_moving_start">moving_start</a>
-                            </li>
-                            <li class="index-item event">
-                                <a href="#event_update_moving_status">update_moving_status</a>
-                            </li>
-                            <li class="index-item event">
-                                <a href="#event_update_status">update_status</a>
                             </li>
                     </ul>
                 </div>
@@ -325,7 +307,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JChart.Histogram_0.1_Histogram.js.html#l85"><code>..&#x2F;modules&#x2F;JChart.Histogram&#x2F;0.1&#x2F;Histogram.js:85</code></a>
+        <a href="../files/.._modules_JChart.HistogramLateral_0.1_HistogramLateral.js.html#l80"><code>..&#x2F;modules&#x2F;JChart.HistogramLateral&#x2F;0.1&#x2F;HistogramLateral.js:80</code></a>
         </p>
     </div>
     <div class="description">
@@ -353,17 +335,17 @@
             </ul><span class="paren">)</span>
         </div>
         <span class="returns-inline">
-            <span class="type">Array of HistogramInstance</span>
+            <span class="type">Array of HistogramLateralInstance</span>
         </span>
         <span class="flag static">static</span>
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JChart.Histogram_0.1_Histogram.js.html#l56"><code>..&#x2F;modules&#x2F;JChart.Histogram&#x2F;0.1&#x2F;Histogram.js:56</code></a>
+        <a href="../files/.._modules_JChart.HistogramLateral_0.1_HistogramLateral.js.html#l51"><code>..&#x2F;modules&#x2F;JChart.HistogramLateral&#x2F;0.1&#x2F;HistogramLateral.js:51</code></a>
         </p>
     </div>
     <div class="description">
-        <p>初始化可识别的 Histogram 实例</p>
+        <p>初始化可识别的 HistogramLateral 实例</p>
     </div>
         <div class="params">
             <h4>Parameters:</h4>
@@ -379,7 +361,7 @@
         <div class="returns">
             <h4>Returns:</h4>
             <div class="returns-description">
-                        <span class="type">Array of HistogramInstance</span>:
+                        <span class="type">Array of HistogramLateralInstance</span>:
             </div>
         </div>
 </div>
@@ -582,81 +564,13 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JChart.Histogram_0.1_Histogram.js.html#l77"><code>..&#x2F;modules&#x2F;JChart.Histogram&#x2F;0.1&#x2F;Histogram.js:77</code></a>
+        <a href="../files/.._modules_JChart.HistogramLateral_0.1_HistogramLateral.js.html#l72"><code>..&#x2F;modules&#x2F;JChart.HistogramLateral&#x2F;0.1&#x2F;HistogramLateral.js:72</code></a>
         </p>
     </div>
     <div class="description">
         <p>当前活动的图表实例</p>
     </div>
         <p><strong>Default:</strong> null</p>
-</div>
-            </div>
-            <div id="events" class="api-class-tabpanel">
-                <h2 class="off-left">Events</h2>
-                    <div id="event_clear_status" class="events item">
-    <h3 class="name"><code>clear_status</code></h3>
-    <span class="type"></span>
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/.._modules_JChart.Histogram_0.1_Histogram.js.html#l184"><code>..&#x2F;modules&#x2F;JChart.Histogram&#x2F;0.1&#x2F;Histogram.js:184</code></a>
-        </p>
-    </div>
-    <div class="description">
-        <p>清除图表的显示状态</p>
-    </div>
-</div>
-                    <div id="event_moving_done" class="events item">
-    <h3 class="name"><code>moving_done</code></h3>
-    <span class="type"></span>
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/.._modules_JChart.Histogram_0.1_Histogram.js.html#l179"><code>..&#x2F;modules&#x2F;JChart.Histogram&#x2F;0.1&#x2F;Histogram.js:179</code></a>
-        </p>
-    </div>
-    <div class="description">
-        <p>鼠标离开图表主区域时, 触发的事件</p>
-    </div>
-</div>
-                    <div id="event_moving_start" class="events item">
-    <h3 class="name"><code>moving_start</code></h3>
-    <span class="type"></span>
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/.._modules_JChart.Histogram_0.1_Histogram.js.html#l174"><code>..&#x2F;modules&#x2F;JChart.Histogram&#x2F;0.1&#x2F;Histogram.js:174</code></a>
-        </p>
-    </div>
-    <div class="description">
-        <p>鼠标进入图表主区域时, 触发的事件</p>
-    </div>
-</div>
-                    <div id="event_update_moving_status" class="events item">
-    <h3 class="name"><code>update_moving_status</code></h3>
-    <span class="type"></span>
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/.._modules_JChart.Histogram_0.1_Histogram.js.html#l164"><code>..&#x2F;modules&#x2F;JChart.Histogram&#x2F;0.1&#x2F;Histogram.js:164</code></a>
-        </p>
-    </div>
-    <div class="description">
-        <p>鼠标移动式触发的事件</p>
-    </div>
-</div>
-                    <div id="event_update_status" class="events item">
-    <h3 class="name"><code>update_status</code></h3>
-    <span class="type"></span>
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/.._modules_JChart.Histogram_0.1_Histogram.js.html#l169"><code>..&#x2F;modules&#x2F;JChart.Histogram&#x2F;0.1&#x2F;Histogram.js:169</code></a>
-        </p>
-    </div>
-    <div class="description">
-        <p>更新 图表 和 Tips 的显示状态</p>
-    </div>
 </div>
             </div>
     </div>

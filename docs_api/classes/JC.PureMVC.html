@@ -45,21 +45,27 @@
                 <li><a href="../classes/JC.common.html">JC.common</a></li>
                 <li><a href="../classes/JC.f.html">JC.f</a></li>
                 <li><a href="../classes/JC.PureMVC.html">JC.PureMVC</a></li>
+                <li><a href="../classes/JChar.HistogramLateral.html">JChar.HistogramLateral</a></li>
                 <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
                 <li><a href="../classes/JChart.common.html">JChart.common</a></li>
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
+                <li><a href="../classes/JChart.DefaultOptions.html">JChart.DefaultOptions</a></li>
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
+                <li><a href="../classes/JChart.Geometry.html">JChart.Geometry</a></li>
                 <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
                 <li><a href="../classes/JChart.GraphicPiePart.html">JChart.GraphicPiePart</a></li>
                 <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
                 <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
+                <li><a href="../classes/JChart.IconCircle.html">JChart.IconCircle</a></li>
                 <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
                 <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
                 <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
+                <li><a href="../classes/window.Raphael.html">window.Raphael</a></li>
                 <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
+                <li><a href="../classes/window.swfobject.html">window.swfobject</a></li>
             </ul>
             <ul id="api-modules" class="apis modules">
             </ul>
@@ -178,6 +184,9 @@
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
+                                <a href="#method_notification">notification</a>
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_on">on</a>
                             </li>
                             <li class="index-item method">
@@ -274,7 +283,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l97"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:97</code></a>
+        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l109"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:109</code></a>
         </p>
     </div>
     <div class="description">
@@ -308,7 +317,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l115"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:115</code></a>
+        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l127"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:127</code></a>
         </p>
     </div>
     <div class="description">
@@ -345,7 +354,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l144"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:144</code></a>
+        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l156"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:156</code></a>
         </p>
     </div>
     <div class="description">
@@ -376,7 +385,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l157"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:157</code></a>
+        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l169"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:169</code></a>
         </p>
     </div>
     <div class="description">
@@ -388,6 +397,46 @@
                 <li class="param">
                         <code class="param-name">_outClass</code>
                         <span class="type">Class</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+</div>
+                    <div id="method_notification" class="method item">
+    <h3 class="name"><code>notification</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_evtName</code>
+                </li>
+                <li class="arg">
+                        <code>_args</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JC.PureMVC_0.1_PureMVC.js.html#l97"><code>..&#x2F;modules&#x2F;JC.PureMVC&#x2F;0.1&#x2F;PureMVC.js:97</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>通知选择器有新事件
+<br />JC 组件以后不会在 HTML 属性里放回调, 改为触发 selector 的事件</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_evtName</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_args</code>
+                        <span class="type"> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
                     <div class="param-description">
                     </div>
                 </li>
@@ -449,6 +498,9 @@
                 <li class="arg">
                         <code>_evtName</code>
                 </li>
+                <li class="arg">
+                        <code>_args</code>
+                </li>
             </ul><span class="paren">)</span>
         </div>
         <span class="returns-inline">
@@ -469,6 +521,12 @@
                 <li class="param">
                         <code class="param-name">_evtName</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_args</code>
+                        <span class="type"> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
                     <div class="param-description">
                     </div>
                 </li>

@@ -8,7 +8,6 @@
  *
  *  <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicPoint.html' target='_blank'>API docs</a>
- *      | <a href='../../modules/JChart.GraphicPoint/0.1/_demo' target='_blank'>demo link</a></p>
  *  
  * @namespace   JChart
  * @class       GraphicPoint

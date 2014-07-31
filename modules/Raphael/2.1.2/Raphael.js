@@ -1,3 +1,12 @@
+/**
+ * Raphaël 2.1.2 - JavaScript Vector Library 
+ * <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
+ * | <a href='http://raphaeljs.com/reference.html' target='_blank'>API docs</a>
+ * | <a href='http://raphaeljs.com/' target='_blank'>demo</a>
+ * @namespace   window
+ * @class       Raphael
+ * @version     2.1.2
+ */
 // ┌────────────────────────────────────────────────────────────────────┐ \\
 // │ Raphaël 2.1.2 - JavaScript Vector Library                          │ \\
 // ├────────────────────────────────────────────────────────────────────┤ \\

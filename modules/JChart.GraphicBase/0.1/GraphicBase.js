@@ -8,7 +8,6 @@
  *
  *  <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicBase.html' target='_blank'>API docs</a>
- *      | <a href='../../modules/JChart.GraphicBase/0.1/_demo' target='_blank'>demo link</a></p>
  *  
  * @namespace   JChart
  * @class       GraphicBase
@@ -84,6 +83,11 @@
 
         , show: function(){ this._view.show(); }
         , hide: function(){ this._view.hide(); }
+
+        , item:
+            function( _name ){
+                return _name ? this._model._elementMap[ _name ] : this._model._elementMap;
+            }
     });
 
     GraphicBase.Model._instanceName = 'JCGraphicBase';

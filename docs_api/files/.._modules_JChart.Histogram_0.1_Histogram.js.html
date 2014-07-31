@@ -59,13 +59,19 @@
             
                 <li><a href="../classes/JC.PureMVC.Model.html">JC.PureMVC.Model</a></li>
             
+                <li><a href="../classes/JChar.HistogramLateral.html">JChar.HistogramLateral</a></li>
+            
                 <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
             
                 <li><a href="../classes/JChart.common.html">JChart.common</a></li>
             
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
             
+                <li><a href="../classes/JChart.DefaultOptions.html">JChart.DefaultOptions</a></li>
+            
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
+            
+                <li><a href="../classes/JChart.Geometry.html">JChart.Geometry</a></li>
             
                 <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
             
@@ -77,6 +83,8 @@
             
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
+                <li><a href="../classes/JChart.IconCircle.html">JChart.IconCircle</a></li>
+            
                 <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
             
                 <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
@@ -87,7 +95,11 @@
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
+                <li><a href="../classes/window.Raphael.html">window.Raphael</a></li>
+            
                 <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
+            
+                <li><a href="../classes/window.swfobject.html">window.swfobject</a></li>
             
             </ul>
 
@@ -149,8 +161,14 @@
  *&lt;h2&gt;可用的 HTML attribute&lt;/h2&gt;
  *
  *&lt;dl&gt;
- *    &lt;dt&gt;&lt;/dt&gt;
- *    &lt;dd&gt;&lt;dd&gt;
+ *    &lt;dt&gt;chartScriptData = script selector&lt;/dt&gt;
+ *    &lt;dd&gt;保存图表数据的脚本标签&lt;/dd&gt;
+ *
+ *    &lt;dt&gt;chartWidth = int, default = auto&lt;/dt&gt;
+ *    &lt;dd&gt;显式设置图表的宽度, 如果为空则为自适应宽度&lt;/dd&gt;
+ *
+ *    &lt;dt&gt;chartWidth = int, default = 400&lt;/dt&gt;
+ *    &lt;dd&gt;设置图表的宽度&lt;/dd&gt;
  *&lt;/dl&gt; 
  *
  * @namespace   JChart
@@ -175,11 +193,12 @@
 
         this._model = new Histogram.Model( _selector );
         this._view = new Histogram.View( this._model );
-
+        console.log(this._init);
         this._init();
 
-        //JC.log( Histogram.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+        JC.log( Histogram.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
     }
+    Histogram.FLASH_PATH = &quot;{0}/flash/pub/charts/Histogram.swf&quot;;
     /**
      * 初始化可识别的 Histogram 实例
      * @method  init
@@ -201,8 +220,20 @@
             }
             return _r;
         };
-
+    /**
+     * 当前活动的图表实例
+     * @property    CURRENT_INS
+     * @type        JChart.Histogram
+     * @default     null
+     * @static
+     */
     Histogram.CURRENT_INS = null;
+    /**
+     * 响应图表 鼠标移动的默认函数
+     * @method  DEFAULT_MOVE
+     * @param   {Event} _evt
+     * @static
+     */
     Histogram.DEFAULT_MOVE =
         function( _evt ){
             if( !Histogram.CURRENT_INS ){
@@ -211,7 +242,7 @@
             }
             var _p = Histogram.CURRENT_INS;
             //JC.log( &#x27;Histogram.DEFAULT_MOVE&#x27;, _evt.pageX, _evt.pageY, JC.f.ts(), _selector.length, _src.nodeName );
-            _p.trigger( &#x27;update_moving_status&#x27;, [ _evt ] );
+            _p.trigger( Histogram.Model.UPDATE_MOVING_STATUS, [ _evt ] );
         };
 
     JC.BaseMVC.build( Histogram, JChart.Base );
@@ -226,37 +257,46 @@
             function(){
                 var _p = this;
 
-                _p.on( &#x27;update_moving_status&#x27;, function( _evt, _srcEvt, _srcEle ){
+                _p.on( Histogram.Model.UPDATE_MOVING_STATUS, function( _evt, _srcEvt, _srcEle ){
                     var _offset = _p._model.globalEventToLocalOffset( _srcEvt )
                         , _index = _p._model.indexAt( _offset );
 
-                    _p.trigger( &#x27;clear_status&#x27; );
+                    _p.trigger( Histogram.Model.CLEAR_STATUS );
                     if( typeof _index == &#x27;undefined&#x27; ) return;
 
-                    _p.trigger( &#x27;update_status&#x27;, [ _index, _offset  ] );
+                    _p.trigger( Histogram.Model.UPDATE_STATUS, [ _index, _offset  ] );
                 });
 
-                _p.on( &#x27;moving_start&#x27;, function( _evt ){
-                    _p.trigger( &#x27;clear_status&#x27; );
+                _p.on( Histogram.Model.MOVING_START, function( _evt ){
+                    _p.trigger( Histogram.Model.CLEAR_STATUS );
+                    if( !( _p._model.displaySeries &amp;&amp; _p._model.displaySeries.length ) ) return;
                     _p._model.tips() &amp;&amp; _p._model.tips().show();
                 });
 
-                _p.on( &#x27;moving_done&#x27;, function( _evt ){
-                    _p.trigger( &#x27;clear_status&#x27; );
+                _p.on( Histogram.Model.MOVING_DONE, function( _evt ){
+                    _p.trigger( Histogram.Model.CLEAR_STATUS );
                     _p._model.tips() &amp;&amp; _p._model.tips().hide();
                 });
 
-                _p.on( &#x27;clear_status&#x27;, function(){
+                _p.on( Histogram.Model.CLEAR_STATUS, function(){
                     _p._view.clearStatus();
                 });
 
-                _p.on( &#x27;update_status&#x27;, function( _evt, _index, _offset ){
+                _p.on( Histogram.Model.UPDATE_STATUS, function( _evt, _index, _offset ){
                     if( !_offset ) return;
                     if( typeof _index == &#x27;undefined&#x27; ) return;
                     //JC.log( _index, _offset.x, _offset.y, JC.f.ts() );
                     _p._view.updateTips( _index, _offset );
                     _p._view.updateRect( _index );
                     _p._view.updateVLine( _index );
+                });
+
+                _p.on( JChart.Base.Model.RESET_DISPLAY_SERIES, function( _evt, _data ){
+                    _p._model.resetDisplaySeries( _data );
+                });
+
+                _p.on( JChart.Base.Model.LEGEND_UPDATE, function( _evt, _ix ){
+                    _p._model.updateLegend( _ix );
                 });
             }
 
@@ -267,34 +307,31 @@
     });
 
     Histogram.Model._instanceName = &#x27;JChartHistogram&#x27;;
-
-    Histogram.Model.STYLE = {
-        lineStyle: {
-            &#x27;stroke&#x27;: &#x27;#999&#x27;
-            , &#x27;opacity&#x27;: &#x27;.35&#x27;
-        }
-        , style: [
-            { &#x27;stroke&#x27;: &#x27;#09c100&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#FFBF00&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#0c76c4&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#41e2e6&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-
-            , { &#x27;stroke&#x27;: &#x27;#ffb2bc&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-
-            , { &#x27;stroke&#x27;: &#x27;#dbb8fd&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-
-            , { &#x27;stroke&#x27;: &#x27;#ff06b3&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#ff7100&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-            , { &#x27;stroke&#x27;: &#x27;#c3e2a4&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-
-            , { &#x27;stroke&#x27;: &#x27;#ff0619&#x27;, &#x27;stroke-opacity&#x27;: 0 }
-
-        ]
-        , pathStyle: {
-            &#x27;stroke-width&#x27;: 2
-        }
-        , radius: 4
-    };
+    /**
+     * 鼠标移动式触发的事件
+     * @event update_moving_status
+     */
+    Histogram.Model.UPDATE_MOVING_STATUS = &#x27;update_moving_status&#x27;;
+    /**
+     * 更新 图表 和 Tips 的显示状态
+     * @event update_status
+     */
+    Histogram.Model.UPDATE_STATUS = &#x27;update_status&#x27;;
+    /**
+     * 鼠标进入图表主区域时, 触发的事件
+     * @event   moving_start
+     */
+    Histogram.Model.MOVING_START = &#x27;moving_start&#x27;;
+    /**
+     * 鼠标离开图表主区域时, 触发的事件
+     * @event   moving_done
+     */
+    Histogram.Model.MOVING_DONE = &#x27;moving_done&#x27;;
+    /**
+     * 清除图表的显示状态
+     * @event   clear_status
+     */
+    Histogram.Model.CLEAR_STATUS = &#x27;clear_status&#x27;;
 
     var _oldWorkspaceOffset = Histogram.Model.prototype.workspaceOffset;
 
@@ -302,8 +339,11 @@
         init:
             function(){
                 //JC.log( &#x27;Histogram.Model.init:&#x27;, new Date().getTime() );
+                JChart.Base.Model.prototype.init.call( this );
             }
-
+        /**
+         * 创建所有的柱状矩形
+         */
         , rects:
             function( ){
                 var _p = this, _tmp;
@@ -313,15 +353,16 @@
 
                     $.each( _p.data().xAxis.categories, function( _k, _item ){
                         var _items = [];
-                        $.each( _p.data().series, function( _sk, _sitem ){
+                        $.each( _p.displaySeries, function( _sk, _sitem ){
                             _tmp = new JChart.GraphicRect( 
                                 _p.stage()
                                 , 10000, 0
                                 , 100
                                 , 100
-                                , _p.itemStyle( _sk )
-                                , _p.itemHoverStyle( _sk )
+                                , _p.itemStyle( _p.displayLegendMap[ _sk ] )
+                                , _p.itemHoverStyle( _p.displayLegendMap[ _sk ] )
                             );
+                            //JC.log( _sk, _p.displayLegendMap[ _sk ] );
                             _items.push( _tmp );
                         });
 
@@ -330,59 +371,54 @@
                 }
                 return _p._rects;
             }
-
+        /**
+         * 从不同的索引获取对应的样式
+         * @param   {int}   _ix
+         */
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
-
-                _p.data().series[ _ix ].style
-                    &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
-
-                !_r.fill &amp;&amp; _r.stroke &amp;&amp; ( _r.fill = _r.stroke );
-
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
                 _r[ &#x27;fill-opacity&#x27; ] = 1;
 
                 return _r;
             }
-
+        /**
+         * 从不同的索引获取不同 hover 样式
+         * @param   {int}   _ix
+         */
         , itemHoverStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = Histogram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-                _r = JC.f.cloneObject( Histogram.Model.STYLE.style[ _ix ] );
 
-                _p.data().series[ _ix ].style
-                    &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].style ) );
-
-                _p.data().series[ _ix ].hoverStyle
-                    &amp;&amp; ( _r = JC.f.extendObject( _r, _p.data().series[ _ix ].hoverStyle ) );
-
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
                 _r[ &#x27;fill-opacity&#x27; ] = .65;
 
                 return _r;
             }
-
+        /**
+         * 从不同的索引获取 背景线条的样式
+         * @param   {int}   _ix
+         */
         , lineStyle:
             function( _ix ){
-                var _r = JC.f.cloneObject( Histogram.Model.STYLE.lineStyle );
+                var _r = { stroke: &#x27;#999&#x27;, opacity: .35 };
                 return _r;
             }
-
+        /**
+         * 从坐标点计算位于哪个数据项
+         * @param   {Point} _point
+         */
         , indexAt:
-            function( _offset ){
+            function( _point ){
                 var _p = this
                     , _c = _p.coordinate()
-                    , _realX = _offset.x - _c.wsX
-                    , _realY = _offset.y - _c.wsY
-                    , _maxX = _c.wsWidth
-                    , _maxY = _c.wsHeight
+                    , _realX = _point.x - _c.chartX
+                    , _realY = _point.y - _c.chartY
+                    , _maxX = _c.chartWidth
+                    , _maxY = _c.chartHeight
                     , _itemLen, _partWidth
                     , _partWhat = 0;
                     ;
@@ -391,17 +427,17 @@
                     return undefined;
                 }
 
-                _itemLen = ( _c.hlen - 1 ) * 2;
-                _partWidth = _c.wsWidth / _itemLen;
+                _itemLen = ( _c.hlen );
+                _partWidth = _c.chartWidth / _itemLen;
                 _partWhat = Math.floor( _realX / _partWidth  );
-                _partWhat &gt; 1 &amp;&amp; ( _partWhat = Math.round( _partWhat / 2 ) );
-
-                //JC.log( _partWhat, _realX, _realY, JC.f.ts() );
-                //JC.log( _partWhat );
 
                 return _partWhat;
             }
-
+        /**
+         * 计算图表所有显示内容的坐标
+         * @param   {object} _data
+         * @return object
+         */
         , coordinate:
             function( _data ){
                 if( typeof this._coordinate != &#x27;undefined&#x27; || !_data ){
@@ -422,6 +458,9 @@
                 _p.background( _c );
                 _x = 2, _y = 2;
 
+                /**
+                 * 标题文字的显示坐标
+                 */
                 var _title = _p.title( _data );
                 if( _title ){
                     _bbox = JChart.f.getBBox( _title );
@@ -432,7 +471,9 @@
                     }
                     _y = _c.title.y + _bbox.height / 2;
                 }
-
+                /**
+                 * 子标题文字的显示坐标
+                 */
                 var _subtitle = _p.subtitle( _data );
                 if( _subtitle ){
                     _bbox = JChart.f.getBBox( _subtitle );
@@ -445,7 +486,9 @@
                 }
 
                 !( _title &amp;&amp; _subtitle ) &amp;&amp; ( _y += 10 );
-
+                /**
+                 * 垂直标题文字的显示坐标
+                 */
                 var _vtitle = _p.vtitle( _data );
                 if( _vtitle ){
                     _bbox = JChart.f.getBBox( _vtitle );
@@ -457,7 +500,9 @@
                     }
                     _x = _c.vtitle.x + 5 + 10;
                 }
-
+                /**
+                 * 版权信息的显示坐标
+                 */
                 var _credits = _p.credits( _data );
                 if( _credits ){
                     _bbox = JChart.f.getBBox( _credits );
@@ -468,7 +513,9 @@
                     }
                     _maxY = _c.credits.y - 5;
                 }
-
+                /**
+                 * 图例图标的显示坐标
+                 */
                 if( _p.legendEnable() ){
                     var _legend = _p.legend( _data, &#x27;rect&#x27;, function( _ix, _legend, _text, _data ){
                         var _color = _data.stroke 
@@ -485,15 +532,17 @@
                         }
                         _maxY = _c.legend.y;
                     }
-                }else{
                 }
 
                 _maxY -= _p.varrowSize();
                 _x += _p.harrowSize();
 
-                var _hlabelMaxHeight = _p.hlabelMaxHeight( _data );
-                var _vlabelMaxWidth = _p.vlabelMaxWidth( _data );
-                var _vx = _x, _hy = _y;
+                    //水平 label 的最大高度
+                var _hlabelMaxHeight = _p.hlabelMaxHeight( _data )
+                    //垂直 label 的最大宽度
+                    , _vlabelMaxWidth = _p.vlabelMaxWidth( _data )
+                    , _vx = _x, _hy = _y
+                    ;
 
                 if( _vlabelMaxWidth ){
                     _x += _vlabelMaxWidth;
@@ -508,31 +557,59 @@
                     _maxY -= 5;
                 }
 
-                //JC.log( _x, _maxX, _maxX - _x );
-
-                _c.vlen = _p.vlen();
-                _c.hlen = _p.hlen();
-
-                _c.vpart = ( _maxY - _y ) / ( _c.vlen - 1 );
+                _c.vlen = _p.vlen(); //图表数据粒度的长度
+                _c.hlen = _p.hlen(); //图表数据的长度
+                /**
+                 * 垂直内容的高度
+                 */
+                _c.vpart = ( _maxY - _y ) / ( _c.vlen - 1 ); 
+                /**
+                 * 水平内容的宽度
+                 */
                 _c.hpart = ( _maxX - _x ) / ( _c.hlen );
-
+                /**
+                 * 水平内容的一半宽度
+                 */
                 _c.halfHPart = _c.hpart / 2;
-
+                /**
+                 * 图表有多少条数据
+                 */
                 _c.seriesLength = _p.seriesLength();
+                /**
+                 * 计算总共有多少条数据
+                 */
                 _c.seriesPart = Math.floor( _c.hpart / ( _c.seriesLength * 1.5 ) );
-
-                _c.wsHeight = _maxY - _y;
-                _c.wsY = _y;
-                _c.wsMaxY = _maxY;
-
-                _c.wsWidth = _maxX - _x;
-                _c.wsX = _x;
-                _c.wsMaxX = _maxX;
-
-                var _dataBackground = _p.dataBackground( _c.wsX, _c.wsY, _c.wsWidth, _c.wsHeight );
+                /**
+                 * 柱状图的高度
+                 */
+                _c.chartHeight = _maxY - _y;
+                /**
+                 * 柱状图的 y 坐标
+                 */
+                _c.chartY = _y;
+                /**
+                 * 柱状图的最大 y 坐标
+                 */
+                _c.chartMaxY = _maxY;
+                /**
+                 * 柱状图的宽度
+                 */
+                _c.chartWidth = _maxX - _x;
+                /**
+                 * 柱状图的 x 坐标
+                 */
+                _c.chartX = _x;
+                /**
+                 * 柱状图的最大 x 坐标
+                 */
+                _c.chartMaxX = _maxX;
+                /**
+                 * 柱状图的背景
+                 */
+                var _dataBackground = _p.dataBackground( _c.chartX, _c.chartY, _c.chartWidth, _c.chartHeight );
                 if( _dataBackground ){
                     _c.dataBackground = {
-                        x: _c.wsX, y: _c.wsY, width: _c.wsWidth, height: _c.wsHeight, item: _dataBackground
+                        x: _c.chartX, y: _c.chartY, width: _c.chartWidth, height: _c.chartHeight, item: _dataBackground
                     };
                 }
 
@@ -547,16 +624,19 @@
                         if( _tmp &amp;&amp; _tmp.length ){
                             !_tmp[ _ix ] &amp;&amp; ( _padX = 0 );
                         }
-                        _tmpA.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y + _c.wsHeight }
-                        //_tmpA.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y }
+                        _tmpA.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y + _c.chartHeight }
                             , end: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _maxY + _padX }
                             , &#x27;item&#x27;: _item  } );
                         _tmpA1.push( {  start: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _y }
                             , end: { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _maxY }
                             , &#x27;item&#x27;: _item  } );
                     });
-                    _tmpA.length &amp;&amp; ( _c.vlines = _tmpA );
-                    _tmpA1.length &amp;&amp; ( _c.vlinePoint = _tmpA1 );
+                    _tmpA.length &amp;&amp; ( 
+                        _c.vlines = _tmpA  //垂直线条带箭头的坐标
+                    );
+                    _tmpA1.length &amp;&amp; ( 
+                        _c.vlinePoint = _tmpA1 //垂直线条的坐标
+                    );
                 }
 
                 var _hlines = _p.hlines( _data );
@@ -572,11 +652,18 @@
                             , end: { &#x27;x&#x27;: _maxX , &#x27;y&#x27;: _tmpY }
                             , &#x27;item&#x27;: _item  } );
                     });
-                    _tmpA.length &amp;&amp; ( _c.hlines = _tmpA );
-                    _tmpA1.length &amp;&amp; ( _c.hlinePoint = _tmpA1 );
+                    _tmpA.length &amp;&amp; ( 
+                        _c.hlines = _tmpA //水平线条带箭头的坐标
+                    );
+                    _tmpA1.length &amp;&amp; ( 
+                        _c.hlinePoint = _tmpA1 //水平线条的坐标
+                    );
                 }
 
                 if( _vlabelMaxWidth ){
+                    /**
+                     * 垂直 label
+                     */
                     var _vlabels = _p.vlables( _data );
                     _tmp = 0;
                     _tmpA = [];
@@ -591,6 +678,9 @@
                 }
 
                 if( _hlabelMaxHeight ){
+                    /**
+                     * 水平 label
+                     */
                     var _hlabels = _p.hlables( _data );
                     _tmp = 0;
                     _tmpA = [];
@@ -601,13 +691,13 @@
                         _bbox = JChart.f.getBBox( _item );
                         if( _ix === ( _c.vlinePoint.length - 1 ) ){
                             _tmpX = _lineItem.end.x + 2;
-                            if(  ( _tmpX + _bbox.width / 2 ) &gt; _c.wsMaxX ){
-                                _tmpX = _c.wsMaxX - _bbox.width / 2;
+                            if(  ( _tmpX + _bbox.width / 2 ) &gt; _c.chartMaxX ){
+                                _tmpX = _c.chartMaxX - _bbox.width / 2;
                             }
                         }else if( _ix === 0 ){
                             _tmpX = _lineItem.end.x - 2;
-                            if(  ( _tmpX - _bbox.width / 2 ) &lt; _c.wsX ){
-                                _tmpX = _c.wsX + _bbox.width / 2;
+                            if(  ( _tmpX - _bbox.width / 2 ) &lt; _c.chartX ){
+                                _tmpX = _c.chartX + _bbox.width / 2;
                             }
                         }
                         _tmpY = _hy;
@@ -617,7 +707,13 @@
                 }
 
                 //get data point
+                /**
+                 * 所有矩形的坐标
+                 */
                 _c.rects = [];
+                /**
+                 * 所有矩形的线条坐标
+                 */
                 _c.rectLine = [];
 
                 var _rateInfo = _p.rateInfo( _data, _p.rate( _data ) )
@@ -627,26 +723,28 @@
                 $.each( _data.xAxis.categories, function( _ix, _items ){
                     var _rectItems = []
                         , _lineItem = _c.vlinePoint[ _ix ]
-                        , _sstart = _lineItem.end.x - _c.seriesPart * _data.series.length / 2
-                        , _wsX = _lineItem.end.x - _c.hpart / 2 
+                        , _sstart = _lineItem.end.x - _c.seriesPart * _p.displaySeries.length / 2
+                        , _chartX = _lineItem.end.x - _c.hpart / 2 
                         , _maxNum
                         ;
                     _c.rectLine.push( {
-                        start: { x: _wsX, y: _lineStartY }
-                        , end: { x: _wsX, y: _lineEndY }
+                        start: { x: _chartX, y: _lineStartY }
+                        , end: { x: _chartX, y: _lineEndY }
                         , item: _p.stage().path(&#x27;M0 0&#x27;).attr( _p.lineStyle( _ix ) )
                     } );
 
                     if( _ix === _data.xAxis.categories.length - 1 ){
-                        _wsX = _lineItem.end.x + _c.hpart / 2;
+                        _chartX = _lineItem.end.x + _c.hpart / 2;
                         _c.rectLine.push( {
-                            start: { x: _wsX, y: _lineStartY }
-                            , end: { x: _wsX, y: _lineEndY }
+                            start: { x: _chartX, y: _lineStartY }
+                            , end: { x: _chartX, y: _lineEndY }
                             , item: _p.stage().path(&#x27;M0 0&#x27;).attr( _p.lineStyle( _ix ) )
                         } );
                     }
 
-                    $.each( _data.series, function( _six, _sd ){
+                    //JC.dir( _p.displaySeries );
+
+                    $.each( _p.displaySeries, function( _six, _sd ){
                         var _d = { &#x27;y&#x27;: _lineItem.start.y, &#x27;x&#x27;: _sstart + _six * _c.seriesPart  }
                             , _item, _dataHeight, _dataY, _height
                             , _num = _sd.data[ _ix ]
@@ -655,14 +753,14 @@
                         if( JChart.Base.isNegative( _num ) ){
                             _num = Math.abs( _num );
                             _dataHeight = _c.vpart * Math.abs( _rateInfo.length - _rateInfo.zeroIndex - 1 );
-                            _dataY = _c.wsY + _c.vpart * _rateInfo.zeroIndex;
+                            _dataY = _c.chartY + _c.vpart * _rateInfo.zeroIndex;
                             _maxNum = Math.abs( _rateInfo.finalMaxNum * _p.rate()[ _p.rate().length - 1 ] );
                             _height = ( _num / _maxNum ) * _dataHeight;
-                            _d.y = _d.y + _c.wsHeight - _dataHeight;
+                            _d.y = _d.y + _c.chartHeight - _dataHeight;
                             //JC.log( _rateInfo.length, _rateInfo.zeroIndex, _c.vpart, _dataHeight, JC.f.ts() );
                         }else{
                             _dataHeight = _c.vpart * _rateInfo.zeroIndex;
-                            _dataY = _c.wsY;
+                            _dataY = _c.chartY;
                             _maxNum = _rateInfo.finalMaxNum;
                             _height = ( _num / _maxNum ) * _dataHeight;
                             _d.y = _d.y + _dataHeight - _height;
@@ -688,7 +786,10 @@
         _inited:
             function(){
             }
-
+        /**
+         * 显示所有图表内容
+         * @param   {Object}    _coordinate
+         */
         , setStaticPosition:
             function( _coordinate ){
                 var _p = this, _c = _coordinate, _tmp;
@@ -740,7 +841,6 @@
                         $.each( _item, function( _sk, _sitem ){
                             _tmp = _rects[ _k ][ _sk ];
                             _tmp.attr( { x: _sitem.x, y: _sitem.y, width: _sitem.width, height: _sitem.height } );
-                            //JC.log( _sitem.x, _sitem.y, JC.f.ts() );
                         });
                     });
                 }
@@ -748,17 +848,38 @@
                 _p._model.tips().toFront();
 
                 /*
-                var _t = new JChart.GraphicRect( _p.stage(), 0, 0, 100, 100, { &#x27;fill&#x27;: &#x27;#000&#x27; }, { &#x27;fill&#x27;: &#x27;#fff&#x27; } );
-                setTimeout( function(){
-                    _t.hover();
-                }, 200 );
-                */
-            }
+                var _text = _p.stage().text( 100, 100, &#x27;test 1&#x27; ).attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27; } )
+                    , _text2 = _p.stage().text( 80, 120, &#x27;test 2&#x27; ).attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27; } )
+                    , _set = _p.stage().set()
+                    ;
+                _set.push( _text );
+                _set.push( _text2 );
 
+                JChart.moveSet( _set, 0, 0);
+                */
+
+            }
+        /**
+         * 从给出的数据显示图表
+         * @param   {object}  _data
+         */
         , draw: 
             function( _data ){
                 var _p = this, _coordinate;
 
+                var _detect = _p._model.displayDetect();
+                //JC.log( &#x27;draw displayDetect&#x27;, _detect, JC.f.ts() );
+                //_detect = 1;
+
+                if( _detect === JChart.Base.Model.FLASH &amp;&amp; Histogram.FLASH_PATH ){
+                    _p.drawFlash( _data, Histogram.FLASH_PATH );
+                }else{
+                    _p.drawSVG( _data );
+                }
+             }
+        , drawSVG:
+            function( _data ){
+                var _p = this, _coordinate;
                 _p.setStaticPosition( _p._model.coordinate( _data ) );
 
                 _p._model.dataBackground().mouseenter( function( _evt ){
@@ -766,23 +887,26 @@
                     //JC.log( &#x27;mouseenter&#x27;, JC.f.ts() );
                     _jdoc.off( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
                     _jdoc.on( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
-                    _p.trigger( &#x27;moving_start&#x27; );
+                    _p.trigger( Histogram.Model.MOVING_START );
                 });
 
                 _p._model.dataBackground().mouseleave( function( _evt ){
                     //JC.log( &#x27;mouseleave&#x27;, JC.f.ts() );
-                    _p.trigger( &#x27;moving_done&#x27; );
+                    _p.trigger( Histogram.Model.MOVING_DONE );
                     _jdoc.off( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
                     Histogram.CURRENT_INS = null;
                 });
-                //JC.dir( _p.stage() );
-                //
-             }
-
+            }
+        /**
+         * 显示 Tips
+         * @param   {int}   _ix     数据索引
+         * @param   {point} _offset 当前鼠标位置
+         */
         , updateTips:
             function( _ix, _offset ){
-                var _p = this
-                    , _tips = _p._model.tips( _ix )
+                var _p = this;
+                if( !( _p._model.displaySeries &amp;&amp; _p._model.displaySeries.length ) ) return;
+                var _tips = _p._model.tips( _ix )
                     , _bbox = JChart.f.getBBox( _tips )
                     , _c = _p._model.coordinate()
                     , _x = _offset.x + 15, _y = _offset.y + 18
@@ -801,7 +925,10 @@
 
                 _tips.setPosition( _x, _y );
             }
-
+        /**
+         * 更新当前距行的显示状态
+         * @param   {int}   _ix     
+         */
         , updateRect:
             function( _ix ){
                 var _p = this, _r = [], _preItems = _p._model.preItems() || {};
@@ -812,7 +939,10 @@
                 _preItems.point = _r;
                 _p._model.preItems( _preItems );
             }
-
+        /**
+         * 更新当前背景线的显示状态
+         * @param   {int}   _ix     
+         */
         , updateVLine:
             function( _ix ){
                 var _p = this, _r = [], _preItems = _p._model.preItems() || {};
@@ -821,7 +951,10 @@
                     &amp;&amp; ( _preItems.vlines = _p._model.vlines()[ _ix ].hover() )
                     &amp;&amp; _p._model.preItems( _preItems );
             }
-
+        /**
+         * 清除所有显示状态
+         * @param   {int}   _ix     
+         */
         , clearStatus:
             function(){
                 var _p = this, _preItems = _p._model.preItems();

@@ -4,9 +4,13 @@
     , 'JChart.common'
     , 'JChart.DefaultOptions' 
     , 'JChart.Event', 'JChart.Group'
-    , 'JChart.IconLine', 'JChart.IconRect'
+    , 'JChart.IconLine', 'JChart.IconRect', 'JChart.IconCircle'
+    , 'swfobject'
+    , 'browser'
+    , 'json2'
 ], function(){
 window.JChart = window.JChart || {};
+
 /**
  * 组件用途简述
  *
@@ -17,7 +21,6 @@ window.JChart = window.JChart || {};
  *
  *<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
  *   | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Base.html' target='_blank'>API docs</a>
- *   | <a href='../../modules/JChart.Base/0.1/_demo' target='_blank'>demo link</a></p>
  *  
  *<h2>页面只要引用本脚本, 默认会处理 div class="js_compBase"</h2>
  *
@@ -59,6 +62,18 @@ window.JChart = window.JChart || {};
     }
     JC.BaseMVC.build( Base );
 
+    /**
+     * 图表使用 svg 或者 flash 
+     * <br />0 = auto
+     * <br />1 = flash
+     * <br />2 = svg
+     * @property    DISPLAYDETECT
+     * @type        int
+     * @default     0
+     * @static
+     */
+    JChart.Base.DISPLAYDETECT = 0;
+
     JChart.Base.init =
         function( _class, _items, _count, _tmMs){
             if( _items[ _count ] ){
@@ -78,15 +93,14 @@ window.JChart = window.JChart || {};
 
                 _oldInit.call( _p );
 
-                _p.on( 'update', function( _evt, _data ){
-                    _p.trigger( 'clear' );
+                _p.on( Base.Model.UPDATE_CHART_DATA, function( _evt, _data ){
+                    _p.trigger( Base.Model.CLEAR );
                     _p._view.update( _data );
-
                     _p._model.chartSize( { width: _p._model.width(), height: _p._model.height() } );
                 });
 
-                _p.on( 'clear', function( _evt ){
-                    _p.trigger( 'clear_status' );
+                _p.on( Base.Model.CLEAR, function( _evt ){
+                    _p.trigger( Base.Model.CLEAR_STATUS );
                     _p._view && _p._view.clear();
                     //_p._model.clear && _p._model.clear();
                 });
@@ -113,12 +127,17 @@ window.JChart = window.JChart || {};
          */
         , _initData:
             function(){
-                var _data;
+                var _p = this, _data;
                 if( this.selector().attr( 'chartScriptData' ) ){
                     _data = JC.f.scriptContent( this._model.selectorProp( 'chartScriptData' ) );
+                    _data = _data.replace( /\}[\s]*?,[\s]*?\}$/g, '}}');
                     _data = eval( '(' + _data + ')' );
-                    this.trigger( 'update', [ _data ] );
+                    this.trigger( Base.Model.RESET_DISPLAY_SERIES, [ _data ] );
+                    this.trigger( Base.Model.UPDATE_CHART_DATA, [ _data ] );
                 }
+
+                //_p._model.width() && _p.selector().css( { 'width': _p._model.width() } );
+                _p._model.height() && _p.selector().css( { 'height': _p._model.height() } );
                 return this;
             }
         /**
@@ -128,22 +147,37 @@ window.JChart = window.JChart || {};
          */
         , update:
             function( _data ){
-                this.trigger( 'update', _data );
+                this.trigger( Base.Model.RESET_DISPLAY_SERIES, [ _data ] );
+                this.trigger( Base.Model.UPDATE_CHART_DATA, _data );
                 return this;
             }
+
+        , displayDetect: function(){ return this._model.displayDetect(); }
     });
 
     Base.Model._instanceName = 'JChartBase';
     Base.Model.LABEL_RATE = [ 1, .75, .5, .25, 0 ];
     Base.Model.INS_COUNT = 1;
 
+    Base.Model.CLEAR = 'clear';
+    Base.Model.CLEAR_STATUS = 'clear_status';
+    Base.Model.UPDATE_CHART_DATA = 'update_data';
+    Base.Model.RESET_DISPLAY_SERIES = 'resetDisplaySeries';
+    Base.Model.LEGEND_UPDATE = 'legendUpdate';
+
+    Base.Model.FLASH = 1;
+    Base.Model.SVG = 2;
+
+    Base.Model
+
     JC.f.extendObject( Base.Model.prototype, {
         init:
             function(){
                 //JC.log( 'Base.Model.init:', new Date().getTime() );
-                this._gid = Base.Model.INS_COUNT++;
+                this._gid = 'jchart_gid_' + ( Base.Model.INS_COUNT++ );
                 this.afterInit && this.afterInit();
             }
+
         , gid: function(){ return this._gid; }
         /**
          * 图表宽度
@@ -167,7 +201,16 @@ window.JChart = window.JChart || {};
                 }
                 return this._height;
             }
-
+        /**
+         * 图表宽度
+         */
+        , sourceWidth:
+            function(){
+                if( typeof this._sourceWidth== 'undefined' ){
+                    this.is( '[chartWidth]' ) && ( this._sourceWidth = this.intProp( 'chartWidth' ) || this._sourceWidth );
+                }
+                return this._sourceWidth || '100%';
+            }
         /**
          * 图表实时宽度
          */
@@ -283,14 +326,15 @@ window.JChart = window.JChart || {};
                           _tmp
                         )
                     ){
-                    this._legend =  new JChart.Group();
+                    _p._legend =  new JChart.Group();
+                    _p._legendSet = [];
                     _type = _type || 'line';
                     switch( _type ){
                         case 'line':
                             {
                                 var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
                                 _x += _bx;
-                                $.each( _data.series, function( _k, _item ){
+                                $.each( _p.series(), function( _k, _item ){
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
                                     _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by, 18, 3, 1, 4 );
@@ -303,6 +347,11 @@ window.JChart = window.JChart || {};
                                     _p._legend.addChild( _text, 'text_' + _k );
                                     _x = _tb.x + _tb.width + _pad;
                                     _h = _tb.height * 1.8;
+
+                                    var _set = _p.stage().set();
+                                    _set.push( _legend.item( 'rect' ), _legend.item( 'circle' ), _text );
+                                    _p.initLegendSet( _set, _k );
+                                    _p._legendSet.push( _set );
                                 });
 
                                 var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
@@ -315,7 +364,7 @@ window.JChart = window.JChart || {};
                             {
                                 var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
                                 _x += _bx;
-                                $.each( _data.series, function( _k, _item ){
+                                $.each( _p.series(), function( _k, _item ){
                                     if( !_item.name ) return;
                                     var _style = _p.itemStyle( _k );
                                     _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
@@ -328,17 +377,73 @@ window.JChart = window.JChart || {};
                                     _p._legend.addChild( _text, 'text_' + _k );
                                     _x = _tb.x + _tb.width + _pad;
                                     _h = _tb.height * 1.8;
+
+                                    var _set = _p.stage().set();
+                                        _set.push( _legend.item( 'element' ), _text );
+                                        _p.initLegendSet( _set, _k );
+                                        _p._legendSet.push( _set );
                                 });
 
                                 var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
                                         .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
                                 _p._legend.addChild( _box, 'box' );
+                                break;
                             }
+
+                        case 'circle':
+                            {
+                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
+                                _x += _bx;
+
+                                _p.series() &&
+                                $.each( _p.series(), function( _k, _item ){
+                                    if( !_item.name ) return;
+                                    var _style = _p.itemStyle( _k );
+                                    _legend = new JChart.IconCircle( _p.stage(), _x, 0 + _by - 7, 5 );
+                                    _lb = JChart.f.getBBox( _legend );
+                                    _text = _p.stage().text( _lb.x + 15 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
+                                    _tb = JChart.f.getBBox( _text );
+                                    _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
+                                    _legend.attr( _style );
+                                    _legend.attr( 'fill', _style.fill );
+                                    _p._legend.addChild( _text, 'text_' + _k );
+                                    _x = _tb.x + _tb.width + _pad;
+                                    _h = _tb.height * 1.8;
+
+                                    var _set = _p.stage().set();
+                                        _set.push( _legend.item( 'element' ), _text );
+                                        _p.initLegendSet( _set, _k );
+                                        _p._legendSet.push( _set );
+                                });
+
+                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
+                                        .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
+                                _p._legend.addChild( _box, 'box' );
+                                break;
+                            }
+
                     }
                 }
                     
                 return this._legend;
             }
+        , initLegendSet:
+            function( _set, _k ){
+                var _p = this;
+                _set.attr( { 'cursor': 'pointer' } ).data( 'ix', _k );
+
+                if( _p.displayLegend ){
+                    if( !( _k in _p.displayLegend ) ){
+                        _set.attr( { 'opacity': .35 } ).data( 'selected', true );
+                    }
+                }
+
+                _set.click( function( _evt ){
+                    //JC.log( 'set click', this.data('ix'), JC.f.ts() );
+                    _p.trigger( Base.Model.LEGEND_UPDATE, [ this.data('ix') ] );
+                });
+            }
+        , legendSet: function(){ return this._legendSet; }
         /**
          * 图表标题
          */
@@ -346,7 +451,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 _data && _data.title && _data.title.text 
                     && !this._title 
-                    && ( this._title = this.stage().text( -9999, 0, _data.title.text ) )
+                    && ( this._title = this.stage().text( -9999, 0, _data.title.text ).attr( { 'cursor': 'default' } ) )
                     && ( this._title.node.setAttribute( 'class', 'jcc_title' ) )
                     ;
 
@@ -359,7 +464,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 _data && _data.subtitle && _data.subtitle.text 
                     && !this._subtitle 
-                    && ( this._subtitle = this.stage().text( 0, 0, _data.subtitle.text ) )
+                    && ( this._subtitle = this.stage().text( 0, 0, _data.subtitle.text ).attr( { 'cursor': 'default' } ) )
                     && ( this._subtitle.node.setAttribute( 'class', 'jcc_subtitle' ) )
                     ;
                 return this._subtitle;
@@ -371,7 +476,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 _data && _data.yAxis && _data.yAxis.title && _data.yAxis.title.text
                     && !this._vtitle 
-                    && ( this._vtitle = this.stage().text( -9999, 0, _data.yAxis.title.text )
+                    && ( this._vtitle = this.stage().text( -9999, 0, _data.yAxis.title.text ).attr( { 'cursor': 'default' } )
                           , this._vtitle.node.setAttribute( 'class', 'jcc_vtitle' )   
                         )
                     ;
@@ -394,6 +499,8 @@ window.JChart = window.JChart || {};
                                 , this._credits.node.setAttribute( 'class', 'jcc_credit jcc_pointer jcc_link' ) 
                                 , this._credits.click( function(){ location.href = _data.credits.href; } )
                             );
+
+                    this._credits && !_data.credits.href && this.credits.attr( { 'cursor': 'default' } );
                 }
                 return this._credits;
             }
@@ -402,10 +509,12 @@ window.JChart = window.JChart || {};
          */
         , seriesLength:
             function(){
-                typeof this._partLength == 'undefined' 
-                    && this.data() 
-                    && this.data().series 
-                    && ( this._seriesLength = this.data().series.length );
+                if( typeof this._partLength == 'undefined' ){
+                    this.getDisplaySeries()
+                        && ( this._seriesLength = this.getDisplaySeries().length );
+
+                    this._seriesLength < 2 && ( this._seriesLength = 2 );
+                }
                 return this._seriesLength;
             }
         /**
@@ -418,12 +527,16 @@ window.JChart = window.JChart || {};
 
                 if( typeof this._hlen == 'undefined' ){
                     _data.xAxis && _data.xAxis.categories && ( this._hlen = _data.xAxis.categories.length );
-                    _data.series && _data.series.data && ( this._hlen = _data.series.data.length );
+
+                    _p.series() 
+                        && _p.series().length 
+                        && _p.series()[0].data 
+                        && ( this._hlen = _p.series()[0].data.length );
                 }
                 return this._hlen;
             }
         /**
-         * 图表粒度的长度
+         * 图表数据粒度的长度
          */
         , vlen:
             function( _data ){
@@ -448,7 +561,7 @@ window.JChart = window.JChart || {};
                     _p._maxNum = 0;
 
                     if( _data ){
-                        $.each( _data.series, function( _ix, _item ){
+                        $.each( _p.getDisplaySeries(), function( _ix, _item ){
                             _tmp = Math.max.apply( null, _item.data );
                             _tmp > _p._maxNum && ( _p._maxNum = _tmp );
                         });
@@ -476,7 +589,7 @@ window.JChart = window.JChart || {};
                     _p._minNNum = 0;
 
                     if( _data ){
-                        $.each( _data.series, function( _ix, _item ){
+                        $.each( _p.getDisplaySeries(), function( _ix, _item ){
                             _tmp = Math.min.apply( null, _item.data );
                             _tmp < 0 && _tmp < _p._minNNum && ( _p._minNNum = _tmp );
                         });
@@ -498,7 +611,7 @@ window.JChart = window.JChart || {};
             function( _data ){
                 var _p = this;
                 
-                if( _data && hasNegative( _data ) ){
+                if( _data && hasNegative( _p.getDisplaySeries() ) ){
                     var _maxNum, _minNNum, _absNNum, _finalMaxNum;
                     _maxNum = _p.maxNum( _data );
                     _minNNum = _p.minNNum( _data );
@@ -581,7 +694,7 @@ window.JChart = window.JChart || {};
                     $.each( _rate, function( _ix, _item ){
                         _text = _maxNum * _item;
                         _rateInfo.minNNum && ( _text = JC.f.parseFinance( _text, _p.floatLen() ) );
-                        _tmp = _p.stage().text( 10000, 0, _text.toString()  );
+                        _tmp = _p.stage().text( 10000, 0, _text.toString()  ).attr( { 'cursor': 'default' } );
                         _eles.push( _tmp );
                     });
 
@@ -602,7 +715,7 @@ window.JChart = window.JChart || {};
                         ;
 
                     $.each( _data.xAxis.categories, function( _ix, _item ){
-                        _tmp = _p.stage().text( 10000, 0, _item || '' );
+                        _tmp = _p.stage().text( 10000, 0, _item || '' ).attr( { 'cursor': 'default' } );
                         _match && _match.length && !_match[ _ix ] && _tmp.hide();
                         _eles.push( _tmp );
                     });
@@ -682,11 +795,11 @@ window.JChart = window.JChart || {};
 
                     _data && _data.xAxis && _data.xAxis.categories && ( _items = _data.xAxis.categories );
                     _data 
-                        && _data.series 
-                        && _data.series[0]
-                        && _data.series[0].data
-                        && _data.series[0].data.length
-                        && ( _items = _data.series[0].data );
+                        && _p.series()
+                        && _p.series().length
+                        && _p.series()[0].data
+                        && _p.series()[0].data.length
+                        && ( _items = _p.series()[0].data );
 
                     _items && 
                         $.each( _items, function( _k, _item ){
@@ -724,6 +837,22 @@ window.JChart = window.JChart || {};
             function( _setter ){ 
                 typeof _setter != 'undefined' && ( this._coordinate = _setter );
                 return this._coordinate; 
+            }
+        , colors:
+            function(){
+                if( !this._colors ){
+                    this._colors = JChart.DefaultOptions.colors;
+                    this.data() && this.data().colors 
+                        && ( this._colors = this.data().colors )
+                }
+                return this._colors;
+            }
+        , itemColor:
+            function( _ix ){
+                var _r = '#000';
+                this.colors() && this.colors().length
+                    && ( _r = this.colors()[ _ix % ( this.colors().length - 1 ) ] );
+                return _r;
             }
         /**
          * 图标的默认样式
@@ -788,8 +917,8 @@ window.JChart = window.JChart || {};
                             .attr( { 'font-weight': 'bold', 'fill': '#999', 'text-anchor': 'start' } )
                             , 'title' );
 
-                    $.each( _p.data().series, function( _k, _item ){
-                        _strokeColor = _p.itemStyle( _k ).stroke;
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
+                        _strokeColor = _p.itemStyle( _p.getLegendMapIndex( _k ) ).stroke;
                         _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || 'empty' )
                                 .attr( { 'text-anchor': 'start', 'fill': _strokeColor } );
                         _tmpBox = JChart.f.getBBox( _tmp );
@@ -798,8 +927,8 @@ window.JChart = window.JChart || {};
                         _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
                     });
 
-                    $.each( _p.data().series, function( _k, _item ){
-                        _strokeColor = _p.itemStyle( _k ).stroke;
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
+                        _strokeColor = _p.itemStyle( _p.getLegendMapIndex( _k ) ).stroke;
                         _tmpItem = _p._tips.getChildByName( 'label_' + _k );
                         _tmpBox = JChart.f.getBBox( _tmpItem );
                         _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
@@ -807,7 +936,7 @@ window.JChart = window.JChart || {};
                         _p._tips.addChild( _tmp, 'val_' + _k );
                     });
 
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
                         _tmpItem = _p._tips.getChildByName( 'val_' + _k );
                         _tmpItem.attr( 'text', '0.00' );
                     });
@@ -817,11 +946,11 @@ window.JChart = window.JChart || {};
                 if( typeof _ix != 'undefined' ){
                     _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
                     var _maxTextWidth = 0, _tmpLabel;
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
                         _tmp = JChart.f.getBBox( _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) ));
                         _tmp.width > _maxTextWidth && ( _maxTextWidth = _tmp.width );
                     });
-                    $.each( _p.data().series, function( _k, _item ){
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
                         _tmp = _p._tips.getChildByName( 'val_' + _k );
                         _tmpLabel = _p._tips.getChildByName( 'label_' + _k );
                         _tmpBox = JChart.f.getBBox( _tmpLabel );
@@ -919,6 +1048,134 @@ window.JChart = window.JChart || {};
                     ;
                 return _r;
             }
+        /**
+         * 获取图表数据组
+         */
+        , series:
+            function(){
+                var _r;
+                this.data() && ( 'series' in this.data() ) 
+                    && ( _r = this.data().series );
+                return _r;
+            }
+        /**
+         * 获取图表分类标签
+         */
+        , categories:
+            function(){
+                var _r;
+                this.data() && this.data().xAxis && this.data().xAxis.categories 
+                    && ( _r = this.data().xAxis.categories );
+                return _r;
+            }
+        /**
+         * 获取图表用于显示的数据组
+         */
+        , getDisplaySeries:
+            function(){
+                var _r = this.series();
+                if( 'displaySeries' in this ){
+                    _r = this.displaySeries;
+                }
+                return _r;
+            }
+
+        , resetDisplaySeries:
+            function( _data ){
+                var _p = this;
+                _p.displayLegend = {};
+                _p.displayLegendMap = {};
+                _p.displaySeries = [];
+
+                if( _data && _data.series ){
+                    $.each( _data.series, function( _k, _item ){
+                        _p.displayLegend[ _k ] = _k;
+                        _p.displayLegendMap[ _k ] = _k;
+                        _p.displaySeries.push( _item );
+                    });
+                }
+            }
+
+        , getLegendMapIndex:
+            function( _ix ){
+                this.displayLegendMap && ( _ix = this.displayLegendMap[ _ix ] );
+                return _ix;
+            }
+
+        , updateLegend:
+            function( _ix ){
+                var _p = this;
+                if( !( _p.legendSet() && _p.legendSet().length ) ) return;
+                var _set = _p.legendSet()[ _ix ];
+                if( !_set ) return;
+
+                if( _set.items.length ){
+                    var _selected = !JC.f.parseBool( _set.items[0].data( 'selected' ) ); 
+                    _set.data( 'selected', _selected );
+                    if( _selected ){
+                        _set.attr( { opacity: .35 } );
+                    }else{
+                        _set.attr( { opacity: 1 } );
+                        _p.displayLegend[ _ix ] = _ix;
+                    }
+
+                    _p.displayLegend = {};
+                    _p.displayLegendMap = {};
+                    var _count = 0;
+                    $.each( _p.legendSet(), function( _k, _item ){
+                        if( !JC.f.parseBool( _item.items[0].data( 'selected' ) ) ){
+                            _p.displayLegend[ _k ] = _count;
+                            _p.displayLegendMap[ _count ] = _k;
+                            //JC.log( _k, _count );
+                            _count++;
+                        }
+                    });
+
+                    //JC.dir( _p.displayLegend );
+                    _p.displaySeries = [];
+                    if( _p.series() && _p.series().length ){
+                        $.each( _p.series(), function( _k, _item ){
+                            if( _k in _p.displayLegend ){
+                                _p.displaySeries.push( _item );
+                            }
+                        });
+                    }
+                    _p.trigger( JChart.Base.Model.UPDATE_CHART_DATA, [ _p.data() ] );
+                    //JC.dir( _p._model.displaySeries );
+                }
+
+            }
+        /**
+         * 判断使用 svg 或者 flash
+         */
+        , displayDetect:
+            function(){
+                var _r = JChart.Base.DISPLAYDETECT, _urlParam = JC.f.getUrlParam( 'jchart_display' );
+                this.is( '[displayDetect]' ) && ( _r = this.intProp( 'displayDetect' ) || 0 );
+                _urlParam  && ( _r = parseInt( _urlParam ) );
+
+                if( _r === 0 ){
+                    /*
+                    if( JChart.browser.msie ){
+                        _r = 1;
+                    }else if( JChart.browser.safari ){
+                        _r = 1;
+                    }else{
+                        _r = 2;
+                    }
+                    */
+                    if( JChart.browser.chrome ){
+                        _r = 2;
+                    }else{
+                        _r = 1;
+                    }
+                }
+
+                if( _r > 2 || _r < 1 ){
+                    _r = 1;
+                }
+                return _r;
+            }
 
     });
 
@@ -967,10 +1224,11 @@ window.JChart = window.JChart || {};
          */
         , update: 
             function( _data ){
-                this.clear();
-                this._model.clear();
-                this._model.data( _data );
-                this.draw( _data );
+                var _p = this;
+                _p.clear();
+                _p._model.clear();
+                _p._model.data( _data );
+                _p.draw( _data );
             }
         /**
          * 渲染图表外观
@@ -982,6 +1240,32 @@ window.JChart = window.JChart || {};
          * 显示静态外观
          */
         , setStaticPosition: function(){}
+        , drawFlash:
+            function( _data, _path ){
+                //JC.dir( _data );
+                var _p = this
+                    , _fpath =  JC.f.printf( _path, JChart.PATH ).replace( /[\/]+/g, '/' )
+                    , _element = $( '#' + _p._model.gid() )
+                    , _dataStr = JSON.stringify( _data ) 
+                    ; 
+                if( !$( '#' +  _p._model.gid() ).length ){
+                    _element = $( JC.f.printf( '<span id="{0}"></span>', _p._model.gid() ) );
+                    _element.appendTo( _p.selector() );
+                }
+                //JC.log( 'drawFlash', _fpath, _p._model.gid(), _p._model.width(), _p._model.height(), _element[0] );
+                JC.log( _dataStr );
+                swfobject.embedSWF( 
+                    _fpath
+                    , _p._model.gid()
+                    , _p._model.sourceWidth()
+                    , _p._model.height()
+                    , '10' 
+                    , ''
+                    , { 'testparams': 2, 'chart': _dataStr }
+                    , { 'wmode': 'transparent' }
+                );
+            }
+
     });
 
     Base.numberUp = numberUp;
@@ -998,13 +1282,15 @@ window.JChart = window.JChart || {};
                     _item = $( _item );
                     var _ins = JC.BaseMVC.getInstance( _item, _class ), _size, _newSize, _w, _h;
                     if( !( _ins && _ins._model.data() ) ) return;
+                    if( _ins.displayDetect() === 1 ) return;
                     _size = _ins._model.chartSize();
                     if( !_size ) return;
+                    JC.log( 'displayDetect', _ins.displayDetect(), JC.f.ts() );
                     _w = _ins._model.realtimeWidth(); _h = _ins._model.realtimeHeight();
                     if( _size.width == _w && _size.height == _h ) return;
                     _w < 100 && ( _w = 100 ); 
                     _h < 100 && ( _h = 100 );
-                    _ins.trigger( 'update', _ins._model.data() );
+                    _ins.trigger( JChart.Base.Model.UPDATE_CHART_DATA, _ins._model.data() );
                 }, 1 );
             });
         };
@@ -1013,11 +1299,11 @@ window.JChart = window.JChart || {};
         return _num < 0;
     }
 
-    function hasNegative( _data ){
+    function hasNegative( _series ){
         var _r = false;
 
-        if( _data && _data.series ){
-            $.each( _data.series, function( _ix, _item ){
+        if( _series && _series.length ){
+            $.each( _series, function( _ix, _item ){
                 var _tmp = Math.min.apply( null, _item.data );
                 if( _tmp < 0 ){
                     _r = true;
@@ -1070,6 +1356,46 @@ window.JChart = window.JChart || {};
         function(){
             var _d = JChart.DefaultOptions;
             return _d;
+        };
+
+    JChart.moveSet =
+        function( _set, _x, _y ){
+            if( _set && _set.length ){
+                var _tmpX = 1000000, _tmpY = 1000000, _tmpBBox;
+                $.each( _set, function( _ix, _item ){
+                    _tmpBBox = _item.getBBox();
+                    _tmpX = Math.min( _tmpX, _tmpBBox.x );
+                    _tmpY = Math.min( _tmpY, _tmpBBox.y );
+                });
+                _set.transform( JC.f.printf( 't{0} {1}', -_tmpX + _x, -_tmpY + _y ) );
+            }
+            return _set;
+        };
+
+    JChart.moveSetX =
+        function( _set, _x ){
+            if( _set && _set.length ){
+                var _tmpX = 1000000, _tmpBBox;
+                $.each( _set, function( _ix, _item ){
+                    _tmpBBox = _item.getBBox();
+                    _tmpX = Math.min( _tmpX, _tmpBBox.x );
+                });
+                _set.transform( JC.f.printf( 't{0} {1}', -_tmpX + _x, 0 ) );
+            }
+            return _set;
+        };
+
+    JChart.moveSetY =
+        function( _set, _y ){
+            if( _set && _set.length ){
+                var _tmpY = 1000000, _tmpBBox;
+                $.each( _set, function( _ix, _item ){
+                    _tmpBBox = _item.getBBox();
+                    _tmpY = Math.min( _tmpY, _tmpBBox.y );
+                });
+                _set.transform( JC.f.printf( 't{0} {1}', 0, -_tmpY + _y ) );
+            }
+            return _set;
         };
 
     _jwin.on( 'resize', function(){

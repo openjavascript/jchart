@@ -59,13 +59,19 @@
             
                 <li><a href="../classes/JC.PureMVC.Model.html">JC.PureMVC.Model</a></li>
             
+                <li><a href="../classes/JChar.HistogramLateral.html">JChar.HistogramLateral</a></li>
+            
                 <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
             
                 <li><a href="../classes/JChart.common.html">JChart.common</a></li>
             
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
             
+                <li><a href="../classes/JChart.DefaultOptions.html">JChart.DefaultOptions</a></li>
+            
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
+            
+                <li><a href="../classes/JChart.Geometry.html">JChart.Geometry</a></li>
             
                 <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
             
@@ -77,6 +83,8 @@
             
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
+                <li><a href="../classes/JChart.IconCircle.html">JChart.IconCircle</a></li>
+            
                 <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
             
                 <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
@@ -87,7 +95,11 @@
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
+                <li><a href="../classes/window.Raphael.html">window.Raphael</a></li>
+            
                 <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
+            
+                <li><a href="../classes/window.swfobject.html">window.swfobject</a></li>
             
             </ul>
 
@@ -132,7 +144,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.IconVLine&#x27;, &#x27;JChart.IconRect&#x27;, &#x27;JChart.GraphicPiePart&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.IconVLine&#x27;, &#x27;JChart.IconCircle&#x27;, &#x27;JChart.GraphicPiePart&#x27; ], function(){
 /**
  * 柱状图
  *
@@ -178,8 +190,11 @@
 
         this._init();
 
+        //JC.dir( this );
+
         //JC.log( PieGraph.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
     }
+    PieGraph.FLASH_PATH = &quot;{0}/flash/pub/charts/PieGraph.swf&quot;;
     /**
      * 初始化可识别的 PieGraph 实例
      * @method  init
@@ -264,8 +279,8 @@
 
                 _p.on( &#x27;update_default_selected&#x27;, function( _evt ){
                     var _ix;
-                    _p._model.pieData() &amp;&amp; _p._model.pieData().length
-                        &amp;&amp; $.each( _p._model.pieData(), function( _k, _item ){
+                    _p._model.getDisplaySeries() &amp;&amp; _p._model.getDisplaySeries().length
+                        &amp;&amp; $.each( _p._model.getDisplaySeries(), function( _k, _item ){
                             _item.selected &amp;&amp; ( _ix = _k );
                         });
 
@@ -275,6 +290,17 @@
                         &amp;&amp; _p._model.piePart()[ _ix ].selected( true )
                         ;
                 });
+
+                _p.on( JChart.Base.Model.RESET_DISPLAY_SERIES, function( _evt, _data ){
+                    _p._model.resetDisplaySeries( _data );
+                    //JC.log( JChart.Base.Model.RESET_DISPLAY_SERIES, JC.f.ts() );
+                });
+
+                _p.on( JChart.Base.Model.LEGEND_UPDATE, function( _evt, _ix ){
+                    _p._model.updateLegend( _ix );
+                    //JC.log( JChart.Base.Model.LEGEND_UPDATE, _ix, JC.f.ts() );
+                });
+
             }
 
         , _inited:
@@ -313,18 +339,7 @@
     JC.f.extendObject( PieGraph.Model.prototype, {
         init:
             function(){
-            }
-
-        , pieData:
-            function(){
-                var _p = this;
-
-                typeof _p._pieData == &#x27;undefined&#x27; &amp;&amp; _p.data() &amp;&amp; _p.data().series 
-                    &amp;&amp; _p.data().series.length 
-                    &amp;&amp; _p.data().series[0].data
-                    &amp;&amp; _p.data().series[0].data.length
-                    &amp;&amp; ( _p._pieData = _p.data().series[0].data )
-                return _p._pieData;
+                JChart.Base.Model.prototype.init.call( this );
             }
 
         , dataLabelEnabled:
@@ -398,52 +413,6 @@
                 return this._index;
             }
         /**
-         * 数据图例图标
-         */
-        , legend:
-            function( _data, _type, _cb ){
-                var _p = this, _tmp = true, _type;
-
-                if( !this._legend &amp;&amp; _data &amp;&amp; 
-                        ( ( _data.legend &amp;&amp; ( &#x27;enabled&#x27; in _data.legend ) &amp;&amp; ( _tmp = _data.legend.enabled ) ) ||
-                          _tmp
-                        )
-                    ){
-                    this._legend =  new JChart.Group();
-                    _type = _type || &#x27;line&#x27;;
-                    switch( _type ){
-                        case &#x27;rect&#x27;:
-                            {
-                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
-                                _x += _bx;
-
-                                _p.pieData() &amp;&amp;
-                                $.each( _p.pieData(), function( _k, _item ){
-                                    if( !_item.name ) return;
-                                    var _style = _p.itemStyle( _k );
-                                    _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
-                                    _lb = JChart.f.getBBox( _legend );
-                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( &#x27;text-anchor&#x27;, &#x27;start&#x27;);
-                                    _tb = JChart.f.getBBox( _text );
-                                    _p._legend.addChild( _legend, &#x27;legend_&#x27; + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
-                                    _legend.attr( _style );
-                                    _legend.attr( &#x27;fill&#x27;, _style.fill );
-                                    _p._legend.addChild( _text, &#x27;text_&#x27; + _k );
-                                    _x = _tb.x + _tb.width + _pad;
-                                    _h = _tb.height * 1.8;
-                                });
-
-                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                                        .attr( { &#x27;stroke-opacity&#x27;: .99, &#x27;fill-opacity&#x27;: .99, &#x27;stroke-width&#x27;: 1, &#x27;stroke&#x27;: &#x27;#909090&#x27; } );
-                                _p._legend.addChild( _box, &#x27;box&#x27; );
-                            }
-                    }
-                }
-                    
-                return this._legend;
-            }
-
-        /**
          * 保存图表数据
          */
         , data:
@@ -456,6 +425,7 @@
                         $.each( _p._data.series[0].data, function( _k, _item ){
                             if( JChart.f.isArray( _item ) ){
                                 _p._data.series[0].data[ _k ] = { &#x27;name&#x27;: _item[0], &#x27;y&#x27;: _item[1] };
+                                _p.getDisplaySeries()[ _k ] = { &#x27;name&#x27;: _item[0], &#x27;y&#x27;: _item[1] };
                             }
                         });
                 }
@@ -596,7 +566,8 @@
                             .attr( { &#x27;font-weight&#x27;: &#x27;bold&#x27;, &#x27;fill&#x27;: &#x27;#999&#x27;, &#x27;text-anchor&#x27;: &#x27;start&#x27; } )
                     , &#x27;title&#x27; );
 
-                    _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _p.data().series[0].name || &#x27;empty&#x27; ).attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27; } );
+                    _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _p.data().series[0].name || &#x27;empty&#x27; )
+                            .attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27; } );
                     _tmpBox = JChart.f.getBBox( _tmp );
                     _offsetY += _tmpBox.height + 5;
                     _tmpBox.width &gt; _maxWidth &amp;&amp; ( _maxWidth = _tmpBox.width );
@@ -604,7 +575,8 @@
 
                     _tmpItem = _p._tips.getChildByName( &#x27;label_0&#x27; );
                     _tmpBox = JChart.f.getBBox( _tmpItem );
-                    _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( &#x27;y&#x27; ) + _initOffset.y, &#x27;012345678901.00&#x27; ).attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27; } );
+                    _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( &#x27;y&#x27; ) + _initOffset.y, &#x27;012345678901.00&#x27; )
+                            .attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27; } );
                     _p._tips.addChild( _tmp, &#x27;val_0&#x27; );
 
                     _tmpItem = _p._tips.getChildByName( &#x27;val_0&#x27; );
@@ -617,7 +589,7 @@
 
                     var _maxTextWidth = 0, _tmpLabel;
                     _maxTextWidth = JChart.f.getBBox( _p._tips.getChildByName( &#x27;val_&#x27; + 0 )
-                                    .attr( &#x27;text&#x27;, JC.f.moneyFormat( _p.pieData()[ _ix ].y, 3, _p.floatLen() ) )).width;
+                                    .attr( &#x27;text&#x27;, JC.f.moneyFormat( _p.series()[ _ix ].y, 3, _p.floatLen() ) )).width;
 
                     _p._tips.getChildByName( &#x27;title&#x27; ).attr( &#x27;fill&#x27;, _p.itemStyle( _ix ).fill );
 
@@ -640,8 +612,8 @@
         , tipsTitle:
             function( _ix ){
                 var _p = this, _r = &#x27;&#x27;;
-                _p.pieData() &amp;&amp; _p.pieData().length &amp;&amp; _p.pieData()[ _ix ] &amp;&amp;
-                    ( _r = _p.pieData()[ _ix ].name );
+                _p.series() &amp;&amp; _p.series().length &amp;&amp; _p.series()[ _ix ] &amp;&amp;
+                    ( _r = _p.series()[ _ix ].name );
                 return _r;
             }
 
@@ -726,7 +698,7 @@
 
                 if( _p.legendEnable() ){
 
-                    var _legend = _p.legend( _data, &#x27;rect&#x27;, function( _ix, _legend, _text, _data ){
+                    var _legend = _p.legend( _data, &#x27;circle&#x27;, function( _ix, _legend, _text, _data ){
                         var _color = _data.stroke 
                                         || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
                                         || &#x27;#fff&#x27;;
@@ -779,7 +751,7 @@
 
                 //_p.stage().circle( _c.cx, _c.cy, _c.radius );
 
-                if( _p.pieData() &amp;&amp; _p.pieData().length ){
+                if( _p.getDisplaySeries() &amp;&amp; _p.getDisplaySeries().length ){
                     var _angle = 360
                         , _angleCount = 0
                         , _offsetAngle = _p.offsetAngle()
@@ -791,58 +763,58 @@
                     _p.dataLabelEnabled() &amp;&amp; ( _c.pieLine = [] );
 
                     //JC.log( &#x27;_p.dataLabelEnabled:&#x27;, _p.dataLabelEnabled() );
+                    /*
+                    JC.dir( _p.series() );
+                    JC.dir( _p.getDisplaySeries() );
+                    */
 
-                    $.each( _p.pieData(), function( _k, _item ){
-                        var _pieC = { cx: _c.cx, cy: _c.cy, radius: _c.radius }, _pieL = {};
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
+                        var _pieP = { cx: _c.cx, cy: _c.cy, radius: _c.radius, data: _item }, _pieL = { data: _item };
 
-                        _pieC.radians = Math.PI / 180;
-                        _pieC.offsetAngle = _offsetAngle;
+                        _pieP.radians = Math.PI / 180;
+                        _pieP.offsetAngle = _offsetAngle;
                         
                         if( _item.y === _partSize ){
-                            _pieC.angle = 360;
-                            _pieC.percent = 100;
-
-                            _pieC.startAngle = ( _angleCount + _offsetAngle ) % _angle;
-                            _pieC.midAngle = ( _pieC.startAngle + _pieC.angle / 2 ) % _angle;
-                            _pieC.endAngle = ( ( _angleCount += _pieC.angle ) + _offsetAngle ) % _angle;
+                            _pieP.angle = 360;
+                            _pieP.percent = 100;
                         }else{
-                            _pieC.percent = _item.y / _partSize * 100;
-                            _pieC.angle = _item.y / _partSize * _angle;
+                            _pieP.percent = _item.y / _partSize * 100;
+                            _pieP.angle = _item.y / _partSize * _angle;
 
-                            _pieC.startAngle = ( _angleCount + _offsetAngle ) % _angle;
-                            _pieC.midAngle = _pieC.startAngle + _pieC.angle / 2;
-                            _pieC.endAngle = ( ( _angleCount += _pieC.angle ) + _offsetAngle ) % _angle;
                         }
+                        _pieP.startAngle = ( _angleCount + _offsetAngle ) % _angle;
+                        _pieP.midAngle = _pieP.startAngle + _pieP.angle / 2 % _angle;
+                        _pieP.endAngle = ( ( _angleCount += _pieP.angle ) + _offsetAngle ) % _angle;
 
-                        _pieC.startPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.startAngle );
-                        _pieC.endPoint = JChart.Geometry.distanceAngleToPoint( _pieC.radius, _pieC.endAngle );
+                        _pieP.startPoint = JChart.Geometry.distanceAngleToPoint( _pieP.radius, _pieP.startAngle );
+                        _pieP.endPoint = JChart.Geometry.distanceAngleToPoint( _pieP.radius, _pieP.endAngle );
 
-                        _pieC.startPoint.x += _pieC.cx;
-                        _pieC.startPoint.y += _pieC.cy;
-                        _pieC.endPoint.x += _pieC.cx;
-                        _pieC.endPoint.y += _pieC.cy;
-                        _pieC.data = _item;
+                        _pieP.startPoint.x += _pieP.cx;
+                        _pieP.startPoint.y += _pieP.cy;
+                        _pieP.endPoint.x += _pieP.cx;
+                        _pieP.endPoint.y += _pieP.cy;
 
-                        _pieL.start = JChart.Geometry.distanceAngleToPoint( _pieC.radius - _p.lineStart(), _pieC.midAngle );
-                        _pieL.end = JChart.Geometry.distanceAngleToPoint( _pieC.radius + _p.lineLength(), _pieC.midAngle );
-                        _pieL.cx = _c.cx, _pieL.cy = _c.cy;
+                        _pieL.start = JChart.Geometry.distanceAngleToPoint( _pieP.radius - _p.lineStart(), _pieP.midAngle );
+                        _pieL.end = JChart.Geometry.distanceAngleToPoint( _pieP.radius + _p.lineLength(), _pieP.midAngle );
+
+                        _pieL.cx = _c.cx;
+                        _pieL.cy = _c.cy;
                         _pieL.start.x += _pieL.cx;
                         _pieL.start.y += _pieL.cy;
                         _pieL.end.x += _pieL.cx;
                         _pieL.end.y += _pieL.cy;
-                        _pieL.data = _item;
 
-                        //JC.log( _k, _pieC.midAngle );
+                        //JC.log( _k, _pieP.midAngle );
 
                         var _tmpPath, _controlX = _pieL.end.x, _controlY = _pieL.end.y, _minAngle = 5;
 
-                        if( Math.abs( 270 - _pieC.midAngle ) &lt;= _minAngle ){
+                        if( Math.abs( 270 - _pieP.midAngle ) &lt;= _minAngle ){
                             _pieL.direction = &quot;top&quot;;
-                        }else if( ( Math.abs( 360 - _pieC.midAngle ) &lt;= _minAngle ) || _pieC.midAngle &lt;= _minAngle ){
+                        }else if( ( Math.abs( 360 - _pieP.midAngle ) &lt;= _minAngle ) || _pieP.midAngle &lt;= _minAngle ){
                             _pieL.direction = &quot;right&quot;;
-                        }else if( Math.abs( 90 - _pieC.midAngle ) &lt;= _minAngle ){
+                        }else if( Math.abs( 90 - _pieP.midAngle ) &lt;= _minAngle ){
                             _pieL.direction = &quot;bottom&quot;;
-                        }else if( Math.abs( 180 - _pieC.midAngle ) &lt;= _minAngle ){
+                        }else if( Math.abs( 180 - _pieP.midAngle ) &lt;= _minAngle ){
                             _pieL.direction = &quot;left&quot;;
                         }else{
                             //left top
@@ -880,7 +852,7 @@
                         //_p.stage().path( _tmpPath ).attr( { &#x27;stroke&#x27;: &#x27;#999&#x27; } ).translate( .5, .5 );
                         _pieL.path = _tmpPath;
 
-                        _c.piePart.push( _pieC );
+                        _c.piePart.push( _pieP );
                         _p.dataLabelEnabled() &amp;&amp; _c.pieLine.push( _pieL );
                     });
                 }
@@ -899,11 +871,11 @@
             function(){
                 var _p = this;
                 typeof _p._partSize == &#x27;undefined&#x27; 
-                    &amp;&amp;_p.pieData() 
-                    &amp;&amp; _p.pieData().length &amp;&amp; (
+                    &amp;&amp;_p.getDisplaySeries() 
+                    &amp;&amp; _p.getDisplaySeries().length &amp;&amp; (
                             _p._partSize = 0
-                            , $.each( _p.pieData(), function( _k, _item ){
-                                _p ._partSize += _item.y
+                            , $.each( _p.getDisplaySeries(), function( _k, _item ){
+                                _p._partSize += _item.y
                             })
                        );
                 return this._partSize || 100;
@@ -934,6 +906,79 @@
                 _r /= 2;
                 return _r;
             }
+
+        , series:
+            function(){
+                var _p = this;
+
+                typeof _p._series == &#x27;undefined&#x27; &amp;&amp; _p.data() &amp;&amp; _p.data().series 
+                    &amp;&amp; _p.data().series.length 
+                    &amp;&amp; _p.data().series[0].data
+                    &amp;&amp; _p.data().series[0].data.length
+                    &amp;&amp; ( _p._series = _p.data().series[0].data )
+                return _p._series;
+            }
+
+        , resetDisplaySeries:
+            function( _data ){
+                var _p = this;
+                _p.displayLegend = {};
+                _p.displayLegendMap = {};
+                _p.displaySeries = [];
+
+                if( _data &amp;&amp; _data.series &amp;&amp; _data.series.length ){
+                    $.each( _data.series[0].data, function( _k, _item ){
+                        _p.displayLegend[ _k ] = _k;
+                        _p.displayLegendMap[ _k ] = _k;
+                        _p.displaySeries.push( _item );
+                    });
+                }
+            }
+
+        , updateLegend:
+            function( _ix ){
+                var _p = this;
+                if( !( _p.legendSet() &amp;&amp; _p.legendSet().length ) ) return;
+                var _set = _p.legendSet()[ _ix ];
+                if( !_set ) return;
+
+                if( _set.items.length ){
+                    var _selected = !JC.f.parseBool( _set.items[0].data( &#x27;selected&#x27; ) ); 
+                    _set.data( &#x27;selected&#x27;, _selected );
+                    if( _selected ){
+                        _set.attr( { opacity: .35 } );
+                    }else{
+                        _set.attr( { opacity: 1 } );
+                        _p.displayLegend[ _ix ] = _ix;
+                    }
+
+                    _p.displayLegend = {};
+                    _p.displayLegendMap = {};
+                    var _count = 0;
+                    $.each( _p.legendSet(), function( _k, _item ){
+                        if( !JC.f.parseBool( _item.items[0].data( &#x27;selected&#x27; ) ) ){
+                            _p.displayLegend[ _k ] = _count;
+                            _p.displayLegendMap[ _count ] = _k;
+                            //JC.log( _k, _count );
+                            _count++;
+                        }
+                    });
+
+                    //JC.dir( _p.displayLegend );
+                    _p.displaySeries = [];
+                    if( _p.series() &amp;&amp; _p.series().length ){
+                        $.each( _p.series(), function( _k, _item ){
+                            if( _k in _p.displayLegend ){
+                                _p.displaySeries.push( _item );
+                            }
+                        });
+                    }
+                    _p.trigger( JChart.Base.Model.UPDATE_CHART_DATA, [ _p.data() ] );
+                    //JC.dir( _p._model.displaySeries );
+                }
+            }
+
+
     });
 
     JC.f.extendObject( PieGraph.View.prototype, {
@@ -965,14 +1010,28 @@
                 }
                 _p._model.tips().toFront();
             }
-
+        /**
+         * 从给出的数据显示图表
+         * @param   {object}  _data
+         */
         , draw: 
             function( _data ){
                 var _p = this, _coordinate;
+                var _detect = _p._model.displayDetect();
+                //JC.log( &#x27;draw displayDetect&#x27;, _detect, JC.f.ts() );
+                //_detect = 1;
 
+                if( _detect === JChart.Base.Model.FLASH &amp;&amp; PieGraph.FLASH_PATH ){
+                    _p.drawFlash( _data, PieGraph.FLASH_PATH ); 
+                }else{
+                    _p.drawSVG( _data );
+                }
+             }
+        , drawSVG:
+            function( _data ){
+                var _p = this, _coordinate;
                 _p.setStaticPosition( _p._model.coordinate( _data ) );
             }
-
         , updateTips:
             function( _ix, _offset ){
                 var _p = this

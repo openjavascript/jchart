@@ -277,20 +277,33 @@
                           _tmp
                         )
                     ){
-                    _p._legend =  new JChart.Group();
+                    _p._legend =  _p.stage().set();
                     _p._legendSet = [];
-                    var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
+                    var _text = []
+                        , _minX = 8
+                        , _x = _minX, _y = 0
+                        , _maxX = 0
+                        , _legend, _text
+                        , _spad = 2, _pad = 8
+                        , _bx = 100, _by = 100
+                        , _tb, _lb, _h = 30
+                        ;
+
                     _x += _bx;
                     $.each( _p.series(), function( _k, _item ){
                         if( !_item.name ) return;
-                        _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by, 18, 3, 1, 4 );
+                        _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by - 4, 18, 3, 1, 4 );
                         _lb = JChart.f.getBBox( _legend );
+
                         _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
                         _tb = JChart.f.getBBox( _text );
-                        _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2  + 2  } );
+
+                        _p._legend.push( _legend.item( 'rect' ), 'rect_' + _k );
+                        _p._legend.push( _legend.item( 'circle' ), 'circle_' + _k );
+
                         _legend.attr( 'fill', _p.itemColor( _k ) );
                         _legend.attr( 'stroke', _p.itemColor( _k ) );
-                        _p._legend.addChild( _text, 'text_' + _k );
+                        _p._legend.push( _text, 'text_' + _k );
                         _x = _tb.x + _tb.width + _pad;
                         _h = _tb.height * 1.8;
 
@@ -300,9 +313,11 @@
                         _p._legendSet.push( _set );
                     });
 
+                    /*
                     var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
                             .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
                     _p._legend.addChild( _box, 'box' );
+                    */
                 }
                 return this._legend;
             }
@@ -572,7 +587,8 @@
                     _p._model.credits().attr( _c.credits );
                 }
                 if( _c.legend ){
-                    _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    //_p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    JChart.moveSet( _p._model.legend(), _c.legend.x, _c.legend.y );
                 }
                 if( _c.vlables ){
                     $.each( _c.vlables, function( _k, _item ){
@@ -648,29 +664,6 @@
                     CurveGram.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );
-            }
-        , updateTips:
-            function( _ix, _offset ){
-                var _p = this;
-                if( !( _p._model.getDisplaySeries() && _p._model.getDisplaySeries().length ) ) return;
-                var _tips = _p._model.tips( _ix )
-                    , _bbox = JChart.f.getBBox( _tips )
-                    , _c = _p._model.coordinate()
-                    , _x = _offset.x + 15, _y = _offset.y + 18
-                    , _point = _c.vlinePoint[ _ix ]
-                    ;
-
-                if( ( _y + _bbox.height ) > _c.stage.height ){
-                    _y = _offset.y - _bbox.height + 8;
-                }
-                _y < 0 && ( _y = 0 );
-
-                if( ( _x + _bbox.width ) > _c.stage.width ){
-                    _x = _offset.x - _bbox.width;
-                }
-                _x < 0 && ( _x = 0 );
-
-                _tips.setPosition( _x, _y );
             }
 
         , updatePoint:

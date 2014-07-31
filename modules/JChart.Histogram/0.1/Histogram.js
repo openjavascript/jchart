@@ -716,34 +716,6 @@
                 });
             }
         /**
-         * 显示 Tips
-         * @param   {int}   _ix     数据索引
-         * @param   {point} _offset 当前鼠标位置
-         */
-        , updateTips:
-            function( _ix, _offset ){
-                var _p = this;
-                if( !( _p._model.displaySeries && _p._model.displaySeries.length ) ) return;
-                var _tips = _p._model.tips( _ix )
-                    , _bbox = JChart.f.getBBox( _tips )
-                    , _c = _p._model.coordinate()
-                    , _x = _offset.x + 15, _y = _offset.y + 18
-                    , _point = _c.vlinePoint[ _ix ]
-                    ;
-
-                if( ( _y + _bbox.height ) > _c.stage.height ){
-                    _y = _offset.y - _bbox.height + 8;
-                }
-                _y < 0 && ( _y = 0 );
-
-                if( ( _x + _bbox.width ) > _c.stage.width ){
-                    _x = _offset.x - _bbox.width;
-                }
-                _x < 0 && ( _x = 0 );
-
-                _tips.setPosition( _x, _y );
-            }
-        /**
          * 更新当前距行的显示状态
          * @param   {int}   _ix     
          */

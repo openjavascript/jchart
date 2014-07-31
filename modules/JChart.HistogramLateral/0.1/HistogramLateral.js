@@ -621,23 +621,6 @@
                 }
                 _p._model.preItems( null );
             }
-        , updateTips:
-            function( _index, _offset ){
-                var _p = this;
-                if( !( _p._model.displaySeries && _p._model.displaySeries.length ) ) return;
-                var _tips = _p._model.tips( _index ),
-                    _bbox = JChart.f.getBBox( _tips ),
-                    _c = _p._model.coordinate(),
-                    _tipsX = _offset.x + 15,
-                    _tipsY = _offset.y + 18;
-                if( ( _tipsY + _bbox.height ) > _c.stage.height ){
-                    _tipsY = _offset.y - _bbox.height - 3;
-                }
-                if( ( _tipsX + _bbox.width ) > _c.stage.width ){
-                    _tipsX = _offset.x - _bbox.width - 3;
-                }
-                _tips.setPosition( _tipsX, _tipsY );
-            }
         , updateRect:
             function( _ix ) {
                 var _p = this, _r = [], _preItems = _p._model.preItems() || {};
@@ -667,12 +650,7 @@
     });
 
     _jdoc.ready( function(){
-        var _insAr = 0;
-        HistogramLateral.autoInit
-            && ( _insAr = HistogramLateral.init() )
-            && $( '<h2>HistogramLateral total ins: ' 
-                + _insAr.length + '<br/>' + new Date().getTime() + '</h2>' ).appendTo( document.body )
-            ;
+        HistogramLateral.autoInit && HistogramLateral.init();
     });
 
     return JC.HistogramLateral;

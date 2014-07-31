@@ -76,7 +76,7 @@ package org.xas.jchart.curvegram.controller
 						x: BaseConfig.ins.width / 2 - pLegendMediator.view.width / 2
 						, y: BaseConfig.ins.c.maxY
 					};
-					BaseConfig.ins.c.maxY -= 2;
+					BaseConfig.ins.c.maxY -= 5;
 				}
 				
 				BaseConfig.ins.c.maxX -= 5;

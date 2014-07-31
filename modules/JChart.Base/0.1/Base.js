@@ -826,6 +826,7 @@ window.JChart = window.JChart || {};
             function( _offset ){
                 return 0;
             }
+        , tipsMap: function(){ return this._tipsMap; }
         /**
          * 获取 tips 对象
          */
@@ -844,65 +845,92 @@ window.JChart = window.JChart || {};
                 if( !_p._tips ){
                     var _initOffset = { x: 10000, y: 0 };
                     //_initOffset.x = 0;
-                    _p._tips = new JChart.Group();
+                    _p._tips = _p.stage().set();
+                    _p._tipsMap = {};
 
-                    _p._tips.addChild( 
+                    _p._tips.push( _p._tipsMap[ 'bg' ] =
                         _p.stage().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
                             'stroke': '#999'
                             , 'fill': '#fff' 
                             , 'fill-opacity': .94
-                        } )
-                    , 'rect' );
+                        } ) 
+                    );
 
-                    _p._tips.addChild( _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, 'tips' )
-                            .attr( { 'font-weight': 'bold', 'fill': '#999', 'text-anchor': 'start' } )
-                            , 'title' );
+                    _p._tips.push( _p._tipsMap[ 'title' ] =
+                        _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, 'tips' )
+                        .attr( { 'font-weight': 'bold', 'fill': '#999', 'text-anchor': 'start' } )
+                    );
 
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
                         _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || 'empty' )
-                                .attr( { 'text-anchor': 'start', 'fill': _p.itemColor( _k )  } );
+                                .attr( { 'text-anchor': 'start', 'fill': _p.itemColor( _p.displayLegendMap[ _k ] )  } );
                         _tmpBox = JChart.f.getBBox( _tmp );
-                        _p._tips.addChild( _tmp, 'label_' + _k );
+
+                        _p._tips.push( _p._tipsMap[ 'label_' + _k ] = _tmp );
+
                         _offsetY += _tmpBox.height + 5;
                         _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
                     });
 
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _tmpItem = _p._tips.getChildByName( 'label_' + _k );
+                        _tmpItem = _p._tipsMap[ 'label_' + _k ];
                         _tmpBox = JChart.f.getBBox( _tmpItem );
-                        _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
-                                .attr( { 'text-anchor': 'start', 'fill': _p.itemColor( _k ) } );
-                        _p._tips.addChild( _tmp, 'val_' + _k );
+                        _tmp = _p.stage().text( _tmpBox.x + _maxWidth + _offsetX + 10, _tmpItem.attr( 'y' ), '012345678901.00' )
+                                .attr( { 'text-anchor': 'start', 'fill': _p.itemColor( _p.displayLegendMap[ _k ] )  } );
+                        _p._tips.push( _p._tipsMap[ 'val_' + _k ] = _tmp );
                     });
 
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _tmpItem = _p._tips.getChildByName( 'val_' + _k );
+                        _tmpItem = _p._tipsMap[ 'lastItem' ] = _p._tipsMap[ 'val_' + _k ];
                         _tmpItem.attr( 'text', '0.00' );
                     });
 
                     _p._tipLabelMaxWidth = _maxWidth;
+
+                    if( _p.getDisplaySeries().length ){
+                        var _titleBox = _p._tipsMap[ 'title' ].getBBox()
+                            , _lastBox = _p._tipsMap[ 'lastItem' ].getBBox()
+                            , _w = _lastBox.x - _titleBox.x + _offsetX * 2
+                            , _h = _lastBox.y - _titleBox.y + _offsetY
+                            ;
+                        //JC.log( _x, _y, _w, _h );
+                        _p._tipsMap[ 'bg' ].attr( { 'width': _w, 'height': _h } );
+                    }
+
                 }
-                if( typeof _ix != 'undefined' ){
-                    _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
-                    var _maxTextWidth = 0, _tmpLabel;
+                else if( typeof _ix != 'undefined' ){
+                    _p._tipsMap[ 'title' ].attr( 'text', _p.tipsTitle( _ix ) );
+
+                    //JC.log( _ix, _p.displayLegendMap[ _ix ], JC.f.ts() );
+
+                    var _maxTextWidth = 0, _tmpLabel, _preMaxWidth = 0;
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _tmp = JChart.f.getBBox( _p._tips.getChildByName( 'val_' + _k ).attr( 'text', JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) ));
+                        _tmp = JChart.f.getBBox( _p._tipsMap[ 'val_' + _k ] );
+                        _tmp.width > _preMaxWidth && ( _preMaxWidth = _tmp.width );
+                    });
+                    $.each( _p.getDisplaySeries(), function( _k, _item ){
+                        _tmp = JChart.f.getBBox( _p._tipsMap[ 'val_' + _k ].attr( 'text', JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) ));
                         _tmp.width > _maxTextWidth && ( _maxTextWidth = _tmp.width );
                     });
                     $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _tmp = _p._tips.getChildByName( 'val_' + _k );
-                        _tmpLabel = _p._tips.getChildByName( 'label_' + _k );
+                        _tmp = _p._tipsMap[ 'val_' + _k ];
+                        _tmpLabel = _p._tipsMap[ 'label_' + _k ];
                         _tmpBox = JChart.f.getBBox( _tmpLabel );
                         _tmp.attr( 'x', _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - JChart.f.getBBox( _tmp ).width );
                     });
 
+                    var _titleBox = _p._tipsMap[ 'title' ].getBBox()
+                        , _lastBox = _p._tipsMap[ 'lastItem' ].getBBox()
+                        , _w = _lastBox.x - _titleBox.x + _offsetX * 2 + ( _maxTextWidth - _preMaxWidth ) + 10
+                        , _h = _lastBox.y - _titleBox.y + _offsetY
+                        ;
+                    //JC.log( _x, _y, _w, _h );
+                    _p._tipsMap[ 'bg' ].attr( { 'width': _w, 'height': _h } );
                 }
-                _p._tips.getChildByName( 'rect' ).attr( { width: 80, height: 50 } );
-                _tmpBox = JChart.f.getBBox( _p._tips );
-                _p._tips.getChildByName( 'rect' ).attr( { 'width': _tmpBox.width + _padWidth, 'height': _tmpBox.height + _padHeight } );
 
                 return _p._tips;
             }
+
         /**
          * 获取 tips 标题文本
          */
@@ -1204,7 +1232,34 @@ window.JChart = window.JChart || {};
                     , { 'wmode': 'transparent' }
                 );
             }
+        /**
+         * 显示 Tips
+         * @param   {int}   _ix     数据索引
+         * @param   {point} _offset 当前鼠标位置
+         */
+        , updateTips:
+            function( _ix, _offset ){
+                var _p = this;
+                if( !( _p._model.getDisplaySeries() && _p._model.getDisplaySeries().length && _p._model.tips().length ) ) return;
+                var _tips = _p._model.tips( _ix )
+                    , _x = _offset.x + 15, _y = _offset.y + 15
+                    ;
 
+                /*
+                if( ( _y + _bbox.height ) > _c.stage.height ){
+                    _y = _offset.y - _bbox.height + 8;
+                }
+                _y < 0 && ( _y = 0 );
+
+                if( ( _x + _bbox.width ) > _c.stage.width ){
+                    _x = _offset.x - _bbox.width;
+                }
+                */
+                //_x < 0 && ( _x = 0 );
+
+                //_tips.setPosition( _x, _y );
+               JChart.moveSet( _tips, _x, _y );
+            }
     });
 
     Base.numberUp = numberUp;
@@ -1300,13 +1355,9 @@ window.JChart = window.JChart || {};
     JChart.moveSet =
         function( _set, _x, _y ){
             if( _set && _set.length ){
-                var _tmpX = 1000000, _tmpY = 1000000, _tmpBBox;
-                $.each( _set, function( _ix, _item ){
-                    _tmpBBox = _item.getBBox();
-                    _tmpX = Math.min( _tmpX, _tmpBBox.x );
-                    _tmpY = Math.min( _tmpY, _tmpBBox.y );
-                });
-                _set.transform( JC.f.printf( 't{0} {1}', -_tmpX + _x, -_tmpY + _y ) );
+                var _tmpBBox;
+                _tmpBBox = _set[0].getBBox();
+                _set.transform( JC.f.printf( 't{0} {1}', _x - ( _set[0].attr( 'x' ) || 0 ), _y - ( _set[0].attr( 'y' ) || 0 ) ) );
             }
             return _set;
         };

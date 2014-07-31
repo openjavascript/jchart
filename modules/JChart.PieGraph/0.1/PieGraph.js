@@ -164,30 +164,6 @@
 
     PieGraph.Model._instanceName = 'JChartPieGraph';
 
-    PieGraph.Model.STYLE = {
-        lineStyle: {
-            'stroke': '#999'
-            , 'opacity': '.35'
-        }
-        , style: [
-              { 'fill': '#09c100', 'stroke': '#fff'}
-            , { 'fill': '#FFBF00', 'stroke': '#fff'}
-            , { 'fill': '#0c76c4', 'stroke': '#fff'}
-            , { 'fill': '#41e2e6', 'stroke': '#fff'}
-            , { 'fill': '#ffb2bc', 'stroke': '#fff'}
-            , { 'fill': '#dbb8fd', 'stroke': '#fff'}
-            , { 'fill': '#ff06b3', 'stroke': '#fff'}
-            , { 'fill': '#ff7100', 'stroke': '#fff'}
-            , { 'fill': '#c3e2a4', 'stroke': '#fff'}
-            , { 'fill': '#ff0619', 'stroke': '#fff'}
-
-        ]
-        , pathStyle: {
-            'stroke-width': 2
-        }
-        , radius: 4
-    };
-
     var _oldWorkspaceOffset = PieGraph.Model.prototype.workspaceOffset;
 
     JC.f.extendObject( PieGraph.Model.prototype, {
@@ -207,50 +183,6 @@
                     && ( 'enabled' in _p.data().plotOptions.pie.dataLabels )
                     && ( _r = _p.data().plotOptions.pie.dataLabels.enabled )
                     ;
-
-                return _r;
-            }
-
-        , itemStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-                    , _len = PieGraph.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-
-                _r = JC.f.cloneObject( PieGraph.Model.STYLE.style[ _ix ] );
-
-                _p.data().series
-                    && _p.data().series.length
-                    && _p.data().series[ 0 ].style
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ 0 ].style ) );
-
-                !_r.fill && _r.stroke && ( _r.fill = _r.stroke );
-
-                _r[ 'fill-opacity' ] = 1;
-
-                return _r;
-            }
-
-        , itemHoverStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-                    , _len = PieGraph.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-                _r = JC.f.cloneObject( PieGraph.Model.STYLE.style[ _ix ] );
-
-                _p.data().series
-                    && _p.data().series.length
-                    && _p.data().series[ 0 ].style
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ 0 ].style ) );
-
-                _p.data().series
-                    && _p.data().series.length
-                    && _p.data().series[ 0 ].hoverStyle
-                    && ( _r = JC.f.extendObject( _r, _p.data().series[ 0 ].hoverStyle ) );
-
-                _r[ 'fill-opacity' ] = .65;
 
                 return _r;
             }
@@ -406,57 +338,72 @@
                 if( !_p._tips ){
                     var _initOffset = { x: 10000, y: 0 };
                     //_initOffset.x = 0;
-                    _p._tips = new JChart.Group();
 
-                    _p._tips.addChild( 
+                    _p._tips = _p.stage().set();
+                    _p._tipsMap = {};
+
+                    _p._tips.push( _p._tipsMap[ 'bg' ] =
                         _p.stage().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
                             'stroke': '#999'
                             , 'fill': '#fff' 
-                            , 'fill-opacity': .98
-                        } )
-                    , 'rect' );
+                            , 'fill-opacity': .94
+                        } ) 
+                    );
 
-                    _p._tips.addChild( _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, 'tips' )
-                            .attr( { 'font-weight': 'bold', 'fill': '#999', 'text-anchor': 'start' } )
-                    , 'title' );
+                    _p._tips.push( _p._tipsMap[ 'title' ] =
+                        _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, 'tips' )
+                        .attr( { 'font-weight': 'bold', 'fill': '#000', 'text-anchor': 'start' } )
+                    );
 
                     _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _p.data().series[0].name || 'empty' )
-                            .attr( { 'text-anchor': 'start' } );
+                            .attr( { 'text-anchor': 'start', 'font-weight': 'bold' } );
                     _tmpBox = JChart.f.getBBox( _tmp );
                     _offsetY += _tmpBox.height + 5;
                     _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
-                    _p._tips.addChild( _tmp, 'label_0' );
+                    _p._tips.push( _p._tipsMap[ 'label_0' ] = _tmp );
 
-                    _tmpItem = _p._tips.getChildByName( 'label_0' );
+                    _tmpItem =  _p._tipsMap[ 'label_0' ];
                     _tmpBox = JChart.f.getBBox( _tmpItem );
                     _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
-                            .attr( { 'text-anchor': 'start' } );
-                    _p._tips.addChild( _tmp, 'val_0' );
+                            .attr( { 'text-anchor': 'start', 'font-weight': 'bold' } );
+                    _p._tips.push( _p._tipsMap[ 'lastItem' ] = _p._tipsMap[ 'val_0' ] = _tmp );
 
-                    _tmpItem = _p._tips.getChildByName( 'val_0' );
+                    _tmpItem = _p._tipsMap[ 'val_0' ];
                     _tmpItem.attr( 'text', '0.00' );
 
                     _p._tipLabelMaxWidth = _maxWidth;
                 }
-                if( typeof _ix != 'undefined' ){
-                    _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
+                else if( typeof _ix != 'undefined' ){
+                    _p._tipsMap[ 'title' ].attr( 'text', _p.tipsTitle( _ix ) );
 
-                    var _maxTextWidth = 0, _tmpLabel;
-                    _maxTextWidth = JChart.f.getBBox( _p._tips.getChildByName( 'val_' + 0 )
-                                    .attr( 'text', JC.f.moneyFormat( _p.series()[ _ix ].y, 3, _p.floatLen() ) )).width;
+                    var _maxTextWidth = 0, _tmpLabel, _preMaxWidth;
+                    _maxTextWidth = JChart.f.getBBox( _p._tipsMap[ 'val_0' ]
+                                    .attr( 'text', JC.f.moneyFormat( _p.getDisplaySeries()[ _ix ].y, 3, _p.floatLen() ) )).width;
 
-                    _p._tips.getChildByName( 'title' ).attr( 'fill', _p.itemStyle( _ix ).fill );
+                    _preMaxWidth = _maxTextWidth;
 
-                    $.each( _p.data().series, function( _k, _item ){
-                        _tmp = _p._tips.getChildByName( 'val_' + _k );
+                    _p._tipsMap[ 'label_0' ].attr( 'fill', _p.itemStyle( _p.displayLegendMap[ _ix ] ).fill );
+                    _p._tipsMap[ 'val_0' ].attr( 'fill', _p.itemStyle( _p.displayLegendMap[ _ix ] ).fill );
+
+                    /*
+                    $.each( _p.data().getDisplaySeries, function( _k, _item ){
+                        _tmp = _p._tipsMap( 'val_' + _k );
                         _tmpLabel = _p._tips.getChildByName( 'label_' + _k );
                         _tmpBox = JChart.f.getBBox( _tmpLabel );
                         _tmp.attr( 'x', _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - JChart.f.getBBox( _tmp ).width );
                     });
+                    */
+
+                    var _titleBox = _p._tipsMap[ 'title' ].getBBox()
+                        , _lastBox = _p._tipsMap[ 'lastItem' ].getBBox()
+                        , _w = _lastBox.x - _titleBox.x + _offsetX * 2 + ( _maxTextWidth - _preMaxWidth ) + 10
+                        , _h = _lastBox.y - _titleBox.y + _offsetY
+                        ;
+                    //JC.log( _x, _y, _w, _h );
+                    _p._tipsMap[ 'bg' ].attr( { 'width': _w, 'height': _h } );
+
+
                 }
-                _p._tips.getChildByName( 'rect' ).attr( { width: 80, height: 50 } );
-                _tmpBox = JChart.f.getBBox( _p._tips );
-                _p._tips.getChildByName( 'rect' ).attr( { 'width': _tmpBox.width + _padWidth, 'height': _tmpBox.height + _padHeight } );
 
                 return _p._tips;
             }
@@ -930,27 +877,6 @@
             function( _data ){
                 var _p = this, _coordinate;
                 _p.setStaticPosition( _p._model.coordinate( _data ) );
-            }
-        , updateTips:
-            function( _ix, _offset ){
-                var _p = this
-                    , _tips = _p._model.tips( _ix )
-                    , _bbox = JChart.f.getBBox( _tips )
-                    , _c = _p._model.coordinate()
-                    , _x = _offset.x + 15, _y = _offset.y + 18
-                    ;
-
-                if( ( _y + _bbox.height ) > _c.stage.height ){
-                    _y = _offset.y - _bbox.height + 8;
-                }
-                _y < 0 && ( _y = 0 );
-
-                if( ( _x + _bbox.width ) > _c.stage.width ){
-                    _x = _offset.x - _bbox.width;
-                }
-                _x < 0 && ( _x = 0 );
-
-                _tips.setPosition( _x, _y );
             }
 
         , clearStatus:

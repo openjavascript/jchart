@@ -224,7 +224,8 @@
                     _p._piePart = [];
                     var _tmp;
                     $.each( _parts, function( _k, _pieCor ){
-                        _tmp = new JChart.GraphicPiePart( _p.stage(), _pieCor, _p.itemStyle( _k ), _p.itemHoverStyle( _k ), _k );
+                        var _ix = _p.displayLegendMap[ _k ];
+                        _tmp = new JChart.GraphicPiePart( _p.stage(), _pieCor, _p.itemStyle( _ix ), _p.itemHoverStyle( _ix ), _k );
                         _tmp.index( _k );
                         _tmp.on( 'selected_changed', function( _evt, _isSelected, _id ){
                             _p.trigger( 'unselected_piepart', [ _isSelected, _id ] );
@@ -261,7 +262,8 @@
                     _p._pieLineText = [];
                     var _tmp, _path, _style, _text;
                     $.each( _lines, function( _k, _item ){
-                        _style = _p.itemStyle( _k );
+                        var _ix = _p.displayLegendMap[ _k ];
+                        _style = _p.itemStyle( _ix );
                         _tmp = _p.stage().path( _item.path )
                             .attr( { 'stroke': _style.fill } )
                             .translate( .5, .5 )
@@ -374,7 +376,7 @@
                     _p._tipLabelMaxWidth = _maxWidth;
                 }
                 else if( typeof _ix != 'undefined' ){
-                    _p._tipsMap[ 'title' ].attr( 'text', _p.tipsTitle( _ix ) );
+                    _p._tipsMap[ 'title' ].attr( 'text', _p.tipsTitle( _p.displayLegendMap[ _ix ] ) );
 
                     var _maxTextWidth = 0, _tmpLabel, _preMaxWidth;
                     _maxTextWidth = JChart.f.getBBox( _p._tipsMap[ 'val_0' ]
@@ -789,6 +791,7 @@
                 if( !_set ) return;
 
                 if( _set.items.length ){
+
                     var _selected = !JC.f.parseBool( _set.items[0].data( 'selected' ) ); 
                     _set.data( 'selected', _selected );
                     if( _selected ){

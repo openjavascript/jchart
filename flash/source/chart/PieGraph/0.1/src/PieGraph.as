@@ -18,6 +18,7 @@ package
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.config.PieGraphConfig;
+	import org.xas.jchart.common.data.test.DefaultPieData;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.piegraph.MainFacade;
 	
@@ -62,7 +63,18 @@ package
 			
 			BaseConfig.ins.setDebug( true );
 			runData();
+			
+			if( ExternalInterface.available ){
+				ExternalInterface.addCallback( 'update', extenalUpdate );
+			}
 			//BaseConfig.ins.setChartData( {});
+		}
+		
+		private function extenalUpdate( _data:Object ):void{
+			BaseConfig.ins.clearData();
+			BaseConfig.ins.updateDisplaySeries( null, _data );
+			BaseConfig.ins.setChartData( _data );
+			_facade.sendNotification( JChartEvent.DRAW );
 		}
 		
 		public function update( _data:Object, _x:int = 0, _y:int = 0 ):void{			
@@ -137,34 +149,8 @@ package
 			
 			var _data:Object = {};
 			
-			if( !ExternalInterface.available ){				
-				_data = {
-					title: {
-						text:'浏览器使用份额'
-					},
-					subtitle: {
-						text: 'for PC'
-					}, 
-					series:[{
-						name: 'Browser share',
-						data: [
-							['Firefox',   45.0],
-							['IE',       26.8],
-							{
-								name: 'Chrome',
-								y: 12.8,
-								selected: true
-							},
-							['Safari',    8.5],
-							['Opera',     6.2],
-							['Others',   50]
-						]
-					}]
-					, legend: {
-						enabled: true
-					}
-				};
-				//_data = {};
+			if( !ExternalInterface.available ){							
+				_data = DefaultPieData.instance.data[0];
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
 				if( _loaderInfo.chart ){

@@ -3,6 +3,8 @@ package org.xas.jchart.common.view.mediator
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.components.TestView;
 	
@@ -21,7 +23,17 @@ package org.xas.jchart.common.view.mediator
 		
 		override public function onRegister():void{
 			mainMediator.view.index9.addChild( _view = new TestView( _data ) );
-			
+			_view.addEventListener( JChartEvent.UPDATE, onUpdateTestData );
+		}
+		
+		private function onUpdateTestData( _evt:JChartEvent ):void{
+			var _index:int = _evt.data.index
+				, _data:Object = _evt.data.data
+				;
+			//Log.log( _index );
+			//Log.printJSON( _data );
+			BaseConfig.ins.setChartData( _data );
+			sendNotification( JChartEvent.DRAW );
 		}
 		
 		override public function onRemove():void{

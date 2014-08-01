@@ -35,6 +35,7 @@ requirejs.config( {
         , 'JChart.IconLine': 'modules/JChart.IconLine/0.1/IconLine'
         , 'JChart.IconRect': 'modules/JChart.IconRect/0.1/IconRect'
         , 'JChart.IconCircle': 'modules/JChart.IconCircle/0.1/IconCircle'
+        , 'JChart.Legend': 'modules/JChart.Legend/0.1/Legend'
 
         , 'Raphael': 'modules/Raphael/latest/raphael'
         , 'json2': 'modules/JSON/2/JSON'

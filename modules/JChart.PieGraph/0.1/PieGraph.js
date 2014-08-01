@@ -427,51 +427,6 @@
                     ( _r = _p.data().series[ 0 ].name );
                 return _r;
             }
-        /**
-         * 数据图例图标
-         */
-        , legend:
-            function( _data, _type, _cb ){
-                var _p = this, _tmp = true, _type;
-
-                if( !this._legend && _data && 
-                        ( ( _data.legend && ( 'enabled' in _data.legend ) && ( _tmp = _data.legend.enabled ) ) ||
-                          _tmp
-                        )
-                    ){
-                    _p._legend =  new JChart.Group();
-                    _p._legendSet = [];
-
-                    var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
-                    _x += _bx;
-
-                    _p.series() &&
-                    $.each( _p.series(), function( _k, _item ){
-                        if( !_item.name ) return;
-                        _legend = new JChart.IconCircle( _p.stage(), _x, 0 + _by - 7, 5 );
-                        _lb = JChart.f.getBBox( _legend );
-                        _text = _p.stage().text( _lb.x + 15 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
-                        _tb = JChart.f.getBBox( _text );
-                        _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
-                        _legend.attr( 'fill', _p.itemColor( _k ) );
-                        _legend.attr( 'stroke', _p.itemColor( _k ) );
-                        _p._legend.addChild( _text, 'text_' + _k );
-                        _x = _tb.x + _tb.width + _pad;
-                        _h = _tb.height * 1.8;
-
-                        var _set = _p.stage().set();
-                            _set.push( _legend.item( 'element' ), _text );
-                            _p.initLegendSet( _set, _k );
-                            _p._legendSet.push( _set );
-                    });
-
-                    var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                            .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
-                    _p._legend.addChild( _box, 'box' );
-                }
-                    
-                return this._legend;
-            }
 
         , coordinate:
             function( _data ){
@@ -546,14 +501,9 @@
 
                 if( _p.legendEnable() ){
 
-                    var _legend = _p.legend( _data, 'circle', function( _ix, _legend, _text, _data ){
-                        var _color = _data.stroke 
-                                        || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
-                                        || '#fff';
-                        _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
-                    } );
+                    var _legend = _p.legend( _data, 'circle' );
                     if( _legend ){
-                        _bbox = JChart.f.getBBox( _legend );
+                        _bbox = _legend.set().getBBox();
                         _c.legend = {
                             x: ( _maxX - _bbox.width ) / 2
                             , y: _maxY - _bbox.height - 2
@@ -827,6 +777,19 @@
                 }
             }
 
+        , legendDataFilter:
+            function( _data ){
+                var _r;
+                _data 
+                    && _data.series 
+                    && _data.series.length 
+                    && _data.series[0].data
+                    && _data.series[0].data.length
+                    && ( _r = _data.series[0].data )
+                    ;
+                return _r;
+            }
+
 
     });
 
@@ -848,7 +811,8 @@
                     _p._model.credits().attr( _c.credits );
                 }
                 if( _c.legend ){
-                    _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    //_p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    JChart.moveSet( _p._model.legend().set(), _c.legend.x, _c.legend.y );
                 }
                 if( _c.pieLine ){
                     _p._model.pieLine( _c.pieLine );

@@ -324,14 +324,9 @@
 
                 /* 图例图标的显示坐标 */
                 if( _p.legendEnable() ){
-                    var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
-                        var _color = _data.stroke 
-                                        || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
-                                        || '#fff';
-                        _legend.attr( 'fill', _color ).attr( 'stroke', _color );
-                    } );
+                    var _legend = _p.legend( _data, 'rect');
                     if( _legend ){
-                        _bbox = JChart.f.getBBox( _legend );
+                        _bbox = _legend.set().getBBox();
                         _c.legend = {
                             x: _offsetX / 2 - _bbox.width / 2,
                             y: _offsetY - _bbox.height,
@@ -567,7 +562,8 @@
                     });
                 }
                 if( _c.legend ){
-                    _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    //_p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    JChart.moveSet( _p._model.legend().set(), _c.legend.x, _c.legend.y );
                 }
                 if( _c.vlines ) {
                     $.each( _c.vlines, function( _k, _item ){

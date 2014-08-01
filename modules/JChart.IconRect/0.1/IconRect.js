@@ -71,7 +71,7 @@
                 var _p = this
                     , _rect = _p._model.stage().rect( 
                         _p._model._rx 
-                        , _p._model._ry + _p._model._rh 
+                        , _p._model._ry 
                         , _p._model._rw
                         , _p._model._rh
                         )

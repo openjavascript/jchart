@@ -4,6 +4,7 @@
     , 'JChart.common'
     , 'JChart.DefaultOptions' 
     , 'JChart.Event', 'JChart.Group'
+    , 'JChart.Legend'
     , 'JChart.IconRect'
     , 'swfobject'
     , 'browser'
@@ -318,7 +319,7 @@ window.JChart = window.JChart || {};
          * 数据图例图标
          */
         , legend:
-            function( _data, _type, _cb ){
+            function( _data, _type ){
                 var _p = this, _tmp = true, _type;
 
                 if( !this._legend && _data && 
@@ -326,51 +327,41 @@ window.JChart = window.JChart || {};
                           _tmp
                         )
                     ){
-                    _p._legend =  new JChart.Group();
-                    _p._legendSet = [];
-                    var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
-                    _x += _bx;
-                    $.each( _p.series(), function( _k, _item ){
-                        if( !_item.name ) return;
-                        _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
-                        _lb = JChart.f.getBBox( _legend );
-                        _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
-                        _tb = JChart.f.getBBox( _text );
-                        _p._legend.addChild( _legend, 'legend_' + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
-                        _legend.attr( 'fill', _p.itemColor( _k ) );
-                        _legend.attr( 'stroke', _p.itemColor( _k ) );
-                        _p._legend.addChild( _text, 'text_' + _k );
-                        _x = _tb.x + _tb.width + _pad;
-                        _h = _tb.height * 1.8;
 
+                    this._legend = new JChart.Legend( _p.stage(), _p.legendDataFilter( _data ), _type, _p.colors() );
+                    this._legendSet = [];
+                    this._legend.on( 'render_item', function( _evt, _k, _rect, _text ){
                         var _set = _p.stage().set();
-                            _set.push( _legend.item( 'element' ), _text );
-                            _p.initLegendSet( _set, _k );
-                            _p._legendSet.push( _set );
-                    });
+                            _set.push( _rect, _text );
 
-                    var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                            .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
-                    _p._legend.addChild( _box, 'box' );
+                        if( _p.displayLegend ){
+                            if( !( _k in _p.displayLegend ) ){
+                                _set.attr( { 'opacity': .35 } ).data( 'selected', true );
+                            }
+                        }
+
+                        _set.click( function( _evt ){
+                            //JC.log( this.data( 'ix' ) );
+                            _p.trigger( Base.Model.LEGEND_UPDATE, [ this.data('ix') ] );
+                        });
+
+                        _p._legendSet.push( _set );
+                    });
+                    this._legend.draw();
                 }
                     
                 return this._legend;
             }
-        , initLegendSet:
-            function( _set, _k ){
-                var _p = this;
-                _set.attr( { 'cursor': 'pointer' } ).data( 'ix', _k );
 
-                if( _p.displayLegend ){
-                    if( !( _k in _p.displayLegend ) ){
-                        _set.attr( { 'opacity': .35 } ).data( 'selected', true );
-                    }
-                }
-
-                _set.click( function( _evt ){
-                    //JC.log( 'set click', this.data('ix'), JC.f.ts() );
-                    _p.trigger( Base.Model.LEGEND_UPDATE, [ this.data('ix') ] );
-                });
+        , legendDataFilter:
+            function( _data ){
+                var _r;
+                _data 
+                    && _data.series 
+                    && _data.series.length 
+                    && ( _r = _data.series )
+                    ;
+                return _r;
             }
         , legendSet: function(){ return this._legendSet; }
         /**
@@ -825,6 +816,12 @@ window.JChart = window.JChart || {};
         , indexAt:
             function( _offset ){
                 return 0;
+            }
+        , indexAtMap:
+            function( _ix ){
+                var _r = _ix;
+                this.displayLegendMap && ( _r in this.displayLegendMap ) && ( _r = this.displayLegendMap[ _ix ] );
+                return _r;
             }
         , tipsMap: function(){ return this._tipsMap; }
         /**

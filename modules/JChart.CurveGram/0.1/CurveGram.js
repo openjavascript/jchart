@@ -265,62 +265,6 @@
 
                 return _partWhat;
             }
-        /**
-         * 数据图例图标
-         */
-        , legend:
-            function( _data, _type, _cb ){
-                var _p = this, _tmp = true, _type;
-
-                if( !this._legend && _data && 
-                        ( ( _data.legend && ( 'enabled' in _data.legend ) && ( _tmp = _data.legend.enabled ) ) ||
-                          _tmp
-                        )
-                    ){
-                    _p._legend =  _p.stage().set();
-                    _p._legendSet = [];
-                    var _text = []
-                        , _minX = 8
-                        , _x = _minX, _y = 0
-                        , _maxX = 0
-                        , _legend, _text
-                        , _spad = 2, _pad = 8
-                        , _bx = 100, _by = 100
-                        , _tb, _lb, _h = 30
-                        ;
-
-                    _x += _bx;
-                    $.each( _p.series(), function( _k, _item ){
-                        if( !_item.name ) return;
-                        _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by - 4, 18, 3, 1, 4 );
-                        _lb = JChart.f.getBBox( _legend );
-
-                        _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( 'text-anchor', 'start');
-                        _tb = JChart.f.getBBox( _text );
-
-                        _p._legend.push( _legend.item( 'rect' ), 'rect_' + _k );
-                        _p._legend.push( _legend.item( 'circle' ), 'circle_' + _k );
-
-                        _legend.attr( 'fill', _p.itemColor( _k ) );
-                        _legend.attr( 'stroke', _p.itemColor( _k ) );
-                        _p._legend.push( _text, 'text_' + _k );
-                        _x = _tb.x + _tb.width + _pad;
-                        _h = _tb.height * 1.8;
-
-                        var _set = _p.stage().set();
-                        _set.push( _legend.item( 'rect' ), _legend.item( 'circle' ), _text );
-                        _p.initLegendSet( _set, _k );
-                        _p._legendSet.push( _set );
-                    });
-
-                    /*
-                    var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                            .attr( { 'stroke-opacity': .99, 'fill-opacity': .99, 'stroke-width': 1, 'stroke': '#909090' } );
-                    _p._legend.addChild( _box, 'box' );
-                    */
-                }
-                return this._legend;
-            }
 
         , coordinate:
             function( _data ){
@@ -392,12 +336,9 @@
                 }
 
                 if( _p.legendEnable() ){
-                    var _legend = _p.legend( _data, 'line', function( _ix, _legend, _text, _data ){
-                        var _color = _p.itemColor( _ix );
-                        _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
-                    } );
+                    var _legend = _p.legend( _data, 'line' );
                     if( _legend ){
-                        _bbox = JChart.f.getBBox( _legend );
+                        _bbox = _legend.set().getBBox()
                         _c.legend = {
                             x: ( _maxX - _bbox.width ) / 2
                             , y: _maxY - _bbox.height - 2
@@ -588,7 +529,7 @@
                 }
                 if( _c.legend ){
                     //_p._model.legend().setPosition( _c.legend.x, _c.legend.y );
-                    JChart.moveSet( _p._model.legend(), _c.legend.x, _c.legend.y );
+                    JChart.moveSet( _p._model.legend().set(), _c.legend.x, _c.legend.y );
                 }
                 if( _c.vlables ){
                     $.each( _c.vlables, function( _k, _item ){

@@ -47,7 +47,7 @@
 
         this._model = new Histogram.Model( _selector );
         this._view = new Histogram.View( this._model );
-        console.log(this._init);
+        //console.log(this._init);
         this._init();
 
         JC.log( Histogram.Model._instanceName, 'all inited', new Date().getTime() );
@@ -335,20 +335,15 @@
                  * 图例图标的显示坐标
                  */
                 if( _p.legendEnable() ){
-                    var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
-                        var _color = _data.stroke 
-                                        || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
-                                        || '#fff';
-                        _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
-                    } );
+                    var _legend = _p.legend( _data, 'rect' );
                     if( _legend ){
-                        _bbox = JChart.f.getBBox( _legend );
+                        _bbox = _legend.set().getBBox()
                         _c.legend = {
                             x: ( _maxX - _bbox.width ) / 2
-                            , y: _maxY - _bbox.height + 5
+                            , y: _maxY - _bbox.height - 2
                             , ele: _legend
                         }
-                        _maxY = _c.legend.y;
+                        _maxY = _c.legend.y - 2;
                     }
                 }
 
@@ -625,7 +620,7 @@
                     _p._model.credits().attr( _c.credits );
                 }
                 if( _c.legend ){
-                    _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    JChart.moveSet( _p._model.legend().set(), _c.legend.x, _c.legend.y );
                 }
                 if( _c.vlables ){
                     $.each( _c.vlables, function( _k, _item ){

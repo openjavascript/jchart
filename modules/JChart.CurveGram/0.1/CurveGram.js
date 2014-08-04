@@ -566,7 +566,7 @@
                     });
                 }
 
-                _p._model.tips().toFront();
+                _p._model.tips().set().toFront();
             }
         /**
          * 从给出的数据显示图表

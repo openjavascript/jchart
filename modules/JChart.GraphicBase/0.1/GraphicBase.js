@@ -184,17 +184,23 @@
         , show:
             function(){
                 var _p = this;
+                _p.set().show();
+                /*
                 $.each( _p._model.elements(), function( _k, _item ){
                     _item.show();
                 });
+                */
             }
 
         , hide:
             function(){
                 var _p = this;
+                _p.set().hide();
+                /*
                 $.each( _p._model.elements(), function( _k, _item ){
                     _item.hide();
                 });
+                */
             }
 
         , stage: function(){ return this._model.stage(); }

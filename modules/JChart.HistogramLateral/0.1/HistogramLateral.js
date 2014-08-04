@@ -598,7 +598,7 @@
                     });
                 }
 
-                _p._model.tips().toFront();
+                _p._model.tips().set().toFront();
             }
         , clearStatus:
             function() {

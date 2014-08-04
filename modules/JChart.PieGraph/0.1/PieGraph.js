@@ -321,94 +321,6 @@
             }
 
         , pieLineText: function(){ return this._pieLineText; }
-
-        /**
-         * 获取 tips 对象
-         */
-        , tips:
-            function( _ix ){
-                var _p = this, _c = _p.coordinate(), _items, _text, _val
-                    , _len = _c.hlen, _count = 0
-                    , _offsetY = 34
-                    , _offsetX = 20
-                    , _padWidth = 14
-                    , _padHeight = 8
-                    , _strokeColor = '#000'
-                    , _tmp, _tmpBox, _tmpItem, _maxWidth = 0
-                    ;
-
-                if( !_p._tips ){
-                    var _initOffset = { x: 10000, y: 0 };
-                    //_initOffset.x = 0;
-
-                    _p._tips = _p.stage().set();
-                    _p._tipsMap = {};
-
-                    _p._tips.push( _p._tipsMap[ 'bg' ] =
-                        _p.stage().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
-                            'stroke': '#999'
-                            , 'fill': '#fff' 
-                            , 'fill-opacity': .94
-                        } ) 
-                    );
-
-                    _p._tips.push( _p._tipsMap[ 'title' ] =
-                        _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, 'tips' )
-                        .attr( { 'font-weight': 'bold', 'fill': '#000', 'text-anchor': 'start' } )
-                    );
-
-                    _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _p.data().series[0].name || 'empty' )
-                            .attr( { 'text-anchor': 'start', 'font-weight': 'bold' } );
-                    _tmpBox = JChart.f.getBBox( _tmp );
-                    _offsetY += _tmpBox.height + 5;
-                    _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
-                    _p._tips.push( _p._tipsMap[ 'label_0' ] = _tmp );
-
-                    _tmpItem =  _p._tipsMap[ 'label_0' ];
-                    _tmpBox = JChart.f.getBBox( _tmpItem );
-                    _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
-                            .attr( { 'text-anchor': 'start', 'font-weight': 'bold' } );
-                    _p._tips.push( _p._tipsMap[ 'lastItem' ] = _p._tipsMap[ 'val_0' ] = _tmp );
-
-                    _tmpItem = _p._tipsMap[ 'val_0' ];
-                    _tmpItem.attr( 'text', '0.00' );
-
-                    _p._tipLabelMaxWidth = _maxWidth;
-                }
-                else if( typeof _ix != 'undefined' ){
-                    _p._tipsMap[ 'title' ].attr( 'text', _p.tipsTitle( _p.displayLegendMap[ _ix ] ) );
-
-                    var _maxTextWidth = 0, _tmpLabel, _preMaxWidth;
-                    _maxTextWidth = JChart.f.getBBox( _p._tipsMap[ 'val_0' ]
-                                    .attr( 'text', JC.f.moneyFormat( _p.getDisplaySeries()[ _ix ].y, 3, _p.floatLen() ) )).width;
-
-                    _preMaxWidth = _maxTextWidth;
-
-                    _p._tipsMap[ 'label_0' ].attr( 'fill', _p.itemStyle( _p.displayLegendMap[ _ix ] ).fill );
-                    _p._tipsMap[ 'val_0' ].attr( 'fill', _p.itemStyle( _p.displayLegendMap[ _ix ] ).fill );
-
-                    /*
-                    $.each( _p.data().getDisplaySeries, function( _k, _item ){
-                        _tmp = _p._tipsMap( 'val_' + _k );
-                        _tmpLabel = _p._tips.getChildByName( 'label_' + _k );
-                        _tmpBox = JChart.f.getBBox( _tmpLabel );
-                        _tmp.attr( 'x', _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - JChart.f.getBBox( _tmp ).width );
-                    });
-                    */
-
-                    var _titleBox = _p._tipsMap[ 'title' ].getBBox()
-                        , _lastBox = _p._tipsMap[ 'lastItem' ].getBBox()
-                        , _w = _lastBox.x - _titleBox.x + _offsetX * 2 + ( _maxTextWidth - _preMaxWidth ) + 10
-                        , _h = _lastBox.y - _titleBox.y + _offsetY
-                        ;
-                    //JC.log( _x, _y, _w, _h );
-                    _p._tipsMap[ 'bg' ].attr( { 'width': _w, 'height': _h } );
-
-
-                }
-
-                return _p._tips;
-            }
         /**
          * 获取 tips 标题文本
          */
@@ -789,8 +701,25 @@
                     ;
                 return _r;
             }
+        , tipsData: 
+            function(){
+                var _p = this, _r;
 
-
+                _r = [
+                    { 'name': _p.tipsLabel() }
+                ]
+                return _r;
+            }
+        , updateTipsData:
+            function( _ix ){
+                var _p = this, _r, _color =  _p.colors()[ _p.displayLegendMap[ _ix ] % (_p.colors().length - 1) ];
+                _r = {
+                    title: _p.tipsTitle( _ix )
+                    , tipsData: [ _p.displaySeries[ _ix ].y ]
+                    , color: _color
+                }; 
+                return _r;
+            }
     });
 
     JC.f.extendObject( PieGraph.View.prototype, {
@@ -821,7 +750,7 @@
                     _p._model.piePart( _c.piePart );
                     _p.trigger( 'update_default_selected' );
                 }
-                _p._model.tips().toFront();
+                _p._model.tips().set().toFront();
             }
         /**
          * 从给出的数据显示图表

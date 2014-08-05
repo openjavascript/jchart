@@ -566,6 +566,8 @@ window.JChart = window.JChart || {};
 
                 var _p = this, _maxNum, _minNNum, _absNNum, _finalMaxNum
                     , _zeroIndex
+                    , _hasFloat
+                    , _floatLen = 0
                     ;
 
                 if( _data && _rate ){
@@ -580,7 +582,9 @@ window.JChart = window.JChart || {};
                     $.each( _rate, function( _ix, _item ){
                         if( _item === 0 ){
                             _zeroIndex = _ix;
-                            return false;
+                        }
+                        if( isFloat( _item ) ){
+                            _hasFloat = true;
                         }
                     });
 
@@ -591,6 +595,7 @@ window.JChart = window.JChart || {};
                         , maxNum: _maxNum
                         , minNNum: -_minNNum
                         , length: _rate.length
+                        , hasFloat: _hasFloat
                     };
                 }
 
@@ -1249,6 +1254,7 @@ window.JChart = window.JChart || {};
     }
 
     function isFloat( _num ){
+        _num = Math.abs( _num );
         return ( _num - parseInt( _num ) ) > 0;
     }
 

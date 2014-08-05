@@ -10,9 +10,7 @@
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicRect.html' target='_blank'>API docs</a>
  *  
  * @namespace   JChart
- * @class       GraphicRect
- * @extends     JChart.GraphicBase
- * @constructor
+ * @name GraphicRect
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2014-06-23
  * @author  qiushaowei <suches@btbtd.org> | 75 Team

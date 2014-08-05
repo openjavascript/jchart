@@ -10,9 +10,9 @@
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicBase.html' target='_blank'>API docs</a>
  *  
  * @namespace   JChart
- * @class       GraphicBase
+ * @name GraphicBase
  * @extends     JC.PureMVC
- * @constructor
+ * @preivate 
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2013-12-13
  * @author  qiushaowei <suches@btbtd.org> | 75 Team

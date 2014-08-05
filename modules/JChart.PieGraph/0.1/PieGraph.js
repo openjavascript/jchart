@@ -321,24 +321,6 @@
             }
 
         , pieLineText: function(){ return this._pieLineText; }
-        /**
-         * 获取 tips 标题文本
-         */
-        , tipsTitle:
-            function( _ix ){
-                var _p = this, _r = '';
-                _p.series() && _p.series().length && _p.series()[ _ix ] &&
-                    ( _r = _p.series()[ _ix ].name );
-                return _r;
-            }
-
-        , tipsLabel:
-            function(){
-                var _p = this, _r = '';
-                _p.data() && _p.data().series && _p.data().series.length &&
-                    ( _r = _p.data().series[ 0 ].name );
-                return _r;
-            }
 
         , coordinate:
             function( _data ){
@@ -701,6 +683,25 @@
                     ;
                 return _r;
             }
+        /**
+         * 获取 tips 标题文本
+         */
+        , tipsTitle:
+            function( _ix ){
+                var _p = this, _r = '';
+                _p.displaySeries && _p.displaySeries.length && _p.displaySeries[ _ix ] &&
+                    ( _r = _p.displaySeries[ _ix ].name );
+                return _r;
+            }
+
+        , tipsLabel:
+            function(){
+                var _p = this, _r = '';
+                _p.data() && _p.data().series && _p.data().series.length &&
+                    ( _r = _p.data().series[ 0 ].name );
+                return _r;
+            }
+
         , tipsData: 
             function(){
                 var _p = this, _r;

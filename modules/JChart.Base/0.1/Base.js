@@ -841,7 +841,7 @@ window.JChart = window.JChart || {};
                 };
 
                 $.each( _p.getDisplaySeries(), function( _k, _item ){
-                    _r.tipsData.push( _item.data[ _ix ] );
+                    _r.tipsData.push( JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) );
                 });
 
                 return _r;

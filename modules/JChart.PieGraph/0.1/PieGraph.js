@@ -716,7 +716,7 @@
                 var _p = this, _r, _color =  _p.colors()[ _p.displayLegendMap[ _ix ] % (_p.colors().length - 1) ];
                 _r = {
                     title: _p.tipsTitle( _ix )
-                    , tipsData: [ _p.displaySeries[ _ix ].y ]
+                    , tipsData: [ JC.f.moneyFormat( _p.displaySeries[ _ix ].y, 3, _p.floatLen() ) ]
                     , color: _color
                 }; 
                 return _r;

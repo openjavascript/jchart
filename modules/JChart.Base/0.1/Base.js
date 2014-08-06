@@ -539,15 +539,15 @@ window.JChart = window.JChart || {};
                     _finalMaxNum = Math.max( _maxNum, _absNNum );
 
                     if( _maxNum > _absNNum ){
-                        if( Math.abs( _finalMaxNum * 0.33333 ) > _absNNum ){
-                            this._rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
+                        if( Math.abs( _finalMaxNum * 0.333333333333333 ) > _absNNum ){
+                            this._rate = [ 1, 0.666666666666666, 0.333333333333333, 0, -0.333333333333333];
                         }
                         //JC.log( _finalMaxNum, _absNNum, _finalMaxNum * 0.33333, JC.f.ts() );
                     }else{
                         if( _maxNum == 0 ){
                             this._rate = [ 0, -0.25, -0.5, -0.75, -1 ];
                         }else if( Math.abs( _finalMaxNum * 0.33333 ) > _maxNum ){
-                            this._rate = [ 0.33333, 0, -0.33333, -0.66666, -1 ];
+                            this._rate = [ 0.333333333333333, 0, -0.333333333333333, -0.666666666666666, -1 ];
                         }
                     }
                     !this._rate && ( this._rate = [ 1, .5, 0, -.5, -1 ] );
@@ -566,8 +566,8 @@ window.JChart = window.JChart || {};
 
                 var _p = this, _maxNum, _minNNum, _absNNum, _finalMaxNum
                     , _zeroIndex
-                    , _hasFloat
                     , _floatLen = 0
+                    , _tmpLen;
                     ;
 
                 if( _data && _rate ){
@@ -576,6 +576,7 @@ window.JChart = window.JChart || {};
                     _minNNum = _p.minNNum( _data );
                     _absNNum = Math.abs( _minNNum );
                     _finalMaxNum = Math.max( _maxNum, _absNNum );
+                    var _realRate = [], _realItem;
 
                     _zeroIndex = 0;
 
@@ -583,9 +584,16 @@ window.JChart = window.JChart || {};
                         if( _item === 0 ){
                             _zeroIndex = _ix;
                         }
-                        if( isFloat( _item ) ){
-                            _hasFloat = true;
+                        _realItem = _maxNum * _item;
+                        _minNNum && ( _realItem = JC.f.parseFinance( _realItem, _p.floatLen() ) );
+                        _realItem = JC.f.parseFinance( _realItem, 10 );
+                        //JC.log( _maxNum, _item, _realItem, JC.f.ts() );
+
+                        if( isFloat( _realItem ) ){
+                            _tmpLen = JC.f.parseFinance( _realItem, 10 ).toString().split( '.' )[1].length;
+                            _tmpLen > _floatLen && ( _floatLen = _tmpLen );
                         }
+                        _realRate.push( _realItem );
                     });
 
                     this._rateInfo = {
@@ -595,7 +603,8 @@ window.JChart = window.JChart || {};
                         , maxNum: _maxNum
                         , minNNum: -_minNNum
                         , length: _rate.length
-                        , hasFloat: _hasFloat
+                        , floatLen: _floatLen
+                        , realRate: _realRate
                     };
                 }
 
@@ -616,10 +625,9 @@ window.JChart = window.JChart || {};
                         , _text
                         ;
 
-                    $.each( _rate, function( _ix, _item ){
-                        _text = _maxNum * _item;
-                        _rateInfo.minNNum && ( _text = JC.f.parseFinance( _text, _p.floatLen() ) );
-                        _tmp = _p.stage().text( 10000, 0, _text.toString()  ).attr( { 'cursor': 'default' } );
+                    $.each( _rateInfo.realRate, function( _ix, _item ){
+                        _item = JC.f.moneyFormat( _item, 3, _rateInfo.floatLen || 0 );
+                        _tmp = _p.stage().text( 10000, 0, _item ).attr( { 'cursor': 'default' } );
                         _eles.push( _tmp );
                     });
 

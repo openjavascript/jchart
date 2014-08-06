@@ -95,14 +95,14 @@
                     ;
 
                 _p._model.add( 
-                    _p.stage().rect( 0 + _p._model.offsetX(), 0 + _p._model.offsetY(), 50, 30, 5 ).attr( { 
+                    _p.stage().rect( 0 + Math.floor( _p._model.offsetX() ), 0 + Math.floor( _p._model.offsetY() ), 50, 30, 5 ).attr( { 
                         'stroke': '#999'
+                        , 'stroke-width': 1
                         , 'fill': '#fff' 
                         , 'fill-opacity': .95
                     } ) 
                     , 'bg'
                 );
-
 
                 _p._model.add( 
                     _p.stage().text( 10 + _p._model.offsetX(), 14 + _p._model.offsetY(), 'tips' )
@@ -150,8 +150,9 @@
                         , _h = _lastBox.y - _p._model.offsetY() + _lastBox.height + 14
                         ;
                     //JC.log( _x, _y, _w, _h );
-                    _p._model.item( 'bg' ).attr( { 'width': _w, 'height': _h } );
+                    _p._model.item( 'bg' ).attr( { 'width': Math.floor( _w ), 'height': Math.floor( _h ) } );
                 }
+                //_p._model.item( 'bg' ).translate( .5, .5 ).attr( { 'stroke-width': 1 } );;
 
             }
         , update:
@@ -202,7 +203,7 @@
                         , _w = _labelMaxWidth + _valMaxWidth + 44 + 15
                         ;
                     if( _w < 1 ) return;
-                    _p._model.item( 'bg' ).attr( { 'width': _w } );
+                    _p._model.item( 'bg' ).attr( { 'width': Math.floor( _w ) } );
 
                 }
             }

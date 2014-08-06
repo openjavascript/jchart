@@ -1211,7 +1211,7 @@ window.JChart = window.JChart || {};
                     _x = _offset.x - _bbox.width;
                 }
                 _x < 0 && ( _x = 0 );
-               JChart.moveSet( _tips.set(), _x, _y );
+               JChart.moveSet( _tips.set(), Math.floor( _x ), Math.floor( _y ) );
             }
     });
 

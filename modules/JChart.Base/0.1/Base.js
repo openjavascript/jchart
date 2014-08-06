@@ -584,13 +584,12 @@ window.JChart = window.JChart || {};
                         if( _item === 0 ){
                             _zeroIndex = _ix;
                         }
-                        _realItem = _maxNum * _item;
-                        _minNNum && ( _realItem = JC.f.parseFinance( _realItem, _p.floatLen() ) );
+                        _realItem = _finalMaxNum * _item;
                         _realItem = JC.f.parseFinance( _realItem, 10 );
                         //JC.log( _maxNum, _item, _realItem, JC.f.ts() );
 
                         if( isFloat( _realItem ) ){
-                            _tmpLen = JC.f.parseFinance( _realItem, 10 ).toString().split( '.' )[1].length;
+                            _tmpLen = _realItem.toString().split( '.' )[1].length;
                             _tmpLen > _floatLen && ( _floatLen = _tmpLen );
                         }
                         _realRate.push( _realItem );

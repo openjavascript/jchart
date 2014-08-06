@@ -241,6 +241,10 @@ package org.xas.jchart.common
 		 */
 		public static function degree( _radians:Number ):Number{ return _radians / Math.PI * 180; }
 
+		public static function isFloat( _num:Number ):Boolean{
+			_num = Math.abs( _num );
+			return ( _num - parseInt( _num + '' ) ) > 0;
+		}
 
 	}
 }

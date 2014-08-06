@@ -44,7 +44,7 @@ package org.xas.jchart.common.data.test
 					, pointStyle: {}
 				}, {
 					name: 'Rainfall',
-					data: [20, 21, 20, 100, 200, 210, 220, 100, 20, 10, 20, 10]
+					data: [20, 21, 20.8, 100, 200, 210, 220, 100, 20, 10, 20, 10]
 				}],
 				credits: {
 					enabled: true
@@ -248,6 +248,41 @@ package org.xas.jchart.common.data.test
 				, floatLen: 6
 				, displayAllLabel: false
 			} );
+			
+			_data.push(                     {
+				title: {
+					text:'Chart Title'
+				},
+				subtitle: {
+					text: 'sub title'
+				}, 
+				xAxis: {
+					categories: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12' ]
+				}, 
+				yAxis: {
+					title: {
+						text: '(Vertical Title - 中文)'
+					}
+				},
+				series:[{
+					name: 'Temperature'
+					, data: [-5000, 0, 300, -2000, -2000, 2700, 2800, 3200, 3000, 2500, 1500, -5800]
+					, style: { 'stroke': '#ff7100' } 
+					, pointStyle: {}
+				}, {
+					name: 'Rainfall',
+					data: [2000, 2100, 2000, 10000, 20000, 21000, 22000, 10000, 2000, 1000, 2000, 1000]
+				}],
+				credits: {
+					enabled: true
+					, text: 'jchart.openjavascript.org'
+					, href: 'http://jchart.openjavascript.org/'
+				},
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+			});
 		}
 		
 	}

@@ -225,16 +225,16 @@ package org.xas.jchart.common
 			
 			if( _data && Common.hasNegative( displaySeries ) ){				
 				if( _maxNum > _absNum ){
-					if( Math.abs( _finalMaxNum * 0.33333 ) > _absNum ){
-						_rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
+					if( Math.abs( _finalMaxNum * 0.333333333333333 ) > _absNum ){
+						_rate = [ 1, 0.666666666666666, 0.333333333333333, 0, -0.333333333333333];
 						_rateZeroIndex = 3;
 					}
 				}else{
 					if( _maxNum == 0 ){
 						_rate = [ 0, -0.25, -0.5, -0.75, -1 ];
 						_rateZeroIndex = 0;
-					}else if( Math.abs( _finalMaxNum * 0.33333 ) > _maxNum ){
-						_rate = [ 0.33333, 0, -0.33333, -0.66666, -1 ];
+					}else if( Math.abs( _finalMaxNum * 0.333333333333333 ) > _maxNum ){
+						_rate = [ 0.333333333333333, 0, -0.333333333333333, -0.666666666666666, -1 ];
 						_rateZeroIndex = 1;
 					}
 				}
@@ -247,7 +247,28 @@ package org.xas.jchart.common
 				_rate = [1, .75, .5, .25, 0 ];
 				_rateZeroIndex = 4;
 			}
+			
+			_realRate = [];
+			_realRateFloatLen = 0;
+			var _tmpLen:int = 0;
+			Common.each( _rate, function( _k:int, _item:Number ):void{
+				var _realItem:Number = _finalMaxNum * _item;
+					_realItem = Common.parseFinance( _realItem, 10 );
+					
+					if( Common.isFloat( _realItem ) ){
+						_tmpLen = _realItem.toString().split( '.' )[1].length;
+						_tmpLen > _realRateFloatLen && ( _realRateFloatLen = _tmpLen );
+					}
+				_realRate.push( _realItem );
+				//Log.log( _realItem );
+			});
 		}
+		
+		private var _realRate:Array;
+		public function get realRate():Array{ return _realRate; }
+		
+		private var _realRateFloatLen:int;
+		public function get realRateFloatLen():int{ return _realRateFloatLen; }
 		
 		public function get titleStyle():Object{
 			var _r:Object = {};

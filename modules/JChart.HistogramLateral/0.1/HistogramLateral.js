@@ -369,7 +369,7 @@
                     $.each( hLabels, function( _i, _item ) {
                         _bbox = JChart.f.getBBox( _item );
                         _tmpA.push( {
-                            x : _x + _bbox.width / 2,
+                            x : _x + _bbox.width + ( _hlabelMaxWidth - _bbox.width ) - 8,
                             y : _baseY + _partY * _i + _bbox.height / 4,
                             item : _item
                         } );
@@ -647,6 +647,10 @@
 
     _jdoc.ready( function(){
         HistogramLateral.autoInit && HistogramLateral.init();
+    });
+
+    _jwin.on( JChart.Base.RESIZE_UPDATE, function( _evt ){
+        JChart.Base.reset( 'div.jcharHistogramLateral', JChart.HistogramLateral );
     });
 
     return JC.HistogramLateral;

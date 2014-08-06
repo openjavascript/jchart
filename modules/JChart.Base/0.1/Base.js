@@ -648,6 +648,7 @@ window.JChart = window.JChart || {};
                         ;
 
                     $.each( _data.xAxis.categories, function( _ix, _item ){
+                        _item = _p.tipsTitle( _ix );
                         _tmp = _p.stage().text( 10000, 0, _item || '' ).attr( { 'cursor': 'default' } );
                         _match && _match.length && !_match[ _ix ] && _tmp.hide();
                         _eles.push( _tmp );

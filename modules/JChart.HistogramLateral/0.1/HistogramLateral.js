@@ -11,7 +11,7 @@
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.HistogramLateral.html' target='_blank'>API docs</a>
  *      | <a href='../../modules/JChart.HistogramLateral/0.1/_demo' target='_blank'>demo link</a></p>
  *  
- *  <h2>页面只要引用本脚本, 默认会处理 div class="JCharHistogramLateral"</h2>
+ *  <h2>页面只要引用本脚本, 默认会处理 div class="jchartHistogramLateral"</h2>
  *
  *  <h2>可用的 HTML attribute</h2>
  *
@@ -61,10 +61,10 @@
             _selector = $( _selector || document );
 
             if( _selector.length ){
-                if( _selector.hasClass( 'jcharHistogramLateral' )  ){
+                if( _selector.hasClass( 'jchartHistogramLateral' )  ){
                     _r.push( new HistogramLateral( _selector ) );
                 }else{
-                    JChart.Base.init( HistogramLateral, $( 'div.jcharHistogramLateral' ), 0, 1 );
+                    JChart.Base.init( HistogramLateral, $( 'div.jchartHistogramLateral' ), 0, 1 );
                 }
             }
             return _r;
@@ -369,7 +369,7 @@
                     $.each( hLabels, function( _i, _item ) {
                         _bbox = JChart.f.getBBox( _item );
                         _tmpA.push( {
-                            x : _x + _bbox.width + ( _hlabelMaxWidth - _bbox.width ) - 8,
+                            x : _x + _hlabelMaxWidth - _bbox.width / 2 + 2,
                             y : _baseY + _partY * _i + _bbox.height / 4,
                             item : _item
                         } );
@@ -650,7 +650,7 @@
     });
 
     _jwin.on( JChart.Base.RESIZE_UPDATE, function( _evt ){
-        JChart.Base.reset( 'div.jcharHistogramLateral', JChart.HistogramLateral );
+        JChart.Base.reset( 'div.jchartHistogramLateral', JChart.HistogramLateral );
     });
 
     return JC.HistogramLateral;

@@ -224,8 +224,15 @@
                     _p._piePart = [];
                     var _tmp;
                     $.each( _parts, function( _k, _pieCor ){
-                        var _ix = _p.displayLegendMap[ _k ];
-                        _tmp = new JChart.GraphicPiePart( _p.stage(), _pieCor, _p.itemStyle( _ix ), _p.itemHoverStyle( _ix ), _k );
+                        var _ix = _p.displayLegendMap[ _k ]
+                            , _style = _p.itemStyle( _ix )
+                            , _hoverStyle = _p.itemHoverStyle( _ix )
+                            ;
+
+                        _style.stroke = '#fff';
+                        _hoverStyle.stroke = '#fff';
+
+                        _tmp = new JChart.GraphicPiePart( _p.stage(), _pieCor, _style, _hoverStyle, _k );
                         _tmp.index( _k );
                         _tmp.on( 'selected_changed', function( _evt, _isSelected, _id ){
                             _p.trigger( 'unselected_piepart', [ _isSelected, _id ] );

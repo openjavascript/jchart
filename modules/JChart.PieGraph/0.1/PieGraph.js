@@ -133,7 +133,6 @@
 
                 _p.on( 'update_default_selected', function( _evt ){
                     var _ix;
-                    console.log( _p._model.getDisplaySeries );
                     _p._model.getDisplaySeries() && _p._model.getDisplaySeries().length
                         && $.each( _p._model.getDisplaySeries(), function( _k, _item ){
                             _item.selected && ( _ix = _k );
@@ -215,7 +214,6 @@
                                 _p.getDisplaySeries()[ _k ] = { 'name': _item[0], 'y': _item[1] };
                             }
                         });
-                    console.log( _p.getDisplaySeries() );
                 }
                 return _p._data;
             }
@@ -279,7 +277,7 @@
                             ;
                         _p._pieLine.push( _tmp );
                         _text = _p.stage().text( 0, 0, _item.data.name )
-                            .attr( { 'fill': '#999', 'cursor': 'default' } )
+                            .attr( { 'fill': '#999' } )
                             ;
                         switch( _item.direction ){
                             case 'top':
@@ -331,98 +329,6 @@
 
         , pieLineText: function(){ return this._pieLineText; }
 
-<<<<<<< HEAD
-        /**
-         * 获取 tips 对象
-         */
-        , tips:
-            function( _ix ){
-                var _p = this, _c = _p.coordinate(), _items, _text, _val
-                    , _len = _c.hlen, _count = 0
-                    , _offsetY = 34
-                    , _offsetX = 20
-                    , _padWidth = 14
-                    , _padHeight = 8
-                    , _strokeColor = '#000'
-                    , _tmp, _tmpBox, _tmpItem, _maxWidth = 0
-                    ;
-
-                if( !_p._tips ){ 
-                    var _initOffset = { x: 10000, y: 0 };
-                    //_initOffset.x = 0;
-                    _p._tips = new JChart.Group();
-
-                    _p._tips.addChild( 
-                        _p.stage().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
-                            'stroke': '#999'
-                            , 'fill': '#fff' 
-                            , 'fill-opacity': .98
-                        } )
-                    , 'rect' );
-
-                    _p._tips.addChild( _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, 'tips' )
-                            .attr( { 'font-weight': 'bold', 'fill': '#999', 'text-anchor': 'start' } )
-                    , 'title' );
-
-                    _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _p.data().series[0].name || 'empty' )
-                            .attr( { 'text-anchor': 'start' } );
-                    _tmpBox = JChart.f.getBBox( _tmp );
-                    _offsetY += _tmpBox.height + 5;
-                    _tmpBox.width > _maxWidth && ( _maxWidth = _tmpBox.width );
-                    _p._tips.addChild( _tmp, 'label_0' );
-
-                    _tmpItem = _p._tips.getChildByName( 'label_0' );
-                    _tmpBox = JChart.f.getBBox( _tmpItem );
-                    _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( 'y' ) + _initOffset.y, '012345678901.00' )
-                            .attr( { 'text-anchor': 'start' } );
-                    _p._tips.addChild( _tmp, 'val_0' );
-
-                    _tmpItem = _p._tips.getChildByName( 'val_0' );
-                    _tmpItem.attr( 'text', '0.00' );
-
-                    _p._tipLabelMaxWidth = _maxWidth;
-                }
-                if( typeof _ix != 'undefined' ) {
-                    _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
-                    var _maxTextWidth = 0, _tmpLabel;
-                    _maxTextWidth = JChart.f.getBBox( _p._tips.getChildByName( 'val_' + 0 )
-                                    .attr( 'text', JC.f.moneyFormat( _p.series()[ _ix ].y, 3, _p.floatLen() ) )).width;
-                    _p._tips.getChildByName( 'title' ).attr( 'fill', _p.itemStyle( _ix ).fill );
-                    $.each( _p.data().series, function( _k, _item ){
-                        console.log(  'val_' + _k);
-                        _tmp = _p._tips.getChildByName( 'val_' + _k );
-                        _tmpLabel = _p._tips.getChildByName( 'label_' + _k );
-                        _tmpBox = JChart.f.getBBox( _tmpLabel );
-                        _tmp.attr( 'x', _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - JChart.f.getBBox( _tmp ).width );
-                    });
-                }
-                _p._tips.getChildByName( 'rect' ).attr( { width: 80, height: 50 } );
-                _tmpBox = JChart.f.getBBox( _p._tips );
-                _p._tips.getChildByName( 'rect' ).attr( { 'width': _tmpBox.width + _padWidth, 'height': _tmpBox.height + _padHeight } );
-
-                return _p._tips;
-            }
-        /**
-         * 获取 tips 标题文本
-         */
-        , tipsTitle:
-            function( _ix ){
-                var _p = this, _r = '';
-                _p.series() && _p.series().length && _p.series()[ _ix ] &&
-                    ( _r = _p.series()[ _ix ].name );
-                return _r;
-            }
-
-        , tipsLabel:
-            function(){
-                var _p = this, _r = '';
-                _p.data() && _p.data().series && _p.data().series.length &&
-                    ( _r = _p.data().series[ 0 ].name );
-                return _r;
-            }
-
-=======
->>>>>>> 6c05426f69c0bb73ceb25aca52f04dcb9ad1ea7f
         , coordinate:
             function( _data ){
 

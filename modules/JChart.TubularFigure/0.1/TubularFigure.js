@@ -9,7 +9,7 @@
  *
  *  <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.TubularFigure.html' target='_blank'>API docs</a>
- *      | <a href='../../modules/JChar.TubularFigure/0.1/_demo' target='_blank'>demo link</a></p>
+ *      | <a href='../../modules/JChart.TubularFigure/0.1/_demo' target='_blank'>demo link</a></p>
  *  
  *  <h2>页面只要引用本脚本, 默认会处理 div class="JCharTubularFigure"</h2>
  *
@@ -20,9 +20,9 @@
  *      <dd><dd>
  *  </dl> 
  *
- * @namespace   JChar
+ * @namespace   JChart
  * @class       TubularFigure
- * @extends     JChar.Base
+ * @extends     JChart.Base
  * @constructor
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2013-12-13

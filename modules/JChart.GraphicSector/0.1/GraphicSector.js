@@ -9,10 +9,8 @@
  *  <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicSector.html' target='_blank'>API docs</a>
  *  
- * @namespace   JChart
- * @class       GraphicSector
- * @extends     JChart.GraphicBase
- * @constructor
+ * @name    GraphicSector
+ * @displayName GraphicSector
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2014-06-26
  * @author  qiushaowei <suches@btbtd.org> | 75 Team

@@ -204,6 +204,8 @@ package org.xas.jchart.common.view.components
 				var _line:JSprite = _lines[ _item.data.index ]
 					;
 					_line.graphics.clear();
+					
+					
 			});
 		}
 		

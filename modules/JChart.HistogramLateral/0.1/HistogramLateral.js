@@ -181,6 +181,7 @@
                     $.each( _p.data().xAxis.categories, function( _k, _item ){
                         var _items = [];
                         $.each( _p.displaySeries, function( _sk, _sitem ){
+                            console.log(_p.itemStyle( _p.displayLegendMap[ _sk ] ));
                             _tmp = new JChart.GraphicRect( 
                                 _p.stage()
                                 , 10000, 0

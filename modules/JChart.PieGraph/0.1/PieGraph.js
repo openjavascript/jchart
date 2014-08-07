@@ -133,6 +133,7 @@
 
                 _p.on( 'update_default_selected', function( _evt ){
                     var _ix;
+                    console.log( _p._model.getDisplaySeries );
                     _p._model.getDisplaySeries() && _p._model.getDisplaySeries().length
                         && $.each( _p._model.getDisplaySeries(), function( _k, _item ){
                             _item.selected && ( _ix = _k );
@@ -282,6 +283,7 @@
                                 _p.getDisplaySeries()[ _k ] = { 'name': _item[0], 'y': _item[1] };
                             }
                         });
+                    console.log( _p.getDisplaySeries() );
                 }
                 return _p._data;
             }
@@ -403,7 +405,7 @@
                     , _tmp, _tmpBox, _tmpItem, _maxWidth = 0
                     ;
 
-                if( !_p._tips ){
+                if( !_p._tips ){ 
                     var _initOffset = { x: 10000, y: 0 };
                     //_initOffset.x = 0;
                     _p._tips = new JChart.Group();
@@ -438,16 +440,14 @@
 
                     _p._tipLabelMaxWidth = _maxWidth;
                 }
-                if( typeof _ix != 'undefined' ){
+                if( typeof _ix != 'undefined' ) {
                     _p._tips.getChildByName( 'title' ).attr( 'text', _p.tipsTitle( _ix ) );
-
                     var _maxTextWidth = 0, _tmpLabel;
                     _maxTextWidth = JChart.f.getBBox( _p._tips.getChildByName( 'val_' + 0 )
                                     .attr( 'text', JC.f.moneyFormat( _p.series()[ _ix ].y, 3, _p.floatLen() ) )).width;
-
                     _p._tips.getChildByName( 'title' ).attr( 'fill', _p.itemStyle( _ix ).fill );
-
                     $.each( _p.data().series, function( _k, _item ){
+                        console.log(  'val_' + _k);
                         _tmp = _p._tips.getChildByName( 'val_' + _k );
                         _tmpLabel = _p._tips.getChildByName( 'label_' + _k );
                         _tmpBox = JChart.f.getBBox( _tmpLabel );

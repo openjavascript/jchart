@@ -20,6 +20,7 @@ requirejs.config( {
         , 'JChart.Histogram': 'modules/JChart.Histogram/0.1/Histogram'
         , 'JChart.HistogramLateral': 'modules/JChart.HistogramLateral/0.1/HistogramLateral'
         , 'JChart.PieGraph': 'modules/JChart.PieGraph/0.1/PieGraph'
+        , 'JChart.TubularFigure': 'modules/JChart.TubularFigure/0.1/TubularFigure'
 
         , 'JChart.DefaultOptions': 'modules/JChart.DefaultOptions/0.1/DefaultOptions'
         , 'JChart.Event': 'modules/JChart.Event/0.1/Event'
@@ -30,6 +31,7 @@ requirejs.config( {
         , 'JChart.GraphicPoint': 'modules/JChart.GraphicPoint/0.1/GraphicPoint'
         , 'JChart.GraphicRect': 'modules/JChart.GraphicRect/0.1/GraphicRect'
         , 'JChart.GraphicPiePart': 'modules/JChart.GraphicPiePart/0.1/GraphicPiePart'
+        , 'JChart.GraphicSector': 'modules/JChart.GraphicSector/0.1/GraphicSector'
 
         , 'JChart.IconVLine': 'modules/JChart.IconVLine/0.1/IconVLine'
         , 'JChart.IconLine': 'modules/JChart.IconLine/0.1/IconLine'

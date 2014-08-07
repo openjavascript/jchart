@@ -69,29 +69,13 @@
             
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
             
-                <li><a href="../classes/JChart.Geometry.html">JChart.Geometry</a></li>
-            
-                <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
-            
-                <li><a href="../classes/JChart.GraphicPiePart.html">JChart.GraphicPiePart</a></li>
-            
-                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
-            
-                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
-            
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
                 <li><a href="../classes/JChart.HistogramLateral.html">JChart.HistogramLateral</a></li>
             
-                <li><a href="../classes/JChart.IconCircle.html">JChart.IconCircle</a></li>
-            
-                <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
-            
-                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
-            
-                <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
-            
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
+            
+                <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
@@ -156,9 +140,9 @@
  *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.GraphicBase.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
  *  
  * @namespace   JChart
- * @class       GraphicBase
+ * @name GraphicBase
  * @extends     JC.PureMVC
- * @constructor
+ * @preivate 
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2013-12-13
  * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
@@ -234,6 +218,7 @@
             function( _name ){
                 return _name ? this._model._elementMap[ _name ] : this._model._elementMap;
             }
+        , set: function(){ return this._model.set(); }
     });
 
     GraphicBase.Model._instanceName = &#x27;JCGraphicBase&#x27;;
@@ -241,6 +226,7 @@
         init:
             function(){
                 //JC.log( &#x27;GraphicBase.Model.init:&#x27;, new Date().getTime() );
+                this.stage() &amp;&amp; ( this._set = this.stage().set() );
             }
 
         , stage: function(){ return this._stage; }
@@ -259,6 +245,11 @@
                 _name = _name || ( this.elements().length ).toString();
                 this._elementMap[ _name ] = _item;
                 this.elements().push( _item );
+                this.set() &amp;&amp; this.set().push( _item );
+            }
+        , set:
+            function(){
+                return this._set;
             }
         , item:
             function( _name ){
@@ -323,18 +314,27 @@
         , show:
             function(){
                 var _p = this;
+                _p.set().show();
+                /*
                 $.each( _p._model.elements(), function( _k, _item ){
                     _item.show();
                 });
+                */
             }
 
         , hide:
             function(){
                 var _p = this;
+                _p.set().hide();
+                /*
                 $.each( _p._model.elements(), function( _k, _item ){
                     _item.hide();
                 });
+                */
             }
+
+        , stage: function(){ return this._model.stage(); }
+        , set: function(){ return this._model.set(); }
     });
 
     return JC.GraphicBase;

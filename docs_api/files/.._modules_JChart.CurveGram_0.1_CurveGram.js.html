@@ -69,29 +69,13 @@
             
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
             
-                <li><a href="../classes/JChart.Geometry.html">JChart.Geometry</a></li>
-            
-                <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
-            
-                <li><a href="../classes/JChart.GraphicPiePart.html">JChart.GraphicPiePart</a></li>
-            
-                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
-            
-                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
-            
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
                 <li><a href="../classes/JChart.HistogramLateral.html">JChart.HistogramLateral</a></li>
             
-                <li><a href="../classes/JChart.IconCircle.html">JChart.IconCircle</a></li>
-            
-                <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
-            
-                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
-            
-                <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
-            
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
+            
+                <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
@@ -144,7 +128,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.GraphicPoint&#x27;, &#x27;JChart.IconVLine&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.GraphicPoint&#x27;, &#x27;JChart.IconVLine&#x27;, &#x27;JChart.IconLine&#x27;  ], function(){
 /**
  * 曲线图
  *
@@ -291,32 +275,6 @@
 
     CurveGram.Model._instanceName = &#x27;JChartCurveGram&#x27;;
 
-    CurveGram.Model.STYLE = {
-        lineStyle: {
-            &#x27;stroke&#x27;: &#x27;#999&#x27;
-            , &#x27;opacity&#x27;: &#x27;.35&#x27;
-        }
-        , style: [
-            { &#x27;stroke&#x27;: &#x27;#ff0619&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#09c100&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#ff7100&#x27; }
-
-            , { &#x27;stroke&#x27;: &#x27;#FFBF00&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#ff06b3&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#c3e2a4&#x27; }
-
-            , { &#x27;stroke&#x27;: &#x27;#0c76c4&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#41e2e6&#x27; }
-            , { &#x27;stroke&#x27;: &#x27;#ffb2bc&#x27; }
-
-            , { &#x27;stroke&#x27;: &#x27;#dbb8fd&#x27; }
-        ]
-        , pathStyle: {
-            &#x27;stroke-width&#x27;: 2
-        }
-        , radius: 4
-    };
-
     var _oldWorkspaceOffset = CurveGram.Model.prototype.workspaceOffset;
 
     JC.f.extendObject( CurveGram.Model.prototype, {
@@ -353,7 +311,7 @@
                             _tmp = new JChart.GraphicPoint( 
                                 _p.stage()
                                 , 0, 0
-                                , CurveGram.Model.STYLE.radius 
+                                , 5
                                 , _p.itemStyle( _p.displayLegendMap[ _k ] )
                                 , _p.itemHoverStyle( _p.displayLegendMap[ _k ] )
                             );
@@ -367,56 +325,49 @@
                 return _p._point;
             }
 
+        , pathStyle:
+            function( _ix ){
+                var _r = {}, _p = this;
+                _r.stroke = _p.itemColor( _ix );
+                _r[ &#x27;stroke-width&#x27; ] = 2;
+                return _r;
+            }
+        /**
+         * 从不同的索引获取对应的样式
+         * @param   {int}   _ix
+         */
         , itemStyle:
             function( _ix ){
                 var _r = {}, _p = this
-                    , _len = CurveGram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-                _r = JC.f.cloneObject( CurveGram.Model.STYLE.style[ _ix ] );
-
-                _p.series()[ _ix ].style
-                    &amp;&amp; ( _r = JC.f.extendObject( _r, _p.series()[ _ix ].style ) );
-
-                !_r.fill &amp;&amp; _r.stroke &amp;&amp; ( _r.fill = _r.stroke );
+                _r.stroke = &#x27;#fff&#x27;;
+                _r[ &#x27;stroke-width&#x27; ] = 1;
+                _r.fill = _p.itemColor( _ix );
+                _r[ &#x27;fill-opacity&#x27; ] = 1;
 
                 return _r;
             }
 
         , itemHoverStyle:
             function( _ix ){
-                var _r = {}, _p = this
-                    , _len = CurveGram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                    ;
-                _r = JC.f.cloneObject( CurveGram.Model.STYLE.style[ _ix ] );
+                var _r = {}, _p = this;
 
+                _r.fill = &#x27;#fff&#x27;;
+                _r.stroke = _p.itemColor( _ix );
+                _r[ &#x27;stroke-width&#x27; ] = 2;
+
+                /*
                 _p.series()[ _ix ].style
                     &amp;&amp; ( _r = JC.f.extendObject( _r, _p.series()[ _ix ].style ) );
 
                 _p.series()[ _ix ].hoverStyle
                     &amp;&amp; ( _r = JC.f.extendObject( _r, _p.series()[ _ix ].hoverStyle ) );
+                */
 
                 !_r.fill &amp;&amp; _r.stroke &amp;&amp; ( _r.fill = &#x27;#fff&#x27; );
 
                 return _r;
             }
 
-        , pathStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-                    , _len = CurveGram.Model.STYLE.style.length
-                    , _ix = _ix % ( _len - 1 )
-                _r = JC.f.cloneObject( CurveGram.Model.STYLE.pathStyle );
-                _r.stroke = CurveGram.Model.STYLE.style[ _ix ].stroke;
-                return _r;
-            }
-
-        , lineStyle:
-            function( _ix ){
-                var _r = JC.f.cloneObject( CurveGram.Model.STYLE.lineStyle );
-                return _r;
-            }
 
         , indexAt:
             function( _offset ){
@@ -515,14 +466,9 @@
                 }
 
                 if( _p.legendEnable() ){
-                    var _legend = _p.legend( _data, &#x27;line&#x27;, function( _ix, _legend, _text, _data ){
-                        var _color = _data.stroke 
-                                        || CurveGram.Model.STYLE.data[ _ix % CurveGram.Model.STYLE.data.length ].stroke 
-                                        || &#x27;#fff&#x27;;
-                        _legend.attr( &#x27;fill&#x27;, _color ).attr( &#x27;stroke&#x27;, _color );;
-                    } );
+                    var _legend = _p.legend( _data, &#x27;line&#x27; );
                     if( _legend ){
-                        _bbox = JChart.f.getBBox( _legend );
+                        _bbox = _legend.set().getBBox()
                         _c.legend = {
                             x: ( _maxX - _bbox.width ) / 2
                             , y: _maxY - _bbox.height - 2
@@ -712,7 +658,8 @@
                     _p._model.credits().attr( _c.credits );
                 }
                 if( _c.legend ){
-                    _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    //_p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    JChart.moveSet( _p._model.legend().set(), _c.legend.x, _c.legend.y );
                 }
                 if( _c.vlables ){
                     $.each( _c.vlables, function( _k, _item ){
@@ -749,7 +696,7 @@
                     });
                 }
 
-                _p._model.tips().toFront();
+                _p._model.tips().set().toFront();
             }
         /**
          * 从给出的数据显示图表
@@ -788,29 +735,6 @@
                     CurveGram.CURRENT_INS = null;
                 });
                 //JC.dir( _p.stage() );
-            }
-        , updateTips:
-            function( _ix, _offset ){
-                var _p = this;
-                if( !( _p._model.getDisplaySeries() &amp;&amp; _p._model.getDisplaySeries().length ) ) return;
-                var _tips = _p._model.tips( _ix )
-                    , _bbox = JChart.f.getBBox( _tips )
-                    , _c = _p._model.coordinate()
-                    , _x = _offset.x + 15, _y = _offset.y + 18
-                    , _point = _c.vlinePoint[ _ix ]
-                    ;
-
-                if( ( _y + _bbox.height ) &gt; _c.stage.height ){
-                    _y = _offset.y - _bbox.height + 8;
-                }
-                _y &lt; 0 &amp;&amp; ( _y = 0 );
-
-                if( ( _x + _bbox.width ) &gt; _c.stage.width ){
-                    _x = _offset.x - _bbox.width;
-                }
-                _x &lt; 0 &amp;&amp; ( _x = 0 );
-
-                _tips.setPosition( _x, _y );
             }
 
         , updatePoint:

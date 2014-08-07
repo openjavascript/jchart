@@ -10,9 +10,9 @@
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.GraphicBase.html' target='_blank'>API docs</a>
  *  
  * @namespace   JChart
- * @class       GraphicBase
+ * @name GraphicBase
  * @extends     JC.PureMVC
- * @constructor
+ * @preivate 
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2013-12-13
  * @author  qiushaowei <suches@btbtd.org> | 75 Team
@@ -88,6 +88,7 @@
             function( _name ){
                 return _name ? this._model._elementMap[ _name ] : this._model._elementMap;
             }
+        , set: function(){ return this._model.set(); }
     });
 
     GraphicBase.Model._instanceName = 'JCGraphicBase';
@@ -95,6 +96,7 @@
         init:
             function(){
                 //JC.log( 'GraphicBase.Model.init:', new Date().getTime() );
+                this.stage() && ( this._set = this.stage().set() );
             }
 
         , stage: function(){ return this._stage; }
@@ -113,6 +115,11 @@
                 _name = _name || ( this.elements().length ).toString();
                 this._elementMap[ _name ] = _item;
                 this.elements().push( _item );
+                this.set() && this.set().push( _item );
+            }
+        , set:
+            function(){
+                return this._set;
             }
         , item:
             function( _name ){
@@ -177,18 +184,27 @@
         , show:
             function(){
                 var _p = this;
+                _p.set().show();
+                /*
                 $.each( _p._model.elements(), function( _k, _item ){
                     _item.show();
                 });
+                */
             }
 
         , hide:
             function(){
                 var _p = this;
+                _p.set().hide();
+                /*
                 $.each( _p._model.elements(), function( _k, _item ){
                     _item.hide();
                 });
+                */
             }
+
+        , stage: function(){ return this._model.stage(); }
+        , set: function(){ return this._model.set(); }
     });
 
     return JC.GraphicBase;

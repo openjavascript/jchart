@@ -50,18 +50,10 @@
                 <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
                 <li><a href="../classes/JChart.DefaultOptions.html">JChart.DefaultOptions</a></li>
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
-                <li><a href="../classes/JChart.Geometry.html">JChart.Geometry</a></li>
-                <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
-                <li><a href="../classes/JChart.GraphicPiePart.html">JChart.GraphicPiePart</a></li>
-                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
-                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
                 <li><a href="../classes/JChart.HistogramLateral.html">JChart.HistogramLateral</a></li>
-                <li><a href="../classes/JChart.IconCircle.html">JChart.IconCircle</a></li>
-                <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
-                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
-                <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
+                <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
                 <li><a href="../classes/window.Raphael.html">window.Raphael</a></li>
                 <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
@@ -187,6 +179,14 @@
                                     <span class="flag static">static</span>
                             </li>
                             <li class="index-item method">
+                                <a href="#method_degree">degree</a>
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_distanceAngleToPoint">distanceAngleToPoint</a>
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_init">init</a>
                                     <span class="flag static">static</span>
                             </li>
@@ -195,6 +195,18 @@
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_on">on</a>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_pointDistance">pointDistance</a>
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_pointRectangleIntersection">pointRectangleIntersection</a>
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_radians">radians</a>
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method inherited">
                                 <a href="#method_selector">selector</a>
@@ -343,6 +355,95 @@
             </ul>
         </div>
 </div>
+                    <div id="method_degree" class="method item">
+    <h3 class="name"><code>degree</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_radians</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l63"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:63</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>从弧度获取角度</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_radians</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+            </div>
+        </div>
+</div>
+                    <div id="method_distanceAngleToPoint" class="method item">
+    <h3 class="name"><code>distanceAngleToPoint</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_distance</code>
+                </li>
+                <li class="arg">
+                        <code>_angle</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l40"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:40</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>从长度和角度求坐标点</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_distance</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_angle</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                    <p>Point</p>
+            </div>
+        </div>
+</div>
                     <div id="method_init" class="method item">
     <h3 class="name"><code>init</code></h3>
         <div class="args">
@@ -471,6 +572,144 @@
             </div>
         </div>
 </div>
+                    <div id="method_pointDistance" class="method item">
+    <h3 class="name"><code>pointDistance</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_p1</code>
+                </li>
+                <li class="arg">
+                        <code>_p2</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l25"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:25</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>计算两个坐标点之间的距离</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_p1</code>
+                        <span class="type">Point</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_p2</code>
+                        <span class="type">Point</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                    <p>Boolean</p>
+            </div>
+        </div>
+</div>
+                    <div id="method_pointRectangleIntersection" class="method item">
+    <h3 class="name"><code>pointRectangleIntersection</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_p</code>
+                </li>
+                <li class="arg">
+                        <code>_r</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l13"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:13</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>判断一个点是否在矩形里面</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_p</code>
+                        <span class="type">Point</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+                <li class="param">
+                        <code class="param-name">_r</code>
+                        <span class="type">Rect</span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                    <p>Boolean</p>
+            </div>
+        </div>
+</div>
+                    <div id="method_radians" class="method item">
+    <h3 class="name"><code>radians</code></h3>
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>_angle</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+        </span>
+        <span class="flag static">static</span>
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/.._modules_JChart.Geometry_0.1_Geometry.js.html#l55"><code>..&#x2F;modules&#x2F;JChart.Geometry&#x2F;0.1&#x2F;Geometry.js:55</code></a>
+        </p>
+    </div>
+    <div class="description">
+        <p>从角度获取弧度</p>
+    </div>
+        <div class="params">
+            <h4>Parameters:</h4>
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">_angle</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    <div class="param-description">
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="returns">
+            <h4>Returns:</h4>
+            <div class="returns-description">
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
+            </div>
+        </div>
+</div>
                     <div id="method_selector" class="method item inherited">
     <h3 class="name"><code>selector</code></h3>
         <span class="paren">()</span>
@@ -553,7 +792,7 @@
     <div class="meta">
                 <p>Inherited from
                 <a href="../classes/JChart.Base.html#method_update">JChart.Base</a>:
-        <a href="../files/.._modules_JChart.Base_0.1_Base.js.html#l143"><code>..&#x2F;modules&#x2F;JChart.Base&#x2F;0.1&#x2F;Base.js:143</code></a>
+        <a href="../files/.._modules_JChart.Base_0.1_Base.js.html#l144"><code>..&#x2F;modules&#x2F;JChart.Base&#x2F;0.1&#x2F;Base.js:144</code></a>
         </p>
     </div>
     <div class="description">

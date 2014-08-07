@@ -10,9 +10,7 @@
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.IconRect.html' target='_blank'>API docs</a>
  *  
  * @namespace   JChart
- * @class       IconRect
- * @extends     JChart.GraphicBase
- * @constructor
+ * @name IconRect
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2014-06-24
  * @author  qiushaowei <suches@btbtd.org> | 75 Team
@@ -71,7 +69,7 @@
                 var _p = this
                     , _rect = _p._model.stage().rect( 
                         _p._model._rx 
-                        , _p._model._ry + _p._model._rh 
+                        , _p._model._ry 
                         , _p._model._rw
                         , _p._model._rh
                         )

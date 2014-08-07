@@ -69,29 +69,13 @@
             
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
             
-                <li><a href="../classes/JChart.Geometry.html">JChart.Geometry</a></li>
-            
-                <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
-            
-                <li><a href="../classes/JChart.GraphicPiePart.html">JChart.GraphicPiePart</a></li>
-            
-                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
-            
-                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
-            
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
                 <li><a href="../classes/JChart.HistogramLateral.html">JChart.HistogramLateral</a></li>
             
-                <li><a href="../classes/JChart.IconCircle.html">JChart.IconCircle</a></li>
-            
-                <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
-            
-                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
-            
-                <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
-            
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
+            
+                <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
@@ -193,7 +177,7 @@
 
         this._model = new Histogram.Model( _selector );
         this._view = new Histogram.View( this._model );
-        console.log(this._init);
+        //console.log(this._init);
         this._init();
 
         JC.log( Histogram.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
@@ -372,42 +356,6 @@
                 return _p._rects;
             }
         /**
-         * 从不同的索引获取对应的样式
-         * @param   {int}   _ix
-         */
-        , itemStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-                _r.stroke = _p.itemColor( _ix );
-                _r.fill = _p.itemColor( _ix );
-                _r[ &#x27;fill-opacity&#x27; ] = 1;
-
-                return _r;
-            }
-        /**
-         * 从不同的索引获取不同 hover 样式
-         * @param   {int}   _ix
-         */
-        , itemHoverStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-
-                _r.stroke = _p.itemColor( _ix );
-                _r.fill = _p.itemColor( _ix );
-                _r[ &#x27;fill-opacity&#x27; ] = .65;
-
-                return _r;
-            }
-        /**
-         * 从不同的索引获取 背景线条的样式
-         * @param   {int}   _ix
-         */
-        , lineStyle:
-            function( _ix ){
-                var _r = { stroke: &#x27;#999&#x27;, opacity: .35 };
-                return _r;
-            }
-        /**
          * 从坐标点计算位于哪个数据项
          * @param   {Point} _point
          */
@@ -517,20 +465,15 @@
                  * 图例图标的显示坐标
                  */
                 if( _p.legendEnable() ){
-                    var _legend = _p.legend( _data, &#x27;rect&#x27;, function( _ix, _legend, _text, _data ){
-                        var _color = _data.stroke 
-                                        || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
-                                        || &#x27;#fff&#x27;;
-                        _legend.attr( &#x27;fill&#x27;, _color ).attr( &#x27;stroke&#x27;, _color );;
-                    } );
+                    var _legend = _p.legend( _data, &#x27;rect&#x27; );
                     if( _legend ){
-                        _bbox = JChart.f.getBBox( _legend );
+                        _bbox = _legend.set().getBBox()
                         _c.legend = {
                             x: ( _maxX - _bbox.width ) / 2
-                            , y: _maxY - _bbox.height + 5
+                            , y: _maxY - _bbox.height - 2
                             , ele: _legend
                         }
-                        _maxY = _c.legend.y;
+                        _maxY = _c.legend.y - 2;
                     }
                 }
 
@@ -807,7 +750,7 @@
                     _p._model.credits().attr( _c.credits );
                 }
                 if( _c.legend ){
-                    _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    JChart.moveSet( _p._model.legend().set(), _c.legend.x, _c.legend.y );
                 }
                 if( _c.vlables ){
                     $.each( _c.vlables, function( _k, _item ){
@@ -845,7 +788,7 @@
                     });
                 }
 
-                _p._model.tips().toFront();
+                _p._model.tips().set().toFront();
 
                 /*
                 var _text = _p.stage().text( 100, 100, &#x27;test 1&#x27; ).attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27; } )
@@ -896,34 +839,6 @@
                     _jdoc.off( &#x27;mousemove&#x27;, Histogram.DEFAULT_MOVE );
                     Histogram.CURRENT_INS = null;
                 });
-            }
-        /**
-         * 显示 Tips
-         * @param   {int}   _ix     数据索引
-         * @param   {point} _offset 当前鼠标位置
-         */
-        , updateTips:
-            function( _ix, _offset ){
-                var _p = this;
-                if( !( _p._model.displaySeries &amp;&amp; _p._model.displaySeries.length ) ) return;
-                var _tips = _p._model.tips( _ix )
-                    , _bbox = JChart.f.getBBox( _tips )
-                    , _c = _p._model.coordinate()
-                    , _x = _offset.x + 15, _y = _offset.y + 18
-                    , _point = _c.vlinePoint[ _ix ]
-                    ;
-
-                if( ( _y + _bbox.height ) &gt; _c.stage.height ){
-                    _y = _offset.y - _bbox.height + 8;
-                }
-                _y &lt; 0 &amp;&amp; ( _y = 0 );
-
-                if( ( _x + _bbox.width ) &gt; _c.stage.width ){
-                    _x = _offset.x - _bbox.width;
-                }
-                _x &lt; 0 &amp;&amp; ( _x = 0 );
-
-                _tips.setPosition( _x, _y );
             }
         /**
          * 更新当前距行的显示状态

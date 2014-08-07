@@ -5,7 +5,7 @@
      * <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
      * | <a href='http://raphaeljs.com/reference.html' target='_blank'>API docs</a>
      * @namespace   JChart
-     * @class       Geometry
+     * @name Geometry
      * @version dev 0.1 2014-07-21
      * @author  qiushaowei   <suches@btbtd.org> | 75 Team
      */

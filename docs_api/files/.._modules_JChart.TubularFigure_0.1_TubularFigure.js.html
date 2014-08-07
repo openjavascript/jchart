@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>../modules/JChart.TubularFigure/0.1/TubularFigure.js - JChart</title>
+    <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/widget.css">
+    <link rel="stylesheet" href="../assets/css/tabview.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="../assets/js/yui-min.js"></script>
+    <script src="../assets/js/comps1.js"></script>
+    <script src="../assets/js/comps2.js"></script>
+    <script src="../assets/js/comps3.js"></script>
+    <script src="../assets/js/comps4.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../jc_logo.png" title="JChart"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.2</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/JC.BaseMVC.html">JC.BaseMVC</a></li>
+            
+                <li><a href="../classes/JC.BaseMVC.Model.html">JC.BaseMVC.Model</a></li>
+            
+                <li><a href="../classes/JC.common.html">JC.common</a></li>
+            
+                <li><a href="../classes/JC.f.html">JC.f</a></li>
+            
+                <li><a href="../classes/JC.PureMVC.html">JC.PureMVC</a></li>
+            
+                <li><a href="../classes/JC.PureMVC.Model.html">JC.PureMVC.Model</a></li>
+            
+                <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
+            
+                <li><a href="../classes/JChart.common.html">JChart.common</a></li>
+            
+                <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
+            
+                <li><a href="../classes/JChart.DefaultOptions.html">JChart.DefaultOptions</a></li>
+            
+                <li><a href="../classes/JChart.f.html">JChart.f</a></li>
+            
+                <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
+            
+                <li><a href="../classes/JChart.HistogramLateral.html">JChart.HistogramLateral</a></li>
+            
+                <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
+            
+                <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
+            
+                <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
+            
+                <li><a href="../classes/window.Raphael.html">window.Raphael</a></li>
+            
+                <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
+            
+                <li><a href="../classes/window.swfobject.html">window.swfobject</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: ../modules/JChart.TubularFigure/0.1/TubularFigure.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JChart.Base&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.GraphicSector&#x27;, &#x27;JChart.GraphicRect&#x27; ], function(){
+/**
+ * 组件用途简述
+ *
+ *  &lt;p&gt;&lt;b&gt;require&lt;/b&gt;:
+ *      &lt;a href=&quot;widnow.jQuery.html&quot;&gt;jQuery&lt;/a&gt;
+ *      , &lt;a href=&#x27;JC.BaseMVC.html&#x27;&gt;JC.BaseMVC&lt;/a&gt;
+ *  &lt;/p&gt;
+ *
+ *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
+ *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.TubularFigure.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *      | &lt;a href=&#x27;../../modules/JChart.TubularFigure/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *  
+ *  &lt;h2&gt;页面只要引用本脚本, 默认会处理 div class=&quot;JCharTubularFigure&quot;&lt;/h2&gt;
+ *
+ *  &lt;h2&gt;可用的 HTML attribute&lt;/h2&gt;
+ *
+ *  &lt;dl&gt;
+ *      &lt;dt&gt;&lt;/dt&gt;
+ *      &lt;dd&gt;&lt;dd&gt;
+ *  &lt;/dl&gt; 
+ *
+ * @namespace   JChart
+ * @class       TubularFigure
+ * @extends     JChart.Base
+ * @constructor
+ * @param   {selector|string}   _selector   
+ * @version dev 0.1 2013-12-13
+ * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
+ * @example
+        &lt;h2&gt;JC.TubularFigure 示例&lt;/h2&gt;
+ */
+    var _jdoc = $( document ), _jwin = $( window );
+
+    JChart.TubularFigure = TubularFigure;
+
+    function TubularFigure( _selector ){
+        _selector &amp;&amp; ( _selector = $( _selector ) );
+
+        if( JC.BaseMVC.getInstance( _selector, TubularFigure ) ) 
+            return JC.BaseMVC.getInstance( _selector, TubularFigure );
+
+        JC.BaseMVC.getInstance( _selector, TubularFigure, this );
+
+        this._model = new TubularFigure.Model( _selector );
+        this._view = new TubularFigure.View( this._model );
+        this._init();
+
+        JC.log( TubularFigure.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+    }
+    /**
+     * 初始化可识别的 TubularFigure 实例
+     * @method  init
+     * @param   {selector}      _selector
+     * @static
+     * @return  {Array of TubularFigureInstance}
+     */
+    TubularFigure.init =
+        function( _selector ){
+            var _r = [];
+            _selector = $( _selector || document );
+
+            if( _selector.length ){
+                if( _selector.hasClass( &#x27;jcharTubularFigure&#x27; )  ){
+                    _r.push( new TubularFigure( _selector ) );
+                }else{
+                    JChart.Base.init( TubularFigure, $( &#x27;div.jcharTubularFigure&#x27; ), 0, 1 );
+                }
+            }
+            return _r;
+        };
+    /**
+     * 当前活动的图表实例
+     * @property    CURRENT_INS
+     * @type        JChart.Histogram
+     * @default     null
+     * @static
+     */
+    TubularFigure.CURRENT_INS = null;
+    /**
+     * 响应图表 鼠标移动的默认函数
+     * @method  DEFAULT_MOVE
+     * @param   {Event} _evt
+     * @static
+     */
+    TubularFigure.DEFAULT_MOVE =
+        function( _evt ){
+            if( !TubularFigure.CURRENT_INS ){
+                _jdoc.off( &#x27;mousemove&#x27;, TubularFigure.DEFAULT_MOVE );
+                return;
+            }
+            TubularFigure.CURRENT_INS
+                .trigger( TubularFigure.Model.MOVING_EVENT, [ _evt ] );
+        };
+
+    JC.BaseMVC.build( TubularFigure, JChart.Base);
+
+    JC.f.extendObject( TubularFigure.prototype, {
+        _beforeInit:
+            function(){
+                JC.log( &#x27;TubularFigure _beforeInit&#x27;, new Date().getTime() );
+            }
+
+        , _initHanlderEvent:
+            function(){
+                var _p = this,
+                    _model = TubularFigure.Model;
+
+                _p.on( _model.MOVING_EVENT, function( _evt, _sevt ) {
+                    var _offset = _p._model.globalEventToLocalOffset( _sevt )
+                        , _index = _p._model.indexAt();
+                    _p.trigger( &#x27;clear_status&#x27; );
+                    if( typeof _index == &#x27;undefined&#x27; ) return;
+                    _p.trigger( &#x27;update_status&#x27;, [ _index, _offset  ] );
+                } );
+
+                _p.on( _model.MOVING_START, function() {
+                    _p.trigger( _model.CLEAR_STATUS );
+                     if( !( _p._model.displaySeries &amp;&amp; _p._model.displaySeries.length ) ) return;
+                    _p._model.tips() &amp;&amp; _p._model.tips().show();
+                } );
+
+                _p.on( _model.MOVING_DONE, function() {
+                    _p.trigger( _model.CLEAR_STATUS );
+                    _p._model.tips() &amp;&amp; _p._model.tips().hide();
+                } );
+
+                _p.on( _model.CLEAR_STATUS, function() {
+                    _p._view.clearStatus();
+                } );
+
+                _p.on( &#x27;update_status&#x27;, function( _evt, _index, _offset ){
+                    if( !_offset ) return;
+                    if( typeof _index == &#x27;undefined&#x27; ) return;
+                    _p._view.updateTips( _index, _offset );
+                });
+
+                _p.on( &#x27;unselected_piepart&#x27;, function( _evt, _isSelected, _id ){
+                    _p._model.sectors() &amp;&amp; _p._model.sectors().length &amp;&amp;
+                        $.each( _p._model.sectors(), function( _k, _item ){
+                            if( _item.id() == _id ) return;
+                            _item.selected( false );
+                        });
+                });
+
+                _p.on( &#x27;update_default_selected&#x27;, function( _evt ){
+                    var _ix;
+                    _p._model.getDisplaySeries() &amp;&amp; _p._model.getDisplaySeries().length
+                        &amp;&amp; $.each( _p._model.getDisplaySeries()[0].data, function( _k, _item ){
+                            _item.selected &amp;&amp; ( _ix = _k );
+                        });
+                    typeof _ix != &#x27;undefined&#x27; 
+                        &amp;&amp; _p._model.sectors() 
+                        &amp;&amp; _p._model.sectors()[ _ix ]
+                        &amp;&amp; _p._model.sectors()[ _ix ].selected( true );
+                });
+
+                _p.on( JChart.Base.Model.RESET_DISPLAY_SERIES, function( _evt, _data ){
+                    _p._model.resetDisplaySeries( _data );
+                });
+
+                _p.on( JChart.Base.Model.LEGEND_UPDATE, function( _evt, _ix ){
+                    _p._model.updateLegend( _ix );
+                });
+            }
+        , _inited:
+            function(){
+                JC.log( &#x27;TubularFigure _inited&#x27;, new Date().getTime() );
+                this.trigger( &#x27;inited&#x27; );
+            }
+    });
+    
+    var _Model = TubularFigure.Model;
+
+    _Model.MOVING_EVENT = &#x27;moving_event&#x27;;
+
+    _Model.MOVING_START = &#x27;moving_start&#x27;;
+
+    _Model.MOVING_DONE = &#x27;moving_done&#x27;;
+
+    _Model.CLEAR_STATUS = &#x27;clear_status&#x27;;
+
+    _Model.BACKGROUND_SHADOW = 3;
+
+    _Model.PI = 3.14;
+
+    _Model.ANGLE = 360;
+
+    _Model._instanceName = &#x27;JCTubularFigure&#x27;;
+
+    _Model.STYLE = {
+        lineStyle: {
+            &#x27;stroke&#x27;: &#x27;#999&#x27;
+            , &#x27;opacity&#x27;: &#x27;.35&#x27;
+        }
+        , style: [
+              { &#x27;fill&#x27;: &#x27;#09c100&#x27;, &#x27;stroke&#x27;: &#x27;#fff&#x27;}
+            , { &#x27;fill&#x27;: &#x27;#FFBF00&#x27;, &#x27;stroke&#x27;: &#x27;#fff&#x27;}
+            , { &#x27;fill&#x27;: &#x27;#0c76c4&#x27;, &#x27;stroke&#x27;: &#x27;#fff&#x27;}
+            , { &#x27;fill&#x27;: &#x27;#41e2e6&#x27;, &#x27;stroke&#x27;: &#x27;#fff&#x27;}
+            , { &#x27;fill&#x27;: &#x27;#ffb2bc&#x27;, &#x27;stroke&#x27;: &#x27;#fff&#x27;}
+            , { &#x27;fill&#x27;: &#x27;#dbb8fd&#x27;, &#x27;stroke&#x27;: &#x27;#fff&#x27;}
+            , { &#x27;fill&#x27;: &#x27;#ff06b3&#x27;, &#x27;stroke&#x27;: &#x27;#fff&#x27;}
+            , { &#x27;fill&#x27;: &#x27;#ff7100&#x27;, &#x27;stroke&#x27;: &#x27;#fff&#x27;}
+            , { &#x27;fill&#x27;: &#x27;#c3e2a4&#x27;, &#x27;stroke&#x27;: &#x27;#fff&#x27;}
+            , { &#x27;fill&#x27;: &#x27;#ff0619&#x27;, &#x27;stroke&#x27;: &#x27;#fff&#x27;}
+
+        ]
+        , pathStyle: {
+            &#x27;stroke-width&#x27;: 2
+        }
+        , radius: 4
+    };
+
+    JC.f.extendObject( TubularFigure.Model.prototype, {
+        init:
+            function(){
+                JC.log( &#x27;TubularFigure.Model.init:&#x27;, new Date().getTime() );
+            }
+        /**
+         * 图表数据背景
+         */
+        , dataBackground:
+            function( _x, _y, _width, _height ) {
+                if( typeof this._dataBackground == &#x27;undefined&#x27; ) {
+                    var _strWidth = 1, _strOpacity = .15, _md = 2,
+                        _shadowWidth = _md * _Model.BACKGROUND_SHADOW,
+                    _w = _width - _shadowWidth,
+                    _h = _height - _shadowWidth;
+                    for( var i = 0; i &lt; _Model.BACKGROUND_SHADOW; i++ ) {
+                        this.stage().rect( _x, _y, _w, _h )
+                            .attr( { &#x27;stroke-opacity&#x27;: _strOpacity, &#x27;stroke-width&#x27;: _strWidth } );
+                        _strWidth += _md;
+                        _strOpacity = _strOpacity * 2 / 3;
+                    }
+                    this._dataBackground = this.stage().rect( _x - 1, _y - 1, _w, _h )
+                            .attr( { &#x27;fill&#x27;: &#x27;#fff&#x27;, &#x27;stroke-opacity&#x27;: .15, &#x27;fill-opacity&#x27;: 0.9, &#x27;stroke-width&#x27;: 1 } );
+                }
+                return this._dataBackground;
+            }
+        , sectors:
+            function( _data ) {
+                var _p = this, _tmp, _style;
+                if( typeof _p.sector == &#x27;undefined&#x27; ){
+                    _p.sector = [];
+                    $.each( _data, function( _i, _item ) {
+                        _style = _Model.STYLE.style[ _i % _Model.STYLE.style.length ];
+                        _style[&#x27;stroke-width&#x27;] = 2;
+                        _tmp = new JChart.GraphicSector( _p.stage(), _item, _style, 
+                                _p.itemHoverStyle( _p.displayLegendMap[ _i ] ), _i);
+                        _tmp.on( &#x27;selected_changed&#x27;, function( _evt, _isSelected, _id ){
+                            _p.trigger( &#x27;unselected_piepart&#x27;, [ _isSelected, _id ] );
+                        });
+                       _tmp.on( &#x27;mouseenter&#x27;, function( _evt, _srcEvt, _id, _index ){
+                            _jdoc.off( &#x27;mousemove&#x27;, TubularFigure.DEFAULT_MOVE );
+                            _jdoc.on( &#x27;mousemove&#x27;, TubularFigure.DEFAULT_MOVE );
+                            TubularFigure.CURRENT_INS = _p;
+                            _p.indexAt( _index );
+                            _p.trigger( &#x27;moving_start&#x27; );
+                       });
+                       _tmp.on( &#x27;mouseleave&#x27;, function( _evt, _srcEvt, _id, _index ){
+                            _jdoc.off( &#x27;mousemove&#x27;, TubularFigure.DEFAULT_MOVE );
+                            _p.trigger( &#x27;moving_done&#x27; );
+                            TubularFigure.CURRENT_INS = null;
+                       });
+                        _p.sector.push( _tmp );
+                    } );
+                }
+                return _p.sector;
+            }
+        , itemStyle:
+            function( _ix ) {
+                var _r = {}, _p = this
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
+                _r[ &#x27;fill-opacity&#x27; ] = 1;
+
+                return _r;
+            }
+        , itemHoverStyle :
+            function( _ix ) {
+                var _r = {}, _p = this
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
+                _r[ &#x27;fill-opacity&#x27; ] = .65;
+                return _r;
+            }
+        , lineStyle :
+            function( _ix ) {
+                var _r = { stroke: &#x27;#999&#x27;, opacity: .35 };
+                return _r;
+            }
+        ,indexAt :
+        function( _setter ){
+                typeof _setter != &#x27;undefined&#x27; &amp;&amp; ( this._index = _setter );
+                return this._index;
+            }
+        /**
+         * 保存图表数据
+         */
+        , data :
+            function( _data ){
+                var _p = this;
+                if( typeof _data != &#x27;undefined&#x27; ){
+                    _p._data = _data;
+                    _p._data.series &amp;&amp; _p._data.series.length &amp;&amp; 
+                        $.each( _p._data.series[0].data, function( _k, _item ){
+                            if( JChart.f.isArray( _item ) ){
+                                _p._data.series[0].data[ _k ] = { &#x27;name&#x27;: _item[0], &#x27;y&#x27;: _item[1] };
+                                _p.getDisplaySeries()[ _k ] = { &#x27;name&#x27;: _item[0], &#x27;y&#x27;: _item[1] };
+                            }
+                        });
+                }
+                return _p._data;
+            }
+        , series:
+            function(){
+                var _p = this;
+
+                typeof _p._series == &#x27;undefined&#x27; &amp;&amp; _p.data() &amp;&amp; _p.data().series 
+                    &amp;&amp; _p.data().series.length 
+                    &amp;&amp; _p.data().series[0].data
+                    &amp;&amp; _p.data().series[0].data.length
+                    &amp;&amp; ( _p._series = _p.data().series[0].data )
+                return _p._series;
+            }
+        , coordinate :
+            function( _data ) {
+                if( typeof this._coordinate != &#x27;undefined&#x27; || !_data ){
+                    return this._coordinate;
+                }
+                var _c = {};
+                this._coordinate = _c;
+                var _tableMargin = 5;
+                var _p = this, _bbox, 
+                    _offsetY = _p.height(),
+                    _offsetX = _p.width(),
+                    _y = 5, _x = 5,
+                    _chartMargin = 5,
+                    _maxX = _offsetX, _maxY = _offsetY;
+                
+                _p.stage();
+
+                _c.stage = { x: 0, y: 0, width: _p.width(), height: _p.height(), corner: _p.stageCorner()  };
+                _p.background( _c );
+
+                /* title */
+                var _title = _p.title( _data );
+                if( _title ) {
+                    _bbox = JChart.f.getBBox( _title );
+                    _c.title = {
+                        x : _maxX / 2,
+                        y : _y + _bbox.height / 2,
+                        ele : _title
+                    }
+                    _y = _c.title.y + _bbox.height / 2;
+                }
+
+                /* subTitle */
+                var _subTitle = _p.subtitle( _data );
+                if( _subTitle ) {
+                    _bbox = JChart.f.getBBox( _subTitle );
+                    _c.subTitle = {
+                        x : _offsetX / 2,
+                        y : _y + _bbox.height / 2 + 5,
+                        ele : _subTitle
+                    }
+                    _y = _c.subTitle.y + _bbox.height / 2;
+                }
+
+                /* 版权文字 */
+                var _credits = _p.credits( _data );
+                if( _credits ){
+                    _bbox = JChart.f.getBBox( _credits );
+                    _c.credits = {
+                        x: _maxX - _bbox.width / 2,
+                        y: _maxY - _bbox.height / 2,
+                        ele: _credits
+                    }
+                    _maxY = _c.credits.y;
+                }
+                
+                /* 管状图显示区域背景 */
+                _c.x = _x += _chartMargin;
+                _c.y = _y += _chartMargin;
+                _c.maxX = _maxX -= _chartMargin;
+                _c.maxY = _maxY -= _chartMargin;
+                var _chartWidth = _maxX - _x,
+                    _chartHeight = _maxY - _y,
+                    _dataBackground = _p.dataBackground( _x, _y, _chartWidth, _chartHeight );
+                if( _dataBackground ){
+                    _c.dataBackground = {
+                        x: _x, y: _y, width: _chartWidth, height: _chartHeight, item: _dataBackground
+                    };
+                }
+
+                /* 图例图标的显示坐标 */
+                if( _p.legendEnable() ) {
+                    var _legend = _p.legend( _data, &#x27;rect&#x27;, function( _ix, _legend, _text, _data ){
+                        var _color = _data.stroke 
+                                        || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
+                                        || &#x27;#fff&#x27;;
+                        _legend.attr( &#x27;fill&#x27;, _color ).attr( &#x27;stroke&#x27;, _color );
+                    } );
+                    if( _legend ) {
+                        _bbox = JChart.f.getBBox( _legend );
+                        _maxY = _maxY - _bbox.height - 5;
+                        _c.legend = {
+                            x: _offsetX / 2 - _bbox.width / 2,
+                            y: _maxY,
+                            ele: _legend
+                        }
+                    }
+                }
+
+                /* 扇形区域 */
+                var _radius = Math.floor( ( _chartWidth &lt; _chartHeight ? _chartWidth : _chartHeight ) * .4 ), 
+                    _radius2 = _radius * 3 / 7;
+                var _total = 0, _baseD = 0, _partD, _itemD, _endD, _s, _midD,
+                    _center = { x: _x + _chartWidth / 2, y: _y + _chartHeight / 2 };
+                _c.sector = [], _c.sLine = [];
+                for( var i = 0; i &lt; _p.displaySeries[0].data.length; i++ ){
+                    _total += _p.displaySeries[0].data[i].y; 
+                }
+                _partD = _Model.ANGLE / _total;
+                $.each( _p.displaySeries[0].data, function( _i, _item ) {
+                    _itemD = _partD * _item.y;
+                    _endD = _baseD + _itemD;
+                    _midD = _baseD + _itemD / 2;
+                    _c.sector.push( {
+                    	&#x27;radius&#x27;: _radius,
+                    	&#x27;radius2&#x27;: _radius2,
+                    	&#x27;itemD&#x27;: _itemD,
+                    	&#x27;midD&#x27;: _midD,
+                    	&#x27;baseD&#x27;: _baseD,
+                    	&#x27;centerPoint&#x27;: _center
+                    } );
+                    _c.sLine.push( {
+                        &#x27;startPoint&#x27;: _p.getRadianPoint( _midD, _radius, _center ),
+                        &#x27;endPoint&#x27;: _p.getRadianPoint( _midD, _radius + 25, _center ),
+                        &#x27;dir&#x27;: _p.getDir( _midD ),
+                        &#x27;data&#x27;: _item
+                    } );
+                    _baseD = _endD;
+                } );
+                return this._coordinate;
+            }
+        /* 根据角度算坐标 */
+        , getRadianPoint:
+            function( _totalD, _r, _center ) {
+                var _x, _y;
+                var _endPoint = {};
+                var _dir = this.getDir( _totalD );
+                var _rD = 2 * _Model.PI / _Model.ANGLE * ( _totalD - 90 * _dir );
+                var _subtense = Math.sin( _rD ) * _r;
+                var _limb = Math.cos( _rD ) * _r;
+                if( _dir &amp; 1 ) {/* 2，4象限 */
+                    _x = _limb;
+                    _y = _subtense;
+                } else {/* 1，3象限 */
+                    _x = _subtense;
+                    _y = _limb;
+                }
+                if( _dir &lt; 2 ) {
+                    _endPoint.x = _center.x + _x ;
+                    _endPoint.y = ( _dir == 0 ) ? ( _center.y - _y ) : ( _center.y + _y );
+                } else {
+                    _endPoint.x = _center.x - _x;
+                    _endPoint.y = ( _dir == 2 ) ? ( _center.y + _y ) : ( _center.y - _y );
+                }
+               return _endPoint;
+            }
+        , getDir :
+            function( _angle ) {
+                return Math.floor( _angle / 90 );
+            }
+        , isCover : 
+            function( _obj1, _obj2, _margin ) {
+                var _b1, _b2;
+                if( !_obj1 || !_obj2 ) {
+                    return false;
+                }
+                _b1 = JChart.f.getBBox( _obj1 );
+                _b2 = JChart.f.getBBox( _obj2 );
+                _margin = _margin ? _margin : 5;
+                return !(
+                    _b2.x &gt; ( _b1.x + _b1.width + _margin ) || 
+                    ( _b2.x + _b2.width + _margin ) &lt; _b1.x || 
+                    _b2.y &gt; ( _b1.y + _b1.height + _margin ) ||
+                    ( _b2.y + _b2.height + _margin ) &lt; _b1.y
+                );
+            }
+        , sLabel :
+            function( _data ) {
+                var _p = this, _c = _p.coordinate(), _position, _text, _label, _cover,
+                    _labels = [], _tmp1 = [], _tmp2 = [], _bbox, _tbbox, _next, _dir;
+                if( _data &amp;&amp; typeof _p.sLabels == &#x27;undefined&#x27; ) {
+                    _p.sLabels = [];
+                    $.each( _data, function( _ix, _item ) {
+                        _position = _item.dir &gt; 1 ? 
+                            { x: _item.endPoint.x - 10, y: _item.endPoint.y, &#x27;text-anchor&#x27;: &#x27;end&#x27; } : 
+                            { x: _item.endPoint.x + 10, y: _item.endPoint.y, &#x27;text-anchor&#x27;: &#x27;start&#x27; };
+                        _position.fill = &#x27;#999&#x27;;
+                        _text = _p.stage().text( 0, 0, _item.data.name ).attr( _position );
+                        _text.dir = _item.dir; _text.index = _ix;
+                        ( _item.dir &amp; 1 ) ? _tmp2.push( _text ) : _tmp1.push( _text );
+                    } );
+                    $.each( _tmp1, function( _ix, _label ) {
+                        _dir = _label.dir;
+                        _next = _tmp1[ _ix + ( _dir &gt; 1 ? 1 : -1 ) ];
+                        if( _next &amp;&amp; _p.isCover( _label, _next ) ) {
+                            _bbox = JChart.f.getBBox( _next );
+                            _label.attr( {
+                                x: _dir &gt; 1 ? (_bbox.x - 5) : (_bbox.x2 + 5),
+                                y: (_dir == 0 || _dir == 3) ? (_bbox.y2 + 5) : (_bbox.y - 5)
+                            } );
+                            _label.change = true;
+                        }
+                        _labels[ _label.index ] = _label;
+                    } );
+                    for( var _ix = _tmp2.length - 1; _ix &gt;= 0; _ix-- ) {
+                        _cover = false;
+                        _label = _tmp2[ _ix ];
+                        _dir = _label.dir;
+                        _next = _tmp2[ _ix + ( _dir &gt; 1 ? 1 : -1 ) ];
+                        if( typeof _next != &#x27;undefined&#x27; ) { 
+                            for( var _k = _ix; _k &lt; _tmp2.length; _k++ ) {
+                                if( _p.isCover( _label, _tmp2[ _k ] ) ) {
+                                    _cover = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if( _cover ) {
+                            _bbox = JChart.f.getBBox( _next );
+                            var _x = _dir &gt; 1 ? ( _bbox.x - 5 ) : ( _bbox.x2 + 5 ); 
+                            var _y = ( _dir == 0 || _dir == 3 ) ? ( _bbox.y2 + 5 ) : ( _bbox.y - 5 );
+                            _tbbox = JChart.f.getBBox( _label );
+                            ( _x &lt; _c.x || _c.maxX &lt; _x ) &amp;&amp; ( _x = ( _dir &gt; 1 ) ? 
+                                    ( _c.x + _tbbox.width ) : ( _c.maxX - _tbbox.width ) );
+                            _label.attr( { x: _x, y: _y } );
+                            _label.change = true;
+                        }
+                        _labels[ _label.index ] = _label;
+                    }
+                    _p.sLabels = _labels;
+                }
+                return _p.sLabels;
+            }
+        , sLines :
+            function( _sLine ) {
+                var _p = this, _c = _p.coordinate();
+                if( _sLine &amp;&amp; typeof _p.sLine == &#x27;undefined&#x27; ) {
+                    var _tmp, _path, _style, _text, _path, _tpNum = -1, _bbox,
+                        _textMargin = 5, _next, _sLabel, _bbox,
+                        _position, _item, _dir, _tpArray = [];
+                    _p._sLine = []; 
+                    _sLabel = _p.sLabel( _sLine );
+                    $.each( _sLabel, function( _i, _label ) {
+                        _item = _sLine[ _i ];
+                        _bbox = JChart.f.getBBox( _label );
+                        _dir = _item.dir;
+                        _style = _Model.STYLE.style[ _i % _Model.STYLE.style.length ];
+                        _path = &#x27; M&#x27; + _item.startPoint.x + &#x27; &#x27; + _item.startPoint.y + 
+                                &#x27; S&#x27; + _item.endPoint.x + &#x27; &#x27; + 
+                                ( function() {
+                                    var _basey = _item.endPoint.y;
+                                    if( typeof _label.change != &#x27;undefined&#x27; &amp;&amp; _label.change ) {
+                                        _basey += ( _label.dir == 0 || _label.dir == 3 ) ? 10 : -10; 
+                                    }
+                                    return _basey;
+                                })() + 
+                                &#x27; &#x27; + ( _item.dir &gt; 1 ? _bbox.x2 + 5 : _bbox.x - 5 ) +
+                                &#x27; &#x27; + (_bbox.y + _bbox.height / 2);
+                        _tmp = _p.stage().path( _path ).attr( { &#x27;stroke&#x27;: _style.fill } )
+                            .translate( .5, .5 );
+                        _p._sLine.push( _tmp );
+                    } );
+                }
+                return _p._sLine;
+            }
+        , tips :
+            function( _ix ){
+                var _p = this, _c = _p.coordinate(), _items, _text, _val
+                    , _len = _c.hlen, _count = 0
+                    , _offsetY = 34
+                    , _offsetX = 20
+                    , _padWidth = 14
+                    , _padHeight = 8
+                    , _strokeColor = &#x27;#000&#x27;
+                    , _tmp, _tmpBox, _tmpItem, _maxWidth = 0
+                    ;
+
+                if( !_p._tips ) {
+                    var _initOffset = { x: 10000, y: 0 };
+                    //_initOffset.x = 0;
+                    _p._tips = new JChart.Group();
+
+                    _p._tips.addChild( 
+                        _p.stage().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
+                            &#x27;stroke&#x27;: &#x27;#999&#x27;
+                            , &#x27;fill&#x27;: &#x27;#fff&#x27; 
+                            , &#x27;fill-opacity&#x27;: .98
+                        } )
+                    , &#x27;rect&#x27; );
+
+                    _p._tips.addChild( _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, &#x27;tips&#x27; )
+                            .attr( { &#x27;font-weight&#x27;: &#x27;bold&#x27;, &#x27;fill&#x27;: &#x27;#999&#x27;, &#x27;text-anchor&#x27;: &#x27;start&#x27; } )
+                    , &#x27;title&#x27; );
+
+                    _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _p.data().series[0].name || &#x27;empty&#x27; )
+                            .attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27; } );
+                    _tmpBox = JChart.f.getBBox( _tmp );
+                    _offsetY += _tmpBox.height + 5;
+                    _tmpBox.width &gt; _maxWidth &amp;&amp; ( _maxWidth = _tmpBox.width );
+                    _p._tips.addChild( _tmp, &#x27;label_0&#x27; );
+
+                    _tmpItem = _p._tips.getChildByName( &#x27;label_0&#x27; );
+                    _tmpBox = JChart.f.getBBox( _tmpItem );
+                    _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( &#x27;y&#x27; ) + _initOffset.y, &#x27;012345678901.00&#x27; )
+                            .attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27; } );
+                    _p._tips.addChild( _tmp, &#x27;val_0&#x27; );
+
+                    _tmpItem = _p._tips.getChildByName( &#x27;val_0&#x27; );
+                    _tmpItem.attr( &#x27;text&#x27;, &#x27;0.00&#x27; );
+
+                    _p._tipLabelMaxWidth = _maxWidth;
+                }
+                if( typeof _ix != &#x27;undefined&#x27; ){
+                    _p._tips.getChildByName( &#x27;title&#x27; ).attr( &#x27;text&#x27;, _p.tipsTitle( _ix ) );
+                    var _maxTextWidth = 0, _tmpLabel;
+                    var _fillColor = _Model.STYLE.style[ _ix % _Model.STYLE.style.length ].fill; 
+                    _maxTextWidth = JChart.f.getBBox( _p._tips.getChildByName( &#x27;val_&#x27; + 0 )
+                                    .attr( &#x27;text&#x27;, JC.f.moneyFormat( _p.series()[ _ix ].y , 3, _p.floatLen() ) )).width;
+                    _p._tips.getChildByName( &#x27;rect&#x27; ).attr( &#x27;stroke&#x27;, _fillColor );
+                    _p._tips.getChildByName( &#x27;title&#x27; ).attr( &#x27;fill&#x27;, _fillColor );
+                    $.each( _p.data().series, function( _k, _item ){
+                        _tmp = _p._tips.getChildByName( &#x27;val_&#x27; + _k );
+                        _tmpLabel = _p._tips.getChildByName( &#x27;label_&#x27; + _k );
+                        _tmpBox = JChart.f.getBBox( _tmpLabel );
+                        _tmp.attr( &#x27;x&#x27;, _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - JChart.f.getBBox( _tmp ).width );
+                    });
+                }
+                _p._tips.getChildByName( &#x27;rect&#x27; ).attr( { width: 80, height: 50 } );
+                _tmpBox = JChart.f.getBBox( _p._tips );
+                _p._tips.getChildByName( &#x27;rect&#x27; ).attr( { &#x27;width&#x27;: _tmpBox.width + _padWidth, &#x27;height&#x27;: _tmpBox.height + _padHeight } );
+
+                return _p._tips;
+            }
+        /**
+         * 获取 tips 标题文本
+         */
+        , tipsTitle:
+            function( _ix ){
+                var _p = this, _r = &#x27;&#x27;;
+                _p.series() &amp;&amp; _p.series().length &amp;&amp; _p.series()[ _ix ] &amp;&amp;
+                    ( _r = _p.series()[ _ix ].name );
+                return _r;
+            }
+
+        , tipsLabel:
+            function(){
+                var _p = this, _r = &#x27;&#x27;;
+                _p.data() &amp;&amp; _p.data().series &amp;&amp; _p.data().series.length &amp;&amp;
+                    ( _r = _p.data().series[ 0 ].name );
+                return _r;
+            }
+
+    });
+
+    JC.f.extendObject( TubularFigure.View.prototype, {
+        init :
+            function() {
+
+                JC.log( &#x27;TubularFigure.View.init:&#x27;, new Date().getTime() );
+    
+                var _p = this;
+            }
+        , draw :
+            function( _data ) {
+                var _p = this,
+                    _c = _p._model.coordinate( _data ),
+                    _d = _p._model.dataBackground();
+                _p.setStaticPosition( _c );
+                _d.mouseenter( function( _evt ) {
+                    TubularFigure.CURRENT_INS = _p;
+                    _jdoc.off( &#x27;mousemove&#x27;, TubularFigure.DEFAULT_MOVE );
+                    _jdoc.on( &#x27;mousemove&#x27;, TubularFigure.DEFAULT_MOVE );
+                    _p.trigger( TubularFigure.Model.MOVING_START );
+                } );
+
+                _d.mouseleave( function( _evt ) {
+                    _p.trigger( TubularFigure.Model.MOVING_DONE );
+                    _jdoc.off( &#x27;mousemove&#x27;, TubularFigure.DEFAULT_MOVE );
+                    TubularFigure.CURRENT_INS = null;
+                } );
+            }
+        , setStaticPosition :
+            function( _coordinate ) {
+                var _p = this,
+                    _c = _coordinate, _tmp;
+                if( _c.title ) {
+                    _p._model.title().attr( _c.title );
+                }
+                if( _c.subTitle ) {
+                    _p._model.subtitle().attr( _c.subTitle );
+                }
+                if( _c.credits ) {
+                    _p._model.credits().attr( _c.credits );
+                }
+                if( _c.legend ){
+                    _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                }
+                if( _c.sector ) {
+                    _p._model.sectors( _c.sector );
+                    _p.trigger( &#x27;update_default_selected&#x27; );
+                }
+                if( _c.sLine ) {
+                    _p._model.sLines( _c.sLine );
+                }
+                _p._model.tips().toFront();
+            }
+        , clearStatus:
+            function() {
+                var _p = this,
+                    _preItems = _p._model.preItems();
+                if( _preItems ){
+                    _preItems.point &amp;&amp; $.each( _preItems.point, function( _k, _item ){
+                        _item.unhover();
+                    });
+                    _preItems.vlines &amp;&amp; _preItems.vlines.unhover();
+                    _preItems.rectLines &amp;&amp; ( function() {
+                        $.each( _preItems.rectLines, function( _i, _item ) {
+                            _item.unhover();
+                        });
+                    } )();
+                }
+                _p._model.preItems( null );
+            }
+        , updateTips:
+            function( _ix, _offset ){
+                var _p = this
+                    , _tips = _p._model.tips( _ix )
+                    , _bbox = JChart.f.getBBox( _tips )
+                    , _c = _p._model.coordinate()
+                    , _x = _offset.x + 15, _y = _offset.y + 18
+                    ;
+
+                if( ( _y + _bbox.height ) &gt; _c.stage.height ){
+                    _y = _offset.y - _bbox.height + 8;
+                }
+                _y &lt; 0 &amp;&amp; ( _y = 0 );
+
+                if( ( _x + _bbox.width ) &gt; _c.stage.width ){
+                    _x = _offset.x - _bbox.width;
+                }
+                _x &lt; 0 &amp;&amp; ( _x = 0 );
+
+                _tips.setPosition( _x, _y );
+            }
+        });
+
+    _jdoc.ready( function(){
+        var _insAr = 0;
+        TubularFigure.autoInit
+            &amp;&amp; ( _insAr = TubularFigure.init() )
+            &amp;&amp; $( &#x27;&lt;h2&gt;TubularFigure total ins: &#x27; 
+                + _insAr.length + &#x27;&lt;br/&gt;&#x27; + new Date().getTime() + &#x27;&lt;/h2&gt;&#x27; ).appendTo( document.body )
+            ;
+    });
+
+    return JC.TubularFigure;
+});}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
+        function ( _name, _require, _cb ) { 
+            typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );
+            typeof _require == &#x27;function&#x27; &amp;&amp; ( _cb = _require ); 
+            _cb &amp;&amp; _cb(); 
+        }
+        , window
+    )
+);
+
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

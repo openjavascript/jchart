@@ -69,29 +69,13 @@
             
                 <li><a href="../classes/JChart.f.html">JChart.f</a></li>
             
-                <li><a href="../classes/JChart.Geometry.html">JChart.Geometry</a></li>
-            
-                <li><a href="../classes/JChart.GraphicBase.html">JChart.GraphicBase</a></li>
-            
-                <li><a href="../classes/JChart.GraphicPiePart.html">JChart.GraphicPiePart</a></li>
-            
-                <li><a href="../classes/JChart.GraphicPoint.html">JChart.GraphicPoint</a></li>
-            
-                <li><a href="../classes/JChart.GraphicRect.html">JChart.GraphicRect</a></li>
-            
                 <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
             
                 <li><a href="../classes/JChart.HistogramLateral.html">JChart.HistogramLateral</a></li>
             
-                <li><a href="../classes/JChart.IconCircle.html">JChart.IconCircle</a></li>
-            
-                <li><a href="../classes/JChart.IconLine.html">JChart.IconLine</a></li>
-            
-                <li><a href="../classes/JChart.IconRect.html">JChart.IconRect</a></li>
-            
-                <li><a href="../classes/JChart.IconVLine.html">JChart.IconVLine</a></li>
-            
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
+            
+                <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
             
@@ -150,7 +134,8 @@
     , &#x27;JChart.common&#x27;
     , &#x27;JChart.DefaultOptions&#x27; 
     , &#x27;JChart.Event&#x27;, &#x27;JChart.Group&#x27;
-    , &#x27;JChart.IconLine&#x27;, &#x27;JChart.IconRect&#x27;, &#x27;JChart.IconCircle&#x27;
+    , &#x27;JChart.Legend&#x27;
+    , &#x27;JChart.Tips&#x27;
     , &#x27;swfobject&#x27;
     , &#x27;browser&#x27;
     , &#x27;json2&#x27;
@@ -464,7 +449,7 @@ window.JChart = window.JChart || {};
          * 数据图例图标
          */
         , legend:
-            function( _data, _type, _cb ){
+            function( _data, _type ){
                 var _p = this, _tmp = true, _type;
 
                 if( !this._legend &amp;&amp; _data &amp;&amp; 
@@ -472,122 +457,41 @@ window.JChart = window.JChart || {};
                           _tmp
                         )
                     ){
-                    _p._legend =  new JChart.Group();
-                    _p._legendSet = [];
-                    _type = _type || &#x27;line&#x27;;
-                    switch( _type ){
-                        case &#x27;line&#x27;:
-                            {
-                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
-                                _x += _bx;
-                                $.each( _p.series(), function( _k, _item ){
-                                    if( !_item.name ) return;
-                                    var _style = _p.itemStyle( _k );
-                                    _legend = new JChart.IconLine( _p.stage(), _x, 0 + _by, 18, 3, 1, 4 );
-                                    _lb = JChart.f.getBBox( _legend );
-                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( &#x27;text-anchor&#x27;, &#x27;start&#x27;);
-                                    _tb = JChart.f.getBBox( _text );
-                                    _p._legend.addChild( _legend, &#x27;legend_&#x27; + _k, { padX: _x - _bx, padY: _tb.height / 2  + 2  } );
-                                    _legend.attr( _style );
-                                    _legend.attr( &#x27;fill&#x27;, _style.stroke );
-                                    _p._legend.addChild( _text, &#x27;text_&#x27; + _k );
-                                    _x = _tb.x + _tb.width + _pad;
-                                    _h = _tb.height * 1.8;
 
-                                    var _set = _p.stage().set();
-                                    _set.push( _legend.item( &#x27;rect&#x27; ), _legend.item( &#x27;circle&#x27; ), _text );
-                                    _p.initLegendSet( _set, _k );
-                                    _p._legendSet.push( _set );
-                                });
+                    this._legend = new JChart.Legend( _p.stage(), _p.legendDataFilter( _data ), _type, _p.colors() );
+                    this._legendSet = [];
+                    this._legend.on( &#x27;render_item&#x27;, function( _evt, _k, _rect, _text ){
+                        var _set = _p.stage().set();
+                            _set.push( _rect, _text );
 
-                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                                        .attr( { &#x27;stroke-opacity&#x27;: .99, &#x27;fill-opacity&#x27;: .99, &#x27;stroke-width&#x27;: 1, &#x27;stroke&#x27;: &#x27;#909090&#x27; } );
-                                _p._legend.addChild( _box, &#x27;box&#x27; );
-
-                                break;
+                        if( _p.displayLegend ){
+                            if( !( _k in _p.displayLegend ) ){
+                                _set.attr( { &#x27;opacity&#x27;: .35 } ).data( &#x27;selected&#x27;, true );
                             }
-                        case &#x27;rect&#x27;:
-                            {
-                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
-                                _x += _bx;
-                                $.each( _p.series(), function( _k, _item ){
-                                    if( !_item.name ) return;
-                                    var _style = _p.itemStyle( _k );
-                                    _legend = new JChart.IconRect( _p.stage(), _x, 0 + _by, 18, 10, 1, 4 );
-                                    _lb = JChart.f.getBBox( _legend );
-                                    _text = _p.stage().text( _lb.x + 18 + _spad, 0 + _by, _item.name ).attr( &#x27;text-anchor&#x27;, &#x27;start&#x27;);
-                                    _tb = JChart.f.getBBox( _text );
-                                    _p._legend.addChild( _legend, &#x27;legend_&#x27; + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
-                                    _legend.attr( _style );
-                                    _legend.attr( &#x27;fill&#x27;, _style.stroke );
-                                    _p._legend.addChild( _text, &#x27;text_&#x27; + _k );
-                                    _x = _tb.x + _tb.width + _pad;
-                                    _h = _tb.height * 1.8;
+                        }
 
-                                    var _set = _p.stage().set();
-                                        _set.push( _legend.item( &#x27;element&#x27; ), _text );
-                                        _p.initLegendSet( _set, _k );
-                                        _p._legendSet.push( _set );
-                                });
+                        _set.click( function( _evt ){
+                            //JC.log( this.data( &#x27;ix&#x27; ) );
+                            _p.trigger( Base.Model.LEGEND_UPDATE, [ this.data(&#x27;ix&#x27;) ] );
+                        });
 
-                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                                        .attr( { &#x27;stroke-opacity&#x27;: .99, &#x27;fill-opacity&#x27;: .99, &#x27;stroke-width&#x27;: 1, &#x27;stroke&#x27;: &#x27;#909090&#x27; } );
-                                _p._legend.addChild( _box, &#x27;box&#x27; );
-                                break;
-                            }
-
-                        case &#x27;circle&#x27;:
-                            {
-                                var _text = [], _minX = 8, _x = _minX, _y = 0, _maxX = 0, _legend, _text, _spad = 2, _pad = 8, _bx = 100, _by = 100, _tb, _lb, _h = 30;
-                                _x += _bx;
-
-                                _p.series() &amp;&amp;
-                                $.each( _p.series(), function( _k, _item ){
-                                    if( !_item.name ) return;
-                                    var _style = _p.itemStyle( _k );
-                                    _legend = new JChart.IconCircle( _p.stage(), _x, 0 + _by - 7, 5 );
-                                    _lb = JChart.f.getBBox( _legend );
-                                    _text = _p.stage().text( _lb.x + 15 + _spad, 0 + _by, _item.name ).attr( &#x27;text-anchor&#x27;, &#x27;start&#x27;);
-                                    _tb = JChart.f.getBBox( _text );
-                                    _p._legend.addChild( _legend, &#x27;legend_&#x27; + _k, { padX: _x - _bx, padY: _tb.height / 2 + 1 } );
-                                    _legend.attr( _style );
-                                    _legend.attr( &#x27;fill&#x27;, _style.fill );
-                                    _p._legend.addChild( _text, &#x27;text_&#x27; + _k );
-                                    _x = _tb.x + _tb.width + _pad;
-                                    _h = _tb.height * 1.8;
-
-                                    var _set = _p.stage().set();
-                                        _set.push( _legend.item( &#x27;element&#x27; ), _text );
-                                        _p.initLegendSet( _set, _k );
-                                        _p._legendSet.push( _set );
-                                });
-
-                                var _box = _p.stage().rect( _bx, _by - _h / 2, _x - _bx, _h, 8 )
-                                        .attr( { &#x27;stroke-opacity&#x27;: .99, &#x27;fill-opacity&#x27;: .99, &#x27;stroke-width&#x27;: 1, &#x27;stroke&#x27;: &#x27;#909090&#x27; } );
-                                _p._legend.addChild( _box, &#x27;box&#x27; );
-                                break;
-                            }
-
-                    }
+                        _p._legendSet.push( _set );
+                    });
+                    this._legend.draw();
                 }
                     
                 return this._legend;
             }
-        , initLegendSet:
-            function( _set, _k ){
-                var _p = this;
-                _set.attr( { &#x27;cursor&#x27;: &#x27;pointer&#x27; } ).data( &#x27;ix&#x27;, _k );
 
-                if( _p.displayLegend ){
-                    if( !( _k in _p.displayLegend ) ){
-                        _set.attr( { &#x27;opacity&#x27;: .35 } ).data( &#x27;selected&#x27;, true );
-                    }
-                }
-
-                _set.click( function( _evt ){
-                    //JC.log( &#x27;set click&#x27;, this.data(&#x27;ix&#x27;), JC.f.ts() );
-                    _p.trigger( Base.Model.LEGEND_UPDATE, [ this.data(&#x27;ix&#x27;) ] );
-                });
+        , legendDataFilter:
+            function( _data ){
+                var _r;
+                _data 
+                    &amp;&amp; _data.series 
+                    &amp;&amp; _data.series.length 
+                    &amp;&amp; ( _r = _data.series )
+                    ;
+                return _r;
             }
         , legendSet: function(){ return this._legendSet; }
         /**
@@ -765,15 +669,15 @@ window.JChart = window.JChart || {};
                     _finalMaxNum = Math.max( _maxNum, _absNNum );
 
                     if( _maxNum &gt; _absNNum ){
-                        if( Math.abs( _finalMaxNum * 0.33333 ) &gt; _absNNum ){
-                            this._rate = [ 1, 0.66666, 0.33333, 0, -0.33333];
+                        if( Math.abs( _finalMaxNum * 0.333333333333333 ) &gt; _absNNum ){
+                            this._rate = [ 1, 0.666666666666666, 0.333333333333333, 0, -0.333333333333333];
                         }
                         //JC.log( _finalMaxNum, _absNNum, _finalMaxNum * 0.33333, JC.f.ts() );
                     }else{
                         if( _maxNum == 0 ){
                             this._rate = [ 0, -0.25, -0.5, -0.75, -1 ];
                         }else if( Math.abs( _finalMaxNum * 0.33333 ) &gt; _maxNum ){
-                            this._rate = [ 0.33333, 0, -0.33333, -0.66666, -1 ];
+                            this._rate = [ 0.333333333333333, 0, -0.333333333333333, -0.666666666666666, -1 ];
                         }
                     }
                     !this._rate &amp;&amp; ( this._rate = [ 1, .5, 0, -.5, -1 ] );
@@ -792,6 +696,8 @@ window.JChart = window.JChart || {};
 
                 var _p = this, _maxNum, _minNNum, _absNNum, _finalMaxNum
                     , _zeroIndex
+                    , _floatLen = 0
+                    , _tmpLen;
                     ;
 
                 if( _data &amp;&amp; _rate ){
@@ -800,14 +706,23 @@ window.JChart = window.JChart || {};
                     _minNNum = _p.minNNum( _data );
                     _absNNum = Math.abs( _minNNum );
                     _finalMaxNum = Math.max( _maxNum, _absNNum );
+                    var _realRate = [], _realItem;
 
                     _zeroIndex = 0;
 
                     $.each( _rate, function( _ix, _item ){
                         if( _item === 0 ){
                             _zeroIndex = _ix;
-                            return false;
                         }
+                        _realItem = _finalMaxNum * _item;
+                        _realItem = JC.f.parseFinance( _realItem, 10 );
+                        //JC.log( _maxNum, _item, _realItem, JC.f.ts() );
+
+                        if( isFloat( _realItem ) ){
+                            _tmpLen = _realItem.toString().split( &#x27;.&#x27; )[1].length;
+                            _tmpLen &gt; _floatLen &amp;&amp; ( _floatLen = _tmpLen );
+                        }
+                        _realRate.push( _realItem );
                     });
 
                     this._rateInfo = {
@@ -817,6 +732,8 @@ window.JChart = window.JChart || {};
                         , maxNum: _maxNum
                         , minNNum: -_minNNum
                         , length: _rate.length
+                        , floatLen: _floatLen
+                        , realRate: _realRate
                     };
                 }
 
@@ -837,10 +754,9 @@ window.JChart = window.JChart || {};
                         , _text
                         ;
 
-                    $.each( _rate, function( _ix, _item ){
-                        _text = _maxNum * _item;
-                        _rateInfo.minNNum &amp;&amp; ( _text = JC.f.parseFinance( _text, _p.floatLen() ) );
-                        _tmp = _p.stage().text( 10000, 0, _text.toString()  ).attr( { &#x27;cursor&#x27;: &#x27;default&#x27; } );
+                    $.each( _rateInfo.realRate, function( _ix, _item ){
+                        _item = JC.f.moneyFormat( _item, 3, _rateInfo.floatLen || 0 );
+                        _tmp = _p.stage().text( 10000, 0, _item ).attr( { &#x27;cursor&#x27;: &#x27;default&#x27; } );
                         _eles.push( _tmp );
                     });
 
@@ -861,6 +777,7 @@ window.JChart = window.JChart || {};
                         ;
 
                     $.each( _data.xAxis.categories, function( _ix, _item ){
+                        _item = _p.tipsTitle( _ix );
                         _tmp = _p.stage().text( 10000, 0, _item || &#x27;&#x27; ).attr( { &#x27;cursor&#x27;: &#x27;default&#x27; } );
                         _match &amp;&amp; _match.length &amp;&amp; !_match[ _ix ] &amp;&amp; _tmp.hide();
                         _eles.push( _tmp );
@@ -1001,27 +918,39 @@ window.JChart = window.JChart || {};
                 return _r;
             }
         /**
-         * 图标的默认样式
+         * 从不同的索引获取对应的样式
+         * @param   {int}   _ix
          */
         , itemStyle:
             function( _ix ){
-                var _r = {};
+                var _r = {}, _p = this
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
+                _r[ &#x27;fill-opacity&#x27; ] = 1;
+
                 return _r;
             }
         /**
-         * 图标的默认 hover 样式
+         * 从不同的索引获取不同 hover 样式
+         * @param   {int}   _ix
          */
         , itemHoverStyle:
             function( _ix ){
-                var _r = {};
+                var _r = {}, _p = this
+
+                _r.stroke = _p.itemColor( _ix );
+                _r.fill = _p.itemColor( _ix );
+                _r[ &#x27;fill-opacity&#x27; ] = .65;
+
                 return _r;
             }
         /**
-         * 背景线的样式
+         * 从不同的索引获取 背景线条的样式
+         * @param   {int}   _ix
          */
         , lineStyle:
             function( _ix ){
-                var _r = {};
+                var _r = { stroke: &#x27;#999&#x27;, opacity: .35 };
                 return _r;
             }
         /**
@@ -1031,84 +960,60 @@ window.JChart = window.JChart || {};
             function( _offset ){
                 return 0;
             }
+        , indexAtMap:
+            function( _ix ){
+                var _r = _ix;
+                this.displayLegendMap &amp;&amp; ( _r in this.displayLegendMap ) &amp;&amp; ( _r = this.displayLegendMap[ _ix ] );
+                return _r;
+            }
+        , tipsMap: function(){ return this._tipsMap; }
+        , tipsData: 
+            function(){
+                var _r;
+
+                _r = this.displaySeries;
+
+                return _r;
+            }
+        , updateTipsData:
+            function( _ix ){
+                var _p = this, _r;
+                _r = {
+                    title: _p.tipsTitle( _ix )
+                    , tipsData: []
+                };
+
+                $.each( _p.getDisplaySeries(), function( _k, _item ){
+                    _r.tipsData.push( JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) );
+                });
+
+                return _r;
+            }
         /**
          * 获取 tips 对象
          */
         , tips:
             function( _ix ){
-                var _p = this, _c = _p.coordinate(), _items, _text, _val
-                    , _len = _c.hlen, _count = 0
-                    , _offsetY = 34
-                    , _offsetX = 20
-                    , _padWidth = 14
-                    , _padHeight = 8
-                    , _strokeColor = &#x27;#000&#x27;
-                    , _tmp, _tmpBox, _tmpItem, _maxWidth = 0
-                    ;
+                var _p = this;
 
-                if( !_p._tips ){
-                    var _initOffset = { x: 10000, y: 0 };
-                    //_initOffset.x = 0;
-                    _p._tips = new JChart.Group();
-
-                    _p._tips.addChild( 
-                        _p.stage().rect( 0 + _initOffset.x, 0 + _initOffset.y, 50, 30, 5 ).attr( { 
-                            &#x27;stroke&#x27;: &#x27;#999&#x27;
-                            , &#x27;fill&#x27;: &#x27;#fff&#x27; 
-                            , &#x27;fill-opacity&#x27;: .94
-                        } )
-                    , &#x27;rect&#x27; );
-
-                    _p._tips.addChild( _p.stage().text( 10 + _initOffset.x, 14 + _initOffset.y, &#x27;tips&#x27; )
-                            .attr( { &#x27;font-weight&#x27;: &#x27;bold&#x27;, &#x27;fill&#x27;: &#x27;#999&#x27;, &#x27;text-anchor&#x27;: &#x27;start&#x27; } )
-                            , &#x27;title&#x27; );
-
-                    $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _strokeColor = _p.itemStyle( _p.getLegendMapIndex( _k ) ).stroke;
-                        _tmp = _p.stage().text( _offsetX + _initOffset.x, _offsetY + _initOffset.y, _item.name || &#x27;empty&#x27; )
-                                .attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;fill&#x27;: _strokeColor } );
-                        _tmpBox = JChart.f.getBBox( _tmp );
-                        _p._tips.addChild( _tmp, &#x27;label_&#x27; + _k );
-                        _offsetY += _tmpBox.height + 5;
-                        _tmpBox.width &gt; _maxWidth &amp;&amp; ( _maxWidth = _tmpBox.width );
-                    });
-
-                    $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _strokeColor = _p.itemStyle( _p.getLegendMapIndex( _k ) ).stroke;
-                        _tmpItem = _p._tips.getChildByName( &#x27;label_&#x27; + _k );
-                        _tmpBox = JChart.f.getBBox( _tmpItem );
-                        _tmp = _p.stage().text( _maxWidth + _offsetX + 10 + _initOffset.x, _tmpItem.attr( &#x27;y&#x27; ) + _initOffset.y, &#x27;012345678901.00&#x27; )
-                                .attr( { &#x27;text-anchor&#x27;: &#x27;start&#x27;, &#x27;fill&#x27;: _strokeColor } );
-                        _p._tips.addChild( _tmp, &#x27;val_&#x27; + _k );
-                    });
-
-                    $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _tmpItem = _p._tips.getChildByName( &#x27;val_&#x27; + _k );
-                        _tmpItem.attr( &#x27;text&#x27;, &#x27;0.00&#x27; );
-                    });
-
-                    _p._tipLabelMaxWidth = _maxWidth;
-                }
-                if( typeof _ix != &#x27;undefined&#x27; ){
-                    _p._tips.getChildByName( &#x27;title&#x27; ).attr( &#x27;text&#x27;, _p.tipsTitle( _ix ) );
-                    var _maxTextWidth = 0, _tmpLabel;
-                    $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _tmp = JChart.f.getBBox( _p._tips.getChildByName( &#x27;val_&#x27; + _k ).attr( &#x27;text&#x27;, JC.f.moneyFormat( _item.data[ _ix ], 3, _p.floatLen() ) ));
-                        _tmp.width &gt; _maxTextWidth &amp;&amp; ( _maxTextWidth = _tmp.width );
-                    });
-                    $.each( _p.getDisplaySeries(), function( _k, _item ){
-                        _tmp = _p._tips.getChildByName( &#x27;val_&#x27; + _k );
-                        _tmpLabel = _p._tips.getChildByName( &#x27;label_&#x27; + _k );
-                        _tmpBox = JChart.f.getBBox( _tmpLabel );
-                        _tmp.attr( &#x27;x&#x27;, _tmpBox.x + _p._tipLabelMaxWidth + 10 + _maxTextWidth - JChart.f.getBBox( _tmp ).width );
-                    });
-
-                }
-                _p._tips.getChildByName( &#x27;rect&#x27; ).attr( { width: 80, height: 50 } );
-                _tmpBox = JChart.f.getBBox( _p._tips );
-                _p._tips.getChildByName( &#x27;rect&#x27; ).attr( { &#x27;width&#x27;: _tmpBox.width + _padWidth, &#x27;height&#x27;: _tmpBox.height + _padHeight } );
-
+                if( _p._tips ) {
+                    typeof _ix != &#x27;undefined&#x27; &amp;&amp; _p._tips.update( _p.updateTipsData( _ix ) );
+                    return _p._tips
+                };
+                _p._tips = new JChart.Tips( _p.stage(), _p.tipsData(), _p.coordinate(), _p.tipsColor() );
+                _p._tips.draw();
                 return _p._tips;
+            }
+        , tipsColor:
+            function(){
+                var _p = this, _r = [], _colors = _p.colors();
+
+                if( _p.displayLegendMap ){
+                    $.each( _p.displayLegendMap, function( _k, _item ){
+                        _r.push( _p.colors()[ _p.displayLegendMap[ _k ] % ( _p.colors().length - 1 )  ] );
+                    });
+                }
+                return _r;
             }
         /**
          * 获取 tips 标题文本
@@ -1411,7 +1316,32 @@ window.JChart = window.JChart || {};
                     , { &#x27;wmode&#x27;: &#x27;transparent&#x27; }
                 );
             }
+        /**
+         * 显示 Tips
+         * @param   {int}   _ix     数据索引
+         * @param   {point} _offset 当前鼠标位置
+         */
+        , updateTips:
+            function( _ix, _offset ){
+                var _p = this;
+                if( !( _p._model.getDisplaySeries() &amp;&amp; _p._model.getDisplaySeries().length &amp;&amp; _p._model.tips() ) ) return;
+                var _tips = _p._model.tips( _ix )
+                    , _x = _offset.x + 15, _y = _offset.y + 15
+                    , _bbox = _tips.set().getBBox()
+                    , _c = _p._model.coordinate()
+                    ;
 
+                if( ( _y + _bbox.height ) &gt; _c.stage.height ){
+                    _y = _offset.y - _bbox.height + 8;
+                }
+                _y &lt; 0 &amp;&amp; ( _y = 0 );
+
+                if( ( _x + _bbox.width ) &gt; _c.stage.width ){
+                    _x = _offset.x - _bbox.width;
+                }
+                _x &lt; 0 &amp;&amp; ( _x = 0 );
+               JChart.moveSet( _tips.set(), Math.floor( _x ), Math.floor( _y ) );
+            }
     });
 
     Base.numberUp = numberUp;
@@ -1462,6 +1392,7 @@ window.JChart = window.JChart || {};
     }
 
     function isFloat( _num ){
+        _num = Math.abs( _num );
         return ( _num - parseInt( _num ) ) &gt; 0;
     }
 
@@ -1507,13 +1438,9 @@ window.JChart = window.JChart || {};
     JChart.moveSet =
         function( _set, _x, _y ){
             if( _set &amp;&amp; _set.length ){
-                var _tmpX = 1000000, _tmpY = 1000000, _tmpBBox;
-                $.each( _set, function( _ix, _item ){
-                    _tmpBBox = _item.getBBox();
-                    _tmpX = Math.min( _tmpX, _tmpBBox.x );
-                    _tmpY = Math.min( _tmpY, _tmpBBox.y );
-                });
-                _set.transform( JC.f.printf( &#x27;t{0} {1}&#x27;, -_tmpX + _x, -_tmpY + _y ) );
+                var _tmpBBox;
+                _tmpBBox = _set[0].getBBox();
+                _set.transform( JC.f.printf( &#x27;t{0} {1}&#x27;, _x - ( _set[0].attr( &#x27;x&#x27; ) || 0 ), _y - ( _set[0].attr( &#x27;y&#x27; ) || 0 ) ) );
             }
             return _set;
         };

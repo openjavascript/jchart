@@ -10,9 +10,7 @@
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.IconVLine.html' target='_blank'>API docs</a>
  *  
  * @namespace   JChart
- * @class       IconVLine
- * @extends     JChart.GraphicBase
- * @constructor
+ * @name IconVLine
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2013-12-13
  * @author  qiushaowei <suches@btbtd.org> | 75 Team

@@ -21,7 +21,7 @@ package org.xas.jchart.piegraph.view.mediator
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index6.addChild( _view = new GraphicView() );		
+			mainMediator.view.index7.addChild( _view = new GraphicView() );		
 			
 			_view.addEventListener( JChartEvent.UPDATE_TIPS, function( _evt:JChartEvent ):void{
 				sendNotification( JChartEvent.UPDATE_TIPS, _evt.data );

@@ -153,12 +153,12 @@ package org.xas.jchart.common.data.test
 					data: [
 						['Firefox',   45.0]
 						, ['IE',       26.8]
-						, ['Others',   0.7]
-						, ['Others',   0.7]
-						, ['Others',   0.7]
-						, ['Others',   0.7]
-						, ['Others',   0.7]
-						, ['Others',   0.7]
+						, ['Others 1',   0.7]
+						, ['Others 2',   0.7]
+						, ['Others 3',   0.7]
+						, ['Others 4',   0.7]
+						, ['Others 5',   0.7]
+						, ['Others 6',   0.7]
 						, {
 							name: 'Chrome',
 							y: 12.8,
@@ -166,12 +166,12 @@ package org.xas.jchart.common.data.test
 						}
 						, ['Safari',    8.5]
 						, ['Opera',     6.2]
-						, ['Others',   0.7]
-						, ['Others',   0.7]
-						, ['Others',   0.7]
-						, ['Others',   0.7]
-						, ['Others',   0.7]
-						, ['Others',   0.7]
+						, ['Others 7',   0.7]
+						, ['Others 8',   0.7]
+						, ['Others 9',   0.7]
+						, ['Others 10',   0.7]
+						, ['Others 11',   0.7]
+						, ['Others 12',   0.7]
 					]
 				}]
 				//,offsetAngle: 180

@@ -104,6 +104,8 @@ package org.xas.jchart.piegraph.controller
 		}
 		
 		private function calcGraphic():void{			
+			
+			facade.registerMediator( new PieLabelMediator() );
 			facade.registerMediator( new GraphicMediator() );
 			
 			BaseConfig.ins.c.cx = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth / 2;
@@ -168,9 +170,8 @@ package org.xas.jchart.piegraph.controller
 				
 				var _controlX:Number = _pieL.end.x
 					, _controlY:Number = _pieL.end.y
-					, _minAngle:Number = 5
-					;
-									
+					, _minAngle:Number = 2
+					;									
 					
 				if( Math.abs( 270 - _pieP.midAngle ) <= _minAngle ){
 					_pieL.direction = "top";

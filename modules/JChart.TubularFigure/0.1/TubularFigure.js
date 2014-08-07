@@ -761,12 +761,7 @@
         });
 
     _jdoc.ready( function(){
-        var _insAr = 0;
-        TubularFigure.autoInit
-            && ( _insAr = TubularFigure.init() )
-            && $( '<h2>TubularFigure total ins: ' 
-                + _insAr.length + '<br/>' + new Date().getTime() + '</h2>' ).appendTo( document.body )
-            ;
+        TubularFigure.autoInit && TubularFigure.init();
     });
 
     return JC.TubularFigure;

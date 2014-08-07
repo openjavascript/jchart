@@ -12,8 +12,8 @@
  * @name    GraphicSector
  * @displayName GraphicSector
  * @param   {selector|string}   _selector   
- * @version dev 0.1 2014-06-26
- * @author  qiushaowei <suches@btbtd.org> | 75 Team
+ * @version dev 0.1 2014-08-07
+ * @author  pengjunkai <pengjunkai@360.cn> | 75 Team
  * @example
         <h2>JC.GraphicSector 示例</h2>
  */

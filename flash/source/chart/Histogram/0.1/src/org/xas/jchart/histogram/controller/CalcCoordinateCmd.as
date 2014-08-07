@@ -1,5 +1,6 @@
 package org.xas.jchart.histogram.controller
 {
+	import flash.external.ExternalInterface;
 	import flash.geom.Point;
 	
 	import org.puremvc.as3.multicore.interfaces.ICommand;
@@ -9,6 +10,7 @@ package org.xas.jchart.histogram.controller
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.data.Coordinate;
+	import org.xas.jchart.common.data.test.DefaultData;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.mediator.*;
 	import org.xas.jchart.histogram.view.mediator.*;
@@ -98,6 +100,10 @@ package org.xas.jchart.histogram.controller
 				calcChartPoint();
 				
 				calcGraphic();	
+				
+				if( !ExternalInterface.available ){
+					facade.registerMediator( new TestMediator( DefaultData.instance.data ) );	
+				}
 				
 				//Log.log( BaseConfig.ins.c.chartWidth, BaseConfig.ins.c.chartHeight );
 			}

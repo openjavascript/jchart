@@ -30,7 +30,7 @@ package org.xas.jchart.common.view.components.BgLineView
 		public function update():void{
 			
 			this.graphics.clear();
-			this.graphics.lineStyle( 1, 0x999999 );
+			this.graphics.lineStyle( 1, 0x999999, .35 );
 			
 			this.drawHLine();
 			this.drawVLine();

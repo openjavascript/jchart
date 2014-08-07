@@ -37,9 +37,9 @@ package org.xas.jchart.common.view.components
 			_labels = new Vector.<TextField>();
 			var _v:Number, _t:String, _titem:TextField;
 			
-			Common.each( BaseConfig.ins.rate, function( _k:int, _item:Number ):*{
-				_v = BaseConfig.ins.finalMaxNum * _item;
-				_t = Common.parseFinance( _v ).toString();
+			Common.each( BaseConfig.ins.realRate, function( _k:int, _item:Number ):*{
+				
+				_t = Common.moneyFormat( _item, 3, BaseConfig.ins.realRateFloatLen || 0 );
 				
 				_titem = new TextField();
 				_titem.text = _t;

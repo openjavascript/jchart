@@ -38,6 +38,9 @@ requirejs.config( {
         , 'JChart.IconRect': 'modules/JChart.IconRect/0.1/IconRect'
         , 'JChart.IconCircle': 'modules/JChart.IconCircle/0.1/IconCircle'
 
+        , 'JChart.Legend': 'modules/JChart.Legend/0.1/Legend'
+        , 'JChart.Tips': 'modules/JChart.Tips/0.1/Tips'
+
         , 'Raphael': 'modules/Raphael/latest/raphael'
         , 'json2': 'modules/JSON/2/JSON'
         , 'swfobject': 'modules/swfobject/2.3/swfobject'

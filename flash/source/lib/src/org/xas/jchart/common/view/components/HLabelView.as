@@ -2,6 +2,7 @@ package org.xas.jchart.common.view.components
 {
 	import com.adobe.utils.StringUtil;
 	
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.text.TextField;
@@ -27,6 +28,7 @@ package org.xas.jchart.common.view.components
 			super();
 		
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
+			
 		}
 		
 		private function addToStage( _evt:Event ):void{

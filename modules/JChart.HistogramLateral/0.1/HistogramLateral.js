@@ -9,9 +9,9 @@
  *
  *  <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.HistogramLateral.html' target='_blank'>API docs</a>
- *      | <a href='../../modules/JChar.HistogramLateral/0.1/_demo' target='_blank'>demo link</a></p>
+ *      | <a href='../../modules/JChart.HistogramLateral/0.1/_demo' target='_blank'>demo link</a></p>
  *  
- *  <h2>页面只要引用本脚本, 默认会处理 div class="JCharHistogramLateral"</h2>
+ *  <h2>页面只要引用本脚本, 默认会处理 div class="jchartHistogramLateral"</h2>
  *
  *  <h2>可用的 HTML attribute</h2>
  *
@@ -20,12 +20,12 @@
  *      <dd><dd>
  *  </dl> 
  *
- * @namespace   JChar
+ * @namespace   JChart
  * @class       HistogramLateral
- * @extends     JChar.Base
+ * @extends     JChart.Base
  * @constructor
  * @param   {selector|string}   _selector   
- * @version dev 0.1 2013-12-13
+ * @version dev 0.1 2014-07-31
  * @author  qiushaowei <suches@btbtd.org> | 75 Team
  * @example
         <h2>JC.HistogramLateral 示例</h2>
@@ -61,10 +61,10 @@
             _selector = $( _selector || document );
 
             if( _selector.length ){
-                if( _selector.hasClass( 'jcharHistogramLateral' )  ){
+                if( _selector.hasClass( 'jchartHistogramLateral' )  ){
                     _r.push( new HistogramLateral( _selector ) );
                 }else{
-                    JChart.Base.init( HistogramLateral, $( 'div.jcharHistogramLateral' ), 0, 1 );
+                    JChart.Base.init( HistogramLateral, $( 'div.jchartHistogramLateral' ), 0, 1 );
                 }
             }
             return _r;
@@ -325,14 +325,9 @@
 
                 /* 图例图标的显示坐标 */
                 if( _p.legendEnable() ){
-                    var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
-                        var _color = _data.stroke 
-                                        || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
-                                        || '#fff';
-                        _legend.attr( 'fill', _color ).attr( 'stroke', _color );
-                    } );
+                    var _legend = _p.legend( _data, 'rect');
                     if( _legend ){
-                        _bbox = JChart.f.getBBox( _legend );
+                        _bbox = _legend.set().getBBox();
                         _c.legend = {
                             x: _offsetX / 2 - _bbox.width / 2,
                             y: _offsetY - _bbox.height,
@@ -375,7 +370,7 @@
                     $.each( hLabels, function( _i, _item ) {
                         _bbox = JChart.f.getBBox( _item );
                         _tmpA.push( {
-                            x : _x + _bbox.width / 2,
+                            x : _x + _hlabelMaxWidth - _bbox.width / 2 + 2,
                             y : _baseY + _partY * _i + _bbox.height / 4,
                             item : _item
                         } );
@@ -568,7 +563,8 @@
                     });
                 }
                 if( _c.legend ){
-                    _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    //_p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    JChart.moveSet( _p._model.legend().set(), _c.legend.x, _c.legend.y );
                 }
                 if( _c.vlines ) {
                     $.each( _c.vlines, function( _k, _item ){
@@ -603,7 +599,7 @@
                     });
                 }
 
-                _p._model.tips().toFront();
+                _p._model.tips().set().toFront();
             }
         , clearStatus:
             function() {
@@ -621,23 +617,6 @@
                     } )();
                 }
                 _p._model.preItems( null );
-            }
-        , updateTips:
-            function( _index, _offset ){
-                var _p = this;
-                if( !( _p._model.displaySeries && _p._model.displaySeries.length ) ) return;
-                var _tips = _p._model.tips( _index ),
-                    _bbox = JChart.f.getBBox( _tips ),
-                    _c = _p._model.coordinate(),
-                    _tipsX = _offset.x + 15,
-                    _tipsY = _offset.y + 18;
-                if( ( _tipsY + _bbox.height ) > _c.stage.height ){
-                    _tipsY = _offset.y - _bbox.height - 3;
-                }
-                if( ( _tipsX + _bbox.width ) > _c.stage.width ){
-                    _tipsX = _offset.x - _bbox.width - 3;
-                }
-                _tips.setPosition( _tipsX, _tipsY );
             }
         , updateRect:
             function( _ix ) {
@@ -668,12 +647,11 @@
     });
 
     _jdoc.ready( function(){
-        var _insAr = 0;
-        HistogramLateral.autoInit
-            && ( _insAr = HistogramLateral.init() )
-            && $( '<h2>HistogramLateral total ins: ' 
-                + _insAr.length + '<br/>' + new Date().getTime() + '</h2>' ).appendTo( document.body )
-            ;
+        HistogramLateral.autoInit && HistogramLateral.init();
+    });
+
+    _jwin.on( JChart.Base.RESIZE_UPDATE, function( _evt ){
+        JChart.Base.reset( 'div.jchartHistogramLateral', JChart.HistogramLateral );
     });
 
     return JC.HistogramLateral;

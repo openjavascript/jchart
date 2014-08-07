@@ -10,9 +10,7 @@
  *      | <a href='http://jc2.openjavascript.org/docs_api/classes/JC.IconCircle.html' target='_blank'>API docs</a>
  *  
  * @namespace   JChart
- * @class       IconCircle
- * @extends     JChart.GraphicBase
- * @constructor
+ * @name IconCircle
  * @param   {selector|string}   _selector   
  * @version dev 0.1 2014-06-24
  * @author  qiushaowei <suches@btbtd.org> | 75 Team

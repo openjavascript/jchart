@@ -34,7 +34,7 @@ package org.xas.jchart.common.ui.widget
 		public function hover():void{
 			graphics.clear();
 			graphics.beginFill( 0xffffff );
-			graphics.lineStyle( 1, _hoverColor );
+			graphics.lineStyle( 1, _hoverColor, .35 );
 			graphics.moveTo( _spoint.x, _spoint.y );
 			graphics.lineTo( _epoint.x, _epoint.y );
 		}
@@ -42,7 +42,7 @@ package org.xas.jchart.common.ui.widget
 		public function unhover():void{
 			graphics.clear();
 			graphics.beginFill( _color );
-			graphics.lineStyle( 1, _color );
+			graphics.lineStyle( 1, _color, .35 );
 			graphics.moveTo( _spoint.x, _spoint.y );
 			graphics.lineTo( _epoint.x, _epoint.y );
 		}

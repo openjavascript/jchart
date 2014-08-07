@@ -97,7 +97,7 @@ package org.xas.jchart.common
 				if( _number.split('.').length > 2 ) return _def;
 			}
 			
-			if( !_number ) return _def;
+			_number = _number || 0;
 			_number += ''; 
 			
 			/^\-/.test( _number ) && ( _isNegative = true );
@@ -240,6 +240,46 @@ package org.xas.jchart.common
 		 * @static
 		 */
 		public static function degree( _radians:Number ):Number{ return _radians / Math.PI * 180; }
+
+		public static function isFloat( _num:Number ):Boolean{
+			_num = Math.abs( _num );
+			return ( _num - parseInt( _num + '' ) ) > 0;
+		}
+		
+		/**
+		 * 判断两个矩形是否有交集
+		 */
+		public static function intersectRect( r1:Object, r2:Object ):Boolean {
+			return !(
+				r2.x > ( r1.x + r1.width ) || 
+				( r2.x + r2.width ) < r1.x || 
+				r2.y > ( r1.y + r1.height ) ||
+				( r2.y + r2.height ) < r1.y
+			);
+		}
+		
+		/**
+		 * 把坐标和宽高生成一个 rectangle 数据
+		 */
+		public static function locationToRect( _x:Number, _y:Number, _width:Number, _height:Number ):Object{
+			var _r:Object = {
+				'left': _x
+				, 'top': _y
+				, 'right': _x + _width
+					, 'bottom': _y + _height 
+			};
+			return _r;
+		}
+		/**
+		 * 把 rectangle 数据 转换为 中心点坐标数据
+		 */
+		public static function rectToCenterPoint( _rect:Object ):Object{
+			var _r:Object = {
+				'x': _rect.left + _rect.width / 2
+					, 'y': _rect.top + _rect.height / 2
+			};
+			return _r;
+		}
 
 
 	}

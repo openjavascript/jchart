@@ -29,7 +29,7 @@ package org.xas.jchart.common.view.components
 		private function showChart( _evt: JChartEvent ):void{
 			this.graphics.clear();
 			
-			this.graphics.beginFill( 0xcccccc, .08 );
+			this.graphics.beginFill( 0xcccccc, .13 );
 			this.graphics.drawRoundRect( 
 				BaseConfig.ins.c.x, BaseConfig.ins.c.y
 				, BaseConfig.ins.c.width, BaseConfig.ins.c.height

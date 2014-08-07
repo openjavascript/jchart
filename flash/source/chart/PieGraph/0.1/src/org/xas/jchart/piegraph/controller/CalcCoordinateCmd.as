@@ -1,5 +1,6 @@
 package org.xas.jchart.piegraph.controller
 {
+	import flash.external.ExternalInterface;
 	import flash.geom.Point;
 	
 	import org.puremvc.as3.multicore.interfaces.ICommand;
@@ -9,6 +10,7 @@ package org.xas.jchart.piegraph.controller
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.data.Coordinate;
+	import org.xas.jchart.common.data.test.DefaultPieData;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.mediator.*;
 	import org.xas.jchart.piegraph.view.mediator.*;
@@ -83,13 +85,17 @@ package org.xas.jchart.piegraph.controller
 				BaseConfig.ins.c.chartWidth = BaseConfig.ins.c.maxX - BaseConfig.ins.c.minX - 5;
 				BaseConfig.ins.c.chartHeight = BaseConfig.ins.c.maxY - BaseConfig.ins.c.minY;	
 				
-				BaseConfig.ins.c.chartX = BaseConfig.ins.c.minX + BaseConfig.ins.c.arrowLength - 2;
+				BaseConfig.ins.c.chartX = BaseConfig.ins.c.minX + BaseConfig.ins.c.arrowLength + 6.5;
 				BaseConfig.ins.c.chartY = BaseConfig.ins.c.minY;
 				
 				facade.registerMediator( new GraphicBgMediator() );	
 				facade.registerMediator( new TipsMediator() );
 								
 				calcGraphic();	
+				
+				if( !ExternalInterface.available ){
+					facade.registerMediator( new TestMediator( DefaultPieData.instance.data ) );	
+				}
 				
 				//Log.log( BaseConfig.ins.c.chartWidth, BaseConfig.ins.c.chartHeight );
 			}
@@ -98,6 +104,8 @@ package org.xas.jchart.piegraph.controller
 		}
 		
 		private function calcGraphic():void{			
+			
+			facade.registerMediator( new PieLabelMediator() );
 			facade.registerMediator( new GraphicMediator() );
 			
 			BaseConfig.ins.c.cx = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth / 2;
@@ -162,9 +170,8 @@ package org.xas.jchart.piegraph.controller
 				
 				var _controlX:Number = _pieL.end.x
 					, _controlY:Number = _pieL.end.y
-					, _minAngle:Number = 5
-					;
-									
+					, _minAngle:Number = 2
+					;									
 					
 				if( Math.abs( 270 - _pieP.midAngle ) <= _minAngle ){
 					_pieL.direction = "top";
@@ -235,14 +242,6 @@ package org.xas.jchart.piegraph.controller
 		
 		private function get pLegendMediator():LegendMediator{
 			return facade.retrieveMediator( LegendMediator.name ) as LegendMediator;
-		}
-		
-		private function get pHLabelMediator():HLabelMediator{
-			return facade.retrieveMediator( HLabelMediator.name ) as HLabelMediator;
-		}
-		
-		private function get pVLabelMediator():VLabelMediator{
-			return facade.retrieveMediator( VLabelMediator.name ) as VLabelMediator;
 		}
 		
 		private function get pCreditMediator():CreditMediator{

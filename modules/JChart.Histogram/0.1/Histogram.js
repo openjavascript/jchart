@@ -47,7 +47,7 @@
 
         this._model = new Histogram.Model( _selector );
         this._view = new Histogram.View( this._model );
-        console.log(this._init);
+        //console.log(this._init);
         this._init();
 
         JC.log( Histogram.Model._instanceName, 'all inited', new Date().getTime() );
@@ -226,42 +226,6 @@
                 return _p._rects;
             }
         /**
-         * 从不同的索引获取对应的样式
-         * @param   {int}   _ix
-         */
-        , itemStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-                _r.stroke = _p.itemColor( _ix );
-                _r.fill = _p.itemColor( _ix );
-                _r[ 'fill-opacity' ] = 1;
-
-                return _r;
-            }
-        /**
-         * 从不同的索引获取不同 hover 样式
-         * @param   {int}   _ix
-         */
-        , itemHoverStyle:
-            function( _ix ){
-                var _r = {}, _p = this
-
-                _r.stroke = _p.itemColor( _ix );
-                _r.fill = _p.itemColor( _ix );
-                _r[ 'fill-opacity' ] = .65;
-
-                return _r;
-            }
-        /**
-         * 从不同的索引获取 背景线条的样式
-         * @param   {int}   _ix
-         */
-        , lineStyle:
-            function( _ix ){
-                var _r = { stroke: '#999', opacity: .35 };
-                return _r;
-            }
-        /**
          * 从坐标点计算位于哪个数据项
          * @param   {Point} _point
          */
@@ -371,20 +335,15 @@
                  * 图例图标的显示坐标
                  */
                 if( _p.legendEnable() ){
-                    var _legend = _p.legend( _data, 'rect', function( _ix, _legend, _text, _data ){
-                        var _color = _data.stroke 
-                                        || Histogram.Model.STYLE.data[ _ix % Histogram.Model.STYLE.data.length ].stroke 
-                                        || '#fff';
-                        _legend.attr( 'fill', _color ).attr( 'stroke', _color );;
-                    } );
+                    var _legend = _p.legend( _data, 'rect' );
                     if( _legend ){
-                        _bbox = JChart.f.getBBox( _legend );
+                        _bbox = _legend.set().getBBox()
                         _c.legend = {
                             x: ( _maxX - _bbox.width ) / 2
-                            , y: _maxY - _bbox.height + 5
+                            , y: _maxY - _bbox.height - 2
                             , ele: _legend
                         }
-                        _maxY = _c.legend.y;
+                        _maxY = _c.legend.y - 2;
                     }
                 }
 
@@ -661,7 +620,7 @@
                     _p._model.credits().attr( _c.credits );
                 }
                 if( _c.legend ){
-                    _p._model.legend().setPosition( _c.legend.x, _c.legend.y );
+                    JChart.moveSet( _p._model.legend().set(), _c.legend.x, _c.legend.y );
                 }
                 if( _c.vlables ){
                     $.each( _c.vlables, function( _k, _item ){
@@ -699,7 +658,7 @@
                     });
                 }
 
-                _p._model.tips().toFront();
+                _p._model.tips().set().toFront();
 
                 /*
                 var _text = _p.stage().text( 100, 100, 'test 1' ).attr( { 'text-anchor': 'start' } )
@@ -750,34 +709,6 @@
                     _jdoc.off( 'mousemove', Histogram.DEFAULT_MOVE );
                     Histogram.CURRENT_INS = null;
                 });
-            }
-        /**
-         * 显示 Tips
-         * @param   {int}   _ix     数据索引
-         * @param   {point} _offset 当前鼠标位置
-         */
-        , updateTips:
-            function( _ix, _offset ){
-                var _p = this;
-                if( !( _p._model.displaySeries && _p._model.displaySeries.length ) ) return;
-                var _tips = _p._model.tips( _ix )
-                    , _bbox = JChart.f.getBBox( _tips )
-                    , _c = _p._model.coordinate()
-                    , _x = _offset.x + 15, _y = _offset.y + 18
-                    , _point = _c.vlinePoint[ _ix ]
-                    ;
-
-                if( ( _y + _bbox.height ) > _c.stage.height ){
-                    _y = _offset.y - _bbox.height + 8;
-                }
-                _y < 0 && ( _y = 0 );
-
-                if( ( _x + _bbox.width ) > _c.stage.width ){
-                    _x = _offset.x - _bbox.width;
-                }
-                _x < 0 && ( _x = 0 );
-
-                _tips.setPosition( _x, _y );
             }
         /**
          * 更新当前距行的显示状态

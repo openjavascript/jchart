@@ -774,6 +774,21 @@ package org.xas.jchart.common.data
 		public static var colors:Array =
 			[
 				0x09c100, 
+				0x0c76c4, 				
+				0xff0619,
+				
+				0xFFBF00, 			
+				0xff7100,	
+				0xff06b3, 
+				
+				0x41e2e6,			
+				0xc3e2a4,	
+				0xffb2bc,
+				
+				0xdbb8fd
+				
+				/*
+				0x09c100, 
 				0xffbf00, 
 				0x0c76c4, 
 				0x41e2e6, 
@@ -782,6 +797,7 @@ package org.xas.jchart.common.data
 				0xff06b3, 
 				0xff7100, 
 				0xc3e2a4
+				*/
 			];
 		
 		public static var labels:Object =

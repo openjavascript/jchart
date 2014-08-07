@@ -277,7 +277,7 @@
                             ;
                         _p._pieLine.push( _tmp );
                         _text = _p.stage().text( 0, 0, _item.data.name )
-                            .attr( { 'fill': '#999' } )
+                            .attr( { 'fill': '#999', 'cursor': 'default' } )
                             ;
                         switch( _item.direction ){
                             case 'top':

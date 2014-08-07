@@ -74,6 +74,7 @@ package org.xas.jchart.piegraph.view.components
 						addChild( _tmp );
 						
 						_text.text = BaseConfig.ins.displaySeries[ _k ].name;
+						_text.mouseEnabled = false;
 						_text.autoSize = TextFieldAutoSize.LEFT;
 						
 						switch( _lineData.direction ){

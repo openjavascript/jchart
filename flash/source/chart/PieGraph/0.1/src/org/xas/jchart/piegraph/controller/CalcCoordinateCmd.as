@@ -243,14 +243,6 @@ package org.xas.jchart.piegraph.controller
 			return facade.retrieveMediator( LegendMediator.name ) as LegendMediator;
 		}
 		
-		private function get pHLabelMediator():HLabelMediator{
-			return facade.retrieveMediator( HLabelMediator.name ) as HLabelMediator;
-		}
-		
-		private function get pVLabelMediator():VLabelMediator{
-			return facade.retrieveMediator( VLabelMediator.name ) as VLabelMediator;
-		}
-		
 		private function get pCreditMediator():CreditMediator{
 			return facade.retrieveMediator( CreditMediator.name ) as CreditMediator;
 		}

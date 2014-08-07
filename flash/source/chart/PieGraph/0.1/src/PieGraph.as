@@ -150,7 +150,7 @@ package
 			var _data:Object = {};
 			
 			if( !ExternalInterface.available ){							
-				_data = DefaultPieData.instance.data[0];
+				_data = DefaultPieData.instance.data[4];
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
 				if( _loaderInfo.chart ){

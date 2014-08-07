@@ -140,6 +140,42 @@ package org.xas.jchart.common.data.test
 				}]
 				,offsetAngle: 180
 			});
+			
+			_data.push({
+				title: {
+					text:'浏览器使用份额'
+				},
+				subtitle: {
+					text: 'for PC'
+				}, 
+				series:[{
+					name: 'Browser share',
+					data: [
+						['Firefox',   45.0]
+						, ['IE',       26.8]
+						, ['Others',   0.7]
+						, ['Others',   0.7]
+						, ['Others',   0.7]
+						, ['Others',   0.7]
+						, ['Others',   0.7]
+						, ['Others',   0.7]
+						, {
+							name: 'Chrome',
+							y: 12.8,
+							selected: true
+						}
+						, ['Safari',    8.5]
+						, ['Opera',     6.2]
+						, ['Others',   0.7]
+						, ['Others',   0.7]
+						, ['Others',   0.7]
+						, ['Others',   0.7]
+						, ['Others',   0.7]
+						, ['Others',   0.7]
+					]
+				}]
+				//,offsetAngle: 180
+			});
 		}
 		
 	}

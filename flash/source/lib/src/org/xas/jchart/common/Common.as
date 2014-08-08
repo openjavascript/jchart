@@ -61,6 +61,7 @@ package org.xas.jchart.common
 			
 			return _items;
 		}
+import flash.display.DisplayObject;
 			
 		public static function isNegative( _num:Number ):Boolean{
 			return _num < 0;
@@ -277,6 +278,55 @@ package org.xas.jchart.common
 			var _r:Object = {
 				'x': _rect.left + _rect.width / 2
 					, 'y': _rect.top + _rect.height / 2
+			};
+			return _r;
+		}
+		public static function displayToCenterPoint( _display:*, _side:int = 0, _offsetX:Number = 0, _offsetY:Number = 0 ):Object{
+			var _do:DisplayObject = _display as DisplayObject, _r:Object = { x: 0, y: 0 };			
+			if( _do ){
+				switch( _side ){
+					case 1: //right bottom
+					{
+						_r = { 'x': _do.x + _do.width + _offsetX, 'y': _do.y + _do.height + _offsetY };
+						break;
+					}
+					case 2: //right mid
+					{
+						_r = { 'x': _do.x + _do.width + _offsetX, 'y': _do.y + _do.height / 2 + _offsetY };
+						break;
+					}
+					case 3: //left mid
+					{
+						_r = { 'x': _do.x + _offsetX, 'y': _do.y + _do.height / 2 + _offsetY };
+						break;
+					}
+					case 4: //left bottom
+					{
+						_r = { 'x': _do.x + _offsetX, 'y': _do.y + _do.height  + _offsetY };
+						break;
+					}
+					case 5: //center bottom
+					{
+						_r = { 'x': _do.x + _do.width / 2 + _offsetX, 'y': _do.y + _do.height  + _offsetY };
+						break;
+					}
+					case 6: //center top
+					{
+						_r = { 'x': _do.x + _do.width / 2 + _offsetX, 'y': _do.y + _offsetY };
+						break;
+					}
+					case 7: //center mid
+					{
+						_r = { 'x': _do.x + _do.width / 2 + _offsetX, 'y': _do.y + _offsetY };
+						break;
+					}
+					default: 
+					{						
+						_r = { 'x': _do.x + _do.width / 2 + _offsetX, 'y': _do.y + _do.height / 2 +_offsetY };
+						break;
+					}
+						
+				}
 			};
 			return _r;
 		}

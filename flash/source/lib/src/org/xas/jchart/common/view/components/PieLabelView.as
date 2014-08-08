@@ -90,7 +90,7 @@ package org.xas.jchart.common.view.components
 			
 			Common.each( BaseConfig.ins.c.pieLine, function( _k:int, _lineData:Object ):void{
 				
-				var _data:Object = { index: _k, data: _lineData, line: _line }
+				var _data:Object = { index: _k, data: _lineData, line: _line, color: BaseConfig.ins.itemColor( _k ) }
 					, _line:JSprite = new JSprite( _data )
 					, _label:JTextField = new JTextField( _data )
 					;
@@ -196,7 +196,6 @@ package org.xas.jchart.common.view.components
 				_rightTopLabel;
 				fixRightTopLabel( _rightTopLabel );
 				
-				_rightBottomLabel.reverse();
 				fixRightBottomLabel( _rightBottomLabel );
 				
 				fixLeftTopLabel( _leftTopLabel );
@@ -253,8 +252,19 @@ package org.xas.jchart.common.view.components
 				_item.y = _point.y;
 				
 				var _line:JSprite = _lines[ _item.data.index ]
+				, _lineEndPoint:Object
 				;
 				_line.graphics.clear();
+				//Log.printJSON( _line.data.data.start );
+				_line.graphics.lineStyle( 1, _line.data.color );
+				_line.graphics.moveTo( _line.data.data.start.x, _line.data.data.start.y );
+				
+				if( _line.data.data.start.y > _item.y && Math.abs( _line.data.data.start.x - _item.x + _item.width / 2 ) < 100 ){		
+					_lineEndPoint = Common.displayToCenterPoint( _item, 5, 0, 0 );
+				}else{
+					_lineEndPoint = Common.displayToCenterPoint( _item, 3, 0, 0 );
+				}
+				_line.graphics.lineTo( _lineEndPoint.x, _lineEndPoint.y );
 			});
 		}
 		
@@ -310,8 +320,18 @@ package org.xas.jchart.common.view.components
 				_item.y = _point.y;
 				
 				var _line:JSprite = _lines[ _item.data.index ]
+				, _lineEndPoint:Object
 				;
 				_line.graphics.clear();
+				_line.graphics.lineStyle( 1, _line.data.color );
+				_line.graphics.moveTo( _line.data.data.start.x, _line.data.data.start.y );
+				
+				if( _line.data.data.start.y < _item.y  ){	
+					_lineEndPoint = Common.displayToCenterPoint( _item, 7, 0, 0 );
+				}else{	
+					_lineEndPoint = Common.displayToCenterPoint( _item, 5, 0, 0 );
+				}
+				_line.graphics.lineTo( _lineEndPoint.x, _lineEndPoint.y );
 			});
 		}
 		
@@ -361,8 +381,19 @@ package org.xas.jchart.common.view.components
 				_item.y = _point.y;
 		
 				var _line:JSprite = _lines[ _item.data.index ]
+					, _lineEndPoint:Object
 					;
 					_line.graphics.clear();
+					//Log.printJSON( _line.data.data.start );
+					_line.graphics.lineStyle( 1, _line.data.color );
+					_line.graphics.moveTo( _line.data.data.start.x, _line.data.data.start.y );
+					
+					if( _line.data.data.start.y > _item.y && Math.abs( _line.data.data.start.x - _item.x + _item.width / 2 ) > 100 ){		
+						_lineEndPoint = Common.displayToCenterPoint( _item, 5, 0, 0 );
+					}else{
+						_lineEndPoint = Common.displayToCenterPoint( _item, 2, 0, 0 );
+					}
+					_line.graphics.lineTo( _lineEndPoint.x, _lineEndPoint.y );
 			});
 		}		
 		
@@ -412,8 +443,19 @@ package org.xas.jchart.common.view.components
 				_item.y = _point.y;
 				
 				var _line:JSprite = _lines[ _item.data.index ]
+				, _lineEndPoint:Object
 				;
 				_line.graphics.clear();
+				//Log.printJSON( _line.data.data.start );
+				_line.graphics.lineStyle( 1, _line.data.color );
+				_line.graphics.moveTo( _line.data.data.start.x, _line.data.data.start.y );
+				
+				if( _line.data.data.start.y > _item.y && Math.abs( _line.data.data.start.x - _item.x + _item.width / 2 ) < 100 ){		
+					_lineEndPoint = Common.displayToCenterPoint( _item, 5, 0, 0 );
+				}else{
+					_lineEndPoint = Common.displayToCenterPoint( _item, 2, 0, 0 );
+				}
+				_line.graphics.lineTo( _lineEndPoint.x, _lineEndPoint.y );
 			});
 		}	
 		

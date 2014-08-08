@@ -88,6 +88,9 @@ package org.xas.jchart.piegraph.controller
 				BaseConfig.ins.c.chartX = BaseConfig.ins.c.minX + BaseConfig.ins.c.arrowLength + 6.5;
 				BaseConfig.ins.c.chartY = BaseConfig.ins.c.minY;
 				
+				BaseConfig.ins.c.chartMaxX = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth;
+				BaseConfig.ins.c.chartMaxY = BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight;
+				
 				facade.registerMediator( new GraphicBgMediator() );	
 				facade.registerMediator( new TipsMediator() );
 								

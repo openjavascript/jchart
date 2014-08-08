@@ -5,6 +5,8 @@ package org.xas.jchart.common.view.components
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.external.ExternalInterface;
+	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFormat;
@@ -44,6 +46,8 @@ package org.xas.jchart.common.view.components
 		private var _maxWidth:Number;
 		private var _maxHeight:Number;
 		
+		private var _debugLabel:Boolean = false;
+		
 		public function PieLabelView()
 		{
 			super();
@@ -52,6 +56,7 @@ package org.xas.jchart.common.view.components
 		}
 		
 		private function addToStage( _evt:Event ):void{
+			_debugLabel = false;
 			addEventListener( JChartEvent.SHOW_CHART, onShowChart );
 		}
 		
@@ -187,13 +192,13 @@ package org.xas.jchart.common.view.components
 			//Log.log( _isIntersect );
 			if( _isIntersect ){
 				
+				_rightTopLabel.reverse();
 				_rightTopLabel;
 				fixRightTopLabel( _rightTopLabel );
 				
 				_rightBottomLabel.reverse();
 				fixRightBottomLabel( _rightBottomLabel );
 				
-				_leftTopLabel.reverse();
 				fixLeftTopLabel( _leftTopLabel );
 				
 				_leftBottomLabel.reverse();
@@ -203,33 +208,49 @@ package org.xas.jchart.common.view.components
 		
 		private function fixRightTopLabel( _labels:Vector.<JTextField> ):void{
 			if( !_labels.length ) return;
-			var _x:Number = BaseConfig.ins.c.cx + _labels[0].width
+			var _x:Number = BaseConfig.ins.c.cx + 5
 				, _y:Number = BaseConfig.ins.c.chartY + 5
-				;
+				, _endX:Number = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - 5 - _labels[ 0 ].width
+				, _endY:Number = BaseConfig.ins.c.cy - _maxHeight - 5
+				
+				, _lineLen:Number = Common.lineLength( _x, _y, _endX, _endY )
+				, _lineAngle:Number = Common.lineAngle( _endX, _endY, _x, _y )
+				, _centerPoint:Point = Common.moveByAngle( _lineAngle, new Point( _endX, _endY ), _lineLen / 2 )
+				, _startAngle:Number = Common.lineAngle( _centerPoint.x, _centerPoint.y, _endX, _endY )
+				, _endAngle:Number = Common.lineAngle( _centerPoint.x, _centerPoint.y, _x, _y )
+				, _angleStep:Number = ( _endAngle - _startAngle ) / ( _labels.length - 1)
+				, _angleLenOffsetX:Number = 50
+				, _angleLenOffsetY:Number = 80
+				, _angleLen:Number = Common.lineLength( _centerPoint.x, _centerPoint.y
+					, BaseConfig.ins.c.chartMaxX - _angleLenOffsetX, BaseConfig.ins.c.chartY + _angleLenOffsetY )
+				;			
 			
-			var _preLabel:JTextField = getLabel( _labels[0].data.index + 1 )
-				, _nextLabel:JTextField
-				, _xStep:Number = ( BaseConfig.ins.c.chartX 
-									+ BaseConfig.ins.c.chartWidth 
-									- _x 
-									- 5
-									) / ( _labels.length - 1 )
-				, _yStep:Number = ( BaseConfig.ins.c.cy - _y + _maxHeight ) / ( _labels.length )
-				;
+			if( _debugLabel ){
+				//Log.log( _lineAngle, _startAngle, _endAngle, _angleStep, _x, _y, _endX, _endY, BaseConfig.ins.c.chartY, BaseConfig.ins.c.chartHeight );
+				graphics.lineStyle( 1, 0 );
+				graphics.moveTo( _x, _y );
+				graphics.lineTo( _endX, _endY );
+				graphics.moveTo( _centerPoint.x, _centerPoint.y );
+				graphics.lineTo( BaseConfig.ins.c.chartMaxX - _angleLenOffsetX, BaseConfig.ins.c.chartY + _angleLenOffsetY );
+			}
+							
 			
 			Common.each( _labels, function( _k:int, _item:JTextField ):void{
-				_preLabel = getLabel( _item.data.index + 1 );
-				_nextLabel = getLabel( _item.data.index - 1 );
-				var _plus:Number = 0;
 				
-				_plus = _item.width;
+				var _angle:Number = _startAngle - _k * _angleStep
+				, _point:Point = Common.moveByAngle( _angle, _centerPoint, _angleLen ) 
+				;					
 				
-				if( _preLabel ){
-					_item.x = _x - _plus;
-					_item.y = _y;
-					_x += _xStep;
-					_y += _yStep;
+				if( _point.y < BaseConfig.ins.c.chartY + 5 ){
+					_point.y = BaseConfig.ins.c.chartY + 5;
 				}
+				
+				if( _point.x > BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - 5 - _item.width ){
+					_point.x = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - 5 - _item.width;
+				}				
+				
+				_item.x = _point.x;
+				_item.y = _point.y;
 				
 				var _line:JSprite = _lines[ _item.data.index ]
 				;
@@ -239,33 +260,54 @@ package org.xas.jchart.common.view.components
 		
 		private function fixRightBottomLabel( _labels:Vector.<JTextField> ):void{
 			if( !_labels.length ) return;
-			var _x:Number = BaseConfig.ins.c.cx + _labels[0].width
+			var _x:Number = BaseConfig.ins.c.cx + 5
+				, _endX:Number = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - 5 - _maxWidth
+				
 				, _y:Number = BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight - 5 - _maxHeight
-				;
+				, _endY:Number = BaseConfig.ins.c.cy + _maxHeight - 5
+				
+				, _lineLen:Number = Common.lineLength( _x, _y, _endX, _endY )
+				, _lineAngle:Number = Common.lineAngle( _endX, _endY, _x, _y )
+				, _centerPoint:Point = Common.moveByAngle( _lineAngle, new Point( _endX, _endY ), _lineLen / 2 )
+				, _startAngle:Number = Common.lineAngle( _centerPoint.x, _centerPoint.y, _endX, _endY )
+				, _endAngle:Number = Common.lineAngle( _centerPoint.x, _centerPoint.y, _x, _y )
+				, _angleStep:Number = ( _endAngle - _startAngle ) / ( _labels.length - 1)
+				, _angleLenOffsetX:Number = 80
+				, _angleLenOffsetY:Number = 10
+				, _angleLen:Number = Common.lineLength( _centerPoint.x, _centerPoint.y
+					, BaseConfig.ins.c.chartMaxX - _angleLenOffsetX, BaseConfig.ins.c.chartMaxY - _angleLenOffsetY )
+				;			
 			
-			var _preLabel:JTextField = getLabel( _labels[0].data.index + 1 )
-				, _nextLabel:JTextField
-				, _xStep:Number = ( BaseConfig.ins.c.chartX 
-					+ BaseConfig.ins.c.chartWidth 
-					- _x 
-					- 5
-				) / ( _labels.length - 1 )
-				, _yStep:Number = ( _y - BaseConfig.ins.c.cy -  _maxHeight / 2  ) / ( _labels.length - 1 )
-				;
+			if( _debugLabel ){
+				//Log.log( _lineAngle, _startAngle, _endAngle, _angleStep, _x, _y, _endX, _endY, BaseConfig.ins.c.chartY, BaseConfig.ins.c.chartHeight );
+				graphics.lineStyle( 1, 0 );
+				graphics.moveTo( _x, _y );
+				graphics.lineTo( _endX, _endY );
+				graphics.moveTo( _centerPoint.x, _centerPoint.y );
+				graphics.lineTo( BaseConfig.ins.c.chartMaxX - _angleLenOffsetX, BaseConfig.ins.c.chartMaxY - _angleLenOffsetY );
+			}
+							
 			
 			Common.each( _labels, function( _k:int, _item:JTextField ):void{
-				_preLabel = getLabel( _item.data.index + 1 );
-				_nextLabel = getLabel( _item.data.index - 1 );
-				var _plus:Number = 0;
 				
-				_plus = _item.width;
+				var _angle:Number = _startAngle - _k * _angleStep
+				, _point:Point = Common.moveByAngle( _angle, _centerPoint, _angleLen ) 
+				;					
 				
-				if( _preLabel ){
-					_item.x = _x - _plus;
-					_item.y = _y;
-					_x += _xStep;
-					_y -= _yStep;
+				if( _point.y > BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight - 5 - _maxHeight ){
+					_point.y = BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight - 5 - _maxHeight;
 				}
+				
+				if( _point.x > BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - 5 - _item.width ){
+					_point.x = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - 5 - _item.width;
+				}	
+				
+				if( _point.x < BaseConfig.ins.c.cx + 5 ){
+					_point.x = BaseConfig.ins.c.cx + 5;
+				}
+				
+				_item.x = _point.x;
+				_item.y = _point.y;
 				
 				var _line:JSprite = _lines[ _item.data.index ]
 				;
@@ -275,27 +317,49 @@ package org.xas.jchart.common.view.components
 		
 		private function fixLeftTopLabel( _labels:Vector.<JTextField> ):void{
 			if( !_labels.length ) return;
-			var _x:Number = BaseConfig.ins.c.cx - _labels[0].width
+			var _x:Number = BaseConfig.ins.c.cx - _labels[ _labels.length - 1].width - 5
 				, _y:Number = BaseConfig.ins.c.chartY + 5
+				, _endX:Number = BaseConfig.ins.c.chartX + 10
+				, _endY:Number = BaseConfig.ins.c.cy - _maxHeight - 5
+				
+				, _lineLen:Number = Common.lineLength( _x, _y, _endX, _endY )
+				, _lineAngle:Number = Common.lineAngle( _x, _y, _endX, _endY )
+				, _centerPoint:Point = Common.moveByAngle( _lineAngle, new Point( _x, _y ), _lineLen / 2 )
+				, _startAngle:Number = Common.lineAngle( _centerPoint.x, _centerPoint.y, _endX, _endY )
+				, _endAngle:Number = Common.lineAngle( _centerPoint.x, _centerPoint.y, _x, _y )
+				, _angleStep:Number = ( _endAngle - _startAngle ) / ( _labels.length - 1)
+				, _angleLenOffsetX:Number = 10
+				, _angleLenOffsetY:Number = 50
+				, _angleLen:Number = Common.lineLength( _centerPoint.x, _centerPoint.y
+					, BaseConfig.ins.c.chartX + _angleLenOffsetX, BaseConfig.ins.c.chartY + _angleLenOffsetY )
 				;
+			if( _debugLabel ){
+				//Log.log( _lineAngle, _startAngle, _endAngle, _angleStep, _x, _y, _endX, _endY, BaseConfig.ins.c.chartY, BaseConfig.ins.c.chartHeight );
+				graphics.lineStyle( 1, 0 );
+				graphics.moveTo( _x, _y );
+				graphics.lineTo( _endX, _endY );
+				graphics.moveTo( _centerPoint.x, _centerPoint.y );
+				graphics.lineTo( BaseConfig.ins.c.chartX + _angleLenOffsetX, BaseConfig.ins.c.chartY + _angleLenOffsetY );
+			}
 			
-			var _preLabel:JTextField = getLabel( _labels[0].data.index + 1 )
-				, _nextLabel:JTextField
-				, _xStep:Number = ( _x - BaseConfig.ins.c.chartX - 10 ) / ( _labels.length - 1 )
-				, _yStep:Number = ( BaseConfig.ins.c.cy - _y + _maxHeight ) / ( _labels.length )
-				;
 			
 			Common.each( _labels, function( _k:int, _item:JTextField ):void{
-				_preLabel = getLabel( _item.data.index + 1 );
-				_nextLabel = getLabel( _item.data.index - 1 );
+
+				var _angle:Number = _startAngle + _k * _angleStep
+					, _point:Point = Common.moveByAngle( _angle, _centerPoint, _angleLen ) 
+					;					
 					
-				if( _preLabel ){
-					_item.x = _x;
-					_item.y = _y;
-					_x -= _xStep;
-					_y += _yStep;
+				if( _point.y < BaseConfig.ins.c.chartY + 5 ){
+					_point.y = BaseConfig.ins.c.chartY + 5;
 				}
 				
+				if( _point.x < BaseConfig.ins.c.chartX + 5 ){
+					_point.x = BaseConfig.ins.c.chartX + 5;
+				}
+				
+				_item.x = _point.x;
+				_item.y = _point.y;
+		
 				var _line:JSprite = _lines[ _item.data.index ]
 					;
 					_line.graphics.clear();
@@ -304,32 +368,54 @@ package org.xas.jchart.common.view.components
 		
 		private function fixLeftBottomLabel( _labels:Vector.<JTextField> ):void{
 			if( !_labels.length ) return;
-			var _x:Number = BaseConfig.ins.c.cx - _labels[0].width
-				, _y:Number = BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight - 5 - _maxHeight
+			var _x:Number = BaseConfig.ins.c.cx - _labels[ 0 ].width - 5
+				, _endX:Number = BaseConfig.ins.c.chartX + 5
+				, _y:Number = BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight - 5
+				, _endY:Number = BaseConfig.ins.c.cy + _maxHeight - 5
+				
+				, _lineLen:Number = Common.lineLength( _x, _y, _endX, _endY )
+				, _lineAngle:Number = Common.lineAngle( _x, _y, _endX, _endY )
+				, _centerPoint:Point = Common.moveByAngle( _lineAngle, new Point( _x, _y ), _lineLen / 2 )
+				, _startAngle:Number = Common.lineAngle( _centerPoint.x, _centerPoint.y, _endX, _endY )
+				, _endAngle:Number = Common.lineAngle( _centerPoint.x, _centerPoint.y, _x, _y )
+				, _angleStep:Number = ( _endAngle - _startAngle ) / ( _labels.length - 1)
+				, _angleLenOffsetX:Number = 10
+				, _angleLenOffsetY:Number = 30
+				, _angleLen:Number = Common.lineLength( _centerPoint.x, _centerPoint.y
+					, BaseConfig.ins.c.chartX + _angleLenOffsetX, BaseConfig.ins.c.chartMaxY - _angleLenOffsetY )
 				;
-			
-			var _preLabel:JTextField = getLabel( _labels[0].data.index + 1 )
-				, _nextLabel:JTextField
-				, _xStep:Number = ( _x - BaseConfig.ins.c.chartX  - 10) / ( _labels.length - 1 )
-				, _yStep:Number = ( _y - BaseConfig.ins.c.cy -  _maxHeight / 2 ) / ( _labels.length - 1 )
-				;
+			if( _debugLabel ){
+				//Log.log( _lineAngle, _startAngle, _endAngle, _angleStep, _x, _y, _endX, _endY, BaseConfig.ins.c.chartY, BaseConfig.ins.c.chartHeight );
+				graphics.lineStyle( 1, 0 );
+				graphics.moveTo( _x, _y );
+				graphics.lineTo( _endX, _endY );
+				graphics.moveTo( _centerPoint.x, _centerPoint.y );
+				graphics.lineTo( BaseConfig.ins.c.chartX + _angleLenOffsetX, BaseConfig.ins.c.chartMaxY - _angleLenOffsetY );
+			}
+					
 			
 			Common.each( _labels, function( _k:int, _item:JTextField ):void{
-				_preLabel = getLabel( _item.data.index + 1 );
-				_nextLabel = getLabel( _item.data.index - 1 );
 				
-				if( _preLabel ){
-					_item.x = _x;
-					_item.y = _y;
-					_x -= _xStep;
-					_y -= _yStep;
+				var _angle:Number = _startAngle + _k * _angleStep
+				, _point:Point = Common.moveByAngle( _angle, _centerPoint, _angleLen ) 
+				;					
+				
+				if( _point.y > BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight - 5 - _maxHeight ){
+					_point.y = BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight - 5 - _maxHeight;
 				}
+				
+				if( _point.x < BaseConfig.ins.c.chartX + 5 ){
+					_point.x = BaseConfig.ins.c.chartX + 5;
+				}
+				
+				_item.x = _point.x;
+				_item.y = _point.y;
 				
 				var _line:JSprite = _lines[ _item.data.index ]
 				;
 				_line.graphics.clear();
 			});
-		}
+		}	
 		
 		private function getLabel( _ix:int ):JTextField{
 			var _r:JTextField;

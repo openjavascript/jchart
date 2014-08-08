@@ -33,15 +33,16 @@ package org.xas.jchart.common.view.components
 		private var _rightTopLabel:Vector.<JTextField>;
 		private var _rightTopLine:Vector.<JSprite>;
 		
-		private var _leftButtonLabel:Vector.<JTextField>;
-		private var _leftButtonLine:Vector.<JSprite>;
+		private var _leftBottomLabel:Vector.<JTextField>;
+		private var _leftBottomLine:Vector.<JSprite>;
 		
-		private var _rightButtonLabel:Vector.<JTextField>;
-		private var _rightButtonLine:Vector.<JSprite>;
+		private var _rightBottomLabel:Vector.<JTextField>;
+		private var _rightBottomLine:Vector.<JSprite>;
 		
 		private var _isIntersect:Boolean = false;
 		
 		private var _maxWidth:Number;
+		private var _maxHeight:Number;
 		
 		public function PieLabelView()
 		{
@@ -67,14 +68,16 @@ package org.xas.jchart.common.view.components
 			_rightTopLabel = new Vector.<JTextField>();
 			_rightTopLine = new Vector.<JSprite>();
 			
-			_leftButtonLabel = new Vector.<JTextField>();
-			_leftButtonLine = new Vector.<JSprite>();
+			_leftBottomLabel = new Vector.<JTextField>();
+			_leftBottomLine = new Vector.<JSprite>();
 			
-			_rightButtonLabel = new Vector.<JTextField>();
-			_rightButtonLine = new Vector.<JSprite>();
+			_rightBottomLabel = new Vector.<JTextField>();
+			_rightBottomLine = new Vector.<JSprite>();
 			
 			_isIntersect = false;
 			_maxWidth = 0;
+			_maxHeight = 15;
+			
 			
 			if( !BaseConfig.ins.dataLabelEnabled ) return;
 			
@@ -102,6 +105,8 @@ package org.xas.jchart.common.view.components
 					{
 						_label.x = _lineData.end.x - _label.width / 2;
 						_label.y = _lineData.end.y - 5 - _label.height;
+						_leftTopLabel.push( _label );
+						_leftTopLine.push( _line );
 						break;
 					}
 					case 'right':
@@ -109,6 +114,8 @@ package org.xas.jchart.common.view.components
 						//_label.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
 						_label.x = _lineData.end.x + 5;
 						_label.y = _lineData.end.y - _label.height / 2;
+						_rightBottomLabel.push( _label );
+						_rightBottomLine.push( _line );
 						break;
 					}
 					case 'bottom':
@@ -116,6 +123,8 @@ package org.xas.jchart.common.view.components
 						//_label.attr( { x: _item.end.x, y: _item.end.y + 5 } );
 						_label.x = _lineData.end.x - _label.width / 2;
 						_label.y = _lineData.end.y;
+						_leftBottomLabel.push( _label );
+						_leftBottomLine.push( _line );
 						break;
 					}
 					case 'left':
@@ -123,6 +132,8 @@ package org.xas.jchart.common.view.components
 						//_label.attr( { x: _item.end.x - 5, y: _item.end.y, 'text-anchor': 'end' } );
 						_label.x = _lineData.end.x - 5 - _label.width;
 						_label.y = _lineData.end.y - _label.height / 2;
+						_leftBottomLabel.push( _label );
+						_leftBottomLine.push( _line );
 						break;
 					}
 					case 'left_top':
@@ -147,8 +158,8 @@ package org.xas.jchart.common.view.components
 						//_label.attr( { x: 5, y: , 'text-anchor': 'end' } );
 						_label.x = _lineData.end.x - 5 - _label.width;
 						_label.y = _lineData.end.y - _label.height / 2;
-						_leftButtonLabel.push( _label );
-						_leftButtonLine.push( _line );
+						_leftBottomLabel.push( _label );
+						_leftBottomLine.push( _line );
 						break;
 					}
 					case 'right_bottom':
@@ -156,8 +167,8 @@ package org.xas.jchart.common.view.components
 						//_label.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
 						_label.x = _lineData.end.x + 5;
 						_label.y = _lineData.end.y - _label.height / 2;
-						_rightButtonLabel.push( _label );
-						_rightButtonLine.push( _line );
+						_rightBottomLabel.push( _label );
+						_rightBottomLine.push( _line );
 						break;
 					}
 				}			
@@ -165,6 +176,7 @@ package org.xas.jchart.common.view.components
 				addChild( _label );
 				
 				_label.width > _maxWidth && ( _maxWidth = _label.width );
+				_label.height > _maxHeight && ( _maxHeight = _label.height );				
 				
 				_labels.push( _label );
 				_lines.push( _line );
@@ -174,38 +186,148 @@ package org.xas.jchart.common.view.components
 			
 			//Log.log( _isIntersect );
 			if( _isIntersect ){
-				_leftTopLabel.reverse();
 				
-				if( checkIntersect( _leftTopLabel ) ){
-					fixLeftTop();
-				}
+				_rightTopLabel;
+				fixRightTopLabel( _rightTopLabel );
+				
+				_rightBottomLabel.reverse();
+				fixRightBottomLabel( _rightBottomLabel );
+				
+				_leftTopLabel.reverse();
+				fixLeftTopLabel( _leftTopLabel );
+				
+				_leftBottomLabel.reverse();
+				fixLeftBottomLabel( _leftBottomLabel );
 			}
 		}
 		
-		private function fixLeftTop():void{
-			if( !_leftTopLabel.length ) return;
-			var _x:Number = BaseConfig.ins.c.chartX + ( BaseConfig.ins.c.chartWidth - BaseConfig.ins.c.radius * 2 ) / 2 - 0 - _maxWidth
+		private function fixRightTopLabel( _labels:Vector.<JTextField> ):void{
+			if( !_labels.length ) return;
+			var _x:Number = BaseConfig.ins.c.cx + _labels[0].width
 				, _y:Number = BaseConfig.ins.c.chartY + 5
 				;
 			
-			Common.each( _leftTopLabel, function( _k:int, _item:JTextField ):void{
-				var _preLabel:JTextField = getLabel( _item.data.index + 1 )
-					, _nextLabel:JTextField = getLabel( _item.data.index - 1 )
-					;
+			var _preLabel:JTextField = getLabel( _labels[0].data.index + 1 )
+				, _nextLabel:JTextField
+				, _xStep:Number = ( BaseConfig.ins.c.chartX 
+									+ BaseConfig.ins.c.chartWidth 
+									- _x 
+									- 5
+									) / ( _labels.length - 1 )
+				, _yStep:Number = ( BaseConfig.ins.c.cy - _y + _maxHeight ) / ( _labels.length )
+				;
+			
+			Common.each( _labels, function( _k:int, _item:JTextField ):void{
+				_preLabel = getLabel( _item.data.index + 1 );
+				_nextLabel = getLabel( _item.data.index - 1 );
+				var _plus:Number = 0;
+				
+				_plus = _item.width;
+				
 				if( _preLabel ){
-					_item.x = _x + ( _maxWidth - _item.width ) - _k * 10;
-					if( _k === 0 ){
-						_item.y = _y;
-					}else{
-						_item.y = _preLabel.y + _preLabel.height - 5;
-					}
+					_item.x = _x - _plus;
+					_item.y = _y;
+					_x += _xStep;
+					_y += _yStep;
+				}
+				
+				var _line:JSprite = _lines[ _item.data.index ]
+				;
+				_line.graphics.clear();
+			});
+		}
+		
+		private function fixRightBottomLabel( _labels:Vector.<JTextField> ):void{
+			if( !_labels.length ) return;
+			var _x:Number = BaseConfig.ins.c.cx + _labels[0].width
+				, _y:Number = BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight - 5 - _maxHeight
+				;
+			
+			var _preLabel:JTextField = getLabel( _labels[0].data.index + 1 )
+				, _nextLabel:JTextField
+				, _xStep:Number = ( BaseConfig.ins.c.chartX 
+					+ BaseConfig.ins.c.chartWidth 
+					- _x 
+					- 5
+				) / ( _labels.length - 1 )
+				, _yStep:Number = ( _y - BaseConfig.ins.c.cy -  _maxHeight / 2  ) / ( _labels.length - 1 )
+				;
+			
+			Common.each( _labels, function( _k:int, _item:JTextField ):void{
+				_preLabel = getLabel( _item.data.index + 1 );
+				_nextLabel = getLabel( _item.data.index - 1 );
+				var _plus:Number = 0;
+				
+				_plus = _item.width;
+				
+				if( _preLabel ){
+					_item.x = _x - _plus;
+					_item.y = _y;
+					_x += _xStep;
+					_y -= _yStep;
+				}
+				
+				var _line:JSprite = _lines[ _item.data.index ]
+				;
+				_line.graphics.clear();
+			});
+		}
+		
+		private function fixLeftTopLabel( _labels:Vector.<JTextField> ):void{
+			if( !_labels.length ) return;
+			var _x:Number = BaseConfig.ins.c.cx - _labels[0].width
+				, _y:Number = BaseConfig.ins.c.chartY + 5
+				;
+			
+			var _preLabel:JTextField = getLabel( _labels[0].data.index + 1 )
+				, _nextLabel:JTextField
+				, _xStep:Number = ( _x - BaseConfig.ins.c.chartX - 10 ) / ( _labels.length - 1 )
+				, _yStep:Number = ( BaseConfig.ins.c.cy - _y + _maxHeight ) / ( _labels.length )
+				;
+			
+			Common.each( _labels, function( _k:int, _item:JTextField ):void{
+				_preLabel = getLabel( _item.data.index + 1 );
+				_nextLabel = getLabel( _item.data.index - 1 );
+					
+				if( _preLabel ){
+					_item.x = _x;
+					_item.y = _y;
+					_x -= _xStep;
+					_y += _yStep;
 				}
 				
 				var _line:JSprite = _lines[ _item.data.index ]
 					;
 					_line.graphics.clear();
-					
-					
+			});
+		}		
+		
+		private function fixLeftBottomLabel( _labels:Vector.<JTextField> ):void{
+			if( !_labels.length ) return;
+			var _x:Number = BaseConfig.ins.c.cx - _labels[0].width
+				, _y:Number = BaseConfig.ins.c.chartY + BaseConfig.ins.c.chartHeight - 5 - _maxHeight
+				;
+			
+			var _preLabel:JTextField = getLabel( _labels[0].data.index + 1 )
+				, _nextLabel:JTextField
+				, _xStep:Number = ( _x - BaseConfig.ins.c.chartX  - 10) / ( _labels.length - 1 )
+				, _yStep:Number = ( _y - BaseConfig.ins.c.cy -  _maxHeight / 2 ) / ( _labels.length - 1 )
+				;
+			
+			Common.each( _labels, function( _k:int, _item:JTextField ):void{
+				_preLabel = getLabel( _item.data.index + 1 );
+				_nextLabel = getLabel( _item.data.index - 1 );
+				
+				if( _preLabel ){
+					_item.x = _x;
+					_item.y = _y;
+					_x -= _xStep;
+					_y -= _yStep;
+				}
+				
+				var _line:JSprite = _lines[ _item.data.index ]
+				;
+				_line.graphics.clear();
 			});
 		}
 		

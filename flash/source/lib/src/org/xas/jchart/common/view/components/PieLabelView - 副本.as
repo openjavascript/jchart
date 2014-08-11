@@ -192,11 +192,12 @@ package org.xas.jchart.common.view.components
 			//Log.log( _isIntersect );
 			if( _isIntersect ){
 				
+				_rightTopLabel.reverse();
+				_rightTopLabel;
 				fixRightTopLabel( _rightTopLabel );
 				
 				fixRightBottomLabel( _rightBottomLabel );
 				
-				_leftTopLabel.reverse();
 				fixLeftTopLabel( _leftTopLabel );
 				
 				_leftBottomLabel.reverse();
@@ -221,11 +222,7 @@ package org.xas.jchart.common.view.components
 				, _angleLenOffsetY:Number = 80
 				, _angleLen:Number = Common.lineLength( _centerPoint.x, _centerPoint.y
 					, BaseConfig.ins.c.chartMaxX - _angleLenOffsetX, BaseConfig.ins.c.chartY + _angleLenOffsetY )
-				;	
-			
-			
-			positionItems( _labels, _x, _y, _endX, _endY );
-			return;
+				;			
 			
 			if( _debugLabel ){
 				//Log.log( _lineAngle, _startAngle, _endAngle, _angleStep, _x, _y, _endX, _endY, BaseConfig.ins.c.chartY, BaseConfig.ins.c.chartHeight );
@@ -344,49 +341,61 @@ package org.xas.jchart.common.view.components
 				, _y:Number = BaseConfig.ins.c.chartY + 5
 				, _endX:Number = BaseConfig.ins.c.chartX + 10
 				, _endY:Number = BaseConfig.ins.c.cy - _maxHeight - 5
-				;
-			
-			positionItems( _labels, _x, _y, _endX, _endY );
-		}		
-		
-		private function positionItems( _labels:Vector.<JTextField>, _x:Number, _y:Number, _endX:Number, _endY:Number ):void
-		{
-			var _xWidth:Number = Math.abs( _x - _endX )
-				, _xIsMax:Boolean = _x > _endX
-				, _maxLen:int = _labels.length - 1
-				, _yStep:Number = Math.abs( _y - _endY ) / _maxLen
-				;
-			if( _labels.length ){
-				var _tmpX:Number, _tmpY:Number = _y, _tmpWidth:Number = _xWidth;
-				Common.each( _labels, function( _k:int, _item:JTextField ):void{
-					var _percent:Number = .6, _maxX:Number = Math.max( _x, _endX ), _minX:Number = Math.min( _x, _endX );
-					if( _xIsMax ){
-						if( _k == 0 ){
-							_percent = .99;
-						}else if( _k == _maxLen ){
-						}else{				
-						}
-					}else{
-						if( _k == 0 ){
-							_percent = .99;
-						}else if( _k == _maxLen ){
-						}else{				
-						}
-					}
-					_tmpWidth *= _percent;
-					if( _xIsMax ){
-						_item.x = _maxX - ( _xWidth - _tmpWidth );
-					}else{						
-						_item.x = _minX + ( _xWidth - _tmpWidth );
-					}
-					_item.y = _tmpY;
-					_tmpY += _yStep;
 				
-				});
-			}else{
-				
+				, _lineLen:Number = Common.lineLength( _x, _y, _endX, _endY )
+				, _lineAngle:Number = Common.lineAngle( _x, _y, _endX, _endY )
+				, _centerPoint:Point = Common.moveByAngle( _lineAngle, new Point( _x, _y ), _lineLen / 2 )
+				, _startAngle:Number = Common.lineAngle( _centerPoint.x, _centerPoint.y, _endX, _endY )
+				, _endAngle:Number = Common.lineAngle( _centerPoint.x, _centerPoint.y, _x, _y )
+				, _angleStep:Number = ( _endAngle - _startAngle ) / ( _labels.length - 1)
+				, _angleLenOffsetX:Number = 10
+				, _angleLenOffsetY:Number = 50
+				, _angleLen:Number = Common.lineLength( _centerPoint.x, _centerPoint.y
+					, BaseConfig.ins.c.chartX + _angleLenOffsetX, BaseConfig.ins.c.chartY + _angleLenOffsetY )
+				;
+			if( _debugLabel ){
+				//Log.log( _lineAngle, _startAngle, _endAngle, _angleStep, _x, _y, _endX, _endY, BaseConfig.ins.c.chartY, BaseConfig.ins.c.chartHeight );
+				graphics.lineStyle( 1, 0 );
+				graphics.moveTo( _x, _y );
+				graphics.lineTo( _endX, _endY );
+				graphics.moveTo( _centerPoint.x, _centerPoint.y );
+				graphics.lineTo( BaseConfig.ins.c.chartX + _angleLenOffsetX, BaseConfig.ins.c.chartY + _angleLenOffsetY );
 			}
-		}
+			
+			
+			Common.each( _labels, function( _k:int, _item:JTextField ):void{
+
+				var _angle:Number = _startAngle + _k * _angleStep
+					, _point:Point = Common.moveByAngle( _angle, _centerPoint, _angleLen ) 
+					;					
+					
+				if( _point.y < BaseConfig.ins.c.chartY + 5 ){
+					_point.y = BaseConfig.ins.c.chartY + 5;
+				}
+				
+				if( _point.x < BaseConfig.ins.c.chartX + 5 ){
+					_point.x = BaseConfig.ins.c.chartX + 5;
+				}
+				
+				_item.x = _point.x;
+				_item.y = _point.y;
+		
+				var _line:JSprite = _lines[ _item.data.index ]
+					, _lineEndPoint:Object
+					;
+					_line.graphics.clear();
+					//Log.printJSON( _line.data.data.start );
+					_line.graphics.lineStyle( 1, _line.data.color );
+					_line.graphics.moveTo( _line.data.data.start.x, _line.data.data.start.y );
+					
+					if( _line.data.data.start.y > _item.y && Math.abs( _line.data.data.start.x - _item.x + _item.width / 2 ) > 100 ){		
+						_lineEndPoint = Common.displayToCenterPoint( _item, 5, 0, 0 );
+					}else{
+						_lineEndPoint = Common.displayToCenterPoint( _item, 2, 0, 0 );
+					}
+					_line.graphics.lineTo( _lineEndPoint.x, _lineEndPoint.y );
+			});
+		}		
 		
 		private function fixLeftBottomLabel( _labels:Vector.<JTextField> ):void{
 			if( !_labels.length ) return;

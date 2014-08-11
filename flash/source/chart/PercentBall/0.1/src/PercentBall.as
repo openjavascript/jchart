@@ -196,7 +196,7 @@ package
 			var _data:Object = {};
 			
 			if( !ExternalInterface.available ){		
-				_data = DefaultPercentBallData.instance.data[ 11 ];
+				_data = DefaultPercentBallData.instance.data[ 8 ];
 			}else{
 				//ExternalInterface.call( 'alert', '2322' );
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};

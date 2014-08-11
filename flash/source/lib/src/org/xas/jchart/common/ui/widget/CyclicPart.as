@@ -215,7 +215,7 @@ package org.xas.jchart.common.ui.widget
 					graphics.lineTo( _tmpPoint.x, _tmpPoint.y );
 					
 					if( _bgsAngle == _bgeAngle ) {
-						graphics.lineTo( _bgsPoint.x, _spoint.y );
+						graphics.lineTo( _bgePoint.x, _bgePoint.y );
 						break;
 					};
 					_bgsAngle += 1;

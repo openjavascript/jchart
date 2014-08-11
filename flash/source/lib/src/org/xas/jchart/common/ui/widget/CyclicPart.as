@@ -143,8 +143,8 @@ package org.xas.jchart.common.ui.widget
 			if( _nerdBg ){
 				
 				
-				graphics.beginFill( 0xFDF8F2 );
-				graphics.lineStyle( 1, 0xFDF8F2 );
+				graphics.beginFill( 0xFDF0F2 );
+				graphics.lineStyle( 1, 0xFDF0F2 );
 				
 				if( _style && _style.coverFill ){
 					graphics.beginFill( _style.coverFill );
@@ -180,7 +180,7 @@ package org.xas.jchart.common.ui.widget
 				graphics.lineStyle( 1, 0xFDF8F2 );
 				graphics.moveTo( _centerPoint.x, _centerPoint.y );
 				graphics.lineTo( _bgsPoint.x, _bgsPoint. y );
-				
+				/*
 				
 				graphics.lineStyle( 1, 0xffff00 );
 				graphics.moveTo( _centerPoint.x, _centerPoint.y );
@@ -203,7 +203,7 @@ package org.xas.jchart.common.ui.widget
 				if( _bgsAngle > _bgeAngle ) _bgeAngle += 360;
 				if( _bgsAngle == _bgeAngle ) _bgeAngle += 360;
 				//Log.log( _bgsAngle, _bgeAngle );
-				graphics.moveTo( _bgsPoint.x, _bgsPoint.y );
+				graphics.moveTo( _bgsPoint.x, _spoint.y );
 				
 				while( true ){
 					if( _bgsAngle >= _bgeAngle ) {
@@ -215,7 +215,7 @@ package org.xas.jchart.common.ui.widget
 					graphics.lineTo( _tmpPoint.x, _tmpPoint.y );
 					
 					if( _bgsAngle == _bgeAngle ) {
-						graphics.lineTo( _bgsPoint.x, _bgsPoint.y );
+						graphics.lineTo( _bgsPoint.x, _spoint.y );
 						break;
 					};
 					_bgsAngle += 1;

@@ -62,12 +62,14 @@ package
 			runData();
 			
 			if( ExternalInterface.available ){
-				ExternalInterface.addCallback( 'update', extenalUpdate );
+				//ExternalInterface.call( 'alert(1)' );
+				//ExternalInterface.addCallback( 'update', extenalUpdate );
 			}
 			//BaseConfig.ins.setChartData( {});
 		}
 		
 		private function extenalUpdate( _data:Object ):void{
+			update( _data );
 		}
 		
 		public function update( _data:Object, _x:int = 0, _y:int = 0 ):void{		
@@ -117,8 +119,6 @@ package
 						
 			_bgcylic = new CyclicPart( new Point( _cx, _cy ), 1, _radius, _sradius );
 			addChild( _bgcylic );
-			
-			Log.log( _score );
 			
 			if( _score ){
 				
@@ -179,7 +179,7 @@ package
 		
 		private function onResize( _evt:TimerEvent ):void{
 			if( !_data ) return;
-			dispatchEvent( new JChartEvent( JChartEvent.PROCESS, _data ) );
+			//dispatchEvent( new JChartEvent( JChartEvent.PROCESS, _data ) );
 			//_facade.sendNotification( JChartEvent.CLEAR );
 		}
 		
@@ -198,11 +198,15 @@ package
 			if( !ExternalInterface.available ){		
 				_data = DefaultPercentBallData.instance.data[ 11 ];
 			}else{
-				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};	
+				//ExternalInterface.call( 'alert', '2322' );
+				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};
+				
+				//ExternalInterface.call( 'alert', _loaderInfo.chart );
 				
 				if( _loaderInfo.chart ){
 					_data = JSON.parse( _loaderInfo.chart );
 				}				
+				//ExternalInterface.call( 'alert', _data.score );
 				_data = _data || {};
 			}
 			

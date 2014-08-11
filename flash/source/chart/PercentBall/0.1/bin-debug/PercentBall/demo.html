@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CRM 趋势分析图表(柱状图) - suches template</title>
+</head>
+<body>
+
+<style>
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    margin: 20px 80px;
+}
+
+dl dd{
+    margin: 10px 0;
+}
+</style>
+
+<dl>
+    <dt>CRM 百分比饼图</dt>
+    <dd>
+        <div id="PercentBall0"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall1"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall2"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall3"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall4"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall5"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall6"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall7"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall8"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall9"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall10"></div>
+    </dd>
+    <dd>
+        <div id="PercentBall11"></div>
+    </dd>
+</dl>
+
+<script src="../swfobject.js"></script>
+<script src="../json2.js"></script>
+<script src="../jq.js"></script>
+
+<script>
+
+    for( var i = 0; i <= 10; i++ ){
+        swfobject.embedSWF
+        (
+            "../PercentBall.swf"
+            , "PercentBall" + i 
+            , "150", "150", "9.0.0", false
+            , {
+                "chart":  JSON.stringify(  { score: i * 10 } )
+            }
+        );
+    }
+
+    swfobject.embedSWF
+    (
+        "../PercentBall.swf"
+        , "PercentBall11"
+        , "150", "150", "9.0.0", false
+        , {
+            "chart":  JSON.stringify(  { score: 34.18 } )
+        }
+    );
+
+
+
+</script>
+
+</body>
+</html>

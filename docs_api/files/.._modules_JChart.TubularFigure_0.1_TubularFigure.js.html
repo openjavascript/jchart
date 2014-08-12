@@ -891,12 +891,7 @@
         });
 
     _jdoc.ready( function(){
-        var _insAr = 0;
-        TubularFigure.autoInit
-            &amp;&amp; ( _insAr = TubularFigure.init() )
-            &amp;&amp; $( &#x27;&lt;h2&gt;TubularFigure total ins: &#x27; 
-                + _insAr.length + &#x27;&lt;br/&gt;&#x27; + new Date().getTime() + &#x27;&lt;/h2&gt;&#x27; ).appendTo( document.body )
-            ;
+        TubularFigure.autoInit &amp;&amp; TubularFigure.init();
     });
 
     return JC.TubularFigure;

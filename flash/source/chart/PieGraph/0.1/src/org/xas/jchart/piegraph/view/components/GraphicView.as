@@ -96,9 +96,10 @@ package org.xas.jchart.piegraph.view.components
 		}
 		
 		protected function onMouseOut( _evt:MouseEvent ):void{
-			
-			root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
-			dispatchEvent( new JChartEvent( JChartEvent.HIDE_TIPS, _evt ) );			
+			try{
+				root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
+				dispatchEvent( new JChartEvent( JChartEvent.HIDE_TIPS, _evt ) );
+			}catch( ex:Error ){}
 			//Log.log( 'hide tips' );
 			
 		}

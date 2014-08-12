@@ -188,6 +188,285 @@ package org.xas.jchart.common.data.test
 				}]
 				//,offsetAngle: 180
 			});
+			
+			
+			_data.push({
+				title: {
+					text:'浏览器使用份额'
+				},
+				subtitle: {
+					text: 'for PC'
+				}, 
+				series:[{
+					name: 'Browser share',
+					data: [
+						['Opera',     30]
+						, ['Opera',     10]
+						, ['Opera',     10]
+						, ['Others 1',   0.7]
+						, ['Others 2',   0.7]
+						, ['Others 3',   0.7]
+						, ['Others 4',   0.7]
+						, ['Others 5',   0.7]
+						, ['Others 6',   0.7]
+						, ['Others 7',   0.7]
+						, ['Others 8',   0.7]
+						, ['Others 9',   0.7]
+						, ['Others 10',   0.7]
+						, ['Firefox',   3.0]
+						, ['Others 19',   10]
+						, ['Others 20',   10]
+						, ['Others 21',   10]
+						, ['Others 22',   10]
+						, ['Others 23',   10]
+						, ['Others 24',   10]
+					]
+				}]
+				//,offsetAngle: 180
+			});
+			
+			_data.push({
+				title: {
+					text:'浏览器使用份额'
+				},
+				subtitle: {
+					text: 'for PC'
+				}, 
+				series:[{
+					name: 'Browser share',
+					data: [
+						['Opera',     10]
+						, ['Opera',     10]
+						, ['Others 1',   0.7]
+						, ['Others 2',   0.7]
+						, ['Others 3',   0.7]
+						, ['Others 4',   0.7]
+						, ['Others 5',   0.7]
+						, ['Others 6',   0.7]
+						, ['Others 7',   0.7]
+						, ['Others 8',   0.7]
+						, ['Others 9',   0.7]
+						, ['Others 10',   0.7]
+						, ['Firefox',   3.0]
+						, ['Opera',     30]
+						, ['Others 19',   10]
+						, ['Others 20',   10]
+						, ['Others 21',   10]
+						, ['Others 22',   10]
+						, ['Others 23',   10]
+						, ['Others 24',   10]
+					]
+				}]
+				//,offsetAngle: 180
+			});
+			
+			_data.push({
+				title: {
+					text:'浏览器使用份额'
+				},
+				subtitle: {
+					text: 'for PC'
+				}, 
+				series:[{
+					name: 'Browser share',
+					data: [
+						['Opera',     10]
+						, ['Opera',     10]
+						, ['Others 1',   0.7]
+						, ['Others 2',   0.7]
+						, ['Others 3',   0.7]
+						, ['Others 4',   0.7]
+						, ['Others 5',   0.7]
+						, ['Others 6',   0.7]
+						, ['Others 7',   0.7]
+						, ['Others 8',   0.7]
+						, ['Others 9',   0.7]
+						, ['Others 10',   0.7]
+						, ['Firefox',   3.0]
+						, ['Others 19',   10]
+						, ['Others 20',   10]
+						, ['Others 21',   10]
+						, ['Opera',     30]
+						, ['Others 22',   10]
+						, ['Others 23',   10]
+						, ['Others 24',   10]
+					]
+				}]
+				//,offsetAngle: 180
+			});
+			
+			_data.push({
+				title: {
+					text:'浏览器使用份额'
+				},
+				subtitle: {
+					text: 'for PC'
+				}, 
+				series:[{
+					name: 'Browser share',
+					data: [
+						['Opera',     10]
+						, ['Opera',     10]
+						, ['Others 1',   0.7]
+						, ['Others 2',   0.7]
+						, ['Others 3',   0.7]
+						, ['Others 4',   0.7]
+						, ['Others 5',   0.7]
+						, ['Others 6',   0.7]
+						, ['Others 7',   0.7]
+						, ['Others 8',   0.7]
+						, ['Others 9',   0.7]
+						, ['Others 10',   0.7]
+						, ['Firefox',   3.0]
+						, ['Others 19',   10]
+						, ['Others 20',   10]
+						, ['Others 21',   10]
+						, ['Others 22',   10]
+						, ['Others 23',   10]
+						, ['Others 24',   10]
+						, ['Opera',     30]
+					]
+				}]
+				//,offsetAngle: 180
+			});
+			
+			_data.push({
+				title: {
+					text:'浏览器使用份额'
+				},
+				subtitle: {
+					text: 'for PC'
+				}, 
+				series:[{
+					name: 'Browser share',
+					data: [
+						['Opera',     1]
+						, ['Opera',     10]
+						, ['Others 1',   0.7]
+						, ['Others 2',   0.7]
+						, ['Others 3',   0.7]
+						, ['Others 4',   0.7]
+						, ['Others 5',   0.7]
+						, ['Others 6',   0.7]
+						, ['Others 7',   0.7]
+						, ['Others 8',   0.7]
+						, ['Others 9',   0.7]
+						, ['Others 10',   0.7]
+						, ['Firefox',   3.0]
+						, ['Others 19',   10]
+						, ['Others 20',   10]
+						, ['Others 21',   10]
+						, ['Others 22',   10]
+						, ['Others 23',   10]
+						, ['Others 24',   10]
+						, ['Opera',     30]
+					]
+				}]
+				//,offsetAngle: 180
+			});
+			
+			_data.push({
+				title: {
+					text:'浏览器使用份额'
+				},
+				subtitle: {
+					text: 'for PC'
+				}, 
+				series:[{
+					name: 'Browser share',
+					data: [
+						['Opera',     36]
+						, ['Opera',     1]
+						, ['Opera',     10]
+						, ['Others 1',   0.7]
+						, ['Others 2',   0.7]
+						, ['Others 3',   0.7]
+						, ['Others 4',   0.7]
+						, ['Others 5',   0.7]
+						, ['Others 6',   0.7]
+						, ['Others 7',   0.7]
+						, ['Others 8',   0.7]
+						, ['Others 9',   0.7]
+						, ['Others 10',   0.7]
+						, ['Firefox',   3.0]
+						, ['Others 19',   10]
+						, ['Others 20',   10]
+						, ['Others 21',   10]
+						, ['Others 22',   10]
+						, ['Others 23',   10]
+						, ['Others 24',   10]
+						, ['Opera',     30]
+					]
+				}]
+				//,offsetAngle: 180
+			});
+			
+			_data.push({
+				title: {
+					text:'浏览器使用份额'
+				},
+				subtitle: {
+					text: 'for PC'
+				}, 
+				series:[{
+					name: 'Browser share',
+					data: [
+						['Opera',     38]
+						, ['Opera',     42]
+						, ['Opera',     1]
+						, ['Opera',     10]
+						, ['Others 1',   0.7]
+						, ['Others 2',   0.7]
+						, ['Others 3',   0.7]
+						, ['Others 4',   0.7]
+						, ['Others 5',   0.7]
+						, ['Others 6',   0.7]
+						, ['Others 7',   0.7]
+						, ['Others 8',   0.7]
+						, ['Others 9',   0.7]
+						, ['Others 10',   0.7]
+						, ['Firefox',   3.0]
+						, ['Others 19',   10]
+						, ['Others 20',   10]
+						, ['Others 21',   10]
+						, ['Opera',     30]
+					]
+				}]
+				//,offsetAngle: 180
+			});
+			
+			_data.push({
+				title: {
+					text:'浏览器使用份额'
+				},
+				subtitle: {
+					text: 'for PC'
+				}, 
+				series:[{
+					name: 'Browser share',
+					data: [
+						['Opera',     38]
+						, ['Opera',     42]
+						, ['Opera',     42]
+						, ['Opera',     1]
+						, ['Opera',     10]
+						, ['Others 1',   0.7]
+						, ['Others 2',   0.7]
+						, ['Others 3',   0.7]
+						, ['Others 4',   0.7]
+						, ['Others 5',   0.7]
+						, ['Others 6',   0.7]
+						, ['Others 7',   0.7]
+						, ['Others 8',   0.7]
+						, ['Others 9',   0.7]
+						, ['Others 10',   0.7]
+						, ['Firefox',   3.0]
+						, ['Others 19',   10]
+						, ['Others 20',   10]
+					]
+				}]
+				//,offsetAngle: 180
+			});
 		}
 		
 	}

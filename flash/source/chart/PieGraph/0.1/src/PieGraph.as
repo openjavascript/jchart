@@ -23,7 +23,7 @@ package
 	import org.xas.jchart.piegraph.MainFacade;
 	
 	
-	[SWF(frameRate="30", width="600", height="500")]
+	[SWF(frameRate="30", width="800", height="500")]
 	public class PieGraph extends Sprite
 	{ 
 		private var _inited: Boolean = false;
@@ -150,7 +150,7 @@ package
 			var _data:Object = {};
 			
 			if( !ExternalInterface.available ){							
-				_data = DefaultPieData.instance.data[4];
+				_data = DefaultPieData.instance.data[9];
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
 				if( _loaderInfo.chart ){

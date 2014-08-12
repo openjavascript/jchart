@@ -32,6 +32,24 @@ package org.xas.jchart.common.data.test
 				series:[{
 					name: 'Browser share',
 					data: [
+						['Firefox',   100],
+					]
+				}]
+				, legend: {
+					enabled: false
+				}
+			});
+			
+			_data.push({
+				title: {
+					text:'浏览器使用份额'
+				},
+				subtitle: {
+					text: 'for PC'
+				}, 
+				series:[{
+					name: 'Browser share',
+					data: [
 						['Firefox',   45.0],
 						['IE',       26.8],
 						{

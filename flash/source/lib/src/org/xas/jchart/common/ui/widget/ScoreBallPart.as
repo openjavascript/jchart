@@ -25,7 +25,7 @@ package org.xas.jchart.common.ui.widget
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	
-	public class CyclicPart extends Sprite
+	public class ScoreBallPart extends Sprite
 	{
 		private var _centerPoint:Point;
 		public function get centerPoint():Point{ return _centerPoint; }
@@ -44,7 +44,7 @@ package org.xas.jchart.common.ui.widget
 				
 		private var _nerdBg:Boolean = false;
 		
-		public function CyclicPart( 
+		public function ScoreBallPart( 
 			_centerPoint:Point
 			, _percent:Number = 0
 			 , _radius:Number = 100	

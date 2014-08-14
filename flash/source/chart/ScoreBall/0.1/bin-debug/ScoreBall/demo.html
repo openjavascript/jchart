@@ -26,40 +26,40 @@ dl dd{
 <dl>
     <dt>CRM 百分比饼图</dt>
     <dd>
-        <div id="PercentBall0"></div>
+        <div id="ScoreBall0"></div>
     </dd>
     <dd>
-        <div id="PercentBall1"></div>
+        <div id="ScoreBall1"></div>
     </dd>
     <dd>
-        <div id="PercentBall2"></div>
+        <div id="ScoreBall2"></div>
     </dd>
     <dd>
-        <div id="PercentBall3"></div>
+        <div id="ScoreBall3"></div>
     </dd>
     <dd>
-        <div id="PercentBall4"></div>
+        <div id="ScoreBall4"></div>
     </dd>
     <dd>
-        <div id="PercentBall5"></div>
+        <div id="ScoreBall5"></div>
     </dd>
     <dd>
-        <div id="PercentBall6"></div>
+        <div id="ScoreBall6"></div>
     </dd>
     <dd>
-        <div id="PercentBall7"></div>
+        <div id="ScoreBall7"></div>
     </dd>
     <dd>
-        <div id="PercentBall8"></div>
+        <div id="ScoreBall8"></div>
     </dd>
     <dd>
-        <div id="PercentBall9"></div>
+        <div id="ScoreBall9"></div>
     </dd>
     <dd>
-        <div id="PercentBall10"></div>
+        <div id="ScoreBall10"></div>
     </dd>
     <dd>
-        <div id="PercentBall11"></div>
+        <div id="ScoreBall11"></div>
     </dd>
 </dl>
 
@@ -72,8 +72,8 @@ dl dd{
     for( var i = 0; i <= 10; i++ ){
         swfobject.embedSWF
         (
-            "../PercentBall.swf"
-            , "PercentBall" + i 
+            "../ScoreBall.swf"
+            , "ScoreBall" + i 
             , "150", "150", "9.0.0", false
             , {
                 "chart":  JSON.stringify(  { score: i * 10 } )
@@ -83,8 +83,8 @@ dl dd{
 
     swfobject.embedSWF
     (
-        "../PercentBall.swf"
-        , "PercentBall11"
+        "../ScoreBall.swf"
+        , "ScoreBall11"
         , "150", "150", "9.0.0", false
         , {
             "chart":  JSON.stringify(  { score: 34.18 } )

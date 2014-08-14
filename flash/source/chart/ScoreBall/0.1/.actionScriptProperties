@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<actionScriptProperties mainApplicationPath="PercentBall.as" projectUUID="8ddddf6a-b2fc-4544-a6eb-b9bf0925930f" version="6">
+<actionScriptProperties mainApplicationPath="ScoreBall.as" projectUUID="8ddddf6a-b2fc-4544-a6eb-b9bf0925930f" version="6">
   <compiler additionalCompilerArguments="-locale zh_CN" autoRSLOrdering="true" copyDependentFiles="true" flexSDK="Flex 4.6" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath>
       <compilerSourcePathEntry kind="1" linkType="1" path="G:/My Documents/git/jchart_dev/flash/source/lib/src"/>
@@ -31,7 +31,7 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="PercentBall.as"/>
+    <application path="ScoreBall.as"/>
   </applications>
   <modules/>
   <buildCSSFiles/>

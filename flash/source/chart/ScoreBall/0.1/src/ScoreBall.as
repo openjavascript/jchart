@@ -15,21 +15,21 @@ package
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.data.test.*;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.common.ui.widget.CyclicPart;
+	import org.xas.jchart.common.ui.widget.ScoreBallPart;
 	import org.xas.jchart.common.ui.widget.JTextField;
 	
 	
 	[SWF(frameRate="30", width="150", height="150")]
-	public class PercentBall extends Sprite
+	public class ScoreBall extends Sprite
 	{
-		private var _ins:PercentBall;
+		private var _ins:ScoreBall;
 		private var _inited: Boolean = false;
 		private var _timer:Timer;
 		private var _data:Object;
 		private var _resizeTimer:Timer;
 		private var _loaderInfo:Object;
 		
-		public function PercentBall()
+		public function ScoreBall()
 		{			
 			
 			flash.system.Security.allowDomain("*");	
@@ -98,8 +98,8 @@ package
 				, _cx:Number = this.root.stage.stageWidth / 2
 				, _cy:Number = this.root.stage.stageHeight / 2
 				
-				, _bgcylic:CyclicPart
-				, _cyclic:CyclicPart
+				, _bgcylic:ScoreBallPart
+				, _cyclic:ScoreBallPart
 				;
 
 			
@@ -117,7 +117,7 @@ package
 			//Log.log( _percent, _text );
 			//_percent = .80;
 						
-			_bgcylic = new CyclicPart( new Point( _cx, _cy ), 1, _radius, _sradius );
+			_bgcylic = new ScoreBallPart( new Point( _cx, _cy ), 1, _radius, _sradius );
 			addChild( _bgcylic );
 			
 			if( _score ){
@@ -128,7 +128,7 @@ package
 				_eangle += _offsetAngle;
 				_sangle += _offsetAngle;
 				
-				_cyclic = new CyclicPart( new Point( _cx, _cy ), _score, _radius, _sradius,
+				_cyclic = new ScoreBallPart( new Point( _cx, _cy ), _score, _radius, _sradius,
 					{ 
 						color: 0xfeb556
 						, bgFill: 0xffffff

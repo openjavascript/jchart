@@ -498,8 +498,7 @@ package org.xas.jchart.common.view.components
 					_tb = _labels[ j ];
 					
 					if( _ta.hitTestObject( _tb ) ){
-						_r = true;
-						break;
+                        return true;
 					}
 				}
 			} 

@@ -90,6 +90,8 @@
                         $( 'button.js_jchartTestFlash' ).css( { 'font-weight': 'bold' } );
                     }else if( _selected === '2' ){
                         $( 'button.js_jchartTestSvg' ).css( { 'font-weight': 'bold' } );
+                    }else{
+                        $( 'button.js_jchartTestAuto' ).css( { 'font-weight': 'bold' } );
                     }
                 });
 
@@ -99,6 +101,10 @@
 
                 _p.selector().delegate( '.js_jchartTestSvg', 'click', function(){
                     JC.f.reloadPage( JC.f.addUrlParams( { 'jchart_display': 2 } ) );
+                });
+
+                _p.selector().delegate( '.js_jchartTestAuto', 'click', function(){
+                    JC.f.reloadPage( JC.f.delUrlParam( 'jchart_display' ) );
                 });
             }
 
@@ -132,9 +138,8 @@
 
                     _p.selector().html(
                         JC.f.printf( 
-                            '{0}&nbsp;{2}&nbsp;{3}'
-                            , '<a href="{1}">back</a>'
-                            , JC.f.delUrlParam( 'jchart_display' )
+                            '{0}&nbsp;{1}&nbsp;{2}'
+                            , '<button type="button" class="js_jchartTestAuto">auto detect</button>'
                             , '<button type="button" class="js_jchartTestFlash">flash chart</button>'
                             , '<button type="button" class="js_jchartTestSvg">svg chart</button>'
                         )

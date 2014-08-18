@@ -7,7 +7,7 @@
      *      , <a href='JChart.common'>JChart.common.html</a>
      * </p>
      * <p><a href='https://github.com/openjavascript/jquerycomps' target='_blank'>JC Project Site</a>
-     * | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Event.html' target='_blank'>API docs</a>
+     * | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Extend.html' target='_blank'>API docs</a>
      * @version dev 0.1 2014-07-21
      * @author  qiushaowei   <suches@btbtd.org> | 75 Team
      */
@@ -83,6 +83,17 @@
                 //}, _p, 'asdfaweasdfawsef_leave', 200 );
             }
         };
+
+    Raphael.el.hitTestObject =
+        function( _el ){
+            var _r = false, _p = this, _r1, _r2;
+            if( _el ){
+                _r1 = _p.getBBox();
+                _r2 = _el.getBBox();
+                _r = JChart.Geometry.intersectRect( _r1, _r2 );
+            }
+            return _r;
+        }
 
 });}( typeof define === 'function' && define.amd ? define : 
         function ( _name, _require, _cb ) { 

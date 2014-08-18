@@ -3,7 +3,7 @@
     , 'Raphael'
     , 'JChart.common'
     , 'JChart.DefaultOptions' 
-    , 'JChart.Event', 'JChart.Group'
+    , 'JChart.Extend', 'JChart.Group'
     , 'JChart.Legend'
     , 'JChart.Tips'
     , 'swfobject'

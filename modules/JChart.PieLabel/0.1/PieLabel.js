@@ -78,6 +78,43 @@
                 typeof this._pathList == 'undefined' && ( this._pathList = [] );
                 return this._pathList;
             }
+
+        , leftTopLabel: 
+            function(){ 
+                typeof this._leftTopLabel == 'undefined' && ( this._leftTopLabel = [] );
+                return this._leftTopLabel;
+            }
+
+        , leftBottomLabel: 
+            function(){ 
+                typeof this._leftBottomLabel == 'undefined' && ( this._leftBottomLabel = [] );
+                return this._leftBottomLabel;
+            }
+
+        , rightTopLabel: 
+            function(){ 
+                typeof this._rightTopLabel == 'undefined' && ( this._rightTopLabel = [] );
+                return this._rightTopLabel;
+            }
+
+        , rightBottomLabel: 
+            function(){ 
+                typeof this._rightBottomLabel == 'undefined' && ( this._rightBottomLabel = [] );
+                return this._rightBottomLabel;
+            }
+
+        , maxWidth:
+            function( _setter ){
+                typeof _setter != 'undefined' && ( this._maxWidth = _setter );
+                return this._maxWidth || 0;
+            }
+
+        , maxHeight:
+            function( _setter ){
+                typeof _setter != 'undefined' && ( this._maxHeight = _setter );
+                return this._maxHeight || 0;
+            }
+
     });
 
     JC.f.extendObject( PieLabel.View.prototype, {
@@ -111,7 +148,15 @@
                 var _p = this, _pm = _p._model.pieModel(), _m = _p._model
                     , _offsetX = 0, _offsetY = 0
                     , _ix
+                    , _maxWidth = 0, _maxHeight = 15
                     ;
+
+                var _topLabel
+                    , _rightLabel
+                    , _bottomLabel
+                    , _leftLabel
+                    ;
+
                 $.each( _m.lines(), function( _k, _item ){
                     var _path, _style, _text;
                     _ix = _pm.displayLegendMap[ _k ];
@@ -130,48 +175,82 @@
                         case 'top':
                             {
                                 _text.attr( { x: _item.end.x, y: _item.end.y - 5 } );
-                                break;
-                            }
-                        case 'left_top':
-                            {
-                                _text.attr( { x: _item.end.x - 5, y: _item.end.y, 'text-anchor': 'end' } );
-                                break;
-                            }
-                        case 'right_top':
-                            {
-                                _text.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
-                                break;
-                            }
-                        case 'left_bottom':
-                            {
-                                _text.attr( { x: _item.end.x - 5, y: _item.end.y, 'text-anchor': 'end' } );
-                                break;
-                            }
-                        case 'right_bottom':
-                            {
-                                _text.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
+                                _topLabel = _text;
                                 break;
                             }
                         case 'right':
                             {
                                 _text.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
+                                _rightLabel = _text;
                                 break;
                             }
                         case 'bottom':
                             {
                                 _text.attr( { x: _item.end.x, y: _item.end.y + 5 } );
+                                _bottomLabel = _text;
                                 break;
                             }
                         case 'left':
                             {
                                 _text.attr( { x: _item.end.x - 5, y: _item.end.y, 'text-anchor': 'end' } );
+                                _leftLabel = _text;
+                                break;
+                            }
+
+                        case 'left_top':
+                            {
+                                _text.attr( { x: _item.end.x - 5, y: _item.end.y, 'text-anchor': 'end' } );
+                                _m.leftTopLabel().push( _text );
+                                break;
+                            }
+                        case 'right_top':
+                            {
+                                _text.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
+                                _m.rightTopLabel().push( _text );
+                                break;
+                            }
+                        case 'left_bottom':
+                            {
+                                _text.attr( { x: _item.end.x - 5, y: _item.end.y, 'text-anchor': 'end' } );
+                                _m.leftBottomLabel().push( _text );
+                                break;
+                            }
+                        case 'right_bottom':
+                            {
+                                _text.attr( { x: _item.end.x + 5, y: _item.end.y, 'text-anchor': 'start' } );
+                                _m.rightBottomLabel().push( _text );
                                 break;
                             }
                     }
 
+                    var _bbox = _text.getBBox();
+                        _bbox.width > _maxWidth && ( _maxWidth = _bbox.width );
+                        _bbox.height > _maxHeight && ( _maxHeight = _bbox.height );
+
                     _m.pathList().push( _path );
                     _m.textList().push( _text );
                 });
+
+                _m.maxWidth( _maxWidth );
+                _m.maxHeight( _maxHeight );
+
+                if( _topLabel ){
+                    _m.leftTopLabel().push( _topLabel );
+                }
+                
+                if( _rightLabel ){
+                    _m.rightTopLabel().push( _rightLabel );
+                }
+                
+                if( _bottomLabel ){
+                    _m.rightBottomLabel().push( _bottomLabel );
+                }
+                
+                if( _leftLabel ){
+                    _m.leftBottomLabel().push( _leftLabel );
+                }
+
+                //JC.log( _m.maxWidth(), _m.maxHeight() );
             }
 
         , collideDraw:
@@ -185,7 +264,134 @@
                     ;
                 $.each( _pl, function( _k, _path ){ _path.remove() });
                 _pl = [];
+
+                _p.fixRightTopLabel( _m.rightTopLabel() );
+
+                 _m.rightBottomLabel().reverse() 
+                _p.fixRightBottomLabel( _m.rightBottomLabel() );
+
+                 _m.leftTopLabel().reverse();
+                 _p.fixLeftTopLabel( _m.leftTopLabel() );
+
+                 _p.fixLeftBottomLabel( _m.leftBottomLabel() );
             }
+
+        , fixRightTopLabel:
+            function( _labels ){
+                if( !_labels.length ) return;
+                var _p = this, _pm = _p._model.pieModel(), _m = _p._model;
+                var _c = _pm.coordinate()
+                    , _x = _c.cx + 5
+                    , _y = _c.chartY + 5
+                    , _maxWidth = _m.maxWidth(), _maxHeight = _m.maxHeight()
+                    , _endX = _c.chartX + _c.chartWidth - 5 - _maxWidth
+                    , _endY = _c.cy - _maxHeight - 5
+                    ;	
+
+
+                if( _labels.length < 5 ){
+                    _x = _c.chartX + _c.chartWidth - ( _c.cx - _c.chartX ) / 5;
+                }
+
+                _p.positionItems( _labels, _x, _y, _endX, _endY, function( _item ){				
+                    /*
+                    var _line = _item.data.line as JSprite
+                    , _controlX = -8
+                    , _controlY = -8
+                    , _anchorX = _item.x - 2
+                    , _anchorY = _item.y + _item.height / 2
+                    ;			
+
+                    if( _item.data.data.start.x > _anchorX && _item.data.data.start.y > _anchorY ){
+                        _controlX = 8;
+                        _controlY = 0;
+                        _anchorX = _item.x + _item.width / 2;
+                        _anchorY = _item.y + _item.height + 2;
+                    }
+
+                    if( _line ){
+
+                        _line.graphics.clear();
+                        _line.graphics.lineStyle( 1, _item.data.color );
+                        _line.graphics.moveTo( _item.data.data.start.x, _item.data.data.start.y );
+                        _line.graphics.lineTo( _item.data.data.ex.x, _item.data.data.ex.y );
+
+                        _line.graphics.curveTo( 
+                                _anchorX + _controlX, _anchorY + _controlY
+                                , _anchorX, _anchorY
+                                );
+                    }
+                    */
+                });
+
+            }
+
+        , fixRightBottomLabel:
+            function( _labels ){
+            }
+
+        , fixLeftTopLabel:
+            function( _labels ){
+            }
+
+        , fixLeftBottomLabel:
+            function( _labels ){
+            }
+
+		, positionItems:
+            function( _labels, _x, _y, _endX, _endY, _cb )
+            {
+                JC.log( 'positionItems', _x, _endX );
+                var _xWidth = Math.abs( _x - _endX )
+                    , _xIsMax = _x > _endX
+                    
+                    ,  _yHeight = Math.abs( _y - _endY )
+                    , _yIsMax = _y > _endY
+                    
+                    , _maxLen = _labels.length - 1
+                    , _yStep = Math.abs( _y - _endY ) / _maxLen
+                    ;
+                if( _labels.length ){
+                    var _tmpX, _tmpY = _y, _tmpWidth = _xWidth;
+                    $.each( _labels, function( _k, _item ){
+                        var _percent = .65
+                        , _maxX = Math.max( _x, _endX )
+                        , _minX = Math.min( _x, _endX )
+                        ;
+                        if( _xIsMax ){
+                            if( _k == 0 ){
+                                _percent = .99;
+                            }else if( _k == _maxLen ){
+                            }else{				
+                            }
+                        }else{
+                            if( _k == 0 ){
+                                _percent = .99;
+                            }else if( _k == _maxLen ){
+                            }else{				
+                            }
+                        }
+                        _tmpWidth *= _percent;
+                        if( _xIsMax ){
+                            _tmpX = _maxX - ( _xWidth - _tmpWidth );
+                        }else{						
+                            _tmpX = _minX + ( _xWidth - _tmpWidth );
+                        }
+                        _item.attr( { 'x': _tmpX, 'y': _tmpY } );
+                        
+                        if( _yIsMax ){
+                            _tmpY -= _yStep;
+                        }else{
+                            _tmpY += _yStep;
+                        }
+                        
+                        _cb && _cb( _item );				
+                    });
+                }else{
+                    
+                }
+            }
+
     });
 
     return JC.PieLabel;

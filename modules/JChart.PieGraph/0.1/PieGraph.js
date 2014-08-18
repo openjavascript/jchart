@@ -431,13 +431,13 @@
 
                 var _vx = _x, _hy = _y;
 
-                _c.wsHeight = _maxY - _y;
-                _c.wsY = _y;
-                _c.wsMaxY = _maxY;
+                _c.chartHeight = _c.wsHeight = _maxY - _y;
+                _c.chartY = _c.wsY = _y;
+                _c.chartMaxY = _c.wsMaxY = _maxY;
 
-                _c.wsWidth = _maxX - _x;
-                _c.wsX = _x;
-                _c.wsMaxX = _maxX;
+                _c.chartWidth = _c.wsWidth = _maxX - _x;
+                _c.chartX = _c.wsX = _x;
+                _c.chartMaxX = _c.wsMaxX = _maxX;
 
                 _c.cx = _c.wsX + _c.wsWidth / 2;
                 _c.cy = _c.wsY + _c.wsHeight / 2;
@@ -499,21 +499,24 @@
 
                         _pieP.startPoint = JChart.Geometry.distanceAngleToPoint( _pieP.radius, _pieP.startAngle );
                         _pieP.endPoint = JChart.Geometry.distanceAngleToPoint( _pieP.radius, _pieP.endAngle );
+                        _pieP.exPoint = JChart.Geometry.distanceAngleToPoint( _pieP.radius + 10, _pieP.endAngle );
 
                         _pieP.startPoint.x += _pieP.cx;
                         _pieP.startPoint.y += _pieP.cy;
                         _pieP.endPoint.x += _pieP.cx;
                         _pieP.endPoint.y += _pieP.cy;
 
+                        _pieL.cx = _c.cx;
+                        _pieL.cy = _c.cy;
+
                         _pieL.start = JChart.Geometry.distanceAngleToPoint( _pieP.radius - _p.lineStart(), _pieP.midAngle );
                         _pieL.end = JChart.Geometry.distanceAngleToPoint( _pieP.radius + _p.lineLength(), _pieP.midAngle );
 
-                        _pieL.cx = _c.cx;
-                        _pieL.cy = _c.cy;
                         _pieL.start.x += _pieL.cx;
                         _pieL.start.y += _pieL.cy;
                         _pieL.end.x += _pieL.cx;
                         _pieL.end.y += _pieL.cy;
+                        _pieL.ex = { x: _pieP.exPoint.x + _pieL.cx, y: _pieP.exPoint.y + _pieL.cy };
 
                         //JC.log( _k, _pieP.midAngle );
 

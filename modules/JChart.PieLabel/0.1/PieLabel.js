@@ -88,11 +88,9 @@
 
         , draw:
             function(){
-                var _p = this, _isCollision;
+                var _p = this;
                 _p.normalDraw();
-                _isCollision = _p.isCollision();
-                //JC.log( '_isCollision:', _isCollision, JC.f.ts() );
-                _isCollision && _p.collideDraw();
+                _p.isCollision() && _p.collideDraw();
             }
 
         , isCollision:

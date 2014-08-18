@@ -248,7 +248,7 @@ package org.xas.jchart.common.view.components
 				;	
 			
 			if( _labels.length < 5 ){
-				_x = BaseConfig.ins.c.x + BaseConfig.ins.c.chartWidth - ( BaseConfig.ins.c.cx - BaseConfig.ins.c.chartX ) / 5;
+				_x = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - ( BaseConfig.ins.c.cx - BaseConfig.ins.c.chartX ) / 5;
 			}
 						
 			positionItems( _labels, _x, _y, _endX, _endY, function( _item:JTextField ):void{				
@@ -291,7 +291,7 @@ package org.xas.jchart.common.view.components
 				;	
 			
 			if( _labels.length < 5 ){
-				_x = BaseConfig.ins.c.x + BaseConfig.ins.c.chartWidth - ( BaseConfig.ins.c.cx - BaseConfig.ins.c.chartX ) / 5;
+				_x = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - ( BaseConfig.ins.c.cx - BaseConfig.ins.c.chartX ) / 5;
 			}
 			
 			positionItems( _labels, _x, _y, _endX, _endY, function( _item:JTextField ):void{				
@@ -467,20 +467,6 @@ package org.xas.jchart.common.view.components
 			}else{
 				
 			}
-		}
-		
-		private function getLabel( _ix:int ):JTextField{
-			var _r:JTextField;
-			if( _ix >= 0 && _ix <= ( _labels.length - 1 ) ){
-			}else{
-				_ix = 0;
-			}
-			
-			if( _labels.length ){4
-				_r = _labels[ _ix ];
-			}
-			
-			return _r;
 		}
 		
 		private function checkIntersect( _labes:Vector.<JTextField> ):Boolean{

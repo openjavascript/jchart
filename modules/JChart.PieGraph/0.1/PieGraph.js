@@ -1,4 +1,11 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconVLine', 'JChart.IconCircle', 'JChart.GraphicPiePart' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 
+            'JChart.Base'
+            , 'JChart.Group'
+            , 'JChart.IconVLine'
+            , 'JChart.IconCircle'
+            , 'JChart.GraphicPiePart'
+            , 'JChart.PieLabel'
+            ], function(){
 /**
  * 柱状图
  *
@@ -260,13 +267,20 @@
                 return _p._piePart;
             }
 
-        , pieLine:
+        , pieLabel:
             function( _lines ){
                 var _p = this;
 
-                if( _lines && typeof this._pieLine == 'undefined' ){
-                    _p._pieLine = [];
-                    _p._pieLineText = [];
+                //return;
+
+                if( _lines && typeof _p._pieLabel == 'undefined' ){
+
+                    _p._pieLabel = new JChart.PieLabel( _p.stage(), _lines, _p );
+                    _p._pieLabel.draw();
+                    return _p._pieLabel;
+
+                    _p._pieLabel = [];
+                    _p._pieLabelText = [];
                     var _tmp, _path, _style, _text;
                     $.each( _lines, function( _k, _item ){
                         var _ix = _p.displayLegendMap[ _k ];
@@ -275,7 +289,7 @@
                             .attr( { 'stroke': _style.fill } )
                             .translate( .5, .5 )
                             ;
-                        _p._pieLine.push( _tmp );
+                        _p._pieLabel.push( _tmp );
                         _text = _p.stage().text( 0, 0, _item.data.name )
                             .attr( { 'fill': '#999' } )
                             ;
@@ -324,10 +338,8 @@
                     });
                 }
 
-                return _p._pieLine;
+                return _p._pieLabel;
             }
-
-        , pieLineText: function(){ return this._pieLineText; }
 
         , coordinate:
             function( _data ){
@@ -459,7 +471,7 @@
                         ;
 
                     _c.piePart = [];
-                    _p.dataLabelEnabled() && ( _c.pieLine = [] );
+                    _p.dataLabelEnabled() && ( _c.pieLabel = [] );
 
                     //JC.log( '_p.dataLabelEnabled:', _p.dataLabelEnabled() );
                     /*
@@ -552,7 +564,7 @@
                         _pieL.path = _tmpPath;
 
                         _c.piePart.push( _pieP );
-                        _p.dataLabelEnabled() && _c.pieLine.push( _pieL );
+                        _p.dataLabelEnabled() && _c.pieLabel.push( _pieL );
                     });
                 }
 
@@ -751,8 +763,8 @@
                     //_p._model.legend().setPosition( _c.legend.x, _c.legend.y );
                     JChart.moveSet( _p._model.legend().set(), _c.legend.x, _c.legend.y );
                 }
-                if( _c.pieLine ){
-                    _p._model.pieLine( _c.pieLine );
+                if( _c.pieLabel ){
+                    _p._model.pieLabel( _c.pieLabel );
                 }
                 if( _c.piePart ){
                     _p._model.piePart( _c.piePart );

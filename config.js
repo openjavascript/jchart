@@ -39,6 +39,7 @@ requirejs.config( {
         , 'JChart.IconCircle': 'modules/JChart.IconCircle/0.1/IconCircle'
 
         , 'JChart.Legend': 'modules/JChart.Legend/0.1/Legend'
+        , 'JChart.PieLabel': 'modules/JChart.PieLabel/0.1/PieLabel'
         , 'JChart.Test': 'modules/JChart.Test/0.1/Test'
         , 'JChart.Tips': 'modules/JChart.Tips/0.1/Tips'
 

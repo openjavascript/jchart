@@ -61,10 +61,10 @@
             _selector = $( _selector || document );
 
             if( _selector.length ){
-                if( _selector.hasClass( 'js_compTest' )  ){
+                if( _selector.hasClass( 'js_jchartTest' )  ){
                     _r.push( new Test( _selector ) );
                 }else{
-                    _selector.find( 'div.js_compTest' ).each( function(){
+                    _selector.find( 'div.js_jchartTest' ).each( function(){
                         _r.push( new Test( this ) );
                     });
                 }

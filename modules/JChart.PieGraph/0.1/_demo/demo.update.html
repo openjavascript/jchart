@@ -22,7 +22,7 @@
     <script>
         JC.debug = true;
 
-        requirejs( [ 'JChart.PieGraph', 'json2' ], function(){
+        requirejs( [ 'JChart.PieGraph', 'JChart.Test', 'json2' ], function(){
             $( document ).delegate( 'button.js_updateChart', 'click', function( _evt ){
                 var _p = $( this )
                     , _pnt = JC.f.getJqParent( _p, 'td' )
@@ -38,6 +38,8 @@
 </head>    
 <body>
     <h2>JChart.PieGraph 示例</h2>
+
+    <div class="js_jchartTest"></div>
 
     <dl class="defDl">
         <dt></dt>

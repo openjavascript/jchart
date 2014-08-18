@@ -158,7 +158,7 @@ package org.xas.jchart.piegraph.controller
 				
 				var _spoint:Point = Common.distanceAngleToPoint( _pieP.radius, _pieP.startAngle )
 					, _epoint:Point = Common.distanceAngleToPoint( _pieP.radius, _pieP.endAngle )
-					, _expoint:Point = Common.distanceAngleToPoint( _pieP.radius, _pieP.midAngle )
+					, _expoint:Point = Common.distanceAngleToPoint( _pieP.radius + 10, _pieP.midAngle )
 					; 
 				
 				_pieP.startPoint = { x: _spoint.x + _pieP.cx, y: _spoint.y + _pieP.cy };

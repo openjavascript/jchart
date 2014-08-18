@@ -1175,7 +1175,7 @@ window.JChart = window.JChart || {};
                     _element.appendTo( _p.selector() );
                 }
                 //JC.log( 'drawFlash', _fpath, _p._model.gid(), _p._model.width(), _p._model.height(), _element[0] );
-                JC.log( _dataStr );
+                //JC.log( _dataStr );
                 swfobject.embedSWF( 
                     _fpath
                     , _p._model.gid()

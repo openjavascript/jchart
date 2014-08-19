@@ -42,7 +42,12 @@ package org.xas.jchart.common.view.components
 				_t = Common.moneyFormat( _item, 3, BaseConfig.ins.realRateFloatLen || 0 );
 				
 				_titem = new TextField();
-				_titem.text = _t;
+				
+				if( BaseConfig.ins.isPercent ){
+					_titem.text = _t + '%';
+				}else{
+					_titem.text = _t;
+				}
 				
 				Common.implementStyle( _titem, [
 					DefaultOptions.title.style

@@ -143,8 +143,12 @@ package org.xas.jchart.common.ui
 				_valTxf = _item.value as TextField;
 				
 				if( _data ){
-					_nameTxf.text = _data.items[ _k ].name;
-					_valTxf.text = _data.items[ _k ].value;					
+					_nameTxf.text = _data.items[ _k ].name;					
+					if( BaseConfig.ins.isPercent ){
+						_valTxf.text = _data.items[ _k ].value + '%';		
+					}else{
+						_valTxf.text = _data.items[ _k ].value;		
+					}			
 				}
 				
 				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );

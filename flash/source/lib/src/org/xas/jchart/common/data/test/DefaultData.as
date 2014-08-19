@@ -249,7 +249,7 @@ package org.xas.jchart.common.data.test
 				, displayAllLabel: false
 			} );
 			
-			_data.push(                     {
+			_data.push({
 				title: {
 					text:'Chart Title'
 				},
@@ -282,6 +282,42 @@ package org.xas.jchart.common.data.test
 				legend: {
 					enabled: false
 				}
+			});
+			
+			_data.push({
+				title: {
+					text:'Chart Title'
+				},
+				subtitle: {
+					text: 'sub title'
+				}, 
+				xAxis: {
+					categories: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12' ]
+				}, 
+				yAxis: {
+					title: {
+						text: '(Vertical Title - 中文)'
+					}
+				},
+				series:[{
+					name: 'Temperature'
+					, data: [1, 2, 4, 8, 8, 33, 60, 0, 50.33, 66, 77, 88]
+					, style: { 'stroke': '#ff7100' } 
+					, pointStyle: {}
+				}, {
+					name: 'Rainfall',
+					data: [1.01, 44, 3, 55, 3, 5, 83, 1, 33, 55, 44, 33]
+				}],
+				credits: {
+					enabled: true
+					, text: 'jchart.openjavascript.org'
+					, href: 'http://jchart.openjavascript.org/'
+				},
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, isPercent: true
 			});
 		}
 		

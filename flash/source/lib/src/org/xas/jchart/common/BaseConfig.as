@@ -96,6 +96,7 @@ package org.xas.jchart.common
 		public function get minNum():Number{ return _minNum; }
 		protected function calcminNum():Number{
 			var _r:Number = 0, _tmp:Array;
+			if( this.isPercent ) return 0;
 			if( cd && cd.series ){
 				_tmp = [];
 				Common.each( displaySeries, function( _k:int, _item:Number ):*{
@@ -198,6 +199,7 @@ package org.xas.jchart.common
 		
 		protected function calcMaxNum():Number{
 			var _r:Number = 0, _tmp:Array;
+			if( this.isPercent ) return 100;
 			if( cd && cd.series ){
 				_tmp = [];
 				Common.each( displaySeries, function( _k:int, _item:Number ):*{
@@ -413,6 +415,10 @@ package org.xas.jchart.common
 			_chartData = {};
 			
 			return this;
+		}
+		
+		public function get isPercent():Boolean{
+			return this.cd.isPercent || false;
 		}
 				
 		public function BaseConfig()

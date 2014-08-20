@@ -67,6 +67,7 @@ package org.xas.jchart.common
 		
 		protected var _chartData:Object;
 		public function setChartData( _d:Object ):Object { 
+			reset();
 			_chartData = _d;
 			calcRate();		
 			calcLabelDisplayIndex();
@@ -111,8 +112,8 @@ package org.xas.jchart.common
 		}
 
 		
-		private var _floatLen:int = 0;
-		private var _isFloatLenReady:Boolean = false;
+		protected var _floatLen:int = 0;
+		protected var _isFloatLenReady:Boolean = false;
 		public function get floatLen():int{
 			
 			if( _isFloatLenReady ){
@@ -133,6 +134,7 @@ package org.xas.jchart.common
 					});
 				});
 			}
+			_floatLen == 1 && ( _floatLen = 2 );
 			
 			return _floatLen;
 		}

@@ -4,9 +4,9 @@ package org.xas.jchart.common.config
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	
-	public class PieGraphConfig extends BaseConfig
+	public class DDountConfig extends BaseConfig
 	{
-		public function PieGraphConfig()
+		public function DDountConfig()
 		{
 			super();
 		}

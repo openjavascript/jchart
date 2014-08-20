@@ -1,4 +1,4 @@
-package org.xas.jchart.histogram.controller
+package org.xas.jchart.ddount.controller
 {
 	import org.puremvc.as3.multicore.interfaces.ICommand;
 	import org.puremvc.as3.multicore.interfaces.INotification;
@@ -7,7 +7,7 @@ package org.xas.jchart.histogram.controller
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.mediator.*;
-	import org.xas.jchart.histogram.view.mediator.*;
+	import org.xas.jchart.ddount.view.mediator.*;
 	
 	public class ClearCmd extends SimpleCommand implements ICommand
 	{
@@ -33,7 +33,8 @@ package org.xas.jchart.histogram.controller
 			facade.hasMediator( BgLineMediator.name ) && facade.removeMediator( BgLineMediator.name );
 			facade.hasMediator( LegendMediator.name ) && facade.removeMediator( LegendMediator.name );
 			facade.hasMediator( TipsMediator.name ) && facade.removeMediator( TipsMediator.name );
-			facade.hasMediator( TestMediator.name ) && facade.removeMediator( TestMediator.name );	
+			facade.hasMediator( TestMediator.name ) && facade.removeMediator( TestMediator.name );		
+			facade.hasMediator( PieLabelMediator.name ) && facade.removeMediator( PieLabelMediator.name );			
 		}
 	}
 }

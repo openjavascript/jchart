@@ -8,6 +8,7 @@ package org.xas.jchart.common
 	
 	import flash.geom.Point;
 	import flash.display.DisplayObject;
+	import org.xas.core.utils.Log;
 	
 	public class Common
 	{		
@@ -62,7 +63,6 @@ package org.xas.jchart.common
 			
 			return _items;
 		}
-import org.xas.core.utils.Log;
 			
 		public static function isNegative( _num:Number ):Boolean{
 			return _num < 0;

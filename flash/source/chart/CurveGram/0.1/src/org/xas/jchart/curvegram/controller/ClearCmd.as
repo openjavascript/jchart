@@ -34,8 +34,6 @@ package org.xas.jchart.curvegram.controller
 			facade.hasMediator( LegendMediator.name ) && facade.removeMediator( LegendMediator.name );
 			facade.hasMediator( TipsMediator.name ) && facade.removeMediator( TipsMediator.name );
 			facade.hasMediator( TestMediator.name ) && facade.removeMediator( TestMediator.name );			
-			
-			BaseConfig.ins.reset();
 		}
 	}
 }

@@ -111,14 +111,30 @@ package org.xas.jchart.common
 		}
 
 		
+		private var _floatLen:int = 0;
+		private var _isFloatLenReady:Boolean = false;
 		public function get floatLen():int{
-			var _r:uint = 2;
+			
+			if( _isFloatLenReady ){
+				return _floatLen;
+			}
+			_isFloatLenReady = true;
 			
 			if( cd && ( 'floatLen' in cd ) ){
-				_r = cd.floatLen;
+				_floatLen = cd.floatLen;
+			}else{
+				_floatLen = 0;
+				var _tmpLen:int = 0;
+				Common.each( series, function( _k:int, _item:Object ):void{
+					Common.each( _item.data, function( _sk:int, _sitem:Number ):void{
+						_tmpLen = Common.floatLen( _sitem );
+						_tmpLen > _floatLen && ( _floatLen = _tmpLen );
+						//Log.log( _tmpLen, _floatLen );
+					});
+				});
 			}
 			
-			return _r;
+			return _floatLen;
 		}
 
 					
@@ -419,6 +435,10 @@ package org.xas.jchart.common
 		
 		public function get isPercent():Boolean{
 			return this.cd.isPercent || false;
+		}
+		
+		public function reset():void{
+			_isFloatLenReady = false;
 		}
 				
 		public function BaseConfig()

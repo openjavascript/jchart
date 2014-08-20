@@ -62,6 +62,7 @@ package org.xas.jchart.common
 			
 			return _items;
 		}
+import org.xas.core.utils.Log;
 			
 		public static function isNegative( _num:Number ):Boolean{
 			return _num < 0;
@@ -387,6 +388,16 @@ package org.xas.jchart.common
 			result.y = $centerPoint.y + Math.sin( radian ) * $diameter;
 			
 			return result;
+		}
+		
+		public static function floatLen( _n:* ):int{
+			var _s:String = parseFinance( _n || 0, 10 ) + '', _r:int = 0, _ar:Array;
+			_ar = _s.split( '.' );
+			if(_ar.length > 1 ){
+				//Log.log( _n, _ar[1], _s );
+				_ar[1].length > _r && ( _r = _ar[1].length );
+			}
+			return _r;
 		}
 	}
 }

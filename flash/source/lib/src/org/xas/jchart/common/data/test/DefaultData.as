@@ -245,7 +245,6 @@ package org.xas.jchart.common.data.test
 					text: 'jchart.openjavascript.org',
 					href: 'http://jchart.openjavascript.org/'
 				}
-				, floatLen: 6
 				, displayAllLabel: false
 			} );
 			

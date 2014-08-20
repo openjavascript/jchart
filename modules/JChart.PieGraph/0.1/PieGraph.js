@@ -422,11 +422,18 @@
                             , y: _maxY - _bbox.height - 2
                             , ele: _legend
                         }
-                        _maxY = _c.legend.y;
+                        
+                        _data
+                            && _data.series
+                            && _data.series.length
+                            && _data.series[0].data
+                            && _data.series[0].data.length
+                            && ( _maxY = _c.legend.y )
+                            ;
                     }
                 }
 
-                _maxY -= _p.varrowSize();
+                _maxY -= ( _p.varrowSize() || 0 );
                 _x += _p.harrowSize();
 
                 var _vx = _x, _hy = _y;

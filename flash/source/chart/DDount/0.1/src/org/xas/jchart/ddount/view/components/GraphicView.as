@@ -66,7 +66,7 @@ package org.xas.jchart.ddount.view.components
 				var _pp:DDountPart = new DDountPart(
 					new Point( _item.cx, _item.cy )
 					, _item.startAngle, _item.endAngle
-					, _item.radius, _item.radius - 20, _item.radius - 26, _item.radius - 26 - 1
+					, _item.radius, _item.radius - 19, _item.radius - 26, _item.radius - 26 - 1
 					, _k
 					, { 'color': BaseConfig.ins.itemColor( _k ) }
 					, {}

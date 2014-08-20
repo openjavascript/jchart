@@ -25,7 +25,9 @@ package org.xas.jchart.common.view.mediator
 		override public function onRegister():void{
 			//Log.log( 'BgMediator register' );				
 			switch( (facade as BaseFacade).name ){
-				case 'DDountFacade':{
+				case 'DDountFacade':
+				case 'NDountFacade':
+				{
 					mainMediator.view.index5.addChild( _view = new DDountBgView() );
 					break;
 				}

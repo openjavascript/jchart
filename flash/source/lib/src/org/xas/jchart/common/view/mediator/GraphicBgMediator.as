@@ -37,6 +37,7 @@ package org.xas.jchart.common.view.mediator
 				}
 				case 'PieGraphFacade':
 				case 'DDountGraphFacade':
+				case 'NDountGraphFacade':
 				{
 					mainMediator.view.index5.addChild( _view = new PieGraphicBgView() );
 					break;

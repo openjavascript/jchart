@@ -1,4 +1,4 @@
-package org.xas.jchart.common.view.components
+package org.xas.jchart.common.view.components.BgView
 {
 	import com.adobe.utils.StringUtil;
 	
@@ -13,9 +13,9 @@ package org.xas.jchart.common.view.components
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	
-	public class BgView extends Sprite
+	public class BaseBgView extends Sprite
 	{	
-		public function BgView()
+		public function BaseBgView()
 		{
 			super();
 		
@@ -23,10 +23,10 @@ package org.xas.jchart.common.view.components
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
 		}
 		
-		private function addToStage( _evt:Event ):void{
+		protected function addToStage( _evt:Event ):void{
 		}
 		
-		private function showChart( _evt: JChartEvent ):void{
+		protected function showChart( _evt: JChartEvent ):void{
 			this.graphics.clear();
 			
 			this.graphics.beginFill( 0xcccccc, .13 );

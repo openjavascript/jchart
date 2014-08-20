@@ -1,6 +1,7 @@
 package org.xas.jchart.common.config
 {
 	import org.xas.core.utils.Log;
+	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	
@@ -116,6 +117,29 @@ package org.xas.jchart.common.config
 			_floatLen == 1 && ( _floatLen = 2 );
 			
 			return _floatLen;
+		}
+		
+		override public function get legendEnabled():Boolean{
+			var _r:Boolean = false;
+			
+			if( cd && cd.legend && ( 'enabled' in cd.legend ) ){
+				_r = StringUtils.parseBool( cd.legend.enabled );
+			}
+			
+			return _r;
+		}
+		
+		override public function get dataLabelEnabled():Boolean{
+			var _r:Boolean = false;
+			//return false;
+			cd 
+			&& cd.plotOptions
+				&& cd.plotOptions.pie
+				&& cd.plotOptions.pie.dataLabels
+				&& ( 'enabled' in cd.plotOptions.pie.dataLabels )
+				&& ( _r = cd.plotOptions.pie.dataLabels.enabled );
+			
+			return _r;
 		}
 	}
 }

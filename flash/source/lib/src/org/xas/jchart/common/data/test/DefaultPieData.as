@@ -32,7 +32,7 @@ package org.xas.jchart.common.data.test
 				series:[{
 					name: 'Browser share',
 					data: [
-						['Firefox',   100],
+						['Firefox',   100]
 					]
 				}]
 				, legend: {
@@ -41,12 +41,36 @@ package org.xas.jchart.common.data.test
 			});
 			
 			_data.push({
-				title: {
-					text:'浏览器使用份额'
-				},
-				subtitle: {
-					text: 'for PC'
-				}, 
+
+				series:[{
+					name: 'Browser share',
+					data: [
+						['男',   64],
+						['女',   36]
+					]
+				}]
+				
+				, colors: [ 
+					0x00ABEF
+					, 0xFF6297
+					
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]
+			});
+			
+			_data.push({
 				series:[{
 					name: 'Browser share',
 					data: [
@@ -54,17 +78,13 @@ package org.xas.jchart.common.data.test
 						['IE',       26.8],
 						{
 							name: 'Chrome',
-							y: 12.8,
-							selected: true
+							y: 12.8
 						},
 						['Safari',    8.5],
 						['Opera',     6.2],
 						['Others',   50]
 					]
 				}]
-				, legend: {
-					enabled: false
-				}
 			});
 			
 			_data.push({
@@ -128,7 +148,7 @@ package org.xas.jchart.common.data.test
 				, plotOptions: {
 					pie: {
 						dataLabels: {
-							enabled: false
+							enabled: true
 						}
 					}
 				}

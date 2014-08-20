@@ -364,11 +364,7 @@ package org.xas.jchart.common
 		}
 		
 		public function itemColor( _ix:uint, _fixColorIndex:Boolean = true ):uint{
-			var _r:uint = 0, _colors:Array = DefaultOptions.colors;
-			chartData 
-			&& chartData.colors
-			&& chartData.colors.length
-			&& ( _colors = chartData.colors );
+			var _r:uint = 0, _colors:Array = colors;
 			
 			if( _fixColorIndex && displaySeriesIndexMap && ( _ix in displaySeriesIndexMap ) ){
 				//Log.log( 'find', _ix, filterData[ _ix ] );
@@ -376,7 +372,18 @@ package org.xas.jchart.common
 				_ix = displaySeriesIndexMap[ _ix ];
 			}
 				
-			_r = _colors[ _ix % ( _colors.length - 1 ) ];			
+			_r = _colors[ _ix % ( _colors.length ) ];			
+			return _r;
+		}
+		
+		public function get colors():Array{
+			var _r:Array = DefaultOptions.colors;
+			
+			chartData 
+			&& chartData.colors
+				&& chartData.colors.length
+				&& ( _r = chartData.colors );
+			
 			return _r;
 		}
 		
@@ -436,7 +443,7 @@ package org.xas.jchart.common
 		}
 		
 		public function get isPercent():Boolean{
-			return this.cd.isPercent || false;
+			return StringUtils.parseBool( this.cd.isPercent );
 		}
 		
 		public function reset():void{

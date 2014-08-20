@@ -237,7 +237,7 @@ package org.xas.jchart.ddount.controller
 			if( BaseConfig.ins.dataLabelEnabled ){
 				_radius -= ( BaseConfig.ins.c.lineLength - BaseConfig.ins.c.lineStart + 40 ) * 2;
 			}else{
-				_radius -= 40;
+				_radius -= 20;
 			}
 			
 			_radius /= 2;

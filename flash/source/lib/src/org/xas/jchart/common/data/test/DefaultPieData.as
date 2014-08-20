@@ -43,13 +43,48 @@ package org.xas.jchart.common.data.test
 			_data.push({
 
 				series:[{
-					name: 'Browser share',
 					data: [
 						['男',   64],
 						['女',   36]
 					]
 				}]
 				
+				, colors: [ 
+					0x00ABEF
+					, 0xFF6297
+					
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]
+			});
+			
+			_data.push({
+				
+				series:[{
+					data: [
+					]
+				}]
+			});
+			
+			_data.push({
+				
+				series:[{
+					data: [
+						['男',   99],
+						['女',   1]
+					]
+				}]				
 				, colors: [ 
 					0x00ABEF
 					, 0xFF6297

@@ -1,5 +1,7 @@
 package
 {
+	import com.adobe.serialization.json.JSONDecoder;
+	
 	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -23,7 +25,7 @@ package
 	import org.xas.jchart.ddount.MainFacade;
 	
 	
-	[SWF(frameRate="30", width="800", height="220")]
+	[SWF(frameRate="30", width="1200", height="220")]
 	public class DDount extends Sprite
 	{ 
 		private var _inited: Boolean = false;
@@ -67,7 +69,7 @@ package
 			if( ExternalInterface.available ){
 				ExternalInterface.addCallback( 'update', extenalUpdate );
 			}
-			//BaseConfig.ins.setChartData( {});
+			//BaseConfig.ins.setChartData( {}); 
 		}
 		
 		private function extenalUpdate( _data:Object ):void{
@@ -154,7 +156,11 @@ package
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
 				if( _loaderInfo.chart ){
-					_data = JSON.parse( _loaderInfo.chart );
+					try{
+						_data = JSON.parse( decodeURIComponent( _loaderInfo.chart ) );
+					}catch( ex:Error ){
+						_data = JSON.parse( _loaderInfo.chart );
+					}
 				}				
 				_data = _data || {};
 			}

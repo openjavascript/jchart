@@ -127,8 +127,11 @@ package org.xas.jchart.common.ui.widget
 		private function drawDount():void{			
 			_dountSprite.graphics.lineStyle(1, _lineColor);
 			_dountSprite.graphics.beginFill( _fillColor );	
+			_lineSprite.graphics.lineStyle( 1, _lineColor );
+			_lineSprite.graphics.beginFill( _fillColor );	
 			
 			var p1:Point, p2:Point, tmpPoint:Point
+				, lp:Point, lp2:Point, ltmpPoint:Point
 				, countAngle:Number, angleStep:Number 
 				;
 			
@@ -141,6 +144,14 @@ package org.xas.jchart.common.ui.widget
 				;
 			_dountSprite.graphics.moveTo( p1.x, p1.y );
 			
+			lp = GeoUtils.moveByAngle
+				( 
+					_beginAngle
+					, _centerPoint
+					, _lineInRadius
+				)
+				;
+			_lineSprite.graphics.moveTo( lp.x, lp.y );
 			
 			countAngle = _beginAngle;
 			angleStep = .5;
@@ -152,6 +163,7 @@ package org.xas.jchart.common.ui.widget
 			
 			if( _beginAngle == _endAngle || ( _beginAngle == 0 && _endAngle == 360 ) ){
 				_dountSprite.graphics.lineStyle( 1, _fillColor );
+				_lineSprite.graphics.lineStyle( 1, _fillColor );
 			}
 			
 			if( _beginAngle == _endAngle ){
@@ -163,10 +175,16 @@ package org.xas.jchart.common.ui.widget
 				{
 					tmpPoint = GeoUtils.moveByAngle( _endAngle, _centerPoint, _inRadius );
 					_dountSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
+					
+					ltmpPoint = GeoUtils.moveByAngle( _endAngle, _centerPoint, _lineInRadius );
+					_lineSprite.graphics.lineTo( ltmpPoint.x, ltmpPoint.y );
 					break;
 				}
 				tmpPoint = GeoUtils.moveByAngle( countAngle, _centerPoint, _inRadius );
 				_dountSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
+				
+				ltmpPoint = GeoUtils.moveByAngle( countAngle, _centerPoint, _lineInRadius );
+				_lineSprite.graphics.lineTo( ltmpPoint.x, ltmpPoint.y );
 				
 				//Log.log( countAngle, _radius );
 				
@@ -181,6 +199,16 @@ package org.xas.jchart.common.ui.widget
 				)
 				;
 			_dountSprite.graphics.lineTo( p2.x, p2.y );
+			
+			lp2 = GeoUtils.moveByAngle
+				( 
+					_endAngle
+					, _centerPoint
+					, _lineRadius 
+				)
+				;
+			_lineSprite.graphics.lineTo( lp2.x, lp2.y );
+			
 			countAngle = _endAngle;
 			angleStep = .5;
 			
@@ -191,6 +219,7 @@ package org.xas.jchart.common.ui.widget
 			
 			if( _beginAngle == _endAngle || ( _beginAngle == 0 && _endAngle == 360 ) ){
 				_dountSprite.graphics.lineStyle( 1, _fillColor );
+				_lineSprite.graphics.lineStyle( 1, _fillColor );
 			}
 			
 			if( _beginAngle == _endAngle ){
@@ -202,20 +231,27 @@ package org.xas.jchart.common.ui.widget
 				{
 					tmpPoint = GeoUtils.moveByAngle( _beginAngle, _centerPoint, _outRadius );
 					_dountSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
+					
+					ltmpPoint = GeoUtils.moveByAngle( _beginAngle, _centerPoint, _lineRadius );
+					_lineSprite.graphics.lineTo( ltmpPoint.x, ltmpPoint.y );
 					break;
 				}
 				tmpPoint = GeoUtils.moveByAngle( countAngle, _centerPoint, _outRadius );
 				_dountSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
+				
+				ltmpPoint = GeoUtils.moveByAngle( countAngle, _centerPoint, _lineRadius );
+				_lineSprite.graphics.lineTo( ltmpPoint.x, ltmpPoint.y );
 				
 				//Log.log( countAngle, _radius );
 				
 				countAngle -= angleStep;
 			}
 			_dountSprite.graphics.lineTo( p1.x, p1.y );
+			_lineSprite.graphics.lineTo( lp.x, lp.y );
 		}
 		
 		private function drawLine():void{
-			
+			return;
 			_lineSprite.graphics.lineStyle( 1, _lineColor );								
 			//_lineSprite.graphics.lineStyle(1, 0x000000 );
 			
@@ -230,7 +266,7 @@ package org.xas.jchart.common.ui.widget
 					, _lineInRadius
 				)
 				;
-			_dountSprite.graphics.moveTo( p1.x, p1.y );
+			_lineSprite.graphics.moveTo( p1.x, p1.y );
 			
 			
 			countAngle = _beginAngle;
@@ -242,7 +278,7 @@ package org.xas.jchart.common.ui.widget
 			}
 			
 			if( _beginAngle == _endAngle || ( _beginAngle == 0 && _endAngle == 360 ) ){
-				_dountSprite.graphics.lineStyle( 1, _fillColor );
+				_lineSprite.graphics.lineStyle( 1, _fillColor );
 			}
 			
 			if( _beginAngle == _endAngle ){
@@ -253,11 +289,11 @@ package org.xas.jchart.common.ui.widget
 				if( countAngle >= _endAngle )
 				{
 					tmpPoint = GeoUtils.moveByAngle( _endAngle, _centerPoint, _lineInRadius );
-					_dountSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
+					_lineSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
 					break;
 				}
 				tmpPoint = GeoUtils.moveByAngle( countAngle, _centerPoint, _lineInRadius );
-				_dountSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
+				_lineSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
 				
 				//Log.log( countAngle, _radius );
 				
@@ -271,7 +307,7 @@ package org.xas.jchart.common.ui.widget
 					, _lineRadius 
 				)
 				;
-			_dountSprite.graphics.lineTo( p2.x, p2.y );
+			_lineSprite.graphics.lineTo( p2.x, p2.y );
 			countAngle = _endAngle;
 			angleStep = .5;
 			
@@ -281,7 +317,7 @@ package org.xas.jchart.common.ui.widget
 			}
 			
 			if( _beginAngle == _endAngle || ( _beginAngle == 0 && _endAngle == 360 ) ){
-				_dountSprite.graphics.lineStyle( 1, _fillColor );
+				_lineSprite.graphics.lineStyle( 1, _fillColor );
 			}
 			
 			if( _beginAngle == _endAngle ){
@@ -292,17 +328,17 @@ package org.xas.jchart.common.ui.widget
 				if( countAngle <= _beginAngle )
 				{
 					tmpPoint = GeoUtils.moveByAngle( _beginAngle, _centerPoint, _lineRadius );
-					_dountSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
+					_lineSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
 					break;
 				}
 				tmpPoint = GeoUtils.moveByAngle( countAngle, _centerPoint, _lineRadius );
-				_dountSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
+				_lineSprite.graphics.lineTo( tmpPoint.x, tmpPoint.y );
 				
 				//Log.log( countAngle, _radius );
 				
 				countAngle -= angleStep;
 			}
-			_dountSprite.graphics.lineTo( p1.x, p1.y );
+			_lineSprite.graphics.lineTo( p1.x, p1.y );
 		}
 
 	}

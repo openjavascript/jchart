@@ -25,7 +25,7 @@ package
 	import org.xas.jchart.ndount.MainFacade;
 	
 	
-	[SWF(frameRate="30", width="1200", height="220")]
+	[SWF(frameRate="30", width="1200", height="185")]
 	public class NDount extends Sprite
 	{ 
 		private var _inited: Boolean = false;
@@ -152,7 +152,7 @@ package
 			var _data:Object = {};
 			
 			if( !ExternalInterface.available ){							
-				_data = DefaultPieData.instance.data[2];
+				_data = DefaultPieData.instance.data[4];
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
 				if( _loaderInfo.chart ){

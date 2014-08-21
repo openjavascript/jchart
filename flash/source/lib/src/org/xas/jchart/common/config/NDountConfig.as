@@ -161,7 +161,7 @@ package org.xas.jchart.common.config
 		}
 		
 		public function get radiusStep():Number{
-			var _r:Number = 10;
+			var _r:Number = 8;
 			cd 
 			&& cd.radiusStep
 				&& ( _r = cd.radiusStep);

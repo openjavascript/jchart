@@ -135,7 +135,6 @@ package org.xas.jchart.ndount.controller
 				;
 			
 			Common.each( _config.displaySeries, function( _k:int, _item:Object ):void {
-				if( _item.y === 0 ) return;
 				var _pieP:Object = { 
 						cx: _config.c.cx
 						, cy: _config.c.cy
@@ -241,14 +240,15 @@ package org.xas.jchart.ndount.controller
 			var _radius:Number = Math.min( _w, _h );
 			
 			if( _config.legendEnabled ){
-				_radius -= 30;
+				//_radius -= 30;
 			}
 			
 			if( _config.dataLabelEnabled ){
 				_radius -= ( _config.c.lineLength - _config.c.lineStart + 40 ) * 2;
 			}else{
-				_radius -= 0;
+				_radius += 8;
 			}
+			//Log.log( _radius, _w, _h );
 			
 			_radius /= 2;
 			

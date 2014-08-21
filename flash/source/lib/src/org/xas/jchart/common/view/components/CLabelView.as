@@ -99,7 +99,7 @@ package org.xas.jchart.common.view.components
 		
 		public function update():void{
 			if( !( _labels && _labels.length ) ) return;
-			var _space:Number = _config.radiusStep * _config.displaySeries.length + 40;
+			var _space:Number = _config.radiusStep * _config.displaySeries.length + 20;
 			
 			//Log.log( _config.c.cx, _config.c.radius, _space );
 			
@@ -113,12 +113,12 @@ package org.xas.jchart.common.view.components
 					
 				case 2:
 				{
-					//Log.log( _labels[0].width, _labels[1].width );
+					Log.log( _config.c.cx, _config.c.radius, _labels[1].width, _space );
 					_labels[0].x = _config.c.cx - _config.c.radius + _space;
-					_labels[0].y = _config.c.cy - _labels[0].height - 5;
+					_labels[0].y = _config.c.cy - _labels[0].height;
 					
 					_labels[1].x = _config.c.cx + _config.c.radius - _labels[1].width - _space;
-					_labels[1].y = _config.c.cy + 5;
+					_labels[1].y = _config.c.cy;
 					break;
 				}
 			}

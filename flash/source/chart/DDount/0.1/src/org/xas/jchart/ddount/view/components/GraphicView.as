@@ -54,6 +54,7 @@ package org.xas.jchart.ddount.view.components
 			_piePart = new Vector.<DDountPart>();
 			
 			Common.each( BaseConfig.ins.c.piePart, function( _k:int, _item:Object ):void{
+				if( _item.data.y === 0 ) return;
 				/*
 				var _pp:PiePart = new PiePart( 
 										new Point( _item.cx, _item.cy )

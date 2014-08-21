@@ -56,7 +56,7 @@ package
 			if( root.stage.stageWidth > 0 && root.stage.stageHeight > 0 )
 			{
 				removeEventListener( Event.ENTER_FRAME, onEnterFrame );
-				init();
+				init(); 
 			}
 		}
 		private function init():void

@@ -52,6 +52,7 @@ package org.xas.jchart.piegraph.view.components
 			_piePart = new Vector.<PiePart>();
 			
 			Common.each( BaseConfig.ins.c.piePart, function( _k:int, _item:Object ):void{
+				if( _item.data.y === 0 ) return;
 				var _pp:PiePart = new PiePart( 
 										new Point( _item.cx, _item.cy )
 										, _item.startAngle, _item.endAngle

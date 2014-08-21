@@ -34,7 +34,7 @@ package
 		private var _ins:PieGraph;
 		private var _loaderInfo:Object;
 		
-		public function PieGraph()
+		public function PieGraph() 
 		{			
 			flash.system.Security.allowDomain("*");	
 			_ins = this; 

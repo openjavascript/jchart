@@ -47,7 +47,9 @@ package org.xas.jchart.common.view.components
 						DefaultOptions.title.style
 						, DefaultOptions.xAxis.labels.style
 						, BaseConfig.ins.labelsStyle
+						, { 'size': 12, color: 0x838383 }
 					] );
+					_titem.autoSize = TextFieldAutoSize.CENTER;
 					
 					if( !BaseConfig.ins.displayAllLabel ){
 						if( !( _k in BaseConfig.ins.labelDisplayIndex ) ){
@@ -80,7 +82,7 @@ package org.xas.jchart.common.view.components
 				}
 				
 				_tf.x = _x;
-				_tf.y = _item.end.y;
+				_tf.y = _item.end.y - 2;
 			});
 		}
 	}

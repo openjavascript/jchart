@@ -81,14 +81,26 @@ package org.xas.jchart.histogram.controller
 				
 				BaseConfig.ins.c.maxX -= 5;
 				
-				facade.registerMediator( new VLabelMediator() );
-				BaseConfig.ins.c.minX += pVLabelMediator.maxWidth;
+				if( BaseConfig.ins.rateLabelEnabled ){
+					facade.registerMediator( new VLabelMediator() );
+					BaseConfig.ins.c.minX += pVLabelMediator.maxWidth;
+				}
+				
+				if( BaseConfig.ins.serialLabelEnabled ){
+					BaseConfig.ins.c.minY += 30;
+				}
+				
 				
 				facade.registerMediator( new HLabelMediator() );
 				BaseConfig.ins.c.maxY -= pHLabelMediator.maxHeight;
 				
 				BaseConfig.ins.c.arrowLength = 8;
-				BaseConfig.ins.c.chartWidth = BaseConfig.ins.c.maxX - BaseConfig.ins.c.minX - 5;
+				
+				if( BaseConfig.ins.rateLabelEnabled ){
+					BaseConfig.ins.c.chartWidth = BaseConfig.ins.c.maxX - BaseConfig.ins.c.minX - 5;
+				}else{
+					BaseConfig.ins.c.chartWidth = BaseConfig.ins.c.maxX - 5;
+				}
 				BaseConfig.ins.c.chartHeight = BaseConfig.ins.c.maxY - BaseConfig.ins.c.minY;	
 				
 				BaseConfig.ins.c.chartX = BaseConfig.ins.c.minX + BaseConfig.ins.c.arrowLength - 2;
@@ -162,6 +174,7 @@ package org.xas.jchart.histogram.controller
 					_rectItem.y = _y;
 					_rectItem.width = BaseConfig.ins.c.partWidth;
 					_rectItem.height = _h;
+					_rectItem.value = _sitem.data[ _k ];
 					
 					_items.push( _rectItem );
 				});

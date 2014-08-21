@@ -7,7 +7,8 @@ package org.xas.jchart.common.config
 		public function HistogramConfig()
 		{
 			super();
-		}
+		}	
+
 
 	}
 }

@@ -22,7 +22,37 @@ package org.xas.jchart.common.data.test
 		private function init():void{
 			_data = new Vector.<Object>();
 			
-			_data.push(                     {
+			
+			_data.push({
+				xAxis: {
+					categories: [ '学生', '公司职员', '公司管理者', '公务员', '事业单位', '个体经营', '自由职业', '产业服务员工人', '农业劳动者', '其他' ]
+				}, 
+				series:[{
+					name: '职业'
+					, data: [ 11, 14, 43, 12, 21, 8, 4, 6, 8, 5 ]
+				}],
+				//isPercent: true,
+				rateLabel: {
+					enabled: false
+				},
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true,
+					wrap: true,
+					formatter: '{0}%'
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: false
+				}
+			});
+			
+			_data.push({
 				title: {
 					text:'Chart Title'
 				},

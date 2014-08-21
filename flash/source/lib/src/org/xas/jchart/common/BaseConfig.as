@@ -201,6 +201,16 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get rateLabelEnabled():Boolean{
+			var _r:Boolean = true;
+			
+			if( cd && cd.rateLabel && ( 'enabled' in cd.rateLabel ) ){
+				_r = StringUtils.parseBool( cd.rateLabel.enabled );
+			}
+			
+			return _r;
+		}
+		
 		public function get dataLabelEnabled():Boolean{
 			var _r:Boolean = true;
 			//return false;
@@ -211,6 +221,39 @@ package org.xas.jchart.common
 				&& ( 'enabled' in cd.plotOptions.pie.dataLabels )
 				&& ( _r = cd.plotOptions.pie.dataLabels.enabled );
 				
+			return _r;
+		}
+		
+		public function get serialLabelEnabled():Boolean{
+			var _r:Boolean = false;
+			//return false;
+			cd 
+			&& cd.dataLabels
+				&& ( 'enabled' in cd.dataLabels )
+				&& ( _r = StringUtils.parseBool( cd.dataLabels.enabled ) );
+			
+			return _r;
+		}
+		
+		public function get vlineEnabled():Boolean{
+			var _r:Boolean = true;
+			//return false;
+			cd 
+			&& cd.vline
+				&& ( 'enabled' in cd.vline )
+				&& ( _r = StringUtils.parseBool( cd.vline.enabled ) );
+			
+			return _r;
+		}
+		
+		public function get hlineEnabled():Boolean{
+			var _r:Boolean = true;
+			//return false;
+			cd 
+			&& cd.hline
+				&& ( 'enabled' in cd.hline )
+				&& ( _r = StringUtils.parseBool( cd.vline.hline ) );
+			
 			return _r;
 		}
 		

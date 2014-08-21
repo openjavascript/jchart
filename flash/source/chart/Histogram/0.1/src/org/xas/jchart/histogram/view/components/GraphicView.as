@@ -16,6 +16,7 @@ package org.xas.jchart.histogram.view.components
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.HistogramUI;
+	import org.xas.jchart.common.ui.widget.JTextField;
 	
 	public class GraphicView extends Sprite
 	{	
@@ -46,6 +47,21 @@ package org.xas.jchart.histogram.view.components
 				
 				var _box:Sprite = new Sprite();
 				Common.each( _item, function( _sk:int, _sitem:Object ):void{
+					
+					if( BaseConfig.ins.serialLabelEnabled ){
+					var _label:JTextField = new JTextField( _sitem );
+						_label.text = Common.moneyFormat( _sitem.value, 3, BaseConfig.ins.floatLen );
+						if( BaseConfig.ins.isPercent ){
+							_label.text += '%';
+						}
+						_label.autoSize = TextFieldAutoSize.LEFT;
+						_label.selectable = false;
+						_label.y = _sitem.y - _label.height;
+						_label.x = _sitem.x + _sitem.width / 2 - _label.width / 2;
+						_label.textColor = BaseConfig.ins.itemColor( _sk );
+						addChild( _label );
+					}
+					
 					var _item:HistogramUI = new HistogramUI(
 						_sitem.x, _sitem.y
 						, _sitem.width, _sitem.height

@@ -134,11 +134,32 @@ package org.xas.jchart.common.config
 			//return false;
 			cd 
 			&& cd.plotOptions
-				&& cd.plotOptions.pie
-				&& cd.plotOptions.pie.dataLabels
-				&& ( 'enabled' in cd.plotOptions.pie.dataLabels )
-				&& ( _r = cd.plotOptions.pie.dataLabels.enabled );
+				&& cd.plotOptions.ndount
+				&& cd.plotOptions.ndount.dataLabels
+				&& ( 'enabled' in cd.plotOptions.ndount.dataLabels )
+				&& ( _r = cd.plotOptions.ndount.dataLabels.enabled );
 			
+			return _r;
+		}
+		
+		override public function get cdataLabelEnabled():Boolean{
+			var _r:Boolean = false;
+			//return false;
+			cd 
+			&& cd.plotOptions
+				&& cd.plotOptions.ndount
+				&& cd.plotOptions.ndount.cdataLabels
+				&& ( 'enabled' in cd.plotOptions.ndount.cdataLabels )
+				&& ( _r = cd.plotOptions.ndount.cdataLabels.enabled );
+			
+			return _r;
+		}
+		
+		public function get radiusStep():Number{
+			var _r:Number = 10;
+			cd 
+			&& cd.radiusStep
+				&& ( _r = cd.radiusStep);
 			return _r;
 		}
 	}

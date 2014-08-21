@@ -213,7 +213,19 @@ package org.xas.jchart.common
 				
 			return _r;
 		}
-
+		
+		public function get cdataLabelEnabled():Boolean{
+			var _r:Boolean = false;
+			//return false;
+			cd 
+			&& cd.plotOptions
+				&& cd.plotOptions.dount
+				&& cd.plotOptions.dount.cdataLabels
+				&& ( 'enabled' in cd.plotOptions.dount.cdataLabels )
+				&& ( _r = cd.plotOptions.dount.cdataLabels.enabled );
+			
+			return _r;
+		}
 		
 		protected function calcMaxNum():Number{
 			var _r:Number = 0, _tmp:Array;

@@ -41,7 +41,7 @@ package org.xas.jchart.common.data.test
 			});
 			
 			_data.push({
-
+				
 				series:[{
 					data: [
 						['男',   64],
@@ -68,6 +68,46 @@ package org.xas.jchart.common.data.test
 					, 0xdbb8fd
 				]
 			});
+			
+			_data.push({
+				
+				series:[{
+					data: [
+						['全体覆盖率',   45],
+						['样本覆盖率',   35]
+					]
+				}]
+				
+				, isPercent: true
+				, radiusStep: 10
+				
+				, plotOptions: {
+					ndount: {
+						cdataLabels: {
+							enabled: true
+						}
+					}
+				}
+				
+				, colors: [ 
+					0x9DADB3
+					, 0x00ABEF
+					
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]
+			}); 
 			
 			_data.push({
 				

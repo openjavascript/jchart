@@ -23,7 +23,8 @@ package
 	import org.xas.jchart.histogram.MainFacade;
 	
 	
-	[SWF(frameRate="30", width="800", height="420")]
+	//[SWF(frameRate="30", width="790", height="230")]
+	[SWF(frameRate="30", width="540", height="280")]
 	public class Histogram extends Sprite
 	{ 
 		private var _inited: Boolean = false;
@@ -152,7 +153,7 @@ package
 			var _data:Object = {};
 			
 			if( !ExternalInterface.available ){		
-				_data = DefaultData.instance.data[0];
+				_data = DefaultData.instance.data[1];
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};	
 				

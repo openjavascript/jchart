@@ -55,6 +55,61 @@ package org.xas.jchart.common.data.test
 				}
 				, colors: [
 					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]
+			});
+			
+			_data.push({
+
+				xAxis: {
+					categories: [ '1', '2', '3', '4', '5' ]
+				}, 
+				series:[{
+					name: 'Temperature'
+					, data: [50, 60, 3, 20, 20]
+					, style: { 'stroke': '#ff7100' } 
+					, pointStyle: {}
+				}, {
+					name: 'Rainfall',
+					data: [20, 21, 20, 100, 200]
+				}],
+				//isPercent: true,
+				rateLabel: {
+					enabled: false
+				},
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true,
+					format: '{0}%'
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: false
+				}
+				, tooltip: {
+					enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
 					, 0x09c100
 					, 0x0c76c4 				
 					, 0xff0619
@@ -354,8 +409,8 @@ package org.xas.jchart.common.data.test
 					, format: '{0}%'
 				},
 				tooltip: {					
-					"pointFormat": "{0}%", 
-					"headerFormat": "{0}%"
+					"pointFormat": "{0}", 
+					"headerFormat": "{0}月"
 				},
 				series:[{
 					name: 'Temperature'

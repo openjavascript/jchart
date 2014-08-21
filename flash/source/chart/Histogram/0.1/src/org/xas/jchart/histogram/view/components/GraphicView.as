@@ -55,9 +55,16 @@ package org.xas.jchart.histogram.view.components
 
 						_label.autoSize = TextFieldAutoSize.LEFT;
 						_label.selectable = false;
-						_label.y = _sitem.y - _label.height;
 						_label.x = _sitem.x + _sitem.width / 2 - _label.width / 2;
 						_label.textColor = BaseConfig.ins.itemColor( _sk );
+						_label.mouseEnabled = false;
+						
+						if( _sitem.value > 0 ){
+							_label.y = _sitem.y - _label.height;
+						}else{
+							_label.y = _sitem.y + _sitem.height;
+						}
+						
 						Common.implementStyle( _label, [ { size: 14 }] );
 						addChild( _label );
 					}
@@ -67,6 +74,7 @@ package org.xas.jchart.histogram.view.components
 						, _sitem.width, _sitem.height
 						, BaseConfig.ins.itemColor( _sk ) 
 					);
+					_item.mouseEnabled = false;
 					_box.addChild( _item );
 				});
 				addChild( _box );

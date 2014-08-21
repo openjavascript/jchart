@@ -134,7 +134,18 @@ package org.xas.jchart.histogram.controller
 			BaseConfig.ins.c.rects = [];
 			if( !( BaseConfig.ins.series && BaseConfig.ins.series.length ) ) return;
 			
-			BaseConfig.ins.c.partWidth = BaseConfig.ins.c.itemWidth / BaseConfig.ins.displaySeries.length;
+			BaseConfig.ins.c.partSpace = 0; 
+			BaseConfig.ins.c.partWidth = 
+				BaseConfig.ins.c.itemWidth / BaseConfig.ins.displaySeries.length
+				;
+			if( BaseConfig.ins.displaySeries.length > 1 ){				
+				BaseConfig.ins.c.partSpace = 4; 
+				BaseConfig.ins.c.partWidth = 
+					(
+						BaseConfig.ins.c.itemWidth - (BaseConfig.ins.displaySeries.length - 1) * BaseConfig.ins.c.partSpace
+					) / BaseConfig.ins.displaySeries.length
+					;
+			}
 			
 			Common.each( BaseConfig.ins.cd.xAxis.categories, function( _k:int, _item:Object ):void{
 				
@@ -176,6 +187,9 @@ package org.xas.jchart.histogram.controller
 					//Log.log( _h, _y );
 										
 					_rectItem.x = _x + _sk * BaseConfig.ins.c.partWidth;
+					if( _sk > 0 ){
+						_rectItem.x += BaseConfig.ins.c.partSpace;
+					}
 					_rectItem.y = _y;
 					_rectItem.width = BaseConfig.ins.c.partWidth;
 					_rectItem.height = _h;
@@ -222,11 +236,13 @@ package org.xas.jchart.histogram.controller
 			var _partN:Number = BaseConfig.ins.c.chartWidth / ( BaseConfig.ins.categories.length )
 				, _sideLen:Number = BaseConfig.ins.c.arrowLength
 				;
+			
 			BaseConfig.ins.c.hpart = _partN;
 			BaseConfig.ins.c.hpoint = [];
 			BaseConfig.ins.c.hlinePoint = [];
 			BaseConfig.ins.c.hpointReal = [];
-			BaseConfig.ins.c.itemWidth = _partN / 2;
+			BaseConfig.ins.c.itemWidthRate = 1.8;
+			BaseConfig.ins.c.itemWidth = _partN / BaseConfig.ins.c.itemWidthRate;
 						
 			Common.each( BaseConfig.ins.categories, function( _k:int, _item:* ):void{
 				var _n:Number = BaseConfig.ins.c.minX + _partN * _k + 5, _sideLen:int = BaseConfig.ins.c.arrowLength;
@@ -244,8 +260,8 @@ package org.xas.jchart.histogram.controller
 				});
 				
 				BaseConfig.ins.c.hpoint.push( {
-					start: new Point( _n + _partN / 2, BaseConfig.ins.c.maxY )
-					, end: new Point( _n + _partN / 2, BaseConfig.ins.c.maxY + _sideLen )
+					start: new Point( _n + _partN / BaseConfig.ins.c.itemWidthRate, BaseConfig.ins.c.maxY )
+					, end: new Point( _n + _partN / BaseConfig.ins.c.itemWidthRate, BaseConfig.ins.c.maxY + _sideLen )
 				});
 				
 				BaseConfig.ins.c.hpointReal.push( {

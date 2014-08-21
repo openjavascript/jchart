@@ -44,12 +44,32 @@ package org.xas.jchart.common.data.test
 					wrap: true,
 					formatter: '{0}%'
 				}
+				, tooltip: {					
+					"pointFormat": "{0}%", 
+					"headerFormat": "{0}%"
+				}
 				, vline: {
 					enabled: false
 				}
 				, hline: {
 					enabled: false
-				}
+				},
+				colors: [
+					0x00ABEF
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]
 			});
 			
 			_data.push({

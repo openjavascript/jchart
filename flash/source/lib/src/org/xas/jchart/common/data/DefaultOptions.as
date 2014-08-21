@@ -18,8 +18,8 @@ package org.xas.jchart.common.data
 					"millisecond": "%A, %b %e, %H:%M:%S.%L", 
 					"week": "Week from %A, %b %e, %Y"
 				}, 
-				"pointFormat": "<span style=\"color:{series.color}\">{series.name}</span>: <b>{point.y}</b><br/>", 
-				"headerFormat": "<span style=\"font-size: 10px\">{point.key}</span><br/>", 
+				"pointFormat": "{0}", 
+				"headerFormat": "{0}", 
 				"snap": 10, 
 				"borderWidth": 1, 
 				"animation": true, 

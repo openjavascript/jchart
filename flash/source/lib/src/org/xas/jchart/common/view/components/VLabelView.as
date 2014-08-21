@@ -13,6 +13,7 @@ package org.xas.jchart.common.view.components
 	import mx.controls.Text;
 	
 	import org.xas.core.utils.Log;
+	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.data.DefaultOptions;
@@ -43,10 +44,12 @@ package org.xas.jchart.common.view.components
 				
 				_titem = new TextField();
 				
+				
+				
 				if( BaseConfig.ins.isPercent ){
 					_titem.text = _t + '%';
 				}else{
-					_titem.text = _t;
+					_titem.text = StringUtils.printf( BaseConfig.ins.yAxisFormat, _t );
 				}
 				
 				Common.implementStyle( _titem, [

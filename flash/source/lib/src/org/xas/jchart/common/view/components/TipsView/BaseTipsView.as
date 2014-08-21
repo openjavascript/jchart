@@ -57,16 +57,22 @@ package org.xas.jchart.common.view.components.TipsView
 				_data[ _k ] = { items: [] };
 				
 				if( BaseConfig.ins.categories.length ){
-					_data[ _k ].name = StringUtils.printf( BaseConfig.ins.tipTitlePostfix,  BaseConfig.ins.categories[ _k ] );
+					var _format:String = BaseConfig.ins.tooltipHeaderFormat;
+					_data[ _k ].name = StringUtils.printf( _format,  BaseConfig.ins.categories[ _k ] );
 				}else{
 					_data[ _k ].name = '';
 				}
 				
 				Common.each( BaseConfig.ins.displaySeries, function( _sk:int, _sitem:Object ):void{
 					//_data[ _k ][ 'name' ] = _sitem.name || '';
+					var _name:String = _sitem.name + ''
+						, _value:String = StringUtils.printf( BaseConfig.ins.tooltipPointFormat
+							, Common.moneyFormat( _sitem.data[ _k ], 3, BaseConfig.ins.floatLen ) )
+						;
+						
 					_data[ _k ].items.push( {
-						'name': _sitem.name
-						, 'value': Common.moneyFormat( _sitem.data[ _k ], 3, BaseConfig.ins.floatLen )
+						'name': _name
+						, 'value': _value
 					});
 				});
 			});

@@ -37,19 +37,28 @@ package org.xas.jchart.common.view.components
 			
 			if( BaseConfig.ins.cd && BaseConfig.ins.cd.xAxis && BaseConfig.ins.cd.xAxis.categories ){
 								
+				//Log.log( 'ssssssssss', BaseConfig.ins.c.labelWidth );
 				Common.each( BaseConfig.ins.cd.xAxis.categories, function( _k:int, _item:* ):*{
 					_t = _item + '';
 					
 					_titem = new TextField();
 					_titem.text = _t;
 					
+					_titem.autoSize = TextFieldAutoSize.LEFT;
+					
 					Common.implementStyle( _titem, [
 						DefaultOptions.title.style
 						, DefaultOptions.xAxis.labels.style
 						, BaseConfig.ins.labelsStyle
-						, { 'size': 12, color: 0x838383 }
+						, { 'size': 12, color: 0x838383, 'align': 'center' }
 					] );
-					_titem.autoSize = TextFieldAutoSize.CENTER;
+					
+					if( BaseConfig.ins.c.labelWidth && BaseConfig.ins.xAxisWordwrap ){
+						var _twidth:Number = BaseConfig.ins.c.labelWidth;
+						if( _twidth < 14 ) _twidth = 14;
+						_titem.width = _twidth * 1.8;
+						_titem.wordWrap = true;
+					}
 					
 					if( !BaseConfig.ins.displayAllLabel ){
 						if( !( _k in BaseConfig.ins.labelDisplayIndex ) ){
@@ -71,7 +80,9 @@ package org.xas.jchart.common.view.components
 			if( !( BaseConfig.ins.c && BaseConfig.ins.c.hpoint ) ) return;
 			
 			Common.each( BaseConfig.ins.c.hpoint, function( _k:int, _item:Object ):void{
-				var _tf:TextField = _labels[ _k ], _x:Number = _item.end.x - _tf.width / 2;
+				var _tf:TextField = _labels[ _k ];
+				
+				var _x:Number = _item.end.x - _tf.width / 2;
 				
 				if( _k === 0 ){
 					_x < BaseConfig.ins.c.chartX && ( _x = BaseConfig.ins.c.chartX - 3 );

@@ -91,9 +91,6 @@ package org.xas.jchart.histogram.controller
 				}
 				
 				
-				facade.registerMediator( new HLabelMediator() );
-				BaseConfig.ins.c.maxY -= pHLabelMediator.maxHeight;
-				
 				BaseConfig.ins.c.arrowLength = 8;
 				
 				if( BaseConfig.ins.rateLabelEnabled ){
@@ -101,13 +98,21 @@ package org.xas.jchart.histogram.controller
 				}else{
 					BaseConfig.ins.c.chartWidth = BaseConfig.ins.c.maxX - 5;
 				}
+				
+				if( BaseConfig.ins.categories && BaseConfig.ins.categories.length ){
+					BaseConfig.ins.c.labelWidth = BaseConfig.ins.c.chartWidth / ( BaseConfig.ins.categories.length ) / 2
+				}
+				facade.registerMediator( new HLabelMediator() );
+				BaseConfig.ins.c.maxY -= pHLabelMediator.maxHeight;
+				
 				BaseConfig.ins.c.chartHeight = BaseConfig.ins.c.maxY - BaseConfig.ins.c.minY;	
 				
 				BaseConfig.ins.c.chartX = BaseConfig.ins.c.minX + BaseConfig.ins.c.arrowLength - 2;
 				BaseConfig.ins.c.chartY = BaseConfig.ins.c.minY;
 				
 				facade.registerMediator( new GraphicBgMediator() );	
-				facade.registerMediator( new TipsMediator() );
+				BaseConfig.ins.tooltipEnabled && facade.registerMediator( new TipsMediator() );
+				//Log.log( BaseConfig.ins.tooltipEnabled );
 				
 				calcChartPoint();
 				

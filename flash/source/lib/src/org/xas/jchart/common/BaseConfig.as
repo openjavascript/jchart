@@ -215,12 +215,63 @@ package org.xas.jchart.common
 			var _r:Boolean = true;
 			//return false;
 			cd 
-				&& cd.plotOptions
+			&& cd.plotOptions
 				&& cd.plotOptions.pie
 				&& cd.plotOptions.pie.dataLabels
 				&& ( 'enabled' in cd.plotOptions.pie.dataLabels )
 				&& ( _r = cd.plotOptions.pie.dataLabels.enabled );
-				
+			
+			return _r;
+		}
+		
+		public function get dataLabelFormat():String{
+			var _r:String = "{0}";
+			cd 
+			&& cd.dataLabels
+				&& ( 'format' in cd.dataLabels )
+				&& ( _r = cd.dataLabels.format );
+			
+			return _r;
+		}
+		
+		public function get yAxisFormat():String{
+			var _r:String = "{0}";
+			cd 
+			&& cd.yAxis
+				&& ( 'format' in cd.yAxis )
+				&& ( _r = cd.yAxis.format );
+			
+			return _r;
+		}
+		
+		public function get tooltipPointFormat():String{
+			var _r:String = "{0}";
+			cd 
+			&& cd.tooltip
+				&& ( 'pointFormat' in cd.tooltip )
+				&& ( _r = cd.tooltip.pointFormat );
+			
+			return _r;
+		}
+		
+		public function get tooltipHeaderFormat():String{
+			var _r:String = "{0}";
+			cd 
+			&& cd.tooltip
+				&& ( 'headerFormat' in cd.tooltip )
+				&& ( _r = cd.tooltip.headerFormat );
+			
+			return _r;
+		}
+		
+		public function get xAxisWordwrap():Boolean{
+			var _r:Boolean = false;
+			//return false;
+			cd 
+			&& cd.xAxis
+				&& ( 'wordwrap' in cd.xAxis )
+				&& ( _r = StringUtils.parseBool( cd.xAxis.wordwrap ) );
+			
 			return _r;
 		}
 		
@@ -252,7 +303,19 @@ package org.xas.jchart.common
 			cd 
 			&& cd.hline
 				&& ( 'enabled' in cd.hline )
-				&& ( _r = StringUtils.parseBool( cd.vline.hline ) );
+				&& ( _r = StringUtils.parseBool( cd.hline.enabled ) );
+			
+			return _r;
+		}
+		
+		public function get tooltipEnabled():Boolean{
+			var _r:Boolean = true;
+			//return false;
+			//Log.printJSON( cd.tooltip );
+			cd 
+			&& cd.tooltip
+				&& ( 'enabled' in cd.tooltip )
+				&& ( _r = StringUtils.parseBool( cd.tooltip.enabled ) );
 			
 			return _r;
 		}

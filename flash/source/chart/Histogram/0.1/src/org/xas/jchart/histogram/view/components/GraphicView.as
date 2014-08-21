@@ -12,6 +12,7 @@ package org.xas.jchart.histogram.view.components
 	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
+	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
@@ -50,15 +51,14 @@ package org.xas.jchart.histogram.view.components
 					
 					if( BaseConfig.ins.serialLabelEnabled ){
 					var _label:JTextField = new JTextField( _sitem );
-						_label.text = Common.moneyFormat( _sitem.value, 3, BaseConfig.ins.floatLen );
-						if( BaseConfig.ins.isPercent ){
-							_label.text += '%';
-						}
+						_label.text = StringUtils.printf( BaseConfig.ins.dataLabelFormat, Common.moneyFormat( _sitem.value, 3, BaseConfig.ins.floatLen ) );
+
 						_label.autoSize = TextFieldAutoSize.LEFT;
 						_label.selectable = false;
 						_label.y = _sitem.y - _label.height;
 						_label.x = _sitem.x + _sitem.width / 2 - _label.width / 2;
 						_label.textColor = BaseConfig.ins.itemColor( _sk );
+						Common.implementStyle( _label, [ { size: 14 }] );
 						addChild( _label );
 					}
 					

@@ -31,7 +31,7 @@ package
 		private var _data:Object;
 		private var _facade:Facade;
 		private var _resizeTimer:Timer;
-		private var _ins:CurveGram;
+		private var _ins:CurveGram; 
 		private var _loaderInfo:Object;
 		
 		public function CurveGram()

@@ -26,6 +26,7 @@ package org.xas.jchart.common.data.test
 			_data.push({
 				xAxis: {
 					categories: [ '学生', '公司职员', '公司管理者', '公务员', '事业单位', '个体经营', '自由职业', '产业服务员工人', '农业劳动者', '其他' ]
+					, wordwrap: true
 				}, 
 				series:[{
 					name: '职业'
@@ -41,20 +42,18 @@ package org.xas.jchart.common.data.test
 				}
 				, dataLabels: {
 					enabled: true,
-					wrap: true,
-					formatter: '{0}%'
-				}
-				, tooltip: {					
-					"pointFormat": "{0}%", 
-					"headerFormat": "{0}%"
+					format: '{0}%'
 				}
 				, vline: {
 					enabled: false
 				}
 				, hline: {
 					enabled: false
-				},
-				colors: [
+				}
+				, tooltip: {
+					enabled: false
+				}
+				, colors: [
 					0x00ABEF
 					, 0x09c100
 					, 0x0c76c4 				
@@ -312,6 +311,11 @@ package org.xas.jchart.common.data.test
 					title: {
 						text: '(Vertical Title - 中文)'
 					}
+					, format: '{0}%'
+				},
+				tooltip: {					
+					"pointFormat": "{0}%", 
+					"headerFormat": "{0}月"
 				},
 				series:[{
 					name: 'Temperature'
@@ -347,6 +351,11 @@ package org.xas.jchart.common.data.test
 					title: {
 						text: '(Vertical Title - 中文)'
 					}
+					, format: '{0}%'
+				},
+				tooltip: {					
+					"pointFormat": "{0}%", 
+					"headerFormat": "{0}%"
 				},
 				series:[{
 					name: 'Temperature'

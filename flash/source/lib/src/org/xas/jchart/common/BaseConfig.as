@@ -265,7 +265,7 @@ package org.xas.jchart.common
 		}
 		
 		public function get xAxisWordwrap():Boolean{
-			var _r:Boolean = false;
+			var _r:Boolean = true;
 			//return false;
 			cd 
 			&& cd.xAxis

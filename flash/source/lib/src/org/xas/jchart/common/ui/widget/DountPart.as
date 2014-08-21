@@ -92,6 +92,7 @@ package org.xas.jchart.common.ui.widget
 		
 		private function addToStage( _evt:Event ):void{
 						
+			//Log.log( this._beginAngle, this._endAngle );
 			draw();
 		}
 		

@@ -136,6 +136,7 @@ package org.xas.jchart.ndount.controller
 			_config.isPercent && ( _totalNum = 100 );
 
 			Common.each( _config.displaySeries, function( _k:int, _item:Object ):void {
+				if( _item.y === 0 ) return;
 				var _pieP:Object = { 
 						cx: _config.c.cx
 						, cy: _config.c.cy
@@ -148,6 +149,8 @@ package org.xas.jchart.ndount.controller
 					;
 					
 				_pieP.offsetAngle = _offsetAngle;		
+				
+				//Log.log( _item.y );
 				
 				if( _item.y == _totalNum ){
 					_pieP.angle = _angle;

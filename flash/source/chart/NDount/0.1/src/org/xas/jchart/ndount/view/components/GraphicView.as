@@ -83,6 +83,7 @@ package org.xas.jchart.ndount.view.components
 			_piePart = new Vector.<DountPart>();
 			
 			Common.each( _config.c.piePart, function( _k:int, _item:Object ):void{
+				//Log.printJSON( _item );
 				/*
 				var _pp:PiePart = new PiePart( 
 										new Point( _item.cx, _item.cy )

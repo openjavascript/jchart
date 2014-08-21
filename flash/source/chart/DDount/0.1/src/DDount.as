@@ -48,7 +48,7 @@ package
 			
 			addEventListener( JChartEvent.PROCESS, process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);
-			addEventListener( Event.REMOVED_FROM_STAGE, onRemovedFromStage );	
+			addEventListener( Event.REMOVED_FROM_STAGE, onRemovedFromStage ); 	
 		}
 		
 		private function onEnterFrame( $evt:Event ):void

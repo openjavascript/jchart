@@ -98,6 +98,7 @@ package org.xas.jchart.ndount.controller
 				facade.registerMediator( new TipsMediator() );
 								
 				calcGraphic();	
+				facade.registerMediator( new CLabelMediator() );
 				
 				if( !ExternalInterface.available ){
 					facade.registerMediator( new TestMediator( DefaultPieData.instance.data ) );	
@@ -133,8 +134,6 @@ package org.xas.jchart.ndount.controller
 				, _cpoint:Point = new Point( _config.c.cx, _config.c.cy )
 				;
 			
-			_config.isPercent && ( _totalNum = 100 );
-
 			Common.each( _config.displaySeries, function( _k:int, _item:Object ):void {
 				if( _item.y === 0 ) return;
 				var _pieP:Object = { 

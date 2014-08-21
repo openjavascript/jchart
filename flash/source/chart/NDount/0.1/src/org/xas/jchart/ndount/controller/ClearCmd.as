@@ -34,7 +34,8 @@ package org.xas.jchart.ndount.controller
 			facade.hasMediator( LegendMediator.name ) && facade.removeMediator( LegendMediator.name );
 			facade.hasMediator( TipsMediator.name ) && facade.removeMediator( TipsMediator.name );
 			facade.hasMediator( TestMediator.name ) && facade.removeMediator( TestMediator.name );		
-			facade.hasMediator( PieLabelMediator.name ) && facade.removeMediator( PieLabelMediator.name );			
+			facade.hasMediator( PieLabelMediator.name ) && facade.removeMediator( PieLabelMediator.name );	
+			facade.hasMediator( CLabelMediator.name ) && facade.removeMediator( CLabelMediator.name );			
 		}
 	}
 }

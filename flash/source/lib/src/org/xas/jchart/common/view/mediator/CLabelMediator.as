@@ -3,15 +3,15 @@ package org.xas.jchart.common.view.mediator
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
-	import org.xas.jchart.common.view.components.HLabelView;
+	import org.xas.jchart.common.view.components.CLabelView;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.event.JChartEvent;
 	
-	public class HLabelMediator extends Mediator implements IMediator
+	public class CLabelMediator extends Mediator implements IMediator
 	{
 		public static const name:String = 'PCLabelMediator';
-		private var _view:HLabelView;
-		public function get view():HLabelView{ return _view; }
+		private var _view:CLabelView;
+		public function get view():CLabelView{ return _view; }
 		
 		public function CLabelMediator(  )
 		{
@@ -19,7 +19,7 @@ package org.xas.jchart.common.view.mediator
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index5.addChild( _view = new HLabelView( ) );
+			mainMediator.view.index5.addChild( _view = new CLabelView( ) );
 		}
 		
 		override public function onRemove():void{

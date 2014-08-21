@@ -84,9 +84,13 @@ package org.xas.jchart.common.config
 		override public function get totalNum():Number{
 			var _r:Number = 0;
 			
-			Common.each( _displaySeries, function( _k:int, _item:Object ):void{
-				_r += _item.y;
-			});
+			if( this.isPercent ){
+				_r = 100;
+			}else{
+				Common.each( _displaySeries, function( _k:int, _item:Object ):void{
+					_r += _item.y;
+				});
+			}
 			
 			return _r;
 		}

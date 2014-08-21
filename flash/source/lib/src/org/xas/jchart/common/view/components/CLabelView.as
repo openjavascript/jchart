@@ -13,77 +13,115 @@ package org.xas.jchart.common.view.components
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
+	import org.xas.jchart.common.config.NDountConfig;
 	import org.xas.jchart.common.data.DefaultOptions;
+	import org.xas.jchart.common.ui.widget.JTextField;
 	
 	public class CLabelView extends Sprite
 	{
-		private var _labels:Vector.<TextField>;
-		public function get labels():Vector.<TextField>{ return _labels; }
+		private var _labels:Vector.<Sprite>;
+		public function get labels():Vector.<Sprite>{ return _labels; }
 		
 		private var _maxHeight:Number = 0;
 		public function get maxHeight():Number{ return _maxHeight; }
 		
+		private var _config:NDountConfig;
+		
 		public function CLabelView()
 		{
 			super();
-		
+			_config = BaseConfig.ins as NDountConfig;
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
 			
 		}
 		
 		private function addToStage( _evt:Event ):void{
-			_labels = new Vector.<TextField>();
-			var _v:Number, _t:String, _titem:TextField;
-			return;
+			_labels = new Vector.<Sprite>();
+			var _v:Number, _t:String, _titem:TextField, _nitem:TextField, _itemWidth:Number, _sp:Sprite;
+			if( !( _config.displaySeries && _config.displaySeries.length ) ) return;
 			
-			if( BaseConfig.ins.cd && BaseConfig.ins.cd.xAxis && BaseConfig.ins.cd.xAxis.categories ){
-								
-				Common.each( BaseConfig.ins.cd.xAxis.categories, function( _k:int, _item:* ):*{
-					_t = _item + '';
-					
-					_titem = new TextField();
-					_titem.text = _t;
-					
-					Common.implementStyle( _titem, [
-						DefaultOptions.title.style
-						, DefaultOptions.xAxis.labels.style
-						, BaseConfig.ins.labelsStyle
-					] );
-					
-					if( !BaseConfig.ins.displayAllLabel ){
-						if( !( _k in BaseConfig.ins.labelDisplayIndex ) ){
-							_titem.visible = false;
-						}
+			_itemWidth = _config.c.radius * 2 -  _config.displaySeries.length * _config.radiusStep * 2 - 20;
+
+			Log.log( _config.floatLen );
+			//[{"y":45,"name":"全体覆盖率"},{"y":35,"name":"样本覆盖率"}]
+			Common.each( _config.displaySeries, function( _k:int, _item:* ):*{
+				_t = Common.moneyFormat( _item.y + '', 3, _config.floatLen );
+				
+				if( _config.isPercent ) _t += '%';
+				
+				_sp = new Sprite();
+				_sp.x = 10000;
+				
+				_nitem = new TextField();
+				_nitem.text = _t;
+				_nitem.autoSize = TextFieldAutoSize.LEFT;
+				
+				_titem = new TextField();
+				_titem.text = _item.name;
+				_titem.autoSize = TextFieldAutoSize.LEFT;
+				//_titem.width = _itemWidth;
+				//_titem.wordWrap = true;
+				_titem.y = _nitem.height + 2;
+
+				
+				Common.implementStyle( _titem, [
+					DefaultOptions.title.style
+					, DefaultOptions.xAxis.labels.style
+					, _config.labelsStyle
+					, { color: _config.itemColor( _k ), size: 14  }
+				] );
+				
+				Common.implementStyle( _nitem, [
+					DefaultOptions.title.style
+					, DefaultOptions.xAxis.labels.style
+					, _config.labelsStyle
+					, { color: _config.itemColor( _k ), size: 18, font: 'Verdana'  }
+				] );
+				
+				
+				if( !_config.displayAllLabel ){
+					if( !( _k in _config.labelDisplayIndex ) ){
+						_titem.visible = false;
+						_nitem.visible = false;
 					}
-					
-					addChild( _titem );
-					
-					_labels.push( _titem );
-					
-					_titem.height > _maxHeight && ( _maxHeight = _titem.height );
-				});			
-			}
+				}
+				
+				_sp.addChild( _nitem );
+				_sp.addChild( _titem );
+				addChild( _sp );
+				
+				_labels.push( _sp );
+				
+				_titem.height > _maxHeight && ( _maxHeight = _titem.height );
+			});		
 			//Log.log( '_maxHeight', _maxHeight );
 		}
 		
 		public function update():void{
-			return;
-			if( !( BaseConfig.ins.c && BaseConfig.ins.c.hpoint ) ) return;
+			if( !( _labels && _labels.length ) ) return;
+			var _space:Number = _config.radiusStep * _config.displaySeries.length + 40;
 			
-			Common.each( BaseConfig.ins.c.hpoint, function( _k:int, _item:Object ):void{
-				var _tf:TextField = _labels[ _k ], _x:Number = _item.end.x - _tf.width / 2;
-				
-				if( _k === 0 ){
-					_x < BaseConfig.ins.c.chartX && ( _x = BaseConfig.ins.c.chartX - 3 );
-				}else if( _k === BaseConfig.ins.c.hpoint.length - 1 ){
-					if( _x + _tf.width > BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth ){
-						_x = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - _tf.width + 3;
-					}
+			//Log.log( _config.c.cx, _config.c.radius, _space );
+			
+			switch( _config.displaySeries.length ){
+				case 1:
+				{
+					_labels[0].x = _config.c.cx - _labels[0].width / 2;
+					_labels[0].y = _config.c.cy - _labels[0].height / 2;
+					break;
 				}
-				
-				_tf.x = _x;
-				_tf.y = _item.end.y;
-			});
+					
+				case 2:
+				{
+					//Log.log( _labels[0].width, _labels[1].width );
+					_labels[0].x = _config.c.cx - _config.c.radius + _space;
+					_labels[0].y = _config.c.cy - _labels[0].height - 5;
+					
+					_labels[1].x = _config.c.cx + _config.c.radius - _labels[1].width - _space;
+					_labels[1].y = _config.c.cy + 5;
+					break;
+				}
+			}
 		}
 	}
 }

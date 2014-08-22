@@ -626,8 +626,22 @@ package org.xas.jchart.common
 			this.cd 
 				&& this.cd.chart
 				&& ( _r = this.cd.chart );
-				
+			
 			return _r;
+		}
+		
+		public function get hoverBgParams():Object{
+			var _r:Object = {};
+			
+			this.cd 
+				&& this.cd.hoverBg
+				&& ( _r = this.cd.hoverBg );
+			
+			return _r;
+		}
+		
+		public function get hoverBgEnabled():Boolean{
+			return this.hoverBgParams.enabled || false;
 		}
 		
 		public function reset():void{

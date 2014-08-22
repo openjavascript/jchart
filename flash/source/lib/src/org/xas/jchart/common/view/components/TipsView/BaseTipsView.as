@@ -56,16 +56,13 @@ package org.xas.jchart.common.view.components.TipsView
 			Common.each( BaseConfig.ins.displaySeries[0].data, function( _k:int, _item:Number ):void{
 				_data[ _k ] = { items: [] };
 				
-				if( BaseConfig.ins.categories.length ){
-					var _format:String = BaseConfig.ins.tooltipHeaderFormat;
-					_data[ _k ].name = StringUtils.printf( _format,  BaseConfig.ins.categories[ _k ] );
-				}else{
-					_data[ _k ].name = '';
-				}
+
+				var _format:String = BaseConfig.ins.tooltipHeaderFormat;
+				_data[ _k ].name = StringUtils.printf( _format,  BaseConfig.ins.getTipsHeader( _k ) );
 				
 				Common.each( BaseConfig.ins.displaySeries, function( _sk:int, _sitem:Object ):void{
 					//_data[ _k ][ 'name' ] = _sitem.name || '';
-					Log.log( 'xxxxxxx', _sitem.data[_k] );
+					//Log.log( 'xxxxxxx', _sitem.data[_k] );
 					
 					var _name:String = _sitem.name + ''
 						, _value:String = StringUtils.printf( BaseConfig.ins.tooltipPointFormat, 

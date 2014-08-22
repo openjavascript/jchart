@@ -175,6 +175,20 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get tipsHeader():Array{
+			var _r:Array = [];
+			if( cd && cd.xAxis && cd.xAxis.tipsHeader ){
+				_r = cd.xAxis.tipsHeader;
+			}
+			return _r;
+		}
+		
+		
+		public function getTipsHeader( _ix:int ):String{
+			var _r:String = this.tipsHeader[ _ix ] || this.categories[ _ix ] || '';
+			return _r;
+		}
+		
 		public function get tipTitlePostfix():String{
 			var _r:String = '{0}';
 			if( cd && cd.xAxis && ( 'tipTitlePostfix' in  cd.xAxis ) ){

@@ -22,6 +22,62 @@ package org.xas.jchart.common.data.test
 		private function init():void{
 			_data = new Vector.<Object>();
 			
+			
+			_data.push({
+				xAxis: {
+					categories: [ 
+						'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+						, '10', '11', '12', '13', '14', '15', '16', '17', '18', '19'
+						, '20', '21', '22', '23', '0'
+					]
+					, wordwrap: false
+					, tipsHeader: [
+						'0 时~', '1 时~', '2 时~', '3 时~', '4 时~', '5 时~', '6 时~', '7 时~', '8 时~', '9  时~'
+						, '10 时~', '11 时~', '12 时~', '13 时~', '14 时~', '15 时~', '16 时~', '17 时~', '18 时~', '19 时~'
+						, '20 时~', '21 时~', '22 时~', '23 时~', '0 时~'
+					]
+				}, 
+				yAxis: {
+					format: '{0}%'
+				},
+				series:[{
+					name: '时段分布'
+					, data: [
+						0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+						, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+						, 20, 21, 22, 23, 0
+					]
+				}],
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: true
+				}
+				, tooltip: {		
+					"headerFormat": "{0}"			
+					, "pointFormat": "{0}%"
+					//, enabled: false
+				}
+				, rateLabel: {
+					maxvalue: 100
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 18 }
+				}
+			});
+			
 			_data.push({
 				
 				xAxis: {
@@ -196,56 +252,7 @@ package org.xas.jchart.common.data.test
 				}
 
 			});
-			
-			_data.push({
-				xAxis: {
-					categories: [ 
-						'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-						, '10', '11', '12', '13', '14', '15', '16', '17', '18', '19'
-						, '20', '21', '22', '23', '0'
-					]
-					, wordwrap: false
-				}, 
-				yAxis: {
-					format: '{0}%'
-				},
-				series:[{
-					name: '时段分布'
-					, data: [
-						0, 1, 2, 3, 4, 5, 6, 7, 8, 9
-						, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
-						, 20, 21, 22, 23, 0
-					 ]
-				}],
-				displayAllLabel: true,
-				legend: {
-					enabled: false
-				}
-				, vline: {
-					enabled: false
-				}
-				, hline: {
-					enabled: true
-				}
-				, tooltip: {		
-					"headerFormat": "{0} 时"			
-					, "pointFormat": "{0}%"
-					//, enabled: false
-				}
-				, rateLabel: {
-					maxvalue: 100
-				}
-				, colors: [
-					0x00ABEF
-					, 0x9DADB3
-					, 0x09c100
-					, 0x0c76c4 				
-					, 0xff0619
-				]
-				, maxItem: {
-					style: { color: 0x5DC979, size: 18 }
-				}
-			});
+
 			
 			_data.push({
 				xAxis: {

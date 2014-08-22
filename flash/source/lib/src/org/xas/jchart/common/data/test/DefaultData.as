@@ -40,7 +40,6 @@ package org.xas.jchart.common.data.test
 						, 20, 21, 22, 23, 0
 					 ]
 				}],
-				isPercent: true,
 				displayAllLabel: true,
 				legend: {
 					enabled: false
@@ -66,7 +65,48 @@ package org.xas.jchart.common.data.test
 				}
 			});
 			
-			
+			_data.push({
+				xAxis: {
+					categories: [ 
+						'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+						, '10', '11', '12', '13', '14', '15', '16', '17', '18', '19'
+						, '20', '21', '22', '23', '0'
+					]
+					, wordwrap: false
+				}, 
+				series:[{
+					name: '时段分布'
+					, data: [
+						0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+						, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+						, 20, 21, 22, 23, 0
+					]
+				}],
+				isPercent: true,
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: true
+				}
+				, tooltip: {
+					enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 16 }
+				}
+			});
 			_data.push({
 				xAxis: {
 					categories: [ '学生', '公司职员', '公司管理者', '公务员', '事业单位', '个体经营', '自由职业', '产业\n服务员\n工人', '农业\n劳动者', '其他' ]

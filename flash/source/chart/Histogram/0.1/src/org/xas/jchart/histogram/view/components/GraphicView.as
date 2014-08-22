@@ -49,6 +49,7 @@ package org.xas.jchart.histogram.view.components
 				var _box:Sprite = new Sprite();
 				Common.each( _item, function( _sk:int, _sitem:Object ):void{
 					
+					/*
 					if( BaseConfig.ins.serialLabelEnabled ){
 					var _label:JTextField = new JTextField( _sitem );
 						_label.text = StringUtils.printf( BaseConfig.ins.dataLabelFormat, Common.moneyFormat( _sitem.value, 3, BaseConfig.ins.floatLen ) );
@@ -68,6 +69,7 @@ package org.xas.jchart.histogram.view.components
 						Common.implementStyle( _label, [ { size: 14 }] );
 						addChild( _label );
 					}
+					*/
 					
 					var _item:HistogramUI = new HistogramUI(
 						_sitem.x, _sitem.y

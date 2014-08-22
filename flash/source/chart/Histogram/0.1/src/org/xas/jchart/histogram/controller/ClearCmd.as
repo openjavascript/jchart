@@ -34,6 +34,7 @@ package org.xas.jchart.histogram.controller
 			facade.hasMediator( LegendMediator.name ) && facade.removeMediator( LegendMediator.name );
 			facade.hasMediator( TipsMediator.name ) && facade.removeMediator( TipsMediator.name );
 			facade.hasMediator( TestMediator.name ) && facade.removeMediator( TestMediator.name );	
+			facade.hasMediator( SerialLabelMediator.name ) && facade.removeMediator( SerialLabelMediator.name );	
 		}
 	}
 }

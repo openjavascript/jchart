@@ -118,6 +118,10 @@ package org.xas.jchart.histogram.controller
 				
 				calcGraphic();	
 				
+				if( BaseConfig.ins.serialLabelEnabled ){
+					facade.registerMediator( new SerialLabelMediator() );	
+				}
+				
 				if( !ExternalInterface.available ){
 					facade.registerMediator( new TestMediator( DefaultData.instance.data ) );	
 				}

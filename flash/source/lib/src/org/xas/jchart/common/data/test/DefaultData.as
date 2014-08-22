@@ -25,7 +25,51 @@ package org.xas.jchart.common.data.test
 			
 			_data.push({
 				xAxis: {
-					categories: [ '学生', '公司职员', '公司管理者', '公务员', '事业单位', '个体经营', '自由职业', '产业服务员工人', '农业劳动者', '其他' ]
+					categories: [ 
+						'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+						, '10', '11', '12', '13', '14', '15', '16', '17', '18', '19'
+						, '20', '21', '22', '23', '0'
+					]
+					, wordwrap: false
+				}, 
+				series:[{
+					name: '时段分布'
+					, data: [
+						0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+						, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+						, 20, 21, 22, 23, 0
+					 ]
+				}],
+				isPercent: true,
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: true
+				}
+				, tooltip: {
+					enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 16 }
+				}
+			});
+			
+			
+			_data.push({
+				xAxis: {
+					categories: [ '学生', '公司职员', '公司管理者', '公务员', '事业单位', '个体经营', '自由职业', '产业\n服务员\n工人', '农业\n劳动者', '其他' ]
 					, wordwrap: true
 				}, 
 				series:[{
@@ -59,28 +103,153 @@ package org.xas.jchart.common.data.test
 					, 0x09c100
 					, 0x0c76c4 				
 					, 0xff0619
-					
-					, 0xFFBF00			
-					, 0xff7100	
-					, 0xff06b3
-					
-					, 0x41e2e6			
-					, 0xc3e2a4	
-					, 0xffb2bc
-					
-					, 0xdbb8fd
 				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 16 }
+				}
+			});
+			
+			
+			
+			_data.push({
+				xAxis: {
+					categories: [ '<18', '19-24', '23-34', '35-49', '>49' ]
+					, wordwrap: true
+				}, 
+				series:[{
+					name: '年龄'
+					, data: [ 69, 19, 21, 18, 10 ]
+				}],
+				//isPercent: true,
+				rateLabel: {
+					enabled: false
+				},
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true,
+					format: '{0}%'
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: false
+				}
+				, tooltip: {
+					enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+
+				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 16 }
+				}
 			});
 			
 			_data.push({
-
+				xAxis: {
+					categories: [ '低', '偏低', '中等', '偏高', '高' ]
+					, wordwrap: true
+				}, 
+				series:[{
+					name: '购买力'
+					, data: [ 43, 19, 21, 18, 10 ]
+				}],
+				//isPercent: true,
+				rateLabel: {
+					enabled: false
+				},
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true,
+					format: '{0}%'
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: false
+				}
+				, tooltip: {
+					enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 16 }
+				}
+			});
+			
+			_data.push({
+				xAxis: {
+					categories: [ '初中\n以下', '高中\n中专\n技校', '大专', '本科', '研究生\n及以上' ]
+					, wordwrap: true
+				}, 
+				series:[{
+					name: '学历'
+					, data: [ 12, 19, 21, 46, 10 ]
+				}],
+				//isPercent: true,
+				rateLabel: {
+					enabled: false
+				},
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true,
+					format: '{0}%'
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: false
+				}
+				, tooltip: {
+					enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 16 }
+				}
+			});
+			
+			
+			_data.push({
+				
 				xAxis: {
 					categories: [ '1', '2', '3', '4', '5' ]
 				}, 
 				series:[{
 					name: 'Temperature'
 					, data: [50, 60, 3, 20, 20]
-					, style: { 'stroke': '#ff7100' } 
+					, style: { 'stroke': 0xff7100 } 
 					, pointStyle: {}
 				}, {
 					name: 'Rainfall',
@@ -95,8 +264,7 @@ package org.xas.jchart.common.data.test
 					enabled: false
 				}
 				, dataLabels: {
-					enabled: true,
-					format: '{0}%'
+					enabled: true
 				}
 				, vline: {
 					enabled: false
@@ -420,6 +588,47 @@ package org.xas.jchart.common.data.test
 				}, {
 					name: 'Rainfall',
 					data: [1.01, 44, 3, 55, 3, 5, 83, 1, 33, 55, 44, 33]
+				}],
+				credits: {
+					enabled: true
+					, text: 'jchart.openjavascript.org'
+					, href: 'http://jchart.openjavascript.org/'
+				},
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, isPercent: true
+			});
+			
+			_data.push({
+				title: {
+					text:'Chart Title'
+				},
+				subtitle: {
+					text: 'sub title'
+				}, 
+				xAxis: {
+					categories: [ '1', '2', '3' ]
+				}, 
+				yAxis: {
+					title: {
+						text: '(Vertical Title - 中文)'
+					}
+					, format: '{0}%'
+				},
+				tooltip: {					
+					"pointFormat": "{0}", 
+					"headerFormat": "{0}月"
+				},
+				series:[{
+					name: 'Temperature'
+					, data: [1, 2, 4]
+					, style: { 'stroke': '#ff7100' } 
+					, pointStyle: {}
+				}, {
+					name: 'Rainfall',
+					data: [1.01, 44, 3]
 				}],
 				credits: {
 					enabled: true

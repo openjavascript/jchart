@@ -38,6 +38,7 @@ package org.xas.jchart.common.view.components.SerialLabel
 					
 					
 					if( BaseConfig.ins.serialLabelEnabled ){
+						
 						var _label:JTextField = new JTextField( _sitem );
 						_label.text = StringUtils.printf( BaseConfig.ins.dataLabelFormat, Common.moneyFormat( _sitem.value, 3, BaseConfig.ins.floatLen ) );
 						
@@ -48,12 +49,17 @@ package org.xas.jchart.common.view.components.SerialLabel
 						_label.mouseEnabled = false;
 						
 						if( _sitem.value > 0 ){
-						_label.y = _sitem.y - _label.height;
+							_label.y = _sitem.y - _label.height;
 						}else{
-						_label.y = _sitem.y + _sitem.height;
+							_label.y = _sitem.y + _sitem.height;
 						}
 						
-						Common.implementStyle( _label, [ { size: 14 }] );
+						var _maxStyle:Object = {};
+						if( _sitem.value == BaseConfig.ins.maxValue ){
+							_maxStyle = BaseConfig.ins.maxItemParams.style || _maxStyle;
+						}
+						
+						Common.implementStyle( _label, [ { size: 14 }, _maxStyle ] );
 						addChild( _label );
 					}
 					

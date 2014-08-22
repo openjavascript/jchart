@@ -15,6 +15,9 @@ package org.xas.jchart.common.view.components.SerialLabel
 	
 	public class BaseSerialLabelView extends Sprite
 	{	
+		protected var _maxHeight:Number = 0;
+		public function get maxHeight():Number{ return _maxHeight; }
+		
 		public function BaseSerialLabelView()
 		{
 			super();

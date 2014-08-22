@@ -740,7 +740,9 @@ package org.xas.jchart.common.data
 						"y1": 0
 					}
 				}, 
-				"borderColor": "#4572A7"
+				"borderColor": "#4572A7",
+				"bgColor": 0xcccccc,
+				"bgAlpha": .13
 			};
 		
 		public static var yAxis:Object =

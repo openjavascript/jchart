@@ -87,7 +87,9 @@ package org.xas.jchart.histogram.controller
 				}
 				
 				if( BaseConfig.ins.serialLabelEnabled ){
-					BaseConfig.ins.c.minY += 30;
+					facade.registerMediator( new SerialLabelMediator() );
+					BaseConfig.ins.c.minY += 20;
+					//Log.log( 'xxxxxxxx', pSerialLabelMediator.maxHeight );
 				}
 				
 				
@@ -117,10 +119,6 @@ package org.xas.jchart.histogram.controller
 				calcChartPoint();
 				
 				calcGraphic();	
-				
-				if( BaseConfig.ins.serialLabelEnabled ){
-					facade.registerMediator( new SerialLabelMediator() );	
-				}
 				
 				if( !ExternalInterface.available ){
 					facade.registerMediator( new TestMediator( DefaultData.instance.data ) );	
@@ -277,6 +275,10 @@ package org.xas.jchart.histogram.controller
 		
 		private function get pLegendMediator():LegendMediator{
 			return facade.retrieveMediator( LegendMediator.name ) as LegendMediator;
+		}
+		
+		private function get pSerialLabelMediator():SerialLabelMediator{
+			return facade.retrieveMediator( SerialLabelMediator.name ) as SerialLabelMediator;
 		}
 		
 		private function get pHLabelMediator():HLabelMediator{

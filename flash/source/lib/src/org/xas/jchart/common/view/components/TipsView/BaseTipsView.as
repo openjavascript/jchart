@@ -65,10 +65,12 @@ package org.xas.jchart.common.view.components.TipsView
 				
 				Common.each( BaseConfig.ins.displaySeries, function( _sk:int, _sitem:Object ):void{
 					//_data[ _k ][ 'name' ] = _sitem.name || '';
+					Log.log( 'xxxxxxx', _sitem.data[_k] );
+					
 					var _name:String = _sitem.name + ''
-						, _value:String = StringUtils.printf( BaseConfig.ins.tooltipPointFormat
-							, Common.moneyFormat( _sitem.data[ _k ], 3, BaseConfig.ins.floatLen ) )
-						;
+						, _value:String = StringUtils.printf( BaseConfig.ins.tooltipPointFormat, 
+							Common.moneyFormat( _sitem.data[ _k ], 3, BaseConfig.ins.floatLen )
+						)
 						
 					_data[ _k ].items.push( {
 						'name': _name

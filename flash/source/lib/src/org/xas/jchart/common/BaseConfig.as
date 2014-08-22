@@ -360,6 +360,8 @@ package org.xas.jchart.common
 				
 				_r > 0 && _r && ( _r = Common.numberUp( _r ) );
 			}
+			
+			this.rateMaxValue && ( _r = this.rateMaxValue );
 				
 			_r === 0 && ( _r = 10 );
 			return _r;
@@ -407,6 +409,8 @@ package org.xas.jchart.common
 			if( this.isPercent ){
 				_rateValue = 100;
 			}
+			this.rateMaxValue && ( _rateValue = this.rateMaxValue );
+			
 			Common.each( _rate, function( _k:int, _item:Number ):void{
 				var _realItem:Number = _rateValue * _item;
 					_realItem = Common.parseFinance( _realItem, 10 );
@@ -418,6 +422,13 @@ package org.xas.jchart.common
 				_realRate.push( _realItem );
 				//Log.log( _realItem );
 			});
+		}
+		
+		public function get rateMaxValue():Number{
+			var _r:Number = 0;
+			this.cd && this.cd.rateLabel && ( 'maxvalue' in this.cd.rateLabel )
+				&& ( _r = this.cd.rateLabel.maxvalue );
+			return _r;
 		}
 		
 		private var _realRate:Array;
@@ -606,6 +617,16 @@ package org.xas.jchart.common
 				&& this.cd.maxItem
 				&& ( _r = this.cd.maxItem );
 			
+			return _r;
+		}
+		
+		public function get chartParams():Object{
+			var _r:Object = {};
+			
+			this.cd 
+				&& this.cd.chart
+				&& ( _r = this.cd.chart );
+				
 			return _r;
 		}
 		

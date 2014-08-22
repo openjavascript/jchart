@@ -44,15 +44,8 @@ package org.xas.jchart.common.view.components.SerialLabel
 						
 						_label.autoSize = TextFieldAutoSize.LEFT;
 						_label.selectable = false;
-						_label.x = _sitem.x + _sitem.width / 2 - _label.width / 2;
 						_label.textColor = BaseConfig.ins.itemColor( _sk );
 						_label.mouseEnabled = false;
-						
-						if( _sitem.value > 0 ){
-							_label.y = _sitem.y - _label.height;
-						}else{
-							_label.y = _sitem.y + _sitem.height;
-						}
 						
 						var _maxStyle:Object = {};
 						if( _sitem.value == BaseConfig.ins.maxValue ){
@@ -60,7 +53,17 @@ package org.xas.jchart.common.view.components.SerialLabel
 						}
 						
 						Common.implementStyle( _label, [ { size: 14 }, _maxStyle ] );
+						
+						_label.x = _sitem.x + _sitem.width / 2 - _label.width / 2;
+						if( _sitem.value > 0 ){
+							_label.y = _sitem.y - _label.height;
+						}else{
+							_label.y = _sitem.y + _sitem.height;
+						}
+						
 						addChild( _label );
+						
+						( _label.height > _maxHeight ) && ( _maxHeight = _label.height );
 					}
 					
 				});

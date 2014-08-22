@@ -26,12 +26,69 @@ package org.xas.jchart.common.data.test
 			_data.push({
 				xAxis: {
 					categories: [ 
+						'兴趣点1', '兴趣点2', '兴趣点3', '兴趣点4', '兴趣点5'
+					]
+					, wordwrap: true
+				}, 
+				yAxis: {
+					format: '{0}%'
+				},
+				series:[{
+					name: '时段分布'
+					, data: [
+						80.12, 70.12, 50.12, 30.12, 10.12
+					]
+				}],
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: true
+				}
+				, tooltip: {		
+					enabled: false
+				}
+				, rateLabel: {
+					maxvalue: 100
+					, enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 18 }
+				}
+				, dataLabels: {
+					enabled: true,
+					format: '{0}%'
+				}                
+				, chart: {
+					bgColor: 0xffffff
+					, bgAlpha: 1
+				}
+
+			});
+			
+			_data.push({
+				xAxis: {
+					categories: [ 
 						'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
 						, '10', '11', '12', '13', '14', '15', '16', '17', '18', '19'
 						, '20', '21', '22', '23', '0'
 					]
 					, wordwrap: false
 				}, 
+				yAxis: {
+					format: '{0}%'
+				},
 				series:[{
 					name: '时段分布'
 					, data: [
@@ -50,8 +107,13 @@ package org.xas.jchart.common.data.test
 				, hline: {
 					enabled: true
 				}
-				, tooltip: {
-					enabled: false
+				, tooltip: {		
+					"headerFormat": "{0} 时"			
+					, "pointFormat": "{0}%"
+					//, enabled: false
+				}
+				, rateLabel: {
+					maxvalue: 100
 				}
 				, colors: [
 					0x00ABEF
@@ -61,7 +123,7 @@ package org.xas.jchart.common.data.test
 					, 0xff0619
 				]
 				, maxItem: {
-					style: { color: 0x5DC979, size: 16 }
+					style: { color: 0x5DC979, size: 18 }
 				}
 			});
 			
@@ -74,6 +136,9 @@ package org.xas.jchart.common.data.test
 					]
 					, wordwrap: false
 				}, 
+				yAxis: {
+					format: '{0}%'
+				},
 				series:[{
 					name: '时段分布'
 					, data: [
@@ -94,7 +159,9 @@ package org.xas.jchart.common.data.test
 					enabled: true
 				}
 				, tooltip: {
-					enabled: false
+					"headerFormat": "{0} 日"			
+					, "pointFormat": "{0}%"		
+					, enabled: true
 				}
 				, colors: [
 					0x00ABEF
@@ -104,9 +171,10 @@ package org.xas.jchart.common.data.test
 					, 0xff0619
 				]
 				, maxItem: {
-					style: { color: 0x5DC979, size: 16 }
+					style: { color: 0x5DC979, size: 18 }
 				}
 			});
+			
 			_data.push({
 				xAxis: {
 					categories: [ '学生', '公司职员', '公司管理者', '公务员', '事业单位', '个体经营', '自由职业', '产业\n服务员\n工人', '农业\n劳动者', '其他' ]
@@ -145,7 +213,7 @@ package org.xas.jchart.common.data.test
 					, 0xff0619
 				]
 				, maxItem: {
-					style: { color: 0x5DC979, size: 16 }
+					style: { color: 0x5DC979, size: 18 }
 				}
 			});
 			
@@ -190,7 +258,7 @@ package org.xas.jchart.common.data.test
 
 				]
 				, maxItem: {
-					style: { color: 0x5DC979, size: 16 }
+					style: { color: 0x5DC979, size: 18 }
 				}
 			});
 			
@@ -233,7 +301,7 @@ package org.xas.jchart.common.data.test
 					
 				]
 				, maxItem: {
-					style: { color: 0x5DC979, size: 16 }
+					style: { color: 0x5DC979, size: 18 }
 				}
 			});
 			
@@ -276,7 +344,7 @@ package org.xas.jchart.common.data.test
 					
 				]
 				, maxItem: {
-					style: { color: 0x5DC979, size: 16 }
+					style: { color: 0x5DC979, size: 18 }
 				}
 			});
 			
@@ -526,6 +594,7 @@ package org.xas.jchart.common.data.test
 						,"2014-02-12","2014-02-13","2014-02-14","2014-02-15","2014-02-16"
 						,"2014-02-17","2014-02-18","2014-02-19","2014-02-20","2014-02-21"
 						,"2014-02-22","2014-02-23","2014-02-24" ]
+					, wordwrap: false
 				}, 
 				yAxis: {
 				},

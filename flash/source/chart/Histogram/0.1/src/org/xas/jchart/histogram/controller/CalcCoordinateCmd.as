@@ -87,7 +87,9 @@ package org.xas.jchart.histogram.controller
 				}
 				
 				if( BaseConfig.ins.serialLabelEnabled ){
-					BaseConfig.ins.c.minY += 30;
+					facade.registerMediator( new SerialLabelMediator() );
+					BaseConfig.ins.c.minY += 20;
+					//Log.log( 'xxxxxxxx', pSerialLabelMediator.maxHeight );
 				}
 				
 				
@@ -138,6 +140,7 @@ package org.xas.jchart.histogram.controller
 			BaseConfig.ins.c.partWidth = 
 				BaseConfig.ins.c.itemWidth / BaseConfig.ins.displaySeries.length
 				;
+			
 			if( BaseConfig.ins.displaySeries.length > 1 ){				
 				BaseConfig.ins.c.partSpace = 4; 
 				BaseConfig.ins.c.partWidth = 
@@ -147,13 +150,26 @@ package org.xas.jchart.histogram.controller
 					;
 			}
 			
+			//BaseConfig.ins.c.partWidth > 50 && ( BaseConfig.ins.c.partWidth = 50 );
+			var _partWidth:Number = BaseConfig.ins.c.partWidth;
+			//_partWidth > 50 && ( _partWidth = 50 );
+			if( _partWidth > 50 ){
+				_partWidth = 50;
+			}
+			
 			Common.each( BaseConfig.ins.cd.xAxis.categories, function( _k:int, _item:Object ):void{
 				
 				var _items:Array = []
 					, _pointItem:Object = BaseConfig.ins.c.hlinePoint[ _k ]
 					, _sp:Point = _pointItem.start as Point
 					, _ep:Point = _pointItem.end as Point
-					, _x:Number = _sp.x + ( BaseConfig.ins.c.itemWidth - BaseConfig.ins.c.itemWidth / 2 )
+					//, _x:Number = _sp.x + ( BaseConfig.ins.c.itemWidth - BaseConfig.ins.c.itemWidth / 2 )
+					, _x:Number = _sp.x 
+						+ ( BaseConfig.ins.c.itemWidth 
+							- _partWidth * BaseConfig.ins.displaySeries.length / 2
+							- BaseConfig.ins.c.partSpace * ( ( BaseConfig.ins.displaySeries.length || 1 ) - 1 ) / 2 
+						)
+					, _tmp:Number = 0
 					;
 				
 				Common.each( BaseConfig.ins.displaySeries, function( _sk:int, _sitem:Object ):void{
@@ -186,12 +202,10 @@ package org.xas.jchart.histogram.controller
 					
 					//Log.log( _h, _y );
 										
-					_rectItem.x = _x + _sk * BaseConfig.ins.c.partWidth;
-					if( _sk > 0 ){
-						_rectItem.x += BaseConfig.ins.c.partSpace;
-					}
+					_rectItem.x = _x + _sk * _partWidth + BaseConfig.ins.c.partSpace * _sk;
+
 					_rectItem.y = _y;
-					_rectItem.width = BaseConfig.ins.c.partWidth;
+					_rectItem.width = _partWidth;
 					_rectItem.height = _h;
 					_rectItem.value = _sitem.data[ _k ];
 					
@@ -241,7 +255,7 @@ package org.xas.jchart.histogram.controller
 			BaseConfig.ins.c.hpoint = [];
 			BaseConfig.ins.c.hlinePoint = [];
 			BaseConfig.ins.c.hpointReal = [];
-			BaseConfig.ins.c.itemWidthRate = 1.8;
+			BaseConfig.ins.c.itemWidthRate = 2;
 			BaseConfig.ins.c.itemWidth = _partN / BaseConfig.ins.c.itemWidthRate;
 						
 			Common.each( BaseConfig.ins.categories, function( _k:int, _item:* ):void{
@@ -273,6 +287,10 @@ package org.xas.jchart.histogram.controller
 		
 		private function get pLegendMediator():LegendMediator{
 			return facade.retrieveMediator( LegendMediator.name ) as LegendMediator;
+		}
+		
+		private function get pSerialLabelMediator():SerialLabelMediator{
+			return facade.retrieveMediator( SerialLabelMediator.name ) as SerialLabelMediator;
 		}
 		
 		private function get pHLabelMediator():HLabelMediator{

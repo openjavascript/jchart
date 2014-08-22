@@ -24,7 +24,10 @@ package
 	
 	
 	//[SWF(frameRate="30", width="790", height="230")]
-	[SWF(frameRate="30", width="540", height="280")]
+	//[SWF(frameRate="30", width="385", height="225")]
+	//[SWF(frameRate="30", width="600", height="425")]
+	[SWF(frameRate="30", width="590", height="360")]
+	//[SWF(frameRate="30", width="1400", height="460")]
 	public class Histogram extends Sprite
 	{ 
 		private var _inited: Boolean = false;
@@ -153,7 +156,7 @@ package
 			var _data:Object = {};
 			
 			if( !ExternalInterface.available ){		
-				_data = DefaultData.instance.data[1];
+				_data = DefaultData.instance.data[0];
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};	
 				

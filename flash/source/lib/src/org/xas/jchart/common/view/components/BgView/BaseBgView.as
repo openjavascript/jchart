@@ -29,7 +29,18 @@ package org.xas.jchart.common.view.components.BgView
 		protected function showChart( _evt: JChartEvent ):void{
 			this.graphics.clear();
 			
-			this.graphics.beginFill( 0xcccccc, .13 );
+			var _bg:uint = 0xcccccc
+				, _alpha:Number = .13
+				;
+			
+			if( 'bgColor' in BaseConfig.ins.chartParams ){
+				_bg = BaseConfig.ins.chartParams.bgColor;
+			}
+			if( 'bgAlpha' in BaseConfig.ins.chartParams ){
+				_alpha = BaseConfig.ins.chartParams.bgAlpha;
+			}
+			
+			this.graphics.beginFill( _bg, _alpha );
 			this.graphics.drawRoundRect( 
 				BaseConfig.ins.c.x, BaseConfig.ins.c.y
 				, BaseConfig.ins.c.width, BaseConfig.ins.c.height

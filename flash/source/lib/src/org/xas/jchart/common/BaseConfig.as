@@ -60,6 +60,21 @@ package org.xas.jchart.common
 		protected var _displaySeriesIndexMap:Object;
 		public function get displaySeriesIndexMap():Object{ return _displaySeriesIndexMap; }
 		
+		public function get tooltipSerial():Array{
+			var _r:Array = [];
+			
+			Log.log( 'tooltipSerial xxx ' );
+			
+			this.cd
+				&& this.cd.tooltip
+				&& this.cd.tooltip.serial
+				&& this.cd.tooltip.serial.length
+				&& ( _r = this.cd.tooltip.serial )
+				;
+			
+			return _r;
+		}
+		
 		protected var _filterData:Object;
 		public function get filterData():Object{
 			return _filterData;	
@@ -172,6 +187,20 @@ package org.xas.jchart.common
 			if( cd && cd.xAxis && cd.xAxis.categories ){
 				_r = cd.xAxis.categories;
 			}
+			return _r;
+		}
+		
+		public function get tipsHeader():Array{
+			var _r:Array = [];
+			if( cd && cd.xAxis && cd.xAxis.tipsHeader ){
+				_r = cd.xAxis.tipsHeader;
+			}
+			return _r;
+		}
+		
+		
+		public function getTipsHeader( _ix:int ):String{
+			var _r:String = this.tipsHeader[ _ix ] || this.categories[ _ix ] || '';
 			return _r;
 		}
 		
@@ -335,17 +364,34 @@ package org.xas.jchart.common
 		
 		protected function calcMaxNum():Number{
 			var _r:Number = 0, _tmp:Array;
-			if( this.isPercent ) return 100;
-			if( cd && cd.series ){
-				_tmp = [];
-				Common.each( displaySeries, function( _k:int, _item:Number ):*{
-					_tmp = _tmp.concat( displaySeries[ _k ].data );
-				});
-				_tmp.length && ( _r = Math.max.apply( null, _tmp ) );
+			
+			if( this.isPercent ){
+				if( cd && cd.series ){
+					_tmp = [];
+					Common.each( displaySeries, function( _k:int, _item:Object ):*{
+						if( _item.data ){
+							Common.each( _item.data, function( _sk:int, _item:Number ):void{
+								_r += _item;	
+							});
+						}
+					});
+				}
+			}else{
+				if( cd && cd.series ){
+					_tmp = [];
+					Common.each( displaySeries, function( _k:int, _item:Number ):*{
+						_tmp = _tmp.concat( displaySeries[ _k ].data );
+					});
+					_tmp.length && ( _r = Math.max.apply( null, _tmp ) );
+				}
+				
+				_r < 0 && ( _r = 0 );
+				
+				_r > 0 && _r && ( _r = Common.numberUp( _r ) );
 			}
 			
-			_r < 0 && ( _r = 0 );
-			_r > 0 && _r && ( _r = Common.numberUp( _r ) );
+			this.rateMaxValue && ( _r = this.rateMaxValue );
+				
 			_r === 0 && ( _r = 10 );
 			return _r;
 		}
@@ -388,9 +434,14 @@ package org.xas.jchart.common
 			
 			_realRate = [];
 			_realRateFloatLen = 0;
-			var _tmpLen:int = 0;
+			var _tmpLen:int = 0, _rateValue:Number = _finalMaxNum;
+			if( this.isPercent ){
+				_rateValue = 100;
+			}
+			this.rateMaxValue && ( _rateValue = this.rateMaxValue );
+			
 			Common.each( _rate, function( _k:int, _item:Number ):void{
-				var _realItem:Number = _finalMaxNum * _item;
+				var _realItem:Number = _rateValue * _item;
 					_realItem = Common.parseFinance( _realItem, 10 );
 					
 					if( Common.isFloat( _realItem ) ){
@@ -400,6 +451,13 @@ package org.xas.jchart.common
 				_realRate.push( _realItem );
 				//Log.log( _realItem );
 			});
+		}
+		
+		public function get rateMaxValue():Number{
+			var _r:Number = 0;
+			this.cd && this.cd.rateLabel && ( 'maxvalue' in this.cd.rateLabel )
+				&& ( _r = this.cd.rateLabel.maxvalue );
+			return _r;
 		}
 		
 		private var _realRate:Array;
@@ -564,8 +622,61 @@ package org.xas.jchart.common
 			return StringUtils.parseBool( this.cd.isPercent );
 		}
 		
+		private var _maxValue:Number = 0;
+		private var _isMaxValueReady:Boolean;
+		
+		public function get maxValue():Number{
+			if( !_isMaxValueReady && this.series && this.series.length ){
+				_isMaxValueReady = true;
+				
+				Common.each( this.displaySeries, function( _k:int, _item:Object ):void{
+					Common.each( _item.data, function( _sk:int, _sitem:Number ):void{
+						_sitem > _maxValue && ( _maxValue = _sitem );
+					});
+				});
+			}
+			
+			return _maxValue;
+		}		
+		
+		public function get maxItemParams():Object{
+			var _r:Object = {};
+			
+			this.cd 
+				&& this.cd.maxItem
+				&& ( _r = this.cd.maxItem );
+			
+			return _r;
+		}
+		
+		public function get chartParams():Object{
+			var _r:Object = {};
+			
+			this.cd 
+				&& this.cd.chart
+				&& ( _r = this.cd.chart );
+			
+			return _r;
+		}
+		
+		public function get hoverBgParams():Object{
+			var _r:Object = {};
+			
+			this.cd 
+				&& this.cd.hoverBg
+				&& ( _r = this.cd.hoverBg );
+			
+			return _r;
+		}
+		
+		public function get hoverBgEnabled():Boolean{
+			return this.hoverBgParams.enabled || false;
+		}
+		
 		public function reset():void{
 			_isFloatLenReady = false;
+			_isMaxValueReady = false;
+			_maxValue = 0;
 		}
 				
 		public function BaseConfig()

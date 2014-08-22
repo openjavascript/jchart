@@ -49,8 +49,8 @@ package org.xas.jchart.common.view.components
 					Common.implementStyle( _titem, [
 						DefaultOptions.title.style
 						, DefaultOptions.xAxis.labels.style
-						, BaseConfig.ins.labelsStyle
 						, { 'size': 12, color: 0x838383, 'align': 'center' }
+						, BaseConfig.ins.labelsStyle
 					] );
 					
 					if( BaseConfig.ins.c.labelWidth && BaseConfig.ins.xAxisWordwrap ){

@@ -49,12 +49,13 @@ package org.xas.jchart.common.view.components
 				if( BaseConfig.ins.isPercent ){
 					_titem.text = _t + '%';
 				}else{
-					_titem.text = StringUtils.printf( BaseConfig.ins.yAxisFormat, _t );
 				}
+				_titem.text = StringUtils.printf( BaseConfig.ins.yAxisFormat, _t );
 				
 				Common.implementStyle( _titem, [
 					DefaultOptions.title.style
 					, DefaultOptions.yAxis.labels.style
+					, { color: 0x838383 }
 					, BaseConfig.ins.vlabelsStyle
 				] );
 				

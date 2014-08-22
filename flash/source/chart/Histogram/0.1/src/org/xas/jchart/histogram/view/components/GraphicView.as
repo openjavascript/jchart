@@ -44,35 +44,25 @@ package org.xas.jchart.histogram.view.components
 			
 			if( !( BaseConfig.ins.c && BaseConfig.ins.c.rects ) ) return;
 			_boxs = new Vector.<Sprite>();
+			
+			Log.log( BaseConfig.ins.maxValue );
 			Common.each( BaseConfig.ins.c.rects, function( _k:int, _item:Object ):void{
 				
 				var _box:Sprite = new Sprite();
 				Common.each( _item, function( _sk:int, _sitem:Object ):void{
-					
-					if( BaseConfig.ins.serialLabelEnabled ){
-					var _label:JTextField = new JTextField( _sitem );
-						_label.text = StringUtils.printf( BaseConfig.ins.dataLabelFormat, Common.moneyFormat( _sitem.value, 3, BaseConfig.ins.floatLen ) );
-
-						_label.autoSize = TextFieldAutoSize.LEFT;
-						_label.selectable = false;
-						_label.x = _sitem.x + _sitem.width / 2 - _label.width / 2;
-						_label.textColor = BaseConfig.ins.itemColor( _sk );
-						_label.mouseEnabled = false;
-						
-						if( _sitem.value > 0 ){
-							_label.y = _sitem.y - _label.height;
-						}else{
-							_label.y = _sitem.y + _sitem.height;
+							
+					var _color:uint = BaseConfig.ins.itemColor( _sk );
+					if( _sitem.value == BaseConfig.ins.maxValue ){
+						Log.log( BaseConfig.ins.maxValue, _sitem.value );
+						if( 'style' in BaseConfig.ins.maxItemParams && 'color' in BaseConfig.ins.maxItemParams.style ){
+							_color = BaseConfig.ins.maxItemParams.style.color;
 						}
-						
-						Common.implementStyle( _label, [ { size: 14 }] );
-						addChild( _label );
 					}
 					
 					var _item:HistogramUI = new HistogramUI(
 						_sitem.x, _sitem.y
 						, _sitem.width, _sitem.height
-						, BaseConfig.ins.itemColor( _sk ) 
+						, _color 
 					);
 					_item.mouseEnabled = false;
 					_box.addChild( _item );

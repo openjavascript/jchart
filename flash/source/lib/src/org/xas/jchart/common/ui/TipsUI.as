@@ -35,6 +35,7 @@ package org.xas.jchart.common.ui
 		private var _valTxf:TextField;
 		
 		private var _eleData:Object;
+		private var _exEleData:Array;
 		
 		public function TipsUI()
 		{
@@ -63,7 +64,7 @@ package org.xas.jchart.common.ui
 			return this;
 		}
 		
-		public function buildLayout( _data:Object ):TipsUI{			
+		public function buildLayout( _data:Object, _extendData:Object = null ):TipsUI{			
 			this._data = _data;
 			_layout.graphics.clear();
 			graphics.clear();
@@ -89,7 +90,7 @@ package org.xas.jchart.common.ui
 					var _styles:Object = { color: BaseConfig.ins.itemColor( _k ) };
 					
 					_layout.addChild( _nameTxf = new TextField() );
-					_nameTxf.text = _item.name
+					_nameTxf.text = _item.name + ': ';
 					Common.implementStyle( _nameTxf, [ _styles ] );
 					_nameTxf.y = _y;
 					
@@ -105,8 +106,32 @@ package org.xas.jchart.common.ui
 
 					_eleData.items.push( { 'name': _nameTxf, 'value': _valTxf } );
 				});
-
 			}
+			
+			_exEleData = [];
+			Common.each( _extendData, function( _k:int, _item:Object ):void{
+				Log.log( 'tooltip serial ' );
+				if( !_item ) return;		
+				Log.log( 'tooltip serial 1' );			
+				var _styles:Object = { color: 0x999999 };
+				
+				_layout.addChild( _nameTxf = new TextField() );
+				_nameTxf.text = _item.name + ': ';
+				Common.implementStyle( _nameTxf, [ _styles ] );
+				_nameTxf.y = _y;
+				
+				
+				_layout.addChild( _valTxf = new TextField() );
+				_valTxf.text = _item.value;
+				Common.implementStyle( _valTxf, [ _styles ] );
+				_valTxf.y = _y;
+				
+				_y += _nameTxf.height;
+				
+				Common.implementStyle( _nameTxf, [ _styles ] );
+				
+				_exEleData.push( { 'name': _nameTxf, 'value': _valTxf } );
+			});
 			
 			updateLayout();
 			
@@ -137,18 +162,13 @@ package org.xas.jchart.common.ui
 			if( _data ){
 				_nameTxf.text = _data.name;
 			}
-			
 			Common.each( _eleData.items, function( _k:int, _item:Object ):void{
 				_nameTxf = _item.name as TextField;
 				_valTxf = _item.value as TextField;
 				
 				if( _data ){
-					_nameTxf.text = _data.items[ _k ].name;					
-					if( BaseConfig.ins.isPercent ){
-						_valTxf.text = _data.items[ _k ].value + '%';		
-					}else{
-						_valTxf.text = _data.items[ _k ].value;		
-					}			
+					_nameTxf.text = _data.items[ _k ].name + ': ';		
+					_valTxf.text = _data.items[ _k ].value;		
 				}
 				
 				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );
@@ -159,7 +179,15 @@ package org.xas.jchart.common.ui
 				_nameTxf = _item.name as TextField;
 				_valTxf = _item.value as TextField;
 				
-				_nameTxf.x = _offsetX * 2;					
+				_nameTxf.x = _offsetX * 2 + _nameMaxLen - _nameTxf.width;					
+				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
+			});
+			
+			Common.each( _exEleData, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				_nameTxf.x = _offsetX * 2 + _nameMaxLen - _nameTxf.width;	
 				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
 			});
 			

@@ -75,6 +75,8 @@
             
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
             
+                <li><a href="../classes/JChart.Test.html">JChart.Test</a></li>
+            
                 <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
@@ -133,7 +135,7 @@
     , &#x27;Raphael&#x27;
     , &#x27;JChart.common&#x27;
     , &#x27;JChart.DefaultOptions&#x27; 
-    , &#x27;JChart.Event&#x27;, &#x27;JChart.Group&#x27;
+    , &#x27;JChart.Extend&#x27;, &#x27;JChart.Group&#x27;
     , &#x27;JChart.Legend&#x27;
     , &#x27;JChart.Tips&#x27;
     , &#x27;swfobject&#x27;
@@ -152,6 +154,7 @@ window.JChart = window.JChart || {};
  *
  *&lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jchart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
  *   | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.Base.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *   | &lt;a href=&#x27;../../modules/JChart.Base/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
  *  
  *&lt;h2&gt;页面只要引用本脚本, 默认会处理 div class=&quot;js_compBase&quot;&lt;/h2&gt;
  *
@@ -1304,7 +1307,7 @@ window.JChart = window.JChart || {};
                     _element.appendTo( _p.selector() );
                 }
                 //JC.log( &#x27;drawFlash&#x27;, _fpath, _p._model.gid(), _p._model.width(), _p._model.height(), _element[0] );
-                JC.log( _dataStr );
+                //JC.log( _dataStr );
                 swfobject.embedSWF( 
                     _fpath
                     , _p._model.gid()

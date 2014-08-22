@@ -75,6 +75,8 @@
             
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
             
+                <li><a href="../classes/JChart.Test.html">JChart.Test</a></li>
+            
                 <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
@@ -129,6 +131,8 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 ;(function(define, _win) { &#x27;use strict&#x27;; define( [], function(){
+    window.JWIN = window.JWIN || $( window );
+    window.JDOC = window.JDOC || $( document );
     /**
      * 如果 console 不可用, 生成一个模拟的 console 对象
      */

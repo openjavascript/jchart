@@ -12,6 +12,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "JChart.Histogram",
         "JChart.HistogramLateral",
         "JChart.PieGraph",
+        "JChart.Test",
         "JChart.TubularFigure",
         "JChart.common",
         "JChart.f",

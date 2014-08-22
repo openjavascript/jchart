@@ -23,7 +23,7 @@ requirejs.config( {
         , 'JChart.TubularFigure': 'modules/JChart.TubularFigure/0.1/TubularFigure'
 
         , 'JChart.DefaultOptions': 'modules/JChart.DefaultOptions/0.1/DefaultOptions'
-        , 'JChart.Event': 'modules/JChart.Event/0.1/Event'
+        , 'JChart.Extend': 'modules/JChart.Extend/0.1/Extend'
         , 'JChart.Geometry': 'modules/JChart.Geometry/0.1/Geometry'
         , 'JChart.Group': 'modules/JChart.Group/0.1/Group'
 
@@ -39,6 +39,8 @@ requirejs.config( {
         , 'JChart.IconCircle': 'modules/JChart.IconCircle/0.1/IconCircle'
 
         , 'JChart.Legend': 'modules/JChart.Legend/0.1/Legend'
+        , 'JChart.PieLabel': 'modules/JChart.PieLabel/0.1/PieLabel'
+        , 'JChart.Test': 'modules/JChart.Test/0.1/Test'
         , 'JChart.Tips': 'modules/JChart.Tips/0.1/Tips'
 
         , 'Raphael': 'modules/Raphael/latest/raphael'

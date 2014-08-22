@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>../modules/JChart.PieLabel/0.1/PieLabel.js - JChart</title>
+    <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/widget.css">
+    <link rel="stylesheet" href="../assets/css/tabview.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="../assets/js/yui-min.js"></script>
+    <script src="../assets/js/comps1.js"></script>
+    <script src="../assets/js/comps2.js"></script>
+    <script src="../assets/js/comps3.js"></script>
+    <script src="../assets/js/comps4.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../jc_logo.png" title="JChart"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.2</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/JC.BaseMVC.html">JC.BaseMVC</a></li>
+            
+                <li><a href="../classes/JC.BaseMVC.Model.html">JC.BaseMVC.Model</a></li>
+            
+                <li><a href="../classes/JC.common.html">JC.common</a></li>
+            
+                <li><a href="../classes/JC.f.html">JC.f</a></li>
+            
+                <li><a href="../classes/JC.PureMVC.html">JC.PureMVC</a></li>
+            
+                <li><a href="../classes/JC.PureMVC.Model.html">JC.PureMVC.Model</a></li>
+            
+                <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
+            
+                <li><a href="../classes/JChart.common.html">JChart.common</a></li>
+            
+                <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
+            
+                <li><a href="../classes/JChart.DefaultOptions.html">JChart.DefaultOptions</a></li>
+            
+                <li><a href="../classes/JChart.f.html">JChart.f</a></li>
+            
+                <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
+            
+                <li><a href="../classes/JChart.HistogramLateral.html">JChart.HistogramLateral</a></li>
+            
+                <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
+            
+                <li><a href="../classes/JChart.Test.html">JChart.Test</a></li>
+            
+                <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
+            
+                <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
+            
+                <li><a href="../classes/window.Raphael.html">window.Raphael</a></li>
+            
+                <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
+            
+                <li><a href="../classes/window.swfobject.html">window.swfobject</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: ../modules/JChart.PieLabel/0.1/PieLabel.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.PureMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.GraphicBase&#x27;, &#x27;JChart.IconRect&#x27; ], function(){
+/**
+ * 组件用途简述
+ *
+ *  &lt;p&gt;&lt;b&gt;require&lt;/b&gt;:
+ *      &lt;a href=&#x27;JC.PureMVC.html&#x27;&gt;JC.PureMVC&lt;/a&gt;
+ *  &lt;/p&gt;
+ *
+ *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
+ *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JChart.PieLabel.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *  
+ * @namespace   JChart
+ * @name PieLabel
+ * @param   {selector|string}   _selector   
+ * @version dev 0.1 2014-06-23
+ * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
+ * @example
+        &lt;h2&gt;JC.PieLabel 示例&lt;/h2&gt;
+ */
+    var _jdoc = $( document ), _jwin = $( window );
+
+    JChart.PieLabel = PieLabel;
+
+    function PieLabel( _stage, _lines, _pieModel ){
+
+        this._model = new PieLabel.Model( _stage, _lines, _pieModel );
+        this._view = new PieLabel.View( this._model );
+
+        this._init();
+
+        //JC.log( PieLabel.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+    }
+
+    PieLabel.Model = 
+        function( _stage, _lines, _pieModel ){
+            this._stage = _stage;
+            this._lines = _lines;
+            this._pieModel = _pieModel;
+        };
+
+    JC.PureMVC.build( PieLabel, JChart.GraphicBase );
+
+    JC.f.extendObject( PieLabel.prototype, {
+        _beforeInit:
+            function(){
+                //JC.log( &#x27;PieLabel _beforeInit&#x27;, new Date().getTime() );
+            }
+        , _initHanlderEvent:
+            function(){
+                var _p = this;
+
+                _p.on( &#x27;inited&#x27;, function(){
+                    //_p._view.draw();
+                });
+            }
+        , draw: function(){ this._view.draw(); return this; }
+    });
+
+    PieLabel.Model._instanceName = &#x27;JCPieLabel&#x27;;
+    JC.f.extendObject( PieLabel.Model.prototype, {
+        init:
+            function(){
+                //JC.log( &#x27;PieLabel.Model.init:&#x27;, new Date().getTime() );
+                JChart.GraphicBase.Model.prototype.init.call( this );
+            }
+
+        , lines: function(){ return this._lines; }
+        , pieModel: function(){ return this._pieModel; }
+
+        , textList: 
+            function(){ 
+                typeof this._textList == &#x27;undefined&#x27; &amp;&amp; ( this._textList = [] );
+                return this._textList;
+            }
+
+        , pathList: 
+            function(){ 
+                typeof this._pathList == &#x27;undefined&#x27; &amp;&amp; ( this._pathList = [] );
+                return this._pathList;
+            }
+
+        , leftTopLabel: 
+            function(){ 
+                typeof this._leftTopLabel == &#x27;undefined&#x27; &amp;&amp; ( this._leftTopLabel = [] );
+                return this._leftTopLabel;
+            }
+
+        , leftBottomLabel: 
+            function(){ 
+                typeof this._leftBottomLabel == &#x27;undefined&#x27; &amp;&amp; ( this._leftBottomLabel = [] );
+                return this._leftBottomLabel;
+            }
+
+        , rightTopLabel: 
+            function(){ 
+                typeof this._rightTopLabel == &#x27;undefined&#x27; &amp;&amp; ( this._rightTopLabel = [] );
+                return this._rightTopLabel;
+            }
+
+        , rightBottomLabel: 
+            function(){ 
+                typeof this._rightBottomLabel == &#x27;undefined&#x27; &amp;&amp; ( this._rightBottomLabel = [] );
+                return this._rightBottomLabel;
+            }
+
+        , maxWidth:
+            function( _setter ){
+                typeof _setter != &#x27;undefined&#x27; &amp;&amp; ( this._maxWidth = _setter );
+                return this._maxWidth || 0;
+            }
+
+        , maxHeight:
+            function( _setter ){
+                typeof _setter != &#x27;undefined&#x27; &amp;&amp; ( this._maxHeight = _setter );
+                return this._maxHeight || 0;
+            }
+
+    });
+
+    JC.f.extendObject( PieLabel.View.prototype, {
+        init:
+            function(){
+                //JC.log( &#x27;PieLabel.View.init:&#x27;, new Date().getTime() );
+            }
+
+        , draw:
+            function(){
+                var _p = this;
+                _p.normalDraw();
+                _p.isCollision() &amp;&amp; _p.collideDraw();
+            }
+
+        , isCollision:
+            function(){
+                var _r = false, _p = this, _tl = _p._model.textList(), _len = _tl.length;
+                for( var i = 0; i &lt; _len; i++ ){
+                    for( var j = i + 1; j &lt; _len; j++ ){
+                        if( _tl[ i ].hitTestObject( _tl[ j ] ) ){
+                            return true;
+                        }
+                    }
+                }
+                return _r;
+            }
+
+        , normalDraw:
+            function(){
+                var _p = this, _pm = _p._model.pieModel(), _m = _p._model
+                    , _offsetX = 0, _offsetY = 0
+                    , _ix
+                    , _maxWidth = 0, _maxHeight = 15
+                    ;
+
+                var _topLabel
+                    , _rightLabel
+                    , _bottomLabel
+                    , _leftLabel
+                    ;
+
+                $.each( _m.lines(), function( _k, _item ){
+                    var _path, _style, _text;
+                    _ix = _pm.displayLegendMap[ _k ];
+                    _style = _pm.itemStyle( _ix );
+
+                    _path = _pm.stage().path( _item.path )
+                        .attr( { &#x27;stroke&#x27;: _style.fill } )
+                        .translate( .5, .5 )
+                        ;
+
+                    _text = _p.stage().text( _offsetX, _offsetY, _item.data.name )
+                        .attr( { &#x27;fill&#x27;: &#x27;#999&#x27;, &#x27;cursor&#x27;: &#x27;default&#x27; } )
+                        ;
+
+                    switch( _item.direction ){
+                        case &#x27;top&#x27;:
+                            {
+                                _text.attr( { x: _item.end.x, y: _item.end.y - 5 } );
+                                _topLabel = _text;
+                                break;
+                            }
+                        case &#x27;right&#x27;:
+                            {
+                                _text.attr( { x: _item.end.x + 5, y: _item.end.y, &#x27;text-anchor&#x27;: &#x27;start&#x27; } );
+                                _rightLabel = _text;
+                                break;
+                            }
+                        case &#x27;bottom&#x27;:
+                            {
+                                _text.attr( { x: _item.end.x, y: _item.end.y + 5 } );
+                                _bottomLabel = _text;
+                                break;
+                            }
+                        case &#x27;left&#x27;:
+                            {
+                                _text.attr( { x: _item.end.x - 5, y: _item.end.y, &#x27;text-anchor&#x27;: &#x27;end&#x27; } );
+                                _leftLabel = _text;
+                                break;
+                            }
+
+                        case &#x27;left_top&#x27;:
+                            {
+                                _text.attr( { x: _item.end.x - 5, y: _item.end.y, &#x27;text-anchor&#x27;: &#x27;end&#x27; } );
+                                _m.leftTopLabel().push( _text );
+                                break;
+                            }
+                        case &#x27;right_top&#x27;:
+                            {
+                                _text.attr( { x: _item.end.x + 5, y: _item.end.y, &#x27;text-anchor&#x27;: &#x27;start&#x27; } );
+                                _m.rightTopLabel().push( _text );
+                                break;
+                            }
+                        case &#x27;left_bottom&#x27;:
+                            {
+                                _text.attr( { x: _item.end.x - 5, y: _item.end.y, &#x27;text-anchor&#x27;: &#x27;end&#x27; } );
+                                _m.leftBottomLabel().push( _text );
+                                break;
+                            }
+                        case &#x27;right_bottom&#x27;:
+                            {
+                                _text.attr( { x: _item.end.x + 5, y: _item.end.y, &#x27;text-anchor&#x27;: &#x27;start&#x27; } );
+                                _m.rightBottomLabel().push( _text );
+                                break;
+                            }
+                    }
+
+                    var _bbox = _text.getBBox();
+                        _bbox.width &gt; _maxWidth &amp;&amp; ( _maxWidth = _bbox.width );
+                        _bbox.height &gt; _maxHeight &amp;&amp; ( _maxHeight = _bbox.height );
+
+                    _m.pathList().push( _path );
+                    _m.textList().push( _text );
+                });
+
+                _m.maxWidth( _maxWidth );
+                _m.maxHeight( _maxHeight );
+
+                if( _topLabel ){
+                    _m.leftTopLabel().push( _topLabel );
+                }
+                
+                if( _rightLabel ){
+                    _m.rightTopLabel().push( _rightLabel );
+                }
+                
+                if( _bottomLabel ){
+                    _m.rightBottomLabel().push( _bottomLabel );
+                }
+                
+                if( _leftLabel ){
+                    _m.leftBottomLabel().push( _leftLabel );
+                }
+
+                //JC.log( _m.maxWidth(), _m.maxHeight() );
+            }
+
+        , collideDraw:
+            function(){
+                //JC.log( &#x27;collideDraw&#x27;, JC.f.ts() );
+                var _p = this, _pm = _p._model.pieModel(), _m = _p._model
+                    , _offsetX = 0, _offsetY = 0
+                    , _ix
+                    , _pl = _m.pathList()
+                    , _tl = _m.textList()
+                    ;
+                $.each( _pl, function( _k, _path ){ _path.remove() });
+                _pl = [];
+
+                _p.fixRightTopLabel( _m.rightTopLabel() );
+
+                 _m.rightBottomLabel().reverse() 
+                _p.fixRightBottomLabel( _m.rightBottomLabel() );
+
+                 _m.leftTopLabel().reverse();
+                 _p.fixLeftTopLabel( _m.leftTopLabel() );
+
+                 _p.fixLeftBottomLabel( _m.leftBottomLabel() );
+            }
+
+        , fixRightTopLabel:
+            function( _labels ){
+                if( !_labels.length ) return;
+                var _p = this, _pm = _p._model.pieModel(), _m = _p._model;
+                var _c = _pm.coordinate()
+                    , _x = _c.cx + 5
+                    , _y = _c.chartY + 5
+                    , _maxWidth = _m.maxWidth(), _maxHeight = _m.maxHeight()
+                    , _endX = _c.chartX + _c.chartWidth - 5 - _maxWidth
+                    , _endY = _c.cy - _maxHeight - 5
+                    ;	
+
+
+                if( _labels.length &lt; 5 ){
+                    _x = _c.chartX + _c.chartWidth - ( _c.cx - _c.chartX ) / 5;
+                }
+
+                _p.positionItems( _labels, _x, _y, _endX, _endY, function( _item ){				
+                    /*
+                    var _line = _item.data.line as JSprite
+                    , _controlX = -8
+                    , _controlY = -8
+                    , _anchorX = _item.x - 2
+                    , _anchorY = _item.y + _item.height / 2
+                    ;			
+
+                    if( _item.data.data.start.x &gt; _anchorX &amp;&amp; _item.data.data.start.y &gt; _anchorY ){
+                        _controlX = 8;
+                        _controlY = 0;
+                        _anchorX = _item.x + _item.width / 2;
+                        _anchorY = _item.y + _item.height + 2;
+                    }
+
+                    if( _line ){
+
+                        _line.graphics.clear();
+                        _line.graphics.lineStyle( 1, _item.data.color );
+                        _line.graphics.moveTo( _item.data.data.start.x, _item.data.data.start.y );
+                        _line.graphics.lineTo( _item.data.data.ex.x, _item.data.data.ex.y );
+
+                        _line.graphics.curveTo( 
+                                _anchorX + _controlX, _anchorY + _controlY
+                                , _anchorX, _anchorY
+                                );
+                    }
+                    */
+                });
+
+            }
+
+        , fixRightBottomLabel:
+            function( _labels ){
+            }
+
+        , fixLeftTopLabel:
+            function( _labels ){
+            }
+
+        , fixLeftBottomLabel:
+            function( _labels ){
+            }
+
+		, positionItems:
+            function( _labels, _x, _y, _endX, _endY, _cb )
+            {
+                JC.log( &#x27;positionItems&#x27;, _x, _endX );
+                var _xWidth = Math.abs( _x - _endX )
+                    , _xIsMax = _x &gt; _endX
+                    
+                    ,  _yHeight = Math.abs( _y - _endY )
+                    , _yIsMax = _y &gt; _endY
+                    
+                    , _maxLen = _labels.length - 1
+                    , _yStep = Math.abs( _y - _endY ) / _maxLen
+                    ;
+                if( _labels.length ){
+                    var _tmpX, _tmpY = _y, _tmpWidth = _xWidth;
+                    $.each( _labels, function( _k, _item ){
+                        var _percent = .65
+                        , _maxX = Math.max( _x, _endX )
+                        , _minX = Math.min( _x, _endX )
+                        ;
+                        if( _xIsMax ){
+                            if( _k == 0 ){
+                                _percent = .99;
+                            }else if( _k == _maxLen ){
+                            }else{				
+                            }
+                        }else{
+                            if( _k == 0 ){
+                                _percent = .99;
+                            }else if( _k == _maxLen ){
+                            }else{				
+                            }
+                        }
+                        _tmpWidth *= _percent;
+                        if( _xIsMax ){
+                            _tmpX = _maxX - ( _xWidth - _tmpWidth );
+                        }else{						
+                            _tmpX = _minX + ( _xWidth - _tmpWidth );
+                        }
+                        _item.attr( { &#x27;x&#x27;: _tmpX, &#x27;y&#x27;: _tmpY } );
+                        
+                        if( _yIsMax ){
+                            _tmpY -= _yStep;
+                        }else{
+                            _tmpY += _yStep;
+                        }
+                        
+                        _cb &amp;&amp; _cb( _item );				
+                    });
+                }else{
+                    
+                }
+            }
+
+    });
+
+    return JC.PieLabel;
+});}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
+        function ( _name, _require, _cb ) { 
+            typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );
+            typeof _require == &#x27;function&#x27; &amp;&amp; ( _cb = _require ); 
+            _cb &amp;&amp; _cb(); 
+        }
+        , window
+    )
+);
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

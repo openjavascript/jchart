@@ -75,6 +75,8 @@
             
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
             
+                <li><a href="../classes/JChart.Test.html">JChart.Test</a></li>
+            
                 <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
@@ -234,6 +236,7 @@
 
                 var _x = _p._model.offsetX();
 
+                if( !_p._model.data() ) return;
                 $.each( _p._model.data(), function( _k, _item ){
                     if( !_item.name ) return;
                     var _color = _p._model.colors()[ _k % ( _p._model.colors().length - 1 ) ];
@@ -309,7 +312,7 @@
         }
         , window
     )
-)
+);
 
     </pre>
 </div>

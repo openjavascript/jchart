@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>../modules/JChart.Test/0.1/Test.js - JChart</title>
+    <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/widget.css">
+    <link rel="stylesheet" href="../assets/css/tabview.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="../assets/js/yui-min.js"></script>
+    <script src="../assets/js/comps1.js"></script>
+    <script src="../assets/js/comps2.js"></script>
+    <script src="../assets/js/comps3.js"></script>
+    <script src="../assets/js/comps4.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../jc_logo.png" title="JChart"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.2</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/JC.BaseMVC.html">JC.BaseMVC</a></li>
+            
+                <li><a href="../classes/JC.BaseMVC.Model.html">JC.BaseMVC.Model</a></li>
+            
+                <li><a href="../classes/JC.common.html">JC.common</a></li>
+            
+                <li><a href="../classes/JC.f.html">JC.f</a></li>
+            
+                <li><a href="../classes/JC.PureMVC.html">JC.PureMVC</a></li>
+            
+                <li><a href="../classes/JC.PureMVC.Model.html">JC.PureMVC.Model</a></li>
+            
+                <li><a href="../classes/JChart.Base.html">JChart.Base</a></li>
+            
+                <li><a href="../classes/JChart.common.html">JChart.common</a></li>
+            
+                <li><a href="../classes/JChart.CurveGram.html">JChart.CurveGram</a></li>
+            
+                <li><a href="../classes/JChart.DefaultOptions.html">JChart.DefaultOptions</a></li>
+            
+                <li><a href="../classes/JChart.f.html">JChart.f</a></li>
+            
+                <li><a href="../classes/JChart.Histogram.html">JChart.Histogram</a></li>
+            
+                <li><a href="../classes/JChart.HistogramLateral.html">JChart.HistogramLateral</a></li>
+            
+                <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
+            
+                <li><a href="../classes/JChart.Test.html">JChart.Test</a></li>
+            
+                <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
+            
+                <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
+            
+                <li><a href="../classes/window.Raphael.html">window.Raphael</a></li>
+            
+                <li><a href="../classes/window.requirejs.html">window.requirejs</a></li>
+            
+                <li><a href="../classes/window.swfobject.html">window.swfobject</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: ../modules/JChart.Test/0.1/Test.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+ ;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.BaseMVC&#x27; ], function(){
+/**
+ * 切换 Flash 图表与 SVG 图表
+ *
+ *  &lt;p&gt;&lt;b&gt;require&lt;/b&gt;:
+ *      &lt;a href=&#x27;JC.BaseMVC.html&#x27;&gt;JC.BaseMVC&lt;/a&gt;
+ *  &lt;/p&gt;
+ *
+ *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
+ *      | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JC.Test.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+ *      | &lt;a href=&#x27;../../modules/JChart.Test/0.1/_demo&#x27; target=&#x27;_blank&#x27;&gt;demo link&lt;/a&gt;&lt;/p&gt;
+ *  
+ *  &lt;h2&gt;页面只要引用本脚本, 默认会处理 div class=&quot;js_compTest&quot;&lt;/h2&gt;
+ *
+ *  &lt;h2&gt;可用的 HTML attribute&lt;/h2&gt;
+ *
+ *  &lt;dl&gt;
+ *      &lt;dt&gt;&lt;/dt&gt;
+ *      &lt;dd&gt;&lt;dd&gt;
+ *  &lt;/dl&gt; 
+ *
+ * @namespace   JChart
+ * @class       Test
+ * @extends     JC.BaseMVC
+ * @constructor
+ * @param   {selector|string}   _selector   
+ * @version dev 0.1 2013-12-13
+ * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
+ * @example
+        &lt;h2&gt;JC.Test 示例&lt;/h2&gt;
+ */
+    var _jdoc = $( document ), _jwin = $( window );
+
+    JC.Test = Test;
+
+    function Test( _selector ){
+        _selector &amp;&amp; ( _selector = $( _selector ) );
+
+        if( JC.BaseMVC.getInstance( _selector, Test ) ) 
+            return JC.BaseMVC.getInstance( _selector, Test );
+
+        JC.BaseMVC.getInstance( _selector, Test, this );
+
+        this._model = new Test.Model( _selector );
+        this._view = new Test.View( this._model );
+
+        this._init();
+
+        //JC.log( Test.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
+    }
+    /**
+     * 初始化可识别的 Test 实例
+     * @method  init
+     * @param   {selector}      _selector
+     * @static
+     * @return  {Array of TestInstance}
+     */
+    Test.init =
+        function( _selector ){
+            var _r = [];
+            _selector = $( _selector || document );
+
+            if( _selector.length ){
+                if( _selector.hasClass( &#x27;js_jchartTest&#x27; )  ){
+                    _r.push( new Test( _selector ) );
+                }else{
+                    _selector.find( &#x27;div.js_jchartTest&#x27; ).each( function(){
+                        _r.push( new Test( this ) );
+                    });
+                }
+            }
+            return _r;
+        };
+
+    JC.BaseMVC.build( Test );
+
+    JC.f.extendObject( Test.prototype, {
+        _beforeInit:
+            function(){
+                //JC.log( &#x27;Test _beforeInit&#x27;, new Date().getTime() );
+            }
+
+        , _initHanlderEvent:
+            function(){
+                var _p = this;
+
+                _p.on( &#x27;inited&#x27;, function(){
+                    var _selected = JC.f.getUrlParam( &#x27;jchart_display&#x27; );
+                    if( _selected === &#x27;1&#x27; ){
+                        $( &#x27;button.js_jchartTestFlash&#x27; ).css( { &#x27;font-weight&#x27;: &#x27;bold&#x27; } );
+                    }else if( _selected === &#x27;2&#x27; ){
+                        $( &#x27;button.js_jchartTestSvg&#x27; ).css( { &#x27;font-weight&#x27;: &#x27;bold&#x27; } );
+                    }else{
+                        $( &#x27;button.js_jchartTestAuto&#x27; ).css( { &#x27;font-weight&#x27;: &#x27;bold&#x27; } );
+                    }
+                });
+
+                _p.selector().delegate( &#x27;.js_jchartTestFlash&#x27;, &#x27;click&#x27;, function(){
+                    JC.f.reloadPage( JC.f.addUrlParams( { &#x27;jchart_display&#x27;: 1 } ) );
+                });
+
+                _p.selector().delegate( &#x27;.js_jchartTestSvg&#x27;, &#x27;click&#x27;, function(){
+                    JC.f.reloadPage( JC.f.addUrlParams( { &#x27;jchart_display&#x27;: 2 } ) );
+                });
+
+                _p.selector().delegate( &#x27;.js_jchartTestAuto&#x27;, &#x27;click&#x27;, function(){
+                    JC.f.reloadPage( JC.f.delUrlParam( &#x27;jchart_display&#x27; ) );
+                });
+            }
+
+        , _inited:
+            function(){
+                //JC.log( &#x27;Test _inited&#x27;, new Date().getTime() );
+                this.trigger( &#x27;inited&#x27; );
+            }
+    });
+
+    Test.Model._instanceName = &#x27;JCTest&#x27;;
+    JC.f.extendObject( Test.Model.prototype, {
+        init:
+            function(){
+                //JC.log( &#x27;Test.Model.init:&#x27;, new Date().getTime() );
+            }
+    });
+
+    JC.f.extendObject( Test.View.prototype, {
+        init:
+            function(){
+                //JC.log( &#x27;Test.View.init:&#x27;, new Date().getTime() );
+
+                var _p = this;
+
+                    _p.selector().css( {
+                        &#x27;position&#x27;: &#x27;fixed&#x27;
+                        , &#x27;right&#x27;: &#x27;20px&#x27;
+                        , &#x27;top&#x27;: &#x27;20px&#x27;
+                        , &#x27;z-index&#x27;: 6000
+                    });
+
+                    _p.selector().html(
+                        JC.f.printf( 
+                            &#x27;{0}&amp;nbsp;{1}&amp;nbsp;{2}&#x27;
+                            , &#x27;&lt;button type=&quot;button&quot; class=&quot;js_jchartTestAuto&quot;&gt;auto detect&lt;/button&gt;&#x27;
+                            , &#x27;&lt;button type=&quot;button&quot; class=&quot;js_jchartTestFlash&quot;&gt;flash chart&lt;/button&gt;&#x27;
+                            , &#x27;&lt;button type=&quot;button&quot; class=&quot;js_jchartTestSvg&quot;&gt;svg chart&lt;/button&gt;&#x27;
+                        )
+                    );
+            }
+    });
+
+    _jdoc.ready( function(){
+        Test.autoInit &amp;&amp; Test.init();
+    });
+
+    return JC.Test;
+});}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
+        function ( _name, _require, _cb ) { 
+            typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );
+            typeof _require == &#x27;function&#x27; &amp;&amp; ( _cb = _require ); 
+            _cb &amp;&amp; _cb(); 
+        }
+        , window
+    )
+);
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

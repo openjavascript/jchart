@@ -104,6 +104,7 @@
 
                 var _x = _p._model.offsetX();
 
+                if( !_p._model.data() ) return;
                 $.each( _p._model.data(), function( _k, _item ){
                     if( !_item.name ) return;
                     var _color = _p._model.colors()[ _k % ( _p._model.colors().length - 1 ) ];
@@ -179,4 +180,4 @@
         }
         , window
     )
-)
+);

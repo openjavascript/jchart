@@ -1,4 +1,11 @@
-;(function(define, _win) { 'use strict'; define( [ 'JChart.Base', 'JChart.Group', 'JChart.IconVLine', 'JChart.IconCircle', 'JChart.GraphicPiePart' ], function(){
+;(function(define, _win) { 'use strict'; define( [ 
+            'JChart.Base'
+            , 'JChart.Group'
+            , 'JChart.IconVLine'
+            , 'JChart.IconCircle'
+            , 'JChart.GraphicPiePart'
+            , 'JChart.PieLabel'
+            ], function(){
 /**
  * 柱状图
  *
@@ -260,13 +267,20 @@
                 return _p._piePart;
             }
 
-        , pieLine:
+        , pieLabel:
             function( _lines ){
                 var _p = this;
 
-                if( _lines && typeof this._pieLine == 'undefined' ){
-                    _p._pieLine = [];
-                    _p._pieLineText = [];
+                //return;
+
+                if( _lines && typeof _p._pieLabel == 'undefined' ){
+
+                    _p._pieLabel = new JChart.PieLabel( _p.stage(), _lines, _p );
+                    _p._pieLabel.draw();
+                    return _p._pieLabel;
+
+                    _p._pieLabel = [];
+                    _p._pieLabelText = [];
                     var _tmp, _path, _style, _text;
                     $.each( _lines, function( _k, _item ){
                         var _ix = _p.displayLegendMap[ _k ];
@@ -275,7 +289,7 @@
                             .attr( { 'stroke': _style.fill } )
                             .translate( .5, .5 )
                             ;
-                        _p._pieLine.push( _tmp );
+                        _p._pieLabel.push( _tmp );
                         _text = _p.stage().text( 0, 0, _item.data.name )
                             .attr( { 'fill': '#999' } )
                             ;
@@ -324,10 +338,8 @@
                     });
                 }
 
-                return _p._pieLine;
+                return _p._pieLabel;
             }
-
-        , pieLineText: function(){ return this._pieLineText; }
 
         , coordinate:
             function( _data ){
@@ -410,22 +422,29 @@
                             , y: _maxY - _bbox.height - 2
                             , ele: _legend
                         }
-                        _maxY = _c.legend.y;
+                        
+                        _data
+                            && _data.series
+                            && _data.series.length
+                            && _data.series[0].data
+                            && _data.series[0].data.length
+                            && ( _maxY = _c.legend.y )
+                            ;
                     }
                 }
 
-                _maxY -= _p.varrowSize();
+                _maxY -= ( _p.varrowSize() || 0 );
                 _x += _p.harrowSize();
 
                 var _vx = _x, _hy = _y;
 
-                _c.wsHeight = _maxY - _y;
-                _c.wsY = _y;
-                _c.wsMaxY = _maxY;
+                _c.chartHeight = _c.wsHeight = _maxY - _y;
+                _c.chartY = _c.wsY = _y;
+                _c.chartMaxY = _c.wsMaxY = _maxY;
 
-                _c.wsWidth = _maxX - _x;
-                _c.wsX = _x;
-                _c.wsMaxX = _maxX;
+                _c.chartWidth = _c.wsWidth = _maxX - _x;
+                _c.chartX = _c.wsX = _x;
+                _c.chartMaxX = _c.wsMaxX = _maxX;
 
                 _c.cx = _c.wsX + _c.wsWidth / 2;
                 _c.cy = _c.wsY + _c.wsHeight / 2;
@@ -459,7 +478,7 @@
                         ;
 
                     _c.piePart = [];
-                    _p.dataLabelEnabled() && ( _c.pieLine = [] );
+                    _p.dataLabelEnabled() && ( _c.pieLabel = [] );
 
                     //JC.log( '_p.dataLabelEnabled:', _p.dataLabelEnabled() );
                     /*
@@ -487,21 +506,24 @@
 
                         _pieP.startPoint = JChart.Geometry.distanceAngleToPoint( _pieP.radius, _pieP.startAngle );
                         _pieP.endPoint = JChart.Geometry.distanceAngleToPoint( _pieP.radius, _pieP.endAngle );
+                        _pieP.exPoint = JChart.Geometry.distanceAngleToPoint( _pieP.radius + 10, _pieP.endAngle );
 
                         _pieP.startPoint.x += _pieP.cx;
                         _pieP.startPoint.y += _pieP.cy;
                         _pieP.endPoint.x += _pieP.cx;
                         _pieP.endPoint.y += _pieP.cy;
 
+                        _pieL.cx = _c.cx;
+                        _pieL.cy = _c.cy;
+
                         _pieL.start = JChart.Geometry.distanceAngleToPoint( _pieP.radius - _p.lineStart(), _pieP.midAngle );
                         _pieL.end = JChart.Geometry.distanceAngleToPoint( _pieP.radius + _p.lineLength(), _pieP.midAngle );
 
-                        _pieL.cx = _c.cx;
-                        _pieL.cy = _c.cy;
                         _pieL.start.x += _pieL.cx;
                         _pieL.start.y += _pieL.cy;
                         _pieL.end.x += _pieL.cx;
                         _pieL.end.y += _pieL.cy;
+                        _pieL.ex = { x: _pieP.exPoint.x + _pieL.cx, y: _pieP.exPoint.y + _pieL.cy };
 
                         //JC.log( _k, _pieP.midAngle );
 
@@ -552,7 +574,7 @@
                         _pieL.path = _tmpPath;
 
                         _c.piePart.push( _pieP );
-                        _p.dataLabelEnabled() && _c.pieLine.push( _pieL );
+                        _p.dataLabelEnabled() && _c.pieLabel.push( _pieL );
                     });
                 }
 
@@ -751,8 +773,8 @@
                     //_p._model.legend().setPosition( _c.legend.x, _c.legend.y );
                     JChart.moveSet( _p._model.legend().set(), _c.legend.x, _c.legend.y );
                 }
-                if( _c.pieLine ){
-                    _p._model.pieLine( _c.pieLine );
+                if( _c.pieLabel ){
+                    _p._model.pieLabel( _c.pieLabel );
                 }
                 if( _c.piePart ){
                     _p._model.piePart( _c.piePart );

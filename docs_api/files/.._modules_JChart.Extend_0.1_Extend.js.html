@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../modules/JChart.Event/0.1/Event.js - JChart</title>
+    <title>../modules/JChart.Extend/0.1/Extend.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -75,6 +75,8 @@
             
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
             
+                <li><a href="../classes/JChart.Test.html">JChart.Test</a></li>
+            
                 <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
@@ -124,7 +126,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.Event/0.1/Event.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.Extend/0.1/Extend.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -137,7 +139,7 @@
      *      , &lt;a href=&#x27;JChart.common&#x27;&gt;JChart.common.html&lt;/a&gt;
      * &lt;/p&gt;
      * &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
-     * | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.Event.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
+     * | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.Extend.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
      * @version dev 0.1 2014-07-21
      * @author  qiushaowei   &lt;suches@btbtd.org&gt; | 75 Team
      */
@@ -213,6 +215,17 @@
                 //}, _p, &#x27;asdfaweasdfawsef_leave&#x27;, 200 );
             }
         };
+
+    Raphael.el.hitTestObject =
+        function( _el ){
+            var _r = false, _p = this, _r1, _r2;
+            if( _el ){
+                _r1 = _p.getBBox();
+                _r2 = _el.getBBox();
+                _r = JChart.Geometry.intersectRect( _r1, _r2 );
+            }
+            return _r;
+        }
 
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
         function ( _name, _require, _cb ) { 

@@ -75,6 +75,8 @@
             
                 <li><a href="../classes/JChart.PieGraph.html">JChart.PieGraph</a></li>
             
+                <li><a href="../classes/JChart.Test.html">JChart.Test</a></li>
+            
                 <li><a href="../classes/JChart.TubularFigure.html">JChart.TubularFigure</a></li>
             
                 <li><a href="../classes/window.jQuery.html">window.jQuery</a></li>
@@ -198,6 +200,22 @@
          * @static
          */
         , degree: function( _radians ){ return _radians / Math.PI * 180; }
+        /**
+         * 判断两个矩形是否有交集
+         * @method intersectRect
+         * @param   {rect_Object}   r1
+         * @param   {rect_Object}   r2
+         * @return  {Boolean}
+         */
+        , intersectRect: 
+            function( r1, r2 ) {
+                return !(
+                            r2.x &gt; ( r1.x + r1.width ) || 
+                            ( r2.x + r2.width ) &lt; r1.x || 
+                            r2.y &gt; ( r1.y + r1.height ) ||
+                            ( r2.y + r2.height ) &lt; r1.y
+                        );
+            }
     };
 
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 

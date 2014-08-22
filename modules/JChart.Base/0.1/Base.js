@@ -3,7 +3,7 @@
     , 'Raphael'
     , 'JChart.common'
     , 'JChart.DefaultOptions' 
-    , 'JChart.Event', 'JChart.Group'
+    , 'JChart.Extend', 'JChart.Group'
     , 'JChart.Legend'
     , 'JChart.Tips'
     , 'swfobject'
@@ -22,6 +22,7 @@ window.JChart = window.JChart || {};
  *
  *<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>
  *   | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Base.html' target='_blank'>API docs</a>
+ *   | <a href='../../modules/JChart.Base/0.1/_demo' target='_blank'>demo link</a></p>
  *  
  *<h2>页面只要引用本脚本, 默认会处理 div class="js_compBase"</h2>
  *
@@ -1174,7 +1175,7 @@ window.JChart = window.JChart || {};
                     _element.appendTo( _p.selector() );
                 }
                 //JC.log( 'drawFlash', _fpath, _p._model.gid(), _p._model.width(), _p._model.height(), _element[0] );
-                JC.log( _dataStr );
+                //JC.log( _dataStr );
                 swfobject.embedSWF( 
                     _fpath
                     , _p._model.gid()

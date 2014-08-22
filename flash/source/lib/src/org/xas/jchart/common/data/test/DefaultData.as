@@ -47,9 +47,22 @@ package org.xas.jchart.common.data.test
 						, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
 						, 20, 21, 22, 23, 0
 					]
-				}],
-				displayAllLabel: true,
-				legend: {
+				}]
+				, tooltip: {		
+					"headerFormat": "{0}"			
+					, "pointFormat": "{0} %"
+					//, enabled: false
+					, serial: [
+						{
+							name: '区分度 ', 'value': 1.04
+						}
+						, {
+							name: '其他 ', 'value': 1.05
+						}
+					]
+				}
+				, displayAllLabel: true
+				, legend: {
 					enabled: false
 				}
 				, vline: {
@@ -57,11 +70,6 @@ package org.xas.jchart.common.data.test
 				}
 				, hline: {
 					enabled: true
-				}
-				, tooltip: {		
-					"headerFormat": "{0}"			
-					, "pointFormat": "{0}%"
-					//, enabled: false
 				}
 				, rateLabel: {
 					maxvalue: 100
@@ -82,20 +90,25 @@ package org.xas.jchart.common.data.test
 				
 				xAxis: {
 					categories: [ '网页游戏', '游戏平台', '桌面游戏', '手机游戏', '个体经营', '小游戏', '网页游戏', '游戏平台', '桌面游戏', '手机游戏' ]
-				}, 
-				series:[{
+				}
+				, series:[{
 					name: '全体覆盖率'
 					, data: [26, 36, 46, 56, 77, 76, 86, 72, 62, 52]
 				}, {
 					name: '样式覆盖率',
 					data: [81, 71, 61, 51, 41, 31, 21, 11, 29, 39]
-				}],
+				}]
+				, tooltip: {		
+					"headerFormat": "{0}"			
+					, "pointFormat": "{0}%"
+					//, enabled: false
+				}
 				//isPercent: true,
-				rateLabel: {
+				, rateLabel: {
 					enabled: false
-				},
-				displayAllLabel: true,
-				legend: {
+				}
+				, displayAllLabel: true
+				, legend: {
 					enabled: false
 				}
 				, dataLabels: {
@@ -107,11 +120,6 @@ package org.xas.jchart.common.data.test
 				}
 				, hline: {
 					enabled: false
-				}
-				, tooltip: {		
-					"headerFormat": "{0}"			
-					, "pointFormat": "{0}%"
-					//, enabled: false
 				}
 				, colors: [
 					0x00ABEF

@@ -60,6 +60,21 @@ package org.xas.jchart.common
 		protected var _displaySeriesIndexMap:Object;
 		public function get displaySeriesIndexMap():Object{ return _displaySeriesIndexMap; }
 		
+		public function get tooltipSerial():Array{
+			var _r:Array = [];
+			
+			Log.log( 'tooltipSerial xxx ' );
+			
+			this.cd
+				&& this.cd.tooltip
+				&& this.cd.tooltip.serial
+				&& this.cd.tooltip.serial.length
+				&& ( _r = this.cd.tooltip.serial )
+				;
+			
+			return _r;
+		}
+		
 		protected var _filterData:Object;
 		public function get filterData():Object{
 			return _filterData;	

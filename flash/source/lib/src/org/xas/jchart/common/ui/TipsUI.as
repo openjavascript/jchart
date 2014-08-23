@@ -110,9 +110,9 @@ package org.xas.jchart.common.ui
 			
 			_exEleData = [];
 			Common.each( _extendData, function( _k:int, _item:Object ):void{
-				Log.log( 'tooltip serial ' );
+				//Log.log( 'tooltip serial ' );
 				if( !_item ) return;		
-				Log.log( 'tooltip serial 1' );			
+				//Log.log( 'tooltip serial 1' );			
 				var _styles:Object = { color: 0x999999 };
 				
 				_layout.addChild( _nameTxf = new TextField() );

@@ -45,7 +45,7 @@ package org.xas.jchart.histogram.view.components
 			if( !( BaseConfig.ins.c && BaseConfig.ins.c.rects ) ) return;
 			_boxs = new Vector.<Sprite>();
 			
-			Log.log( BaseConfig.ins.maxValue );
+			//Log.log( BaseConfig.ins.maxValue );
 			Common.each( BaseConfig.ins.c.rects, function( _k:int, _item:Object ):void{
 				
 				var _box:Sprite = new Sprite();
@@ -53,7 +53,7 @@ package org.xas.jchart.histogram.view.components
 							
 					var _color:uint = BaseConfig.ins.itemColor( _sk );
 					if( _sitem.value == BaseConfig.ins.maxValue ){
-						Log.log( BaseConfig.ins.maxValue, _sitem.value );
+						//Log.log( BaseConfig.ins.maxValue, _sitem.value );
 						if( 'style' in BaseConfig.ins.maxItemParams && 'color' in BaseConfig.ins.maxItemParams.style ){
 							_color = BaseConfig.ins.maxItemParams.style.color;
 						}

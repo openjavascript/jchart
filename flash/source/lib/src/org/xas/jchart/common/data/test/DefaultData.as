@@ -22,6 +22,64 @@ package org.xas.jchart.common.data.test
 		private function init():void{
 			_data = new Vector.<Object>();
 			
+			
+			_data.push({
+				xAxis: {
+					categories: [ 
+						'兴趣点1', '兴趣点2', '兴趣点3', '兴趣点4', '兴趣点5'
+					]
+					, wordwrap: true
+				}, 
+				yAxis: {
+					format: '{0}%'
+				},
+				series:[{
+					name: '时段分布'
+					, data: [
+						80.12, 70.12, 50.12, 30.12, 10.12
+					]
+				}],
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, vline: {
+					enabled: true
+				}
+				, hline: {
+					enabled: true
+				}
+				, tooltip: {		
+					enabled: false
+				}
+				, rateLabel: {
+					maxvalue: 100
+					, enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 18 }
+				}
+				, dataLabels: {
+					enabled: true,
+					format: '{0}%'
+				}                
+				, chart: {
+					bgColor: 0xffffff
+					, bgAlpha: 1
+				}
+				, hoverBg: {
+					enabled: true												
+				}
+				
+			});
+			
 			_data.push({
 				
 				xAxis: {
@@ -79,12 +137,12 @@ package org.xas.jchart.common.data.test
 					, bgAlpha: 1
 				}
 				, hoverBg: {
-					style: {
+					enabled: true		
+					, style: {
 						borderColor: 0xB4B4B4
 						, borderWidth: 2
 						, bgColor: 0xF0F0F0
-					}
-					, enabled: true												
+					}										
 				}
 			});
 			
@@ -207,60 +265,6 @@ package org.xas.jchart.common.data.test
 					bgColor: 0xffffff
 					, bgAlpha: 1
 				}
-			});
-			
-			_data.push({
-				xAxis: {
-					categories: [ 
-						'兴趣点1', '兴趣点2', '兴趣点3', '兴趣点4', '兴趣点5'
-					]
-					, wordwrap: true
-				}, 
-				yAxis: {
-					format: '{0}%'
-				},
-				series:[{
-					name: '时段分布'
-					, data: [
-						80.12, 70.12, 50.12, 30.12, 10.12
-					]
-				}],
-				displayAllLabel: true,
-				legend: {
-					enabled: false
-				}
-				, vline: {
-					enabled: true
-				}
-				, hline: {
-					enabled: true
-				}
-				, tooltip: {		
-					enabled: false
-				}
-				, rateLabel: {
-					maxvalue: 100
-					, enabled: false
-				}
-				, colors: [
-					0x00ABEF
-					, 0x9DADB3
-					, 0x09c100
-					, 0x0c76c4 				
-					, 0xff0619
-				]
-				, maxItem: {
-					style: { color: 0x5DC979, size: 18 }
-				}
-				, dataLabels: {
-					enabled: true,
-					format: '{0}%'
-				}                
-				, chart: {
-					bgColor: 0xffffff
-					, bgAlpha: 1
-				}
-
 			});
 
 			

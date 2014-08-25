@@ -24,6 +24,78 @@ package org.xas.jchart.common.data.test
 			
 			
 			_data.push({
+				
+				xAxis: {
+					categories: [ '网页游戏', '游戏平台', '桌面游戏', '手机游戏', '个体经营', '小游戏', '网页游戏', '游戏平台', '桌面游戏', '手机游戏' ]
+				}
+				, series:[{
+					name: '全体覆盖率'
+					, data: [26, 36, 46, 56, 77, 76, 86, 72, 62, 52]
+				}, {
+					name: '样式覆盖率',
+					data: [81, 71, 61, 51, 41, 31, 21, 11, 29, 39]
+				}]
+				, tooltip: {		
+					"headerFormat": "{0}"			
+					, "pointFormat": "{0} %"
+					//, enabled: false
+					, serial: [
+						{
+							name: '区分度 ', 'value': 1.04
+						}
+					]
+				}
+				//isPercent: true,
+				, rateLabel: {
+					enabled: false
+				}
+				, displayAllLabel: true
+				, legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true
+					, format: '{0}%'
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]       
+				, chart: {
+					bgColor: 0xffffff
+					, bgAlpha: 1
+				}
+				, hoverBg: {
+					enabled: true		
+					, style: {
+						borderColor: 0xB4B4B4
+						, borderWidth: 2
+						, bgColor: 0xF0F0F0
+					}										
+				}
+			});
+			
+			
+			_data.push({
 				xAxis: {
 					categories: [ 
 						'兴趣点1', '兴趣点2', '兴趣点3', '兴趣点4', '兴趣点5'
@@ -79,73 +151,6 @@ package org.xas.jchart.common.data.test
 				}
 				
 			});
-			
-			_data.push({
-				
-				xAxis: {
-					categories: [ '网页游戏', '游戏平台', '桌面游戏', '手机游戏', '个体经营', '小游戏', '网页游戏', '游戏平台', '桌面游戏', '手机游戏' ]
-				}
-				, series:[{
-					name: '全体覆盖率'
-					, data: [26, 36, 46, 56, 77, 76, 86, 72, 62, 52]
-				}, {
-					name: '样式覆盖率',
-					data: [81, 71, 61, 51, 41, 31, 21, 11, 29, 39]
-				}]
-				, tooltip: {		
-					"headerFormat": "{0}"			
-					, "pointFormat": "{0}%"
-					//, enabled: false
-				}
-				//isPercent: true,
-				, rateLabel: {
-					enabled: false
-				}
-				, displayAllLabel: true
-				, legend: {
-					enabled: false
-				}
-				, dataLabels: {
-					enabled: true
-					, format: '{0}%'
-				}
-				, vline: {
-					enabled: false
-				}
-				, hline: {
-					enabled: false
-				}
-				, colors: [
-					0x00ABEF
-					, 0x9DADB3
-					, 0x09c100
-					, 0x0c76c4 				
-					, 0xff0619
-					
-					, 0xFFBF00			
-					, 0xff7100	
-					, 0xff06b3
-					
-					, 0x41e2e6			
-					, 0xc3e2a4	
-					, 0xffb2bc
-					
-					, 0xdbb8fd
-				]       
-				, chart: {
-					bgColor: 0xffffff
-					, bgAlpha: 1
-				}
-				, hoverBg: {
-					enabled: true		
-					, style: {
-						borderColor: 0xB4B4B4
-						, borderWidth: 2
-						, bgColor: 0xF0F0F0
-					}										
-				}
-			});
-			
 			
 			_data.push({
 				xAxis: {

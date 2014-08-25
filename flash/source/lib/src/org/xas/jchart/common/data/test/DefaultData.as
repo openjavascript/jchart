@@ -49,7 +49,7 @@ package org.xas.jchart.common.data.test
 				}
 				//isPercent: true,
 				, rateLabel: {
-					enabled: false
+					enabled: true
 					, maxvalue: 100
 				}
 				, displayAllLabel: true

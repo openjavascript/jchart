@@ -669,8 +669,24 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get hoverBgStyle():Object{
+			var _r:Object = {};
+			
+			if( 'style' in this.hoverBgParams  ){
+				_r = StringUtils.parseBool( this.hoverBgParams.style );
+			}
+			
+			return _r;
+		}
+		
 		public function get hoverBgEnabled():Boolean{
-			return this.hoverBgParams.enabled || false;
+			var _r:Boolean = false;
+			
+			if( 'enabled' in this.hoverBgParams  ){
+				_r = StringUtils.parseBool( this.hoverBgParams.enabled );
+			}
+			
+			return _r;
 		}
 		
 		public function reset():void{

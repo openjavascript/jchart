@@ -27,11 +27,11 @@ package org.xas.jchart.common.view.mediator
 			switch( (facade as BaseFacade).name ){
 				case 'HistogramFacade':
 				{
-					mainMediator.view.index7.addChild( _view = new HistogramSerialLabelView() );
+					mainMediator.view.index8.addChild( _view = new HistogramSerialLabelView() );
 					break;
 				}
 				default:{
-					mainMediator.view.index7.addChild( _view = new BaseSerialLabelView() );
+					mainMediator.view.index8.addChild( _view = new BaseSerialLabelView() );
 					break;
 				}
 			}	

@@ -1,26 +1,41 @@
-package org.xas.jchart.histogram.view.mediator
+package org.xas.jchart.common.view.mediator
 {
 	import org.puremvc.as3.multicore.interfaces.IMediator;
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
+	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.BaseFacade;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.histogram.view.components.GraphicView;
-	import org.xas.jchart.common.view.mediator.MainMediator;
+	import org.xas.jchart.common.view.components.BgView.DDountBgView;
+	import org.xas.jchart.common.view.components.HoverBgView.BaseHoverBgView;
+	import org.xas.jchart.common.view.components.HoverBgView.HistogramHoverBgView;
+	import org.xas.jchart.common.view.components.TitleView;
 	
-	public class GraphicMediator extends Mediator implements IMediator
+	public class HoverBgMediator extends Mediator implements IMediator
 	{
-		public static const name:String = 'PChartMediator';
-		private var _view:GraphicView;
-		public function get view():GraphicView{ return _view; }
+		public static const name:String = 'PHoverBgMediator';
+		private var _view:BaseHoverBgView;
+		public function get view():BaseHoverBgView{ return _view; }
 		
-		public function GraphicMediator()
+		public function HoverBgMediator( )
 		{
 			super( name );
 			
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index7.addChild( _view = new GraphicView() );			
+			//Log.log( 'HoverBgMediator register' );				
+			switch( (facade as BaseFacade).name ){
+				case 'HistogramFacade':
+				{
+					mainMediator.view.index6.addChild( _view = new HistogramHoverBgView() );
+					break;
+				}
+				default:{
+					mainMediator.view.index6.addChild( _view = new BaseHoverBgView() );
+					break;
+				}
+			}	
 		}
 		
 		override public function onRemove():void{
@@ -39,10 +54,10 @@ package org.xas.jchart.histogram.view.mediator
 		override public function handleNotification(notification:INotification):void{
 			switch( notification.getName() ){
 				case JChartEvent.SHOW_CHART:
-					{					
-						_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE ) );
-						break;
-					}	
+				{					
+					_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE ) );
+					break;
+				}	
 				case JChartEvent.UPDATE_TIPS:
 				{
 					_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, notification.getBody() ) );

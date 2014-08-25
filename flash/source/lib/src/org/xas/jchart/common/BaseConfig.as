@@ -690,7 +690,7 @@ package org.xas.jchart.common
 		}
 		
 		public function get vlabelSpace():Number{
-			var _r:Number = this.c.vlabelSpace || 0;
+			var _r:Number = this.c.vlabelSpace || 4;
 			return _r;
 		}
 		

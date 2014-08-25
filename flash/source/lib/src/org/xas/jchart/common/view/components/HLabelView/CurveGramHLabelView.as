@@ -4,26 +4,31 @@ package org.xas.jchart.common.view.components.HLabelView
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	
+	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
+	import org.xas.jchart.common.config.CurveGramConfig;
 	import org.xas.jchart.common.data.DefaultOptions;
 	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class CurveGramHLabelView extends BaseHLabelView
 	{
+		private var _config:CurveGramConfig;
+		
 		public function CurveGramHLabelView()
 		{
 			super();
+			_config = BaseConfig.ins as CurveGramConfig;
 		}
 		
 		override protected function addToStage( _evt:Event ):void{
 			_labels = new Vector.<TextField>();
 			var _v:Number, _t:String, _titem:TextField;
 			
-			if( BaseConfig.ins.cd && BaseConfig.ins.cd.xAxis && BaseConfig.ins.cd.xAxis.categories ){
+			if( _config.cd && _config.cd.xAxis && _config.cd.xAxis.categories ){
 				
-				//Log.log( 'ssssssssss', BaseConfig.ins.c.labelWidth );
-				Common.each( BaseConfig.ins.cd.xAxis.categories, function( _k:int, _item:* ):*{
+				//Log.log( 'ssssssssss', _config.c.labelWidth );
+				Common.each( _config.cd.xAxis.categories, function( _k:int, _item:* ):*{
 					_t = _item + '';
 					
 					_titem = new TextField();
@@ -32,31 +37,34 @@ package org.xas.jchart.common.view.components.HLabelView
 					_titem.autoSize = TextFieldAutoSize.LEFT;
 					
 					var _align:String = 'center';
-					if( BaseConfig.ins.cd.xAxis.categories === 1 ){
-						
-					}else if( _k === 0 ){
-						_align = 'left';
-					}else if( _k === BaseConfig.ins.cd.xAxis.categories.length - 1 ){
-						_align = 'right';
+					
+					if( _config.vlineEnabled ){
+						if( _config.cd.xAxis.categories === 1 ){
+							
+						}else if( _k === 0 ){
+							_align = 'left';
+						}else if( _k === _config.cd.xAxis.categories.length - 1 ){
+							_align = 'right';
+						}
 					}
 					
 					Common.implementStyle( _titem, [
 						DefaultOptions.title.style
 						, DefaultOptions.xAxis.labels.style
 						, { 'size': 12, color: 0x838383, 'align': _align }
-						, BaseConfig.ins.labelsStyle
+						, _config.labelsStyle
 					] );
-					//Log.log( 'w:', BaseConfig.ins.c.labelWidth, 'wrap:', BaseConfig.ins.xAxisWordwrap );
+					//Log.log( 'w:', _config.c.labelWidth, 'wrap:', _config.xAxisWordwrap );
 					
-					if( BaseConfig.ins.c.labelWidth && BaseConfig.ins.xAxisWordwrap ){
-						var _twidth:Number = BaseConfig.ins.c.labelWidth;
+					if( _config.c.labelWidth && _config.xAxisWordwrap ){
+						var _twidth:Number = _config.c.labelWidth;
 						if( _twidth < 14 ) _twidth = 14;
 						_titem.width = _twidth * 1.8;
 						_titem.wordWrap = true;
 					}
 					
-					if( !BaseConfig.ins.displayAllLabel ){
-						if( !( _k in BaseConfig.ins.labelDisplayIndex ) ){
+					if( !_config.displayAllLabel ){
+						if( !( _k in _config.labelDisplayIndex ) ){
 							_titem.visible = false;
 						}
 					}
@@ -72,26 +80,64 @@ package org.xas.jchart.common.view.components.HLabelView
 		}
 		
 		override protected function update( _evt:JChartEvent ):void{
-			if( !( BaseConfig.ins.c && BaseConfig.ins.c.hpoint ) ) return;
+			if( !( _config.c && _config.c.hpoint ) ) return;
 			
-			Common.each( BaseConfig.ins.c.hpointReal, function( _k:int, _item:Object ):void{
-				var _tf:TextField = _labels[ _k ];
+			Common.each( _config.c.hpointReal, function( _k:int, _item:Object ):void{
 				
-				var _x:Number = _item.end.x - _tf.width / 2;
+				var _tf:TextField = _labels[ _k ];	
 				
-				if( _k === 0 ){
-					//Log.log( BaseConfig.ins.c.linePadding, 0, _tf.width );
-					_x < BaseConfig.ins.c.chartX && ( _x = BaseConfig.ins.c.chartX - 3 );
-				}else if( _k === BaseConfig.ins.c.hpointReal.length - 1 ){
-					if( _x + _tf.width > BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth ){
-						_x = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - _tf.width + 3;
-						//Log.log( BaseConfig.ins.c.linePadding, 'last', _tf.width );
-					}
+				if( _config.vlineEnabled ){
+					normalPosition( _k, _item );
+				}else{
+					vlineDisabledPosition( _k, _item );
 				}
 				
-				_tf.x = _x;
-				_tf.y = _item.end.y - 2;
+				_tf.y = _item.end.y + _config.c.arrowLength;
 			});
+		}
+		
+		private function normalPosition( _index:int, _item:Object ):void{
+			var _tf:TextField = _labels[ _index ]		
+				, _x:Number = _item.end.x - _tf.width / 2
+				;
+			
+			if( _index === 0 ){
+				//Log.log( _config.c.linePadding, 0, _tf.width );
+				_x < _config.c.chartX && ( _x = _config.c.chartX - 3 );
+			}else if( _index === _config.c.hpointReal.length - 1 ){
+				if( _x + _tf.width > _config.c.chartX + _config.c.chartWidth ){
+					_x = _config.c.chartX + _config.c.chartWidth - _tf.width + 3;
+					//Log.log( _config.c.linePadding, 'last', _tf.width );
+				}
+			}
+			
+			_tf.x = _x;
+		}
+		
+		private function vlineDisabledPosition( _index:int, _item:Object ):void{
+
+			var _tf:TextField = _labels[ _index ]		
+				, _x:Number = _item.end.x - _tf.width / 2
+				, _chartX:Number = _config.c.chartX + _config.c.linePadding / 2
+				, _chartWidth:Number = _config.c.chartWidth - _config.c.linePadding
+				;
+			//Log.log( _config.c.chartX, _chartX, _config.c.linePadding );
+						
+			/*
+			if( _index === 0 ){
+				_tf.wordWrap = false;
+				//Log.log( _config.c.linePadding, 0, _tf.width );
+				_x < _chartX && ( _x = _chartX - 3 );
+			}else if( _index === _config.c.hpointReal.length - 1 ){
+				_tf.wordWrap = false;
+				if( _x + _tf.width > _chartX + _chartWidth ){
+					_x = _chartX + _chartWidth - _tf.width + 3;
+					//Log.log( _config.c.linePadding, 'last', _tf.width );
+				}
+			}
+			*/
+			
+			_tf.x = _x;
 		}
 	}
 }

@@ -12,6 +12,7 @@ package org.xas.jchart.common.view.components
 	public class TestView extends Sprite
 	{
 		private var _data:Vector.<Object>;
+		private var _isLeave:Boolean;
 		
 		public function TestView( _data:Vector.<Object> )
 		{
@@ -23,9 +24,27 @@ package org.xas.jchart.common.view.components
 		
 		private function onAddedToStage( _evt:Event ):void{
 			init();
+			_isLeave = true;
+			this.root.stage.addEventListener( MouseEvent.MOUSE_OVER, onActive );
+			this.root.stage.addEventListener( Event.MOUSE_LEAVE, onLeave );
+		}
+		
+		private function onActive( _evt:Event ):void{
+			if( !_isLeave ) return;
+			_isLeave = false;
+			this.visible = true;
+			//Log.log( 'onActive', new Date().getTime() );
+		}
+		
+		private function onLeave( _evt:Event ):void{
+			//Log.log( 'onLeave', new Date().getTime() );
+			_isLeave = true;
+			this.visible = false;			
 		}
 		
 		private function init():void{
+			this.visible = false;
+			
 			var _x:Number = 10
 				, _y:Number = 20
 				, _yStep:Number = 25

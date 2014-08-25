@@ -33,9 +33,9 @@ package org.xas.jchart.curvegram.controller
 			
 			_c.corner = corner();
 			
-			_c.minX = _c.x;
+			_c.minX = _c.x || 1;
 			_c.minY = _c.y + 5;
-			_c.maxX = _c.x + _c.width - 5;
+			_c.maxX = _c.x + _c.width - 6;
 			_c.maxY = _c.y + _c.height - 5;
 						
 			facade.registerMediator( new BgMediator( ) )		
@@ -225,11 +225,16 @@ package org.xas.jchart.curvegram.controller
 			_config.c.vpoint = [];
 			_config.c.vpointReal = [];
 			
+			var _padX:Number = 0;
+			if( !_config.rateLabelEnabled ){
+				_padX = _config.c.arrowLength - ( _config.c.arrowLength -  _config.c.chartX );
+			}
+			
 			Common.each( _config.rate, function( _k:int, _item:* ):void{
 				var _n:Number = _config.c.minY + _partN * _k, _sideLen:int = _config.c.arrowLength;
 				_config.c.vpoint.push( {
-					start: new Point( _config.c.minX, _n )
-					, end: new Point( _config.c.maxX, _n )
+					start: new Point( _config.c.minX + _padX, _n )
+					, end: new Point( _config.c.maxX + _padX, _n )
 				});
 				
 				_config.c.vpointReal.push( {

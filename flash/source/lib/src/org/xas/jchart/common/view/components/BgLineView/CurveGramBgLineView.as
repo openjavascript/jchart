@@ -65,7 +65,7 @@ package org.xas.jchart.common.view.components.BgLineView
 				, _sp:Point =_item.start as Point
 				, _ep:Point = ( _hpItem.end as Point ).clone();
 				;
-				_ep.y += 1;
+				_ep.y += _config.c.arrowLength;
 				
 				addChild( _tmp = new VLineIcon( _sp, _ep ) );
 				!BaseConfig.ins.vlineEnabled && ( _tmp.visible = false );

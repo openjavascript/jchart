@@ -46,9 +46,9 @@ package org.xas.jchart.common.ui
 			addEventListener( JChartEvent.UPDATE_TIPS, updateTips );	
 		}
 		
-		public function update( _data:Object, _position:Point = null, _colors:Array = null ):TipsUI{
+		public function update( _data:Object, _position:Object = null, _colors:Array = null, _rect:Object = null ):TipsUI{
 			_position && dispatchEvent( 
-				new JChartEvent( JChartEvent.UPDATE_TIPS, { data: _data, point: _position, colors: _colors } ) 
+				new JChartEvent( JChartEvent.UPDATE_TIPS, { data: _data, point: _position, colors: _colors, rect: _rect } ) 
 			);
 			return this;
 		}
@@ -71,11 +71,11 @@ package org.xas.jchart.common.ui
 			ElementUtility.removeAllChild( _layout );
 			
 			_layout.addChild( _nameTxf = new TextField() );
-			Common.implementStyle( _nameTxf, [ DefaultOptions.tooltip.style ] );
+			Common.implementStyle( _nameTxf, [ { bold: true }, DefaultOptions.tooltip.style ] );
 			
 			_nameTxf.text = _data.name || '';
 						
-			var _offsetY:Number = 10
+			var _offsetY:Number = 15
 				, _y:Number = _offsetY + _nameTxf.height
 				;
 			
@@ -219,13 +219,23 @@ package org.xas.jchart.common.ui
 		}
 		
 		private function updateTips( _evt:JChartEvent ):void{
-			var _point:Point = _evt.data.point as Point
+			var _point:Object = _evt.data.point as Object
 				, _data:Object = _evt.data.data as Object
 				, _colors:Array = _evt.data.colors as Array
+				, _rect:Object = _evt.data.rect as Object
 				;
 			if( !_point ) return;
 			
 			updateLayout( _data, _colors );
+			
+			if( _rect ){
+				rectPosition( _point, _rect );
+			}else{
+				normalPosition( _point, _rect );
+			}
+		}
+		
+		private function normalPosition( _point:Object, _rect:Object ):void{
 			
 			var _x:Number = _point.x + 15
 				, _y:Number = _point.y + 18
@@ -235,6 +245,33 @@ package org.xas.jchart.common.ui
 			
 			if( _x2 >= root.stage.x + root.stage.width ){
 				_x = _point.x - this.width;
+			}
+			
+			if( _y2 >= root.stage.y + root.stage.height ){
+				_y = _point.y - this.height;
+			}
+			
+			_x < 0 && ( _x = 0 );
+			_y < 0 && ( _y = 0 );
+			
+			//Log.log( _x2, root.stage.x + root.stage.width );
+			
+			this.x = _x;
+			this.y = _y;
+			//Log.log( 'TipsUI updateTips', _point.x, _point.y );
+			
+		}
+		
+		private function rectPosition( _point:Object, _rect:Object ):void{
+			
+			var _x:Number = _rect.x + _rect.width
+				, _y:Number = _point.y 
+				, _x2:Number = _x + this.width
+				, _y2:Number = _y + this.height
+				;
+			
+			if( _x2 >= root.stage.x + root.stage.width ){
+				_x = _rect.x - this.width;
 			}
 			
 			if( _y2 >= root.stage.y + root.stage.height ){

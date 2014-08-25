@@ -30,6 +30,8 @@ package org.xas.jchart.histogram.view.components
 		
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
 			
+			addEventListener( JChartEvent.UPDATE, update );
+			
 			addEventListener( JChartEvent.SHOW_TIPS, showTips );
 			addEventListener( JChartEvent.UPDATE_TIPS, updateTips );
 			addEventListener( JChartEvent.HIDE_TIPS, hideTips );
@@ -38,7 +40,7 @@ package org.xas.jchart.histogram.view.components
 		private function addToStage( _evt:Event ):void{
 		}
 
-		public function update():void{
+		private function update( _evt:JChartEvent ):void{
 			
 			graphics.clear();
 			

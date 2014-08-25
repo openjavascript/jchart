@@ -28,7 +28,7 @@ package org.xas.jchart.common.data
 				"style":
 				{
 					"size": 12,  
-					"color": 0x333333
+					"color": 0x8D8D8D
 				}, 
 				"shadow": true, 
 				"enabled": true

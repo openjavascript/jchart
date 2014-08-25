@@ -86,19 +86,42 @@ package org.xas.jchart.curvegram.controller
 				
 				_config.c.linePadding = 0;
 				if( !_config.vlineEnabled ){
-					_config.c.linePadding = 40;
+					_config.c.linePadding = 60;
 					_config.c.vlabelSpace = 5;
 					_config.c.minX += _config.c.vlabelSpace;
 				};
 				
-				facade.registerMediator( new VLabelMediator() );
-				_config.c.minX += pVLabelMediator.maxWidth;
+				if( _config.rateLabelEnabled ){
+					facade.registerMediator( new VLabelMediator() );
+					_config.c.minX += pVLabelMediator.maxWidth;
+				}
+				_config.c.hoverPadY = 10;
+				if( _config.hoverBgEnabled ){
+					facade.registerMediator( new HoverBgMediator() );
+					_config.c.minY += _config.c.hoverPadY;
+				}
+				
+				_config.c.serialLabelPadY = 15;
+				if( _config.serialLabelEnabled ){
+					facade.registerMediator( new SerialLabelMediator() );
+					_config.c.minY += _config.c.serialLabelPadY;
+				}
+				
+				_config.c.arrowLength = 8;
+				
+				if( _config.rateLabelEnabled ){
+					_config.c.chartWidth = _config.c.maxX - _config.c.minX - 5;
+				}else{
+					_config.c.chartWidth = _config.c.maxX - _config.c.minX;
+				}
+				
+				if( _config.categories && _config.categories.length ){
+					_config.c.labelWidth = _config.c.chartWidth / ( _config.categories.length ) / 2;
+				}
 				
 				facade.registerMediator( new HLabelMediator() );
 				_config.c.maxY -= pHLabelMediator.maxHeight;
 				
-				_config.c.arrowLength = 8;
-				_config.c.chartWidth = _config.c.maxX - _config.c.minX - 5;
 				_config.c.chartHeight = _config.c.maxY - _config.c.minY;	
 				
 				_config.c.chartX = _config.c.minX + _config.c.arrowLength - 2;

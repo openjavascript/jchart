@@ -85,7 +85,7 @@ package org.xas.jchart.common.view.components.BgLineView
 			
 			if( _preIndex >= 0 ){
 				_items[ _preIndex ].unhover();
-				_items[ _preIndex ].visible = false;
+				!BaseConfig.ins.vlineEnabled && ( _items[ _preIndex ].visible = false );
 			}
 			_preIndex = -1;
 		}		

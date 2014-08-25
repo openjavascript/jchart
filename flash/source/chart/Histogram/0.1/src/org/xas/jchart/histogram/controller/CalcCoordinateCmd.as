@@ -107,7 +107,8 @@ package org.xas.jchart.histogram.controller
 				if( _config.rateLabelEnabled ){
 					_config.c.chartWidth = _config.c.maxX - _config.c.minX - 5;
 				}else{
-					_config.c.chartWidth = _config.c.maxX - 5;
+					//_config.c.chartWidth = _config.c.maxX - 5;
+					_config.c.chartWidth = _config.c.maxX - _config.c.minX;
 				}
 				
 				if( _config.categories && _config.categories.length ){

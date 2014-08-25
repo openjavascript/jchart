@@ -1,4 +1,4 @@
-package org.xas.jchart.common.view.components
+package org.xas.jchart.common.view.components.HLabelView
 {
 	import com.adobe.utils.StringUtil;
 	
@@ -15,15 +15,15 @@ package org.xas.jchart.common.view.components
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.data.DefaultOptions;
 	
-	public class HLabelView extends Sprite
+	public class BaseHLabelView extends Sprite
 	{
-		private var _labels:Vector.<TextField>;
+		protected var _labels:Vector.<TextField>;
 		public function get labels():Vector.<TextField>{ return _labels; }
 		
-		private var _maxHeight:Number = 0;
+		protected var _maxHeight:Number = 0;
 		public function get maxHeight():Number{ return _maxHeight; }
 		
-		public function HLabelView()
+		public function BaseHLabelView()
 		{
 			super();
 		
@@ -31,7 +31,7 @@ package org.xas.jchart.common.view.components
 			
 		}
 		
-		private function addToStage( _evt:Event ):void{
+		protected function addToStage( _evt:Event ):void{
 			_labels = new Vector.<TextField>();
 			var _v:Number, _t:String, _titem:TextField;
 			
@@ -52,6 +52,7 @@ package org.xas.jchart.common.view.components
 						, { 'size': 12, color: 0x838383, 'align': 'center' }
 						, BaseConfig.ins.labelsStyle
 					] );
+					//Log.log( 'w:', BaseConfig.ins.c.labelWidth, 'wrap:', BaseConfig.ins.xAxisWordwrap );
 					
 					if( BaseConfig.ins.c.labelWidth && BaseConfig.ins.xAxisWordwrap ){
 						var _twidth:Number = BaseConfig.ins.c.labelWidth;
@@ -79,16 +80,18 @@ package org.xas.jchart.common.view.components
 		public function update():void{
 			if( !( BaseConfig.ins.c && BaseConfig.ins.c.hpoint ) ) return;
 			
-			Common.each( BaseConfig.ins.c.hpoint, function( _k:int, _item:Object ):void{
+			Common.each( BaseConfig.ins.c.hpointReal, function( _k:int, _item:Object ):void{
 				var _tf:TextField = _labels[ _k ];
 				
 				var _x:Number = _item.end.x - _tf.width / 2;
 				
 				if( _k === 0 ){
+					//Log.log( BaseConfig.ins.c.linePadding, 0, _tf.width );
 					_x < BaseConfig.ins.c.chartX && ( _x = BaseConfig.ins.c.chartX - 3 );
-				}else if( _k === BaseConfig.ins.c.hpoint.length - 1 ){
+				}else if( _k === BaseConfig.ins.c.hpointReal.length - 1 ){
 					if( _x + _tf.width > BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth ){
 						_x = BaseConfig.ins.c.chartX + BaseConfig.ins.c.chartWidth - _tf.width + 3;
+						//Log.log( BaseConfig.ins.c.linePadding, 'last', _tf.width );
 					}
 				}
 				

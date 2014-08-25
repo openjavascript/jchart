@@ -63,7 +63,7 @@ package org.xas.jchart.common
 		public function get tooltipSerial():Array{
 			var _r:Array = [];
 			
-			Log.log( 'tooltipSerial xxx ' );
+			//Log.log( 'tooltipSerial xxx ' );
 			
 			this.cd
 				&& this.cd.tooltip

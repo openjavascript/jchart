@@ -90,14 +90,16 @@ package org.xas.jchart.histogram.controller
 					_config.c.minX += pVLabelMediator.maxWidth;
 				}
 				
+				_config.c.hoverPadY = 10;
 				if( _config.hoverBgEnabled ){
 					facade.registerMediator( new HoverBgMediator() );
-					_config.c.minY += 10;
+					_config.c.minY += _config.c.hoverPadY;
 				}
 				
+				_config.c.serialLabelPadY = 15;
 				if( _config.serialLabelEnabled ){
 					facade.registerMediator( new SerialLabelMediator() );
-					_config.c.minY += 20;
+					_config.c.minY += _config.c.serialLabelPadY;
 				}
 				
 				_config.c.arrowLength = 8;
@@ -142,6 +144,8 @@ package org.xas.jchart.histogram.controller
 			facade.registerMediator( new GraphicMediator() );
 			
 			_config.c.rects = [];
+			_config.c.dataRect = [];
+			
 			if( !( _config.series && _config.series.length ) ) return;
 			
 			_config.c.partSpace = 0; 
@@ -159,11 +163,13 @@ package org.xas.jchart.histogram.controller
 			}
 			
 			//_config.c.partWidth > 50 && ( _config.c.partWidth = 50 );
-			var _partWidth:Number = _config.c.partWidth;
+			var _partWidth:Number = _config.c.partWidth
+				;
 			//_partWidth > 50 && ( _partWidth = 50 );
 			if( _partWidth > 50 ){
 				_partWidth = 50;
 			}
+			
 			
 			Common.each( _config.cd.xAxis.categories, function( _k:int, _item:Object ):void{
 				
@@ -178,6 +184,13 @@ package org.xas.jchart.histogram.controller
 							- _config.c.partSpace * ( ( _config.displaySeries.length || 1 ) - 1 ) / 2 
 						)
 					, _tmp:Number = 0
+					, _tmpDataRect:Object = {
+						x: _sp.x, y: _sp.y
+						, width: _config.c.itemWidth * 2
+						, height: _ep.y - _sp.y 
+					}
+					, _tmpYAr:Array = []
+					, _tmpHAr:Array = []
 					;
 				
 				Common.each( _config.displaySeries, function( _sk:int, _sitem:Object ):void{
@@ -217,10 +230,27 @@ package org.xas.jchart.histogram.controller
 					_rectItem.height = _h;
 					_rectItem.value = _sitem.data[ _k ];
 					
+					_tmpYAr.push( _y );
+					_tmpHAr.push( _h );
+					
 					_items.push( _rectItem );
 				});
 				
+				_tmpDataRect.y = Math.min.apply( null, _tmpYAr );
+				_tmpDataRect.height = Math.max.apply( null, _tmpHAr );
+				
+				if( _config.hoverBgEnabled ){
+					_tmpDataRect.y -= _config.c.hoverPadY;
+					_tmpDataRect.height += _config.c.hoverPadY
+				}
+				
+				if( _config.serialLabelEnabled ){
+					_tmpDataRect.y -= _config.c.serialLabelPadY;
+					_tmpDataRect.height += _config.c.serialLabelPadY
+				}
+				
 				_config.c.rects.push( _items );
+				_config.c.dataRect.push( _tmpDataRect );
 			});
 		}
 		

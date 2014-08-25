@@ -689,6 +689,11 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get vlabelSpace():Number{
+			var _r:Number = this.c.vlabelSpace || 0;
+			return _r;
+		}
+		
 		public function reset():void{
 			_isFloatLenReady = false;
 			_isMaxValueReady = false;

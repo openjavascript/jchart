@@ -73,7 +73,7 @@ package org.xas.jchart.common.view.components
 			
 			Common.each( BaseConfig.ins.c.vpoint, function( _k:int, _item:Object ):void{
 				var _tf:TextField = _labels[ _k ];
-				_tf.x = _item.start.x - _tf.width;
+				_tf.x = _item.start.x - _tf.width - BaseConfig.ins.vlabelSpace;
 				_tf.y = _item.start.y - _tf.height / 2;
 			});
 		}

@@ -44,14 +44,14 @@ package org.xas.jchart.common.view.components.GraphicBgView
 		}
 		
 		protected function onMouseEnter( _evt:MouseEvent ):void{
-			//Log.log( 'GraphicView mouse onMouseEnter' );
+			Log.log( 'GraphicView mouse onMouseEnter' );
 			this.root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			this.root.stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			dispatchEvent( new JChartEvent( JChartEvent.SHOW_TIPS, _evt ) );
 		}
 		
 		protected function onMouseLeave( _evt:MouseEvent ):void{
-			//Log.log( 'GraphicView mouse onMouseLeave' );		
+			Log.log( 'GraphicView mouse onMouseLeave' );		
 			this.root.stage.removeEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			dispatchEvent( new JChartEvent( JChartEvent.HIDE_TIPS, _evt ) );	
 		}

@@ -43,7 +43,7 @@ package org.xas.jchart.common.data.test
 					, "pointFormat": "{0} %"
 					, serial: [
 						{
-							name: '区分度 ', 'value': 1.04
+							name: '区分度', 'value': 1.04
 						}
 					]
 				}
@@ -64,7 +64,7 @@ package org.xas.jchart.common.data.test
 					enabled: false
 				}
 				, hline: {
-					enabled: false
+					enabled: true
 				}
 				, colors: [
 					0x03ACEF
@@ -115,7 +115,7 @@ package org.xas.jchart.common.data.test
 					//, enabled: false
 					, serial: [
 						{
-							name: '区分度 ', 'value': 1.04
+							name: '区分度', 'value': 1.04
 						}
 					]
 				}
@@ -257,7 +257,7 @@ package org.xas.jchart.common.data.test
 					//, enabled: false
 					, serial: [
 						{
-							name: '区分度 ', 'value': 1.04
+							name: '区分度', 'value': 1.04
 						}
 						, {
 							name: '其他 ', 'value': 1.05

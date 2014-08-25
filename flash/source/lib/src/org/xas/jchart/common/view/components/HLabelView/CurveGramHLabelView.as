@@ -31,10 +31,19 @@ package org.xas.jchart.common.view.components.HLabelView
 					
 					_titem.autoSize = TextFieldAutoSize.LEFT;
 					
+					var _align:String = 'center';
+					if( BaseConfig.ins.cd.xAxis.categories === 1 ){
+						
+					}else if( _k === 0 ){
+						_align = 'left';
+					}else if( _k === BaseConfig.ins.cd.xAxis.categories.length - 1 ){
+						_align = 'right';
+					}
+					
 					Common.implementStyle( _titem, [
 						DefaultOptions.title.style
 						, DefaultOptions.xAxis.labels.style
-						, { 'size': 12, color: 0x838383, 'align': 'center' }
+						, { 'size': 12, color: 0x838383, 'align': _align }
 						, BaseConfig.ins.labelsStyle
 					] );
 					//Log.log( 'w:', BaseConfig.ins.c.labelWidth, 'wrap:', BaseConfig.ins.xAxisWordwrap );

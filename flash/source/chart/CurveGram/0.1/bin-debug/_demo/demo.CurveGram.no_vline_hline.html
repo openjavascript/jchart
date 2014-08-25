@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>CRM - CurveGram.swf</title>
+</head>
+<body>
+
+<style>
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    margin: 20px 80px;
+}
+
+dl dd{
+    margin: 10px 0;
+}
+</style>
+
+<dl>
+    <dt>CRM - CurveGram.swf</dt>
+    <dd>
+        <div id="CurveGram0"></div>
+    </dd>
+</dl>
+
+<script src="../swfobject.js"></script>
+<script src="../json2.js"></script>
+<script src="../jq.js"></script>
+
+<script>
+    swfobject.embedSWF
+    (
+        "../CurveGram.swf"
+        , "CurveGram0"
+        , "100%", "400", "9.0.0", false
+        , {
+            "chart":  encodeURIComponent(JSON.stringify( 
+                {
+                    xAxis: {
+                        categories: [ '学生', '公司职员', '公司管理者', '公务员', '事业单位', '个体经营', '自由职业', '产业\n服务员\n工人', '农业\n劳动者', '其他' ]
+                        , wordwrap: true
+                    }, 
+                    series:[{
+                        name: '职业'
+                        , data: [ 11, 14, 43, 12, 21, 8, 4, 6, 8, 5 ]
+                    }],
+                    //isPercent: true,
+                    rateLabel: {
+                        enabled: false
+                    },
+                    displayAllLabel: true,
+                    legend: {
+                        enabled: false
+                    }
+                    , dataLabels: {
+                        enabled: true,
+                        format: '{0}%'
+                    }
+                    , vline: {
+                        enabled: false
+                    }
+                    , hline: {
+                        enabled: false
+                    }
+                    , tooltip: {
+                        enabled: false
+                    }
+                    , colors: [
+                        0x00ABEF
+                        , 0x9DADB3
+                        , 0x09c100
+                        , 0x0c76c4 				
+                        , 0xff0619
+                    ]
+                    , maxItem: {
+                        style: { color: 0x5DC979, size: 18 }
+                    }
+                    , chart: {
+                        bgColor: 0xffffff
+                        , bgAlpha: 1
+                    }
+                }
+
+            ))
+        }
+    );
+
+
+
+</script>
+
+</body>
+</html>

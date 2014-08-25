@@ -39,10 +39,10 @@ package org.xas.jchart.histogram.view.mediator
 		override public function handleNotification(notification:INotification):void{
 			switch( notification.getName() ){
 				case JChartEvent.SHOW_CHART:
-					{					
-						_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE ) );
-						break;
-					}	
+				{					
+					_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE ) );
+					break;
+				}	
 				case JChartEvent.UPDATE_TIPS:
 				{
 					_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, notification.getBody() ) );

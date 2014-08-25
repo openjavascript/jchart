@@ -12,6 +12,7 @@ package org.xas.jchart.curvegram.view.components
 	import flash.text.TextFormatAlign;
 	
 	import org.xas.core.utils.Log;
+	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
@@ -28,6 +29,8 @@ package org.xas.jchart.curvegram.view.components
 			
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
 			
+			addEventListener( JChartEvent.UPDATE, update );
+			
 			addEventListener( JChartEvent.SHOW_TIPS, showTips );
 			addEventListener( JChartEvent.UPDATE_TIPS, updateTips );
 			addEventListener( JChartEvent.HIDE_TIPS, hideTips );
@@ -35,8 +38,8 @@ package org.xas.jchart.curvegram.view.components
 		
 		private function addToStage( _evt:Event ):void{
 		}
-		
-		public function update():void{
+
+		private function update( _evt:JChartEvent ):void{
 			
 			if( !( BaseConfig.ins.c && BaseConfig.ins.c.paths && BaseConfig.ins.c.paths.length ) ) return;
 			

@@ -21,7 +21,81 @@ package org.xas.jchart.common.data.test
 		
 		private function init():void{
 			_data = new Vector.<Object>();
-			
+						
+			_data.push({
+				
+				xAxis: {
+					categories: [ '02/24', '02/25', '02/26', '02/27', '02/28', '02/29', '03/01' ]
+				}
+				, yAxis: {
+					format: '{0}%'
+				}
+				, series:[{
+					name: '目标PV'
+					, data: [ 70, 49, 76, 30, 55, 26, 78 ]
+				}, {
+					name: '目标UV',
+					data: [ 48, 62, 50, 50, 30, 40, 35 ]
+				}]
+				, tooltip: {		
+					enabled: true
+					, "headerFormat": "{0}"			
+					, "pointFormat": "{0} %"
+					, serial: [
+						{
+							name: '区分度', 'value': 1.04
+						}
+					]
+				}
+				//isPercent: true,
+				, rateLabel: {
+					enabled: true
+					, maxvalue: 100
+				}
+				, displayAllLabel: true
+				, legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true
+					, format: '{0}%'
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: true
+				}
+				, colors: [
+					0x03ACEF
+					, 0x5DC979
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]       
+				, chart: {
+					bgColor: 0xffffff
+					, bgAlpha: 1
+				}
+				, hoverBg: {
+					enabled: true		
+					, style: {
+						borderColor: 0xB4B4B4
+						, borderWidth: 2
+						, bgColor: 0xF0F0F0
+					}										
+				}
+			});
 			
 			_data.push({
 				
@@ -41,7 +115,7 @@ package org.xas.jchart.common.data.test
 					//, enabled: false
 					, serial: [
 						{
-							name: '区分度 ', 'value': 1.04
+							name: '区分度', 'value': 1.04
 						}
 					]
 				}
@@ -183,7 +257,7 @@ package org.xas.jchart.common.data.test
 					//, enabled: false
 					, serial: [
 						{
-							name: '区分度 ', 'value': 1.04
+							name: '区分度', 'value': 1.04
 						}
 						, {
 							name: '其他 ', 'value': 1.05

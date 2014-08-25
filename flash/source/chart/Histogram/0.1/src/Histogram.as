@@ -29,7 +29,7 @@ package
 	//[SWF(frameRate="30", width="590", height="360")]
 	//[SWF(frameRate="30", width="1400", height="460")]
 	[SWF(frameRate="30", width="800", height="360")]
-	public class Histogram extends Sprite
+	public class Histogram extends Sprite 
 	{ 
 		private var _inited: Boolean = false;
 		private var _timer:Timer;

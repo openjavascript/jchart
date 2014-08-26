@@ -155,8 +155,27 @@ package org.xas.jchart.common
 				_floatLen = cd.floatLen;
 			}else{
 				_floatLen = 0;
-				var _tmpLen:int = 0;
-				Common.each( series, function( _k:int, _item:Object ):void{
+				
+				var _tmpLen:int;
+				
+				_tmpLen = 0;
+				Common.each( displaySeries, function( _k:int, _item:Object ):void{
+					Common.each( _item.data, function( _sk:int, _sitem:Number ):void{
+						_tmpLen = Common.floatLen( _sitem );
+						_tmpLen > _floatLen && ( _floatLen = _tmpLen );
+						//Log.log( _tmpLen, _floatLen );
+					});
+				});
+				
+				Common.each( tooltipSerial, function( _k:int, _item:Object ):void{
+					Common.each( _item.data, function( _sk:int, _sitem:Number ):void{
+						_tmpLen = Common.floatLen( _sitem );
+						_tmpLen > _floatLen && ( _floatLen = _tmpLen );
+						//Log.log( _tmpLen, _floatLen );
+					});
+				});
+				
+				Common.each( tooltipAfterSerial, function( _k:int, _item:Object ):void{
 					Common.each( _item.data, function( _sk:int, _sitem:Number ):void{
 						_tmpLen = Common.floatLen( _sitem );
 						_tmpLen > _floatLen && ( _floatLen = _tmpLen );

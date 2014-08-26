@@ -25,6 +25,91 @@ package org.xas.jchart.common.data.test
 			_data.push({
 				
 				xAxis: {
+					categories: [ 
+						'04/01', '04/05', '04/10', '04/15', '04/20', '04/25'
+						, '05/01', '05/05', '05/10', '05/15', '05/20', '05/25'
+						, '05/31', '06/04', '06/09', '06/14', '06/19', '06/24'
+						, '06/29'
+					]
+					, wordwrap: false
+				}
+				, yAxis: {
+					format: '{0}%'
+				}
+				, series:[{
+					name: '词1'
+					, data: [ 55, 35, 38, 53, 51, 38, 39, 38, 34, 59, 37, 34, 51, 58, 57, 39, 58, 44, 31 ]
+				}, {
+					name: '词2',
+					data: [ 9, 28, 18, 25, 59, 19, 26, 18, 40, 21, 42, 22, 30, 42, 30, 39, 59, 30, 50 ]
+				}, {
+					name: '词3',
+					data: [ 38, 40, 55, 41, 54, 53, 55, 54, 57, 55, 54, 59, 55, 39, 47, 43, 46, 42, 45 ]
+				}
+				]
+				, tooltip: {		
+					enabled: true
+					, "headerFormat": "{0}"			
+					, "pointFormat": "{0} %"
+					, serial: [
+						{
+							name: '区分度', 'value': 1.04
+						}
+					]
+				}
+				//isPercent: true,
+				, rateLabel: {
+					enabled: true
+					, maxvalue: 100
+				}
+				, displayAllLabel: false
+				, legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true
+					, format: '{0}%'
+				}
+				, vline: {
+					//enabled: false
+				}
+				, hline: {
+					//enabled: true
+				}
+				, colors: [
+					0x03ACEF
+					, 0x5DC979
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]    	
+				, chart: {
+					bgColor: 0xffffff
+					, bgAlpha: 1
+				}
+				, hoverBg: {
+					enabled: true		
+					, style: {
+						borderColor: 0xB4B4B4
+						, borderWidth: 2
+						, bgColor: 0xF0F0F0
+					}										
+				}
+			});
+			
+			_data.push({
+				
+				xAxis: {
 					categories: [ '02/24', '02/25', '02/26', '02/27', '02/28', '02/29', '03/01' ]
 				}
 				, yAxis: {

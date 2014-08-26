@@ -44,32 +44,35 @@ package org.xas.jchart.common.data.test
 				}
 				, series:[{
 					name: '词1'
-					, data: [ 55, 35, 38, 53, 51, 38, 39, 38, 34, 59, 37, 34, 51, 58, 57, 39, 58, 44, 31 ]
+					, data: [ 10, 0, 38, 53, 51, 38, 39, 38, 34, 59, 37, 34, 51, 58, 57, 39, 58, 44, 31 ]
 				}, {
 					name: '词2',
-					data: [ 9, 28, 18, 25, 59, 19, 26, 18, 40, 21, 42, 22, 30, 42, 30, 39, 59, 30, 50 ]
+					data: [ 20, 0, 18, 25, 59, 19, 26, 18, 40, 21, 42, 22, 30, 42, 30, 39, 59, 30, 50 ]
 				}, {
 					name: '词3',
-					data: [ 38, 40, 55, 41, 54, 53, 55, 54, 57, 55, 54, 59, 55, 39, 47, 43, 46, 42, 45 ]
+					data: [ 30, 0, 55, 41, 54, 53, 55, 54, 57, 55, 54, 59, 55, 39, 47, 43, 46, 42, 45 ]
+				}, {
+					name: '词4',
+					data: [ 35, 0, 65, 51, 64, 63, 65, 64, 67, 65, 64, 69, 65, 59, 57, 53, 56, 52, 45 ]
+				}, {
+					name: '词5',
+					data: [ 5, 0, 45, 31, 44, 43, 45, 44, 47, 45, 44, 49, 45, 29, 37, 33, 36, 32, 35 ]
 				}
 				]
 				, tooltip: {		
 					enabled: true
 					, "headerFormat": "{0}"			
-					, "pointFormat": "{0} %"
+					, "pointFormat": "{0}"
 				}
-				//isPercent: true,
+				, isPercent: true
+				, isItemPercent: true
 				, rateLabel: {
 					enabled: true
-					, maxvalue: 100
+					//, maxvalue: 100
 				}
 				, displayAllLabel: false
 				, legend: {
-					enabled: false
-				}
-				, dataLabels: {
 					enabled: true
-					, format: '{0}%'
 				}
 				, vline: {
 					//enabled: false
@@ -102,14 +105,6 @@ package org.xas.jchart.common.data.test
 				, chart: {
 					bgColor: 0xffffff
 					, bgAlpha: 1
-				}
-				, hoverBg: {
-					enabled: true		
-					, style: {
-						borderColor: 0xB4B4B4
-						, borderWidth: 2
-						, bgColor: 0xF0F0F0
-					}										
 				}
 				, toggleBg: {
 					enabled: true

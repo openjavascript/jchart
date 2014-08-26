@@ -194,38 +194,59 @@ package org.xas.jchart.curvegram.controller
 						;
 						//Log.log( _sk, _sp.x, _sp.y );
 						
-						if( Common.isNegative( _num ) && _num != 0 ){
-							_num = Math.abs( _num );
-							_dataHeight = _config.c.vpart * _config.rateZeroIndex;
-							
-							_h = _config.c.chartHeight - _dataHeight;
-							_y = _sp.y + _dataHeight ;
-							
-							_h = 
-							( _num / 
-								Math.abs( _config.finalMaxNum * _config.rate[ _config.rate.length - 1 ] ) ) 
-							* _h;
-							_y += _h;
-							//Log.log( _h, _config.finalMaxNum );
-						}else{							
+						if( _config.isItemPercent && _config.displaySeries.length > 1 ){
 							_h = _config.c.vpart * _config.rateZeroIndex;
 							if( _num > 0 ){
-								_h = ( _num / _config.chartMaxNum || 1 ) * _h;
+								_h = ( _num / _config.itemMax( _sk ) || 1 ) * _h;
 							}
 							if( _num == 0 ){
 								_h = 0;
 							}
 							_y = _sp.y 
+							+ _config.c.vpart * _config.rateZeroIndex - _h
+							;
+							if( _sk === 0 ){
+								//Log.log( _num / _config.itemMax( _sk ) * 100, _num, _config.itemMax( _sk ) );
+							}
+							
+							//Log.log( _config.itemMax( _sk ), _num, ( _num / _config.itemMax( _sk ) || 1 ) * 100 );
+						}else{
+							if( Common.isNegative( _num ) && _num != 0 ){
+								_num = Math.abs( _num );
+								_dataHeight = _config.c.vpart * _config.rateZeroIndex;
+								
+								_h = _config.c.chartHeight - _dataHeight;
+								_y = _sp.y + _dataHeight ;
+								
+								_h = 
+								( _num / 
+									Math.abs( _config.finalMaxNum * _config.rate[ _config.rate.length - 1 ] ) ) 
+								* _h;
+								_y += _h;
+								//Log.log( _h, _config.finalMaxNum );
+							}else{							
+								_h = _config.c.vpart * _config.rateZeroIndex;
+								if( _num > 0 ){
+									_h = ( _num / _config.chartMaxNum || 1 ) * _h;
+								}
+								if( _num == 0 ){
+									_h = 0;
+								}
+								_y = _sp.y 
 								+ _config.c.vpart * _config.rateZeroIndex - _h
 								;
+							}
 						}
 						_x = _sp.x;
 						
 						_cmd.push( _sk === 0 ? 1 : 2 );
 						_path.push( _x, _y );
+						
+
 					//Log.log( _y, _sp.y, _config.c.vpart, _config.rateZeroIndex, _h, _config.finalMaxNum );
 						
 				});
+				//Log.log( 'xxxxxxxxxxxxx' );
 				
 				_config.c.paths.push( { cmd: _cmd, path: _path } );
 			});

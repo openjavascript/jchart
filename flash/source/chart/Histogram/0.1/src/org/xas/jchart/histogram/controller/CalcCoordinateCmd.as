@@ -219,40 +219,50 @@ package org.xas.jchart.histogram.controller
 						, _h:Number, _y:Number
 						, _dataHeight:Number
 						;
-					
-					if( Common.isNegative( _num ) || _num == 0 ){
-						_num = Math.abs( _num );
-						_dataHeight = _config.c.vpart * _config.rateZeroIndex;
 						
-						_h = _config.c.chartHeight - _dataHeight;
-						_y = _sp.y + _dataHeight ;
+						if( _config.isItemPercent && _config.displaySeries.length > 1 ){
+							_h = _config.c.vpart * _config.rateZeroIndex;
+							_h = ( _num / _config.itemMax( _k ) || 0 ) * _h;
+							_y = _sp.y 
+							+ _config.c.vpart * _config.rateZeroIndex - _h
+							;
+							if( _k === 0 ){
+								//Log.log( _num / _config.itemMax( _k ) * 100, _num, _config.itemMax( _k ) );
+							}
+						}else{
+							if( Common.isNegative( _num ) || _num == 0 ){
+								_num = Math.abs( _num );
+								_dataHeight = _config.c.vpart * _config.rateZeroIndex;
+								
+								_h = _config.c.chartHeight - _dataHeight;
+								_y = _sp.y + _dataHeight ;
+								
+								_h = 
+								( _num / 
+									Math.abs( _config.finalMaxNum * _config.rate[ _config.rate.length - 1 ] ) ) 
+								* _h;
+								//Log.log( _h, _config.finalMaxNum );
+							}else{
+								_h = _config.c.vpart * _config.rateZeroIndex;
+								_h = ( _num / _config.chartMaxNum || 1 ) * _h;
+								_y = _sp.y 
+								+ _config.c.vpart * _config.rateZeroIndex - _h
+								;
+							}
+						}						
+						//Log.log( _h, _y );
 						
-						_h = 
-						( _num / 
-							Math.abs( _config.finalMaxNum * _config.rate[ _config.rate.length - 1 ] ) ) 
-						* _h;
-						//Log.log( _h, _config.finalMaxNum );
-					}else{
-						_h = _config.c.vpart * _config.rateZeroIndex;
-						_h = ( _num / _config.chartMaxNum || 1 ) * _h;
-						_y = _sp.y 
-						+ _config.c.vpart * _config.rateZeroIndex - _h
-						;
-					}
-					
-					//Log.log( _h, _y );
-										
-					_rectItem.x = _x + _sk * _partWidth + _config.c.partSpace * _sk;
-
-					_rectItem.y = _y;
-					_rectItem.width = _partWidth;
-					_rectItem.height = _h;
-					_rectItem.value = _sitem.data[ _k ];
-					
-					_tmpYAr.push( _y );
-					_tmpHAr.push( _h );
-					
-					_items.push( _rectItem );
+						_rectItem.x = _x + _sk * _partWidth + _config.c.partSpace * _sk;
+						
+						_rectItem.y = _y;
+						_rectItem.width = _partWidth;
+						_rectItem.height = _h;
+						_rectItem.value = _sitem.data[ _k ];
+						
+						_tmpYAr.push( _y );
+						_tmpHAr.push( _h );
+						
+						_items.push( _rectItem );
 				});
 				
 				_tmpDataRect.y = Math.min.apply( null, _tmpYAr );

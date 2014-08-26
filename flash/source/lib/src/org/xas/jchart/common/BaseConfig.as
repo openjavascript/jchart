@@ -407,6 +407,14 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		private var _itemMax:Array;
+		public function itemMax( _ix:int ):Number {
+			var _r:Number = 0;
+			if( _itemMax && _ix >= 0 && ( _ix < _itemMax.length ) ){
+				_r = _itemMax[ _ix ];
+			}
+			return _r;
+		}
 		
 		public function calcRate():void{
 			var _data:Object = _chartData;
@@ -462,6 +470,18 @@ package org.xas.jchart.common
 				_realRate.push( _realItem );
 				//Log.log( _realItem );
 			});
+			_itemMax = [];
+			
+			if( displaySeries && displaySeries.length &&  displaySeries[0].data && displaySeries[0].data.length ){
+				Common.each( displaySeries[0].data, function( _k:int, _item:Object ):void{
+					var _tmpMax:Number = 0;
+					Common.each( displaySeries, function( _sk:int, _sitem:Object ):void{
+						_tmpMax += _sitem.data[ _k ];
+					});
+					_itemMax.push( _tmpMax );
+				});
+			}
+			//Log.log( _itemMax );
 		}
 		
 		public function get rateMaxValue():Number{
@@ -631,6 +651,10 @@ package org.xas.jchart.common
 		
 		public function get isPercent():Boolean{
 			return StringUtils.parseBool( this.cd.isPercent );
+		}
+		
+		public function get isItemPercent():Boolean{
+			return StringUtils.parseBool( this.cd.isItemPercent );
 		}
 		
 		private var _maxValue:Number = 0;

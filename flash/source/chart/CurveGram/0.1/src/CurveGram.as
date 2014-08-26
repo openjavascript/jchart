@@ -47,7 +47,7 @@ package
 			
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
-			
+			 
 			BaseConfig.setIns( new CurveGramConfig() );
 			
 			addEventListener( JChartEvent.PROCESS, process );

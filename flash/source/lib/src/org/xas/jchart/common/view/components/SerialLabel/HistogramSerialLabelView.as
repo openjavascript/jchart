@@ -55,7 +55,7 @@ package org.xas.jchart.common.view.components.SerialLabel
 						Common.implementStyle( _label, [ { size: 14 }, _maxStyle ] );
 						
 						_label.x = _sitem.x + _sitem.width / 2 - _label.width / 2;
-						if( _sitem.value > 0 ){
+						if( _sitem.value >= 0 ){
 							_label.y = _sitem.y - _label.height;
 						}else{
 							_label.y = _sitem.y + _sitem.height;

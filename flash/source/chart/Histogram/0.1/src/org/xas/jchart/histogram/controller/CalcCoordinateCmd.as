@@ -236,7 +236,6 @@ package org.xas.jchart.histogram.controller
 								
 								_h = _config.c.chartHeight - _dataHeight;
 								_y = _sp.y + _dataHeight ;
-								
 								_h = 
 								( _num / 
 									Math.abs( _config.finalMaxNum * _config.rate[ _config.rate.length - 1 ] ) ) 

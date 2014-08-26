@@ -727,7 +727,7 @@ package org.xas.jchart.common.data.test
 				}, 
 				series:[{
 					name: '购买力'
-					, data: [ 43, 19, 21, 18, 10 ]
+					, data: [ 43, 19, 21, 18, 0 ]
 				}],
 				//isPercent: true,
 				rateLabel: {

@@ -24,8 +24,8 @@ package org.xas.jchart.common.view.components.BgLineView
 			super();
 		}
 		
-		override public function update():void{			
-			super.update();			
+		override protected function update( _evt:JChartEvent ):void{			
+			super.update( _evt );			
 		}
 		
 		override protected function drawHLine():void{

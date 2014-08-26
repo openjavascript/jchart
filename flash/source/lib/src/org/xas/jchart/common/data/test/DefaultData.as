@@ -31,6 +31,12 @@ package org.xas.jchart.common.data.test
 						, '05/31', '06/04', '06/09', '06/14', '06/19', '06/24'
 						, '06/29'
 					]
+					, tipsHeader: [ 
+						'2014-04-01', '2014-04-05', '2014-04-10', '2014-04-15', '2014-04-20', '2014-04-25'
+						, '2014-05-01', '2014-05-05', '2014-05-10', '2014-05-15', '2014-05-20', '2014-05-25'
+						, '2014-05-31', '2014-06-04', '2014-06-09', '2014-06-14', '2014-06-19', '2014-06-24'
+						, '2014-06-29'
+					]
 					, wordwrap: false
 				}
 				, yAxis: {
@@ -51,11 +57,6 @@ package org.xas.jchart.common.data.test
 					enabled: true
 					, "headerFormat": "{0}"			
 					, "pointFormat": "{0} %"
-					, serial: [
-						{
-							name: '区分度', 'value': 1.04
-						}
-					]
 				}
 				//isPercent: true,
 				, rateLabel: {
@@ -76,9 +77,14 @@ package org.xas.jchart.common.data.test
 				, hline: {
 					//enabled: true
 				}
-				, colors: [
-					0x03ACEF
-					, 0x5DC979
+				, colors: [		
+					0x61CA7D
+					, 0x00ABEF
+					, 0xFCBC2B
+					, 0xF47672
+					, 0xBDA5E6
+					, 0xFF7C27
+					
 					, 0x09c100
 					, 0x0c76c4 				
 					, 0xff0619
@@ -104,6 +110,9 @@ package org.xas.jchart.common.data.test
 						, borderWidth: 2
 						, bgColor: 0xF0F0F0
 					}										
+				}
+				, toggleBg: {
+					enabled: true
 				}
 			});
 			

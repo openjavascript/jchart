@@ -231,6 +231,16 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get toggleBgEnabled():Boolean{
+			var _r:Boolean = false;
+			
+			if( cd && cd.toggleBg && ( 'enabled' in cd.toggleBg ) ){
+				_r = StringUtils.parseBool( cd.toggleBg.enabled );
+			}
+			
+			return _r;
+		}
+		
 		public function get rateLabelEnabled():Boolean{
 			var _r:Boolean = true;
 			

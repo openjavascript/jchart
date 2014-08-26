@@ -26,10 +26,10 @@ package
 	//[SWF(frameRate="30", width="790", height="230")]
 	//[SWF(frameRate="30", width="385", height="225")]
 	//[SWF(frameRate="30", width="600", height="425")]
-	[SWF(frameRate="30", width="590", height="360")]
+	//[SWF(frameRate="30", width="590", height="360")]
 	//[SWF(frameRate="30", width="1400", height="460")]
 	//[SWF(frameRate="30", width="800", height="400")]
-	//[SWF(frameRate="30", width="800", height="360")]
+	[SWF(frameRate="30", width="800", height="360")]
 	public class CurveGram extends Sprite
 	{ 
 		private var _inited: Boolean = false;

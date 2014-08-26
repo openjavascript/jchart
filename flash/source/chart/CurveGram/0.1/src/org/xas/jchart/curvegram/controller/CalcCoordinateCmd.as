@@ -149,6 +149,10 @@ package org.xas.jchart.curvegram.controller
 				facade.registerMediator( new GraphicBgMediator() );	
 				facade.registerMediator( new TipsMediator() );
 				
+				if( _config.toggleBgEnabled ){	
+					facade.registerMediator( new ToggleBgMediator() );
+				}
+				
 				calcChartPoint();
 				
 				calcGraphic();	

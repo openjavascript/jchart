@@ -36,8 +36,8 @@ package org.xas.jchart.common.view.components.BgLineView
 			addEventListener( JChartEvent.HIDE_TIPS, hideTips );
 		}
 		
-		override public function update():void{
-			super.update();				
+		override protected function update( _evt:JChartEvent ):void{
+			super.update( _evt );				
 		}
 		
 		override protected function drawHLine():void{
@@ -55,8 +55,7 @@ package org.xas.jchart.common.view.components.BgLineView
 		}
 		
 		override protected function drawVLine():void{
-			if( !( _config.c && _config.c.hlinePoint && _config.c.hpoint )  ) return;
-			//
+			if( !( _config.c && _config.c.hpointReal )  ) return;
 
 			_items = new Vector.<VLineIcon>;
 			Common.each( _config.c.hpointReal, function( _k:int, _item:Object ):void{

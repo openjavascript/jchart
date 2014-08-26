@@ -6,6 +6,7 @@ package org.xas.jchart.common.view.components
 	
 	import org.xas.core.utils.GeoUtils;
 	import org.xas.jchart.common.ui.widget.PiePart;
+	import org.xas.jchart.common.ui.widget.RectBgLine;
 	
 	public class MainView extends Sprite
 	{
@@ -63,6 +64,10 @@ package org.xas.jchart.common.view.components
 					, 50
 				) 
 			);
+			*/
+			/*
+			var _rb:RectBgLine = new RectBgLine( 100, 400 );
+				_index9.addChild( _rb );
 			*/
 		}
 

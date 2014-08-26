@@ -35,8 +35,13 @@ package org.xas.jchart.common.ui
 		private var _valTxf:TextField;
 		
 		private var _eleData:Object;
-		private var _exEleData:Array;
 		
+		private var _serial:Object;
+		private var _serialData:Object;
+		
+		private var _afterSerial:Object;
+		private var _afterSerialData:Object;
+				
 		public function TipsUI()
 		{
 			super();
@@ -64,8 +69,13 @@ package org.xas.jchart.common.ui
 			return this;
 		}
 		
-		public function buildLayout( _data:Object, _extendData:Object = null ):TipsUI{			
+		public function buildLayout( _data:Object, _serial:Array = null, _afterSerial:Array = null ):TipsUI{			
 			this._data = _data;
+			this._serial = _serial;
+			this._afterSerial = _afterSerial;
+			
+			//Log.printJSON( _afterSerial  );
+			
 			_layout.graphics.clear();
 			graphics.clear();
 			ElementUtility.removeAllChild( _layout );
@@ -83,6 +93,38 @@ package org.xas.jchart.common.ui
 				name: _nameTxf
 				, items: []
 			};
+			
+			_serialData = {
+				items: []
+			};
+			
+			_afterSerialData = {
+				items: []
+			};
+			
+			if( _serial && _serial.length ){
+				Common.each( _serial, function( _k:int, _item:Object ):void{
+					if( !_item ) return;					
+					var _styles:Object = { color: 0x999999 };
+					
+					_layout.addChild( _nameTxf = new TextField() );
+					_nameTxf.text = _item.name + ': ';
+					Common.implementStyle( _nameTxf, [ _styles ] );
+					_nameTxf.y = _y;
+					
+					
+					_layout.addChild( _valTxf = new TextField() );
+					_valTxf.text = '0';
+					Common.implementStyle( _valTxf, [ _styles ] );
+					_valTxf.y = _y;
+					
+					_y += _nameTxf.height;
+					
+					Common.implementStyle( _nameTxf, [ _styles ] );
+					
+					_serialData.items.push( { 'name': _nameTxf, 'value': _valTxf } );
+				});
+			}
 			
 			if( _data.items ){
 				Common.each( _data.items, function( _k:int, _item:Object ):void{
@@ -108,6 +150,30 @@ package org.xas.jchart.common.ui
 				});
 			}
 			
+			if( _afterSerial && _afterSerial.length ){
+				Common.each( _afterSerial, function( _k:int, _item:Object ):void{
+					if( !_item ) return;					
+					var _styles:Object = { color: 0x999999 };
+					
+					_layout.addChild( _nameTxf = new TextField() );
+					_nameTxf.text = _item.name + ': ';
+					Common.implementStyle( _nameTxf, [ _styles ] );
+					_nameTxf.y = _y;
+					
+					
+					_layout.addChild( _valTxf = new TextField() );
+					_valTxf.text = '0';
+					Common.implementStyle( _valTxf, [ _styles ] );
+					_valTxf.y = _y;
+					
+					_y += _nameTxf.height;
+					
+					Common.implementStyle( _nameTxf, [ _styles ] );
+					_afterSerialData.items.push( { 'name': _nameTxf, 'value': _valTxf } );
+				});
+			}
+			
+			/*
 			_exEleData = [];
 			Common.each( _extendData, function( _k:int, _item:Object ):void{
 				//Log.log( 'tooltip serial ' );
@@ -132,6 +198,7 @@ package org.xas.jchart.common.ui
 				
 				_exEleData.push( { 'name': _nameTxf, 'value': _valTxf } );
 			});
+			*/
 			
 			updateLayout();
 			
@@ -162,6 +229,18 @@ package org.xas.jchart.common.ui
 			if( _data ){
 				_nameTxf.text = _data.name;
 			}
+			
+			Common.each( _serialData.items, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				if( _serial ){	
+					_valTxf.text = '0';		
+				}
+				
+				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );
+				_valTxf.width > _valueMaxLen && ( _valueMaxLen = _valTxf.width );
+			});
 			Common.each( _eleData.items, function( _k:int, _item:Object ):void{
 				_nameTxf = _item.name as TextField;
 				_valTxf = _item.value as TextField;
@@ -174,6 +253,26 @@ package org.xas.jchart.common.ui
 				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );
 				_valTxf.width > _valueMaxLen && ( _valueMaxLen = _valTxf.width );
 			});
+			Common.each( _afterSerialData.items, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				if( _data ){
+					_valTxf.text = '0';		
+				}
+				
+				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );
+				_valTxf.width > _valueMaxLen && ( _valueMaxLen = _valTxf.width );
+			});
+			
+			
+			Common.each( _serialData.items, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				_nameTxf.x = _offsetX * 2 + _nameMaxLen - _nameTxf.width;					
+				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
+			});
 			
 			Common.each( _eleData.items, function( _k:int, _item:Object ):void{
 				_nameTxf = _item.name as TextField;
@@ -183,6 +282,15 @@ package org.xas.jchart.common.ui
 				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
 			});
 			
+			Common.each( _afterSerialData.items, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				_nameTxf.x = _offsetX * 2 + _nameMaxLen - _nameTxf.width;					
+				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
+			});
+			
+			/*
 			Common.each( _exEleData, function( _k:int, _item:Object ):void{
 				_nameTxf = _item.name as TextField;
 				_valTxf = _item.value as TextField;
@@ -190,6 +298,7 @@ package org.xas.jchart.common.ui
 				_nameTxf.x = _offsetX * 2 + _nameMaxLen - _nameTxf.width;	
 				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
 			});
+			*/
 			
 			if( _colors && _colors.length ){
 				if( _colors.length === 1 ){

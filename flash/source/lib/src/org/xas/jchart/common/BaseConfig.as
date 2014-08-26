@@ -75,6 +75,21 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get tooltipAfterSerial():Array{
+			var _r:Array = [];
+			
+			//Log.log( 'tooltipSerial xxx ' );
+			
+			this.cd
+				&& this.cd.tooltip
+				&& this.cd.tooltip.afterSerial
+				&& this.cd.tooltip.afterSerial.length
+				&& ( _r = this.cd.tooltip.afterSerial )
+				;
+			
+			return _r;
+		}
+		
 		protected var _filterData:Object;
 		public function get filterData():Object{
 			return _filterData;	

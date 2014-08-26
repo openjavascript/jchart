@@ -196,6 +196,9 @@ package org.xas.jchart.common
 			if( cd && cd.xAxis && cd.xAxis.tipsHeader ){
 				_r = cd.xAxis.tipsHeader;
 			}
+			if( cd && cd.tooltip && cd.tooltip.header ){
+				_r = cd.tooltip.header;
+			}
 			return _r;
 		}
 		
@@ -456,13 +459,13 @@ package org.xas.jchart.common
 			var _tmpLen:int = 0, _rateValue:Number = _finalMaxNum;
 			if( this.isPercent ){
 				_rateValue = 100;
-				_rate = rateData || [1, .75, .5, .25, 0 ];
-				Common.each( _rate, function( _k:int, _item:Number ):void{
-					if( _item === 0 ){
-						_rateZeroIndex = _k;
-					}
-				});
-			}
+			}				
+			_rate = rateData || _rate;
+			Common.each( _rate, function( _k:int, _item:Number ):void{
+				if( _item === 0 ){
+					_rateZeroIndex = _k;
+				}
+			});
 			this.rateMaxValue && ( _rateValue = this.rateMaxValue );
 			
 			Common.each( _rate, function( _k:int, _item:Number ):void{

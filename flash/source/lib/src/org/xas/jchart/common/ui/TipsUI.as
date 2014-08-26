@@ -36,10 +36,7 @@ package org.xas.jchart.common.ui
 		
 		private var _eleData:Object;
 		
-		private var _serial:Object;
 		private var _serialData:Object;
-		
-		private var _afterSerial:Object;
 		private var _afterSerialData:Object;
 				
 		public function TipsUI()
@@ -69,11 +66,9 @@ package org.xas.jchart.common.ui
 			return this;
 		}
 		
-		public function buildLayout( _data:Object, _serial:Array = null, _afterSerial:Array = null ):TipsUI{			
+		public function buildLayout( _data:Object ):TipsUI{			
 			this._data = _data;
-			this._serial = _serial;
-			this._afterSerial = _afterSerial;
-			
+	
 			//Log.printJSON( _afterSerial  );
 			
 			_layout.graphics.clear();
@@ -102,8 +97,8 @@ package org.xas.jchart.common.ui
 				items: []
 			};
 			
-			if( _serial && _serial.length ){
-				Common.each( _serial, function( _k:int, _item:Object ):void{
+			if( _data.beforeItems ){
+				Common.each( _data.beforeItems, function( _k:int, _item:Object ):void{
 					if( !_item ) return;					
 					var _styles:Object = { color: 0x999999 };
 					
@@ -150,8 +145,8 @@ package org.xas.jchart.common.ui
 				});
 			}
 			
-			if( _afterSerial && _afterSerial.length ){
-				Common.each( _afterSerial, function( _k:int, _item:Object ):void{
+			if( _data.afterItems && _data.afterItems.length ){
+				Common.each( _data.afterItems, function( _k:int, _item:Object ):void{
 					if( !_item ) return;					
 					var _styles:Object = { color: 0x999999 };
 					
@@ -234,8 +229,9 @@ package org.xas.jchart.common.ui
 				_nameTxf = _item.name as TextField;
 				_valTxf = _item.value as TextField;
 				
-				if( _serial ){	
-					_valTxf.text = '0';		
+				if( _data ){
+					_nameTxf.text = _data.beforeItems[ _k ].name + ': ';		
+					_valTxf.text = _data.beforeItems[ _k ].value;		
 				}
 				
 				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );
@@ -258,7 +254,8 @@ package org.xas.jchart.common.ui
 				_valTxf = _item.value as TextField;
 				
 				if( _data ){
-					_valTxf.text = '0';		
+					_nameTxf.text = _data.afterItems[ _k ].name + ': ';		
+					_valTxf.text = _data.afterItems[ _k ].value;		
 				}
 				
 				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );

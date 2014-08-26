@@ -69,6 +69,7 @@ package org.xas.jchart.common.data.test
 				, rateLabel: {
 					enabled: true
 					//, maxvalue: 100
+					, data: [ 1, .8, .6, .4, .2, .0 ]
 				}
 				, displayAllLabel: false
 				, legend: {

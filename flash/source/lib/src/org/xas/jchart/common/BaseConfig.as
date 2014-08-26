@@ -456,6 +456,12 @@ package org.xas.jchart.common
 			var _tmpLen:int = 0, _rateValue:Number = _finalMaxNum;
 			if( this.isPercent ){
 				_rateValue = 100;
+				_rate = rateData || [1, .75, .5, .25, 0 ];
+				Common.each( _rate, function( _k:int, _item:Number ):void{
+					if( _item === 0 ){
+						_rateZeroIndex = _k;
+					}
+				});
 			}
 			this.rateMaxValue && ( _rateValue = this.rateMaxValue );
 			
@@ -488,6 +494,13 @@ package org.xas.jchart.common
 			var _r:Number = 0;
 			this.cd && this.cd.rateLabel && ( 'maxvalue' in this.cd.rateLabel )
 				&& ( _r = this.cd.rateLabel.maxvalue );
+			return _r;
+		}
+		
+		public function get rateData():Array{
+			var _r:Array;
+			this.cd && this.cd.rateLabel && ( 'data' in this.cd.rateLabel )
+				&& ( _r = this.cd.rateLabel.data );
 			return _r;
 		}
 		

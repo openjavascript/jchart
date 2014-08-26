@@ -21,7 +21,7 @@ package org.xas.jchart.common.data.test
 		
 		private function init():void{
 			_data = new Vector.<Object>();
-						
+			
 			_data.push({
 				
 				xAxis: {
@@ -54,17 +54,17 @@ package org.xas.jchart.common.data.test
 				}
 				, displayAllLabel: true
 				, legend: {
-					enabled: false
+					//enabled: false
 				}
 				, dataLabels: {
 					enabled: true
 					, format: '{0}%'
 				}
 				, vline: {
-					enabled: false
+					//enabled: false
 				}
 				, hline: {
-					enabled: true
+					//enabled: true
 				}
 				, colors: [
 					0x03ACEF
@@ -82,10 +82,16 @@ package org.xas.jchart.common.data.test
 					, 0xffb2bc
 					
 					, 0xdbb8fd
-				]       
+				]    				
+				, credits: {
+					enabled: true
+					, text: 'jchart.openjavascript.org'
+					, href: 'http://jchart.openjavascript.org/'
+				}
 				, chart: {
 					bgColor: 0xffffff
 					, bgAlpha: 1
+					, graphicHeight: 220
 				}
 				, hoverBg: {
 					enabled: true		
@@ -94,6 +100,55 @@ package org.xas.jchart.common.data.test
 						, borderWidth: 2
 						, bgColor: 0xF0F0F0
 					}										
+				}
+			});
+			
+			
+			_data.push({
+				xAxis: {
+					categories: [ '初中\n以下', '高中\n中专\n技校', '大专', '本科', '研究生\n及以上' ]
+					, wordwrap: true
+				}, 
+				series:[{
+					name: '学历'
+					, data: [ 12, 19, 21, 46, 10 ]
+				}],
+				//isPercent: true,
+				rateLabel: {
+					enabled: false
+				},
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true,
+					format: '{0}%'
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: false
+				}
+				, tooltip: {
+					enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 18 }
+				}				
+				, chart: {
+					bgColor: 0xffffff
+					, bgAlpha: 1
+					, graphicHeight: 220
 				}
 			});
 			
@@ -524,49 +579,7 @@ package org.xas.jchart.common.data.test
 					style: { color: 0x5DC979, size: 18 }
 				}
 			});
-			
-			_data.push({
-				xAxis: {
-					categories: [ '初中\n以下', '高中\n中专\n技校', '大专', '本科', '研究生\n及以上' ]
-					, wordwrap: true
-				}, 
-				series:[{
-					name: '学历'
-					, data: [ 12, 19, 21, 46, 10 ]
-				}],
-				//isPercent: true,
-				rateLabel: {
-					enabled: false
-				},
-				displayAllLabel: true,
-				legend: {
-					enabled: false
-				}
-				, dataLabels: {
-					enabled: true,
-					format: '{0}%'
-				}
-				, vline: {
-					enabled: false
-				}
-				, hline: {
-					enabled: false
-				}
-				, tooltip: {
-					enabled: false
-				}
-				, colors: [
-					0x00ABEF
-					, 0x9DADB3
-					, 0x09c100
-					, 0x0c76c4 				
-					, 0xff0619
-					
-				]
-				, maxItem: {
-					style: { color: 0x5DC979, size: 18 }
-				}
-			});
+
 			
 			_data.push({
 				title: {

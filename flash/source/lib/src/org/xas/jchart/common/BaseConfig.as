@@ -157,6 +157,7 @@ package org.xas.jchart.common
 					
 		protected var _root:DisplayObject;
 		public function get root():DisplayObject{ return _root; }
+		
 		public function setRoot( _d:* ):DisplayObject{
 			_root = _d as DisplayObject;
 			_width = _root.stage.stageWidth;
@@ -655,8 +656,7 @@ package org.xas.jchart.common
 			this.cd 
 				&& this.cd.chart
 				&& ( _r = this.cd.chart );
-			
-			return _r;
+						return _r;
 		}
 		
 		public function get hoverBgParams():Object{
@@ -691,6 +691,30 @@ package org.xas.jchart.common
 		
 		public function get vlabelSpace():Number{
 			var _r:Number = this.c.vlabelSpace || 4;
+			return _r;
+		}
+		
+		public function get stageWidth():Number{
+			var _r:Number = this.width;			
+			if( this.chartParams.width && this.chartParams.width > 0 ){
+				_r = Math.min( this.chartParams.width, _r );
+			}	
+			return _r;
+		}
+		
+		public function get stageHeight():Number{
+			var _r:Number = this.height;			
+			if( this.chartParams.height && this.chartParams.height > 0 ){
+				_r = Math.min( this.chartParams.height, _r );
+			}		
+			return _r;
+		}
+		
+		public function get graphicHeight():Number{
+			var _r:Number = 0;			
+			if( this.chartParams.graphicHeight && this.chartParams.graphicHeight > 0 ){
+				_r = this.chartParams.graphicHeight;
+			}		
 			return _r;
 		}
 		

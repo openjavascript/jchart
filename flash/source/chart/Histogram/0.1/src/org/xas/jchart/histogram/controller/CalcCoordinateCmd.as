@@ -34,7 +34,7 @@ package org.xas.jchart.histogram.controller
 			
 			_c.corner = corner();
 			
-			_c.minX = _c.x;
+			_c.minX = _c.x + _config.vlabelSpace + 2;
 			_c.minY = _c.y + 5;
 			_c.maxX = _c.x + _config.stageWidth - 5;
 			_c.maxY = _c.y + _config.stageHeight - 5;
@@ -64,7 +64,7 @@ package org.xas.jchart.histogram.controller
 					facade.registerMediator( new VTitleMediator( _config.cd.yAxis.title.text ) )
 					
 					_config.c.vtitle = { x: _config.c.minX, y: _config.c.x + _config.c.height / 2, item: pVTitleMediator };
-					_config.c.minX += pVTitleMediator.view.width - 5;
+					_config.c.minX += pVTitleMediator.view.width - _config.vlabelSpace;
 				}
 				
 				if( _config.cd.credits && _config.cd.credits.enabled && ( _config.cd.credits.text || _config.cd.credits.href ) ){

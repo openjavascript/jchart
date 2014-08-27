@@ -37,7 +37,7 @@ package
 		private var _facade:Facade;
 		private var _resizeTimer:Timer;
 		private var _ins:Histogram;
-		private var _loaderInfo:Object;
+		private var _loaderInfo:Object; 
 		
 		public function Histogram()
 		{			

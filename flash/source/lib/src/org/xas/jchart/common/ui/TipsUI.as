@@ -349,11 +349,11 @@ package org.xas.jchart.common.ui
 				, _y2:Number = _y + this.height
 				;
 			
-			if( _x2 >= root.stage.x + root.stage.width ){
+			if( _x2 >= root.stage.x + root.stage.stageWidth ){
 				_x = _point.x - this.width;
 			}
 			
-			if( _y2 >= root.stage.y + root.stage.height ){
+			if( _y2 >= root.stage.y + root.stage.stageHeight ){
 				_y = _point.y - this.height;
 			}
 			
@@ -361,6 +361,8 @@ package org.xas.jchart.common.ui
 			_y < 0 && ( _y = 0 );
 			
 			//Log.log( _x2, root.stage.x + root.stage.width );
+			
+			//Log.log( _x, _y, this.width, this.height, _y + this.height, _y2, this.root.stage.stageHeight );
 			
 			this.x = _x;
 			this.y = _y;

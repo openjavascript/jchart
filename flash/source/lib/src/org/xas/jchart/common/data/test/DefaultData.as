@@ -21,7 +21,80 @@ package org.xas.jchart.common.data.test
 		
 		private function init():void{
 			_data = new Vector.<Object>();
-			
+						
+			_data.push({
+				
+				xAxis: {
+					categories: [ 
+						'网页游戏1\n游戏', '网页游戏2\n游戏', '网页游戏3\n游戏', '网页游戏4\n游戏', '网页游戏5\n游戏'
+						, '网页游戏6\n游戏', '网页游戏7\n游戏', '网页游戏8\n游戏', '网页游戏9\n游戏', '网页游戏9\n游戏'
+					]
+				}
+				, yAxis: {
+					format: '{0}'
+				}
+				, series:[{
+					name: '最大区分度 - 兴趣'
+					, data: [
+						0.98, 1.99, 1.01, 1.02, 1.05
+						, 1.98, 2.99, 0.001, 3.02, 3.05
+					]
+				}] 
+				, tooltip: {		
+					enabled: false
+					, "headerFormat": "{0}"			
+					, "pointFormat": "{0}"
+					
+				}
+				//isPercent: true,
+				, rateLabel: {
+					enabled: false
+				}
+				, displayAllLabel: true
+				, legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true
+					, format: '{0}'
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: false
+				}
+				, colors: [
+					0x03ACEF
+					, 0x5DC979
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]    				
+				, chart: {
+					bgColor: 0xffffff
+					, bgAlpha: 1
+					//, graphicHeight: 220
+				}
+				, itemBg: {
+					enabled: true		
+					, style: {
+						borderColor: 0xB4B4B4
+						, borderWidth: 0
+						, bgColor: 0xF0F0F0
+					}										
+				}
+			});
 			
 			
 			_data.push({
@@ -89,7 +162,7 @@ package org.xas.jchart.common.data.test
 				, chart: {
 					bgColor: 0xffffff
 					, bgAlpha: 1
-					, graphicHeight: 220
+					//, graphicHeight: 220
 				}
 				, hoverBg: {
 					enabled: true		
@@ -100,6 +173,7 @@ package org.xas.jchart.common.data.test
 					}										
 				}
 			});
+			
 			
 			_data.push({
 				
@@ -157,10 +231,10 @@ package org.xas.jchart.common.data.test
 						{
 							"name": "区分度"
 							, "data": [ 
-								1.04, 1.05, 3000, 4000, 5000, 6000
-								, 1000, 2000, 3000, 4000, 5000, 6000 
-								, 1000, 2000, 3000, 4000, 5000, 6000 
-								, 7000
+								1.04, 1.05, 1.06, 1.07, 1.08, 1.09
+								, 2.01, 2.02, 2.03, 2.04, 2.05, 2.06
+								, 3.09, 3.08, 3.07, 3.06, 3.05, 3.04
+								, 4.11
 							]
 						}
 					]

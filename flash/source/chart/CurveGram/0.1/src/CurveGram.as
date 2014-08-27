@@ -32,9 +32,9 @@ package
 	[SWF(frameRate="30", width="800", height="360")]
 	public class CurveGram extends Sprite
 	{ 
-		private var _inited: Boolean = false;
+		private var _inited: Boolean = false; 
 		private var _timer:Timer;
-		private var _data:Object;
+		private var _data:Object; 
 		private var _facade:Facade; 
 		private var _resizeTimer:Timer;
 		private var _ins:CurveGram; 
@@ -156,7 +156,7 @@ package
 			var _data:Object = {};
 			
 			if( !ExternalInterface.available ){				
-				_data = DefaultData.instance.data[0];
+				_data = DefaultData.instance.data[2];
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
 				if( _loaderInfo.chart ){

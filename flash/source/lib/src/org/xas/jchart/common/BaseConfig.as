@@ -827,6 +827,40 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		
+		
+		
+		public function get itemBgParams():Object{
+			var _r:Object = {};
+			
+			this.cd 
+				&& this.cd.itemBg
+				&& ( _r = this.cd.itemBg );
+			
+			return _r;
+		}
+		
+		public function get itemBgStyle():Object{
+			var _r:Object = {};
+			
+			if( 'style' in this.itemBgParams  ){
+				_r = StringUtils.parseBool( this.itemBgParams.style );
+			}
+			
+			return _r;
+		}
+		
+		public function get itemBgEnabled():Boolean{
+			var _r:Boolean = false;
+			
+			if( 'enabled' in this.itemBgParams  ){
+				_r = StringUtils.parseBool( this.itemBgParams.enabled );
+			}
+			
+			return _r;
+		}
+		
+		
 		public function get vlabelSpace():Number{
 			var _r:Number = this.c.vlabelSpace || 4;
 			return _r;

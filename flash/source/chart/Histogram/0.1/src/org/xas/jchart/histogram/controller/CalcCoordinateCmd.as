@@ -298,11 +298,16 @@ package org.xas.jchart.histogram.controller
 			_config.c.vpoint = [];
 			_config.c.vpointReal = [];
 			
+			
+			var _padX:Number = 0;
+			if( !_config.rateLabelEnabled ){
+			}
+			
 			Common.each( _config.rate, function( _k:int, _item:* ):void{
 				var _n:Number = _config.c.minY + _partN * _k, _sideLen:int = _config.c.arrowLength;
 				_config.c.vpoint.push( {
-					start: new Point( _config.c.minX, _n )
-					, end: new Point( _config.c.maxX, _n )
+					start: new Point( _config.c.minX + _padX, _n )
+					, end: new Point( _config.c.maxX + _padX, _n )
 				});
 				
 				_config.c.vpointReal.push( {
@@ -313,6 +318,9 @@ package org.xas.jchart.histogram.controller
 		}
 		
 		private function calcChartHPoint():void{
+			if( !_config.rateLabelEnabled ){
+				_config.c.chartWidth -= ( _config.vlabelSpace + 2 );
+			}
 			var _partN:Number = _config.c.chartWidth / ( _config.categories.length )
 				, _sideLen:Number = _config.c.arrowLength
 				;

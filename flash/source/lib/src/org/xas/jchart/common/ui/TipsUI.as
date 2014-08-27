@@ -100,7 +100,7 @@ package org.xas.jchart.common.ui
 			if( _data.beforeItems ){
 				Common.each( _data.beforeItems, function( _k:int, _item:Object ):void{
 					if( !_item ) return;					
-					var _styles:Object = { color: 0x999999 };
+					var _styles:Object = { color: BaseConfig.ins.tooptipSerialItemColor( _k ) };
 					
 					_layout.addChild( _nameTxf = new TextField() );
 					_nameTxf.text = _item.name + ': ';
@@ -148,7 +148,7 @@ package org.xas.jchart.common.ui
 			if( _data.afterItems && _data.afterItems.length ){
 				Common.each( _data.afterItems, function( _k:int, _item:Object ):void{
 					if( !_item ) return;					
-					var _styles:Object = { color: 0x999999 };
+					var _styles:Object = { color: BaseConfig.ins.tooptipAfterSerialItemColor( _k ) };
 					
 					_layout.addChild( _nameTxf = new TextField() );
 					_nameTxf.text = _item.name + ': ';

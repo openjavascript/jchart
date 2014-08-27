@@ -31,7 +31,9 @@ package org.xas.jchart.common.data
 					"color": 0x8D8D8D
 				}, 
 				"shadow": true, 
-				"enabled": true
+				"enabled": true,
+				"serialColor": [ 0x999999 ],
+				"afterSerialColor": [ 0x999999 ]
 			};
 		
 		public static var loading:Object =

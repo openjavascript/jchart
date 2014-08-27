@@ -59,7 +59,7 @@ package org.xas.jchart.common.view.components.SerialLabel
 						}
 						
 						Common.implementStyle( _label, [ { size: 14 }, _maxStyle ] );
-						EffectUtility.textShadow( _label as TextField, { color: BaseConfig.ins.itemColor( _k ), size: 11 }, 0xffffff );
+						EffectUtility.textShadow( _label as TextField, { color: BaseConfig.ins.itemColor( _k ), size: 12 }, 0xffffff );
 						
 						_label.x = _sitem.x - _label.width / 2;
 						if( _sitem.value >= 0 ){

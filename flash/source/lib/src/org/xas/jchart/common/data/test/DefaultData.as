@@ -21,9 +21,7 @@ package org.xas.jchart.common.data.test
 		
 		private function init():void{
 			_data = new Vector.<Object>();
-			
-			
-			
+						
 			_data.push({
 				
 				xAxis: {
@@ -41,7 +39,7 @@ package org.xas.jchart.common.data.test
 						0.98, 1.99, 1.01, 1.02, 1.05
 						, 1.98, 2.99, 0.001, 3.02, 3.05
 					]
-				}]
+				}] 
 				, tooltip: {		
 					enabled: false
 					, "headerFormat": "{0}"			

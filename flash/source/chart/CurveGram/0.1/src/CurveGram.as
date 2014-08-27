@@ -34,7 +34,7 @@ package
 	{ 
 		private var _inited: Boolean = false; 
 		private var _timer:Timer;
-		private var _data:Object;
+		private var _data:Object; 
 		private var _facade:Facade; 
 		private var _resizeTimer:Timer;
 		private var _ins:CurveGram; 

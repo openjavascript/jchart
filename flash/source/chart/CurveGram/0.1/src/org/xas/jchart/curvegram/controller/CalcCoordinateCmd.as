@@ -153,7 +153,9 @@ package org.xas.jchart.curvegram.controller
 				_config.c.chartY = _config.c.minY;
 				
 				facade.registerMediator( new GraphicBgMediator() );	
-				facade.registerMediator( new TipsMediator() );
+				//facade.registerMediator( new TipsMediator() );
+				_config.tooltipEnabled && facade.registerMediator( new TipsMediator() );
+
 				
 				if( _config.toggleBgEnabled ){	
 					facade.registerMediator( new ToggleBgMediator() );

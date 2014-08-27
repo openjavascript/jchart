@@ -21,6 +21,8 @@ package org.xas.jchart.common.view.components.ToggleBgView
 		{
 			super(); 
 			
+			this.mouseEnabled = false;
+			
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
 			addEventListener( JChartEvent.UPDATE, update );
 		}

@@ -7,6 +7,7 @@ package org.xas.jchart.common.ui
 	
 	import mx.controls.Text;
 	
+	import org.xas.core.utils.EffectUtility;
 	import org.xas.core.utils.ElementUtility;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
@@ -35,6 +36,9 @@ package org.xas.jchart.common.ui
 		
 		private var _eleData:Object;
 		
+		private var _serialData:Object;
+		private var _afterSerialData:Object;
+				
 		public function TipsUI()
 		{
 			super();
@@ -44,8 +48,10 @@ package org.xas.jchart.common.ui
 			addEventListener( JChartEvent.UPDATE_TIPS, updateTips );	
 		}
 		
-		public function update( _data:Object, _position:Point = null ):TipsUI{
-			_position && dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, { data: _data, point: _position } ) );
+		public function update( _data:Object, _position:Object = null, _colors:Array = null, _rect:Object = null ):TipsUI{
+			_position && dispatchEvent( 
+				new JChartEvent( JChartEvent.UPDATE_TIPS, { data: _data, point: _position, colors: _colors, rect: _rect } ) 
+			);
 			return this;
 		}
 		
@@ -62,16 +68,19 @@ package org.xas.jchart.common.ui
 		
 		public function buildLayout( _data:Object ):TipsUI{			
 			this._data = _data;
+	
+			//Log.printJSON( _afterSerial  );
+			
 			_layout.graphics.clear();
 			graphics.clear();
 			ElementUtility.removeAllChild( _layout );
 			
 			_layout.addChild( _nameTxf = new TextField() );
-			Common.implementStyle( _nameTxf, [ DefaultOptions.tooltip.style ] );
+			Common.implementStyle( _nameTxf, [ { bold: true }, DefaultOptions.tooltip.style ] );
 			
 			_nameTxf.text = _data.name || '';
 						
-			var _offsetY:Number = 10
+			var _offsetY:Number = 15
 				, _y:Number = _offsetY + _nameTxf.height
 				;
 			
@@ -80,13 +89,45 @@ package org.xas.jchart.common.ui
 				, items: []
 			};
 			
+			_serialData = {
+				items: []
+			};
+			
+			_afterSerialData = {
+				items: []
+			};
+			
+			if( _data.beforeItems ){
+				Common.each( _data.beforeItems, function( _k:int, _item:Object ):void{
+					if( !_item ) return;					
+					var _styles:Object = { color: BaseConfig.ins.tooptipSerialItemColor( _k ) };
+					
+					_layout.addChild( _nameTxf = new TextField() );
+					_nameTxf.text = _item.name + ': ';
+					Common.implementStyle( _nameTxf, [ _styles ] );
+					_nameTxf.y = _y;
+					
+					
+					_layout.addChild( _valTxf = new TextField() );
+					_valTxf.text = '0';
+					Common.implementStyle( _valTxf, [ _styles ] );
+					_valTxf.y = _y;
+					
+					_y += _nameTxf.height;
+					
+					Common.implementStyle( _nameTxf, [ _styles ] );
+					
+					_serialData.items.push( { 'name': _nameTxf, 'value': _valTxf } );
+				});
+			}
+			
 			if( _data.items ){
 				Common.each( _data.items, function( _k:int, _item:Object ):void{
-					
+					if( !_item ) return;					
 					var _styles:Object = { color: BaseConfig.ins.itemColor( _k ) };
 					
 					_layout.addChild( _nameTxf = new TextField() );
-					_nameTxf.text = _item.name
+					_nameTxf.text = _item.name + ': ';
 					Common.implementStyle( _nameTxf, [ _styles ] );
 					_nameTxf.y = _y;
 					
@@ -102,22 +143,71 @@ package org.xas.jchart.common.ui
 
 					_eleData.items.push( { 'name': _nameTxf, 'value': _valTxf } );
 				});
-
 			}
+			
+			if( _data.afterItems && _data.afterItems.length ){
+				Common.each( _data.afterItems, function( _k:int, _item:Object ):void{
+					if( !_item ) return;					
+					var _styles:Object = { color: BaseConfig.ins.tooptipAfterSerialItemColor( _k ) };
+					
+					_layout.addChild( _nameTxf = new TextField() );
+					_nameTxf.text = _item.name + ': ';
+					Common.implementStyle( _nameTxf, [ _styles ] );
+					_nameTxf.y = _y;
+					
+					
+					_layout.addChild( _valTxf = new TextField() );
+					_valTxf.text = '0';
+					Common.implementStyle( _valTxf, [ _styles ] );
+					_valTxf.y = _y;
+					
+					_y += _nameTxf.height;
+					
+					Common.implementStyle( _nameTxf, [ _styles ] );
+					_afterSerialData.items.push( { 'name': _nameTxf, 'value': _valTxf } );
+				});
+			}
+			
+			/*
+			_exEleData = [];
+			Common.each( _extendData, function( _k:int, _item:Object ):void{
+				//Log.log( 'tooltip serial ' );
+				if( !_item ) return;		
+				//Log.log( 'tooltip serial 1' );			
+				var _styles:Object = { color: 0x999999 };
+				
+				_layout.addChild( _nameTxf = new TextField() );
+				_nameTxf.text = _item.name + ': ';
+				Common.implementStyle( _nameTxf, [ _styles ] );
+				_nameTxf.y = _y;
+				
+				
+				_layout.addChild( _valTxf = new TextField() );
+				_valTxf.text = _item.value;
+				Common.implementStyle( _valTxf, [ _styles ] );
+				_valTxf.y = _y;
+				
+				_y += _nameTxf.height;
+				
+				Common.implementStyle( _nameTxf, [ _styles ] );
+				
+				_exEleData.push( { 'name': _nameTxf, 'value': _valTxf } );
+			});
+			*/
 			
 			updateLayout();
 			
 			return this;
 		}
 		
-		private function updateLayout( _data:Object = null ):void{
+		private function updateLayout( _data:Object = null, _colors:Array = null ):void{
 			
 			if( !_eleData ) return;
 			
 			_layout.graphics.clear();
 			graphics.clear();
-			graphics.beginFill( 0xffffff, .9 );
-			graphics.lineStyle( 2, 0x999999 );
+			graphics.beginFill( 0xffffff, .95 );
+			graphics.lineStyle( 1, 0x999999, .35 );
 			
 			_nameTxf = _eleData.name as TextField;
 			
@@ -135,26 +225,96 @@ package org.xas.jchart.common.ui
 				_nameTxf.text = _data.name;
 			}
 			
+			Common.each( _serialData.items, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				if( _data ){
+					_nameTxf.text = _data.beforeItems[ _k ].name + ': ';		
+					_valTxf.text = _data.beforeItems[ _k ].value;		
+				}
+				
+				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );
+				_valTxf.width > _valueMaxLen && ( _valueMaxLen = _valTxf.width );
+			});
 			Common.each( _eleData.items, function( _k:int, _item:Object ):void{
 				_nameTxf = _item.name as TextField;
 				_valTxf = _item.value as TextField;
 				
 				if( _data ){
-					_nameTxf.text = _data.items[ _k ].name;
-					_valTxf.text = _data.items[ _k ].value;					
+					_nameTxf.text = _data.items[ _k ].name + ': ';		
+					_valTxf.text = _data.items[ _k ].value;		
+				}
+				
+				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );
+				_valTxf.width > _valueMaxLen && ( _valueMaxLen = _valTxf.width );
+			});
+			Common.each( _afterSerialData.items, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				if( _data ){
+					_nameTxf.text = _data.afterItems[ _k ].name + ': ';		
+					_valTxf.text = _data.afterItems[ _k ].value;		
 				}
 				
 				_nameTxf.width > _nameMaxLen && ( _nameMaxLen = _nameTxf.width );
 				_valTxf.width > _valueMaxLen && ( _valueMaxLen = _valTxf.width );
 			});
 			
+			
+			Common.each( _serialData.items, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				_nameTxf.x = _offsetX * 2 + _nameMaxLen - _nameTxf.width;					
+				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
+			});
+			
 			Common.each( _eleData.items, function( _k:int, _item:Object ):void{
 				_nameTxf = _item.name as TextField;
 				_valTxf = _item.value as TextField;
 				
-				_nameTxf.x = _offsetX * 2;					
+				_nameTxf.x = _offsetX * 2 + _nameMaxLen - _nameTxf.width;					
 				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
 			});
+			
+			Common.each( _afterSerialData.items, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				_nameTxf.x = _offsetX * 2 + _nameMaxLen - _nameTxf.width;					
+				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
+			});
+			
+			/*
+			Common.each( _exEleData, function( _k:int, _item:Object ):void{
+				_nameTxf = _item.name as TextField;
+				_valTxf = _item.value as TextField;
+				
+				_nameTxf.x = _offsetX * 2 + _nameMaxLen - _nameTxf.width;	
+				_valTxf.x = _offsetX * 3 + _nameMaxLen + ( _valueMaxLen - _valTxf.width );
+			});
+			*/
+			
+			if( _colors && _colors.length ){
+				if( _colors.length === 1 ){
+					Common.each( _eleData.items, function( _k:int, _item:Object ):void{
+						_nameTxf = _item.name as TextField;
+						_valTxf = _item.value as TextField;
+						
+						/*
+						EffectUtility.textShadow( _nameTxf, { color: 0xffffff }, _colors[0] );
+						EffectUtility.textShadow( _valTxf, { color: 0xffffff }, _colors[0] );
+						*/
+						
+						_nameTxf.textColor = _colors[0];
+						_valTxf.textColor = _colors[0];
+					});
+				}else{
+					
+				}
+			}
 			
 			graphics.drawRoundRect( 
 				0, 0
@@ -165,12 +325,23 @@ package org.xas.jchart.common.ui
 		}
 		
 		private function updateTips( _evt:JChartEvent ):void{
-			var _point:Point = _evt.data.point as Point
+			var _point:Object = _evt.data.point as Object
 				, _data:Object = _evt.data.data as Object
+				, _colors:Array = _evt.data.colors as Array
+				, _rect:Object = _evt.data.rect as Object
 				;
 			if( !_point ) return;
 			
-			updateLayout( _data );
+			updateLayout( _data, _colors );
+			
+			if( _rect ){
+				rectPosition( _point, _rect );
+			}else{
+				normalPosition( _point, _rect );
+			}
+		}
+		
+		private function normalPosition( _point:Object, _rect:Object ):void{
 			
 			var _x:Number = _point.x + 15
 				, _y:Number = _point.y + 18
@@ -178,8 +349,37 @@ package org.xas.jchart.common.ui
 				, _y2:Number = _y + this.height
 				;
 			
-			if( _x2 >= root.stage.x + root.stage.width ){
+			if( _x2 >= root.stage.x + root.stage.stageWidth ){
 				_x = _point.x - this.width;
+			}
+			
+			if( _y2 >= root.stage.y + root.stage.stageHeight ){
+				_y = _point.y - this.height;
+			}
+			
+			_x < 0 && ( _x = 0 );
+			_y < 0 && ( _y = 0 );
+			
+			//Log.log( _x2, root.stage.x + root.stage.width );
+			
+			//Log.log( _x, _y, this.width, this.height, _y + this.height, _y2, this.root.stage.stageHeight );
+			
+			this.x = _x;
+			this.y = _y;
+			//Log.log( 'TipsUI updateTips', _point.x, _point.y );
+			
+		}
+		
+		private function rectPosition( _point:Object, _rect:Object ):void{
+			
+			var _x:Number = _rect.x + _rect.width
+				, _y:Number = _point.y 
+				, _x2:Number = _x + this.width
+				, _y2:Number = _y + this.height
+				;
+			
+			if( _x2 >= root.stage.x + root.stage.width ){
+				_x = _rect.x - this.width;
 			}
 			
 			if( _y2 >= root.stage.y + root.stage.height ){

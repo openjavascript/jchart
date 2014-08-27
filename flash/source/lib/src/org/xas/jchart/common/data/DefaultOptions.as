@@ -18,8 +18,8 @@ package org.xas.jchart.common.data
 					"millisecond": "%A, %b %e, %H:%M:%S.%L", 
 					"week": "Week from %A, %b %e, %Y"
 				}, 
-				"pointFormat": "<span style=\"color:{series.color}\">{series.name}</span>: <b>{point.y}</b><br/>", 
-				"headerFormat": "<span style=\"font-size: 10px\">{point.key}</span><br/>", 
+				"pointFormat": "{0}", 
+				"headerFormat": "{0}", 
 				"snap": 10, 
 				"borderWidth": 1, 
 				"animation": true, 
@@ -28,10 +28,12 @@ package org.xas.jchart.common.data
 				"style":
 				{
 					"size": 12,  
-					"color": 0x333333
+					"color": 0x8D8D8D
 				}, 
 				"shadow": true, 
-				"enabled": true
+				"enabled": true,
+				"serialColor": [ 0x999999 ],
+				"afterSerialColor": [ 0x999999 ]
 			};
 		
 		public static var loading:Object =
@@ -740,7 +742,9 @@ package org.xas.jchart.common.data
 						"y1": 0
 					}
 				}, 
-				"borderColor": "#4572A7"
+				"borderColor": "#4572A7",
+				"bgColor": 0xcccccc,
+				"bgAlpha": .13
 			};
 		
 		public static var yAxis:Object =
@@ -773,15 +777,31 @@ package org.xas.jchart.common.data
 		
 		public static var colors:Array =
 			[
-				0x058DC7, 
-				0x50B432, 
-				0xED561B, 
-				0xDDDF00, 
-				0x24CBE5, 
-				0x64E572, 
-				0xFF9655, 
-				0xFFF263, 
-				0x6AF9C4
+				0x09c100, 
+				0x0c76c4, 				
+				0xff0619,
+				
+				0xFFBF00, 			
+				0xff7100,	
+				0xff06b3, 
+				
+				0x41e2e6,			
+				0xc3e2a4,	
+				0xffb2bc,
+				
+				0xdbb8fd
+				
+				/*
+				0x09c100, 
+				0xffbf00, 
+				0x0c76c4, 
+				0x41e2e6, 
+				0xffb2bc, 
+				0xdbb8fd, 
+				0xff06b3, 
+				0xff7100, 
+				0xc3e2a4
+				*/
 			];
 		
 		public static var labels:Object =

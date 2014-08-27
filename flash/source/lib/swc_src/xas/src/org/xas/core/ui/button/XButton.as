@@ -11,10 +11,13 @@ package org.xas.core.ui.button
 		private var _tbx:TextField;
 		private var _bg:Sprite;
 		private var _tFormat:TextFormat;
+		private var _data:Object;
+		public function get data():Object{ return _data; }
 		
-		public function XButton( $text:String )
+		public function XButton( $text:String, _data:Object = null )
 		{
 			_text  = $text;
+			this._data = _data;
 			
 			init();
 		}

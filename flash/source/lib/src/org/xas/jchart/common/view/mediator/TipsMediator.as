@@ -6,15 +6,17 @@ package org.xas.jchart.common.view.mediator
 	import org.xas.core.utils.ElementUtility;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
+	import org.xas.jchart.common.BaseFacade;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.common.view.components.TipsView;
+	import org.xas.jchart.common.view.components.TipsView.BaseTipsView;
+	import org.xas.jchart.common.view.components.TipsView.PieTipsView;
 	import org.xas.jchart.common.view.components.TitleView;
 	
 	public class TipsMediator extends Mediator implements IMediator
 	{
 		public static const name:String = 'PTipsMediator';
-		private var _view:TipsView;
-		public function get view():TipsView{ return _view; }
+		private var _view:BaseTipsView;
+		public function get view():BaseTipsView{ return _view; }
 		
 		public function TipsMediator( )
 		{
@@ -23,7 +25,21 @@ package org.xas.jchart.common.view.mediator
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index8.addChild( _view = new TipsView() ); 
+			
+			switch( (facade as BaseFacade).name ){
+				case 'PieGraphFacade':
+				case 'DDountFacade':
+				case 'NDountFacade':
+				{
+					mainMediator.view.index8.addChild( _view = new PieTipsView() );
+					break;
+				}
+				default:{
+					mainMediator.view.index8.addChild( _view = new BaseTipsView() ); 
+					break;
+				}
+			}
+			
 			ElementUtility.topIndex( _view );
 			//Log.log( 'TipsMediator register' );	
 		}

@@ -6,6 +6,10 @@ package org.xas.jchart.common
 	
 	import org.xas.jchart.common.Common;
 	
+	import flash.geom.Point;
+	import flash.display.DisplayObject;
+	import org.xas.core.utils.Log;
+	
 	public class Common
 	{		
 		
@@ -95,7 +99,7 @@ package org.xas.jchart.common
 				if( _number.split('.').length > 2 ) return _def;
 			}
 			
-			if( !_number ) return _def;
+			_number = _number || 0;
 			_number += ''; 
 			
 			/^\-/.test( _number ) && ( _isNegative = true );
@@ -204,6 +208,195 @@ package org.xas.jchart.common
 					}
 				});
 			}			
+			return _r;
+		}
+		
+		/**
+		 * 从长度和角度求坐标点
+		 * @method  distanceAngleToPoint
+		 * @param  {Number} _distance
+		 * @param  {Number} _angle
+		 * @return Point
+		 * @static
+		 */
+		public static function distanceAngleToPoint( _distance:Number, _angle:Number ):Point{
+			var _radian:Number = Common.radians( _angle );					
+			return new Point(
+				Math.cos( _radian  ) * _distance
+				, Math.sin( _radian ) * _distance
+			)
+		}
+		/**
+		 * 从角度获取弧度
+		 * @method  radians
+		 * @param   {Number} _angle
+		 * @return  {Number}
+		 * @static
+		 */
+		public static function radians( _angle:Number ):Number{ return _angle * Math.PI / 180; }
+		/**
+		 * 从弧度获取角度
+		 * @method  degree
+		 * @param   {Number} _radians
+		 * @return  {Number}
+		 * @static
+		 */
+		public static function degree( _radians:Number ):Number{ return _radians / Math.PI * 180; }
+
+		public static function isFloat( _num:Number ):Boolean{
+			_num = Math.abs( _num );
+			return ( _num - parseInt( _num + '' ) ) > 0;
+		}
+		
+		/**
+		 * 判断两个矩形是否有交集
+		 */
+		public static function intersectRect( r1:Object, r2:Object ):Boolean {
+			return !(
+				r2.x > ( r1.x + r1.width ) || 
+				( r2.x + r2.width ) < r1.x || 
+				r2.y > ( r1.y + r1.height ) ||
+				( r2.y + r2.height ) < r1.y
+			);
+		}
+		
+		/**
+		 * 把坐标和宽高生成一个 rectangle 数据
+		 */
+		public static function locationToRect( _x:Number, _y:Number, _width:Number, _height:Number ):Object{
+			var _r:Object = {
+				'left': _x
+				, 'top': _y
+				, 'right': _x + _width
+					, 'bottom': _y + _height 
+			};
+			return _r;
+		}
+		/**
+		 * 把 rectangle 数据 转换为 中心点坐标数据
+		 */
+		public static function rectToCenterPoint( _rect:Object ):Object{
+			var _r:Object = {
+				'x': _rect.left + _rect.width / 2
+					, 'y': _rect.top + _rect.height / 2
+			};
+			return _r;
+		}
+		public static function displayToCenterPoint( _display:*, _side:int = 0, _offsetX:Number = 0, _offsetY:Number = 0 ):Object{
+			var _do:DisplayObject = _display as DisplayObject, _r:Object = { x: 0, y: 0 };			
+			if( _do ){
+				switch( _side ){
+					case 1: //right bottom
+					{
+						_r = { 'x': _do.x + _do.width + _offsetX, 'y': _do.y + _do.height + _offsetY };
+						break;
+					}
+					case 2: //right mid
+					{
+						_r = { 'x': _do.x + _do.width + _offsetX, 'y': _do.y + _do.height / 2 + _offsetY };
+						break;
+					}
+					case 3: //left mid
+					{
+						_r = { 'x': _do.x + _offsetX, 'y': _do.y + _do.height / 2 + _offsetY };
+						break;
+					}
+					case 4: //left bottom
+					{
+						_r = { 'x': _do.x + _offsetX, 'y': _do.y + _do.height  + _offsetY };
+						break;
+					}
+					case 5: //center bottom
+					{
+						_r = { 'x': _do.x + _do.width / 2 + _offsetX, 'y': _do.y + _do.height  + _offsetY };
+						break;
+					}
+					case 6: //center top
+					{
+						_r = { 'x': _do.x + _do.width / 2 + _offsetX, 'y': _do.y + _offsetY };
+						break;
+					}
+					case 7: //center mid
+					{
+						_r = { 'x': _do.x + _do.width / 2 + _offsetX, 'y': _do.y + _offsetY };
+						break;
+					}
+					default: 
+					{						
+						_r = { 'x': _do.x + _do.width / 2 + _offsetX, 'y': _do.y + _do.height / 2 +_offsetY };
+						break;
+					}
+						
+				}
+			};
+			return _r;
+		}
+
+		public static function lineLength( x1:Number, y1:Number, x2:Number, y2:Number ):Number
+		{
+			var dx:Number = x2 - x1;
+			var dy:Number = y2 - y1;
+			
+			return Math.sqrt( dx * dx + dy * dy );
+		}
+		
+		/**
+		 * 求两点之间连线的角度
+		 */
+		public static function lineAngle(px1:Number, py1:Number, px2:Number, py2:Number):Number 
+		{
+			//两点的x、y值
+			var x:Number = px2-px1;
+			var y:Number = py2-py1;
+			var h:Number = 0;
+			var radian:Number = 0;
+			var angle:Number = 0;
+			var cos:Number = 0;
+			
+			h = Math.sqrt(Math.pow(x, 2)+Math.pow(y, 2));
+			//斜边长度
+			cos = x/h;
+			radian = Math.acos(cos);
+			//求出弧度
+			angle = 180/(Math.PI/radian);
+			//用弧度算出角度    
+			if (y<0) {
+				angle = -angle;
+			} else if ((y == 0) && (x<0)) {
+				angle = 180;
+			}
+			
+			angle = fixAngle( angle );
+			
+			return angle;
+		}
+		
+		public static function fixAngle($angle:Number):Number
+		{
+			if( $angle < 0 ) $angle = 360 + $angle;
+			return $angle;
+		}
+		
+		
+		public static function moveByAngle( $angle:Number, $centerPoint:Point, $diameter:Number ):Point
+		{
+			var result:Point = new Point(0, 0);
+			var radian:Number;
+			
+			radian = $angle * Math.PI / 180;					
+			result.x = $centerPoint.x + Math.cos( radian  ) * $diameter;
+			result.y = $centerPoint.y + Math.sin( radian ) * $diameter;
+			
+			return result;
+		}
+		
+		public static function floatLen( _n:* ):int{
+			var _s:String = parseFinance( _n || 0, 10 ) + '', _r:int = 0, _ar:Array;
+			_ar = _s.split( '.' );
+			if(_ar.length > 1 ){
+				//Log.log( _n, _ar[1], _s );
+				_ar[1].length > _r && ( _r = _ar[1].length );
+			}
 			return _r;
 		}
 	}

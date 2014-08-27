@@ -4,15 +4,17 @@ package org.xas.jchart.common.view.mediator
 	import org.puremvc.as3.multicore.interfaces.INotification;
 	import org.puremvc.as3.multicore.patterns.mediator.Mediator;
 	import org.xas.core.utils.Log;
+	import org.xas.jchart.common.BaseFacade;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.common.view.components.BgView;
+	import org.xas.jchart.common.view.components.BgView.BaseBgView;
+	import org.xas.jchart.common.view.components.BgView.DDountBgView;
 	import org.xas.jchart.common.view.components.TitleView;
 	
 	public class BgMediator extends Mediator implements IMediator
 	{
 		public static const name:String = 'PBgMediator';
-		private var _view:BgView;
-		public function get view():BgView{ return _view; }
+		private var _view:BaseBgView;
+		public function get view():BaseBgView{ return _view; }
 		
 		public function BgMediator( )
 		{
@@ -21,8 +23,19 @@ package org.xas.jchart.common.view.mediator
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index5.addChild( _view = new BgView() );
-			//Log.log( 'BgMediator register' );	
+			//Log.log( 'BgMediator register' );				
+			switch( (facade as BaseFacade).name ){
+				case 'DDountFacade':
+				case 'NDountFacade':
+				{
+					mainMediator.view.index5.addChild( _view = new DDountBgView() );
+					break;
+				}
+				default:{
+					mainMediator.view.index5.addChild( _view = new BaseBgView() );
+					break;
+				}
+			}	
 		}
 		
 		override public function onRemove():void{

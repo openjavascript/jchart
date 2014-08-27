@@ -2,7 +2,7 @@
 <actionScriptProperties mainApplicationPath="Histogram.as" projectUUID="8c325813-0eaf-4b18-aca5-7b354688bf4d" version="6">
   <compiler additionalCompilerArguments="-locale zh_CN" autoRSLOrdering="false" copyDependentFiles="true" flexSDK="Flex 4.6" fteInMXComponents="false" generateAccessible="true" htmlExpressInstall="true" htmlGenerate="false" htmlHistoryManagement="true" htmlPlayerVersionCheck="true" includeNetmonSwc="false" outputFolderPath="bin-debug" sourceFolderPath="src" strict="true" targetPlayerVersion="0.0.0" useApolloConfig="false" useDebugRSLSwfs="true" verifyDigests="true" warn="true">
     <compilerSourcePath>
-      <compilerSourcePathEntry kind="1" linkType="1" path="G:/My Documents/git/jchart/flash/source/lib/src"/>
+      <compilerSourcePathEntry kind="1" linkType="1" path="G:/My Documents/git/jchart_dev/flash/source/lib/src"/>
     </compilerSourcePath>
     <libraryPath defaultLinkType="0">
       <libraryPathEntry kind="4" path="">
@@ -26,7 +26,7 @@
           <libraryPathEntry kind="3" linkType="1" path="${PROJECT_FRAMEWORKS}/libs/automation_agent.swc" useDefaultLinkType="false"/>
         </excludedEntries>
       </libraryPathEntry>
-      <libraryPathEntry kind="1" linkType="1" path="G:/My Documents/git/jchart/flash/source/lib/swc"/>
+      <libraryPathEntry kind="1" linkType="1" path="G:/My Documents/git/jchart_dev/flash/source/lib/swc"/>
     </libraryPath>
     <sourceAttachmentPath/>
   </compiler>
@@ -36,3 +36,4 @@
   <modules/>
   <buildCSSFiles/>
 </actionScriptProperties>
+

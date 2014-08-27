@@ -20,7 +20,7 @@ package org.xas.jchart.histogram.view.mediator
 		}
 		
 		override public function onRegister():void{
-			mainMediator.view.index6.addChild( _view = new GraphicView() );			
+			mainMediator.view.index7.addChild( _view = new GraphicView() );			
 		}
 		
 		override public function onRemove():void{
@@ -39,10 +39,10 @@ package org.xas.jchart.histogram.view.mediator
 		override public function handleNotification(notification:INotification):void{
 			switch( notification.getName() ){
 				case JChartEvent.SHOW_CHART:
-					{								
-						_view.update();
-						break;
-					}	
+				{					
+					_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE ) );
+					break;
+				}	
 				case JChartEvent.UPDATE_TIPS:
 				{
 					_view.dispatchEvent( new JChartEvent( JChartEvent.UPDATE_TIPS, notification.getBody() ) );

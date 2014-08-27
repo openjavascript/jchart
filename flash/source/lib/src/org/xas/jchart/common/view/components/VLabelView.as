@@ -13,6 +13,7 @@ package org.xas.jchart.common.view.components
 	import mx.controls.Text;
 	
 	import org.xas.core.utils.Log;
+	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.data.DefaultOptions;
@@ -37,16 +38,24 @@ package org.xas.jchart.common.view.components
 			_labels = new Vector.<TextField>();
 			var _v:Number, _t:String, _titem:TextField;
 			
-			Common.each( BaseConfig.ins.rate, function( _k:int, _item:Number ):*{
-				_v = BaseConfig.ins.finalMaxNum * _item;
-				_t = Common.parseFinance( _v ).toString();
+			Common.each( BaseConfig.ins.realRate, function( _k:int, _item:Number ):*{
+				
+				_t = Common.moneyFormat( _item, 3, BaseConfig.ins.realRateFloatLen || 0 );
 				
 				_titem = new TextField();
-				_titem.text = _t;
+				
+				
+				
+				if( BaseConfig.ins.isPercent ){
+					_titem.text = _t + '%';
+				}else{
+				}
+				_titem.text = StringUtils.printf( BaseConfig.ins.yAxisFormat, _t );
 				
 				Common.implementStyle( _titem, [
 					DefaultOptions.title.style
 					, DefaultOptions.yAxis.labels.style
+					, { color: 0x838383 }
 					, BaseConfig.ins.vlabelsStyle
 				] );
 				
@@ -64,7 +73,7 @@ package org.xas.jchart.common.view.components
 			
 			Common.each( BaseConfig.ins.c.vpoint, function( _k:int, _item:Object ):void{
 				var _tf:TextField = _labels[ _k ];
-				_tf.x = _item.start.x - _tf.width;
+				_tf.x = _item.start.x - _tf.width - BaseConfig.ins.vlabelSpace;
 				_tf.y = _item.start.y - _tf.height / 2;
 			});
 		}

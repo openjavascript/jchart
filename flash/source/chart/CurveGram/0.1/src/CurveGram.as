@@ -18,19 +18,26 @@ package
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.config.CurveGramConfig;
+	import org.xas.jchart.common.data.test.DefaultData;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.curvegram.MainFacade;
 	
 	
-	[SWF(frameRate="30", width="800", height="400")]
+	//[SWF(frameRate="30", width="790", height="230")]
+	//[SWF(frameRate="30", width="385", height="225")]
+	//[SWF(frameRate="30", width="600", height="425")]
+	//[SWF(frameRate="30", width="590", height="360")]
+	//[SWF(frameRate="30", width="1400", height="460")]
+	//[SWF(frameRate="30", width="800", height="400")]
+	[SWF(frameRate="30", width="800", height="360")]
 	public class CurveGram extends Sprite
 	{ 
-		private var _inited: Boolean = false;
+		private var _inited: Boolean = false; 
 		private var _timer:Timer;
-		private var _data:Object;
-		private var _facade:Facade;
+		private var _data:Object; 
+		private var _facade:Facade; 
 		private var _resizeTimer:Timer;
-		private var _ins:CurveGram;
+		private var _ins:CurveGram; 
 		private var _loaderInfo:Object;
 		
 		public function CurveGram()
@@ -40,12 +47,12 @@ package
 			
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
-			
+			 
 			BaseConfig.setIns( new CurveGramConfig() );
 			
 			addEventListener( JChartEvent.PROCESS, process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);
-			addEventListener( Event.REMOVED_FROM_STAGE, onRemovedFromStage );	
+			addEventListener( Event.REMOVED_FROM_STAGE, onRemovedFromStage );	 
 		}
 		
 		private function onEnterFrame( $evt:Event ):void
@@ -62,7 +69,18 @@ package
 			
 			BaseConfig.ins.setDebug( true );
 			runData();
+			
+			if( ExternalInterface.available ){
+				ExternalInterface.addCallback( 'update', extenalUpdate );
+			}
 			//BaseConfig.ins.setChartData( {});
+		}
+		
+		private function extenalUpdate( _data:Object ):void{
+			BaseConfig.ins.clearData();
+			BaseConfig.ins.updateDisplaySeries( null, _data );
+			BaseConfig.ins.setChartData( _data );
+			_facade.sendNotification( JChartEvent.DRAW );
 		}
 		
 		public function update( _data:Object, _x:int = 0, _y:int = 0 ):void{			
@@ -138,46 +156,19 @@ package
 			var _data:Object = {};
 			
 			if( !ExternalInterface.available ){				
-				_data = {
-					title: { text: 'test title 中文' }
-					, subtitle: { text: 'test subtitle 中文' }
-					, yAxis: { title: { text: 'vtitle 中文' } }
-					, credits: {
-						enabled: true
-						, text: 'jchart.openjavascript.org'
-						, href: 'http://jchart.openjavascript.org/'
-					},
-					xAxis: {
-						categories: [2111111111111, 2, 3, 4, 5, 6, 7, 8, 999999999999]
-						, tipTitlePostfix: '{0}月'
-					}, 
-					series:[{
-						name: 'Temperature',
-						data: [-50, -1, -3, 10.01, -20, -27, -28, -32, -30]
-						}, {
-							name: 'Rainfall1',
-							data: [-20.10, -21, 50, 100, -10, -210, -220, -100, -20]
-						}, {
-							name: 'Rainfall2',
-							data: [-30, -21, -20, -100, -10, -210, -20, -100, -20]
-						}, {
-							name: 'Rainfall3',
-							data: [-40, -21, -20, -100, -10, -210, -120, -100, -20]
-						}
-						
-					],
-					legend: {
-						enabled: true
-					}
-					, displayAllLabel: false
-				};
-				//_data = {};
+				_data = DefaultData.instance.data[2];
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
-				_data = _loaderInfo.chart || _data;
+				if( _loaderInfo.chart ){
+					_data = JSON.parse( _loaderInfo.chart );
+				}				
+				_data = _data || {};
 			}
 			
 			update( _data );
-		}
+		}		
+		
+		public static var author:String = 'suches@btbtd.org';
+		public static var version:String = '0.1, 2014-07-30';
 	}
 }

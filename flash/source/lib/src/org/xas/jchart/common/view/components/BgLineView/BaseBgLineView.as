@@ -20,17 +20,18 @@ package org.xas.jchart.common.view.components.BgLineView
 		public function BaseBgLineView()
 		{
 			super(); 
-		
+			
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
+			addEventListener( JChartEvent.UPDATE, update );
 		}
 		
 		protected function addToStage( _evt:Event ):void{
 		}
 
-		public function update():void{
+		protected function update( _evt:JChartEvent ):void{
 			
 			this.graphics.clear();
-			this.graphics.lineStyle( 1, 0x999999 );
+			this.graphics.lineStyle( 1, 0x999999, .35 );
 			
 			this.drawHLine();
 			this.drawVLine();

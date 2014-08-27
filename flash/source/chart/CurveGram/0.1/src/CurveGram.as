@@ -26,16 +26,16 @@ package
 	//[SWF(frameRate="30", width="790", height="230")]
 	//[SWF(frameRate="30", width="385", height="225")]
 	//[SWF(frameRate="30", width="600", height="425")]
-	[SWF(frameRate="30", width="590", height="360")]
+	//[SWF(frameRate="30", width="590", height="360")]
 	//[SWF(frameRate="30", width="1400", height="460")]
 	//[SWF(frameRate="30", width="800", height="400")]
-	//[SWF(frameRate="30", width="800", height="360")]
+	[SWF(frameRate="30", width="800", height="360")]
 	public class CurveGram extends Sprite
 	{ 
 		private var _inited: Boolean = false;
 		private var _timer:Timer;
 		private var _data:Object;
-		private var _facade:Facade;
+		private var _facade:Facade; 
 		private var _resizeTimer:Timer;
 		private var _ins:CurveGram; 
 		private var _loaderInfo:Object;
@@ -47,12 +47,12 @@ package
 			
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
-			
+			 
 			BaseConfig.setIns( new CurveGramConfig() );
 			
 			addEventListener( JChartEvent.PROCESS, process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);
-			addEventListener( Event.REMOVED_FROM_STAGE, onRemovedFromStage );	
+			addEventListener( Event.REMOVED_FROM_STAGE, onRemovedFromStage );	 
 		}
 		
 		private function onEnterFrame( $evt:Event ):void

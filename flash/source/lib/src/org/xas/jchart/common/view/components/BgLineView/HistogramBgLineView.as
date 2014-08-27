@@ -24,8 +24,8 @@ package org.xas.jchart.common.view.components.BgLineView
 			super();
 		}
 		
-		override public function update():void{			
-			super.update();			
+		override protected function update( _evt:JChartEvent ):void{			
+			super.update( _evt );			
 		}
 		
 		override protected function drawHLine():void{
@@ -78,6 +78,11 @@ package org.xas.jchart.common.view.components.BgLineView
 				, _ep:Point = _item.end as Point;
 				;
 				
+				if( !BaseConfig.ins.displayAllLabel ){
+					if( !( _k in BaseConfig.ins.labelDisplayIndex ) ){
+						return;
+					}
+				}
 				graphics.moveTo( _sp.x, _sp.y );
 				graphics.lineTo( _ep.x, _ep.y );
 				

@@ -75,6 +75,21 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get tooltipAfterSerial():Array{
+			var _r:Array = [];
+			
+			//Log.log( 'tooltipSerial xxx ' );
+			
+			this.cd
+				&& this.cd.tooltip
+				&& this.cd.tooltip.afterSerial
+				&& this.cd.tooltip.afterSerial.length
+				&& ( _r = this.cd.tooltip.afterSerial )
+				;
+			
+			return _r;
+		}
+		
 		protected var _filterData:Object;
 		public function get filterData():Object{
 			return _filterData;	
@@ -140,8 +155,27 @@ package org.xas.jchart.common
 				_floatLen = cd.floatLen;
 			}else{
 				_floatLen = 0;
-				var _tmpLen:int = 0;
-				Common.each( series, function( _k:int, _item:Object ):void{
+				
+				var _tmpLen:int;
+				
+				_tmpLen = 0;
+				Common.each( displaySeries, function( _k:int, _item:Object ):void{
+					Common.each( _item.data, function( _sk:int, _sitem:Number ):void{
+						_tmpLen = Common.floatLen( _sitem );
+						_tmpLen > _floatLen && ( _floatLen = _tmpLen );
+						//Log.log( _tmpLen, _floatLen );
+					});
+				});
+				
+				Common.each( tooltipSerial, function( _k:int, _item:Object ):void{
+					Common.each( _item.data, function( _sk:int, _sitem:Number ):void{
+						_tmpLen = Common.floatLen( _sitem );
+						_tmpLen > _floatLen && ( _floatLen = _tmpLen );
+						//Log.log( _tmpLen, _floatLen );
+					});
+				});
+				
+				Common.each( tooltipAfterSerial, function( _k:int, _item:Object ):void{
 					Common.each( _item.data, function( _sk:int, _sitem:Number ):void{
 						_tmpLen = Common.floatLen( _sitem );
 						_tmpLen > _floatLen && ( _floatLen = _tmpLen );
@@ -157,6 +191,7 @@ package org.xas.jchart.common
 					
 		protected var _root:DisplayObject;
 		public function get root():DisplayObject{ return _root; }
+		
 		public function setRoot( _d:* ):DisplayObject{
 			_root = _d as DisplayObject;
 			_width = _root.stage.stageWidth;
@@ -195,6 +230,9 @@ package org.xas.jchart.common
 			if( cd && cd.xAxis && cd.xAxis.tipsHeader ){
 				_r = cd.xAxis.tipsHeader;
 			}
+			if( cd && cd.tooltip && cd.tooltip.header ){
+				_r = cd.tooltip.header;
+			}
 			return _r;
 		}
 		
@@ -225,6 +263,16 @@ package org.xas.jchart.common
 			
 			if( cd && cd.legend && ( 'enabled' in cd.legend ) ){
 				_r = StringUtils.parseBool( cd.legend.enabled );
+			}
+			
+			return _r;
+		}
+		
+		public function get toggleBgEnabled():Boolean{
+			var _r:Boolean = false;
+			
+			if( cd && cd.toggleBg && ( 'enabled' in cd.toggleBg ) ){
+				_r = StringUtils.parseBool( cd.toggleBg.enabled );
 			}
 			
 			return _r;
@@ -396,6 +444,14 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		private var _itemMax:Array;
+		public function itemMax( _ix:int ):Number {
+			var _r:Number = 0;
+			if( _itemMax && _ix >= 0 && ( _ix < _itemMax.length ) ){
+				_r = _itemMax[ _ix ];
+			}
+			return _r;
+		}
 		
 		public function calcRate():void{
 			var _data:Object = _chartData;
@@ -437,7 +493,13 @@ package org.xas.jchart.common
 			var _tmpLen:int = 0, _rateValue:Number = _finalMaxNum;
 			if( this.isPercent ){
 				_rateValue = 100;
-			}
+			}				
+			_rate = rateData || _rate;
+			Common.each( _rate, function( _k:int, _item:Number ):void{
+				if( _item === 0 ){
+					_rateZeroIndex = _k;
+				}
+			});
 			this.rateMaxValue && ( _rateValue = this.rateMaxValue );
 			
 			Common.each( _rate, function( _k:int, _item:Number ):void{
@@ -451,12 +513,31 @@ package org.xas.jchart.common
 				_realRate.push( _realItem );
 				//Log.log( _realItem );
 			});
+			_itemMax = [];
+			
+			if( displaySeries && displaySeries.length &&  displaySeries[0].data && displaySeries[0].data.length ){
+				Common.each( displaySeries[0].data, function( _k:int, _item:Object ):void{
+					var _tmpMax:Number = 0;
+					Common.each( displaySeries, function( _sk:int, _sitem:Object ):void{
+						_tmpMax += _sitem.data[ _k ];
+					});
+					_itemMax.push( _tmpMax );
+				});
+			}
+			//Log.log( _itemMax );
 		}
 		
 		public function get rateMaxValue():Number{
 			var _r:Number = 0;
 			this.cd && this.cd.rateLabel && ( 'maxvalue' in this.cd.rateLabel )
 				&& ( _r = this.cd.rateLabel.maxvalue );
+			return _r;
+		}
+		
+		public function get rateData():Array{
+			var _r:Array;
+			this.cd && this.cd.rateLabel && ( 'data' in this.cd.rateLabel )
+				&& ( _r = this.cd.rateLabel.data );
 			return _r;
 		}
 		
@@ -622,6 +703,10 @@ package org.xas.jchart.common
 			return StringUtils.parseBool( this.cd.isPercent );
 		}
 		
+		public function get isItemPercent():Boolean{
+			return StringUtils.parseBool( this.cd.isItemPercent );
+		}
+		
 		private var _maxValue:Number = 0;
 		private var _isMaxValueReady:Boolean;
 		
@@ -655,8 +740,7 @@ package org.xas.jchart.common
 			this.cd 
 				&& this.cd.chart
 				&& ( _r = this.cd.chart );
-			
-			return _r;
+						return _r;
 		}
 		
 		public function get hoverBgParams():Object{
@@ -691,6 +775,30 @@ package org.xas.jchart.common
 		
 		public function get vlabelSpace():Number{
 			var _r:Number = this.c.vlabelSpace || 4;
+			return _r;
+		}
+		
+		public function get stageWidth():Number{
+			var _r:Number = this.width;			
+			if( this.chartParams.width && this.chartParams.width > 0 ){
+				_r = Math.min( this.chartParams.width, _r );
+			}	
+			return _r;
+		}
+		
+		public function get stageHeight():Number{
+			var _r:Number = this.height;			
+			if( this.chartParams.height && this.chartParams.height > 0 ){
+				_r = Math.min( this.chartParams.height, _r );
+			}		
+			return _r;
+		}
+		
+		public function get graphicHeight():Number{
+			var _r:Number = 0;			
+			if( this.chartParams.graphicHeight && this.chartParams.graphicHeight > 0 ){
+				_r = this.chartParams.graphicHeight;
+			}		
 			return _r;
 		}
 		

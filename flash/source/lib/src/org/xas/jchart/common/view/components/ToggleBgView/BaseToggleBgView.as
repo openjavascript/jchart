@@ -1,4 +1,4 @@
-package org.xas.jchart.common.view.components.BgLineView
+package org.xas.jchart.common.view.components.ToggleBgView
 {
 	import com.adobe.utils.StringUtil;
 	
@@ -15,9 +15,9 @@ package org.xas.jchart.common.view.components.BgLineView
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.event.JChartEvent;
 	
-	public class BaseBgLineView extends Sprite
+	public class BaseToggleBgView extends Sprite
 	{	
-		public function BaseBgLineView()
+		public function BaseToggleBgView()
 		{
 			super(); 
 			
@@ -29,25 +29,7 @@ package org.xas.jchart.common.view.components.BgLineView
 		}
 
 		protected function update( _evt:JChartEvent ):void{
-			
-			this.graphics.clear();
-			this.graphics.lineStyle( 1, 0x999999, .35 );
-			
-			this.drawHLine();
-			this.drawVLine();
-			this.drawLineArrow();			
-		}
 		
-		protected function drawHLine():void{
-
-		}
-		
-		protected function drawVLine():void{
-
-		}
-		
-		protected function drawLineArrow():void{
-
 		}
 
 	}

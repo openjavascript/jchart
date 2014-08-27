@@ -21,7 +21,205 @@ package org.xas.jchart.common.data.test
 		
 		private function init():void{
 			_data = new Vector.<Object>();
-						
+			
+			_data.push({
+				
+				xAxis: {
+					categories: [ 
+						'04/01', '04/05', '04/10', '04/15', '04/20', '04/25'
+						, '05/01', '05/05', '05/10', '05/15', '05/20', '05/25'
+						, '05/31', '06/04', '06/09', '06/14', '06/19', '06/24'
+						, '06/29'
+					]
+					, wordwrap: false
+				}
+				, yAxis: {
+					format: '{0}'
+				}
+				, series:[{
+					name: '词1'
+					, data: [ 10, 0, 38, 53, 51, 38, 39, 38, 34, 59, 37, 34, 51, 58, 57, 39, 58, 44, 31 ]
+				}, {
+					name: '词2',
+					data: [ 20, 0, 18, 25, 59, 19, 26, 18, 40, 21, 42, 22, 30, 42, 30, 39, 59, 30, 50 ]
+				}, {
+					name: '词3',
+					data: [ 30, 0, 55, 41, 54, 53, 55, 54, 57, 55, 54, 59, 55, 39, 47, 43, 46, 42, 45 ]
+				}, {
+					name: '词4',
+					data: [ 35, 0, 65, 51, 64, 63, 65, 64, 67, 65, 64, 69, 65, 59, 57, 53, 56, 52, 45 ]
+				}, {
+					name: '词5',
+					data: [ 5, 0, 45, 31, 44, 43, 45, 44, 47, 45, 44, 49, 45, 29, 37, 33, 36, 32, 35 ]
+				}
+				]
+				, tooltip: {		
+					enabled: true
+					, "headerFormat": "{0}             PV"			
+					, "pointFormat": "{0}"
+					, "header": [ 
+						'2014-04-01', '2014-04-05', '2014-04-10', '2014-04-15', '2014-04-20', '2014-04-25'
+						, '2014-05-01', '2014-05-05', '2014-05-10', '2014-05-15', '2014-05-20', '2014-05-25'
+						, '2014-05-31', '2014-06-04', '2014-06-09', '2014-06-14', '2014-06-19', '2014-06-24'
+						, '2014-06-29'
+					]
+					, "serial": [
+						{
+							"name": "总体"
+							, "data": [ 
+								1000, 2000, 3000, 4000, 5000, 6000
+								, 1000, 2000, 3000, 4000, 5000, 6000 
+								, 1000, 2000, 3000, 4000, 5000, 6000 
+								, 7000
+							]
+						}
+					]
+					, "afterSerial": [
+						{
+							"name": "区分度"
+							, "data": [ 
+								1.04, 1.05, 3000, 4000, 5000, 6000
+								, 1000, 2000, 3000, 4000, 5000, 6000 
+								, 1000, 2000, 3000, 4000, 5000, 6000 
+								, 7000
+							]
+						}
+					]
+				}
+				, rateLabel: {
+					enabled: true
+					, data: [ 1, .8, .6, .4, .2, .0 ]
+				}
+				, displayAllLabel: false
+				, legend: {
+					enabled: false
+				}
+				, vline: {
+					//enabled: false
+				}
+				, hline: {
+					//enabled: true
+				}
+				, colors: [		
+					0x61CA7D
+					, 0x00ABEF
+					, 0xFCBC2B
+					, 0xF47672
+					, 0xBDA5E6
+					, 0xFF7C27
+					
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]    	
+				, chart: {
+					bgColor: 0xffffff
+					, bgAlpha: 1
+				}
+				, toggleBg: {
+					enabled: true
+				}
+			});
+			
+			
+			_data.push({
+				
+				xAxis: {
+					categories: [ 
+						'04/01', '04/05', '04/10', '04/15', '04/20', '04/25'
+						, '05/01', '05/05', '05/10', '05/15', '05/20', '05/25'
+						, '05/31', '06/04', '06/09', '06/14', '06/19', '06/24'
+						, '06/29'
+					]
+					, wordwrap: false
+				}
+				, yAxis: {
+					format: '{0}%'
+				}
+				, series:[{
+					name: '词1'
+					, data: [ 10, 0, 38, 53, 51, 38, 39, 38, 34, 59, 37, 34, 51, 58, 57, 39, 58, 44, 31 ]
+				}, {
+					name: '词2',
+					data: [ 20, 0, 18, 25, 59, 19, 26, 18, 40, 21, 42, 22, 30, 42, 30, 39, 59, 30, 50 ]
+				}, {
+					name: '词3',
+					data: [ 30, 0, 55, 41, 54, 53, 55, 54, 57, 55, 54, 59, 55, 39, 47, 43, 46, 42, 45 ]
+				}, {
+					name: '词4',
+					data: [ 35, 0, 65, 51, 64, 63, 65, 64, 67, 65, 64, 69, 65, 59, 57, 53, 56, 52, 45 ]
+				}, {
+					name: '词5',
+					data: [ 5, 0, 45, 31, 44, 43, 45, 44, 47, 45, 44, 49, 45, 29, 37, 33, 36, 32, 35 ]
+				}
+				]
+				, tooltip: {		
+					enabled: true
+					, "headerFormat": "{0}             UV"			
+					, "pointFormat": "{0}%"
+					, "header": [ 
+						'2014-04-01', '2014-04-05', '2014-04-10', '2014-04-15', '2014-04-20', '2014-04-25'
+						, '2014-05-01', '2014-05-05', '2014-05-10', '2014-05-15', '2014-05-20', '2014-05-25'
+						, '2014-05-31', '2014-06-04', '2014-06-09', '2014-06-14', '2014-06-19', '2014-06-24'
+						, '2014-06-29'
+					]
+				}
+				, rateLabel: {
+					enabled: true
+					, maxvalue: 100
+					, data: [ 1, .8, .6, .4, .2, .0 ]
+				}
+				, displayAllLabel: false
+				, legend: {
+					enabled: false
+				}
+				, vline: {
+					//enabled: false
+				}
+				, hline: {
+					//enabled: true
+				}
+				, colors: [		
+					0x61CA7D
+					, 0x00ABEF
+					, 0xFCBC2B
+					, 0xF47672
+					, 0xBDA5E6
+					, 0xFF7C27
+					
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]    	
+				, chart: {
+					bgColor: 0xffffff
+					, bgAlpha: 1
+				}
+				, toggleBg: {
+					enabled: true
+				}
+			});
+			
 			_data.push({
 				
 				xAxis: {
@@ -41,11 +239,7 @@ package org.xas.jchart.common.data.test
 					enabled: true
 					, "headerFormat": "{0}"			
 					, "pointFormat": "{0} %"
-					, serial: [
-						{
-							name: '区分度', 'value': 1.04
-						}
-					]
+
 				}
 				//isPercent: true,
 				, rateLabel: {
@@ -54,17 +248,17 @@ package org.xas.jchart.common.data.test
 				}
 				, displayAllLabel: true
 				, legend: {
-					enabled: false
+					//enabled: false
 				}
 				, dataLabels: {
 					enabled: true
 					, format: '{0}%'
 				}
 				, vline: {
-					enabled: false
+					//enabled: false
 				}
 				, hline: {
-					enabled: true
+					//enabled: true
 				}
 				, colors: [
 					0x03ACEF
@@ -82,10 +276,16 @@ package org.xas.jchart.common.data.test
 					, 0xffb2bc
 					
 					, 0xdbb8fd
-				]       
+				]    				
+				, credits: {
+					enabled: true
+					, text: 'jchart.openjavascript.org'
+					, href: 'http://jchart.openjavascript.org/'
+				}
 				, chart: {
 					bgColor: 0xffffff
 					, bgAlpha: 1
+					, graphicHeight: 220
 				}
 				, hoverBg: {
 					enabled: true		
@@ -94,6 +294,55 @@ package org.xas.jchart.common.data.test
 						, borderWidth: 2
 						, bgColor: 0xF0F0F0
 					}										
+				}
+			});
+			
+			
+			_data.push({
+				xAxis: {
+					categories: [ '初中\n以下', '高中\n中专\n技校', '大专', '本科', '研究生\n及以上' ]
+					, wordwrap: true
+				}, 
+				series:[{
+					name: '学历'
+					, data: [ 12, 19, 21, 46, 10 ]
+				}],
+				//isPercent: true,
+				rateLabel: {
+					enabled: false
+				},
+				displayAllLabel: true,
+				legend: {
+					enabled: false
+				}
+				, dataLabels: {
+					enabled: true,
+					format: '{0}%'
+				}
+				, vline: {
+					enabled: false
+				}
+				, hline: {
+					enabled: false
+				}
+				, tooltip: {
+					enabled: false
+				}
+				, colors: [
+					0x00ABEF
+					, 0x9DADB3
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+				]
+				, maxItem: {
+					style: { color: 0x5DC979, size: 18 }
+				}				
+				, chart: {
+					bgColor: 0xffffff
+					, bgAlpha: 1
+					, graphicHeight: 220
 				}
 			});
 			
@@ -113,11 +362,7 @@ package org.xas.jchart.common.data.test
 					"headerFormat": "{0}"			
 					, "pointFormat": "{0} %"
 					//, enabled: false
-					, serial: [
-						{
-							name: '区分度', 'value': 1.04
-						}
-					]
+
 				}
 				//isPercent: true,
 				, rateLabel: {
@@ -255,14 +500,7 @@ package org.xas.jchart.common.data.test
 					"headerFormat": "{0}"			
 					, "pointFormat": "{0} %"
 					//, enabled: false
-					, serial: [
-						{
-							name: '区分度', 'value': 1.04
-						}
-						, {
-							name: '其他 ', 'value': 1.05
-						}
-					]
+
 				}
 				, displayAllLabel: true
 				, legend: {
@@ -489,7 +727,7 @@ package org.xas.jchart.common.data.test
 				}, 
 				series:[{
 					name: '购买力'
-					, data: [ 43, 19, 21, 18, 10 ]
+					, data: [ 43, 19, 21, 18, 0 ]
 				}],
 				//isPercent: true,
 				rateLabel: {
@@ -524,49 +762,7 @@ package org.xas.jchart.common.data.test
 					style: { color: 0x5DC979, size: 18 }
 				}
 			});
-			
-			_data.push({
-				xAxis: {
-					categories: [ '初中\n以下', '高中\n中专\n技校', '大专', '本科', '研究生\n及以上' ]
-					, wordwrap: true
-				}, 
-				series:[{
-					name: '学历'
-					, data: [ 12, 19, 21, 46, 10 ]
-				}],
-				//isPercent: true,
-				rateLabel: {
-					enabled: false
-				},
-				displayAllLabel: true,
-				legend: {
-					enabled: false
-				}
-				, dataLabels: {
-					enabled: true,
-					format: '{0}%'
-				}
-				, vline: {
-					enabled: false
-				}
-				, hline: {
-					enabled: false
-				}
-				, tooltip: {
-					enabled: false
-				}
-				, colors: [
-					0x00ABEF
-					, 0x9DADB3
-					, 0x09c100
-					, 0x0c76c4 				
-					, 0xff0619
-					
-				]
-				, maxItem: {
-					style: { color: 0x5DC979, size: 18 }
-				}
-			});
+
 			
 			_data.push({
 				title: {

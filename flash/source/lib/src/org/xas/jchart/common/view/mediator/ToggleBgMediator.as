@@ -6,15 +6,15 @@ package org.xas.jchart.common.view.mediator
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseFacade;
 	import org.xas.jchart.common.event.JChartEvent;
-	import org.xas.jchart.common.view.components.BgLineView.*;
+	import org.xas.jchart.common.view.components.ToggleBgView.*;
 	
-	public class BgLineMediator extends Mediator implements IMediator
+	public class ToggleBgMediator extends Mediator implements IMediator
 	{
-		public static const name:String = 'PBgLineMediator';
-		private var _view:BaseBgLineView;
-		public function get view():BaseBgLineView{ return _view; }
+		public static const name:String = 'PToggleBgMediator';
+		private var _view:BaseToggleBgView;
+		public function get view():BaseToggleBgView{ return _view; }
 		
-		public function BgLineMediator()
+		public function ToggleBgMediator()
 		{
 			super( name );
 		}
@@ -23,15 +23,11 @@ package org.xas.jchart.common.view.mediator
 			
 			switch( (facade as BaseFacade).name ){
 				case 'CurveGramFacade':{
-					mainMediator.view.index5.addChild( _view = new CurveGramBgLineView() );
-					break;
-				}
-				case 'HistogramFacade':{
-					mainMediator.view.index5.addChild( _view = new HistogramBgLineView() );
+					mainMediator.view.index4.addChild( _view = new CurveGramToggleBgView() );
 					break;
 				}
 				default:{
-					mainMediator.view.index5.addChild( _view = new BaseBgLineView() );
+					mainMediator.view.index4.addChild( _view = new BaseToggleBgView() );
 					break;
 				}
 			}	

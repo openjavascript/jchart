@@ -34,12 +34,13 @@ package org.xas.jchart.histogram.controller
 			
 			_c.corner = corner();
 			
-			_c.minX = _c.x;
+			_c.minX = _c.x + _config.vlabelSpace + 2;
 			_c.minY = _c.y + 5;
-			_c.maxX = _c.x + _c.width - 5;
-			_c.maxY = _c.y + _c.height - 5;
+			_c.maxX = _c.x + _config.stageWidth - 5;
+			_c.maxY = _c.y + _config.stageHeight - 5;
 						
-			facade.registerMediator( new BgMediator( ) )		
+			facade.registerMediator( new BgMediator( ) );
+			var _yPad:Number = _c.minY;
 			
 			//Log.log( _config.rate.length );
 			//Log.log( _config.maxNum, _config.finalMaxNum, _config.chartMaxNum, 11111 );
@@ -48,14 +49,14 @@ package org.xas.jchart.histogram.controller
 				
 				if( _config.cd.title && _config.cd.title.text ){
 					facade.registerMediator( new TitleMediator( _config.cd.title.text ) )	
-					_config.c.title = { x: _c.width / 2, y: _c.minY, item: pTitleMediator };
+					_config.c.title = { x: _config.stageWidth / 2, y: _c.minY, item: pTitleMediator };
 					_config.c.minY += pTitleMediator.view.height;			
 				}
 				
 				if( _config.cd.subtitle && _config.cd.subtitle.text ){
 					facade.registerMediator( new SubtitleMediator( _config.cd.subtitle.text ) )
 					
-					_config.c.subtitle = { x: _c.width / 2, y: _c.minY, item: pSubtitleMediator };
+					_config.c.subtitle = { x: _config.stageWidth / 2, y: _c.minY, item: pSubtitleMediator };
 					_config.c.minY += pSubtitleMediator.view.height + 5;
 				}				
 				
@@ -63,7 +64,7 @@ package org.xas.jchart.histogram.controller
 					facade.registerMediator( new VTitleMediator( _config.cd.yAxis.title.text ) )
 					
 					_config.c.vtitle = { x: _config.c.minX, y: _config.c.x + _config.c.height / 2, item: pVTitleMediator };
-					_config.c.minX += pVTitleMediator.view.width - 5;
+					_config.c.minX += pVTitleMediator.view.width - _config.vlabelSpace;
 				}
 				
 				if( _config.cd.credits && _config.cd.credits.enabled && ( _config.cd.credits.text || _config.cd.credits.href ) ){
@@ -89,17 +90,19 @@ package org.xas.jchart.histogram.controller
 					facade.registerMediator( new VLabelMediator() );
 					_config.c.minX += pVLabelMediator.maxWidth;
 				}
-				
+
 				_config.c.hoverPadY = 10;
 				if( _config.hoverBgEnabled ){
 					facade.registerMediator( new HoverBgMediator() );
 					_config.c.minY += _config.c.hoverPadY;
+					_yPad += _config.c.hoverPadY;
 				}
 				
 				_config.c.serialLabelPadY = 15;
 				if( _config.serialLabelEnabled ){
 					facade.registerMediator( new SerialLabelMediator() );
 					_config.c.minY += _config.c.serialLabelPadY;
+					_yPad += _config.c.serialLabelPadY;
 				}
 				
 				_config.c.arrowLength = 8;
@@ -116,8 +119,23 @@ package org.xas.jchart.histogram.controller
 				}
 				facade.registerMediator( new HLabelMediator() );
 				_config.c.maxY -= pHLabelMediator.maxHeight;
-				
-				_config.c.chartHeight = _config.c.maxY - _config.c.minY;	
+			
+				if( _config.graphicHeight ){
+					var _hpad:Number = _config.c.maxY - _config.graphicHeight;
+					_config.c.chartHeight = _config.graphicHeight - _yPad;		
+					_config.c.maxY -= _hpad;
+					
+					if( _config.c.legend ){
+						_config.c.legend.y -= _hpad;
+					}
+					
+					if( _config.c.credits ){
+						_config.c.credits.y -= _hpad;
+					}
+				}else{	
+					_config.c.chartHeight = _config.c.maxY - _config.c.minY;
+				}
+							
 				
 				_config.c.chartX = _config.c.minX + _config.c.arrowLength - 2;
 				_config.c.chartY = _config.c.minY;
@@ -201,40 +219,49 @@ package org.xas.jchart.histogram.controller
 						, _h:Number, _y:Number
 						, _dataHeight:Number
 						;
-					
-					if( Common.isNegative( _num ) || _num == 0 ){
-						_num = Math.abs( _num );
-						_dataHeight = _config.c.vpart * _config.rateZeroIndex;
 						
-						_h = _config.c.chartHeight - _dataHeight;
-						_y = _sp.y + _dataHeight ;
+						if( _config.isItemPercent && _config.displaySeries.length > 1 ){
+							_h = _config.c.vpart * _config.rateZeroIndex;
+							_h = ( _num / _config.itemMax( _k ) || 0 ) * _h;
+							_y = _sp.y 
+							+ _config.c.vpart * _config.rateZeroIndex - _h
+							;
+							if( _k === 0 ){
+								//Log.log( _num / _config.itemMax( _k ) * 100, _num, _config.itemMax( _k ) );
+							}
+						}else{
+							if( Common.isNegative( _num ) || _num == 0 ){
+								_num = Math.abs( _num );
+								_dataHeight = _config.c.vpart * _config.rateZeroIndex;
+								
+								_h = _config.c.chartHeight - _dataHeight;
+								_y = _sp.y + _dataHeight ;
+								_h = 
+								( _num / 
+									Math.abs( _config.finalMaxNum * _config.rate[ _config.rate.length - 1 ] ) ) 
+								* _h;
+								//Log.log( _h, _config.finalMaxNum );
+							}else{
+								_h = _config.c.vpart * _config.rateZeroIndex;
+								_h = ( _num / _config.chartMaxNum || 1 ) * _h;
+								_y = _sp.y 
+								+ _config.c.vpart * _config.rateZeroIndex - _h
+								;
+							}
+						}						
+						//Log.log( _h, _y );
 						
-						_h = 
-						( _num / 
-							Math.abs( _config.finalMaxNum * _config.rate[ _config.rate.length - 1 ] ) ) 
-						* _h;
-						//Log.log( _h, _config.finalMaxNum );
-					}else{
-						_h = _config.c.vpart * _config.rateZeroIndex;
-						_h = ( _num / _config.chartMaxNum || 1 ) * _h;
-						_y = _sp.y 
-						+ _config.c.vpart * _config.rateZeroIndex - _h
-						;
-					}
-					
-					//Log.log( _h, _y );
-										
-					_rectItem.x = _x + _sk * _partWidth + _config.c.partSpace * _sk;
-
-					_rectItem.y = _y;
-					_rectItem.width = _partWidth;
-					_rectItem.height = _h;
-					_rectItem.value = _sitem.data[ _k ];
-					
-					_tmpYAr.push( _y );
-					_tmpHAr.push( _h );
-					
-					_items.push( _rectItem );
+						_rectItem.x = _x + _sk * _partWidth + _config.c.partSpace * _sk;
+						
+						_rectItem.y = _y;
+						_rectItem.width = _partWidth;
+						_rectItem.height = _h;
+						_rectItem.value = _sitem.data[ _k ];
+						
+						_tmpYAr.push( _y );
+						_tmpHAr.push( _h );
+						
+						_items.push( _rectItem );
 				});
 				
 				_tmpDataRect.y = Math.min.apply( null, _tmpYAr );

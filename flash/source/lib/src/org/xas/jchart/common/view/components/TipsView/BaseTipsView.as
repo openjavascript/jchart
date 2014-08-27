@@ -57,7 +57,7 @@ package org.xas.jchart.common.view.components.TipsView
 			_data = {};
 			
 			Common.each( _config.displaySeries[0].data, function( _k:int, _item:Number ):void{
-				_data[ _k ] = { items: [] };
+				_data[ _k ] = { items: [], beforeItems: [], afterItems: [] };
 				
 
 				var _format:String = _config.tooltipHeaderFormat;
@@ -68,11 +68,41 @@ package org.xas.jchart.common.view.components.TipsView
 					//Log.log( 'xxxxxxx', _sitem.data[_k] );
 					
 					var _name:String = _sitem.name + ''
-						, _value:String = StringUtils.printf( _config.tooltipPointFormat, 
-							Common.moneyFormat( _sitem.data[ _k ], 3, _config.floatLen )
-						)
-						
+					, _value:String = StringUtils.printf( _config.tooltipPointFormat, 
+						Common.moneyFormat( _sitem.data[ _k ], 3, _config.floatLen )
+					)
+					
 					_data[ _k ].items.push( {
+						'name': _name
+						, 'value': _value
+					});
+				});
+				
+				Common.each( _config.tooltipSerial, function( _sk:int, _sitem:Object ):void{
+					//_data[ _k ][ 'name' ] = _sitem.name || '';
+					//Log.log( 'xxxxxxx', _sitem.data[_k] );
+					
+					var _name:String = _sitem.name + ''
+					, _value:String = StringUtils.printf( _config.tooltipPointFormat, 
+						Common.moneyFormat( _sitem.data[ _k ], 3, _config.floatLen )
+					)
+					
+					_data[ _k ].beforeItems.push( {
+						'name': _name
+						, 'value': _value
+					});
+				});
+				
+				Common.each( _config.tooltipAfterSerial, function( _sk:int, _sitem:Object ):void{
+					//_data[ _k ][ 'name' ] = _sitem.name || '';
+					//Log.log( 'xxxxxxx', _sitem.data[_k] );
+					
+					var _name:String = _sitem.name + ''
+					, _value:String = StringUtils.printf( _config.tooltipPointFormat, 
+						Common.moneyFormat( _sitem.data[ _k ], 3, _config.floatLen )
+					)
+					
+					_data[ _k ].afterItems.push( {
 						'name': _name
 						, 'value': _value
 					});
@@ -86,7 +116,7 @@ package org.xas.jchart.common.view.components.TipsView
 			var _srcEvt:MouseEvent = _evt.data as MouseEvent;			
 			//Log.log( 'TipsView showTips' );
 			if( !( _data && _data[ 0 ] ) ) return;
-			_tips.buildLayout( _data[ 0 ], _config.tooltipSerial ).show( new Point( 10000, 0 ) );
+			_tips.buildLayout( _data[ 0 ] ).show( new Point( 10000, 0 ) );
 		}
 		
 		protected function hideTips( _evt: JChartEvent ):void{

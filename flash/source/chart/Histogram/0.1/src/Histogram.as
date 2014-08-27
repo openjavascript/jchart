@@ -74,7 +74,7 @@ package
 			if( ExternalInterface.available ){
 				ExternalInterface.addCallback( 'update', extenalUpdate );
 			}
-			//BaseConfig.ins.setChartData( {});
+			//BaseConfig.ins.setChartData( {}); 
 		}
 		
 		private function extenalUpdate( _data:Object ):void{

@@ -98,6 +98,10 @@ package org.xas.jchart.histogram.controller
 					_yPad += _config.c.hoverPadY;
 				}
 				
+				if( _config.itemBgEnabled ){
+					facade.registerMediator( new ItemBgMediator() );
+				}
+				
 				_config.c.serialLabelPadY = 15;
 				if( _config.serialLabelEnabled ){
 					facade.registerMediator( new SerialLabelMediator() );

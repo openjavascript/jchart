@@ -69,13 +69,13 @@ package org.xas.jchart.common.view.components.TipsView
 					
 					var _name:String = _sitem.name + ''
 					, _value:String = StringUtils.printf( _config.tooltipPointFormat, 
-						Common.moneyFormat( _sitem.data[ _k ], 3, _config.floatLen )
+						Common.moneyFormat( _sitem.data[ _k ], 3, Common.floatLen( _sitem.data[ _k ] )  )
 					)
 					
 					_data[ _k ].items.push( {
 						'name': _name
 						, 'value': _value
-					});
+					}); 
 				});
 				
 				Common.each( _config.tooltipSerial, function( _sk:int, _sitem:Object ):void{
@@ -99,7 +99,7 @@ package org.xas.jchart.common.view.components.TipsView
 					
 					var _name:String = _sitem.name + ''
 					, _value:String = StringUtils.printf( _config.tooltipPointFormat, 
-						Common.moneyFormat( _sitem.data[ _k ], 3, _config.floatLen )
+						Common.moneyFormat( _sitem.data[ _k ], 3, Common.floatLen( _sitem.data[ _k ] ) )
 					)
 					
 					_data[ _k ].afterItems.push( {

@@ -166,22 +166,6 @@ package org.xas.jchart.common
 						//Log.log( _tmpLen, _floatLen );
 					});
 				});
-				
-				Common.each( tooltipSerial, function( _k:int, _item:Object ):void{
-					Common.each( _item.data, function( _sk:int, _sitem:Number ):void{
-						_tmpLen = Common.floatLen( _sitem );
-						_tmpLen > _floatLen && ( _floatLen = _tmpLen );
-						//Log.log( _tmpLen, _floatLen );
-					});
-				});
-				
-				Common.each( tooltipAfterSerial, function( _k:int, _item:Object ):void{
-					Common.each( _item.data, function( _sk:int, _sitem:Number ):void{
-						_tmpLen = Common.floatLen( _sitem );
-						_tmpLen > _floatLen && ( _floatLen = _tmpLen );
-						//Log.log( _tmpLen, _floatLen );
-					});
-				});
 			}
 			_floatLen == 1 && ( _floatLen = 2 );
 			
@@ -640,6 +624,56 @@ package org.xas.jchart.common
 			&& chartData.colors
 				&& chartData.colors.length
 				&& ( _r = chartData.colors );
+			
+			return _r;
+		}
+		
+		public function tooptipSerialItemColor( _ix:uint, _fixColorIndex:Boolean = true ):uint{
+			var _r:uint = 0, _colors:Array = tooltipSerialColors;
+			
+			if( _fixColorIndex && displaySeriesIndexMap && ( _ix in displaySeriesIndexMap ) ){
+				//Log.log( 'find', _ix, filterData[ _ix ] );
+				//_ix = _filterData[ _ix ];
+				_ix = displaySeriesIndexMap[ _ix ];
+			}
+			
+			_r = _colors[ _ix % ( _colors.length ) ];			
+			return _r;
+		}
+		
+		public function get tooltipSerialColors():Array{
+			var _r:Array = DefaultOptions.tooltip.serialColor;
+			
+			chartData 
+			&& chartData.tooltip.serialColor
+				&& chartData.tooltip.serialColor
+				&& chartData.tooltip.serialColor.length
+				&& ( _r = chartData.tooltip.serialColor );
+			
+			return _r;
+		}
+		
+		public function tooptipAfterSerialItemColor( _ix:uint, _fixColorIndex:Boolean = true ):uint{
+			var _r:uint = 0, _colors:Array = tooltipAfterSerialColors;
+			
+			if( _fixColorIndex && displaySeriesIndexMap && ( _ix in displaySeriesIndexMap ) ){
+				//Log.log( 'find', _ix, filterData[ _ix ] );
+				//_ix = _filterData[ _ix ];
+				_ix = displaySeriesIndexMap[ _ix ];
+			}
+			
+			_r = _colors[ _ix % ( _colors.length ) ];			
+			return _r;
+		}
+		
+		public function get tooltipAfterSerialColors():Array{
+			var _r:Array = DefaultOptions.tooltip.afterSerialColor;
+			
+			chartData 
+			&& chartData.tooltip.afterSerialColor
+				&& chartData.tooltip.afterSerialColor
+				&& chartData.tooltip.afterSerialColor.length
+				&& ( _r = chartData.tooltip.afterSerialColor );
 			
 			return _r;
 		}

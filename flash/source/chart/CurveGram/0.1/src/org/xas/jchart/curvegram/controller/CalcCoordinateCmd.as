@@ -38,6 +38,11 @@ package org.xas.jchart.curvegram.controller
 			_c.maxX = _c.x + _config.stageWidth - 6;
 			_c.maxY = _c.y + _config.stageHeight - 5;
 			
+			if( _config.serialLabelEnabled ){
+				_c.minX += 10;
+				_c.maxX -= 10;
+			}
+			
 			var _yPad:Number = _c.minY;
 						
 			facade.registerMediator( new BgMediator( ) )		
@@ -96,6 +101,7 @@ package org.xas.jchart.curvegram.controller
 				if( _config.rateLabelEnabled ){
 					facade.registerMediator( new VLabelMediator() );
 					_config.c.minX += pVLabelMediator.maxWidth;
+				}else{
 				}
 				_config.c.hoverPadY = 10;
 				if( _config.hoverBgEnabled ){
@@ -179,6 +185,7 @@ package org.xas.jchart.curvegram.controller
 				
 				var _cmd:Vector.<int> = new Vector.<int>
 				, _path:Vector.<Number> = new Vector.<Number>
+				, _positions:Array = []
 				;				
 				
 				Common.each( _item.data, function( _sk:int, _num:Number ):void{
@@ -191,6 +198,7 @@ package org.xas.jchart.curvegram.controller
 						, _itemNum:Number
 						, _dataHeight:Number
 						, _dataY:Number
+						, _sNum:Number = _num;
 						;
 						//Log.log( _sk, _sp.x, _sp.y );
 						
@@ -241,6 +249,7 @@ package org.xas.jchart.curvegram.controller
 						
 						_cmd.push( _sk === 0 ? 1 : 2 );
 						_path.push( _x, _y );
+						_positions.push( { x: _x, y: _y, value: _sNum } );
 						
 
 					//Log.log( _y, _sp.y, _config.c.vpart, _config.rateZeroIndex, _h, _config.finalMaxNum );
@@ -248,7 +257,7 @@ package org.xas.jchart.curvegram.controller
 				});
 				//Log.log( 'xxxxxxxxxxxxx' );
 				
-				_config.c.paths.push( { cmd: _cmd, path: _path } );
+				_config.c.paths.push( { cmd: _cmd, path: _path, position: _positions } );
 			});
 
 		}
@@ -271,7 +280,8 @@ package org.xas.jchart.curvegram.controller
 			
 			var _padX:Number = 0;
 			if( !_config.rateLabelEnabled ){
-				_padX = _config.c.arrowLength - ( _config.c.arrowLength -  _config.c.chartX );
+				//_padX = _config.c.arrowLength - ( _config.c.arrowLength -  _config.c.chartX );
+				_padX = _config.vlabelSpace + 2;
 			}
 			
 			Common.each( _config.rate, function( _k:int, _item:* ):void{
@@ -303,7 +313,7 @@ package org.xas.jchart.curvegram.controller
 						
 			Common.each( _config.categories, function( _k:int, _item:* ):void{
 				var _n:Number = _config.c.minX + _partN * _k + 5
-					, _rn:Number = _config.c.minX + _config.c.linePadding / 2 + _rpartN * _k + 5
+					, _rn:Number = _config.c.minX +  _config.c.linePadding / 2 + _rpartN * _k + 5
 					, _sideLen:int = _config.c.arrowLength
 					;
 								

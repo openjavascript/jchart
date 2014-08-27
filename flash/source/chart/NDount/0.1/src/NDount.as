@@ -57,12 +57,12 @@ package
 			{
 				removeEventListener( Event.ENTER_FRAME, onEnterFrame );
 				init();
-			}
+			} 
 		}
 		private function init():void
 		{			
 			_inited = true;
-			
+			 
 			BaseConfig.ins.setDebug( true );
 			runData();
 			
@@ -152,7 +152,7 @@ package
 			var _data:Object = {};
 			
 			if( !ExternalInterface.available ){							
-				_data = DefaultPieData.instance.data[4];
+				_data = DefaultPieData.instance.data[0];
 			}else{
 				_loaderInfo = LoaderInfo(this.root.stage.loaderInfo).parameters||{};				
 				if( _loaderInfo.chart ){

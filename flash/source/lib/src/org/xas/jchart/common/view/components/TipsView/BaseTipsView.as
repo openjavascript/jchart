@@ -61,7 +61,22 @@ package org.xas.jchart.common.view.components.TipsView
 				
 
 				var _format:String = _config.tooltipHeaderFormat;
-				_data[ _k ].name = StringUtils.printf( _format,  _config.getTipsHeader( _k ) );
+				_data[ _k ].name = StringUtils.printf( _format,  _config.getTipsHeader( _k ) ).replace( /[\r\n]+/g, '' );
+							
+				Common.each( _config.tooltipSerial, function( _sk:int, _sitem:Object ):void{
+					//_data[ _k ][ 'name' ] = _sitem.name || '';
+					//Log.log( 'xxxxxxx', _sitem.data[_k] );
+					
+					var _name:String = _sitem.name + ''
+					, _value:String = StringUtils.printf( _config.tooltipSerialFormat, 
+						Common.moneyFormat( _sitem.data[ _k ], 3, _config.floatLen )
+					)
+					
+					_data[ _k ].beforeItems.push( {
+						'name': _name.replace( /[\r\n]+/g, '' )
+						, 'value': _value
+					});
+				});
 				
 				Common.each( _config.displaySeries, function( _sk:int, _sitem:Object ):void{
 					//_data[ _k ][ 'name' ] = _sitem.name || '';
@@ -73,24 +88,9 @@ package org.xas.jchart.common.view.components.TipsView
 					)
 					
 					_data[ _k ].items.push( {
-						'name': _name
+						'name': _name.replace( /[\r\n]+/g, '' )
 						, 'value': _value
 					}); 
-				});
-				
-				Common.each( _config.tooltipSerial, function( _sk:int, _sitem:Object ):void{
-					//_data[ _k ][ 'name' ] = _sitem.name || '';
-					//Log.log( 'xxxxxxx', _sitem.data[_k] );
-					
-					var _name:String = _sitem.name + ''
-					, _value:String = StringUtils.printf( _config.tooltipPointFormat, 
-						Common.moneyFormat( _sitem.data[ _k ], 3, _config.floatLen )
-					)
-					
-					_data[ _k ].beforeItems.push( {
-						'name': _name
-						, 'value': _value
-					});
 				});
 				
 				Common.each( _config.tooltipAfterSerial, function( _sk:int, _sitem:Object ):void{
@@ -98,12 +98,12 @@ package org.xas.jchart.common.view.components.TipsView
 					//Log.log( 'xxxxxxx', _sitem.data[_k] );
 					
 					var _name:String = _sitem.name + ''
-					, _value:String = StringUtils.printf( _config.tooltipPointFormat, 
+					, _value:String = StringUtils.printf( _config.tooltipAfterSerialFormat, 
 						Common.moneyFormat( _sitem.data[ _k ], 3, Common.floatLen( _sitem.data[ _k ] ) )
 					)
 					
 					_data[ _k ].afterItems.push( {
-						'name': _name
+						'name': _name.replace( /[\r\n]+/g, '' )
 						, 'value': _value
 					});
 				});

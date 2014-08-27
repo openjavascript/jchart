@@ -58,9 +58,14 @@ dl dd{
                         "headerFormat": "{0}"			
                         , "pointFormat": "{0} %"
                         //, enabled: false
-                        , serial: [
+
+                        , "afterSerial": [
                             {
-                                name: '区分度 ', 'value': 1.04
+                                "name": "区分度"
+                                , "data": [ 
+                                    1.04, 1.05, 1.06, 1.07, 1.08, 1.09
+                                    , 2.01, 2.02, 2.03, 2.04, 2.05
+                                ]
                             }
                         ]
                     }
@@ -102,14 +107,6 @@ dl dd{
                     , chart: {
                         bgColor: 0xffffff
                         , bgAlpha: 1
-                    }
-                    , hoverBg: {
-                        enabled: true		
-                        , style: {
-                            borderColor: 0xB4B4B4
-                            , borderWidth: 2
-                            , bgColor: 0xF0F0F0
-                        }										
                     }
                 }
             ))

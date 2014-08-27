@@ -23,7 +23,6 @@ package org.xas.jchart.common.data.test
 			_data = new Vector.<Object>();
 			
 			
-			
 			_data.push({
 				
 				xAxis: {
@@ -89,7 +88,7 @@ package org.xas.jchart.common.data.test
 				, chart: {
 					bgColor: 0xffffff
 					, bgAlpha: 1
-					, graphicHeight: 220
+					//, graphicHeight: 220
 				}
 				, hoverBg: {
 					enabled: true		
@@ -100,6 +99,7 @@ package org.xas.jchart.common.data.test
 					}										
 				}
 			});
+			
 			
 			_data.push({
 				
@@ -157,10 +157,10 @@ package org.xas.jchart.common.data.test
 						{
 							"name": "区分度"
 							, "data": [ 
-								1.04, 1.05, 3000, 4000, 5000, 6000
-								, 1000, 2000, 3000, 4000, 5000, 6000 
-								, 1000, 2000, 3000, 4000, 5000, 6000 
-								, 7000
+								1.04, 1.05, 1.06, 1.07, 1.08, 1.09
+								, 2.01, 2.02, 2.03, 2.04, 2.05, 2.06
+								, 3.09, 3.08, 3.07, 3.06, 3.05, 3.04
+								, 4.11
 							]
 						}
 					]

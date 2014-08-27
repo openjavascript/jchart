@@ -32,7 +32,7 @@ package
 	[SWF(frameRate="30", width="800", height="360")]
 	public class CurveGram extends Sprite
 	{ 
-		private var _inited: Boolean = false;
+		private var _inited: Boolean = false; 
 		private var _timer:Timer;
 		private var _data:Object;
 		private var _facade:Facade; 

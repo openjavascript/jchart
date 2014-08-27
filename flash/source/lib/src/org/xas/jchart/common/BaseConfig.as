@@ -315,6 +315,26 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get tooltipSerialFormat():String{
+			var _r:String = "{0}";
+			cd 
+			&& cd.tooltip
+				&& ( 'serialFormat' in cd.tooltip )
+				&& ( _r = cd.tooltip.serialFormat );
+			
+			return _r;
+		}
+		
+		public function get tooltipAfterSerialFormat():String{
+			var _r:String = "{0}";
+			cd 
+			&& cd.tooltip
+				&& ( 'afterSerialFormat' in cd.tooltip )
+				&& ( _r = cd.tooltip.afterSerialFormat );
+			
+			return _r;
+		}
+		
 		public function get tooltipHeaderFormat():String{
 			var _r:String = "{0}";
 			cd 

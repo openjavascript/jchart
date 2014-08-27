@@ -56,26 +56,8 @@ dl dd{
                     }]
                     , tooltip: {		
                         "headerFormat": "{0}"			
-                        , "pointFormat": "{0}"
+                        , "pointFormat": "{0} %"
                         , enabled: true
-                        , "serial": [
-                            {
-                                "name": "总体"
-                                , "data": [ 
-                                    1000, 2000, 3000, 4000, 5000, 6000
-                                    , 1000, 2000, 3000, 4000, 5000
-                                ]
-                            }
-                        ]
-                        , "afterSerial": [
-                            {
-                                "name": "区分度"
-                                , "data": [ 
-                                    1.04, 1.05, 1.06, 1.07, 1.08, 1.09
-                                    , 2.01, 2.02, 2.03, 2.04, 2.05
-                                ]
-                            }
-                        ]
                     }
                     //isPercent: true,
                     , rateLabel: {
@@ -87,7 +69,7 @@ dl dd{
                     }
                     , dataLabels: {
                         enabled: true
-                        , format: '{0}'
+                        , format: '{0}%'
                     }
                     , vline: {
                         enabled: false

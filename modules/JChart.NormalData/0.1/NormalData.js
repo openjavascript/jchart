@@ -423,6 +423,70 @@
              */
             , style: { borderColor: 0xEDF1F3, bgColor: 0xEDF1F3, borderWidth: 0 }
         }
+        /**
+         * 数据项的鼠标划过的背景设置
+         * <br /> 目前这个属性仅对 柱状图 生效
+         * @property    hoverBg
+         * @type        {object}
+         */
+        , hoverBg: {
+            /**
+             * 数据项鼠标划过是否显示背景色
+             * @property    hoverBg.enabled
+             * @type        {Boolean}
+             * @default     false
+             * @example 
+             *  enabled: false
+             */
+            enabled: false
+            /**
+             * 数据项背景色的样式定义
+             * @property    hoverBg.style
+             * @type        {object}
+             * @default     { borderColor: 0xB4B4B4, bgColor: 0xF0F0F0, borderWidth: 0 }
+             */
+            , style: { borderColor: 0xB4B4B4, bgColor: 0xF0F0F0, borderWidth: 2 }
+        }
+        /**
+         * 最大数据的显示设置
+         * <br /> 目前这个属性仅对 柱状图 生效
+         * @property    maxItem
+         * @type        {object}
+         */
+        , maxItem: {
+            /**
+             * @property    maxItem.style
+             * @type        {object}
+             * @default     null
+             * @example     style: { color: 0x5DC979, size: 18 }
+             */
+            style: null
+        }
+        /**
+         * 数据项的背景区分设置
+         * <br /> 目前这个属性仅对 曲线图 生效
+         * @property    toggleBg
+         * @type        {object}
+         */
+        , toggleBg: {
+            /**
+             * 数据项是否每隔一个数据显示不同的背景色
+             * @property    toggleBg.enabled
+             * @type        {Boolean}
+             * @default     false
+             * @example 
+             *  enabled: false
+             */
+            enabled: false
+            /**
+             * 数据项背景色的样式定义( pending )
+             * @property    toggleBg.style
+             * @type        {object}
+             * @default     { borderColor: 0xEDF1F3, bgColor: 0xEDF1F3, borderWidth: 0, thickness: 1 }
+             */
+            , style: { borderColor: 0xEDF1F3, bgColor: 0xEDF1F3, borderWidth: 0, thickness: 1 }
+        }
+
 
     };
 

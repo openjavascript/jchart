@@ -52,6 +52,8 @@ dl dd{
                     }, 
                     yAxis: {
                         format: '{0}%'
+                        , maxvalue: 100
+                        , enabled: false
                     },
                     series:[{
                         name: '时段分布'
@@ -72,10 +74,6 @@ dl dd{
                     , tooltip: {		
                         "headerFormat": "{0} 日"			
                         , "pointFormat": "{0}%"
-                        , enabled: false
-                    }
-                    , rateLabel: {
-                        maxvalue: 100
                         , enabled: false
                     }
                     , colors: [

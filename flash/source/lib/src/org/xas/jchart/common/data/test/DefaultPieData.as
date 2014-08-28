@@ -22,6 +22,35 @@ package org.xas.jchart.common.data.test
 		private function init():void{
 			_data = new Vector.<Object>();
 			
+			_data.push({
+				
+				series:[{
+					data: [
+						['全体覆盖率',   60],
+						['样本覆盖率',   20]
+					]
+				}]
+				, isPercent: true 
+				
+				, colors: [ 
+					0x00ABEF
+					, 0xFF6297
+					
+					, 0x09c100
+					, 0x0c76c4 				
+					, 0xff0619
+					
+					, 0xFFBF00			
+					, 0xff7100	
+					, 0xff06b3
+					
+					, 0x41e2e6			
+					, 0xc3e2a4	
+					, 0xffb2bc
+					
+					, 0xdbb8fd
+				]
+			});
 			
 			_data.push({
 				
@@ -80,37 +109,7 @@ package org.xas.jchart.common.data.test
 					enabled: false
 				}
 			});
-			
-			_data.push({
-				
-				series:[{
-					data: [
-						['全体覆盖率',   60],
-						['样本覆盖率',   20]
-					]
-				}]
-				, isPercent: true
-				
-				, colors: [ 
-					0x00ABEF
-					, 0xFF6297
-					
-					, 0x09c100
-					, 0x0c76c4 				
-					, 0xff0619
-					
-					, 0xFFBF00			
-					, 0xff7100	
-					, 0xff06b3
-					
-					, 0x41e2e6			
-					, 0xc3e2a4	
-					, 0xffb2bc
-					
-					, 0xdbb8fd
-				]
-			});
-			
+						
 			_data.push({
 				
 				series:[{

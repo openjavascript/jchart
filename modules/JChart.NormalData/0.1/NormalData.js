@@ -486,7 +486,24 @@
              */
             , style: { borderColor: 0xEDF1F3, bgColor: 0xEDF1F3, borderWidth: 0, thickness: 1 }
         }
-
+        /**
+         * 图表数值是否按总数值=100划分百分比
+         * @property    isPercent
+         * @type        {Boolean}
+         * @default     false
+         * @example 
+         *  isPercent: false
+         */
+        , isPercent: false
+        /**
+         * 图表数值是否按 series 数据点 的总数值划分百分比
+         * @property    isItemPercent
+         * @type        {Boolean}
+         * @default     false
+         * @example 
+         *  isItemPercent: false
+         */
+        , isItemPercent: false
 
     };
 

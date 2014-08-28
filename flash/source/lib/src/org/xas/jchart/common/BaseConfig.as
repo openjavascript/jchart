@@ -518,6 +518,7 @@ package org.xas.jchart.common
 				//Log.log( _realItem );
 			});
 			_itemMax = [];
+			_realRateFloatLen === 1 && ( _realRateFloatLen = 2 );
 			
 			if( displaySeries && displaySeries.length &&  displaySeries[0].data && displaySeries[0].data.length ){
 				Common.each( displaySeries[0].data, function( _k:int, _item:Object ):void{

@@ -55,7 +55,6 @@ package org.xas.jchart.ndount.view.components
 		
 		public function update():void{
 			
-			if( !( _config.c && _config.c.piePart && _config.c.piePart.length ) ) return;
 			//Log.log( 'GraphicView update', _config.c.piePart.length );
 			ElementUtility.removeAllChild( this );
 			graphics.clear();
@@ -77,6 +76,8 @@ package org.xas.jchart.ndount.view.components
 				, {}
 			);
 			addChild( _ddp );
+			
+			if( !( _config.c && _config.c.piePart && _config.c.piePart.length ) ) return;
 			
 			_countRadius -= _radiusStep;
 			

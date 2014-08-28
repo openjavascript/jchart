@@ -69,7 +69,7 @@ package org.xas.jchart.common.view.components.TipsView
 					
 					var _name:String = _sitem.name + ''
 					, _value:String = StringUtils.printf( _config.tooltipSerialFormat, 
-						Common.moneyFormat( _sitem.data[ _k ], 3, _config.floatLen )
+						Common.moneyFormat( _sitem.data[ _k ], 3, Common.floatLen( _sitem.data[ _k ] ) )
 					)
 					
 					_data[ _k ].beforeItems.push( {
@@ -84,7 +84,7 @@ package org.xas.jchart.common.view.components.TipsView
 					
 					var _name:String = _sitem.name + ''
 					, _value:String = StringUtils.printf( _config.tooltipPointFormat, 
-						Common.moneyFormat( _sitem.data[ _k ], 3, Common.floatLen( _sitem.data[ _k ] )  )
+						Common.moneyFormat( _sitem.data[ _k ], 3, _config.floatLen  )
 					)
 					
 					_data[ _k ].items.push( {

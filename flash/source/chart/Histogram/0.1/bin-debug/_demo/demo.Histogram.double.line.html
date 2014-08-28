@@ -47,6 +47,9 @@ dl dd{
                     xAxis: {
                         categories: [ '网页游戏', '游戏平台', '桌面游戏', '手机游戏', '个体经营', '小游戏', '网页游戏', '游戏平台', '桌面游戏', '手机游戏' ]
                     }
+                    , yAxis: {
+                        enabled: false
+                    }
                     , series:[{
                         name: '全体覆盖率'
                         , data: [26, 36, 46, 56, 77, 76, 86, 72, 62, 52]
@@ -78,9 +81,6 @@ dl dd{
                         ]
                     }
                     //isPercent: true,
-                    , rateLabel: {
-                        enabled: false
-                    }
                     , displayAllLabel: true
                     , legend: {
                         enabled: false

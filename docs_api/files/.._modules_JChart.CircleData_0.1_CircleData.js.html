@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>../modules/JChart.IconLine/0.1/IconLine.js - JChart</title>
+    <title>../modules/JChart.CircleData/0.1/CircleData.js - JChart</title>
     <link rel="stylesheet" href="../assets/css/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -130,96 +130,202 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: ../modules/JChart.IconLine/0.1/IconLine.js</h1>
+                        <h1 class="file-heading">File: ../modules/JChart.CircleData/0.1/CircleData.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
-;(function(define, _win) { &#x27;use strict&#x27;; define( [ &#x27;JC.PureMVC&#x27;, &#x27;Raphael&#x27;, &#x27;JChart.Group&#x27;, &#x27;JChart.GraphicBase&#x27; ], function(){
+;(function(define, _win) { &#x27;use strict&#x27;; define( [], function(){
 /**
- * 组件用途简述
+ * JChart 图表数据( 曲线图、环状图、管状图 )
  *
- *  &lt;p&gt;&lt;b&gt;require&lt;/b&gt;:
- *      &lt;a href=&#x27;JC.PureMVC.html&#x27;&gt;JC.PureMVC&lt;/a&gt;
+ * &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jchart&#x27; target=&#x27;_blank&#x27;&gt;JChart Project Site&lt;/a&gt;
+ *   | &lt;a href=&#x27;http://jchart.openjavascript.org/docs_api/classes/JChart.CircleData.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
  *  &lt;/p&gt;
+ * &lt;h2&gt;&lt;/h2&gt;
+ * &lt;dl&gt;
+ *    &lt;dt&gt;&lt;/dt&gt;
+ *    &lt;dd&gt;&lt;dd&gt;
+ * &lt;/dl&gt; 
  *
- *  &lt;p&gt;&lt;a href=&#x27;https://github.com/openjavascript/jquerycomps&#x27; target=&#x27;_blank&#x27;&gt;JC Project Site&lt;/a&gt;
- *      | &lt;a href=&#x27;http://jc2.openjavascript.org/docs_api/classes/JC.IconLine.html&#x27; target=&#x27;_blank&#x27;&gt;API docs&lt;/a&gt;
- *  
  * @namespace   JChart
- * @name IconLine
- * @param   {selector|string}   _selector   
- * @version dev 0.1 2014-06-26
+ * @class       CircleData
+ * @constructor
+ * @static
+ * @version dev 0.1 2014-08-28
  * @author  qiushaowei &lt;suches@btbtd.org&gt; | 75 Team
  * @example
-        &lt;h2&gt;JC.IconLine 示例&lt;/h2&gt;
+&lt;h2&gt;显示 两块数据[ 曲线图、环状图、管状图 ]的图表数据&lt;/h2&gt;
+&lt;pre&gt;{
+    series:[{
+        data: [
+            [&#x27;全体覆盖率&#x27;,   60],
+            [&#x27;样本覆盖率&#x27;,   20]
+        ]
+    }]
+    , isPercent: true
+    
+    , colors: [ 
+        0x00ABEF
+        , 0xFF6297
+        
+        , 0x09c100
+        , 0x0c76c4 				
+        , 0xff0619
+        
+        , 0xFFBF00			
+        , 0xff7100	
+        , 0xff06b3
+        
+        , 0x41e2e6			
+        , 0xc3e2a4	
+        , 0xffb2bc
+        
+        , 0xdbb8fd
+    ]
+}&lt;/pre&gt;
  */
-    var _jdoc = $( document ), _jwin = $( window );
 
-    JChart.IconLine = IconLine;
+    JChart.CircleData = {
+        /**
+         * 展现的数据
+         * &lt;br /&gt;series 数组只有索引0数据
+         * &lt;br /&gt;series 索引0 里的 data 应该是个两维数组, 或者 数组里的数据为 object: { name: String, y: Number }
+         * @property    series
+         * @type        {Array of Object}
+         * @default     null
+         * @example
+         * 
+&lt;pre&gt;series:[{
+    data: [
+        [&#x27;全体覆盖率&#x27;,   60],
+        [&#x27;样本覆盖率&#x27;,   20]
+    ]
+}]&lt;/pre&gt;
+&lt;pre&gt;series:[{
+    data: [
+        { name:&#x27;全体覆盖率&#x27;,   y:60],
+        [ name:&#x27;样本覆盖率&#x27;,   y:20]
+    ]
+}]&lt;/pre&gt;
 
-    function IconLine( _stage, _rx, _ry, _rw, _rh, _radius, _style ){
-
-        this._model = new IconLine.Model( _stage, _rx, _ry, _rw, _rh, _radius, _style );
-        this._view = new IconLine.View( this._model );
-
-        this._init();
-
-        //JC.log( IconLine.Model._instanceName, &#x27;all inited&#x27;, new Date().getTime() );
-    }
-
-    IconLine.Model = 
-        function( _stage, _rx, _ry, _rw, _rh, _rcorner, _radius, _style ){
-            this._stage = _stage;
-            this._rx = _rx;
-            this._ry = _ry;
-            this._rw = _rw;
-            this._rh = _rh;
-            this._rcorner = _rcorner;
-            this._radius = _radius;
-            this._style = _style;
-        };
-
-    JC.PureMVC.build( IconLine, JChart.GraphicBase );
-
-    JC.f.extendObject( IconLine.prototype, {
-    });
-
-    IconLine.Model._instanceName = &#x27;JCIconLine&#x27;;
-    JC.f.extendObject( IconLine.Model.prototype, {
-        init:
-            function(){
-                //JC.log( &#x27;IconLine.Model.init:&#x27;, new Date().getTime() );
-                this._group = new JChart.Group();
+         */
+        series: null
+        /**
+         * 图表数值是否按总数值=100划分百分比
+         * @property    isPercent
+         * @type        {Boolean}
+         * @default     false
+         * @example 
+         *  isPercent: false
+         */
+        , isPercent: false
+        /**
+         * 数据项的显示颜色
+         * @property    colors
+         * @type        {Array of hex colors}
+         * @default:    [0x03ACEF, 0x5DC979, 0x09c100, 0x0c76c4 , 0xff0619, 0xFFBF00, 0xff7100, 0xff06b3, 0x41e2e6, 0xc3e2a4, 0xffb2bc, 0xdbb8fd]    
+         */
+        , colors: [
+            0x09c100, 
+            0x0c76c4, 				
+            0xff0619,
+            
+            0xFFBF00, 			
+            0xff7100,	
+            0xff06b3, 
+            
+            0x41e2e6,			
+            0xc3e2a4,	
+            0xffb2bc,
+            
+            0xdbb8fd
+        ]
+        /**
+         * 设置圆环的环宽
+         * &lt;br /&gt; 仅对 NDount 生效
+         * @property radiusStep
+         * @default 10
+         * @type int
+         */
+        , radiusStep: 10
+        /**
+         * 不同 圆环图的设置数据
+         * @property plotOptions
+         * @type {Object}
+         */
+        , plotOptions: {
+            /**
+             * NDount 的设置数据
+             * @property plotOptions.ndount
+             * @type {Object}
+             */
+            ndount: {
+                /**
+                 * NDount的圆环中的文本显示设置
+                 * @property plotOptions.ndount.cdataLabels
+                 * @type {Object}
+                 */
+                cdataLabels: {
+                    /**
+                     * 是否显示 NDount的圆环中的文本
+                     * @property plotOptions.ndount.cdataLabels.enabled
+                     * @type Boolean
+                     * @default false
+                     */
+                    enabled: false
+                }
             }
-    });
+        }
+        /**
+         * 图表背景的设置数据
+         * @property    chart
+         * @type        {object}
+         */
+        , chart: {
+            /**
+             * 图表的背景颜色
+             * @property    chart.bgColor
+             * @type        {hex color}
+             * @default     0xcccccc
+             */
+            bgColor: 0xcccccc
+            /**
+             * 图表的背景色透明度
+             * @property    chart.bgAlpha
+             * @type        {Number}     0.01 ~ 1
+             * @default     0.13
+             */
+            , bgAlpha: .13
+            /**
+             * 图表数据显示块的高度 ( pending )
+             * &lt;br /&gt;有时需要把多个数据图表显示一样的视觉高度, 但是其他图表的 水平label高度不一样, 就会导致视觉上的不同
+             * &lt;br /&gt;这个属性就是为了解决这个问题, 把图表数据显示块设置为统一的高度
+             * @property    chart.graphicHeight
+             * @type        {Number}     
+             * @default     0,     0 = auto
+             */
+            , graphicHeight: 0
+        }
+        /**
+         * tips 设置数据 
+         * @property    tooltip
+         * @type        {object}
+         */
+        , tooltip: {
+            /**
+             * 是否显示 tips ( pending )
+             * @property    tooltip.enabled
+             * @type        {Boolean}
+             * @default     true
+             * @example 
+             *  enabled: true
+             */
+            enabled: true
+        }
 
-    JC.f.extendObject( IconLine.View.prototype, {
-        init:
-            function(){
-                //JC.log( &#x27;IconLine.View.init:&#x27;, new Date().getTime() );
-            }
+    };
 
-        , draw:
-            function(){
-                var _p = this
-                    , _rect = _p._model.stage().rect( 
-                        _p._model._rx , _p._model._ry + _p._model._rh , _p._model._rw, _p._model._rh, _p._model._rcorner )
-
-                    , _circle = _p._model.stage().circle( 
-                        _p._model._rx + _p._model._rw / 2
-                        , _p._model._ry + _p._model._rh + _p._model._rh / 2
-                        , _p._model._radius 
-                        )
-                    ;
-                this._model._group.addChild( _rect, &#x27;rect&#x27; );
-                this._model._group.addChild( _circle, &#x27;circle&#x27; );
-
-                this._model.add( _rect, &#x27;rect&#x27; );
-                this._model.add( _circle, &#x27;circle&#x27; );
-            }
-    });
-
-    return JC.IconLine;
+    return CircleData;
 });}( typeof define === &#x27;function&#x27; &amp;&amp; define.amd ? define : 
         function ( _name, _require, _cb ) { 
             typeof _name == &#x27;function&#x27; &amp;&amp; ( _cb = _name );
@@ -228,7 +334,7 @@
         }
         , window
     )
-)
+);
 
     </pre>
 </div>

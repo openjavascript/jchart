@@ -86,7 +86,7 @@ package org.xas.jchart.histogram.controller
 				
 				_config.c.maxX -= 5;
 				
-				if( _config.rateLabelEnabled ){
+				if( _config.yAxisEnabled ){
 					facade.registerMediator( new VLabelMediator() );
 					_config.c.minX += pVLabelMediator.maxWidth;
 				}
@@ -111,7 +111,7 @@ package org.xas.jchart.histogram.controller
 				
 				_config.c.arrowLength = 8;
 				
-				if( _config.rateLabelEnabled ){
+				if( _config.yAxisEnabled ){
 					_config.c.chartWidth = _config.c.maxX - _config.c.minX - 5;
 				}else{
 					//_config.c.chartWidth = _config.c.maxX - 5;
@@ -304,7 +304,7 @@ package org.xas.jchart.histogram.controller
 			
 			
 			var _padX:Number = 0;
-			if( !_config.rateLabelEnabled ){
+			if( !_config.yAxisEnabled ){
 			}
 			
 			Common.each( _config.rate, function( _k:int, _item:* ):void{
@@ -322,7 +322,7 @@ package org.xas.jchart.histogram.controller
 		}
 		
 		private function calcChartHPoint():void{
-			if( !_config.rateLabelEnabled ){
+			if( !_config.yAxisEnabled ){
 				_config.c.chartWidth -= ( _config.vlabelSpace + 2 );
 			}
 			var _partN:Number = _config.c.chartWidth / ( _config.categories.length )

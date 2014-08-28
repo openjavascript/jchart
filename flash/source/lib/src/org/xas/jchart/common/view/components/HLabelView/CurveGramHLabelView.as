@@ -5,6 +5,7 @@ package org.xas.jchart.common.view.components.HLabelView
 	import flash.text.TextFieldAutoSize;
 	
 	import org.xas.core.utils.Log;
+	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	import org.xas.jchart.common.config.CurveGramConfig;
@@ -32,7 +33,7 @@ package org.xas.jchart.common.view.components.HLabelView
 					_t = _item + '';
 					
 					_titem = new TextField();
-					_titem.text = _t;
+					_titem.text = StringUtils.printf( _config.xAxisFormat, _t );
 					
 					_titem.autoSize = TextFieldAutoSize.LEFT;
 					

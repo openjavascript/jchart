@@ -262,11 +262,15 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
-		public function get rateLabelEnabled():Boolean{
+		public function get yAxisEnabled():Boolean{
 			var _r:Boolean = true;
 			
 			if( cd && cd.rateLabel && ( 'enabled' in cd.rateLabel ) ){
 				_r = StringUtils.parseBool( cd.rateLabel.enabled );
+			}
+			
+			if( cd && cd.yAxis && ( 'enabled' in cd.yAxis ) ){
+				_r = StringUtils.parseBool( cd.yAxis.enabled );
 			}
 			
 			return _r;
@@ -291,6 +295,16 @@ package org.xas.jchart.common
 			&& cd.dataLabels
 				&& ( 'format' in cd.dataLabels )
 				&& ( _r = cd.dataLabels.format );
+			
+			return _r;
+		}
+		
+		public function get xAxisFormat():String{
+			var _r:String = "{0}";
+			cd 
+			&& cd.xAxis
+				&& ( 'format' in cd.xAxis )
+				&& ( _r = cd.xAxis.format );
 			
 			return _r;
 		}
@@ -442,7 +456,7 @@ package org.xas.jchart.common
 				_r > 0 && _r && ( _r = Common.numberUp( _r ) );
 			}
 			
-			this.rateMaxValue && ( _r = this.rateMaxValue );
+			this.yAxisMaxValue && ( _r = this.yAxisMaxValue );
 				
 			_r === 0 && ( _r = 10 );
 			return _r;
@@ -498,13 +512,13 @@ package org.xas.jchart.common
 			if( this.isPercent ){
 				_rateValue = 100;
 			}				
-			_rate = rateData || _rate;
+			_rate = yAxisRate || _rate;
 			Common.each( _rate, function( _k:int, _item:Number ):void{
 				if( _item === 0 ){
 					_rateZeroIndex = _k;
 				}
 			});
-			this.rateMaxValue && ( _rateValue = this.rateMaxValue );
+			this.yAxisMaxValue && ( _rateValue = this.yAxisMaxValue );
 			
 			Common.each( _rate, function( _k:int, _item:Number ):void{
 				var _realItem:Number = _rateValue * _item;
@@ -518,6 +532,7 @@ package org.xas.jchart.common
 				//Log.log( _realItem );
 			});
 			_itemMax = [];
+			_realRateFloatLen === 1 && ( _realRateFloatLen = 2 );
 			
 			if( displaySeries && displaySeries.length &&  displaySeries[0].data && displaySeries[0].data.length ){
 				Common.each( displaySeries[0].data, function( _k:int, _item:Object ):void{
@@ -531,17 +546,28 @@ package org.xas.jchart.common
 			//Log.log( _itemMax );
 		}
 		
-		public function get rateMaxValue():Number{
+		public function get yAxisMaxValue():Number{
 			var _r:Number = 0;
+			
 			this.cd && this.cd.rateLabel && ( 'maxvalue' in this.cd.rateLabel )
-				&& ( _r = this.cd.rateLabel.maxvalue );
+				&& ( _r = this.cd.rateLabel.maxvalue || _r );
+			
+			this.cd && this.cd.yAxis && ( 'maxvalue' in this.cd.yAxis )
+				&& ( _r = this.cd.yAxis.maxvalue || _r );
+			
 			return _r;
 		}
 		
-		public function get rateData():Array{
+		public function get yAxisRate():Array{
 			var _r:Array;
 			this.cd && this.cd.rateLabel && ( 'data' in this.cd.rateLabel )
 				&& ( _r = this.cd.rateLabel.data );
+			
+			this.cd && this.cd.yAxis && ( 'data' in this.cd.yAxis )
+				&& ( _r = this.cd.yAxis.data );
+			
+			this.cd && this.cd.yAxis && ( 'rate' in this.cd.yAxis )
+				&& ( _r = this.cd.yAxis.rate );
 			return _r;
 		}
 		

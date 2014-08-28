@@ -98,7 +98,7 @@ package org.xas.jchart.curvegram.controller
 					_config.c.minX += _config.c.vlabelSpace;
 				};
 				
-				if( _config.rateLabelEnabled ){
+				if( _config.yAxisEnabled ){
 					facade.registerMediator( new VLabelMediator() );
 					_config.c.minX += pVLabelMediator.maxWidth;
 				}else{
@@ -119,7 +119,7 @@ package org.xas.jchart.curvegram.controller
 				
 				_config.c.arrowLength = 8;
 				
-				if( _config.rateLabelEnabled ){
+				if( _config.yAxisEnabled ){
 					_config.c.chartWidth = _config.c.maxX - _config.c.minX - 5;
 				}else{
 					_config.c.chartWidth = _config.c.maxX - _config.c.minX;
@@ -281,7 +281,7 @@ package org.xas.jchart.curvegram.controller
 			_config.c.vpointReal = [];
 			
 			var _padX:Number = 0;
-			if( !_config.rateLabelEnabled ){
+			if( !_config.yAxisEnabled ){
 				//_padX = _config.c.arrowLength - ( _config.c.arrowLength -  _config.c.chartX );
 				_padX = _config.vlabelSpace + 2;
 			}

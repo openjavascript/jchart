@@ -47,6 +47,10 @@ dl dd{
                         categories: [ '学生', '公司职员', '公司管理者', '公务员', '事业单位', '个体经营', '自由职业', '产业\n服务员\n工人', '农业\n劳动者', '其他' ]
                         , wordwrap: true
                     }, 
+                    , yAxis: {
+                        enabled: true,
+                        format: '{0}%'
+                    }
                     series:[{
                         name: '职业'
                         , data: [ 11, 14, 43, 12, 21, 8, 4, 6, 8, 5 ]
@@ -58,10 +62,6 @@ dl dd{
                     displayAllLabel: true,
                     legend: {
                         enabled: false
-                    }
-                    , dataLabels: {
-                        enabled: true,
-                        format: '{0}%'
                     }
                     , vline: {
                         enabled: false

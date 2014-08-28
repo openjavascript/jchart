@@ -52,6 +52,17 @@
                 "JChart": 1
             }
         },
+        "../modules/JChart.CircleData/0.1/CircleData.js": {
+            "name": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "modules": {},
+            "classes": {
+                "JChart.CircleData": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "JChart": 1
+            }
+        },
         "../modules/JChart.CurveGram/0.1/CurveGram.js": {
             "name": "../modules/JChart.CurveGram/0.1/CurveGram.js",
             "modules": {},
@@ -195,6 +206,17 @@
             "name": "../modules/JChart.Legend/0.1/Legend.js",
             "modules": {},
             "classes": {},
+            "fors": {},
+            "namespaces": {
+                "JChart": 1
+            }
+        },
+        "../modules/JChart.NormalData/0.1/NormalData.js": {
+            "name": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "modules": {},
+            "classes": {
+                "JChart.NormalData": 1
+            },
             "fors": {},
             "namespaces": {
                 "JChart": 1
@@ -461,6 +483,26 @@
                 "\n       <h2>JC.Base 示例</h2>"
             ]
         },
+        "JChart.CircleData": {
+            "name": "JChart.CircleData",
+            "shortname": "JChart.CircleData",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JChart",
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 2,
+            "description": "JChart 图表数据( 曲线图、环状图、管状图 )\n\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.CircleData.html' target='_blank'>API docs</a>\n </p>\n<h2></h2>\n<dl>\n   <dt></dt>\n   <dd><dd>\n</dl>",
+            "is_constructor": 1,
+            "static": 1,
+            "version": "dev 0.1 2014-08-28",
+            "author": "qiushaowei <suches@btbtd.org> | 75 Team",
+            "example": [
+                "\n<h2>显示 两块数据[ 曲线图、环状图、管状图 ]的图表数据</h2>\n<pre>{\n   series:[{\n       data: [\n           ['全体覆盖率',   60],\n           ['样本覆盖率',   20]\n       ]\n   }]\n   , isPercent: true\n   \n   , colors: [ \n       0x00ABEF\n       , 0xFF6297\n       \n       , 0x09c100\n       , 0x0c76c4 \t\t\t\t\n       , 0xff0619\n       \n       , 0xFFBF00\t\t\t\n       , 0xff7100\t\n       , 0xff06b3\n       \n       , 0x41e2e6\t\t\t\n       , 0xc3e2a4\t\n       , 0xffb2bc\n       \n       , 0xdbb8fd\n   ]\n}</pre>"
+            ]
+        },
         "JChart.CurveGram": {
             "name": "JChart.CurveGram",
             "shortname": "JChart.CurveGram",
@@ -499,7 +541,7 @@
             "namespace": "JChart",
             "file": "../modules/JChart.DefaultOptions/0.1/DefaultOptions.js",
             "line": 2,
-            "description": "JChart.DefaultOptions 是 JChart 图表库的默认配置, 提供所有图表的默认参数\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.Histogram.html' target='_blank'>API docs</a></p>",
+            "description": "JChart.DefaultOptions 是 JChart 图表库的默认配置, 提供所有图表的默认参数\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n</p>",
             "version": "dev 0.1 2014-06-20",
             "author": "qiushaowei <suches@btbtd.org> | 75 Team"
         },
@@ -552,6 +594,26 @@
             "author": "qiushaowei <suches@btbtd.org> | 75 Team",
             "example": [
                 "\n       <h2>JC.HistogramLateral 示例</h2>"
+            ]
+        },
+        "JChart.NormalData": {
+            "name": "JChart.NormalData",
+            "shortname": "JChart.NormalData",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "JChart",
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 2,
+            "description": "JChart 图表数据( 曲线图、柱状图 )\n\n<p><a href='https://github.com/openjavascript/jchart' target='_blank'>JChart Project Site</a>\n  | <a href='http://jchart.openjavascript.org/docs_api/classes/JChart.NormalData.html' target='_blank'>API docs</a>\n </p>\n<h2></h2>\n<dl>\n   <dt></dt>\n   <dd><dd>\n</dl>",
+            "is_constructor": 1,
+            "static": 1,
+            "version": "dev 0.1 2014-08-28",
+            "author": "qiushaowei <suches@btbtd.org> | 75 Team",
+            "example": [
+                "\n<h2>显示 两条[曲线|柱状]的图表数据</h2>\n<pre>{\n   \n   xAxis: {\n       categories: [ '02/24', '02/25', '02/26', '02/27', '02/28', '02/29', '03/01' ]\n   }\n   , yAxis: {\n       format: '{0}%'\n       , maxvalue: 100\n   }\n   , series:[{\n       name: '目标PV'\n       , data: [ 70, 49, 76, 30, 55, 26, 78 ]\n   }, {\n       name: '目标UV',\n       data: [ 48, 62, 50, 50, 30, 40, 35 ]\n   }]\n   , tooltip: {\t\t\n       enabled: true\n       , \"headerFormat\": \"{0}\"\t\t\t\n       , \"pointFormat\": \"{0} %\"\n       \n   }\n   , displayAllLabel: true\n   , legend: {\n       enabled: false\n   }\n   , dataLabels: {\n       enabled: true\n       , format: '{0}%'\n   }\n   , vline: {\n       //enabled: false\n   }\n   , hline: {\n       //enabled: true\n   }\n   , colors: [\n       0x03ACEF\n       , 0x5DC979\n       , 0x09c100\n       , 0x0c76c4 \t\t\t\t\n       , 0xff0619\n       \n       , 0xFFBF00\t\t\t\n       , 0xff7100\t\n       , 0xff06b3\n       \n       , 0x41e2e6\t\t\t\n       , 0xc3e2a4\t\n       , 0xffb2bc\n       \n       , 0xdbb8fd\n   ]    \t\t\t\t\n   , chart: {\n       bgColor: 0xffffff\n       , bgAlpha: 1\n       //, graphicHeight: 220\n   }\n   , hoverBg: {\n       enabled: true\t\t\n       , style: {\n           borderColor: 0xB4B4B4\n           , borderWidth: 2\n           , bgColor: 0xF0F0F0\n       }\t\t\t\t\t\t\t\t\t\t\n   }\n}</pre>"
             ]
         },
         "JChart.PieGraph": {
@@ -3529,6 +3591,164 @@
             "namespace": "JChart"
         },
         {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 53,
+            "description": "展现的数据\n<br />series 数组只有索引0数据\n<br />series 索引0 里的 data 应该是个两维数组, 或者 数组里的数据为 object: { name: String, y: Number }",
+            "itemtype": "property",
+            "name": "series",
+            "type": "{Array of Object}",
+            "default": "null",
+            "example": [
+                "\n\n<pre>series:[{\n   data: [\n       ['全体覆盖率',   60],\n       ['样本覆盖率',   20]\n   ]\n}]</pre>\n<pre>series:[{\n   data: [\n       { name:'全体覆盖率',   y:60],\n       [ name:'样本覆盖率',   y:20]\n   ]\n}]</pre>\n"
+            ],
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 77,
+            "description": "图表数值是否按总数值=100划分百分比",
+            "itemtype": "property",
+            "name": "isPercent",
+            "type": "{Boolean}",
+            "default": "false",
+            "example": [
+                " \n isPercent: false"
+            ],
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 86,
+            "description": "数据项的显示颜色",
+            "itemtype": "property",
+            "name": "colors",
+            "type": "{Array of hex colors}",
+            "default": ":    [0x03ACEF, 0x5DC979, 0x09c100, 0x0c76c4 , 0xff0619, 0xFFBF00, 0xff7100, 0xff06b3, 0x41e2e6, 0xc3e2a4, 0xffb2bc, 0xdbb8fd]",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 107,
+            "description": "设置圆环的环宽\n<br /> 仅对 NDount 生效",
+            "itemtype": "property",
+            "name": "radiusStep",
+            "default": "10",
+            "type": "int",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 115,
+            "description": "不同 圆环图的设置数据",
+            "itemtype": "property",
+            "name": "plotOptions",
+            "type": "{Object}",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 121,
+            "description": "NDount 的设置数据",
+            "itemtype": "property",
+            "name": "plotOptions.ndount",
+            "type": "{Object}",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 127,
+            "description": "NDount的圆环中的文本显示设置",
+            "itemtype": "property",
+            "name": "plotOptions.ndount.cdataLabels",
+            "type": "{Object}",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 133,
+            "description": "是否显示 NDount的圆环中的文本",
+            "itemtype": "property",
+            "name": "plotOptions.ndount.cdataLabels.enabled",
+            "type": "Boolean",
+            "default": "false",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 143,
+            "description": "图表背景的设置数据",
+            "itemtype": "property",
+            "name": "chart",
+            "type": "{object}",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 149,
+            "description": "图表的背景颜色",
+            "itemtype": "property",
+            "name": "chart.bgColor",
+            "type": "{hex color}",
+            "default": "0xcccccc",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 156,
+            "description": "图表的背景色透明度",
+            "itemtype": "property",
+            "name": "chart.bgAlpha",
+            "type": "{Number}     0.01 ~ 1",
+            "default": "0.13",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 163,
+            "description": "图表数据显示块的高度 ( pending )\n<br />有时需要把多个数据图表显示一样的视觉高度, 但是其他图表的 水平label高度不一样, 就会导致视觉上的不同\n<br />这个属性就是为了解决这个问题, 把图表数据显示块设置为统一的高度",
+            "itemtype": "property",
+            "name": "chart.graphicHeight",
+            "type": "{Number}",
+            "default": "0,     0 = auto",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 173,
+            "description": "tips 设置数据",
+            "itemtype": "property",
+            "name": "tooltip",
+            "type": "{object}",
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.CircleData/0.1/CircleData.js",
+            "line": 179,
+            "description": "是否显示 tips ( pending )",
+            "itemtype": "property",
+            "name": "tooltip.enabled",
+            "type": "{Boolean}",
+            "default": "true",
+            "example": [
+                " \n enabled: true"
+            ],
+            "class": "JChart.CircleData",
+            "namespace": "JChart"
+        },
+        {
             "file": "../modules/JChart.CurveGram/0.1/CurveGram.js",
             "line": 52,
             "description": "初始化可识别的 CurveGram 实例",
@@ -4286,7 +4506,7 @@
             "example": [
                 "\n       <h2>JC.IconCircle 示例</h2>"
             ],
-            "class": "JChart.PieGraph",
+            "class": "JChart.NormalData",
             "namespace": "JChart"
         },
         {
@@ -4306,7 +4526,7 @@
             "example": [
                 "\n       <h2>JC.IconLine 示例</h2>"
             ],
-            "class": "JChart.PieGraph",
+            "class": "JChart.NormalData",
             "namespace": "JChart"
         },
         {
@@ -4326,7 +4546,7 @@
             "example": [
                 "\n       <h2>JC.IconRect 示例</h2>"
             ],
-            "class": "JChart.PieGraph",
+            "class": "JChart.NormalData",
             "namespace": "JChart"
         },
         {
@@ -4346,7 +4566,7 @@
             "example": [
                 "\n       <h2>JC.IconVLine 示例</h2>"
             ],
-            "class": "JChart.PieGraph",
+            "class": "JChart.NormalData",
             "namespace": "JChart"
         },
         {
@@ -4366,7 +4586,554 @@
             "example": [
                 "\n       <h2>JC.Legend 示例</h2>"
             ],
-            "class": "JChart.PieGraph",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 92,
+            "description": "横向坐标设置数据",
+            "itemtype": "property",
+            "name": "xAxis",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 98,
+            "description": "是否显示横向坐标( pending )",
+            "itemtype": "property",
+            "name": "xAxis.enabled",
+            "type": "{Boolean}",
+            "default": "true",
+            "example": [
+                " \n enabled: false"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 107,
+            "description": "横向坐标的显示数据\n<br />这些数据默认也用于显示 tips 的主标题, 如果想重定义 tips 的主标题, 请设置 tooltip.header 属性",
+            "itemtype": "property",
+            "name": "xAxis.categories",
+            "type": "{Array of String}",
+            "default": "null",
+            "example": [
+                " \n categories: [ '02/24', '02/25', '02/26', '02/27', '02/28', '02/29', '03/01' ]"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 117,
+            "description": "横向坐标显示数据是否自动换行",
+            "itemtype": "property",
+            "name": "xAxis.wordwrap",
+            "type": "{Boolean}",
+            "default": "true",
+            "example": [
+                " \n wordwrap: true"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 126,
+            "description": "横向坐标显示数据格式化显示",
+            "itemtype": "property",
+            "name": "xAxis.format",
+            "type": "{String}",
+            "default": "'{0}'",
+            "example": [
+                " \n format: '{0}%'"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 136,
+            "description": "纵向坐标设置数据",
+            "itemtype": "property",
+            "name": "yAxis",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 142,
+            "description": "是否显示纵向坐标",
+            "itemtype": "property",
+            "name": "yAxis.enabled",
+            "type": "{Boolean}",
+            "default": "true",
+            "example": [
+                " \n enabled: true"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 151,
+            "description": "纵向坐标显示数据格式化显示",
+            "itemtype": "property",
+            "name": "yAxis.format",
+            "type": "{String}",
+            "default": "'{0}'",
+            "example": [
+                " \n format: '{0}%'"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 160,
+            "description": "自定义纵向坐标的最大值\n<br /> 0 = auto\n<br /> 显示百分比的时候, 应该设置为 100",
+            "itemtype": "property",
+            "name": "yAxis.maxvalue",
+            "type": "{Number}",
+            "default": "0",
+            "example": [
+                " \n maxvalue: 0"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 171,
+            "description": "纵向坐标的切分粒度",
+            "itemtype": "property",
+            "name": "yAxis.rate",
+            "type": "{Array of Number}",
+            "default": "auto",
+            "example": [
+                " \n rate: [ 1, .8, .6, .4, .2, .0 ]"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 181,
+            "description": "展现的数据\n<br />series 每条数据里的 data 属性, 长度应该与 xAxis.categories 的长度相等\n<br />显示数值如果为百分比的话, 需要设置 yAxis.maxvalue = 100",
+            "itemtype": "property",
+            "name": "series",
+            "type": "{Array of Object}",
+            "default": "null",
+            "example": [
+                "\n\n<pre>series:[{\n       name: '目标PV'\n       , data: [ 70, 49, 76, 30, 55, 26, 78 ]\n   }, {\n       name: '目标UV',\n       data: [ 48, 62, 50, 50, 30, 40, 35 ]\n   }]</pre>"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 199,
+            "description": "tips 设置数据 \n<br /> tips 的主标题默认为 xAxis.categories 对应索引的数据\n<br /> 如果想重定义主标题, 请设置 tooltip.header 属性",
+            "itemtype": "property",
+            "name": "tooltip",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 207,
+            "description": "是否显示 tips",
+            "itemtype": "property",
+            "name": "tooltip.enabled",
+            "type": "{Boolean}",
+            "default": "true",
+            "example": [
+                " \n enabled: true"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 216,
+            "description": "tips 主标题的显示格式",
+            "itemtype": "property",
+            "name": "tooltip.headerFormat",
+            "type": "{String}",
+            "default": "'{0}'",
+            "example": [
+                " \n headerFormat: '{0}             right title'"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 225,
+            "description": "tips 坐数值的显示格式",
+            "itemtype": "property",
+            "name": "tooltip.pointFormat",
+            "type": "{String}",
+            "default": "'{0}'",
+            "example": [
+                " \n pointFormat: '{0}%'"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 234,
+            "description": "tips 主标题的显示数据\n<br />如果不显式声明 tooltip.header, 默认数据为 xAxis.categories",
+            "itemtype": "property",
+            "name": "tooltip.header",
+            "type": "{Array of String}",
+            "default": "null",
+            "example": [
+                " \n header: [ '2014/02/24', '2014/02/25', '2014/02/26', '2014/02/27', '2014/02/28', '2014/02/29', '2014/03/01' ]"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 244,
+            "description": "tips 的扩展字段( 在行首显示扩展的字段 )\n<br />series 每条数据里的 data 属性, 长度应该与 xAxis.categories 的长度相等",
+            "itemtype": "property",
+            "name": "tooltip.series",
+            "type": "{Array of Object}",
+            "default": "null",
+            "example": [
+                "\n\n<pre>\"serial\": [\n   {\n       \"name\": \"总体\"\n       , \"data\": [ \n           1000, 2000, 3000, 4000, 5000, 6000\n           , 1000, 2000, 3000, 4000, 5000, 6000 \n           , 1000, 2000, 3000, 4000, 5000, 6000 \n           , 7000\n       ]\n   }"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 264,
+            "description": "tips 的扩展字段( 在行底显示扩展的字段 )\n<br />series 每条数据里的 data 属性, 长度应该与 xAxis.categories 的长度相等",
+            "itemtype": "property",
+            "name": "tooltip.afterSeries",
+            "type": "{Array of Object}",
+            "default": "null",
+            "example": [
+                "\n\n<pre>\"afterSerial\": [\n   {\n       \"name\": \"区分度\"\n       , \"data\": [ \n           1.04, 1.05, 1.06, 1.07, 1.08, 1.09\n           , 2.01, 2.02, 2.03, 2.04, 2.05, 2.06\n           , 3.09, 3.08, 3.07, 3.06, 3.05, 3.04\n           , 4.11\n       ]\n   }\n]</pre>"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 286,
+            "description": "是否显示所有横向 label\n<br />如果非真, 而且长度大于4, 将按横向坐标的长度切分为4个显示坐标",
+            "itemtype": "property",
+            "name": "displayAllLabel",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 294,
+            "description": "数据点 label 的设置数据",
+            "itemtype": "property",
+            "name": "dataLabels",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 300,
+            "description": "每个数据点是否显示数值文本",
+            "itemtype": "property",
+            "name": "dataLabels.enabled",
+            "type": "{Boolean}",
+            "default": "false",
+            "example": [
+                " \n enabled: false"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 309,
+            "description": "格式化显示数值文本",
+            "itemtype": "property",
+            "name": "dataLabels.format",
+            "type": "{String}",
+            "default": "'{0}'",
+            "example": [
+                " \n format: '{0}%'"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 319,
+            "description": "纵向背景线的设置数据",
+            "itemtype": "property",
+            "name": "vline",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 325,
+            "description": "是否显示纵向背景线",
+            "itemtype": "property",
+            "name": "vline.enabled",
+            "type": "{Boolean}",
+            "default": "true",
+            "example": [
+                " \n enabled: true"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 335,
+            "description": "横向背景线的设置数据",
+            "itemtype": "property",
+            "name": "hline",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 341,
+            "description": "是否显示横向背景线",
+            "itemtype": "property",
+            "name": "hline.enabled",
+            "type": "{Boolean}",
+            "default": "true",
+            "example": [
+                " \n enabled: true"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 351,
+            "description": "数据项的显示颜色",
+            "itemtype": "property",
+            "name": "colors",
+            "type": "{Array of hex colors}",
+            "default": ":    [0x03ACEF, 0x5DC979, 0x09c100, 0x0c76c4 , 0xff0619, 0xFFBF00, 0xff7100, 0xff06b3, 0x41e2e6, 0xc3e2a4, 0xffb2bc, 0xdbb8fd]",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 372,
+            "description": "图表背景的设置数据",
+            "itemtype": "property",
+            "name": "chart",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 378,
+            "description": "图表的背景颜色",
+            "itemtype": "property",
+            "name": "chart.bgColor",
+            "type": "{hex color}",
+            "default": "0xcccccc",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 385,
+            "description": "图表的背景色透明度",
+            "itemtype": "property",
+            "name": "chart.bgAlpha",
+            "type": "{Number}     0.01 ~ 1",
+            "default": "0.13",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 392,
+            "description": "图表数据显示块的高度\n<br />有时需要把多个数据图表显示一样的视觉高度, 但是其他图表的 水平label高度不一样, 就会导致视觉上的不同\n<br />这个属性就是为了解决这个问题, 把图表数据显示块设置为统一的高度",
+            "itemtype": "property",
+            "name": "chart.graphicHeight",
+            "type": "{Number}",
+            "default": "0,     0 = auto",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 402,
+            "description": "数据项的背景设置\n<br /> 目前这个属性仅对 柱状图 生效",
+            "itemtype": "property",
+            "name": "itemBg",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 409,
+            "description": "数据项是否显示背景色",
+            "itemtype": "property",
+            "name": "itemBg.enabled",
+            "type": "{Boolean}",
+            "default": "false",
+            "example": [
+                " \n enabled: false"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 418,
+            "description": "数据项背景色的样式定义",
+            "itemtype": "property",
+            "name": "itemBg.style",
+            "type": "{object}",
+            "default": "{ borderColor: 0xB4B4B4, bgColor: 0xF0F0F0, borderWidth: 0 }",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 426,
+            "description": "数据项的鼠标划过的背景设置\n<br /> 目前这个属性仅对 柱状图 生效",
+            "itemtype": "property",
+            "name": "hoverBg",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 433,
+            "description": "数据项鼠标划过是否显示背景色",
+            "itemtype": "property",
+            "name": "hoverBg.enabled",
+            "type": "{Boolean}",
+            "default": "false",
+            "example": [
+                " \n enabled: false"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 442,
+            "description": "数据项背景色的样式定义",
+            "itemtype": "property",
+            "name": "hoverBg.style",
+            "type": "{object}",
+            "default": "{ borderColor: 0xB4B4B4, bgColor: 0xF0F0F0, borderWidth: 0 }",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 450,
+            "description": "最大数据的显示设置\n<br /> 目前这个属性仅对 柱状图 生效",
+            "itemtype": "property",
+            "name": "maxItem",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 457,
+            "itemtype": "property",
+            "name": "maxItem.style",
+            "type": "{object}",
+            "default": "null",
+            "example": [
+                "     style: { color: 0x5DC979, size: 18 }"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 465,
+            "description": "数据项的背景区分设置\n<br /> 目前这个属性仅对 曲线图 生效",
+            "itemtype": "property",
+            "name": "toggleBg",
+            "type": "{object}",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 472,
+            "description": "数据项是否每隔一个数据显示不同的背景色",
+            "itemtype": "property",
+            "name": "toggleBg.enabled",
+            "type": "{Boolean}",
+            "default": "false",
+            "example": [
+                " \n enabled: false"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 481,
+            "description": "数据项背景色的样式定义( pending )",
+            "itemtype": "property",
+            "name": "toggleBg.style",
+            "type": "{object}",
+            "default": "{ borderColor: 0xEDF1F3, bgColor: 0xEDF1F3, borderWidth: 0, thickness: 1 }",
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 489,
+            "description": "图表数值是否按总数值=100划分百分比",
+            "itemtype": "property",
+            "name": "isPercent",
+            "type": "{Boolean}",
+            "default": "false",
+            "example": [
+                " \n isPercent: false"
+            ],
+            "class": "JChart.NormalData",
+            "namespace": "JChart"
+        },
+        {
+            "file": "../modules/JChart.NormalData/0.1/NormalData.js",
+            "line": 498,
+            "description": "图表数值是否按 series 数据点 的总数值划分百分比",
+            "itemtype": "property",
+            "name": "isItemPercent",
+            "type": "{Boolean}",
+            "default": "false",
+            "example": [
+                " \n isItemPercent: false"
+            ],
+            "class": "JChart.NormalData",
             "namespace": "JChart"
         },
         {
@@ -4996,6 +5763,10 @@
         },
         {
             "message": "unknown tag: version",
+            "line": " ../modules/JChart.CircleData/0.1/CircleData.js:2"
+        },
+        {
+            "message": "unknown tag: version",
             "line": " ../modules/JChart.CurveGram/0.1/CurveGram.js:2"
         },
         {
@@ -5109,6 +5880,10 @@
         {
             "message": "unknown tag: version",
             "line": " ../modules/JChart.Legend/0.1/Legend.js:2"
+        },
+        {
+            "message": "unknown tag: version",
+            "line": " ../modules/JChart.NormalData/0.1/NormalData.js:2"
         },
         {
             "message": "unknown tag: version",

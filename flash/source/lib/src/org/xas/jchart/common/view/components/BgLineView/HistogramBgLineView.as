@@ -44,7 +44,7 @@ package org.xas.jchart.common.view.components.BgLineView
 				, _ep:Point = _item.end as Point
 				, _sx:Number = _sp.x, _ex:Number = _ep.x
 				;
-				if( !BaseConfig.ins.rateLabelEnabled ){
+				if( !BaseConfig.ins.yAxisEnabled ){
 					_sx += BaseConfig.ins.c.arrowLength - 2;
 				}
 								

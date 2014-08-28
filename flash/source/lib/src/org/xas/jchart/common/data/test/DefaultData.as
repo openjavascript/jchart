@@ -32,6 +32,7 @@ package org.xas.jchart.common.data.test
 				}
 				, yAxis: {
 					format: '{0}'
+					, enabled: false
 				}
 				, series:[{
 					name: '最大区分度 - 兴趣'
@@ -47,9 +48,6 @@ package org.xas.jchart.common.data.test
 					
 				}
 				//isPercent: true,
-				, rateLabel: {
-					enabled: false
-				}
 				, displayAllLabel: true
 				, legend: {
 					enabled: false
@@ -104,6 +102,7 @@ package org.xas.jchart.common.data.test
 				}
 				, yAxis: {
 					format: '{0}%'
+					, maxvalue: 100
 				}
 				, series:[{
 					name: '目标PV'
@@ -119,10 +118,6 @@ package org.xas.jchart.common.data.test
 					
 				}
 				//isPercent: true,
-				, rateLabel: {
-					enabled: false
-					, maxvalue: 100
-				}
 				, displayAllLabel: true
 				, legend: {
 					//enabled: false
@@ -188,6 +183,7 @@ package org.xas.jchart.common.data.test
 				}
 				, yAxis: {
 					format: '{0}'
+					, rate: [ 1, .8, .6, .4, .2, .0 ]
 				}
 				, series:[{
 					name: '词1'
@@ -238,10 +234,6 @@ package org.xas.jchart.common.data.test
 							]
 						}
 					]
-				}
-				, rateLabel: {
-					enabled: true
-					, data: [ 1, .8, .6, .4, .2, .0 ]
 				}
 				, displayAllLabel: false
 				, legend: {
@@ -298,6 +290,9 @@ package org.xas.jchart.common.data.test
 				}
 				, yAxis: {
 					format: '{0}%'
+					, enabled: true
+					, maxvalue: 100
+					, rate: [ 1, .8, .6, .4, .2, .0 ]
 				}
 				, series:[{
 					name: '词1'
@@ -326,11 +321,6 @@ package org.xas.jchart.common.data.test
 						, '2014-05-31', '2014-06-04', '2014-06-09', '2014-06-14', '2014-06-19', '2014-06-24'
 						, '2014-06-29'
 					]
-				}
-				, rateLabel: {
-					enabled: true
-					, maxvalue: 100
-					, data: [ 1, .8, .6, .4, .2, .0 ]
 				}
 				, displayAllLabel: false
 				, legend: {
@@ -379,14 +369,14 @@ package org.xas.jchart.common.data.test
 					categories: [ '初中\n以下', '高中\n中专\n技校', '大专', '本科', '研究生\n及以上' ]
 					, wordwrap: true
 				}, 
+				yAxis: {
+					enabled: false
+				},
 				series:[{
 					name: '学历'
 					, data: [ 12, 19, 21, 46, 10 ]
 				}],
 				//isPercent: true,
-				rateLabel: {
-					enabled: false
-				},
 				displayAllLabel: true,
 				legend: {
 					enabled: false
@@ -427,6 +417,9 @@ package org.xas.jchart.common.data.test
 				xAxis: {
 					categories: [ '网页游戏', '游戏平台', '桌面游戏', '手机游戏', '个体经营', '小游戏', '网页游戏', '游戏平台', '桌面游戏', '手机游戏' ]
 				}
+				, yAxis: {					
+					enabled: false	
+				}
 				, series:[{
 					name: '全体覆盖率'
 					, data: [26, 36, 46, 56, 77, 76, 86, 72, 62, 52]
@@ -441,9 +434,6 @@ package org.xas.jchart.common.data.test
 
 				}
 				//isPercent: true,
-				, rateLabel: {
-					enabled: false
-				}
 				, displayAllLabel: true
 				, legend: {
 					enabled: false
@@ -499,6 +489,8 @@ package org.xas.jchart.common.data.test
 				}, 
 				yAxis: {
 					format: '{0}%'
+					, maxvalue: 100
+					, enabled: false
 				},
 				series:[{
 					name: '时段分布'
@@ -518,10 +510,6 @@ package org.xas.jchart.common.data.test
 				}
 				, tooltip: {		
 					enabled: false
-				}
-				, rateLabel: {
-					maxvalue: 100
-					, enabled: false
 				}
 				, colors: [
 					0x00ABEF
@@ -558,6 +546,7 @@ package org.xas.jchart.common.data.test
 				}, 
 				yAxis: {
 					format: '{0}%'
+					, maxvalue: 100
 				},
 				series:[{
 					name: '时段分布'
@@ -587,9 +576,6 @@ package org.xas.jchart.common.data.test
 				, hline: {
 					enabled: true
 				}
-				, rateLabel: {
-					maxvalue: 100
-				}
 				, colors: [
 					0x00ABEF
 					, 0x9DADB3
@@ -607,6 +593,9 @@ package org.xas.jchart.common.data.test
 				xAxis: {
 					categories: [ '1', '2', '3', '4', '5' ]
 				}, 
+				yAxis: {
+					enabled: false
+				},
 				series:[{
 					name: 'Temperature'
 					, data: [50, 60, 3, 20, 20]
@@ -617,9 +606,6 @@ package org.xas.jchart.common.data.test
 					data: [20, 21, 20, 100, 200]
 				}],
 				//isPercent: true,
-				rateLabel: {
-					enabled: false
-				},
 				displayAllLabel: true,
 				legend: {
 					enabled: false
@@ -713,14 +699,14 @@ package org.xas.jchart.common.data.test
 					categories: [ '学生', '公司职员', '公司管理者', '公务员', '事业单位', '个体经营', '自由职业', '产业\n服务员\n工人', '农业\n劳动者', '其他' ]
 					, wordwrap: true
 				}, 
+				yAxis: {
+					enabled: false
+				},
 				series:[{
 					name: '职业'
 					, data: [ 11, 14, 43, 12, 21, 8, 4, 6, 8, 5 ]
 				}],
 				//isPercent: true,
-				rateLabel: {
-					enabled: false
-				},
 				displayAllLabel: true,
 				legend: {
 					enabled: false
@@ -757,14 +743,14 @@ package org.xas.jchart.common.data.test
 					categories: [ '<18', '19-24', '23-34', '35-49', '>49' ]
 					, wordwrap: true
 				}, 
+				yAxis: {
+					enabled: false
+				},
 				series:[{
 					name: '年龄'
 					, data: [ 69, 19, 21, 18, 10 ]
 				}],
 				//isPercent: true,
-				rateLabel: {
-					enabled: false
-				},
 				displayAllLabel: true,
 				legend: {
 					enabled: false
@@ -800,14 +786,14 @@ package org.xas.jchart.common.data.test
 					categories: [ '低', '偏低', '中等', '偏高', '高' ]
 					, wordwrap: true
 				}, 
+				yAxis: {
+					enabled: false
+				},
 				series:[{
 					name: '购买力'
 					, data: [ 43, 19, 21, 18, 0 ]
 				}],
 				//isPercent: true,
-				rateLabel: {
-					enabled: false
-				},
 				displayAllLabel: true,
 				legend: {
 					enabled: false

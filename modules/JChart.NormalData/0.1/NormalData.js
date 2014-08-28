@@ -168,13 +168,22 @@
              *  maxvalue: 0
              */
             , maxvalue: 0
+            /**
+             * 纵向坐标的切分粒度
+             * @property    yAxis.rate
+             * @type        {Array of Number}
+             * @default     auto
+             * @example 
+             *  rate: [ 1, .8, .6, .4, .2, .0 ]
+             */
+            , rate: null
        }
         /**
          * 展现的数据
          * <br />series 每条数据里的 data 属性, 长度应该与 xAxis.categories 的长度相等
          * <br />显示数值如果为百分比的话, 需要设置 yAxis.maxvalue = 100
          * @property    series
-         * @type        {Array}
+         * @type        {Array of Object}
          * @default     null
          * @example
          * 
@@ -232,7 +241,187 @@
              *  header: [ '2014/02/24', '2014/02/25', '2014/02/26', '2014/02/27', '2014/02/28', '2014/02/29', '2014/03/01' ]
              */
             , header: null
-
+            /**
+             * tips 的扩展字段( 在行首显示扩展的字段 )
+             * <br />series 每条数据里的 data 属性, 长度应该与 xAxis.categories 的长度相等
+             * @property    tooltip.series
+             * @type        {Array of Object}
+             * @default     null
+             * @example
+             * 
+<pre>"serial": [
+    {
+        "name": "总体"
+        , "data": [ 
+            1000, 2000, 3000, 4000, 5000, 6000
+            , 1000, 2000, 3000, 4000, 5000, 6000 
+            , 1000, 2000, 3000, 4000, 5000, 6000 
+            , 7000
+        ]
+    }
+]</pre>     */
+            , series: null
+            /**
+             * tips 的扩展字段( 在行底显示扩展的字段 )
+             * <br />series 每条数据里的 data 属性, 长度应该与 xAxis.categories 的长度相等
+             * @property    tooltip.afterSeries
+             * @type        {Array of Object}
+             * @default     null
+             * @example
+             * 
+<pre>"afterSerial": [
+    {
+        "name": "区分度"
+        , "data": [ 
+            1.04, 1.05, 1.06, 1.07, 1.08, 1.09
+            , 2.01, 2.02, 2.03, 2.04, 2.05, 2.06
+            , 3.09, 3.08, 3.07, 3.06, 3.05, 3.04
+            , 4.11
+        ]
+    }
+]</pre>
+             */
+            , afterSeries: null
+        }
+        /**
+         * 是否显示所有横向 label
+         * <br />如果非真, 而且长度大于4, 将按横向坐标的长度切分为4个显示坐标
+         * @property    displayAllLabel
+         * @type        {Boolean}
+         * @default     true
+         */
+        , displayAllLabel: true
+        /**
+         * 数据点 label 的设置数据
+         * @property    dataLabels
+         * @type        {object}
+         */
+        , dataLabels: {
+            /**
+             * 每个数据点是否显示数值文本
+             * @property    dataLabels.enabled
+             * @type        {Boolean}
+             * @default     false
+             * @example 
+             *  enabled: false
+             */
+            enabled: false
+            /**
+             * 格式化显示数值文本
+             * @property    dataLabels.format
+             * @type        {String}
+             * @default     '{0}'
+             * @example 
+             *  format: '{0}%'
+             */
+            , format: '{0}'
+        }
+        /**
+         * 纵向背景线的设置数据
+         * @property    vline
+         * @type        {object}
+         */
+        , vline: {
+            /**
+             * 是否显示纵向背景线
+             * @property    vline.enabled
+             * @type        {Boolean}
+             * @default     true
+             * @example 
+             *  enabled: true
+             */
+            enabled: true
+        }
+        /**
+         * 横向背景线的设置数据
+         * @property    hline
+         * @type        {object}
+         */
+        , hline: {
+            /**
+             * 是否显示横向背景线
+             * @property    hline.enabled
+             * @type        {Boolean}
+             * @default     true
+             * @example 
+             *  enabled: true
+             */
+            enabled: true
+        }
+        /**
+         * 数据项的显示颜色
+         * @property    colors
+         * @type        {Array of hex colors}
+         * @default:    [0x03ACEF, 0x5DC979, 0x09c100, 0x0c76c4 , 0xff0619, 0xFFBF00, 0xff7100, 0xff06b3, 0x41e2e6, 0xc3e2a4, 0xffb2bc, 0xdbb8fd]    
+         */
+        , colors: [
+            0x09c100, 
+            0x0c76c4, 				
+            0xff0619,
+            
+            0xFFBF00, 			
+            0xff7100,	
+            0xff06b3, 
+            
+            0x41e2e6,			
+            0xc3e2a4,	
+            0xffb2bc,
+            
+            0xdbb8fd
+        ]
+        /**
+         * 图表背景的设置数据
+         * @property    chart
+         * @type        {object}
+         */
+        , chart: {
+            /**
+             * 图表的背景颜色
+             * @property    chart.bgColor
+             * @type        {hex color}
+             * @default     0xcccccc
+             */
+            bgColor: 0xcccccc
+            /**
+             * 图表的背景色透明度
+             * @property    chart.bgAlpha
+             * @type        {Number}     0.01 ~ 1
+             * @default     0.13
+             */
+            , bgAlpha: .13
+            /**
+             * 图表数据显示块的高度
+             * <br />有时需要把多个数据图表显示一样的视觉高度, 但是其他图表的 水平label高度不一样, 就会导致视觉上的不同
+             * <br />这个属性就是为了解决这个问题, 把图表数据显示块设置为统一的高度
+             * @property    chart.graphicHeight
+             * @type        {Number}     
+             * @default     0,     0 = auto
+             */
+            , graphicHeight: 0
+        }
+        /**
+         * 数据项的背景设置
+         * <br /> 目前这个属性仅对 柱状图 生效
+         * @property    itemBg
+         * @type        {object}
+         */
+        , itemBg: {
+            /**
+             * 数据项是否显示背景色
+             * @property    itemBg.enabled
+             * @type        {Boolean}
+             * @default     false
+             * @example 
+             *  enabled: false
+             */
+            enabled: false
+            /**
+             * 数据项背景色的样式定义
+             * @property    itemBg.style
+             * @type        {object}
+             * @default     { borderColor: 0xB4B4B4, bgColor: 0xF0F0F0, borderWidth: 0 }
+             */
+            , style: { borderColor: 0xEDF1F3, bgColor: 0xEDF1F3, borderWidth: 0 }
         }
 
     };

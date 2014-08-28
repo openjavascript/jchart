@@ -299,6 +299,16 @@ package org.xas.jchart.common
 			return _r;
 		}
 		
+		public function get xAxisFormat():String{
+			var _r:String = "{0}";
+			cd 
+			&& cd.xAxis
+				&& ( 'format' in cd.xAxis )
+				&& ( _r = cd.xAxis.format );
+			
+			return _r;
+		}
+		
 		public function get yAxisFormat():String{
 			var _r:String = "{0}";
 			cd 
@@ -540,10 +550,10 @@ package org.xas.jchart.common
 			var _r:Number = 0;
 			
 			this.cd && this.cd.rateLabel && ( 'maxvalue' in this.cd.rateLabel )
-				&& ( _r = this.cd.rateLabel.maxvalue );
+				&& ( _r = this.cd.rateLabel.maxvalue || _r );
 			
 			this.cd && this.cd.yAxis && ( 'maxvalue' in this.cd.yAxis )
-				&& ( _r = this.cd.yAxis.maxvalue );
+				&& ( _r = this.cd.yAxis.maxvalue || _r );
 			
 			return _r;
 		}

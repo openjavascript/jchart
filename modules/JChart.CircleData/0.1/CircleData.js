@@ -17,6 +17,8 @@
  * @class       CircleData
  * @version dev 0.1 2014-08-28
  * @author  qiushaowei <suches@btbtd.org> | 75 Team
+ * @example
+        <h2>JC.HistogramLateral 示例</h2>
  */
 
     JChart.CircleData = {

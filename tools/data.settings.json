@@ -1,0 +1,17 @@
+ {
+    "name": "JChart",
+    "description": "javascript chart",
+    "version": "0.2",
+    "url": "http://jchart.openjavascript/",
+    "logo": "jc_logo.png",
+    "options": {
+        "linkNatives": "true",        
+        "attributesEmit": "true",
+        "selleck": "true",
+        "paths":  "../",
+        "outdir": "../docs_api/", 
+        "themedir": "./docs_themes/default/",
+        "exclude": "require.js,jquery.js,deploy,docs,docs_api,tools,_demo,_test,_build,dev,JC.BaseMVC,JC.common,JC.PureMVC,JChart.Base,JChart.common,JChart.CurveGram,JChart.DefaultOptions,JChart.Histogram,JChart.HistogramLateral,JChart.PieGraph,JChart.Test,JChart.TubularFigure,lib.js,Raphael,swfobject,JChart.Geometry"
+    }
+}
+

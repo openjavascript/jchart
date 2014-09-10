@@ -267,9 +267,18 @@ window.JChart = window.JChart || {};
             function(){
                 var _p = this, _data;
                 if( this.selector().attr( &#x27;chartScriptData&#x27; ) ){
+                    /*
                     _data = JC.f.scriptContent( this._model.selectorProp( &#x27;chartScriptData&#x27; ) );
                     _data = _data.replace( /\}[\s]*?,[\s]*?\}$/g, &#x27;}}&#x27;);
                     _data = eval( &#x27;(&#x27; + _data + &#x27;)&#x27; );
+                    */
+
+                    _data = this._model.selectorProp( &#x27;chartScriptData&#x27; ).html();
+                    _data = _data.replace( /^[\s]*?\/\/[\s\S]*?[\r\n]/gm, &#x27;&#x27; );
+                    _data = _data.replace( /[\r\n]/g, &#x27;&#x27; );
+                    _data = _data.replace( /\}[\s]*?,[\s]*?\}$/g, &#x27;}}&#x27;);
+                    _data = eval( &#x27;(&#x27; + _data + &#x27;)&#x27; );
+
                     this.trigger( Base.Model.RESET_DISPLAY_SERIES, [ _data ] );
                     this.trigger( Base.Model.UPDATE_CHART_DATA, [ _data ] );
                 }
@@ -305,8 +314,6 @@ window.JChart = window.JChart || {};
 
     Base.Model.FLASH = 1;
     Base.Model.SVG = 2;
-
-    Base.Model
 
     JC.f.extendObject( Base.Model.prototype, {
         init:
@@ -1319,7 +1326,7 @@ window.JChart = window.JChart || {};
                     , _p._model.height()
                     , &#x27;10&#x27; 
                     , &#x27;&#x27;
-                    , { &#x27;testparams&#x27;: 2, &#x27;chart&#x27;: _dataStr }
+                    , { &#x27;testparams&#x27;: 2, &#x27;chart&#x27;: encodeURIComponent( _dataStr ) }
                     , { &#x27;wmode&#x27;: &#x27;transparent&#x27; }
                 );
             }

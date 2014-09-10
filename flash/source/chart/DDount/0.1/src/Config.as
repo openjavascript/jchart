@@ -1,13 +1,13 @@
-package org.xas.jchart.common.config
+package 
 {
 	import org.xas.core.utils.Log;
 	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	
-	public class DDountConfig extends BaseConfig
+	public class Config extends BaseConfig
 	{
-		public function DDountConfig()
+		public function Config()
 		{
 			super();
 		}

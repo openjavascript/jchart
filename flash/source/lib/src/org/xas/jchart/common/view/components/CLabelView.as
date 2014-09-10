@@ -13,7 +13,6 @@ package org.xas.jchart.common.view.components
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
-	import org.xas.jchart.common.config.NDountConfig;
 	import org.xas.jchart.common.data.DefaultOptions;
 	import org.xas.jchart.common.ui.widget.JTextField;
 	
@@ -25,12 +24,12 @@ package org.xas.jchart.common.view.components
 		private var _maxHeight:Number = 0;
 		public function get maxHeight():Number{ return _maxHeight; }
 		
-		private var _config:NDountConfig;
+		private var _config:Config;
 		
 		public function CLabelView()
 		{
 			super();
-			_config = BaseConfig.ins as NDountConfig;
+			_config = BaseConfig.ins as Config;
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
 			
 		}

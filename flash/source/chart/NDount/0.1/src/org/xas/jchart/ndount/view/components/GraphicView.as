@@ -16,7 +16,6 @@ package org.xas.jchart.ndount.view.components
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
-	import org.xas.jchart.common.config.NDountConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.NDountUI;
 	import org.xas.jchart.common.ui.widget.DDountPart;
@@ -32,12 +31,12 @@ package org.xas.jchart.ndount.view.components
 		private var _piePart:Vector.<DountPart>;
 		
 		private var _bgCircle:Sprite;
-		private var _config:NDountConfig;
+		private var _config:Config;
 		
 		public function GraphicView()
 		{
 			super(); 
-			_config = BaseConfig.ins as NDountConfig;
+			_config = BaseConfig.ins as Config;
 			
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
 			/*

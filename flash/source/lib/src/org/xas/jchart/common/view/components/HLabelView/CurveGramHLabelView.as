@@ -8,18 +8,17 @@ package org.xas.jchart.common.view.components.HLabelView
 	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
-	import org.xas.jchart.common.config.CurveGramConfig;
 	import org.xas.jchart.common.data.DefaultOptions;
 	import org.xas.jchart.common.event.JChartEvent;
 	
 	public class CurveGramHLabelView extends BaseHLabelView
 	{
-		private var _config:CurveGramConfig;
+		private var _config:Config;
 		
 		public function CurveGramHLabelView()
 		{
 			super();
-			_config = BaseConfig.ins as CurveGramConfig;
+			_config = BaseConfig.ins as Config;
 		}
 		
 		override protected function addToStage( _evt:Event ):void{

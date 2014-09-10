@@ -7,18 +7,17 @@ package org.xas.jchart.common.view.components.HLabelView
 	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
-	import org.xas.jchart.common.config.HistogramConfig;
 	import org.xas.jchart.common.data.DefaultOptions;
 	import org.xas.jchart.common.event.JChartEvent;
 
 	public class HistogramHLabelView extends BaseHLabelView
 	{
-		private var _config:HistogramConfig;
+		private var _config:Config;
 		
 		public function HistogramHLabelView()
 		{
 			super();
-			_config = BaseConfig.ins as HistogramConfig;
+			_config = BaseConfig.ins as Config;
 		}
 		
 		override protected function addToStage( _evt:Event ):void{

@@ -9,7 +9,6 @@ package org.xas.jchart.curvegram.controller
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
-	import org.xas.jchart.common.config.CurveGramConfig;
 	import org.xas.jchart.common.data.Coordinate;
 	import org.xas.jchart.common.data.test.DefaultData;
 	import org.xas.jchart.common.event.JChartEvent;
@@ -19,12 +18,12 @@ package org.xas.jchart.curvegram.controller
 	public class CalcCoordinateCmd extends SimpleCommand implements ICommand
 	{
 		private var _c:Coordinate;
-		private var _config:CurveGramConfig;
+		private var _config:Config;
 		
 		public function CalcCoordinateCmd()
 		{
 			super();
-			_config = BaseConfig.ins as CurveGramConfig;
+			_config = BaseConfig.ins as Config;
 		}
 		
 		override public function execute(notification:INotification):void{

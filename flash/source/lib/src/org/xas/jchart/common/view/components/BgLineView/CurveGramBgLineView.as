@@ -14,7 +14,6 @@ package org.xas.jchart.common.view.components.BgLineView
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
-	import org.xas.jchart.common.config.CurveGramConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.widget.*;
 	
@@ -23,13 +22,13 @@ package org.xas.jchart.common.view.components.BgLineView
 		private var _items:Vector.<VLineIcon>;
 		public function get items():Vector.<VLineIcon>{ return _items; }
 		private var _preIndex:int = -1;
-		private var _config:CurveGramConfig;
+		private var _config:Config;
 		
 		public function CurveGramBgLineView()
 		{
 			super();
 			
-			_config = BaseConfig.ins as CurveGramConfig;
+			_config = BaseConfig.ins as Config;
 			
 			addEventListener( JChartEvent.SHOW_TIPS, showTips );
 			addEventListener( JChartEvent.UPDATE_TIPS, updateTips );

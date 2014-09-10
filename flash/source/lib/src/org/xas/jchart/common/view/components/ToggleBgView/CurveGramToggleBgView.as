@@ -13,18 +13,17 @@ package org.xas.jchart.common.view.components.ToggleBgView
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
-	import org.xas.jchart.common.config.CurveGramConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.widget.RectBgLine;
 	
 	public class CurveGramToggleBgView extends BaseToggleBgView
 	{	
-		private var _config:CurveGramConfig;
+		private var _config:Config;
 		
 		public function CurveGramToggleBgView()
 		{
 			super(); 
-			_config = BaseConfig.ins as CurveGramConfig;
+			_config = BaseConfig.ins as Config;
 			
 			addEventListener( Event.ADDED_TO_STAGE, addToStage );
 			addEventListener( JChartEvent.UPDATE, update );

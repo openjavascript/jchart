@@ -17,11 +17,10 @@ package
 	import org.xas.core.ui.error.BaseError;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
-	import org.xas.jchart.common.config.CurveGramConfig;
 	import org.xas.jchart.common.data.test.DefaultData;
 	import org.xas.jchart.common.event.JChartEvent; 
 	import org.xas.jchart.curvegram.MainFacade;
-	
+	 
 	
 	//[SWF(frameRate="30", width="790", height="230")]
 	//[SWF(frameRate="30", width="385", height="225")]
@@ -48,7 +47,7 @@ package
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
 			 
-			BaseConfig.setIns( new CurveGramConfig() );
+			BaseConfig.setIns( new Config() );
 			
 			addEventListener( JChartEvent.PROCESS, process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);

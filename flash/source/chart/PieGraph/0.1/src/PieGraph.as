@@ -17,7 +17,6 @@ package
 	import org.xas.core.ui.error.BaseError;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
-	import org.xas.jchart.common.config.PieGraphConfig;
 	import org.xas.jchart.common.data.test.DefaultPieData;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.piegraph.MainFacade;
@@ -33,7 +32,7 @@ package
 		private var _resizeTimer:Timer;
 		private var _ins:PieGraph; 
 		private var _loaderInfo:Object;
-		
+		 
 		public function PieGraph() 
 		{			
 			flash.system.Security.allowDomain("*");	
@@ -42,7 +41,7 @@ package
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
 			
-			BaseConfig.setIns( new PieGraphConfig() );
+			BaseConfig.setIns( new Config() );
 			
 			addEventListener( JChartEvent.PROCESS, process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);

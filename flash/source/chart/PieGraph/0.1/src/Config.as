@@ -1,13 +1,12 @@
-package org.xas.jchart.common.config
+package 
 {
 	import org.xas.core.utils.Log;
-	import org.xas.core.utils.StringUtils;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
 	
-	public class NDountConfig extends BaseConfig
+	public class Config extends BaseConfig
 	{
-		public function NDountConfig()
+		public function Config()
 		{
 			super();
 		}
@@ -110,7 +109,6 @@ package org.xas.jchart.common.config
 			
 			if( cd && ( 'floatLen' in cd ) ){
 				_floatLen = cd.floatLen;
-				Log.log( 1 );
 			}else{
 				_floatLen = 0;
 				var _tmpLen:int = 0;
@@ -122,50 +120,6 @@ package org.xas.jchart.common.config
 			_floatLen == 1 && ( _floatLen = 2 );
 			
 			return _floatLen;
-		}
-		
-		override public function get legendEnabled():Boolean{
-			var _r:Boolean = false;
-			
-			if( cd && cd.legend && ( 'enabled' in cd.legend ) ){
-				_r = StringUtils.parseBool( cd.legend.enabled );
-			}
-			
-			return _r;
-		}
-		
-		override public function get dataLabelEnabled():Boolean{
-			var _r:Boolean = false;
-			//return false;
-			cd 
-			&& cd.plotOptions
-				&& cd.plotOptions.ndount
-				&& cd.plotOptions.ndount.dataLabels
-				&& ( 'enabled' in cd.plotOptions.ndount.dataLabels )
-				&& ( _r = cd.plotOptions.ndount.dataLabels.enabled );
-			
-			return _r;
-		}
-		
-		override public function get cdataLabelEnabled():Boolean{
-			var _r:Boolean = false;
-			//return false;
-			cd 
-			&& cd.plotOptions
-				&& cd.plotOptions.ndount
-				&& cd.plotOptions.ndount.cdataLabels
-				&& ( 'enabled' in cd.plotOptions.ndount.cdataLabels )
-				&& ( _r = cd.plotOptions.ndount.cdataLabels.enabled );
-			
-			return _r;
-		}
-		
-		public function get radiusStep():Number{
-			var _r:Number = 8;
-			cd 
-			&& cd.radiusStep
-				&& ( _r = cd.radiusStep);
-			return _r;
 		}
 	}
 }

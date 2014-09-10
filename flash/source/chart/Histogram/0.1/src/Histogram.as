@@ -17,7 +17,6 @@ package
 	import org.xas.core.ui.error.BaseError;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
-	import org.xas.jchart.common.config.HistogramConfig;
 	import org.xas.jchart.common.data.test.DefaultData;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.histogram.MainFacade;
@@ -36,7 +35,7 @@ package
 		private var _data:Object; 
 		private var _facade:Facade;
 		private var _resizeTimer:Timer;  
-		private var _ins:Histogram;
+		private var _ins:Histogram; 
 		private var _loaderInfo:Object; 
 		
 		public function Histogram()
@@ -47,7 +46,7 @@ package
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
 			
-			BaseConfig.setIns( new HistogramConfig() );
+			BaseConfig.setIns( new Config() );
 			 
 			//update( {} );	
 			  

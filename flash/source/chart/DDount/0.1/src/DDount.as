@@ -19,7 +19,6 @@ package
 	import org.xas.core.ui.error.BaseError;
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
-	import org.xas.jchart.common.config.DDountConfig;
 	import org.xas.jchart.common.data.test.DefaultPieData;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.ddount.MainFacade;
@@ -30,7 +29,7 @@ package
 	{ 
 		private var _inited: Boolean = false;
 		private var _timer:Timer;
-		private var _data:Object;
+		private var _data:Object; 
 		private var _facade:Facade;
 		private var _resizeTimer:Timer;
 		private var _ins:DDount;
@@ -44,7 +43,7 @@ package
 			this.root.stage.scaleMode = StageScaleMode.NO_SCALE;
 			this.root.stage.align = StageAlign.TOP_LEFT;
 			
-			BaseConfig.setIns( new DDountConfig() );
+			BaseConfig.setIns( new Config() );
 			
 			addEventListener( JChartEvent.PROCESS, process );
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage);

@@ -7,19 +7,18 @@ package org.xas.jchart.common.view.components.ItemBgView
 	import org.xas.core.utils.Log;
 	import org.xas.jchart.common.BaseConfig;
 	import org.xas.jchart.common.Common;
-	import org.xas.jchart.common.config.HistogramConfig;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.ui.HistogramUI;
 
 	public class HistogramItemBgView extends BaseItemBgView
 	{
-		private var _config:HistogramConfig;
+		private var _config:Config;
 		
 		public function HistogramItemBgView()
 		{			
 			super();
 			
-			_config = BaseConfig.ins as HistogramConfig;
+			_config = BaseConfig.ins as Config;
 		}
 		
 		override protected function addToStage( _evt:Event ):void{

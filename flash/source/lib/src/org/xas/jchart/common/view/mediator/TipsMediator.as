@@ -9,6 +9,7 @@ package org.xas.jchart.common.view.mediator
 	import org.xas.jchart.common.BaseFacade;
 	import org.xas.jchart.common.event.JChartEvent;
 	import org.xas.jchart.common.view.components.TipsView.BaseTipsView;
+	import org.xas.jchart.common.view.components.TipsView.NormalTipsView;
 	import org.xas.jchart.common.view.components.TipsView.PieTipsView;
 	import org.xas.jchart.common.view.components.TitleView;
 	
@@ -32,6 +33,12 @@ package org.xas.jchart.common.view.mediator
 				case 'NDountFacade':
 				{
 					mainMediator.view.index8.addChild( _view = new PieTipsView() );
+					break;
+				}
+				case 'CurveGramFacade':
+				case 'HistogramFacade':
+				{
+					mainMediator.view.index8.addChild( _view = new NormalTipsView() );
 					break;
 				}
 				default:{

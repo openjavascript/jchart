@@ -35,7 +35,7 @@ package
 		private var _timer:Timer;
 		private var _data:Object; 
 		private var _facade:Facade;
-		private var _resizeTimer:Timer; 
+		private var _resizeTimer:Timer;  
 		private var _ins:Histogram;
 		private var _loaderInfo:Object; 
 		

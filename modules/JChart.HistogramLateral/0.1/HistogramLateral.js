@@ -45,8 +45,6 @@
         this._model = new HistogramLateral.Model( _selector );
         this._view = new HistogramLateral.View( this._model );
         this._init();
-
-        JC.log( HistogramLateral.Model._instanceName, 'all inited', new Date().getTime() );
     }
     /**
      * 初始化可识别的 HistogramLateral 实例
@@ -160,7 +158,7 @@
 
     _Model.CLEAR_STATUS = 'clear_status';
 
-    _Model.ANIMATE_SPEED = .25;
+    _Model.ANIMATE_SPEED = 500;
 
     HistogramLateral.Model._instanceName = 'JCHistogramLateral';
     JC.f.extendObject( HistogramLateral.Model.prototype, {
@@ -181,7 +179,6 @@
                     $.each( _p.data().xAxis.categories, function( _k, _item ){
                         var _items = [];
                         $.each( _p.displaySeries, function( _sk, _sitem ){
-                            console.log(_p.itemStyle( _p.displayLegendMap[ _sk ] ));
                             _tmp = new JChart.GraphicRect( 
                                 _p.stage()
                                 , 10000, 0
@@ -593,7 +590,7 @@
                                 _tmp.attr( { x: _rectBaseX } );
                                 _style = { width : _sitem.width, x : _sitem.x };
                             }
-                            _element.animate( _style, _sitem.width / _Model.ANIMATE_SPEED );
+                            _element.animate( _style, _Model.ANIMATE_SPEED );
                             //_tmp.attr( { x: _sitem.x, y: _sitem.y, width: _sitem.width, height: _sitem.height } );
                         });
                     });

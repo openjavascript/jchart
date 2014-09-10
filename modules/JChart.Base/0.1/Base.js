@@ -131,9 +131,18 @@ window.JChart = window.JChart || {};
             function(){
                 var _p = this, _data;
                 if( this.selector().attr( 'chartScriptData' ) ){
+                    /*
                     _data = JC.f.scriptContent( this._model.selectorProp( 'chartScriptData' ) );
                     _data = _data.replace( /\}[\s]*?,[\s]*?\}$/g, '}}');
                     _data = eval( '(' + _data + ')' );
+                    */
+
+                    _data = this._model.selectorProp( 'chartScriptData' ).html();
+                    _data = _data.replace( /^[\s]*?\/\/[\s\S]*?[\r\n]/gm, '' );
+                    _data = _data.replace( /[\r\n]/g, '' );
+                    _data = _data.replace( /\}[\s]*?,[\s]*?\}$/g, '}}');
+                    _data = eval( '(' + _data + ')' );
+
                     this.trigger( Base.Model.RESET_DISPLAY_SERIES, [ _data ] );
                     this.trigger( Base.Model.UPDATE_CHART_DATA, [ _data ] );
                 }
@@ -169,8 +178,6 @@ window.JChart = window.JChart || {};
 
     Base.Model.FLASH = 1;
     Base.Model.SVG = 2;
-
-    Base.Model
 
     JC.f.extendObject( Base.Model.prototype, {
         init:
@@ -1183,7 +1190,7 @@ window.JChart = window.JChart || {};
                     , _p._model.height()
                     , '10' 
                     , ''
-                    , { 'testparams': 2, 'chart': _dataStr }
+                    , { 'testparams': 2, 'chart': encodeURIComponent( _dataStr ) }
                     , { 'wmode': 'transparent' }
                 );
             }

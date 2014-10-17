@@ -7,7 +7,7 @@ JC.PATH = JC.PATH || scriptPath();
 window.requirejs && 
 requirejs.config( {
     baseUrl: JC.PATH
-    , urlArgs: 'v=20140212&nocache=' + new Date().getTime()
+    , urlArgs: 'v=20141017'
     , paths: {
         'JC.common': 'modules/JC.common/0.2/common'
         , 'JC.BaseMVC': 'modules/JC.BaseMVC/0.1/BaseMVC'
